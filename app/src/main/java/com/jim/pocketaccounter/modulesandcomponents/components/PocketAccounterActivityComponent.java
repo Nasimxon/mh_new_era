@@ -57,6 +57,7 @@ import com.jim.pocketaccounter.report.TableView;
 import com.jim.pocketaccounter.utils.SubCatAddEditDialog;
 import com.jim.pocketaccounter.utils.TransferAddEditDialog;
 import com.jim.pocketaccounter.utils.TransferDialog;
+import com.jim.pocketaccounter.utils.record.BaseBoardView;
 import com.jim.pocketaccounter.utils.record.RecordExpanseView;
 import com.jim.pocketaccounter.utils.record.RecordIncomesView;
 
@@ -128,4 +129,5 @@ public interface PocketAccounterActivityComponent {
     void inject(TransferAddEditDialog transferAddEditDialog);
     void inject(CreditArchiveFragment creditArchiveFragment);
     void inject(PABaseFragment paBaseFragment);
+    void inject(BaseBoardView baseBoardView);
 }

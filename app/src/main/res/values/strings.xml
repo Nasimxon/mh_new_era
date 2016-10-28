@@ -1625,4 +1625,7 @@
     <string name="income_keyword_error">Enter keyword(income)</string>
     <string name="expense_keyword_error">Enter keyword(expense)</string>
     <string name="amount_keyword_error">Enter keyword for defining amount</string>
+    <string-array name="main_bg_colors">
+        <item>#DCDDDE</item>
+    </string-array>
 </resources>

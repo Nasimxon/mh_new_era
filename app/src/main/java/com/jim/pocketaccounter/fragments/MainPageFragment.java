@@ -25,6 +25,7 @@ import com.jim.pocketaccounter.managers.ReportManager;
 import com.jim.pocketaccounter.managers.ToolbarManager;
 import com.jim.pocketaccounter.utils.PocketAccounterGeneral;
 import com.jim.pocketaccounter.utils.cache.DataCache;
+import com.jim.pocketaccounter.utils.record.DecorationBoardView;
 import com.jim.pocketaccounter.utils.record.RecordExpanseView;
 import com.jim.pocketaccounter.utils.record.RecordIncomesView;
 
@@ -113,23 +114,26 @@ public class MainPageFragment extends Fragment {
         int width = dm.widthPixels;
         int height = dm.heightPixels;
         int side;
-        if (height * 0.55 > width)
+        if (height * 0.6 > width)
             side = width;
         else
-            side = (int) (height * 0.55);
+            side = (int) (height * 0.6);
         expenseView = new RecordExpanseView(pocketAccounter, day);
+        DecorationBoardView view = new DecorationBoardView(getContext(), PocketAccounterGeneral.EXPENSE);
         RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(side, side);
         lp.addRule(RelativeLayout.CENTER_HORIZONTAL);
-        expenseView.setLayoutParams(lp);
+//        expenseView.setLayoutParams(lp);
         rlRecordExpanses.removeAllViews();
-        rlRecordExpanses.addView(expenseView);
+//        rlRecordExpanses.addView(expenseView);
+        view.setLayoutParams(lp);
+        rlRecordExpanses.addView(view);
         incomeView = new RecordIncomesView(pocketAccounter, day);
-        RelativeLayout.LayoutParams lpIncomes = new RelativeLayout.LayoutParams(side,
-                side / 4 + (int) (pocketAccounter.getResources().getDimension(R.dimen.thirty_dp)));
-        lpIncomes.addRule(RelativeLayout.CENTER_HORIZONTAL);
-        incomeView.setLayoutParams(lpIncomes);
-        rlRecordIncomes.removeAllViews();
-        rlRecordIncomes.addView(incomeView);
+//        RelativeLayout.LayoutParams lpIncomes = new RelativeLayout.LayoutParams(side,
+//                side / 4 + (int) (pocketAccounter.getResources().getDimension(R.dimen.thirty_dp)));
+//        lpIncomes.addRule(RelativeLayout.CENTER_HORIZONTAL);
+//        incomeView.setLayoutParams(lpIncomes);
+//        rlRecordIncomes.removeAllViews();
+//        rlRecordIncomes.addView(incomeView);
         calculateBalance();
     }
     public void refreshCurrencyChanges() {
