@@ -1,16 +1,13 @@
 package com.jim.pocketaccounter.fragments;
 
 import android.annotation.SuppressLint;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -25,52 +22,35 @@ import com.jim.pocketaccounter.PocketAccounterApplication;
 import com.jim.pocketaccounter.R;
 import com.jim.pocketaccounter.database.BoardButton;
 import com.jim.pocketaccounter.database.BoardButtonDao;
-import com.jim.pocketaccounter.database.DaoSession;
 import com.jim.pocketaccounter.database.FinanceRecord;
 import com.jim.pocketaccounter.database.RootCategory;
-import com.jim.pocketaccounter.managers.CommonOperations;
-import com.jim.pocketaccounter.managers.LogicManager;
-import com.jim.pocketaccounter.managers.PAFragmentManager;
-import com.jim.pocketaccounter.managers.ReportManager;
-import com.jim.pocketaccounter.managers.ToolbarManager;
+import com.jim.pocketaccounter.database.RootCategoryDao;
+import com.jim.pocketaccounter.database.SubCategory;
 import com.jim.pocketaccounter.report.FilterSelectable;
-import com.jim.pocketaccounter.utils.FABIcon;
 import com.jim.pocketaccounter.utils.FilterDialog;
+import com.jim.pocketaccounter.utils.OnCheckedChangeListener;
 import com.jim.pocketaccounter.utils.OperationsListDialog;
 import com.jim.pocketaccounter.utils.PocketAccounterGeneral;
+import com.jim.pocketaccounter.utils.SubcatItemChecker;
 import com.jim.pocketaccounter.utils.WarningDialog;
-import com.jim.pocketaccounter.utils.cache.DataCache;
+import com.jim.pocketaccounter.utils.catselector.OnItemSelectedListener;
+import com.jim.pocketaccounter.utils.catselector.SelectorView;
 
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-
 @SuppressLint({"InflateParams", "ValidFragment"})
-public class CategoryInfoFragment extends Fragment {
+public class CategoryInfoFragment extends PABaseInfoFragment {
 	WarningDialog warningDialog;
-    @Inject LogicManager logicManager;
-    @Inject ToolbarManager toolbarManager;
-    @Inject DaoSession daoSession;
-	@Inject	ReportManager reportManager;
-	@Inject	@Named(value = "display_formatter")	SimpleDateFormat dateFormat;
-	@Inject	CommonOperations commonOperations;
-	@Inject	PAFragmentManager paFragmentManager;
-	@Inject	OperationsListDialog operationsListDialog;
-	@Inject	FilterDialog filterDialog;
-	@Inject	SharedPreferences sharedPreferences;
-	@Inject	DataCache dataCache;
-	private RootCategory rootCategory;
-	private FABIcon fabCategoryIcon;
-	private TextView tvCategoryInfoName;
-	private TextView tvCategoryInfoType;
-	private RecyclerView rvCategoryInfoOperations;
-	private ImageView ivCategoryInfoFilter;
+    private RootCategory rootCategory;
+	private RecyclerView rvCategoryInfoOperations, rvCatInfoSubcats;
 	private TextView tvCategoryInfoTotal;
 	private TextView tvCategoryInfoSubcategories;
+	private SelectorView svCategorySelector;
+	private boolean[] subcatChecked;
+	private List<SubCategory> subCategories;
 	@SuppressLint("ValidFragment")
 	public CategoryInfoFragment(RootCategory rootCategory) {
 		this.rootCategory = rootCategory;
@@ -78,10 +58,17 @@ public class CategoryInfoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		final View rootView = inflater.inflate(R.layout.category_info_layout, container, false);
 		((PocketAccounter)getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
+		subCategories = new ArrayList<>();
+		SubCategory all = new SubCategory();
+		all.setName(getString(R.string.all));
+		all.setIcon("all");
+		subCategories.add(all);
+		subCategories.addAll(rootCategory.getSubCategories());
+		subcatChecked = new boolean[subCategories.size()];
+		for (int i = 0; i < subcatChecked.length; i++)
+			subcatChecked[i] = (i == 0);
 		warningDialog = new WarningDialog(getContext());
-		toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
 		toolbarManager.setImageToSecondImage(R.drawable.ic_more_vert_black_48dp);
-		toolbarManager.setImageToHomeButton(R.drawable.ic_back_button);
 		toolbarManager.setTitle(getResources().getString(R.string.category));
 		toolbarManager.setSubtitle(rootCategory.getName());
 		toolbarManager.setOnHomeButtonClickListener(new OnClickListener() {
@@ -97,58 +84,57 @@ public class CategoryInfoFragment extends Fragment {
 				showOperationsList();
 			}
 		});
-		fabCategoryIcon = (FABIcon) rootView.findViewById(R.id.fabCategoryIcon);
-		tvCategoryInfoName = (TextView) rootView.findViewById(R.id.tvCategoryInfoName);
-		tvCategoryInfoType = (TextView) rootView.findViewById(R.id.tvCategoryInfoType);
 		rvCategoryInfoOperations = (RecyclerView) rootView.findViewById(R.id.rvAccountDetailsInfo);
-		int resId = getContext().getResources().getIdentifier(rootCategory.getIcon(), "drawable", getContext().getPackageName());
-		Bitmap temp = BitmapFactory.decodeResource(getResources(), resId);
-		Bitmap bitmap = Bitmap.createScaledBitmap(temp, (int) getResources().getDimension(R.dimen.twentyfive_dp),
-				(int) getResources().getDimension(R.dimen.twentyfive_dp), false);
-		fabCategoryIcon.setImageBitmap(bitmap);
-		tvCategoryInfoName.setText(rootCategory.getName());
-		if (rootCategory.getType() == PocketAccounterGeneral.INCOME)
-			tvCategoryInfoType.setText(getResources().getString(R.string.income));
-		else
-			tvCategoryInfoType.setText(getResources().getString(R.string.expanse));
-		rvCategoryInfoOperations = (RecyclerView) rootView.findViewById(R.id.rvCategoryInfoOperations);
-		rvCategoryInfoOperations.setLayoutManager(new LinearLayoutManager(getContext()));
-		ivCategoryInfoFilter = (ImageView) rootView.findViewById(R.id.ivCategoryInfoFilter);
-		ivCategoryInfoFilter.setOnClickListener(new OnClickListener() {
+		svCategorySelector = (SelectorView) rootView.findViewById(R.id.svCategorySelector);
+		final List<RootCategory> rootCategories = daoSession.getRootCategoryDao().queryBuilder().orderAsc(RootCategoryDao.Properties.Name).list();
+		CategorySelectorAdapter adapter = new CategorySelectorAdapter(rootCategories);
+		int selectedPos = 0;
+		for (int i = 0; i < rootCategories.size(); i++) {
+			if (rootCategories.get(i).getId().equals(rootCategory.getId())) {
+				selectedPos = i;
+				break;
+			}
+		}
+		svCategorySelector.setAdapter(adapter);
+		svCategorySelector.setSelection(selectedPos);
+		svCategorySelector.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
-			public void onClick(View v) {
-				filterDialog.setOnDateSelectedListener(new FilterSelectable() {
-					@Override
-					public void onDateSelected(Calendar begin, Calendar end) {
-						refreshOperationsList(begin, end);
-					}
-				});
-				filterDialog.show();
+			public void onItemSelected(int selectedItemPosition) {
+				rootCategory = rootCategories.get(selectedItemPosition);
+				toolbarManager.setSubtitle(rootCategory.getName());
+				subCategories = new ArrayList<>();
+				SubCategory all = new SubCategory();
+				all.setName(getString(R.string.all));
+				all.setIcon("all");
+				subCategories.add(all);
+				subCategories.addAll(rootCategory.getSubCategories());
+				subcatChecked = new boolean[subCategories.size()];
+				for (int i = 0; i < subcatChecked.length; i++)
+					subcatChecked[i] = (i == 0);
+				refreshSubcatItems();
+				refreshOperationsList(commonOperations.getFirstDay(), Calendar.getInstance());
 			}
 		});
-		refreshOperationsList(filterDialog.getBeginDate(), filterDialog.getEndDate());
+		rvCatInfoSubcats = (RecyclerView) rootView.findViewById(R.id.rvCatInfoSubcats);
+		LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+		rvCatInfoSubcats.setLayoutManager(layoutManager);
+		refreshSubcatItems();
+
+		rvCategoryInfoOperations = (RecyclerView) rootView.findViewById(R.id.rvCategoryInfoOperations);
+		rvCategoryInfoOperations.setLayoutManager(new LinearLayoutManager(getContext()));
 		tvCategoryInfoTotal = (TextView) rootView.findViewById(R.id.tvCategoryInfoTotal);
-		DecimalFormat format = new DecimalFormat("0.##");
-		tvCategoryInfoTotal.setText(getResources().getString(R.string.total)+" "+format.format(reportManager.getTotalAmountByCategory(rootCategory, filterDialog.getBeginDate(), filterDialog.getEndDate()))+
-				commonOperations.getMainCurrency().getAbbr());
-		tvCategoryInfoSubcategories = (TextView) rootView.findViewById(R.id.tvCategoryInfoSubcategories);
-		if (!rootCategory.getSubCategories().isEmpty()) {
-			String subcats = getResources().getString(R.string.sub_cats)+": ";
-			for (int i = 0; i<rootCategory.getSubCategories().size(); i++) {
-				subcats += rootCategory.getSubCategories().get(i).getName();
-				if (i != rootCategory.getSubCategories().size()-1)
-					subcats += ", ";
-			}
-			tvCategoryInfoSubcategories.setVisibility(View.VISIBLE);
-			tvCategoryInfoSubcategories.setText(subcats);
-		}
+		refreshOperationsList(commonOperations.getFirstDay(), Calendar.getInstance());
 		return rootView;
 	}
-
+	private void refreshSubcatItems() {
+		SubcatAdapter subcatAdapter = new SubcatAdapter(subCategories);
+		rvCatInfoSubcats.setAdapter(subcatAdapter);
+	}
 	private void showOperationsList() {
 		String[] ops = new String[2];
 		ops[0] = getResources().getString(R.string.to_edit);
 		ops[1] = getResources().getString(R.string.delete);
+		final OperationsListDialog operationsListDialog = new OperationsListDialog(getContext());
 		operationsListDialog.setAdapter(ops);
 		operationsListDialog.setOnItemClickListener(new OnItemClickListener() {
 			@Override
@@ -173,11 +159,11 @@ public class CategoryInfoFragment extends Fragment {
 								if (!list.isEmpty()) {
 									int currentPage = 0, countOfButtons = 0;
 									if (rootCategory.getType() == PocketAccounterGeneral.INCOME) {
-										currentPage = sharedPreferences.getInt("income_current_page", 1);
+										currentPage = preferences.getInt("income_current_page", 1);
 										countOfButtons = 4;
 									}
 									else {
-										currentPage = sharedPreferences.getInt("expense_current_page", 1);
+										currentPage = preferences.getInt("expense_current_page", 1);
 										countOfButtons = 16;
 									}
 									for (BoardButton boardButton : list) {
@@ -210,9 +196,43 @@ public class CategoryInfoFragment extends Fragment {
 
 	private void refreshOperationsList(Calendar begin, Calendar end) {
 		List<FinanceRecord> objects = reportManager.getCategoryOperations(rootCategory, begin, end);
-		CategoryOperationsAdapter accountOperationsAdapter = new CategoryOperationsAdapter(objects);
+		if (!subcatChecked[0]) {
+			List<SubCategory> selected = new ArrayList<>();
+			for (int i = 0; i < subcatChecked.length; i++) {
+				if (subcatChecked[i]) {
+					selected.add(subCategories.get(i));
+				}
+			}
+			for (int i = 0; i < objects.size(); i++) {
+				if (objects.get(i).getSubCategory() == null) continue;
+				boolean notSelected = true;
+				for (SubCategory subCategory : selected) {
+					if (subCategory.getId().equals(objects.get(i).getSubCategoryId())) {
+						notSelected = false;
+						break;
+					}
+				}
+				if (notSelected) {
+					objects.remove(i);
+					i--;
+				}
+			}
+		}
+		CategoryOperationsAdapter accountOperationsAdapter = new CategoryOperationsAdapter(objects);;
 		rvCategoryInfoOperations.setAdapter(accountOperationsAdapter);
+		DecimalFormat format = new DecimalFormat("0.##");
+		double total = 0.0d;
+		for (FinanceRecord record : objects) {
+			if (record.getCategory().getType() == PocketAccounterGeneral.INCOME)
+				total += commonOperations.getCost(record);
+			else
+				total -= commonOperations.getCost(record);
+		}
+		tvCategoryInfoTotal.setText(getResources().getString(R.string.total)+" "+format.format(total) + commonOperations.getMainCurrency().getAbbr());
 	}
+
+	@Override
+	void refreshList() {}
 
 	private class CategoryOperationsAdapter extends RecyclerView.Adapter<CategoryInfoFragment.ViewHolder> {
 		private List<FinanceRecord> result;
@@ -257,4 +277,94 @@ public class CategoryInfoFragment extends Fragment {
 			tvAccountInfoAmount = (TextView) view.findViewById(R.id.tvAccountInfoAmount);
 		}
 	}
+
+	private class SubcatAdapter extends RecyclerView.Adapter<CategoryInfoFragment.SubcatViewHolder> {
+		private List<SubCategory> result;
+		public SubcatAdapter(List<SubCategory> result) {
+			this.result = result;
+		}
+		public int getItemCount() {
+			return result.size();
+		}
+		public void onBindViewHolder(final CategoryInfoFragment.SubcatViewHolder view, final int position) {
+			if (position == 0) {
+				view.sichCatInfo.setSubCategory(result.get(position));
+				view.sichCatInfo.setChecked(subcatChecked[position]);
+				view.sichCatInfo.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+					@Override
+					public void onCheckedChange(boolean isChecked) {
+						for (int i = 0; i < subcatChecked.length; i++) {
+							View view = rvCatInfoSubcats.getChildAt(i);
+							if (view != null)
+								((SubcatItemChecker) view.findViewById(R.id.sichCatInfo)).setChecked(false);
+							subcatChecked[i] = false;
+						}
+						subcatChecked[position] = true;
+						View view = rvCatInfoSubcats.getChildAt(position);
+						if (view != null)
+							((SubcatItemChecker) view.findViewById(R.id.sichCatInfo)).setChecked(true);
+						rvCatInfoSubcats.getAdapter().notifyDataSetChanged();
+						refreshOperationsList(commonOperations.getFirstDay(), Calendar.getInstance());
+					}
+				});
+			} else {
+				view.sichCatInfo.setSubCategory(result.get(position));
+				view.sichCatInfo.setChecked(subcatChecked[position]);
+				view.sichCatInfo.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+					@Override
+					public void onCheckedChange(boolean isChecked) {
+						if (isChecked) {
+							subcatChecked[0] = false;
+						} else {
+							int count = 0;
+							for (int i = 0; i < subcatChecked.length; i++) {
+								if (subcatChecked[i]) count++;
+							}
+							if (count <= 1)
+								subcatChecked[0] = true;
+						}
+						subcatChecked[position] = isChecked;
+						rvCatInfoSubcats.getAdapter().notifyDataSetChanged();
+						refreshOperationsList(commonOperations.getFirstDay(), Calendar.getInstance());
+					}
+				});
+			}
+		}
+
+		public CategoryInfoFragment.SubcatViewHolder onCreateViewHolder(ViewGroup parent, int var2) {
+			View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.catinfo_subcat_list_item, parent, false);
+			return new CategoryInfoFragment.SubcatViewHolder(view);
+		}
+	}
+
+	public class SubcatViewHolder extends RecyclerView.ViewHolder {
+		SubcatItemChecker sichCatInfo;
+		public SubcatViewHolder(View view) {
+			super(view);
+			sichCatInfo = (SubcatItemChecker) view.findViewById(R.id.sichCatInfo);
+		}
+	}
+
+	class CategorySelectorAdapter extends SelectorView.SelectorAdapter<RootCategory> {
+		public CategorySelectorAdapter(List<RootCategory> list) {
+			this.list = list;
+		}
+		@Override
+		protected ViewGroup getInstantiatedView(int position, ViewGroup parent) {
+			View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cat_selector_item, parent, false);
+			ImageView ivCatSelectorItem = (ImageView) view.findViewById(R.id.ivCatSelectorItem);
+			int resId = getResources().getIdentifier(list.get(position).getIcon(), "drawable", getContext().getPackageName());
+			ivCatSelectorItem.setImageResource(resId);
+			TextView tvCatSelectorItem = (TextView) view.findViewById(R.id.tvCatSelectorItem);
+			tvCatSelectorItem.setText(list.get(position).getName());
+			parent.addView(view);
+			return parent;
+		}
+		@Override
+		protected int getCount() {
+			return list.size();
+		}
+
+	}
+
 }

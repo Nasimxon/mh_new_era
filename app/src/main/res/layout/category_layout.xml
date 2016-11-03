@@ -3,12 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/white">
+    android:background="#f2f3f5">
     <LinearLayout
         android:id="@+id/llCategoryCheckboxes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/toolbar_color"
+        android:background="#ffffff"
         android:orientation="horizontal"
         android:clickable="true">
         <CheckBox
@@ -54,8 +54,10 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_margin="@dimen/sixteen_dp"
-        app:fab_colorNormal="@color/green_light"
-        app:fab_colorPressed="@color/green_light_darker"
-        app:fab_colorRipple="@color/green_light_darker"
         android:src="@drawable/currency_add" />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/four_dp"
+        android:background="@drawable/top_filter_shadow"
+        android:layout_below="@+id/llCategoryCheckboxes"/>
 </RelativeLayout>

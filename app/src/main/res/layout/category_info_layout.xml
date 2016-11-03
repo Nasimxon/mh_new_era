@@ -1,154 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white" 
     android:orientation="vertical"
-    android:paddingBottom="@dimen/ten_dp"
     android:clickable="true">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@color/grey_light2">
-        <LinearLayout
+        android:id="@+id/llCatInfoHead">
+        <com.jim.pocketaccounter.utils.catselector.SelectorView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/svCategorySelector"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/five_dp"/>
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/ten_dp">
-            <com.jim.pocketaccounter.utils.FABIcon
-                android:id="@+id/fabCategoryIcon"
-                android:layout_width="@dimen/fiftysix_dp"
-                android:layout_height="@dimen/fiftysix_dp"
-                android:clickable="false"
-                android:layout_gravity="center_vertical"
-                android:layout_marginTop="@dimen/twelve_dp"
-                android:layout_centerVertical="true"
-                android:layout_marginBottom="@dimen/twelve_dp"
-                android:layout_marginRight="@dimen/sixteen_dp"
-                android:layout_marginLeft="@dimen/sixteen_dp"/>
+            android:textSize="@dimen/ten_dp"
+            android:textColor="@color/toolbar_color"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/sub_cats"
+            android:layout_marginBottom="@dimen/two_dp"/>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:background="@color/green_light_forline"/>
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/rvCatInfoSubcats"
+            android:layout_gravity="center_horizontal"/>
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/llCatInfoHead"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="#fafafa">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/fifteen_dp"
+            android:layout_marginRight="@dimen/fifteen_dp"
+            android:layout_marginTop="@dimen/fifteen_dp"
+            android:background="@drawable/cat_info_bottom"
+            android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_gravity="center_vertical">
+                android:layout_marginLeft="@dimen/ten_dp"
+                android:layout_marginRight="@dimen/ten_dp">
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/tvCategoryInfoName"
-                    android:layout_marginRight="@dimen/sixteen_dp"
-                    android:layout_marginLeft="@dimen/ten_dp"
-                    android:layout_gravity="center_vertical"
-                    android:text="TextView"
-                    android:textColor="@color/black_for_glavniy_text"
-                    android:textSize="@dimen/sixteen_dp"/>
+                    android:text="@string/date"
+                    android:gravity="left"
+                    android:layout_weight="1.25"/>
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/tvCategoryInfoType"
-                    android:layout_gravity="center_vertical"
-                    android:textColor="@color/black_for_secondary_text"
-                    android:text="TextView"
-                    android:layout_marginLeft="@dimen/ten_dp"
-                    android:layout_marginRight="@dimen/sixteen_dp"
-                    android:layout_marginTop="@dimen/five_dp"
-                    android:textSize="@dimen/twelve_dp"/>
+                    android:text="@string/name"
+                    android:gravity="center"
+                    android:layout_weight="1"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/amount"
+                    android:gravity="right"
+                    android:layout_weight="1.25"/>
             </LinearLayout>
-        </LinearLayout>
-        <HorizontalScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/ten_dp">
-            <LinearLayout
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/ten_dp"
-                    android:layout_marginLeft="@dimen/sixteen_dp"
-                    android:layout_marginRight="@dimen/sixteen_dp"
-                    android:layout_marginTop="@dimen/ten_dp"
-                    android:layout_marginBottom="@dimen/ten_dp"
-                    android:visibility="gone"
-                    android:id="@+id/tvCategoryInfoSubcategories"/>
-            </LinearLayout>
-        </HorizontalScrollView>
-    </LinearLayout>
+                android:layout_height="2px"
+                android:background="@color/green_light_forline"/>
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/rvCategoryInfoOperations"
+                android:layout_marginLeft="@dimen/ten_dp"
+                android:layout_marginRight="@dimen/ten_dp"
+                android:layout_weight="1"/>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="@color/green_light_forline"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="@string/total"
+                android:textSize="@dimen/ten_dp"
+                android:layout_marginRight="@dimen/sixteen_dp"
+                android:layout_marginBottom="@dimen/five_dp"
+                android:layout_marginTop="@dimen/five_dp"
+                android:id="@+id/tvCategoryInfoTotal"/>
+        </LinearLayout>
+    </RelativeLayout>
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="2px"
-        android:background="@color/green_light_forline"
-        android:layout_marginBottom="@dimen/ten_dp" />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/sixteen_dp"
-        android:layout_marginRight="@dimen/sixteen_dp"
-        android:layout_marginTop="@dimen/five_dp"
-        android:layout_marginBottom="@dimen/five_dp">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/operations"
-            android:textSize="@dimen/sixteen_dp"
-            android:layout_weight="1"
-            android:layout_marginLeft="@dimen/ten_dp"
-            android:layout_marginRight="@dimen/ten_dp"/>
-
-        <ImageView
-            android:layout_width="@dimen/twenty_dp"
-            android:layout_height="@dimen/twenty_dp"
-            android:id="@+id/ivCategoryInfoFilter"
-            android:src="@drawable/ic_filter"
-            android:layout_marginRight="@dimen/ten_dp"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/sixteen_dp"
-        android:layout_marginRight="@dimen/sixteen_dp"
-        android:background="@color/toolbar_color">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/date"
-            android:gravity="center"
-            android:layout_weight="1.25"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/name"
-            android:gravity="center"
-            android:layout_weight="1"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/amount"
-            android:gravity="center"
-            android:layout_weight="1.25"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-        <android.support.v7.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/rvCategoryInfoOperations"
-            android:layout_marginLeft="@dimen/sixteen_dp"
-            android:layout_marginRight="@dimen/sixteen_dp"
-            android:layout_marginBottom="@dimen/sixteen_dp"
-            android:background="@drawable/edittext_with_toolbarcolor"
-            android:layout_weight="1"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:text="@string/total"
-            android:textSize="@dimen/ten_dp"
-            android:layout_marginBottom="@dimen/sixteen_dp"
-            android:layout_marginRight="@dimen/sixteen_dp"
-            android:layout_marginTop="@dimen/ten_dp"
-            android:id="@+id/tvCategoryInfoTotal"/>
-    </LinearLayout>
-</LinearLayout>
+        android:layout_height="@dimen/six_dp"
+        android:background="@drawable/catinfo_shadow"
+        android:layout_below="@+id/llCatInfoHead"/>
+</RelativeLayout>

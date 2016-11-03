@@ -1,15 +1,14 @@
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clickable="true"
-
     android:longClickable="true">
-    <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="#DCDDDE">
+        android:layout_height="60dp">
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -24,8 +23,7 @@
                 android:layout_height="@dimen/thirty_dp"
                 android:visibility="gone"
                 android:layout_marginRight="@dimen/ten_dp"
-                android:layout_marginLeft="@dimen/ten_dp"
-                />
+                android:layout_marginLeft="@dimen/ten_dp" />
             <ImageView
                 android:id="@+id/ivToolbarExcel"
                 android:layout_width="@dimen/thirty_dp"
@@ -68,8 +66,7 @@
         android:background="@color/white"
         android:layout_below="@+id/toolbar"
         android:id="@+id/mainWhite"
-        android:visibility="gone"
-        />
+        android:visibility="gone" />
     <FrameLayout
         android:id="@+id/flMain"
         android:layout_width="match_parent"
@@ -82,3 +79,4 @@
         android:id="@+id/pwPassword"
         android:visibility="gone"/>
 </RelativeLayout>
+

@@ -1,88 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:descendantFocusability="blocksDescendants"
-    android:orientation="vertical">
-    <android.support.v7.widget.CardView
+    android:orientation="vertical"
+    android:background="@drawable/cat_list_item">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+        <ImageView
+            android:id="@+id/ivCategoryInfo"
+            android:layout_width="@dimen/twenty_dp"
+            android:layout_height="@dimen/twenty_dp"
+            android:src="@drawable/info_dots"
+            android:layout_marginRight="@dimen/ten_dp"/>
+    </LinearLayout>
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="@dimen/sevent_dp"
-        android:layout_marginLeft="@dimen/eight_dp"
-        android:layout_marginRight="@dimen/eight_dp"
-        android:layout_marginTop="@dimen/two_dp"
-        card:cardCornerRadius="@dimen/eight_dp"
-        card:cardElevation="@dimen/five_dp"
-        card:cardMaxElevation="@dimen/ten_dp">
+        android:orientation="vertical">
+        <ImageView
+            android:id="@+id/ivCategoryItem"
+            android:layout_width="@dimen/sixty_dp"
+            android:layout_height="@dimen/sixty_dp"
+            android:layout_marginBottom="@dimen/five_dp"
+            android:layout_gravity="center"/>
+        <TextView
+            android:id="@+id/tvCategoryListItemName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/ten_dp"
+            android:layout_marginLeft="@dimen/ten_dp"
+            android:layout_marginRight="@dimen/ten_dp"
+            android:text="TextView"
+            android:gravity="center"
+            android:textColor="@color/toolbar_text_color"
+            android:textSize="@dimen/sixteen_sp" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/llCategoryListItemAdd">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <LinearLayout
-                android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_marginBottom="@dimen/ten_dp"
+            android:layout_marginLeft="@dimen/eight_dp"
+            android:layout_marginRight="@dimen/ten_dp"
+            android:layout_weight="1">
+            <ImageView
+                android:layout_width="@dimen/thirty_dp"
+                android:layout_height="@dimen/thirty_dp"
+                android:layout_gravity="center"
+                android:src="@drawable/cat_list_item_add"
+                android:layout_marginBottom="@dimen/five_dp"
+                android:gravity="center"/>
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <ImageView
-                    android:id="@+id/ivCategoryItem"
-                    android:layout_width="@dimen/fourty_dp"
-                    android:layout_height="@dimen/fourty_dp"
-                    android:layout_marginBottom="@dimen/fifteen_dp"
-                    android:layout_marginLeft="@dimen/sixteen_dp"
-                    android:layout_marginTop="@dimen/fifteen_dp" />
-                <TextView
-                    android:id="@+id/tvCategoryListItemName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginBottom="@dimen/fifteen_dp"
-                    android:layout_marginLeft="@dimen/fifteen_dp"
-                    android:layout_marginRight="@dimen/sixteen_sp"
-                    android:layout_marginTop="@dimen/fifteen_dp"
-                    android:text="TextView"
-                    android:textColor="@color/toolbar_text_color"
-                    android:textSize="@dimen/sixteen_sp" />
-            </LinearLayout>
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="2px"
-                android:background="@color/green_light_forline" />
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/grey_light2">
-                <TextView
-                    android:id="@+id/tvCategoryMainSubCatAdd"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:layout_marginBottom="@dimen/ten_dp"
-                    android:layout_marginLeft="@dimen/sixteen_dp"
-                    android:layout_marginRight="@dimen/five_dp"
-                    android:layout_marginTop="@dimen/sixteen_dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/knopka_zeleniy"
-                    android:gravity="center"
-                    android:text="@string/add_subcategory"
-                    android:textColor="@color/green_just"
-                    android:textSize="@dimen/twelve_dp" />
-                <TextView
-                    android:id="@+id/tvCategoryMainEdit"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:layout_marginBottom="@dimen/ten_dp"
-                    android:layout_marginLeft="@dimen/five_dp"
-                    android:layout_marginRight="@dimen/sixteen_dp"
-                    android:layout_marginTop="@dimen/sixteen_dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/knopka_zeleniy"
-                    android:gravity="center"
-                    android:text="@string/to_edit"
-                    android:textColor="@color/green_just"
-                    android:textSize="@dimen/twelve_dp" />
-            </LinearLayout>
+                android:textSize="@dimen/eight_dp"
+                android:textColor="@color/toolbar_color"
+                android:text="@string/add_subcategory"
+                android:layout_gravity="center"
+                android:gravity="center"/>
         </LinearLayout>
-    </android.support.v7.widget.CardView>
+        <ImageView
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:background="@color/toolbar_color"
+            android:layout_marginBottom="@dimen/ten_dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="@dimen/ten_dp"
+            android:layout_marginLeft="@dimen/ten_dp"
+            android:layout_marginRight="@dimen/eight_dp"
+            android:layout_weight="1"
+            android:id="@+id/llCategoryListItemEdit">
+            <ImageView
+                android:layout_width="@dimen/thirty_dp"
+                android:layout_height="@dimen/thirty_dp"
+                android:layout_gravity="center"
+                android:src="@drawable/cat_list_item_edit"
+                android:layout_marginBottom="@dimen/five_dp"
+                android:gravity="center"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/eight_dp"
+                android:textColor="@color/toolbar_color"
+                android:text="@string/to_edit"
+                android:layout_gravity="center"
+                android:gravity="center"/>
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

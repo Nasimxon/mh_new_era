@@ -9,61 +9,37 @@
         <item>Saturday</item>
         <item>Sunday</item>
     </string-array>
-    <string-array name="drawer_cats">
+    <string-array name="drawer_menus">
         <item>Home</item>
-        <item>Finance</item>
-        <item>Statistics</item>
-        <item>Debts and credits</item>
-        <item>SMS Parsing</item>
+        <item>Currency</item>
+        <item>Category</item>
+        <item>Account</item>
+        <item>Purpose</item>
+        <item>Auto</item>
+        <item>Credit</item>
+        <item>Debt</item>
+        <item>Sms Parsing</item>
+        <item>Report</item>
         <item>Settings</item>
         <item>Rate app</item>
         <item>Share app</item>
         <item>Feedback</item>
-        <item>Purpose</item>
-        <item>Auto operations</item>
     </string-array>
-    <string-array name="cat_ids">
-        <item>0</item>
-        <item>100</item>
-        <item>5</item>
-        <item>100</item>
-        <item>7</item>
-        <item>8</item>
-        <item>10</item>
-        <item>9</item>
-        <item>11</item>
-    </string-array>
-    <string-array name="statistics_subitems">
-        <item>Report by account</item>
-        <item>Report by expenses and incomes</item>
-        <item>Report by categories</item>
-    </string-array>
-    <string-array name="statistics_subitems_icons">
-        <item>drawer_accountreport</item>
-        <item>drawer_incomeexpensereport</item>
-        <item>drawer_categoryreport</item>
-    </string-array>
-    <string-array name="finance_subitems">
-        <item>Currencies</item>
-        <item>Categories</item>
-        <item>Accounts</item>
-        <item>Purpose</item>
-        <item>Auto</item>
-    </string-array>
-    <string-array name="finance_subitem_icons">
-        <item>drawer_currency</item>
-        <item>drawer_category</item>
-        <item>drawer_account</item>
-        <item>drawer_purpose</item>
-        <item>drawer_auto</item>
-    </string-array>
-    <string-array name="debts_subitems">
-        <item>Credits</item>
-        <item>Debts</item>
-    </string-array>
-    <string-array name="debts_subitem_icons">
-        <item>drawer_credit</item>
-        <item>drawer_debts_debt</item>
+    <string-array name="drawer_menus_icons">
+        <item>icons_1</item>
+        <item>icons_2</item>
+        <item>icons_3</item>
+        <item>icons_4</item>
+        <item>icons_5</item>
+        <item>icons_6</item>
+        <item>icons_7</item>
+        <item>icons_8</item>
+        <item>icons_9</item>
+        <item>icons_10</item>
+        <item>icons_11</item>
+        <item>icons_12</item>
+        <item>icons_13</item>
+        <item>icons_14</item>
     </string-array>
     <string-array name="base_currencies">
         <item>Dollars</item>
@@ -1626,4 +1602,7 @@
     <string name="income_keyword_error">Enter keyword(income)</string>
     <string name="expense_keyword_error">Enter keyword(expense)</string>
     <string name="amount_keyword_error">Enter keyword for defining amount</string>
+    <string name="incom_expense_list">Список расходов и доходов</string>
+    <string name="login">Login</string>
+    <string name="all">All</string>
 </resources>

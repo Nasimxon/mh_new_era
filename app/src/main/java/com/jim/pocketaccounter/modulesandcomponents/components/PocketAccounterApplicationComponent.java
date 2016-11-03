@@ -14,8 +14,12 @@ import com.jim.pocketaccounter.managers.ReportManager;
 import com.jim.pocketaccounter.report.IncomeExpanseDataRow;
 import com.jim.pocketaccounter.syncbase.SyncBase;
 import com.jim.pocketaccounter.utils.SmsService;
+import com.jim.pocketaccounter.utils.SubcatAdapterCircles;
+import com.jim.pocketaccounter.utils.SubcatItemChecker;
 import com.jim.pocketaccounter.utils.cache.DataCache;
 import com.jim.pocketaccounter.modulesandcomponents.modules.PocketAccounterApplicationModule;
+import com.jim.pocketaccounter.utils.catselector.DrawingSelectorView;
+import com.jim.pocketaccounter.utils.record.BalanceStripe;
 import com.jim.pocketaccounter.utils.record.RecordButtonExpanse;
 import com.jim.pocketaccounter.utils.record.RecordButtonIncome;
 import com.jim.pocketaccounter.widget.WidgetProvider;
@@ -59,4 +63,8 @@ public interface PocketAccounterApplicationComponent {
     void inject(SettingsActivity settingsActivity);
     void inject(IncomeExpanseDataRow incomeExpanseDataRow);
     void inject(SmsService smsService);
+    void inject(BalanceStripe balanceStripe);
+    void inject(DrawingSelectorView drawingSelectorView);
+    void inject(SubcatItemChecker subcatItemChecker);
+    void inject(SubcatAdapterCircles subcatAdapterCircles);
 }

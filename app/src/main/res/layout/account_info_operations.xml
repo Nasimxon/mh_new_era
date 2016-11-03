@@ -2,13 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="wrap_content">
-
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/ivAccountInfoOpertionDelete"
-        android:visibility="gone"
-        />
+        android:visibility="gone"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,14 +14,8 @@
         android:textSize="@dimen/twelve_dp"
         android:layout_weight="1.25"
         android:text="date"
-        android:gravity="center"
+        android:gravity="left"
         android:layout_gravity="center"/>
-    <ImageView
-        android:layout_width="@dimen/one_dp"
-        android:layout_height="match_parent"
-        android:background="@color/toolbar_color"
-        android:layout_marginTop="@dimen/three_dp"
-        android:layout_marginBottom="@dimen/three_dp"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -33,12 +25,6 @@
         android:text="name"
         android:gravity="center"
         android:layout_gravity="center"/>
-    <ImageView
-        android:layout_width="@dimen/one_dp"
-        android:layout_height="match_parent"
-        android:background="@color/toolbar_color"
-        android:layout_marginTop="@dimen/three_dp"
-        android:layout_marginBottom="@dimen/three_dp"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -46,6 +32,6 @@
         android:id="@+id/tvAccountInfoAmount"
         android:layout_weight="1.25"
         android:text="date"
-        android:gravity="center"
+        android:gravity="right"
         android:layout_gravity="center"/>
 </LinearLayout>

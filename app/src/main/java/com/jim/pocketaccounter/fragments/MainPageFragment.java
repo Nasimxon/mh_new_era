@@ -24,10 +24,15 @@ import com.jim.pocketaccounter.managers.PAFragmentManager;
 import com.jim.pocketaccounter.managers.ReportManager;
 import com.jim.pocketaccounter.managers.ToolbarManager;
 import com.jim.pocketaccounter.utils.PocketAccounterGeneral;
+import com.jim.pocketaccounter.utils.StyleSetter;
+import com.jim.pocketaccounter.utils.Styleable;
 import com.jim.pocketaccounter.utils.cache.DataCache;
+import com.jim.pocketaccounter.utils.record.BalanceStripe;
+import com.jim.pocketaccounter.utils.record.BoardView;
 import com.jim.pocketaccounter.utils.record.DecorationBoardView;
 import com.jim.pocketaccounter.utils.record.RecordExpanseView;
 import com.jim.pocketaccounter.utils.record.RecordIncomesView;
+import com.jim.pocketaccounter.utils.record.TextDrawingBoardView;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -43,15 +48,15 @@ import static com.jim.pocketaccounter.PocketAccounter.PRESSED;
 
 @SuppressLint("ValidFragment")
 public class MainPageFragment extends Fragment {
+    @Styleable(colorLayer = PocketAccounterGeneral.HEAD_COLOR)
+    private LinearLayout llMainPageBackground;
     private Calendar day;
     private PocketAccounter pocketAccounter;
     private boolean keyboardVisible = false;
-    private TextView tvRecordIncome, tvRecordExpanse, tvRecordBalanse;
-    private RelativeLayout rlRecordExpanses, rlRecordIncomes;
-    private LinearLayout rlRecordBalance;
-    private RecordExpanseView expenseView;
-    private RecordIncomesView incomeView;
+    private RelativeLayout rlMainPageContainer;
     private Map<String, Double> balance;
+    private BalanceStripe balanceStripe;
+    private BoardView expenseView, incomeView;
     @Inject ReportManager reportManager;
     @Inject DataCache dataCache;
     @Inject CommonOperations commonOperations;
@@ -61,6 +66,7 @@ public class MainPageFragment extends Fragment {
     @Inject @Named(value = "begin") Calendar begin;
     @Inject @Named(value = "end") Calendar end;
     @Inject SharedPreferences preferences;
+    private boolean pressed = false;
     public MainPageFragment(Context context, Calendar day) {
         this.day = (Calendar) day.clone();
         this.pocketAccounter = (PocketAccounter) context;
@@ -80,6 +86,7 @@ public class MainPageFragment extends Fragment {
                 }
             }
         });
+
         if (keyboardVisible) {
             InputMethodManager imm = (InputMethodManager) pocketAccounter.getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(pocketAccounter.findViewById(R.id.main).getWindowToken(), 0);
@@ -91,14 +98,13 @@ public class MainPageFragment extends Fragment {
                 }
             },100);
         }
-        rlRecordExpanses = (RelativeLayout) rootView.findViewById(R.id.rlRecordExpanses);
-        rlRecordIncomes = (RelativeLayout) rootView.findViewById(R.id.rlRecordIncomes);
-        rlRecordBalance = (LinearLayout) rootView.findViewById(R.id.rlRecordBalance);
-        tvRecordIncome = (TextView) rootView.findViewById(R.id.tvRecordIncome);
-        tvRecordExpanse = (TextView) rootView.findViewById(R.id.tvRecordExpanse);
-        tvRecordBalanse = (TextView) rootView.findViewById(R.id.tvRecordBalanse);
+        llMainPageBackground = (LinearLayout) rootView.findViewById(R.id.llMainPageBackground);
+        rlMainPageContainer = (RelativeLayout) rootView.findViewById(R.id.rlMainPageContainer);
+        balanceStripe = new BalanceStripe(pocketAccounter, day);
+        ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        balanceStripe.setLayoutParams(lp);
         PRESSED = false;
-        rlRecordBalance.setOnClickListener(new View.OnClickListener() {
+        balanceStripe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (PRESSED) return;
@@ -107,85 +113,55 @@ public class MainPageFragment extends Fragment {
             }
         });
         initialize();
+        new StyleSetter(this, preferences).set();
         return rootView;
     }
     public void initialize() {
         DisplayMetrics dm = pocketAccounter.getResources().getDisplayMetrics();
-        int width = dm.widthPixels;
-        int height = dm.heightPixels;
-        int side;
-        if (height * 0.6 > width)
-            side = width;
+        double width = (double) dm.widthPixels;
+        double height = (double) dm.heightPixels;
+        double ratio = height/width;
+        rlMainPageContainer.removeAllViews();
+        expenseView = new BoardView(getContext(), PocketAccounterGeneral.EXPENSE, day);
+        RelativeLayout.LayoutParams lpExpenses = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dm.widthPixels);
+        lpExpenses.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+        expenseView.setLayoutParams(lpExpenses);
+        expenseView.setId(R.id.main_expense);
+        rlMainPageContainer.addView(expenseView);
+
+        incomeView = new BoardView(getContext(), PocketAccounterGeneral.INCOME, day);
+        RelativeLayout.LayoutParams lpIncomes = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dm.widthPixels / 4);
+        lpIncomes.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        incomeView.setLayoutParams(lpIncomes);
+        incomeView.setId(R.id.main_income);
+        rlMainPageContainer.addView(incomeView);
+
+        RelativeLayout.LayoutParams lpBalance = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        lpBalance.addRule(RelativeLayout.BELOW, R.id.main_expense);
+        lpBalance.addRule(RelativeLayout.ABOVE, R.id.main_income);
+        balanceStripe.setLayoutParams(lpBalance);
+        rlMainPageContainer.addView(balanceStripe);
+        if (ratio < 1.7d)
+            balanceStripe.hideNotImportantPart();
         else
-            side = (int) (height * 0.6);
-        expenseView = new RecordExpanseView(pocketAccounter, day);
-        DecorationBoardView view = new DecorationBoardView(getContext(), PocketAccounterGeneral.EXPENSE);
-        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(side, side);
-        lp.addRule(RelativeLayout.CENTER_HORIZONTAL);
-//        expenseView.setLayoutParams(lp);
-        rlRecordExpanses.removeAllViews();
-//        rlRecordExpanses.addView(expenseView);
-        view.setLayoutParams(lp);
-        rlRecordExpanses.addView(view);
-        incomeView = new RecordIncomesView(pocketAccounter, day);
-//        RelativeLayout.LayoutParams lpIncomes = new RelativeLayout.LayoutParams(side,
-//                side / 4 + (int) (pocketAccounter.getResources().getDimension(R.dimen.thirty_dp)));
-//        lpIncomes.addRule(RelativeLayout.CENTER_HORIZONTAL);
-//        incomeView.setLayoutParams(lpIncomes);
-//        rlRecordIncomes.removeAllViews();
-//        rlRecordIncomes.addView(incomeView);
-        calculateBalance();
+            balanceStripe.showNotImportantPart();
+        balanceStripe.calculateBalance();
+
     }
     public void refreshCurrencyChanges() {
         commonOperations.refreshCurrency();
     }
     public void update() {
         toolbarManager.setSubtitle(simpleDateFormat.format(day.getTime()));
-        calculateBalance();
+        balanceStripe.calculateBalance();
         expenseView.invalidate();
         incomeView.invalidate();
     }
     public void updatePageChanges() {
-        expenseView.updatePageCountAndPosition();
+        expenseView.refreshPagesCount();
         expenseView.invalidate();
-        incomeView.updatePageCountAndPosition();
+        incomeView.refreshPagesCount();
         incomeView.invalidate();
-    }
-    public void calculateBalance() {
-        String mode = preferences.getString("balance_solve", "0");
-        end.setTimeInMillis(day.getTimeInMillis());
-        end.set(Calendar.HOUR_OF_DAY, 23);
-        end.set(Calendar.MINUTE, 59);
-        end.set(Calendar.SECOND, 59);
-        end.set(Calendar.MILLISECOND, 59);
-        if (mode.equals("0")) {
-            begin.setTimeInMillis(dataCache.getBeginDate().getTimeInMillis());
-        }
-        else {
-            begin.setTimeInMillis(day.getTimeInMillis());
-            begin.set(Calendar.HOUR_OF_DAY, 0);
-            begin.set(Calendar.MINUTE, 0);
-            begin.set(Calendar.SECOND, 0);
-            begin.set(Calendar.MILLISECOND, 0);
-        }
-        balance = reportManager.calculateBalance(begin, end);
-        DecimalFormat decFormat = new DecimalFormat("0.00");
-        String abbr = commonOperations.getMainCurrency().getAbbr();
-        for (String key : balance.keySet()) {
-            switch (key) {
-                case PocketAccounterGeneral.INCOMES:
-                    tvRecordIncome.setText(decFormat.format(balance.get(key)) + abbr);
-                    break;
-
-                case PocketAccounterGeneral.EXPENSES:
-                    tvRecordExpanse.setText(decFormat.format(balance.get(key)) + abbr);
-                    break;
-                case PocketAccounterGeneral.BALANCE:
-                    tvRecordBalanse.setText(decFormat.format(balance.get(key)) + abbr);
-                    break;
-            }
-        }
-
     }
 
     public static float dpToPx(Context context, float valueInDp) {

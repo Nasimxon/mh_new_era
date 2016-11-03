@@ -33,61 +33,39 @@
         <item>Year</item>
         <item>Period</item>
     </string-array>
-    <string-array name="drawer_cats">
+    <string-array name="drawer_menus_icons">
+        <item>icons_1</item>
+        <item>icons_2</item>
+        <item>icons_3</item>
+        <item>icons_4</item>
+        <item>icons_5</item>
+        <item>icons_6</item>
+        <item>icons_7</item>
+        <item>icons_8</item>
+        <item>icons_9</item>
+        <item>icons_10</item>
+        <item>icons_11</item>
+        <item>icons_12</item>
+        <item>icons_13</item>
+        <item>icons_14</item>
+    </string-array>
+    <string-array name="drawer_menus">
         <item>Главная</item>
-        <item>Финансы</item>
-        <item>Статистика</item>
-        <item>Учет долгов и кредитов</item>
-        <item>SMS Парсинг</item>
+        <item>Валюта</item>
+        <item>Категория</item>
+        <item>Счет</item>
+        <item>Цель</item>
+        <item>Автооперации</item>
+        <item>Кредит</item>
+        <item>Долг</item>
+        <item>Смс парсинг</item>
+        <item>Отчет</item>
         <item>Настройки</item>
         <item>Оценить приложения</item>
         <item>Поделиться</item>
-        <item>Отправить письмо</item>
-        <item>Purpose</item>
+        <item>Отправить писмо</item>
     </string-array>
-    <string-array name="cat_ids">
-        <item>0</item>
-        <item>100</item>
-        <item>5</item>
-        <item>100</item>
-        <item>7</item>
-        <item>8</item>
-        <item>10</item>
-        <item>9</item>
-        <item>11</item>
-    </string-array>
-    <string-array name="statistics_subitems">
-        <item>Отчет по счетам</item>
-        <item>Отчет по расходам и доходам</item>
-        <item>Отчет по категориям</item>
-    </string-array>
-    <string-array name="statistics_subitems_icons">
-        <item>drawer_accountreport</item>
-        <item>drawer_incomeexpensereport</item>
-        <item>drawer_categoryreport</item>
-    </string-array>
-    <string-array name="finance_subitems">
-        <item>Валюты</item>
-        <item>Категории</item>
-        <item>Счета</item>
-        <item>Цель</item>
-        <item>Автооперации</item>
-    </string-array>
-    <string-array name="finance_subitem_icons">
-        <item>drawer_currency</item>
-        <item>drawer_category</item>
-        <item>drawer_account</item>
-        <item>drawer_purpose</item>
-        <item>drawer_auto</item>
-    </string-array>
-    <string-array name="debts_subitems">
-        <item>Кредиты</item>
-        <item>Долги</item>
-    </string-array>
-    <string-array name="debts_subitem_icons">
-        <item>drawer_credit</item>
-        <item>drawer_debts_debt</item>
-    </string-array>
+
     <string-array name="base_currencies">
         <item>Доллары</item>
         <item>Рубль</item>
@@ -1624,5 +1602,8 @@
     <string name="expense_keyword_error">Введите ключевое слово(расход)</string>
     <string name="income_keyword_error">Введите ключевое слово(доход)</string>
     <string name="amount_keyword_error">Введите ключевое слово для определения суммы</string>
+    <string name="incom_expense_list">Список расходов и доходов</string>
+    <string name="login">Login</string>
+    <string name="all">All</string>
 </resources>
 

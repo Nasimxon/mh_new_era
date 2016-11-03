@@ -42,6 +42,8 @@ import com.jim.pocketaccounter.managers.PAFragmentManager;
 import com.jim.pocketaccounter.managers.ReportManager;
 import com.jim.pocketaccounter.managers.ToolbarManager;
 import com.jim.pocketaccounter.utils.FABIcon;
+import com.jim.pocketaccounter.utils.StyleSetter;
+import com.jim.pocketaccounter.utils.Styleable;
 import com.jim.pocketaccounter.utils.TransferAddEditDialog;
 import com.jim.pocketaccounter.utils.TransferDialog;
 import com.jim.pocketaccounter.utils.WarningDialog;
@@ -59,26 +61,11 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 @SuppressLint("InflateParams")
-public class AccountFragment extends Fragment {
-	private FABIcon fabAccountAdd;
+public class AccountFragment extends PABaseListFragment {
+	@Styleable(colorLayer = PocketAccounterGeneral.HEAD_COLOR)
+	private FloatingActionButton fabAccountAdd;
     private RecyclerView recyclerView;
-    @Inject
-    LogicManager logicManager;
-    @Inject
-    ToolbarManager toolbarManager;
-    @Inject
-    DaoSession daoSession;
-	@Inject
-	ReportManager reportManager;
-	@Inject
-	@Named(value = "display_formatter")
-	SimpleDateFormat dateFormat;
-	@Inject
-	CommonOperations commonOperations;
-	@Inject
-	PAFragmentManager paFragmentManager;
-	@Inject
-	DrawerInitializer drawerInitializer;
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		final View rootView = inflater.inflate(R.layout.account_layout, container, false);
 		rootView.postDelayed(new Runnable() {
@@ -89,9 +76,7 @@ public class AccountFragment extends Fragment {
 					imm.hideSoftInputFromWindow(rootView.getWindowToken(), 0);}
 			}
 		},100);
-
-        ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
-		toolbarManager.setImageToHomeButton(R.drawable.ic_drawer);
+		((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
 		toolbarManager.setOnHomeButtonClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -136,10 +121,11 @@ public class AccountFragment extends Fragment {
 				try {
 					onScrolledList(dy > 0);
 				} catch (NullPointerException e) {
+
 				}
 			}
 		});
-        fabAccountAdd = (FABIcon) rootView.findViewById(R.id.fabAccountAdd);
+        fabAccountAdd = (FloatingActionButton) rootView.findViewById(R.id.fabAccountAdd);
 		fabAccountAdd.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -147,9 +133,9 @@ public class AccountFragment extends Fragment {
 			}
 		});
         refreshList();
+		new StyleSetter(this, preferences).set();
 		return rootView;
 	}
-
 	private boolean show = false;
 	public void onScrolledList(boolean k) {
 		if (k) {
@@ -162,12 +148,11 @@ public class AccountFragment extends Fragment {
 			show = false;
 		}
 	}
-
-	private void refreshList() {
+	@Override
+	void refreshList() {
 		AccountAdapter adapter = new AccountAdapter(daoSession.getAccountDao().loadAll());
 		recyclerView.setAdapter(adapter);
 	}
-
     private class AccountAdapter extends RecyclerView.Adapter<ViewHolder> {
         private List<Account> result;
         public AccountAdapter(List<Account> result) {
@@ -268,7 +253,6 @@ public class AccountFragment extends Fragment {
             return new ViewHolder(view);
         }
     }
-
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView ivAccountListIcon;
         TextView tvAccountListName;

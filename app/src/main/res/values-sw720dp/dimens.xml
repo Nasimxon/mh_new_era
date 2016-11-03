@@ -6,7 +6,7 @@
     <dimen name="drawer_listview_border">4dp</dimen>
     <dimen name="drawer_side">100dp</dimen>
     <dimen name="drawer_head_height">120dp</dimen>
-    <dimen name="left_drawer_width">560dp</dimen>
+    <dimen name="left_drawer_width">240dp</dimen>
     <dimen name="drawer_header_height">340dp</dimen>
     <dimen name="fab_size_normal">112dp</dimen>
     <dimen name="fab_size_mini">80dp</dimen>

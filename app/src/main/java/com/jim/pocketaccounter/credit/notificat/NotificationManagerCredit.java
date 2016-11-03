@@ -255,15 +255,12 @@ public class NotificationManagerCredit {
     }
 
     public void notificSetDebt() throws InterruptedException {
-
-//		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-
         String time = sharedPreferences.getString("planningNotifTime", "09:00");
-//		SimpleDateFormat df = new SimpleDateFormat("HH:mm");
+		SimpleDateFormat df = new SimpleDateFormat("HH:mm");
         Calendar cal = Calendar.getInstance();
         Calendar morning_time = Calendar.getInstance();
         try {
-            morning_time.setTime(dateFormat.parse(time));
+            morning_time.setTime(df.parse(time));
         } catch (ParseException e) {
             e.printStackTrace();
             return;
@@ -273,7 +270,6 @@ public class NotificationManagerCredit {
         cal.set(Calendar.SECOND, 0);
         for (DebtBorrow item : myDebdbor) {
             if (item.getTo_archive()) continue;
-//			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
             boolean isNotify = sharedPreferences.getBoolean("general_notif", true);
             if (isNotify) {
                 String info = item.getInfo();
@@ -293,7 +289,6 @@ public class NotificationManagerCredit {
                         beg.set(Calendar.MINUTE, cal.get(Calendar.MINUTE));
                         beg.set(Calendar.SECOND, 0);
                         int countEveryDay = 0;
-//						SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
                         if (item.getReturnDate() != null) {
                             Calendar end = (Calendar) item.getReturnDate().clone();
                             while (beg.compareTo(end) <= 0 && countEveryDay < 10) {

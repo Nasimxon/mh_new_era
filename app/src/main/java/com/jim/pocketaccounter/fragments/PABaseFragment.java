@@ -1,6 +1,7 @@
 package com.jim.pocketaccounter.fragments;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 
 import com.jim.pocketaccounter.PocketAccounter;
@@ -33,6 +34,7 @@ public abstract class PABaseFragment extends Fragment {
     @Inject DataCache dataCache;
     @Inject @Named(value = "display_formatter") SimpleDateFormat dateFormat;
     @Inject ReportManager reportManager;
+    @Inject SharedPreferences preferences;
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);

@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "com.jim.pocketaccounter"
-        minSdkVersion 9
+        minSdkVersion 11
         targetSdkVersion 25
         vectorDrawables.useSupportLibrary = true
     }
@@ -57,3 +57,4 @@ dependencies {
     provided 'org.glassfish:javax.annotation:10.0-b28'
 }
 apply plugin: 'com.google.gms.google-services'
+

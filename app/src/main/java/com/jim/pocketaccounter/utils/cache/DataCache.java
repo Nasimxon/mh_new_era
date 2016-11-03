@@ -36,7 +36,6 @@ public class DataCache {
     private LruCache<Integer, Bitmap> elements;
     private LruCache<String, List<BoardButtonPercent>> percents;
     private Calendar beginDate, endDate;
-    private UpdatePercentsTask updatePercentsTask;
     private SimpleDateFormat simpleDateFormat;
     @Inject SharedPreferences sharedPreferences;
     @Inject DaoSession daoSession;

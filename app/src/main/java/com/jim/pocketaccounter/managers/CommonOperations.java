@@ -28,12 +28,14 @@ import com.jim.pocketaccounter.database.Account;
 import com.jim.pocketaccounter.database.BoardButton;
 import com.jim.pocketaccounter.database.BoardButtonDao;
 import com.jim.pocketaccounter.database.CreditDetials;
+import com.jim.pocketaccounter.database.CreditDetialsDao;
 import com.jim.pocketaccounter.database.Currency;
 import com.jim.pocketaccounter.database.CurrencyCost;
 import com.jim.pocketaccounter.database.CurrencyCostState;
 import com.jim.pocketaccounter.database.CurrencyDao;
 import com.jim.pocketaccounter.database.CurrencyWithAmount;
 import com.jim.pocketaccounter.database.DebtBorrow;
+import com.jim.pocketaccounter.database.DebtBorrowDao;
 import com.jim.pocketaccounter.database.FinanceRecord;
 import com.jim.pocketaccounter.database.Person;
 import com.jim.pocketaccounter.database.PhotoDetails;
@@ -1915,5 +1917,32 @@ public class CommonOperations {
             dataCache.getBoardBitmapsCache().put(boardButtons.get(0).getId(),
                     scaled);
         }
+    }
+
+    public int defineType(String categoryId) {
+        List<RootCategory> categories = daoSession.getRootCategoryDao()
+                .queryBuilder()
+                .where(RootCategoryDao.Properties.Id.eq(categoryId))
+                .list();
+        List<CreditDetials> credits = daoSession.getCreditDetialsDao()
+                .queryBuilder()
+                .where(CreditDetialsDao.Properties.MyCredit_id.eq(categoryId))
+                .list();
+        List<DebtBorrow> debtBorrows = daoSession.getDebtBorrowDao()
+                .queryBuilder()
+                .where(DebtBorrowDao.Properties.Id.eq(categoryId))
+                .list();
+        String[] operationIds = context.getResources().getStringArray(R.array.operation_ids);
+        String[] pageIds = context.getResources().getStringArray(R.array.page_ids);
+        if (!categories.isEmpty()) return PocketAccounterGeneral.CATEGORY;
+        if (!credits.isEmpty()) return PocketAccounterGeneral.CREDIT;
+        if (!debtBorrows.isEmpty()) return PocketAccounterGeneral.DEBT_BORROW;
+        for (String operationId : operationIds) {
+            if (operationId.equals(categoryId)) return PocketAccounterGeneral.FUNCTION;
+        }
+        for (String pageId : pageIds) {
+            if (pageId.equals(categoryId)) return PocketAccounterGeneral.PAGE;
+        }
+        return PocketAccounterGeneral.NULL;
     }
 }

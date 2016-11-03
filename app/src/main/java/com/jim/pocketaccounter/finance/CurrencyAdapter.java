@@ -1,6 +1,7 @@
 package com.jim.pocketaccounter.finance;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,8 @@ import com.jim.pocketaccounter.database.Currency;
 import com.jim.pocketaccounter.managers.CommonOperations;
 import com.jim.pocketaccounter.managers.LogicManager;
 import com.jim.pocketaccounter.utils.PocketAccounterGeneral;
+import com.jim.pocketaccounter.utils.StyleSetter;
+import com.jim.pocketaccounter.utils.Styleable;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -32,17 +35,18 @@ public class CurrencyAdapter extends BaseAdapter {
 	private LayoutInflater inflater;
 	private int mode;
 	private boolean[] selected;
-	@Inject
-	LogicManager manager;
-	@Inject
-	CommonOperations commonOperations;
+	@Styleable(colorLayer = PocketAccounterGeneral.HELPER_COLOR)
+	private ImageView ivCurrencyMain;
+	@Inject LogicManager manager;
+	@Inject CommonOperations commonOperations;
+	@Inject SharedPreferences preferences;
 	public CurrencyAdapter(Context context, List<Currency> result, boolean[] selected, int mode) {
 	    this.result = result;
 	    this.selected = selected;
 	    this.mode = mode;
 		((PocketAccounter) context).component((PocketAccounterApplication) context.getApplicationContext()).inject(this);
 	    inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-	  }
+	}
 	@Override
 	public int getCount() {
 		return result.size();
@@ -65,7 +69,7 @@ public class CurrencyAdapter extends BaseAdapter {
 		tvCurrencyItemAbbr.setText(result.get(position).getAbbr());
 		TextView tvCurrencyName = (TextView) view.findViewById(R.id.tvCurrencyName);
 		tvCurrencyName.setText(result.get(position).getName());
-		ImageView ivCurrencyMain = (ImageView) view.findViewById(R.id.ivCurrencyMain);
+		ivCurrencyMain = (ImageView) view.findViewById(R.id.ivCurrencyMain);
 		if (result.get(position).getMain()) {
 			ivCurrencyMain.setImageResource(R.drawable.main_currency);
 			view.findViewById(R.id.tvCurrencyCost).setVisibility(View.GONE);
@@ -90,6 +94,7 @@ public class CurrencyAdapter extends BaseAdapter {
 				}
 			});
 		}
+		new StyleSetter(this, preferences).set();
 		return view;
 	}
 }

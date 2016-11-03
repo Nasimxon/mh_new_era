@@ -1,26 +1,23 @@
 package com.jim.pocketaccounter.managers;
 
-import android.app.ProgressDialog;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
-import android.os.Build;
 import android.os.Handler;
-import android.support.annotation.RequiresApi;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,9 +26,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.jim.pocketaccounter.PocketAccounter;
 import com.jim.pocketaccounter.R;
-//import com.jim.pocketaccounter.debt.DebtBorrowFragment;
 import com.jim.pocketaccounter.SettingsActivity;
-import com.jim.pocketaccounter.credit.notificat.NotificationManagerCredit;
 import com.jim.pocketaccounter.debt.DebtBorrowFragment;
 import com.jim.pocketaccounter.fragments.AccountFragment;
 import com.jim.pocketaccounter.fragments.AutoMarketFragment;
@@ -51,9 +46,6 @@ import com.jim.pocketaccounter.utils.PocketAccounterGeneral;
 import com.jim.pocketaccounter.utils.navdrawer.LeftMenuAdapter;
 import com.jim.pocketaccounter.utils.navdrawer.LeftMenuItem;
 import com.jim.pocketaccounter.utils.navdrawer.LeftSideDrawer;
-import com.jim.pocketaccounter.utils.password.PasswordWindow;
-import com.jim.pocketaccounter.utils.record.RecordExpanseView;
-import com.jim.pocketaccounter.utils.record.RecordIncomesView;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -65,45 +57,26 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-
 import static android.app.Activity.RESULT_OK;
 
-/**
- * Created by DEV on 28.08.2016.
- */
 
 public class DrawerInitializer {
     private PocketAccounter pocketAccounter;
     private LeftSideDrawer drawer;
     private ListView lvLeftMenu;
     private PAFragmentManager fragmentManager;
-
-
     TextView userName, userEmail;
     com.jim.pocketaccounter.utils.CircleImageView userAvatar;
     SharedPreferences spref;
     public  SyncBase mySync;
-
-    SharedPreferences.Editor ed;
-    private RelativeLayout rlRecordsMain, rlRecordIncomes, rlRecordBalance;
-    private TextView tvRecordIncome, tvRecordBalanse, tvRecordExpanse;
-    private ImageView ivToolbarMostRight, ivToolbarExcel;
-    private RecordExpanseView expanseView;
-    private RecordIncomesView incomeView;
-    private PasswordWindow pwPassword;
-    private Spinner spToolbar;
     boolean downloadnycCanRest = true;
-    public static boolean isCalcLayoutOpen = false;
     Uri imageUri;
     ImageView fabIconFrame;
     public static final int key_for_restat = 10101;
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReferenceFromUrl("gs://pocket-accounter.appspot.com");
     DownloadImageTask imagetask;
-    View mainRoot;
     private AnimationDrawable mAnimationDrawable;
-    private NotificationManagerCredit notific;
-    boolean keyFromCalc = false;
     public static SignInGoogleMoneyHold reg;
     public DrawerInitializer(PocketAccounter pocketAccounter, PAFragmentManager fragmentManager) {
         this.pocketAccounter = pocketAccounter;
@@ -118,14 +91,9 @@ public class DrawerInitializer {
         return drawer;
     }
     private void fillNavigationDrawer() {
-        String[] cats = pocketAccounter.getResources().getStringArray(R.array.drawer_cats);
-        String[] financeSubItemTitles = pocketAccounter.getResources().getStringArray(R.array.finance_subitems);
-        String[] financeSubItemIcons = pocketAccounter.getResources().getStringArray(R.array.finance_subitem_icons);
-        String[] statisticsSubItemTitles = pocketAccounter.getResources().getStringArray(R.array.statistics_subitems);
-        String[] statisticsSubItemIcons = pocketAccounter.getResources().getStringArray(R.array.statistics_subitems_icons);
-        String[] debtSubItemTitles = pocketAccounter.getResources().getStringArray(R.array.debts_subitems);
-        String[] debtSubItemIcons = pocketAccounter.getResources().getStringArray(R.array.debts_subitem_icons);
-        List<LeftMenuItem> items = new ArrayList<>();
+        String[] drawerMenus = pocketAccounter.getResources().getStringArray(R.array.drawer_menus);
+        String[] drawerMenuIcons = pocketAccounter.getResources().getStringArray(R.array.drawer_menu_icons);
+
         spref = pocketAccounter.getSharedPreferences("infoFirst", pocketAccounter.MODE_PRIVATE);
         mySync = new SyncBase(storageRef, pocketAccounter, PocketAccounterGeneral.CURRENT_DB_NAME);
 
@@ -147,18 +115,15 @@ public class DrawerInitializer {
 
             }
         }
-
-
-
-        FABIcon fabIcon = (FABIcon) pocketAccounter.findViewById(R.id.fabDrawerNavIcon);
-        fabIconFrame = (ImageView) pocketAccounter.findViewById(R.id.iconFrameForAnim);
+        Button fabIcon = (Button) pocketAccounter.findViewById(R.id.btnFirebaseLogin);
+//        fabIconFrame = (ImageView) pocketAccounter.findViewById(R.id.iconFrameForAnim);
 
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-            fabIconFrame.setBackgroundResource(R.drawable.cloud_anim);
-            mAnimationDrawable = (AnimationDrawable) fabIconFrame.getBackground();
+//            fabIconFrame.setBackgroundResource(R.drawable.cloud_anim);
+//            mAnimationDrawable = (AnimationDrawable) fabIconFrame.getBackground();
 
         } else
-            fabIconFrame.setBackgroundResource(R.drawable.cloud_sign_in);
+//            fabIconFrame.setBackgroundResource(R.drawable.cloud_sign_in);
 
 
         reg = new SignInGoogleMoneyHold(pocketAccounter, new SignInGoogleMoneyHold.UpdateSucsess() {
@@ -184,15 +149,15 @@ public class DrawerInitializer {
                         public void onSuccses(final long inFormat) {
                             hideProgressDialog();
                             Date datee = new Date();
-                            fabIconFrame.setBackgroundResource(R.drawable.cloud_anim);
-                            mAnimationDrawable = (AnimationDrawable) fabIconFrame.getBackground();
+//                            fabIconFrame.setBackgroundResource(R.drawable.cloud_anim);
+//                            mAnimationDrawable = (AnimationDrawable) fabIconFrame.getBackground();
                             datee.setTime(inFormat);
                             final android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(pocketAccounter);
                             builder.setMessage(pocketAccounter.getString(R.string.sync_last_data_sign_up) + (new SimpleDateFormat("dd.MM.yyyy kk:mm")).format(datee))
                                     .setPositiveButton(pocketAccounter.getString(R.string.yes), new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int id) {
                                             showProgressDialog(pocketAccounter.getString(R.string.download));
-                                            mySync .downloadLast(user.getUid(), new SyncBase.ChangeStateLis() {
+                                            mySync.downloadLast(user.getUid(), new SyncBase.ChangeStateLis() {
                                                 @Override
                                                 public void onSuccses() {
                                                     pocketAccounter.runOnUiThread(new Runnable() {
@@ -234,8 +199,8 @@ public class DrawerInitializer {
                         @Override
                         public void onFailed(Exception e) {
                             hideProgressDialog();
-                            fabIconFrame.setBackgroundResource(R.drawable.cloud_anim);
-                            mAnimationDrawable = (AnimationDrawable) fabIconFrame.getBackground();
+//                            fabIconFrame.setBackgroundResource(R.drawable.cloud_anim);
+//                            mAnimationDrawable = (AnimationDrawable) fabIconFrame.getBackground();
 
                         }
                     });
@@ -262,18 +227,18 @@ public class DrawerInitializer {
                             builder.setMessage(R.string.sync_message)
                                     .setPositiveButton(R.string.sync_short, new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int id) {
-                                            mAnimationDrawable.start();
+//                                            mAnimationDrawable.start();
                                             mySync.uploadBASE(userim.getUid(), new SyncBase.ChangeStateLis() {
                                                 @Override
                                                 public void onSuccses() {
-                                                    mAnimationDrawable.stop();
-                                                    fabIconFrame.setBackgroundResource(R.drawable.cloud_sucsess);
+//                                                    mAnimationDrawable.stop();
+//                                                    fabIconFrame.setBackgroundResource(R.drawable.cloud_sucsess);
                                                     (new Handler()).postDelayed(new Runnable() {
                                                         @Override
                                                         public void run() {
 
-                                                            fabIconFrame.setBackgroundResource(R.drawable.cloud_anim);
-                                                            mAnimationDrawable = (AnimationDrawable) fabIconFrame.getBackground();
+//                                                            fabIconFrame.setBackgroundResource(R.drawable.cloud_anim);
+//                                                            mAnimationDrawable = (AnimationDrawable) fabIconFrame.getBackground();
 
                                                         }
                                                     }, 2000);
@@ -281,13 +246,13 @@ public class DrawerInitializer {
 
                                                 @Override
                                                 public void onFailed(String e) {
-                                                    mAnimationDrawable.stop();
-                                                    fabIconFrame.setBackgroundResource(R.drawable.cloud_error);
+//                                                    mAnimationDrawable.stop();
+//                                                    fabIconFrame.setBackgroundResource(R.drawable.cloud_error);
                                                     (new Handler()).postDelayed(new Runnable() {
                                                         @Override
                                                         public void run() {
-                                                            fabIconFrame.setBackgroundResource(R.drawable.cloud_anim);
-                                                            mAnimationDrawable = (AnimationDrawable) fabIconFrame.getBackground();
+//                                                            fabIconFrame.setBackgroundResource(R.drawable.cloud_anim);
+//                                                            mAnimationDrawable = (AnimationDrawable) fabIconFrame.getBackground();
 
                                                         }
                                                     }, 2000);
@@ -317,52 +282,12 @@ public class DrawerInitializer {
                 }
             }
         });
-
-        LeftMenuItem main = new LeftMenuItem(cats[0], R.drawable.drawer_home);
-        main.setGroup(true);
-        items.add(main);
-        LeftMenuItem finance = new LeftMenuItem(cats[1], R.drawable.drawer_finance);
-        finance.setGroup(true);
-        items.add(finance);
-        for (int i = 0; i < financeSubItemTitles.length; i++) {
-            int resId = pocketAccounter.getResources().getIdentifier(financeSubItemIcons[i], "drawable", pocketAccounter.getPackageName());
-            LeftMenuItem subItem = new LeftMenuItem(financeSubItemTitles[i], resId);
-            subItem.setGroup(false);
-            items.add(subItem);
+        List<LeftMenuItem> items = new ArrayList<>();
+        for (int i = 0; i < drawerMenus.length; i++) {
+            int resId = pocketAccounter.getResources().getIdentifier(drawerMenuIcons[i], "drawable", pocketAccounter.getPackageName());
+            LeftMenuItem leftMenuItem = new LeftMenuItem(drawerMenus[i], resId);
+            items.add(leftMenuItem);
         }
-        LeftMenuItem debts = new LeftMenuItem(cats[3], R.drawable.drawer_debts);
-        debts.setGroup(true);
-        items.add(debts);
-        for (int i = 0; i < debtSubItemTitles.length; i++) {
-            int resId = pocketAccounter.getResources().getIdentifier(debtSubItemIcons[i], "drawable", pocketAccounter.getPackageName());
-            LeftMenuItem subItem = new LeftMenuItem(debtSubItemTitles[i], resId);
-            subItem.setGroup(false);
-            items.add(subItem);
-        }
-        LeftMenuItem statistics = new LeftMenuItem(cats[2], R.drawable.drawer_statistics);
-        statistics.setGroup(true);
-        items.add(statistics);
-        for (int i = 0; i < statisticsSubItemTitles.length; i++) {
-            int resId = pocketAccounter.getResources().getIdentifier(statisticsSubItemIcons[i], "drawable", pocketAccounter.getPackageName());
-            LeftMenuItem subItem = new LeftMenuItem(statisticsSubItemTitles[i], resId);
-            subItem.setGroup(false);
-            items.add(subItem);
-        }
-        LeftMenuItem smsParse = new LeftMenuItem(cats[4], R.drawable.drawer_sms);
-        smsParse.setGroup(true);
-        items.add(smsParse);
-        LeftMenuItem settings = new LeftMenuItem(cats[5], R.drawable.drawer_settings);
-        settings.setGroup(true);
-        items.add(settings);
-        LeftMenuItem rateApp = new LeftMenuItem(cats[6], R.drawable.drawer_rate);
-        rateApp.setGroup(true);
-        items.add(rateApp);
-        LeftMenuItem share = new LeftMenuItem(cats[7], R.drawable.drawer_share);
-        share.setGroup(true);
-        items.add(share);
-        LeftMenuItem writeToUs = new LeftMenuItem(cats[8], R.drawable.drawer_letter_us);
-        writeToUs.setGroup(true);
-        items.add(writeToUs);
         LeftMenuAdapter adapter = new LeftMenuAdapter(pocketAccounter, items);
         lvLeftMenu.setAdapter(adapter);
         lvLeftMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -384,44 +309,33 @@ public class DrawerInitializer {
                                 fragmentManager.displayMainWindow();
                                 break;
                             case 1:
-                            case 2:
                                 fragmentManager.displayFragment(new CurrencyFragment());
                                 break;
-                            case 3:
+                            case 2:
                                 fragmentManager.displayFragment(new CategoryFragment());
                                 break;
-                            case 4:
+                            case 3:
                                 fragmentManager.displayFragment(new AccountFragment());
-                                //Accounting management
                                 break;
-                            case 5:
+                            case 4:
                                 fragmentManager.displayFragment(new PurposeFragment());
                                 break;
-                            case 6:
+                            case 5:
                                 fragmentManager.displayFragment(new AutoMarketFragment());
                                 break;
-                            case 7:
-                            case 8:
+                            case 6:
                                 fragmentManager.displayFragment(new CreditTabLay());
                                 break;
-                            case 9:
-                                fragmentManager.displayFragment(new DebtBorrowFragment());
+                            case 7:
+                                fragmentManager.displayFragment(new CreditTabLay());
                                 break;
-                            case 10:
-                            case 11:
-                                fragmentManager.displayFragment(new ReportByAccountFragment());
-                                break;
-                            case 12:
-                                fragmentManager.displayFragment(new TableBarFragment());
-                                break;
-                            case 13:
-                                fragmentManager.displayFragment(new ReportByCategory());
-                                break;
-                            case 14:
+                            case 8:
                                 fragmentManager.displayFragment(new SmsParseMainFragment());
                                 break;
-                            case 15:
-
+                            case 9:
+                                //report
+                                break;
+                            case 10:
                                 Intent zssettings = new Intent(pocketAccounter, SettingsActivity.class);
                                 PocketAccounter.openActivity=true;
                                 for (int i = 0; i < fragmentManager.getFragmentManager().getBackStackEntryCount(); i++) {
@@ -429,21 +343,14 @@ public class DrawerInitializer {
                                 }
                                 pocketAccounter.startActivityForResult(zssettings, key_for_restat);
                                 break;
-                            case 16:
+                            case 11:
                                 pocketAccounter.findViewById(R.id.change).setVisibility(View.VISIBLE);
                                 Intent rate_app_web = new Intent(Intent.ACTION_VIEW);
                                 PocketAccounter.openActivity=true;
                                 rate_app_web.setData(Uri.parse(pocketAccounter.getResources().getString(R.string.rate_app_web)));
                                 pocketAccounter.startActivity(rate_app_web);
                                 break;
-                            case 17:
-                                pocketAccounter.findViewById(R.id.change).setVisibility(View.VISIBLE);
-                                rate_app_web = new Intent(Intent.ACTION_VIEW);
-                                PocketAccounter.openActivity=true;
-                                rate_app_web.setData(Uri.parse(pocketAccounter.getString(R.string.rate_app_web)));
-                                pocketAccounter.startActivity(rate_app_web);
-                                break;
-                            case 18:
+                            case 12:
                                 pocketAccounter.findViewById(R.id.change).setVisibility(View.VISIBLE);
                                 Intent Email = new Intent(Intent.ACTION_SEND);
                                 PocketAccounter.openActivity=true;
@@ -452,11 +359,11 @@ public class DrawerInitializer {
                                 Email.putExtra(Intent.EXTRA_TEXT, pocketAccounter.getString(R.string.share_app_text));
                                 pocketAccounter.startActivity(Intent.createChooser(Email, pocketAccounter.getString(R.string.share_app)));
                                 break;
-                            case 19:
+                            case 13:
                                 pocketAccounter.findViewById(R.id.change).setVisibility(View.VISIBLE);
                                 openGmail(pocketAccounter, new String[]{pocketAccounter.getString(R.string.to_email)},
-                                            pocketAccounter.getString(R.string.feedback_subject),
-                                            pocketAccounter.getString(R.string.feedback_content));
+                                        pocketAccounter.getString(R.string.feedback_subject),
+                                        pocketAccounter.getString(R.string.feedback_content));
                                 break;
                         }
 

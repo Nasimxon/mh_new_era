@@ -13,6 +13,7 @@ import com.jim.pocketaccounter.managers.CommonOperations;
 import com.jim.pocketaccounter.managers.LogicManager;
 import com.jim.pocketaccounter.managers.PAFragmentManager;
 import com.jim.pocketaccounter.managers.ReportManager;
+import com.jim.pocketaccounter.utils.PocketAccounterGeneral;
 import com.jim.pocketaccounter.utils.cache.DataCache;
 
 import java.text.SimpleDateFormat;
@@ -40,6 +41,7 @@ public abstract class BaseBoardView extends View {
     protected int EXPENSE_BUTTONS_COUNT_PER_PAGE = 16;
     protected int setCount = 4;
     protected int currentPage = 0;
+    protected int table;
     protected final int
             LEFT_TOP_SHAPE_SHADOW = 0, LEFT_TOP_SHAPE_WHITE = 1, LEFT_TOP_SHAPE_GRADIENT = 2,
             RIGHT_TOP_SHAPE_SHADOW = 3, RIGHT_TOP_SHAPE_WHITE = 4, RIGHT_TOP_SHAPE_GRADIENT = 5,
@@ -47,33 +49,40 @@ public abstract class BaseBoardView extends View {
             RIGHT_BOTTOM_SHAPE_SHADOW = 9, RIGHT_BOTTOM_SHAPE_WHITE = 10, RIGHT_BOTTOM_SHAPE_GRADIENT = 11,
             SIMPLE_SHADOW = 12, SIMPLE_WHITE = 13, SIMPLE_GRADIENT = 14;
 
-    public BaseBoardView(Context context) {
+    public BaseBoardView(Context context, int table) {
         super(context);
         ((PocketAccounter) context).component((PocketAccounterApplication) context.getApplicationContext()).inject(this);
+        this.table = table;
         refreshPagesCount();
     }
 
-    public BaseBoardView(Context context, AttributeSet attrs) {
+    public BaseBoardView(Context context, AttributeSet attrs, int table) {
         super(context, attrs);
         ((PocketAccounter) context).component((PocketAccounterApplication) context.getApplicationContext()).inject(this);
+        this.table = table;
         refreshPagesCount();
     }
 
-    public BaseBoardView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public BaseBoardView(Context context, AttributeSet attrs, int defStyleAttr, int table) {
         super(context, attrs, defStyleAttr);
         ((PocketAccounter) context).component((PocketAccounterApplication) context.getApplicationContext()).inject(this);
+        this.table = table;
         refreshPagesCount();
     }
 
-    public BaseBoardView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public BaseBoardView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes, int table) {
         super(context, attrs, defStyleAttr, defStyleRes);
         ((PocketAccounter) context).component((PocketAccounterApplication) context.getApplicationContext()).inject(this);
+        this.table = table;
         refreshPagesCount();
     }
 
     public void refreshPagesCount() {
         setCount = sharedPreferences.getInt("key_for_window_top", 4);
-        currentPage = sharedPreferences.getInt("expense_current_page", 0);
+        if (table == PocketAccounterGeneral.EXPENSE)
+            currentPage = sharedPreferences.getInt("expense_current_page", 0);
+        else
+            currentPage = sharedPreferences.getInt("income_current_page", 0);
     }
 
 

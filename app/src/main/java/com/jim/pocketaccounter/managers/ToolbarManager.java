@@ -1,17 +1,14 @@
 package com.jim.pocketaccounter.managers;
 
 import android.content.Context;
-import android.os.Build;
+import android.content.SharedPreferences;
 import android.os.Handler;
-import android.support.annotation.RequiresApi;
-import android.support.v4.app.Fragment;
+import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -22,30 +19,26 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 
 import com.jim.pocketaccounter.PocketAccounter;
-import com.jim.pocketaccounter.PocketAccounterApplication;
 import com.jim.pocketaccounter.R;
 import com.jim.pocketaccounter.fragments.SearchFragment;
+import com.jim.pocketaccounter.utils.PocketAccounterGeneral;
+import com.jim.pocketaccounter.utils.StyleSetter;
+import com.jim.pocketaccounter.utils.Styleable;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-
 import static android.util.TypedValue.COMPLEX_UNIT_DIP;
 import static com.jim.pocketaccounter.R.color.toolbar_text_color;
 
-/**
- * Created by DEV on 28.08.2016.
- */
-
 public class ToolbarManager {
+    @Styleable(colorLayer = PocketAccounterGeneral.HEAD_COLOR)
     private Toolbar toolbar;
     private Context context;
     private ImageView ivToolbarFirst, ivToolbarSecond, ivToolbarStart;
     private Spinner spinner;
     private EditText searchEditToolbar;
-    Handler whenKeyboardClosed;
+    private Handler whenKeyboardClosed;
     public void setTitle(String title){
         toolbar.setTitle(title);
     }
@@ -60,6 +53,8 @@ public class ToolbarManager {
         ivToolbarStart = (ImageView) toolbar.findViewById(R.id.ivToolbarSearch);
         searchEditToolbar = (EditText) toolbar.findViewById(R.id.editToolbar);
         spinner = (Spinner) toolbar.findViewById(R.id.spToolbar);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        new StyleSetter(this, sharedPreferences).set();
     }
     public void init() {
         ((PocketAccounter) context).setSupportActionBar(toolbar);
