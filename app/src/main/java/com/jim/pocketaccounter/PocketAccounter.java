@@ -186,11 +186,6 @@ public class PocketAccounter extends AppCompatActivity {
 
     public void treatToolbar() {
         // toolbar set
-        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(Color.parseColor(sharedPreferences.getString(PocketAccounterGeneral.HEAD_COLOR, "#a9bebf")));
-        }
 
         toolbarManager.setImageToHomeButton(R.drawable.ic_drawer);
         toolbarManager.setTitle(getResources().getString(R.string.app_name));
