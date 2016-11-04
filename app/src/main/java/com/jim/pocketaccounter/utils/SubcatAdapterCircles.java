@@ -16,7 +16,6 @@ import javax.inject.Inject;
 
 public class SubcatAdapterCircles extends RelativeLayout {
     private ImageView ivBottom, ivMiddle;
-    @Styleable(colorLayer = PocketAccounterGeneral.HEAD_COLOR)
     private ImageView ivTop;
     @Inject
     SharedPreferences preferences;
@@ -60,10 +59,9 @@ public class SubcatAdapterCircles extends RelativeLayout {
         topLp.addRule(CENTER_IN_PARENT);
         ivTop = new ImageView(getContext());
         ivTop.setLayoutParams(topLp);
-        ivTop.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.circle));
+        ivTop.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.circle_with_head_accendent));
         addView(ivBottom);
         addView(ivMiddle);
         addView(ivTop);
-        new StyleSetter(this, preferences).set();
     }
 }

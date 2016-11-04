@@ -2,8 +2,8 @@
 <resources>
     <color name="drawer_top_background">#f1f1f1</color>
     <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#494949</color>
-    <color name="colorAccent">#7c7c7c</color>
+    <color name="colorPrimaryDark">#b8b9b9</color>
+    <color name="colorAccent">#b8b9b9</color>
     <color name="toolbar_color" type="color">#c9c8c8</color>
     <color name="grey_tem" type="color">#dedede</color>
     <color name="toolbar_text_color" type="color">#212121</color>

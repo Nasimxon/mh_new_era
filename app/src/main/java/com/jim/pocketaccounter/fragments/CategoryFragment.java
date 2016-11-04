@@ -28,8 +28,6 @@ import com.jim.pocketaccounter.managers.LogicManagerConstants;
 import com.jim.pocketaccounter.utils.FABIcon;
 import com.jim.pocketaccounter.utils.OnSubcategorySavingListener;
 import com.jim.pocketaccounter.utils.PocketAccounterGeneral;
-import com.jim.pocketaccounter.utils.StyleSetter;
-import com.jim.pocketaccounter.utils.Styleable;
 import com.jim.pocketaccounter.utils.SubCatAddEditDialog;
 
 import java.util.ArrayList;
@@ -38,7 +36,6 @@ import java.util.List;
 public class CategoryFragment extends PABaseListFragment implements OnClickListener, OnCheckedChangeListener {
 	private RecyclerView rvCategories;
 	private CheckBox chbCatIncomes, chbCatExpanses;
-	@Styleable(colorLayer = PocketAccounterGeneral.HEAD_COLOR)
 	private FABIcon fabCategoryAdd;
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -79,7 +76,6 @@ public class CategoryFragment extends PABaseListFragment implements OnClickListe
 		chbCatExpanses = (CheckBox) rootView.findViewById(R.id.chbCatExpanses);
 		chbCatExpanses.setOnCheckedChangeListener(this);
 		refreshList();
-		new StyleSetter(this, preferences).set();
 		return rootView;
 	}
 

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
@@ -15,9 +16,8 @@ import android.widget.RelativeLayout;
 
 import com.jim.pocketaccounter.PocketAccounterApplication;
 import com.jim.pocketaccounter.R;
+import com.jim.pocketaccounter.utils.GetterAttributColors;
 import com.jim.pocketaccounter.utils.PocketAccounterGeneral;
-import com.jim.pocketaccounter.utils.StyleSetter;
-import com.jim.pocketaccounter.utils.Styleable;
 
 import java.util.HashMap;
 import java.util.List;
@@ -31,9 +31,7 @@ public class DrawingSelectorView extends AbstractSelectorView {
     private Bitmap nextButtonBitmap;
     private LinearLayout left, right;
     protected RelativeLayout scene;
-    @Styleable(colorLayer = PocketAccounterGeneral.HELPER_COLOR)
     protected ImageView ivPrevious;
-    @Styleable(colorLayer = PocketAccounterGeneral.HELPER_COLOR)
     protected ImageView ivNext;
     private int arrowLayoutDefaultWidth;
     protected SelectorAdapter adapter;
@@ -66,7 +64,6 @@ public class DrawingSelectorView extends AbstractSelectorView {
         options.inPreferredConfig = Bitmap.Config.RGB_565;
         prevButtonBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.selector_arrow, options);
         nextButtonBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.selector_arrow, options);
-
         arrowLayoutDefaultWidth = (int) getResources().getDimension(R.dimen.thirtyfive_dp);
         int margin = (int) getResources().getDimension(R.dimen.fifteen_dp);
 
@@ -78,10 +75,12 @@ public class DrawingSelectorView extends AbstractSelectorView {
         ivPrevious = new ImageView(getContext());
         ivPrevious.setLayoutParams(neighborLp);
         ivPrevious.setImageBitmap(prevButtonBitmap);
+        ivPrevious.setColorFilter( GetterAttributColors.fetchHeadAccedentColor(getContext()));
         ivPrevious.setRotation(180.0f);
 
         ivNext = new ImageView(getContext());
         ivNext.setLayoutParams(neighborLp);
+        ivNext.setColorFilter( GetterAttributColors.fetchHeadAccedentColor(getContext()));
         ivNext.setImageBitmap(nextButtonBitmap);
 
         left = new LinearLayout(getContext());
@@ -101,7 +100,6 @@ public class DrawingSelectorView extends AbstractSelectorView {
         addView(left);
         addView(scene);
         addView(right);
-        new StyleSetter(this, preferences).set();
         invalidate();
     }
     public ViewGroup getLeftLayout() { return left; }

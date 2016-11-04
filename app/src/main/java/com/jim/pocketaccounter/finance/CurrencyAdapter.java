@@ -20,8 +20,6 @@ import com.jim.pocketaccounter.database.Currency;
 import com.jim.pocketaccounter.managers.CommonOperations;
 import com.jim.pocketaccounter.managers.LogicManager;
 import com.jim.pocketaccounter.utils.PocketAccounterGeneral;
-import com.jim.pocketaccounter.utils.StyleSetter;
-import com.jim.pocketaccounter.utils.Styleable;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -35,7 +33,6 @@ public class CurrencyAdapter extends BaseAdapter {
 	private LayoutInflater inflater;
 	private int mode;
 	private boolean[] selected;
-	@Styleable(colorLayer = PocketAccounterGeneral.HELPER_COLOR)
 	private ImageView ivCurrencyMain;
 	@Inject LogicManager manager;
 	@Inject CommonOperations commonOperations;
@@ -94,7 +91,6 @@ public class CurrencyAdapter extends BaseAdapter {
 				}
 			});
 		}
-		new StyleSetter(this, preferences).set();
 		return view;
 	}
 }

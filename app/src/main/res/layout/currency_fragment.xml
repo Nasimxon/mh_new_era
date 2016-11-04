@@ -17,8 +17,8 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_margin="@dimen/sixteen_dp"
-        app:fab_colorNormal="@color/green_light"
-        app:fab_colorPressed="@color/green_light_darker"
-        app:fab_colorRipple="@color/green_light_darker"
+        app:fab_colorNormal="?attr/headAccedent"
+        app:fab_colorPressed="?attr/headAccedent"
+        app:fab_colorRipple="?attr/headAccedent"
         android:src="@drawable/currency_add" />
 </RelativeLayout>

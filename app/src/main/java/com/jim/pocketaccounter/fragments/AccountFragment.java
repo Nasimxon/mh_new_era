@@ -42,8 +42,6 @@ import com.jim.pocketaccounter.managers.PAFragmentManager;
 import com.jim.pocketaccounter.managers.ReportManager;
 import com.jim.pocketaccounter.managers.ToolbarManager;
 import com.jim.pocketaccounter.utils.FABIcon;
-import com.jim.pocketaccounter.utils.StyleSetter;
-import com.jim.pocketaccounter.utils.Styleable;
 import com.jim.pocketaccounter.utils.TransferAddEditDialog;
 import com.jim.pocketaccounter.utils.TransferDialog;
 import com.jim.pocketaccounter.utils.WarningDialog;
@@ -62,7 +60,6 @@ import javax.inject.Named;
 
 @SuppressLint("InflateParams")
 public class AccountFragment extends PABaseListFragment {
-	@Styleable(colorLayer = PocketAccounterGeneral.HEAD_COLOR)
 	private FloatingActionButton fabAccountAdd;
     private RecyclerView recyclerView;
 
@@ -133,7 +130,6 @@ public class AccountFragment extends PABaseListFragment {
 			}
 		});
         refreshList();
-		new StyleSetter(this, preferences).set();
 		return rootView;
 	}
 	private boolean show = false;

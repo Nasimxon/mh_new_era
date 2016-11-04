@@ -25,8 +25,6 @@ import com.jim.pocketaccounter.managers.LogicManagerConstants;
 import com.jim.pocketaccounter.utils.FloatingActionButton;
 import com.jim.pocketaccounter.utils.PocketAccounterGeneral;
 import com.jim.pocketaccounter.utils.ScrollDirectionListener;
-import com.jim.pocketaccounter.utils.StyleSetter;
-import com.jim.pocketaccounter.utils.Styleable;
 import com.jim.pocketaccounter.utils.WarningDialog;
 
 import java.util.ArrayList;
@@ -34,7 +32,6 @@ import java.util.List;
 
 @SuppressLint("InflateParams")
 public class CurrencyFragment extends PABaseListFragment implements OnClickListener, OnItemClickListener {
-	@Styleable(colorLayer = PocketAccounterGeneral.HELPER_COLOR)
 	private FloatingActionButton fabCurrencyAdd;
 	private ListView lvCurrency;
 	private int mode = PocketAccounterGeneral.NORMAL_MODE;
@@ -106,7 +103,6 @@ public class CurrencyFragment extends PABaseListFragment implements OnClickListe
 			}
 		});
 		refreshList();
-		new StyleSetter(this, preferences).set();
 		return rootView;
 	}
 

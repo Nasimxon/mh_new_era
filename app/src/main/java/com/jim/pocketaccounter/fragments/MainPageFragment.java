@@ -24,8 +24,6 @@ import com.jim.pocketaccounter.managers.PAFragmentManager;
 import com.jim.pocketaccounter.managers.ReportManager;
 import com.jim.pocketaccounter.managers.ToolbarManager;
 import com.jim.pocketaccounter.utils.PocketAccounterGeneral;
-import com.jim.pocketaccounter.utils.StyleSetter;
-import com.jim.pocketaccounter.utils.Styleable;
 import com.jim.pocketaccounter.utils.cache.DataCache;
 import com.jim.pocketaccounter.utils.record.BalanceStripe;
 import com.jim.pocketaccounter.utils.record.BoardView;
@@ -48,7 +46,6 @@ import static com.jim.pocketaccounter.PocketAccounter.PRESSED;
 
 @SuppressLint("ValidFragment")
 public class MainPageFragment extends Fragment {
-    @Styleable(colorLayer = PocketAccounterGeneral.HEAD_COLOR)
     private LinearLayout llMainPageBackground;
     private Calendar day;
     private PocketAccounter pocketAccounter;
@@ -113,7 +110,6 @@ public class MainPageFragment extends Fragment {
             }
         });
         initialize();
-        new StyleSetter(this, preferences).set();
         return rootView;
     }
     public void initialize() {

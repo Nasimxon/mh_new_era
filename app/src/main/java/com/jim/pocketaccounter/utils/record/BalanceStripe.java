@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.AttributeSet;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -12,8 +13,6 @@ import com.jim.pocketaccounter.R;
 import com.jim.pocketaccounter.managers.CommonOperations;
 import com.jim.pocketaccounter.managers.ReportManager;
 import com.jim.pocketaccounter.utils.PocketAccounterGeneral;
-import com.jim.pocketaccounter.utils.StyleSetter;
-import com.jim.pocketaccounter.utils.Styleable;
 import com.jim.pocketaccounter.utils.cache.DataCache;
 
 import java.text.DecimalFormat;
@@ -34,9 +33,8 @@ public class BalanceStripe extends LinearLayout {
     private TextView tvBalanceIncome, tvBalanceExpense, tvBalanceBalance;
     private Calendar day;
     private LinearLayout llNotImportant;
-    @Styleable(colorLayer = PocketAccounterGeneral.HEAD_COLOR)
     private LinearLayout llBalanceStripeBackground;
-
+    private FrameLayout paddingIskustvenno;
     public BalanceStripe(Context context, Calendar day) {
         super(context);
         ((PocketAccounterApplication) context.getApplicationContext()).component().inject(this);
@@ -68,11 +66,12 @@ public class BalanceStripe extends LinearLayout {
         tvBalanceExpense = (TextView) findViewById(R.id.tvBalanceExpense);
         tvBalanceBalance = (TextView) findViewById(R.id.tvBalanceBalance);
         llNotImportant = (LinearLayout) findViewById(R.id.llNotImportant);
+        paddingIskustvenno = (FrameLayout) findViewById(R.id.paddingIskustvenniy);
         llBalanceStripeBackground = (LinearLayout) findViewById(R.id.llBalanceStripeBackground);
-        new StyleSetter(this, preferences).set();
     }
-    public void hideNotImportantPart() { llNotImportant.setVisibility(GONE); }
-    public void showNotImportantPart() { llNotImportant.setVisibility(VISIBLE); }
+    public void hideNotImportantPart() { llNotImportant.setVisibility(GONE);
+        paddingIskustvenno.setVisibility(VISIBLE);}
+    public void showNotImportantPart() { llNotImportant.setVisibility(VISIBLE); paddingIskustvenno.setVisibility(GONE); }
     public void calculateBalance() {
         String mode = preferences.getString("balance_solve", "0");
         end.setTimeInMillis(day.getTimeInMillis());

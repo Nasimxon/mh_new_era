@@ -8,6 +8,7 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.jim.pocketaccounter.PocketAccounter;
 import com.jim.pocketaccounter.R;
@@ -23,7 +24,7 @@ import java.util.Calendar;
 public class DatePicker extends Dialog {
 
     private View dialogView;
-    private ImageView ivDatePickOk;
+    private TextView ivDatePickOk;
     private android.widget.DatePicker dp;
     public DatePicker(Context context) {
         super(context);
@@ -31,7 +32,7 @@ public class DatePicker extends Dialog {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(dialogView);
         dp = (android.widget.DatePicker) dialogView.findViewById(R.id.dp);
-        ivDatePickOk = (ImageView) dialogView.findViewById(R.id.ivDatePickOk);
+        ivDatePickOk = (TextView) dialogView.findViewById(R.id.ivDatePickOk);
 
         ImageView ivDatePickCancel = (ImageView) dialogView.findViewById(R.id.ivDatePickCancel);
         ivDatePickCancel.setOnClickListener(new View.OnClickListener() {

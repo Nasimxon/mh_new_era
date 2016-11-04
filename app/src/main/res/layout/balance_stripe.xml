@@ -8,21 +8,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+
         android:background="@drawable/frameshadow">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:layout_marginBottom="@dimen/five_dp"
             android:layout_marginTop="@dimen/ten_dp">
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/fifteen_sp"
                 android:layout_gravity="center_vertical">
                 <ImageView
                     android:layout_width="@dimen/fifteen_dp"
-                    android:layout_height="@dimen/fifteen_dp"
+                    android:layout_height="4px"
+                    android:scaleType="fitXY"
+
                     android:layout_gravity="center_vertical"
-                    android:src="@drawable/stripe"/>
+                    android:src="@drawable/line_with_wihte_shadow"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -53,6 +57,12 @@
                         android:layout_weight="1"
                         android:gravity="center"/>
                 </LinearLayout>
+                <FrameLayout
+                    android:layout_width="2px"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/five_dp"
+                    android:layout_marginBottom="@dimen/five_dp"
+                    android:background="#e1e1e1"/>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -76,6 +86,12 @@
                         android:layout_weight="1"
                         android:gravity="center"/>
                 </LinearLayout>
+                <FrameLayout
+                    android:layout_width="2px"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/five_dp"
+                    android:layout_marginBottom="@dimen/five_dp"
+                    android:background="#e1e1e1"/>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -102,34 +118,43 @@
             </LinearLayout>
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/fifteen_sp"
                 android:layout_gravity="center_vertical">
                 <ImageView
                     android:layout_width="@dimen/fifteen_dp"
-                    android:layout_height="@dimen/fifteen_dp"
+                    android:layout_height="4px"
+                    android:scaleType="fitXY"
+
                     android:layout_gravity="center_vertical"
-                    android:src="@drawable/stripe"/>
+                    android:src="@drawable/line_with_wihte_shadow"/>
             </LinearLayout>
         </LinearLayout>
+        <FrameLayout
+            android:id="@+id/paddingIskustvenniy"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/five_dp"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/llNotImportant"
             android:orientation="horizontal"
-            android:layout_marginTop="@dimen/five_dp"
-            android:layout_marginBottom="@dimen/five_dp">
+            android:visibility="visible"
+            >
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/ten_dp"
+                android:gravity="right"
                 android:layout_weight="1">
                 <ImageView
                     android:layout_width="@dimen/fifty_dp"
-                    android:layout_height="@dimen/fifteen_dp"
-                    android:layout_gravity="center_vertical|right"
-                    android:src="@drawable/stripe"/>
+                    android:layout_height="4px"
+                    android:scaleType="fitXY"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/line_with_wihte_shadow"/>
             </LinearLayout>
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:gravity="center"
@@ -138,12 +163,14 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/ten_dp"
                 android:layout_weight="1">
                 <ImageView
                     android:layout_width="@dimen/fifty_dp"
-                    android:layout_height="@dimen/fifteen_dp"
+                    android:layout_height="4px"
                     android:layout_gravity="center"
-                    android:src="@drawable/stripe"/>
+                    android:scaleType="fitXY"
+                    android:src="@drawable/line_with_wihte_shadow"/>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

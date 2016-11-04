@@ -22,8 +22,6 @@ import com.jim.pocketaccounter.PocketAccounter;
 import com.jim.pocketaccounter.R;
 import com.jim.pocketaccounter.fragments.SearchFragment;
 import com.jim.pocketaccounter.utils.PocketAccounterGeneral;
-import com.jim.pocketaccounter.utils.StyleSetter;
-import com.jim.pocketaccounter.utils.Styleable;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -32,7 +30,6 @@ import static android.util.TypedValue.COMPLEX_UNIT_DIP;
 import static com.jim.pocketaccounter.R.color.toolbar_text_color;
 
 public class ToolbarManager {
-    @Styleable(colorLayer = PocketAccounterGeneral.HEAD_COLOR)
     private Toolbar toolbar;
     private Context context;
     private ImageView ivToolbarFirst, ivToolbarSecond, ivToolbarStart;
@@ -54,7 +51,6 @@ public class ToolbarManager {
         searchEditToolbar = (EditText) toolbar.findViewById(R.id.editToolbar);
         spinner = (Spinner) toolbar.findViewById(R.id.spToolbar);
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        new StyleSetter(this, sharedPreferences).set();
     }
     public void init() {
         ((PocketAccounter) context).setSupportActionBar(toolbar);

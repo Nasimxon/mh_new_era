@@ -49,7 +49,7 @@ public class SubcatItemChecker extends LinearLayout {
         LayoutInflater.from(context).inflate(R.layout.sub_cat_item_cheker, this, true);
         imageView = (ImageView) findViewById(R.id.ivSubcatChecker);
         textView = (TextView) findViewById(R.id.tvSubcatChecker);
-        color = Color.parseColor(preferences.getString(PocketAccounterGeneral.HELPER_COLOR, "#d4d125"));
+        color = GetterAttributColors.fetchHeadAccedentColor(context);
         setClickable(true);
         setOnClickListener(new OnClickListener() {
             @Override

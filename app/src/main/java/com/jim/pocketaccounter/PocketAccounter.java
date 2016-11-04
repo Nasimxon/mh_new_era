@@ -19,6 +19,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.jim.pocketaccounter.credit.notificat.NotificationManagerCredit;
 import com.jim.pocketaccounter.database.DaoSession;
@@ -34,8 +35,7 @@ import com.jim.pocketaccounter.modulesandcomponents.components.DaggerPocketAccou
 import com.jim.pocketaccounter.modulesandcomponents.components.PocketAccounterActivityComponent;
 import com.jim.pocketaccounter.modulesandcomponents.modules.PocketAccounterActivityModule;
 import com.jim.pocketaccounter.utils.PocketAccounterGeneral;
-import com.jim.pocketaccounter.utils.StyleSetter;
-import com.jim.pocketaccounter.utils.Styleable;
+
 import com.jim.pocketaccounter.utils.WarningDialog;
 import com.jim.pocketaccounter.utils.cache.DataCache;
 import com.jim.pocketaccounter.utils.password.OnPasswordRightEntered;
@@ -88,6 +88,7 @@ public class PocketAccounter extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(null);
+        setTheme(R.style.YellowTheme);
         setContentView(R.layout.pocket_accounter);
         component((PocketAccounterApplication) getApplication()).inject(this);
         String lang = preferences.getString("language", getResources().getString(R.string.language_default));
@@ -197,7 +198,7 @@ public class PocketAccounter extends AppCompatActivity {
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog.setContentView(dialogView);
                 final DatePicker dp = (DatePicker) dialogView.findViewById(R.id.dp);
-                ImageView ivDatePickOk = (ImageView) dialogView.findViewById(R.id.ivDatePickOk);
+                TextView ivDatePickOk = (TextView) dialogView.findViewById(R.id.ivDatePickOk);
                 ivDatePickOk.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -239,7 +240,7 @@ public class PocketAccounter extends AppCompatActivity {
                         dialog.dismiss();
                     }
                 });
-                ImageView ivDatePickCancel = (ImageView) dialogView.findViewById(R.id.ivDatePickCancel);
+                TextView ivDatePickCancel = (TextView) dialogView.findViewById(R.id.ivDatePickCancel);
                 ivDatePickCancel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

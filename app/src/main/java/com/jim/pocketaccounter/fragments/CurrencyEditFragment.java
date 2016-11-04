@@ -145,7 +145,7 @@ public class CurrencyEditFragment extends PABaseInfoFragment implements OnClickL
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog.setContentView(dialogView);
                 final DatePicker dp = (DatePicker) dialogView.findViewById(R.id.dp);
-                ImageView ivDatePickOk = (ImageView) dialogView.findViewById(R.id.ivDatePickOk);
+                TextView ivDatePickOk = (TextView) dialogView.findViewById(R.id.ivDatePickOk);
                 ivDatePickOk.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
