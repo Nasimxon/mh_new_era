@@ -37,6 +37,7 @@ public class ToolbarManager {
     private Context context;
     private ImageView ivToolbarFirst, ivToolbarSecond, ivToolbarStart;
     private Spinner spinner;
+    private Spinner spTest;
     private EditText searchEditToolbar;
     private Handler whenKeyboardClosed;
     public void setTitle(String title){
@@ -53,8 +54,12 @@ public class ToolbarManager {
         ivToolbarStart = (ImageView) toolbar.findViewById(R.id.ivToolbarSearch);
         searchEditToolbar = (EditText) toolbar.findViewById(R.id.editToolbar);
         spinner = (Spinner) toolbar.findViewById(R.id.spToolbar);
+        spTest = (Spinner) toolbar.findViewById(R.id.spTest);
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         new StyleSetter(this, sharedPreferences).set();
+    }
+    public Spinner getSpTest () {
+        return spTest;
     }
     public void init() {
         ((PocketAccounter) context).setSupportActionBar(toolbar);
@@ -77,6 +82,7 @@ public class ToolbarManager {
 
     public void setOnHomeButtonClickListener(View.OnClickListener listener) {
         toolbar.setNavigationOnClickListener(listener);
+
     }
     public void setToolbarIconsVisibility(int start, int first, int second) {
         ivToolbarFirst.setVisibility(first);

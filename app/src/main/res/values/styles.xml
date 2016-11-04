@@ -11,8 +11,11 @@
         <item name="colorControlActivated">@color/green_light</item>
         <item name="colorControlHighlight">@color/colorAccent</item>
         <item name="android:preferenceCategoryStyle">@style/PreferenceCategoryStyle</item>
+        <item name="android:popupMenuStyle">@style/PopupMenu</item>
     </style>
-
+    <style name="PopupMenu" parent="@android:style/Widget.PopupMenu">
+        <item name="android:popupBackground">@android:color/white</item>
+    </style>
     <style name="PreferenceCategoryStyle" >
         <item name="android:layout">@layout/my_pref_layout</item>
     </style>
@@ -45,5 +48,9 @@
 
     <style name="FlatButton" parent="Theme.AppCompat.Light">
         <item name="colorControlHighlight">@color/green_light</item>
+    </style>
+
+    <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">@dimen/fourteen_sp</item>
     </style>
 </resources>
