@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +16,7 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.DatePicker;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -42,6 +45,7 @@ import com.jim.pocketaccounter.utils.password.OnPasswordRightEntered;
 import com.jim.pocketaccounter.utils.password.PasswordWindow;
 import com.jim.pocketaccounter.widget.WidgetKeys;
 import com.jim.pocketaccounter.widget.WidgetProvider;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -62,16 +66,27 @@ public class PocketAccounter extends AppCompatActivity {
     public static boolean PRESSED = false;
     int WidgetID;
     public static boolean keyboardVisible = false;
-    @Inject PAFragmentManager paFragmentManager;
-    @Inject DaoSession daoSession;
-    @Inject SharedPreferences preferences;
-    @Inject ToolbarManager toolbarManager;
-    @Inject SettingsManager settingsManager;
-    @Inject @Named(value = "display_formatter") SimpleDateFormat format;
-    @Inject DrawerInitializer drawerInitializer;
-    @Inject CommonOperations commonOperations;
-    @Inject DataCache dataCache;
-    @Inject SharedPreferences sharedPreferences;
+    @Inject
+    PAFragmentManager paFragmentManager;
+    @Inject
+    DaoSession daoSession;
+    @Inject
+    SharedPreferences preferences;
+    @Inject
+    ToolbarManager toolbarManager;
+    @Inject
+    SettingsManager settingsManager;
+    @Inject
+    @Named(value = "display_formatter")
+    SimpleDateFormat format;
+    @Inject
+    DrawerInitializer drawerInitializer;
+    @Inject
+    CommonOperations commonOperations;
+    @Inject
+    DataCache dataCache;
+    @Inject
+    SharedPreferences sharedPreferences;
     PocketAccounterActivityComponent component;
 
     public PocketAccounterActivityComponent component(PocketAccounterApplication application) {
@@ -100,12 +115,9 @@ public class PocketAccounter extends AppCompatActivity {
             try {
                 Intent first = new Intent(this, IntroIndicator.class);
                 PocketAccounter.openActivity = true;
-
                 startActivity(first);
                 finish();
-            } finally {
-
-            }
+            } finally {}
         }
         notific = new NotificationManagerCredit(PocketAccounter.this);
         toolbarManager.init();
@@ -174,6 +186,12 @@ public class PocketAccounter extends AppCompatActivity {
 
     public void treatToolbar() {
         // toolbar set
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(Color.parseColor(sharedPreferences.getString(PocketAccounterGeneral.HEAD_COLOR, "#a9bebf")));
+        }
+
         toolbarManager.setImageToHomeButton(R.drawable.ic_drawer);
         toolbarManager.setTitle(getResources().getString(R.string.app_name));
         toolbarManager.setSubtitle(format.format(dataCache.getEndDate().getTime()));
@@ -319,8 +337,7 @@ public class PocketAccounter extends AppCompatActivity {
         WidgetID = sPref.getInt(WidgetKeys.SPREF_WIDGET_ID, -1);
         if (WidgetID >= 0) {
             if (AppWidgetManager.INVALID_APPWIDGET_ID != WidgetID)
-                WidgetProvider.updateWidget(this, AppWidgetManager.getInstance(this),
-                        WidgetID);
+                WidgetProvider.updateWidget(this, AppWidgetManager.getInstance(this), WidgetID);
         }
         drawerInitializer.onStopSuniy();
     }
@@ -339,7 +356,6 @@ public class PocketAccounter extends AppCompatActivity {
                 public void onPasswordRight() {
                     pwPassword.setVisibility(View.GONE);
                 }
-
                 @Override
                 public void onExit() {
                     finish();
@@ -360,7 +376,8 @@ public class PocketAccounter extends AppCompatActivity {
                     if (AppWidgetManager.INVALID_APPWIDGET_ID != WidgetID)
                         WidgetProvider.updateWidget(this, AppWidgetManager.getInstance(this),
                                 WidgetID);
-                } catch (Exception e) {}
+                } catch (Exception e) {
+                }
             }
             finish();
         }

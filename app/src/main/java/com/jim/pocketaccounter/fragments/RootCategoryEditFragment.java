@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -19,11 +20,13 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -85,6 +88,7 @@ public class RootCategoryEditFragment extends PABaseInfoFragment implements OnCl
         toolbarManager.setSubtitle(getResources().getString(R.string.edit));
         toolbarManager.setImageToSecondImage(R.drawable.check_sign);
         toolbarManager.setOnSecondImageClickListener(this);
+
         toolbarManager.setOnHomeButtonClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -115,6 +119,7 @@ public class RootCategoryEditFragment extends PABaseInfoFragment implements OnCl
         etCatEditName = (EditText) rootView.findViewById(R.id.etAccountEditName);
         chbCatEditExpanse = (CheckBox) rootView.findViewById(R.id.chbCatEditExpanse);
         chbCatEditIncome = (CheckBox) rootView.findViewById(R.id.chbCatEditIncome);
+
         if (editMode == PocketAccounterGeneral.EXPANSE_MODE) {
             chbCatEditExpanse.setChecked(true);
             chbCatEditIncome.setChecked(false);
@@ -197,6 +202,20 @@ public class RootCategoryEditFragment extends PABaseInfoFragment implements OnCl
     private void refreshSubCatList() {
         SubcatAdapter adapter = new SubcatAdapter(subCategories);
         rvSubcats.setAdapter(adapter);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        Log.d("nnn", "ishladi");
+        if (subCategories != null) {
+            for (int i = 0; i < subCategories.size(); i++) {
+                if (subCategories.get(i) == null) {
+                    subCategories.remove(i);
+                    i--;
+                }
+            }
+        }
     }
 
     @Override
