@@ -327,7 +327,7 @@ public class DrawerInitializer {
                                 fragmentManager.displayFragment(new CreditTabLay());
                                 break;
                             case 7:
-                                fragmentManager.displayFragment(new CreditTabLay());
+                                fragmentManager.displayFragment(new DebtBorrowFragment());
                                 break;
                             case 8:
                                 fragmentManager.displayFragment(new SmsParseMainFragment());

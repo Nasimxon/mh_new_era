@@ -9,6 +9,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.view.menu.MenuBuilder;
+import android.support.v7.view.menu.MenuPopupHelper;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
@@ -42,6 +44,7 @@ import com.jim.pocketaccounter.utils.catselector.OnItemSelectedListener;
 import com.jim.pocketaccounter.utils.catselector.SelectorView;
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -150,6 +153,8 @@ public class CategoryInfoFragment extends PABaseInfoFragment {
     private void showOperationsList(View v) {
         popupMenu = new PopupMenu(getContext(), v);
         popupMenu.inflate(R.menu.toolbar_popup);
+        MenuPopupHelper menuHelper = new MenuPopupHelper(getContext(), (MenuBuilder) popupMenu.getMenu(), v);
+        menuHelper.setForceShowIcon(true);
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -240,6 +245,7 @@ public class CategoryInfoFragment extends PABaseInfoFragment {
         rvCategoryInfoOperations.setAdapter(accountOperationsAdapter);
         DecimalFormat format = new DecimalFormat("0.##");
         double total = 0.0d;
+
         for (FinanceRecord record : objects) {
             if (record.getCategory().getType() == PocketAccounterGeneral.INCOME)
                 total += commonOperations.getCost(record);
@@ -265,7 +271,8 @@ public class CategoryInfoFragment extends PABaseInfoFragment {
         }
 
         public void onBindViewHolder(final CategoryInfoFragment.ViewHolder view, final int position) {
-            view.tvAccountInfoDate.setText(dateFormat.format(result.get(position).getDate().getTime()));
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
+            view.tvAccountInfoDate.setText(simpleDateFormat.format(result.get(position).getDate().getTime()));
             String text = result.get(position).getCategory().getName();
             if (result.get(position).getSubCategory() != null)
                 text += ", " + result.get(position).getSubCategory().getName();

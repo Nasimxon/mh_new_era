@@ -128,7 +128,6 @@ public class RootCategoryEditFragment extends PABaseInfoFragment implements OnCl
         if (editMode == PocketAccounterGeneral.INCOME_MODE) {
             chbCatEditExpanse.setChecked(false);
             chbCatEditIncome.setChecked(true);
-
         }
         chbCatEditExpanse.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
