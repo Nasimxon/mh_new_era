@@ -11,8 +11,9 @@
         <item name="colorControlActivated">@color/colorAccent</item>
         <item name="colorControlHighlight">@color/colorAccent</item>
         <item name="android:preferenceCategoryStyle">@style/PreferenceCategoryStyle</item>
+        <item name="android:actionBarSize">64dp</item>
+        <item name="actionBarSize">64dp</item>
     </style>
-
 
 
     <style name="MainTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -28,6 +29,8 @@
         <item name="colorControlActivated">@color/colorAccent</item>
         <item name="colorControlHighlight">@color/colorAccent</item>
         <item name="android:preferenceCategoryStyle">@style/PreferenceCategoryStyle</item>
+        <item name="android:actionBarSize">64dp</item>
+        <item name="actionBarSize">64dp</item>
     </style>
 
     <style name="FiolaTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -43,7 +46,8 @@
         <item name="colorControlActivated">@color/colorAccent</item>
         <item name="colorControlHighlight">@color/colorAccent</item>
         <item name="android:preferenceCategoryStyle">@style/PreferenceCategoryStyle</item>
-    </style>
+        <item name="android:actionBarSize">64dp</item>
+        <item name="actionBarSize">64dp</item></style>
 
     <style name="YellowTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
@@ -61,6 +65,8 @@
         <item name="colorControlHighlight">@color/colorAccent</item>
         <item name="android:preferenceCategoryStyle">@style/PreferenceCategoryStyle</item>
         <item name="android:popupMenuStyle">@style/PopupMenu</item>
+        <item name="android:actionBarSize">130dp</item>
+        <!--<item name="actionBarSize">130dp</item>-->
     </style>
     <style name="PopupMenu" parent="@android:style/Widget.PopupMenu">
         <item name="android:popupBackground">@android:color/white</item>

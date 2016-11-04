@@ -42,6 +42,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingTop="@dimen/sevent_dp"
+        android:overScrollMode="never"
         android:clipToPadding="false"
         android:id="@+id/rvCategories"
         android:layout_below="@+id/llCategoryCheckboxes"

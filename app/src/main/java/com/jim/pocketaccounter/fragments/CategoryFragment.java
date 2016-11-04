@@ -169,7 +169,7 @@ public class CategoryFragment extends PABaseListFragment implements OnClickListe
 					paFragmentManager.displayFragment(new RootCategoryEditFragment(result.get(position), PocketAccounterGeneral.NO_MODE, 0, null));
 				}
 			});
-			view.ivCategoryInfo.setOnClickListener(new OnClickListener() {
+			view.itemView.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					paFragmentManager.displayFragment(new CategoryInfoFragment(result.get(position)));
@@ -183,13 +183,11 @@ public class CategoryFragment extends PABaseListFragment implements OnClickListe
 	}
 
 	public class ViewHolder extends RecyclerView.ViewHolder {
-		ImageView ivCategoryInfo;
 		ImageView ivCategoryItem;
 		TextView tvCategoryListItemName;
 		LinearLayout llCategoryListItemAdd, llCategoryListItemEdit;
 		public ViewHolder(View view) {
 			super(view);
-			ivCategoryInfo = (ImageView) view.findViewById(R.id.ivCategoryInfo);
 			ivCategoryItem = (ImageView) view.findViewById(R.id.ivCategoryItem);
 			tvCategoryListItemName = (TextView) view.findViewById(R.id.tvCategoryListItemName);
 			llCategoryListItemAdd = (LinearLayout) view.findViewById(R.id.llCategoryListItemAdd);
