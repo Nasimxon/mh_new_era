@@ -4,11 +4,9 @@
     package="com.jim.pocketaccounter"
     android:versionCode="22"
     android:versionName="v7.00">
-
     <uses-sdk
         android:minSdkVersion="9"
         android:targetSdkVersion="23" />
-
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -25,6 +23,7 @@
     <uses-permission android:name="android.permission.WRITE_SMS" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.intent.action.DATE_CHANGED" />
+    <uses-permission android:name="com.android.vending.BILLING" />
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />

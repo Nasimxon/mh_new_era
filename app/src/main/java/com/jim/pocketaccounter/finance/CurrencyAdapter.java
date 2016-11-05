@@ -42,7 +42,7 @@ public class CurrencyAdapter extends BaseAdapter {
 	    this.selected = selected;
 	    this.mode = mode;
 		((PocketAccounter) context).component((PocketAccounterApplication) context.getApplicationContext()).inject(this);
-	    inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 	@Override
 	public int getCount() {
