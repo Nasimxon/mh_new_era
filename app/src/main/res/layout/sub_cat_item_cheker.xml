@@ -19,5 +19,5 @@
         android:gravity="center"
         android:layout_marginBottom="@dimen/five_dp"
         android:textSize="@dimen/ten_dp"
-        android:textColor="@color/toolbar_color"/>
+        android:textColor="@color/black_for_maykiy_secodary"/>
 </LinearLayout>

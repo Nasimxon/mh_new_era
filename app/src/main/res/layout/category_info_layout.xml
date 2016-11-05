@@ -16,12 +16,12 @@
             android:layout_height="wrap_content"
             android:id="@+id/svCategorySelector"
             android:layout_gravity="center"
-            android:layout_marginBottom="@dimen/five_dp"/>
+            />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/ten_dp"
-            android:textColor="@color/toolbar_color"
+            android:textSize="@dimen/twelve_dp"
+            android:textColor="@color/black_for_maykiy_secodary"
             android:layout_gravity="center"
             android:gravity="center"
             android:text="@string/sub_cats"
@@ -29,10 +29,15 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="2px"
+            android:layout_marginTop="@dimen/three_dp"
+            android:layout_marginRight="@dimen/fourty_dp"
+            android:layout_marginLeft="@dimen/fourty_dp"
+
             android:background="@color/green_light_forline"/>
         <android.support.v7.widget.RecyclerView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+
             android:id="@+id/rvCatInfoSubcats"
             android:overScrollMode="never"
             android:layout_gravity="center_horizontal"/>
@@ -47,38 +52,47 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/fifteen_dp"
-            android:layout_marginRight="@dimen/fifteen_dp"
-            android:layout_marginTop="@dimen/fifteen_dp"
-            android:background="@drawable/cat_info_bottom"
+            android:layout_marginLeft="@dimen/five_dp"
+            android:layout_marginRight="@dimen/five_dp"
+            android:layout_marginTop="@dimen/eight_dp"
+            android:background="@drawable/inforeportrectangle"
             android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/ten_dp"
+                android:layout_marginBottom="@dimen/five_dp"
+                android:orientation="horizontal"
                 android:layout_marginRight="@dimen/ten_dp">
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/date"
+                    android:textSize="@dimen/fourteen_dp"
+                    android:textColor="@color/black_for_myagkiy_glavniy"
                     android:gravity="left"
-                    android:layout_weight="1.25"/>
+                    android:layout_weight="1"/>
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/name"
+                    android:textSize="@dimen/fourteen_dp"
+                    android:textColor="@color/black_for_myagkiy_glavniy"
                     android:gravity="center"
                     android:layout_weight="1"/>
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/amount"
                     android:gravity="right"
-                    android:layout_weight="1.25"/>
+                    android:textSize="@dimen/fourteen_dp"
+                    android:textColor="@color/black_for_myagkiy_glavniy"
+                    android:layout_weight="1"/>
             </LinearLayout>
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="2px"
+                android:layout_marginBottom="@dimen/five_dp"
                 android:background="@color/green_light_forline"/>
             <android.support.v7.widget.RecyclerView
                 android:layout_width="match_parent"
@@ -95,9 +109,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
+                android:textColor="@color/black_for_myagkiy_glavniy"
                 android:text="@string/total"
-                android:textSize="@dimen/ten_dp"
-                android:layout_marginRight="@dimen/sixteen_dp"
+                android:textSize="@dimen/twelve_dp"
+                android:layout_marginRight="@dimen/ten_dp"
                 android:layout_marginBottom="@dimen/five_dp"
                 android:layout_marginTop="@dimen/five_dp"
                 android:id="@+id/tvCategoryInfoTotal"/>

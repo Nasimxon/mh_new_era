@@ -8,9 +8,9 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginTop="@dimen/fifteen_dp"
-        android:layout_marginLeft="@dimen/fifteen_dp"
-        android:layout_marginRight="@dimen/fifteen_dp"
-        android:layout_marginBottom="@dimen/five_dp">
+        android:layout_marginLeft="@dimen/twentyfive_dp"
+        android:layout_marginRight="@dimen/twentyfive_dp"
+        >
         <ImageView
             android:layout_width="@dimen/eighty_dp"
             android:layout_height="@dimen/eighty_dp"
@@ -21,7 +21,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/tvCatSelectorItem"
             android:layout_gravity="center"
-            android:layout_marginTop="@dimen/ten_dp"
-            android:textSize="@dimen/sixteen_dp"/>
+            android:layout_marginTop="@dimen/five_dp"
+            android:textColor="@color/black_for_myagkiy_glavniy"
+            android:textSize="@dimen/twenty_dp"/>
     </LinearLayout>
 </LinearLayout>

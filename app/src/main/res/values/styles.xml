@@ -69,7 +69,6 @@
     <style name="PopupMenu" parent="@android:style/Widget.PopupMenu">
         <item name="android:popupBackground">@android:color/white</item>
     </style>
-
     <style name="PreferenceCategoryStyle" >
         <item name="android:layout">@layout/my_pref_layout</item>
     </style>
@@ -88,6 +87,7 @@
     <style name="MineCustomTabText" parent="TextAppearance.Design.Tab">
         <item name="android:textSize">@dimen/twelve_sp</item>
     </style>
+
 
     <style name="boldText">
         <item name="android:textStyle">bold|italic</item>

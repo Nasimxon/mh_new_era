@@ -320,6 +320,7 @@ public class CategoryInfoFragment extends PABaseInfoFragment {
 
         public void onBindViewHolder(final CategoryInfoFragment.SubcatViewHolder view, final int position) {
             if (position == 0) {
+
                 view.sichCatInfo.setSubCategory(result.get(position));
                 view.sichCatInfo.setChecked(subcatChecked[position]);
                 view.sichCatInfo.setOnCheckedChangeListener(new OnCheckedChangeListener() {

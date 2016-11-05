@@ -331,7 +331,7 @@ public class DecorationBoardView extends BaseBoardView {
 
         public ABoardButton container(RectF container) {
             this.container = container;
-            iconSize = container.width() / 3;
+            iconSize = container.width() / 2.4f;
             return this;
         }
 

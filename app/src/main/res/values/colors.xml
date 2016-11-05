@@ -39,7 +39,9 @@
     <color name="red" type="color">#d60810</color>
     <color name="green_just" type="color">#29952e</color>
     <color name="black_for_glavniy_text" type="color">#212121</color>
+    <color name="black_for_myagkiy_glavniy" type="color">#212121</color>
     <color name="black_for_secondary_text" type="color">#838383</color>
+    <color name="black_for_maykiy_secodary" type="color">#969696</color>
     <color name="forlines" type="color">#494949</color>
     <color name="grey_light2" type="color">#fafffd</color>
     <color name="gold" type="color">#CF9D22</color>
