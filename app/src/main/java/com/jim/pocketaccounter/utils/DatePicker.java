@@ -34,13 +34,13 @@ public class DatePicker extends Dialog {
         dp = (android.widget.DatePicker) dialogView.findViewById(R.id.dp);
         ivDatePickOk = (TextView) dialogView.findViewById(R.id.ivDatePickOk);
 
-        ImageView ivDatePickCancel = (ImageView) dialogView.findViewById(R.id.ivDatePickCancel);
-        ivDatePickCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        });
+//        ImageView ivDatePickCancel = (ImageView) dialogView.findViewById(R.id.ivDatePickCancel);
+//        ivDatePickCancel.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                dismiss();
+//            }
+//        });
     }
 
     public DatePicker(Context context, int themeResId) {

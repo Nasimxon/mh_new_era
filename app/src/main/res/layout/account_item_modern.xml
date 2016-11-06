@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:layout_marginBottom="@dimen/two_dp"
+    android:layout_marginLeft="@dimen/five_dp"
+    android:layout_marginRight="@dimen/five_dp"
+    android:layout_marginTop="@dimen/two_dp"
+    android:background="#6b6969"
+    card:cardCornerRadius="@dimen/eight_dp"
+    card:cardElevation="@dimen/five_dp"
+    card:cardMaxElevation="@dimen/ten_dp">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/ten_dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/ten_dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:layout_marginTop="@dimen/ten_dp"
+                    >
+
+                    <ImageView
+                        android:id="@+id/ivAccountItemSendPurpose"
+                        android:layout_width="@dimen/thirty_dp"
+                        android:layout_height="@dimen/thirty_dp"
+                        android:tint="#979797"
+                        android:src="@drawable/drawer_categoryreport" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/five_dp"
+                        android:gravity="center"
+                        android:text="send \npurpose"
+                        android:textColor="#aeaaaa" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/ten_dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/ivAccountItemCurrent"
+                        android:layout_width="@dimen/fifty_dp"
+                        android:layout_height="@dimen/fifty_dp"
+                        android:src="@drawable/drawer_categoryreport" />
+
+                    <TextView
+                        android:id="@+id/tvAccountItemName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/five_dp"
+                        android:gravity="center"
+                        android:text="Account \nName"
+                        android:textSize="@dimen/sixteen_sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginTop="@dimen/ten_dp"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/ivAccountItemExchange"
+                        android:layout_width="@dimen/thirty_dp"
+                        android:tint="#979797"
+                        android:layout_height="@dimen/thirty_dp"
+                        android:src="@drawable/drawer_categoryreport" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/five_dp"
+                        android:gravity="center"
+                        android:text="Exchange \nother account"
+                        android:textColor="#aeaaaa" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/twelve_sp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="income"
+                        android:textColor="#aeaaaa"
+                        android:textSize="@dimen/fiveteen_dp" />
+
+                    <TextView
+                        android:id="@+id/tvAccountItemIncome"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/five_dp"
+                        android:text="5000"
+                        android:textColor="@color/green_just"
+                        android:textSize="@dimen/fiveteen_dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="balance"
+                        android:textColor="#aeaaaa"
+                        android:textSize="@dimen/fourteen_dp" />
+
+                    <TextView
+                        android:id="@+id/tvAccountItemBalance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="5000"
+                        android:layout_marginTop="@dimen/five_dp"
+                        android:textSize="@dimen/sixteen_dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Expanse"
+                        android:layout_marginTop="@dimen/five_dp"
+                        android:textColor="#aeaaaa"
+                        android:textSize="@dimen/fiveteen_dp" />
+
+                    <TextView
+                        android:id="@+id/tvAccountItemExpanse"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="5000"
+                        android:textColor="@color/red"
+                        android:textSize="@dimen/fiveteen_dp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+</android.support.v7.widget.CardView>
