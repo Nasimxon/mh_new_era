@@ -1,22 +1,15 @@
 package com.jim.pocketaccounter.fragments;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.view.menu.MenuPopupHelper;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
-import android.util.AttributeSet;
-import android.util.Log;
-import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -101,7 +94,8 @@ public class CategoryInfoFragment extends PABaseInfoFragment {
         svCategorySelector = (SelectorView) rootView.findViewById(R.id.svCategorySelector);
         spinner = toolbarManager.getSpTest();
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getContext(),
-                android.R.layout.simple_list_item_1, new String[]{"edit", "delete"});
+                android.R.layout.simple_list_item_1, new String[]{getResources().getString(R.string.to_edit),
+                getResources().getString(R.string.delete)});
         spinner.setAdapter(arrayAdapter);
         final List<RootCategory> rootCategories = daoSession.getRootCategoryDao().queryBuilder().orderAsc(RootCategoryDao.Properties.Name).list();
         CategorySelectorAdapter adapter = new CategorySelectorAdapter(rootCategories);
@@ -161,52 +155,51 @@ public class CategoryInfoFragment extends PABaseInfoFragment {
                 switch (item.getItemId()) {
                     case R.id.delete: {
                         warningDialog.setText(getResources().getString(R.string.category_delete_warning));
-						warningDialog.setOnNoButtonClickListener(new OnClickListener() {
-							@Override
-							public void onClick(View v) {
-								warningDialog.dismiss();
-							}
-						});
-						warningDialog.setOnYesButtonListener(new OnClickListener() {
-							@Override
-							public void onClick(View v) {
-								List<BoardButton> list = daoSession.getBoardButtonDao().queryBuilder().where(BoardButtonDao.Properties.CategoryId.eq(rootCategory.getId())).list();
-								if (!list.isEmpty()) {
-									int currentPage = 0, countOfButtons = 0;
-									if (rootCategory.getType() == PocketAccounterGeneral.INCOME) {
-										currentPage = preferences.getInt("income_current_page", 1);
-										countOfButtons = 4;
-									}
-									else {
-										currentPage = preferences.getInt("expense_current_page", 1);
-										countOfButtons = 16;
-									}
-									for (BoardButton boardButton : list) {
-										if (currentPage*countOfButtons <= boardButton.getPos()
-												&& (currentPage+1)*countOfButtons > currentPage*countOfButtons) {
-											BitmapFactory.Options options = new BitmapFactory.Options();
-											options.inPreferredConfig = Bitmap.Config.RGB_565;
-											Bitmap scaled = BitmapFactory.decodeResource(getResources(), R.drawable.no_category, options);
-											scaled = Bitmap.createScaledBitmap(scaled, (int) getResources().getDimension(R.dimen.thirty_dp),
-													(int) getResources().getDimension(R.dimen.thirty_dp), false);
-											dataCache.getBoardBitmapsCache().put(boardButton.getId(), scaled);
-										}
-									}
-								}
-								logicManager.deleteRootCategory(rootCategory);
-								dataCache.updateAllPercents();
+                        warningDialog.setOnNoButtonClickListener(new OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                warningDialog.dismiss();
+                            }
+                        });
+                        warningDialog.setOnYesButtonListener(new OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                List<BoardButton> list = daoSession.getBoardButtonDao().queryBuilder().where(BoardButtonDao.Properties.CategoryId.eq(rootCategory.getId())).list();
+                                if (!list.isEmpty()) {
+                                    int currentPage = 0, countOfButtons = 0;
+                                    if (rootCategory.getType() == PocketAccounterGeneral.INCOME) {
+                                        currentPage = preferences.getInt("income_current_page", 1);
+                                        countOfButtons = 4;
+                                    } else {
+                                        currentPage = preferences.getInt("expense_current_page", 1);
+                                        countOfButtons = 16;
+                                    }
+                                    for (BoardButton boardButton : list) {
+                                        if (currentPage * countOfButtons <= boardButton.getPos()
+                                                && (currentPage + 1) * countOfButtons > currentPage * countOfButtons) {
+                                            BitmapFactory.Options options = new BitmapFactory.Options();
+                                            options.inPreferredConfig = Bitmap.Config.RGB_565;
+                                            Bitmap scaled = BitmapFactory.decodeResource(getResources(), R.drawable.no_category, options);
+                                            scaled = Bitmap.createScaledBitmap(scaled, (int) getResources().getDimension(R.dimen.thirty_dp),
+                                                    (int) getResources().getDimension(R.dimen.thirty_dp), false);
+                                            dataCache.getBoardBitmapsCache().put(boardButton.getId(), scaled);
+                                        }
+                                    }
+                                }
+                                logicManager.deleteRootCategory(rootCategory);
+                                dataCache.updateAllPercents();
 
-								paFragmentManager.getFragmentManager().popBackStack();
-								paFragmentManager.displayFragment(new CategoryFragment());
-								warningDialog.dismiss();
-							}
-						});
-						warningDialog.show();
+                                paFragmentManager.getFragmentManager().popBackStack();
+                                paFragmentManager.displayFragment(new CategoryFragment());
+                                warningDialog.dismiss();
+                            }
+                        });
+                        warningDialog.show();
                         break;
                     }
                     case R.id.edit: {
                         paFragmentManager.getFragmentManager().popBackStack();
-						paFragmentManager.displayFragment(new RootCategoryEditFragment(rootCategory, PocketAccounterGeneral.NO_MODE, 0, null));
+                        paFragmentManager.displayFragment(new RootCategoryEditFragment(rootCategory, PocketAccounterGeneral.NO_MODE, 0, null));
                         break;
                     }
                 }
@@ -241,7 +234,7 @@ public class CategoryInfoFragment extends PABaseInfoFragment {
             }
         }
         CategoryOperationsAdapter accountOperationsAdapter = new CategoryOperationsAdapter(objects);
-        ;
+
         rvCategoryInfoOperations.setAdapter(accountOperationsAdapter);
         DecimalFormat format = new DecimalFormat("0.##");
         double total = 0.0d;
@@ -306,6 +299,7 @@ public class CategoryInfoFragment extends PABaseInfoFragment {
             tvAccountInfoAmount = (TextView) view.findViewById(R.id.tvAccountInfoAmount);
         }
     }
+
 
     private class SubcatAdapter extends RecyclerView.Adapter<CategoryInfoFragment.SubcatViewHolder> {
         private List<SubCategory> result;

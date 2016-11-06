@@ -40,6 +40,7 @@ import org.greenrobot.greendao.query.WhereCondition;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -597,7 +598,7 @@ public class ReportManager {
         return result;
     }
 
-    public Map<Currency, Double> getRemain(Account account) {
+    public Map<Currency, List<Double>> getRemain(Account account) {
         List<ReportObject> list = getReportObjects(false, commonOperations.getFirstDay(), Calendar.getInstance(),
                 Account.class,
                 AccountOperation.class,
@@ -605,7 +606,8 @@ public class ReportManager {
                 DebtBorrow.class,
                 CreditDetials.class,
                 SmsParseSuccess.class);
-        Map<Currency, Double> result = new HashMap<>();
+        Map<Currency, List<Double>> result = new HashMap<>();
+
         for(ReportObject reportObject : list) {
             if (reportObject.getAccount().getId().equals(account.getId())) {
                 Currency temp = null;
@@ -617,18 +619,27 @@ public class ReportManager {
                         break;
                     }
                 }
+
                 if (found) {
-                    if (reportObject.getType() == PocketAccounterGeneral.INCOME)
-                        result.put(temp, result.get(temp).doubleValue() + reportObject.getAmount());
-                    else
-                        result.put(temp, result.get(temp).doubleValue() - reportObject.getAmount());
+                    if (reportObject.getType() == PocketAccounterGeneral.INCOME) {
+                        result.get(temp).set(0, result.get(temp).get(0) + reportObject.getAmount());
+                    }
+                    else if (reportObject.getType() == PocketAccounterGeneral.EXPENSE) {
+                        result.get(temp).set(1, result.get(temp).get(1) + reportObject.getAmount());
+                    }
+                    result.get(temp).set(2, result.get(temp).get(0) - result.get(temp).get(1));
                 }
                 else {
                     temp = reportObject.getCurrency();
-                    if (reportObject.getType() == PocketAccounterGeneral.INCOME)
-                        result.put(temp, reportObject.getAmount());
-                    else
-                        result.put(temp, -reportObject.getAmount());
+                    List<Double> doubles = new ArrayList<>(Arrays.asList(0d, 0d, 0d));
+                    if (reportObject.getType() == PocketAccounterGeneral.INCOME) {
+                        doubles.set(0, reportObject.getAmount());
+                    }
+                    else if (reportObject.getType() == PocketAccounterGeneral.EXPENSE) {
+                        doubles.set(1, reportObject.getAmount());
+                    }
+                    doubles.set(2, doubles.get(0) - doubles.get(1));
+                    result.put(temp, doubles);
                 }
             }
         }
