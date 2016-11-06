@@ -30,11 +30,13 @@
     </LinearLayout>
     <ImageView
         android:src="@drawable/drawer_currency"
-        android:layout_width="@dimen/twenty_dp"
-        android:layout_height="@dimen/twenty_dp"
+        android:layout_width="@dimen/thirty_dp"
+        android:layout_height="@dimen/thirty_dp"
+
         android:id="@+id/ivSubCategoryIcon"
         android:layout_gravity="center_vertical"
-        android:layout_marginLeft="@dimen/sixteen_dp"/>
+        android:layout_marginLeft="@dimen/twenty_dp"
+        android:layout_marginRight="@dimen/ten_dp"/>
     <TextView
         android:id="@+id/tvSubCatName"
         android:layout_width="wrap_content"

@@ -24,6 +24,7 @@ public class IconChooseDialog extends Dialog {
     private String selectedIcon = "icons_1";
     private View dialogView;
     private IconAdapterCategory adapter;
+
     public IconChooseDialog(Context context) {
         super(context);
         dialogView = getLayoutInflater().inflate(R.layout.cat_icon_select, null);

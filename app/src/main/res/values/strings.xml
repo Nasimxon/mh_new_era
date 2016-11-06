@@ -1606,6 +1606,13 @@
     <string name="incom_expense_list">Список расходов и доходов</string>
     <string name="login">Login</string>
     <string name="all">All</string>
+    <string name="choise_icon">Выберите иконку</string>
+    <string name="name_of_subcategory">Имя подкатегории</string>
+    <string name="add_plus">+ Добавить</string>
+    <string name="select_icons_sb">Select subcategory icon</string>
+    <string name="subcategory_empty">Subcategory name is empty</string>
+    <string name="name_of_category">Name of category:</string>
+    <string name="select_icon_category">Please select icon for category</string>
     <string-array name="main_bg_colors">
         <item>#DCDDDE</item>
     </string-array>

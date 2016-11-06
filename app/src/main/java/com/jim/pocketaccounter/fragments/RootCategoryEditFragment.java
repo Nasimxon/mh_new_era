@@ -69,7 +69,7 @@ public class RootCategoryEditFragment extends PABaseInfoFragment implements OnCl
     private RecyclerView rvSubcats;
     private RootCategory category;
     private int mode = PocketAccounterGeneral.NORMAL_MODE;
-    private String selectedIcon = "icons_1";
+    private String selectedIcon = "add_icon";
     private boolean[] selected;
     private String[] icons;
     private List<SubCategory> subCategories;
@@ -191,10 +191,7 @@ public class RootCategoryEditFragment extends PABaseInfoFragment implements OnCl
         mode = PocketAccounterGeneral.NORMAL_MODE;
         setMode(mode);
         int resId = getResources().getIdentifier(selectedIcon, "drawable", getContext().getPackageName());
-        Bitmap temp = BitmapFactory.decodeResource(getResources(), resId);
-        Bitmap icon = Bitmap.createScaledBitmap(temp, (int) getResources().getDimension(R.dimen.fiftyfive_dp),
-                (int) getResources().getDimension(R.dimen.fiftyfive_dp), false);
-        ivCatEdit.setImageBitmap(icon);
+              ivCatEdit.setImageResource(resId);
         return rootView;
     }
 
@@ -297,6 +294,10 @@ public class RootCategoryEditFragment extends PABaseInfoFragment implements OnCl
                 }
                 if (!chbCatEditIncome.isChecked() && !chbCatEditExpanse.isChecked()) {
                     Toast.makeText(getActivity(), getResources().getString(R.string.cat_type_not_choosen), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(selectedIcon.equals("add_icon")){
+                    Toast.makeText(getActivity(), R.string.select_icon_category, Toast.LENGTH_SHORT).show();
                     return;
                 }
 

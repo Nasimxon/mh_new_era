@@ -12,19 +12,17 @@
         android:background="#f8f8f8"
         android:orientation="horizontal">
         <ImageView
-            android:layout_width="@dimen/fiftyfive_dp"
-            android:layout_height="@dimen/fiftyfive_dp"
+            android:layout_width="@dimen/seventy_dp"
+            android:layout_height="@dimen/seventy_dp"
             android:id="@+id/ivCatEdit"
-            android:layout_marginLeft="@dimen/fifteen_dp"
-            android:layout_marginRight="@dimen/ten_dp"
-            android:layout_marginTop="@dimen/ten_dp"
+            android:layout_marginLeft="@dimen/sixteen_dp"
             android:layout_marginBottom="@dimen/ten_dp"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/no_category"/>
+            android:layout_marginTop="@dimen/twentyfour_dp"
+            android:src="@drawable/add_icon"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/ten_dp"
+            android:layout_marginBottom="@dimen/five_dp"
             android:layout_marginLeft="@dimen/sixteen_dp"
             android:layout_marginRight="@dimen/sixteen_dp"
             android:layout_marginTop="@dimen/ten_dp"
@@ -34,9 +32,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="@dimen/ten_dp"
-                android:text="@string/cat_name"
+                android:layout_marginBottom="@dimen/three_dp"
+                android:text="@string/name_of_category"
                 android:textColor="@color/toolbar_text_color"
-                android:textSize="@dimen/fourteen_sp" />
+                android:textSize="@dimen/sixteen_dp" />
             <EditText
                 android:id="@+id/etAccountEditName"
                 android:layout_width="wrap_content"
@@ -47,19 +46,19 @@
                 android:textColor="@color/toolbar_text_color"
                 android:background="@drawable/edit_text"
                 android:textSize="@dimen/sixteen_dp"
-                android:paddingTop="@dimen/three_dp"
-                android:paddingBottom="@dimen/three_dp"
-                android:paddingLeft="@dimen/six_dp"
-                android:paddingRight="@dimen/six_dp">
+                android:paddingTop="@dimen/five_dp"
+                android:paddingBottom="@dimen/five_dp"
+                android:paddingLeft="@dimen/eight_dp"
+                android:paddingRight="@dimen/eight_dp">
                 <requestFocus />
             </EditText>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/sixteen_dp"
-                android:layout_marginLeft="@dimen/sixteen_dp"
                 android:layout_marginRight="@dimen/sixteen_dp"
-                android:layout_marginTop="@dimen/fifteen_dp">
+                android:layout_marginLeft="@dimen/three_dp"
+                android:layout_marginTop="@dimen/five_dp">
                 <CheckBox
                     android:id="@+id/chbCatEditExpanse"
                     android:layout_width="wrap_content"
@@ -91,31 +90,30 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/sixteen_dp"
-            android:layout_marginRight="@dimen/sixteen_dp"
-            android:layout_marginTop="@dimen/ten_dp"
+
+            android:layout_marginTop="@dimen/sixteen_dp"
             android:layout_marginBottom="@dimen/ten_dp">
             <TextView
                 android:id="@+id/tvAccountListName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/sub_cats"
-                android:textColor="@color/currency_chooser"
+                android:textColor="@color/black_for_myagkiy_glavniy"
                 android:textSize="@dimen/sixteen_dp"
                 android:layout_weight="1"
                 android:layout_gravity="center_vertical"/>
             <ImageView
                 android:id="@+id/ivSubCatDelete"
-                android:layout_width="@dimen/thirty_dp"
-                android:layout_height="@dimen/thirty_dp"
+                android:layout_width="@dimen/twentyfive_dp"
+                android:layout_height="@dimen/twentyfive_dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="@dimen/five_dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:src="@drawable/subcat_delete"/>
         </LinearLayout>
         <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
             <ImageView
                 android:layout_width="@dimen/two_dp"
                 android:layout_height="match_parent"

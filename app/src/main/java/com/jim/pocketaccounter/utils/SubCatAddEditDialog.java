@@ -5,12 +5,14 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jim.pocketaccounter.PocketAccounter;
 import com.jim.pocketaccounter.PocketAccounterApplication;
@@ -31,10 +33,11 @@ import javax.inject.Inject;
 public class SubCatAddEditDialog extends Dialog {
     private TextView tv;
     private View dialogView;
-    private FABIcon fabChooseIcon;
+    private ImageView fabChooseIcon;
     private String subcatIcon;
     private SubCategory subCategory;
-    private ImageView ivSubCatClose, ivSubCatSave;
+    private ImageView ivSubCatClose;
+    private TextView ivSubCatSave;
     private String rootCategoryId;
     private EditText etSubCategoryName;
     @Inject
@@ -47,7 +50,9 @@ public class SubCatAddEditDialog extends Dialog {
         dialogView = getLayoutInflater().inflate(R.layout.sub_category_edit_layout, null);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(dialogView);
-        fabChooseIcon = (FABIcon) dialogView.findViewById(R.id.fabChooseIcon);
+        View v = getWindow().getDecorView();
+        v.setBackgroundResource(android.R.color.transparent);
+        fabChooseIcon = (ImageView) dialogView.findViewById(R.id.fabChooseIcon);
         etSubCategoryName = (EditText) dialogView.findViewById(R.id.etSubCategoryName);
     }
 
@@ -57,23 +62,23 @@ public class SubCatAddEditDialog extends Dialog {
 
     public void setSubCat(SubCategory subCategory, final OnSubcategorySavingListener onSubcategorySavingListener) {
         this.subCategory = subCategory;
-        Bitmap temp, scaled;
+        Bitmap temp;
         if (subCategory != null) {
             etSubCategoryName.setText(subCategory.getName());
             subcatIcon = subCategory.getIcon();
             int resId = getContext().getResources().getIdentifier(subCategory.getIcon(), "drawable", getContext().getPackageName());
             temp = BitmapFactory.decodeResource(getContext().getResources(), resId);
-            scaled = Bitmap.createScaledBitmap(temp, (int) getContext().getResources().getDimension(R.dimen.twentyfive_dp),
-                    (int) getContext().getResources().getDimension(R.dimen.twentyfive_dp), false);
+//            scaled = Bitmap.createScaledBitmap(temp, (int) getContext().getResources().getDimension(R.dimen.twentyfive_dp),
+//                    (int) getContext().getResources().getDimension(R.dimen.twentyfive_dp), false);
         } else {
             etSubCategoryName.setText("");
-            subcatIcon = "icons_4";
+            subcatIcon = "add_icon";
             int resId = getContext().getResources().getIdentifier(subcatIcon, "drawable", getContext().getPackageName());
             temp = BitmapFactory.decodeResource(getContext().getResources(), resId);
-            scaled = Bitmap.createScaledBitmap(temp, (int) getContext().getResources().getDimension(R.dimen.twentyfive_dp),
-                    (int) getContext().getResources().getDimension(R.dimen.twentyfive_dp), false);
+//            scaled = Bitmap.createScaledBitmap(temp, (int) getContext().getResources().getDimension(R.dimen.twentyfive_dp),
+//                    (int) getContext().getResources().getDimension(R.dimen.twentyfive_dp), false);
         }
-        fabChooseIcon.setImageBitmap(scaled);
+        fabChooseIcon.setImageBitmap(temp);
         fabChooseIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,9 +88,9 @@ public class SubCatAddEditDialog extends Dialog {
                     public void OnIconPick(String icon) {
                         int resId = getContext().getResources().getIdentifier(icon, "drawable", getContext().getPackageName());
                         Bitmap temp = BitmapFactory.decodeResource(getContext().getResources(), resId);
-                        Bitmap scaled = Bitmap.createScaledBitmap(temp, (int) getContext().getResources().getDimension(R.dimen.twentyfive_dp),
-                                (int) getContext().getResources().getDimension(R.dimen.twentyfive_dp), false);
-                        fabChooseIcon.setImageBitmap(scaled);
+//                        Bitmap scaled = Bitmap.createScaledBitmap(temp, (int) getContext().getResources().getDimension(R.dimen.twentyfive_dp),
+//                                (int) getContext().getResources().getDimension(R.dimen.twentyfive_dp), false);
+                        fabChooseIcon.setImageBitmap(temp);
                         subcatIcon = icon;
                         iconsChooseDialog.dismiss();
                     }
@@ -100,10 +105,19 @@ public class SubCatAddEditDialog extends Dialog {
                 dismiss();
             }
         });
-        ivSubCatSave = (ImageView) dialogView.findViewById(R.id.ivSubCatSave);
+        ivSubCatSave = (TextView) dialogView.findViewById(R.id.ivSubCatSave);
         ivSubCatSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(subcatIcon.equals("add_icon")){
+                    Toast.makeText(getContext(), R.string.select_icons_sb, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(etSubCategoryName.getText().toString().length()==0){
+                    Toast.makeText(getContext(), R.string.subcategory_empty, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 InputMethodManager imm = (InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 SubCategory subCategory = null;
