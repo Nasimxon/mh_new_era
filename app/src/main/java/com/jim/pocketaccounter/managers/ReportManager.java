@@ -661,8 +661,6 @@ public class ReportManager {
         return result;
     }
 
-
-
     public List<FinanceRecord> getCategoryOperations(RootCategory rootCategory, Calendar begin, Calendar end) {
         List<FinanceRecord> result = new ArrayList<>();
         for (FinanceRecord financeRecord : financeRecordDao.loadAll()) {

@@ -1,15 +1,11 @@
 package com.jim.pocketaccounter.managers;
 
-import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
-import android.widget.FrameLayout;
 
 import com.jim.pocketaccounter.PocketAccounter;
 import com.jim.pocketaccounter.PocketAccounterApplication;
@@ -189,21 +185,26 @@ public class    PAFragmentManager {
         if (centerPage != null)
             centerPage.initialize();
         if (fragmentManager.getBackStackEntryCount() > 0)
-        fragmentManager.popBackStackImmediate();
+        fragmentManager.popBackStack();
     }
 
     public void displayFragment(Fragment fragment) {
         if (fragmentManager.findFragmentById(R.id.flMain) != null && fragment.getClass().getName().equals(fragmentManager.findFragmentById(R.id.flMain).getClass().getName()))
             return;
         if (fragmentManager.getBackStackEntryCount() > 0) {
-            fragmentManager.popBackStackImmediate();
+            fragmentManager.popBackStack();
         }
         PRESSED = true;
         fragmentManager
                 .beginTransaction()
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .setCustomAnimations(
+                        R.anim.slide_left_enter_custom_animation,
+                        R.anim.slide_left_exit_custom_animation,
+                        R.anim.slide_left_enter_custom_animation,
+                        R.anim.slide_left_exit_custom_animation
+                        )
                 .addToBackStack(null)
-                .add(R.id.flMain, fragment)
+                .replace(R.id.flMain, fragment)
                 .commit();
     }
 
