@@ -126,23 +126,24 @@ public class MainPageFragment extends Fragment {
         rlMainPageContainer.addView(expenseView);
 
         incomeView = new BoardView(getContext(), PocketAccounterGeneral.INCOME, day);
-        RelativeLayout.LayoutParams lpIncomes = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dm.widthPixels / 4);
+        RelativeLayout.LayoutParams lpIncomes = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dm.widthPixels/4);
         lpIncomes.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
         incomeView.setLayoutParams(lpIncomes);
         incomeView.setId(R.id.main_income);
         rlMainPageContainer.addView(incomeView);
 
-        RelativeLayout.LayoutParams lpBalance = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        RelativeLayout.LayoutParams lpBalance = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         lpBalance.addRule(RelativeLayout.BELOW, R.id.main_expense);
         lpBalance.addRule(RelativeLayout.ABOVE, R.id.main_income);
         balanceStripe.setLayoutParams(lpBalance);
         rlMainPageContainer.addView(balanceStripe);
-        if (ratio < 1.7d)
-            balanceStripe.hideNotImportantPart();
-        else
-            balanceStripe.showNotImportantPart();
         balanceStripe.calculateBalance();
-
+        if (ratio > 1.7) {
+            balanceStripe.showNotImportantPart();
+        }
+        else {
+            balanceStripe.hideNotImportantPart();
+        }
     }
     public void refreshCurrencyChanges() {
         commonOperations.refreshCurrency();

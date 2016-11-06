@@ -155,7 +155,7 @@ public class CurrencyEditFragment extends PABaseInfoFragment implements OnClickL
                         dialog.dismiss();
                     }
                 });
-                ImageView ivDatePickCancel = (ImageView) dialogView.findViewById(R.id.ivDatePickCancel);
+                TextView ivDatePickCancel = (TextView) dialogView.findViewById(R.id.ivDatePickCancel);
                 ivDatePickCancel.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -192,10 +192,10 @@ public class CurrencyEditFragment extends PABaseInfoFragment implements OnClickL
                     return;
                 }
                 if (logicManager.insertUserEnteredCalendars(currency, (Calendar)day.clone()) == LogicManagerConstants.SUCH_NAME_ALREADY_EXISTS) {
-                    logicManager.updateGenerateDefinetilyCurrentDay((Calendar)day.clone(), Double.parseDouble(etExchange.getText().toString()), currency);
+                    logicManager.generateCurrencyCosts((Calendar)day.clone(), Double.parseDouble(etExchange.getText().toString()), currency);
                 }
                 else {
-                    logicManager.generateForDefinetilyCurrentDay((Calendar)day.clone(), Double.parseDouble(etExchange.getText().toString()), currency);
+                    logicManager.generateCurrencyCosts((Calendar)day.clone(), Double.parseDouble(etExchange.getText().toString()), currency);
                 }
                 refreshList();
                 dialog.dismiss();

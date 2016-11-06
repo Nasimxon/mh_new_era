@@ -62,8 +62,7 @@ public class Currency {
 					.get(0);
 		List<CurrencyCostState> costStateList = daoSession.getCurrencyCostStateDao()
 				.queryBuilder()
-				.where(CurrencyCostStateDao.Properties
-						.MainCurId.eq(mainCur.getId()))
+				.where(CurrencyCostStateDao.Properties.MainCurId.eq(mainCur.getId()))
 				.list();
 		for (UserEnteredCalendars userCalendar : getUserEnteredCalendarses()) {
 			for (CurrencyCostState currencyCostState : costStateList) {

@@ -219,10 +219,8 @@ public class PocketAccounter extends AppCompatActivity {
                         Calendar begin, end = Calendar.getInstance();
                         if (key.equals("0")) {
                             Calendar firstDay = commonOperations.getFirstDay();
-                            if (firstDay == null) {
-                                firstDay = Calendar.getInstance();
-                                firstDay.set(2016, Calendar.JANUARY, 1);
-                            }
+                            if (firstDay == null)
+                                firstDay = commonOperations.getFirstDay();
                             begin = (Calendar) firstDay.clone();
                             end.set(dp.getYear(), dp.getMonth(), dp.getDayOfMonth());
                         } else {

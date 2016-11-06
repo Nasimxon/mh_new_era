@@ -144,7 +144,8 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
                         else if (button.getType() == PocketAccounterGeneral.CREDIT) {
                             CreditDetials item=daoSession.getCreditDetialsDao().load(Long.parseLong(button.getCategoryId()));
                             InfoCreditFragment temp = new InfoCreditFragment();
-                            temp.setContentFromMainWindow(item,currentPage * 16 + position,PocketAccounterGeneral.EXPANSE_MODE);
+                            int buttonsCount = table == PocketAccounterGeneral.INCOME ? INCOME_BUTTONS_COUNT_PER_PAGE : EXPENSE_BUTTONS_COUNT_PER_PAGE;
+                            temp.setContentFromMainWindow(item,currentPage * buttonsCount + position,PocketAccounterGeneral.EXPANSE_MODE);
                             paFragmentManager.setMainReturn(true);
                             paFragmentManager.displayFragment(temp);
 
@@ -434,7 +435,7 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
                 longPress(i);
                 final int position = i;
                 List<BoardButton> boardButtonList = daoSession.getBoardButtonDao()
-                        .queryBuilder().where(BoardButtonDao.Properties.Table.eq(PocketAccounterGeneral.EXPENSE))
+                        .queryBuilder().where(BoardButtonDao.Properties.Table.eq(table))
                         .list();
                 if (boardButtonList.get(position).getCategoryId() == null) {
                     releasePress();
@@ -467,11 +468,12 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
         String change = getResources().getString(R.string.change);
         String clear = getResources().getString(R.string.clear);
         String clearRecords = getContext().getString(R.string.clear_records);
+        int buttonsCount = table == PocketAccounterGeneral.INCOME ? INCOME_BUTTONS_COUNT_PER_PAGE : EXPENSE_BUTTONS_COUNT_PER_PAGE;
         BoardButton cur = daoSession.getBoardButtonDao().queryBuilder()
-                .where(BoardButtonDao.Properties.Pos.eq(pos+currentPage*16), BoardButtonDao.Properties.Table.eq(PocketAccounterGeneral.EXPENSE))
+                .where(BoardButtonDao.Properties.Pos.eq(pos+currentPage*buttonsCount), BoardButtonDao.Properties.Table.eq(table))
                 .list().isEmpty() ?
                 null:daoSession.getBoardButtonDao().queryBuilder()
-                .where(BoardButtonDao.Properties.Pos.eq(pos+currentPage*16), BoardButtonDao.Properties.Table.eq(PocketAccounterGeneral.EXPENSE))
+                .where(BoardButtonDao.Properties.Pos.eq(pos+currentPage*buttonsCount), BoardButtonDao.Properties.Table.eq(table))
                 .list().get(0);
         String[] items = null;
         String format = simpleDateFormat.format(begin.getTime());
@@ -502,7 +504,8 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
                         openTypeChooseDialog(pos);
                         break;
                     case 1:
-                        logicManager.changeBoardButton(PocketAccounterGeneral.EXPENSE, currentPage*PocketAccounterGeneral.EXPENSE_BUTTONS_COUNT+pos, null);
+                        int buttonsCount = table == PocketAccounterGeneral.INCOME ? INCOME_BUTTONS_COUNT_PER_PAGE : EXPENSE_BUTTONS_COUNT_PER_PAGE;
+                        logicManager.changeBoardButton(table, currentPage*buttonsCount+pos, null);
                         changeIconInCache(pos, "no_category");
                         initButtons();
                         releasePress();
@@ -543,9 +546,10 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
         end.set(Calendar.MINUTE, 59);
         end.set(Calendar.SECOND, 59);
         end.set(Calendar.MILLISECOND, 59);
+        int buttonsCount = table == PocketAccounterGeneral.INCOME ? INCOME_BUTTONS_COUNT_PER_PAGE : EXPENSE_BUTTONS_COUNT_PER_PAGE;
         final String id = daoSession.getBoardButtonDao().queryBuilder()
-                .where(BoardButtonDao.Properties.Pos.eq(pos+currentPage*16),
-                        BoardButtonDao.Properties.Table.eq(PocketAccounterGeneral.EXPENSE))
+                .where(BoardButtonDao.Properties.Pos.eq(pos+currentPage*buttonsCount),
+                        BoardButtonDao.Properties.Table.eq(table))
                 .list().get(0).getCategoryId();
         final WarningDialog warningDialog = new WarningDialog(getContext());
         warningDialog.setText(getContext().getString(R.string.clear_warning));
@@ -648,11 +652,13 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
                                     switch (position) {
                                         case 0:
                                             paFragmentManager.setMainReturn(true);
-                                            paFragmentManager.displayFragment(new RootCategoryEditFragment(null, PocketAccounterGeneral.EXPANSE_MODE, currentPage*16+pos, day));
+                                            int buttonsCount = table == PocketAccounterGeneral.INCOME ? INCOME_BUTTONS_COUNT_PER_PAGE : EXPENSE_BUTTONS_COUNT_PER_PAGE;
+                                            paFragmentManager.displayFragment(new RootCategoryEditFragment(null, PocketAccounterGeneral.EXPANSE_MODE, currentPage*buttonsCount+pos, day));
                                             break;
                                         case 1:
                                             paFragmentManager.setMainReturn(true);
-                                            paFragmentManager.displayFragment((new AddCreditFragment()).setDateFormatModes(PocketAccounterGeneral.EXPANSE_MODE,currentPage*16+pos));
+                                            buttonsCount = table == PocketAccounterGeneral.INCOME ? INCOME_BUTTONS_COUNT_PER_PAGE : EXPENSE_BUTTONS_COUNT_PER_PAGE;
+                                            paFragmentManager.displayFragment((new AddCreditFragment()).setDateFormatModes(PocketAccounterGeneral.EXPANSE_MODE,currentPage*buttonsCount+pos));
                                             break;
                                         case 2:
                                             paFragmentManager.setMainReturn(true);
@@ -711,7 +717,8 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
         lvDialog.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                logicManager.changeBoardButton(PocketAccounterGeneral.EXPENSE, currentPage*PocketAccounterGeneral.EXPENSE_BUTTONS_COUNT+pos, categories.get(position).getId());
+                int buttonsCount = table == PocketAccounterGeneral.INCOME ? INCOME_BUTTONS_COUNT_PER_PAGE : EXPENSE_BUTTONS_COUNT_PER_PAGE;
+                logicManager.changeBoardButton(table, currentPage*buttonsCount+pos, categories.get(position).getId());
                 changeIconInCache(pos, categories.get(position).getIcon());
                 init();
                 paFragmentManager.updateAllFragmentsOnViewPager();
@@ -749,7 +756,8 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
         lvDialog.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                logicManager.changeBoardButton(PocketAccounterGeneral.EXPENSE, currentPage*PocketAccounterGeneral.EXPENSE_BUTTONS_COUNT+pos, categories.get(position).getId());
+                int buttonsCount = table == PocketAccounterGeneral.INCOME ? INCOME_BUTTONS_COUNT_PER_PAGE : EXPENSE_BUTTONS_COUNT_PER_PAGE;
+                logicManager.changeBoardButton(table, currentPage*buttonsCount+pos, categories.get(position).getId());
                 changeIconInCache(pos, categories.get(position).getIcon());
                 init();
                 paFragmentManager.updateAllFragmentsOnViewPager();
@@ -777,7 +785,7 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
         dialog.setContentView(dialogView);
         final ArrayList<IconWithName> categories = new ArrayList<>();
         List<RootCategory> categoryList = daoSession.getRootCategoryDao().queryBuilder()
-                .where(RootCategoryDao.Properties.Type.eq(PocketAccounterGeneral.EXPENSE))
+                .where(RootCategoryDao.Properties.Type.eq(table))
                 .build()
                 .list();
         for (RootCategory category : categoryList) {
@@ -790,7 +798,8 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
         lvDialog.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                logicManager.changeBoardButton(PocketAccounterGeneral.EXPENSE, currentPage*PocketAccounterGeneral.EXPENSE_BUTTONS_COUNT+pos, categories.get(position).getId());
+                int buttonsCount = table == PocketAccounterGeneral.INCOME ? INCOME_BUTTONS_COUNT_PER_PAGE : EXPENSE_BUTTONS_COUNT_PER_PAGE;
+                logicManager.changeBoardButton(table, currentPage*buttonsCount+pos, categories.get(position).getId());
                 changeIconInCache(pos, categories.get(position).getIcon());
                 init();
                 paFragmentManager.updateAllFragmentsOnViewPager();
@@ -830,7 +839,8 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
             lvDialog.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    logicManager.changeBoardButton(PocketAccounterGeneral.EXPENSE, currentPage*PocketAccounterGeneral.EXPENSE_BUTTONS_COUNT+pos, categories.get(position).getId());
+                    int buttonsCount = table == PocketAccounterGeneral.INCOME ? INCOME_BUTTONS_COUNT_PER_PAGE : EXPENSE_BUTTONS_COUNT_PER_PAGE;
+                    logicManager.changeBoardButton(table, currentPage*buttonsCount+pos, categories.get(position).getId());
                     changeIconInCache(pos, categories.get(position).getIcon());
                     init();
                     paFragmentManager.updateAllFragmentsOnViewPager();
@@ -867,7 +877,6 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             dialog.setContentView(dialogView);
             final ArrayList<IconWithName> categories = new ArrayList<>();
-//			creditDetialsList = daoSession.getCreditDetialsDao().loadAll();
             for (CreditDetials creditDetials : creditDetialsList) {
                 IconWithName iconWithName = new IconWithName(creditDetials.getIcon_ID(),
                         creditDetials.getCredit_name(), Long.toString(creditDetials.getMyCredit_id()));
@@ -879,7 +888,8 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
             lvDialog.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    logicManager.changeBoardButton(PocketAccounterGeneral.EXPENSE, currentPage*PocketAccounterGeneral.EXPENSE_BUTTONS_COUNT+pos, categories.get(position).getId());
+                    int buttonsCount = table == PocketAccounterGeneral.INCOME ? INCOME_BUTTONS_COUNT_PER_PAGE : EXPENSE_BUTTONS_COUNT_PER_PAGE;
+                    logicManager.changeBoardButton(table, currentPage*buttonsCount+pos, categories.get(position).getId());
                     changeIconInCache(pos, categories.get(position).getIcon());
                     init();
                     invalidate();

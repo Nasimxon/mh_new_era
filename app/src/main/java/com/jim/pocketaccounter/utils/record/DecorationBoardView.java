@@ -349,9 +349,11 @@ public class DecorationBoardView extends BaseBoardView {
                 categoryId = boardButton.getCategoryId();
             }
             if (categoryId == null) {
-                icon = BitmapFactory.decodeResource(getResources(), R.drawable.no_category, options);
-                icon = Bitmap.createScaledBitmap(icon, (int) iconSize, (int) iconSize, false);
-                dataCache.getBoardBitmapsCache().put(buttonId, icon);
+                if (dataCache.getBoardBitmapsCache().get(buttonId) == null) {
+                    icon = BitmapFactory.decodeResource(getResources(), R.drawable.no_category, options);
+                    icon = Bitmap.createScaledBitmap(icon, (int) iconSize, (int) iconSize, false);
+                    dataCache.getBoardBitmapsCache().put(buttonId, icon);
+                }
             } else {
                 String iconPath = null;
                 switch (boardButton.getType()) {
@@ -397,10 +399,12 @@ public class DecorationBoardView extends BaseBoardView {
                         }
                         break;
                 }
-                int resId = getResources().getIdentifier(iconPath, "drawable", getContext().getPackageName());
-                icon = BitmapFactory.decodeResource(getResources(), resId, options);
-                icon = Bitmap.createScaledBitmap(icon, (int) iconSize, (int) iconSize, false);
-                dataCache.getBoardBitmapsCache().put(buttonId, icon);
+                if (dataCache.getBoardBitmapsCache().get(buttonId) == null) {
+                    int resId = getResources().getIdentifier(iconPath, "drawable", getContext().getPackageName());
+                    icon = BitmapFactory.decodeResource(getResources(), resId, options);
+                    icon = Bitmap.createScaledBitmap(icon, (int) iconSize, (int) iconSize, false);
+                    dataCache.getBoardBitmapsCache().put(buttonId, icon);
+                }
             }
             return this;
         }
