@@ -177,8 +177,7 @@ public class AccountFragment extends PABaseListFragment {
 					view.tvAccountExpanse.setText("0"+commonOperations.getMainCurrency().getAbbr());
 					view.tvAccountBalance.setText("0"+commonOperations.getMainCurrency().getAbbr());
 				}
-			}
-			else {
+			} else {
 				view.infoOpen.setVisibility(View.GONE);
 				view.withGone.setVisibility(View.VISIBLE);
 			}
@@ -200,7 +199,7 @@ public class AccountFragment extends PABaseListFragment {
 							refreshList();
 						}
 					});
-					transferDialog.getWindow().setLayout(8 * getResources().getDisplayMetrics().widthPixels/10, RelativeLayout.LayoutParams.WRAP_CONTENT);
+					transferDialog.getWindow().setLayout(9 * getResources().getDisplayMetrics().widthPixels/10, RelativeLayout.LayoutParams.WRAP_CONTENT);
 					transferDialog.show();
 				}
 			});
@@ -234,6 +233,7 @@ public class AccountFragment extends PABaseListFragment {
 								refreshList();
 							}
 						});
+						transferDialog.getWindow().setLayout(9 * getResources().getDisplayMetrics().widthPixels/10, RelativeLayout.LayoutParams.WRAP_CONTENT);
 						transferDialog.show();
 					}
 				}

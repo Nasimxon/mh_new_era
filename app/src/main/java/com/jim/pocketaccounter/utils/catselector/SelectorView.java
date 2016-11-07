@@ -2,6 +2,8 @@ package com.jim.pocketaccounter.utils.catselector;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -20,6 +22,8 @@ public class SelectorView extends DrawingSelectorView{
     private Animation inFromLeft, inFromRight, outToLeft, outToRight;
     private View last, current;
     private boolean right = false, animating = false;
+    private float oldX = 0;
+    private boolean moved = false;
 
     public SelectorView(Context context) {
         super(context);
@@ -68,6 +72,37 @@ public class SelectorView extends DrawingSelectorView{
                 if (listener != null)
                     listener.onItemSelected(position);
                 doTransition();
+            }
+        });
+        scene.setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    oldX = event.getX();
+                    moved = true;
+                }
+                if (event.getAction() == MotionEvent.ACTION_MOVE && moved) {
+                    if (oldX + 200 < event.getX()) {
+                        if (animating || count <= 1) return false;
+                        right = false;
+                        animating = true;
+                        decPosition();
+                        if (listener != null)
+                            listener.onItemSelected(position);
+                        doTransition();
+                        moved = false;
+                    } else if (oldX - 200 > event.getX() && moved) {
+                        if(animating || count <= 1) return false;
+                        right = true;
+                        animating = true;
+                        incPosition();
+                        if (listener != null)
+                            listener.onItemSelected(position);
+                        doTransition();
+                        moved = false;
+                    }
+                }
+                return true;
             }
         });
         Animation.AnimationListener animationListener = new Animation.AnimationListener() {

@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -200,6 +201,23 @@ public class AccountInfoFragment extends Fragment {
 		RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
 		rvAccountDetailsInfo.setLayoutManager(layoutManager);
 		refreshOperationsList();
+
+//		ivCatSelectorItem.setOnTouchListener(new View.OnTouchListener() {
+//			@Override
+//			public boolean onTouch(View v, MotionEvent event) {
+//				if (event.getAction() == MotionEvent.ACTION_DOWN) {
+//					int pos = rootAccounts.indexOf(account);
+////					if (pos ++ >= rootAccounts.size() - 1) {
+////						pos = 0;
+////					}
+//					pos ++;
+//					svCategorySelector.move(pos);
+//					return true;
+//				}
+//				return false;
+//			}
+//		});
+
 		return rootView;
 	}
 
@@ -310,6 +328,8 @@ public class AccountInfoFragment extends Fragment {
 		}
 	}
 
+	private ImageView ivCatSelectorItem;
+
 	class CategorySelectorAdapter extends SelectorView.SelectorAdapter<Account> {
 		public CategorySelectorAdapter(List<Account> list) {
 			this.list = list;
@@ -318,7 +338,7 @@ public class AccountInfoFragment extends Fragment {
 		@Override
 		protected ViewGroup getInstantiatedView(int position, ViewGroup parent) {
 			View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cat_selector_item, parent, false);
-			ImageView ivCatSelectorItem = (ImageView) view.findViewById(R.id.ivCatSelectorItem);
+			ivCatSelectorItem = (ImageView) view.findViewById(R.id.ivCatSelectorItem);
 			int resId = getResources().getIdentifier(list.get(position).getIcon(), "drawable", getContext().getPackageName());
 			ivCatSelectorItem.setImageResource(resId);
 			TextView tvCatSelectorItem = (TextView) view.findViewById(R.id.tvCatSelectorItem);
