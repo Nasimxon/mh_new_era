@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/white">
+    android:background="#f2f3f5">
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvAccounts"
         android:paddingTop="@dimen/sevent_dp"

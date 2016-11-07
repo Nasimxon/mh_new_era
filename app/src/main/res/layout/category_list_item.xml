@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:descendantFocusability="blocksDescendants"
     android:orientation="vertical"
-    android:background="@drawable/cat_list_item">
+    android:background="@drawable/carditem">
 
     <LinearLayout
         android:layout_width="match_parent"

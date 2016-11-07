@@ -17,7 +17,7 @@
             android:id="@+id/ivCatEdit"
             android:layout_marginLeft="@dimen/sixteen_dp"
             android:layout_marginBottom="@dimen/ten_dp"
-            android:layout_marginTop="@dimen/twentyfour_dp"
+            android:layout_marginTop="@dimen/twenty_dp"
             android:src="@drawable/add_icon"/>
         <LinearLayout
             android:layout_width="match_parent"

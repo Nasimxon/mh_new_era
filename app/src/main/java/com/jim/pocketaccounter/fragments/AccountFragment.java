@@ -12,7 +12,10 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,7 +37,7 @@ import java.util.Map;
 public class AccountFragment extends PABaseListFragment {
 	private FloatingActionButton fabAccountAdd;
     private RecyclerView recyclerView;
-
+	boolean isReportOpen = false;
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		final View rootView = inflater.inflate(R.layout.account_layout, container, false);
 		rootView.postDelayed(new Runnable() {
@@ -55,9 +58,11 @@ public class AccountFragment extends PABaseListFragment {
 		});
         toolbarManager.setTitle(getResources().getString(R.string.accounts));
         toolbarManager.setSubtitle("");
-        toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
-		toolbarManager.setImageToSecondImage(R.drawable.transfer_money);
-		toolbarManager.setOnSecondImageClickListener(new OnClickListener() {
+        toolbarManager.setToolbarIconsVisibility(View.GONE, View.VISIBLE, View.VISIBLE);
+		toolbarManager.setImageToSecondImage(R.drawable.ic_info_outline_black_48dp);
+		toolbarManager.setImageToFirstImage(R.drawable.ic_history_black_48dp);
+
+		toolbarManager.setOnFirstImageClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				if (!daoSession.getAccountOperationDao().loadAll().isEmpty()) {
@@ -74,6 +79,19 @@ public class AccountFragment extends PABaseListFragment {
 					transferAddEditDialog.show();
 				} else
 					Toast.makeText(getContext(), R.string.transfer_isnt_done, Toast.LENGTH_SHORT).show();
+			}
+		});
+		toolbarManager.setOnSecondImageClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if(isReportOpen){
+					isReportOpen=false	;
+					refreshList();
+				}
+				else {
+					isReportOpen=true;
+					refreshList();
+				}
 			}
 		});
         toolbarManager.setSpinnerVisibility(View.GONE);
@@ -100,6 +118,7 @@ public class AccountFragment extends PABaseListFragment {
 			}
 		});
         refreshList();
+
 		return rootView;
 	}
 	private boolean show = false;
@@ -119,7 +138,6 @@ public class AccountFragment extends PABaseListFragment {
 		AccountAdapter adapter = new AccountAdapter(daoSession.getAccountDao().loadAll());
 		recyclerView.setAdapter(adapter);
 	}
-
 	private class AccountAdapter extends RecyclerView.Adapter<ViewHolder> {
 		private List<Account> result;
 		public AccountAdapter(List<Account> result) {
@@ -140,18 +158,32 @@ public class AccountFragment extends PABaseListFragment {
 			String inc = "";
 			String exp = "";
 			String bal = "";
-			for (Currency currency : map.keySet()) {
-				String abbr = currency.getAbbr();
-				inc += map.get(currency).get(0) + abbr + "\n";
-				exp += map.get(currency).get(1) + abbr + "\n";
-				bal += map.get(currency).get(2) + abbr + "\n";
+			if(isReportOpen){
+				view.infoOpen.setVisibility(View.VISIBLE);
+				view.withGone.setVisibility(View.GONE);
+				for (Currency currency : map.keySet()) {
+					String abbr = currency.getAbbr();
+					inc += map.get(currency).get(0) + abbr + "\n";
+					exp += map.get(currency).get(1) + abbr + "\n";
+					bal += map.get(currency).get(2) + abbr + "\n";
+				}
+				if(inc.length()!=0&&exp.length()!=0&&bal.length()!=0) {
+					view.tvAccountIncome.setText(inc.substring(0, inc.length() - 1));
+					view.tvAccountExpanse.setText(exp.substring(0, exp.length() - 1));
+					view.tvAccountBalance.setText(bal.substring(0, bal.length() - 1));
+				}
+				else {
+					view.tvAccountIncome.setText("0"+commonOperations.getMainCurrency().getAbbr());
+					view.tvAccountExpanse.setText("0"+commonOperations.getMainCurrency().getAbbr());
+					view.tvAccountBalance.setText("0"+commonOperations.getMainCurrency().getAbbr());
+				}
+			}
+			else {
+				view.infoOpen.setVisibility(View.GONE);
+				view.withGone.setVisibility(View.VISIBLE);
 			}
 
-			view.tvAccountIncome.setText(inc);
-			view.tvAccountExpanse.setText(exp);
-			view.tvAccountBalance.setText(bal);
-
-			view.ivIconItem.setOnClickListener(new OnClickListener() {
+			view.mainViewF.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					paFragmentManager.displayFragment(new AccountInfoFragment(result.get(position)));
@@ -220,7 +252,9 @@ public class AccountFragment extends PABaseListFragment {
 		public TextView tvAccountIncome;
 		public TextView tvAccountExpanse;
 		public TextView tvAccountBalance;
-
+		public LinearLayout infoOpen;
+		public FrameLayout withGone;
+		public RelativeLayout mainViewF;
 		public ViewHolder(View view) {
 			super(view);
 			ivIconItem = (ImageView) view.findViewById(R.id.ivAccountItemCurrent);
@@ -230,6 +264,10 @@ public class AccountFragment extends PABaseListFragment {
 			tvAccountIncome = (TextView) view.findViewById(R.id.tvAccountItemIncome);
 			tvAccountExpanse = (TextView) view.findViewById(R.id.tvAccountItemExpanse);
 			tvAccountBalance = (TextView) view.findViewById(R.id.tvAccountItemBalance);
+			infoOpen = (LinearLayout) view.findViewById(R.id.infoOpen);
+			withGone = (FrameLayout) view.findViewById(R.id.withGone);
+			mainViewF = (RelativeLayout) view.findViewById(R.id.mainViewF);
+
 		}
 	}
 }

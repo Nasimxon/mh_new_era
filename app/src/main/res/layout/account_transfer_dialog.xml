@@ -2,57 +2,25 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white" 
+    android:background="@drawable/dialog_shape"
     android:orientation="vertical">
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-        <TextView
-            android:id="@+id/tvEqual"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_margin="@dimen/sixteen_sp"
-            android:layout_weight="1"
-            android:text="@string/transfer_money"
-            android:textColor="@color/toolbar_text_color" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="right"
+        android:layout_marginTop="@dimen/ten_dp"
+        android:layout_marginRight="@dimen/ten_dp">
 
         <ImageView
             android:id="@+id/ivAccountManClose"
-            android:layout_width="@dimen/twentyfive_dp"
-            android:layout_height="@dimen/twentyfive_dp"
+            android:layout_width="@dimen/twenty_dp"
+            android:layout_height="@dimen/twenty_dp"
             android:layout_gravity="center_vertical"
-            android:background="?attr/selectableItemBackgroundBorderless"
+            android:layout_marginRight="@dimen/five_dp"
             android:src="@drawable/cancel_sign" />
 
-        <ImageView
-            android:id="@+id/ivAccountManSave"
-            android:layout_width="@dimen/twentyfive_dp"
-            android:layout_height="@dimen/twentyfive_dp"
-            android:layout_margin="@dimen/sixteen_dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/check_sign" />
-
     </LinearLayout>
-
-    <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/one_dp"
-        android:background="@color/message_color" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="12.02.2016"
-        android:gravity="center"
-        android:textSize="@dimen/twenty_sp"
-        android:id="@+id/tvAccountDialogDate"
-        />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -60,105 +28,187 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/ten_dp"
-            android:layout_marginLeft="@dimen/sixteen_dp"
-            android:layout_marginRight="@dimen/sixteen_dp"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/from_f"
-                android:layout_marginTop="@dimen/ten_dp"
-                android:textColor="@color/black_for_glavniy_text"
-                android:textStyle="bold"
-                android:textSize="@dimen/sixteen_dp"/>
-
-            <Spinner
-                android:layout_width="match_parent"
-                android:layout_marginTop="@dimen/five_dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/spTransferFirst"
-                android:layout_weight="1"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/to_t"
-                android:layout_marginTop="@dimen/ten_dp"
-                android:textColor="@color/black_for_glavniy_text"
-                android:textStyle="bold"
-                android:textSize="@dimen/sixteen_dp"/>
-            <Spinner
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/five_dp"
-                android:id="@+id/spTransferSecond"
-                android:layout_weight="1"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/sixteen_dp"
-            android:layout_marginLeft="@dimen/sixteen_dp"
-            android:layout_marginRight="@dimen/sixteen_dp"
-            android:layout_marginTop="@dimen/five_dp"
-            android:orientation="horizontal" >
-            <EditText
-                android:id="@+id/etAccountEditName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/fifteen_dp"
+            >
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_weight="1"
-                android:ems="10"
-                android:inputType="numberDecimal"
-                android:maxLength="25"
-                android:textColor="@color/toolbar_text_color"
-                android:textSize="@dimen/sixteen_sp"
-                android:hint="@string/debt_amount"
-                android:layout_gravity="center_vertical"
-                android:layout_marginRight="@dimen/ten_dp"/>
-            <Spinner
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ten_dp"
+                    >
+                    <ImageView
+                        android:id="@+id/spTransferFirst"
+                        android:layout_width="@dimen/eighty_dp"
+                        android:layout_height="@dimen/eighty_dp"
+                        android:layout_alignParentRight="true"
+                        android:src="@drawable/icons_17"/>
+
+                </RelativeLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/account_from"
+                    android:gravity="right|center_vertical"
+                    android:layout_marginTop="@dimen/five_dp"
+                    />
+
+            </LinearLayout>
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.4">
+                <ImageView
+                    android:layout_width="@dimen/fourty_dp"
+                    android:layout_height="@dimen/fourty_dp"
+                    android:src="@drawable/ic_arrow_forward_black_24dp"
+                    android:layout_centerInParent="true"/>
+            </RelativeLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ten_dp"
+                    >
+                    <ImageView
+                        android:id="@+id/spTransferSecond"
+                        android:layout_width="@dimen/eighty_dp"
+                        android:layout_height="@dimen/eighty_dp"
+                        android:src="@drawable/icons_17"/>
+
+                </RelativeLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/account_to"
+                    android:layout_marginTop="@dimen/five_dp"
+                    />
+
+            </LinearLayout>
+        </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Транзакция"
+            android:textSize="@dimen/fourteen_dp"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/twenty_dp"
+            android:textColor="@color/black_for_maykiy_secodary"
+            android:layout_marginBottom="@dimen/sixteen_dp"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="250dp"
+                android:padding="2dp"
+                android:layout_centerInParent="true"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_text"
+                android:gravity="right"
+                >
+
+                <TextView
+                    android:id="@+id/tvAccountDialogDate"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:text="15 Октябрь, 2016"
+                    android:paddingTop="@dimen/three_dp"
+                    android:paddingBottom="@dimen/three_dp"
+                    android:paddingLeft="@dimen/ten_dp"
+                    android:textSize="@dimen/fourteen_dp"
+                    android:textColor="@color/black_for_myagkiy_glavniy"
+                    />
+
+                <FrameLayout
+                    android:layout_width="2px"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/sevent_dp"
+                    android:layout_marginBottom="@dimen/sevent_dp"
+                    android:background="#e1e1e1"/>
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/finance_calendar"
+                    android:tint="#e1e1e1"
+                    android:paddingTop="@dimen/three_dp"
+                    android:paddingBottom="@dimen/three_dp"
+                     />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="250dp"
+                android:layout_centerInParent="true"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_text"
+                android:layout_marginTop="@dimen/twenty_dp"
+                android:gravity="right"
+                android:padding="2dp"
+                >
+                <EditText
+                    android:id="@+id/etAccountEditName"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:hint="Ammount"
+                    android:textColorHint="@color/black_for_maykiy_secodary"
+                    android:paddingTop="@dimen/three_dp"
+                    android:paddingBottom="@dimen/three_dp"
+                    android:textSize="@dimen/fourteen_dp"
+                    android:paddingLeft="@dimen/ten_dp"
+                    android:background="#fff"
+                    android:textColor="@color/black_for_myagkiy_glavniy"
+                    />
+                <requestFocus />
+                <FrameLayout
+                    android:layout_width="2px"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/sevent_dp"
+                    android:layout_marginBottom="@dimen/sevent_dp"
+                    android:background="#e1e1e1"/>
+                <Spinner
+                    android:id="@+id/spAccManDialog"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/finance_calendar"
+
+                    />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/twenty_dp"
+            >
+            <TextView
+                android:id="@+id/ivAccountManSave"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/spAccManDialog"
-                android:layout_weight="1"/>
-        </LinearLayout>
+                android:background="@drawable/diaolog_buttons"
+                android:text="Трансфер"
+                android:paddingLeft="@dimen/fourty_dp"
+                android:paddingRight="@dimen/fourty_dp"
+                android:paddingTop="@dimen/five_dp"
+                android:paddingBottom="@dimen/five_dp"
+                android:textSize="@dimen/eighteen_sp"
+                android:textColor="@color/white"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="@dimen/twentyfive_dp"
+                />
+        </RelativeLayout>
     </LinearLayout>
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="2px"
-        android:background="@color/green_light_forline"
-
-
-        android:layout_marginTop="@dimen/four_dp"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@color/grey_light2">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/this_is_money_transfer_form_from_nsome_to_some_accaunt"
-            android:textSize="@dimen/twelve_sp"
-            android:textColor="@color/black_for_glavniy_text"
-            android:layout_marginRight="@dimen/sixteen_dp"
-            android:layout_marginLeft="@dimen/sixteen_dp"
-            android:gravity="center"
-            android:layout_marginTop="@dimen/ten_dp"
-            />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/all_transfer_operitions_you_can_see_bla_bla_bla_hullas_transactisiya_haqida"
-            android:textSize="@dimen/ten_sp"
-            android:layout_marginTop="@dimen/ten_dp"
-            android:textColor="@color/black_for_secondary_text"
-            android:layout_marginRight="@dimen/sixteen_dp"
-            android:paddingBottom="@dimen/thirty_dp"
-            android:layout_marginLeft="@dimen/sixteen_dp"
-            android:gravity="center"
-            android:id="@+id/textView12" />
-    </LinearLayout>
-
 </LinearLayout>

@@ -30,9 +30,10 @@
     </LinearLayout>
     <ImageView
         android:src="@drawable/drawer_currency"
-        android:layout_width="@dimen/thirty_dp"
-        android:layout_height="@dimen/thirty_dp"
-
+        android:layout_width="@dimen/fourty_dp"
+        android:layout_height="@dimen/fourty_dp"
+        android:layout_marginTop="@dimen/ten_dp"
+        android:layout_marginBottom="@dimen/ten_dp"
         android:id="@+id/ivSubCategoryIcon"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="@dimen/twenty_dp"
