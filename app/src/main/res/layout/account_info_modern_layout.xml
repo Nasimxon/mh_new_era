@@ -25,6 +25,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:text="@string/sub_cats"
+            android:id="@+id/tvAccountInfoFirstPay"
             android:layout_marginBottom="@dimen/two_dp"/>
         <FrameLayout
             android:layout_width="match_parent"
@@ -94,6 +95,7 @@
                 android:id="@+id/rvAccountInfoOperations"
                 android:layout_marginLeft="@dimen/ten_dp"
                 android:layout_marginRight="@dimen/ten_dp"
+                android:overScrollMode="never"
                 android:layout_weight="1"/>
 
             <FrameLayout

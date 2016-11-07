@@ -34,7 +34,7 @@ import static com.jim.pocketaccounter.PocketAccounter.PRESSED;
  * Created by DEV on 27.08.2016.
  */
 
-public class    PAFragmentManager {
+public class PAFragmentManager {
     private PocketAccounter activity;
     private FragmentManager fragmentManager;
     private int lastPos = 5000;
@@ -64,7 +64,7 @@ public class    PAFragmentManager {
     public PAFragmentManager(PocketAccounter activity) {
         this.activity = activity;
         ((PocketAccounterApplication) activity.getApplicationContext()).component().inject(this);
-        lvpMain = (ViewPager)activity.findViewById(R.id.lvpMain);
+        lvpMain = (ViewPager) activity.findViewById(R.id.lvpMain);
         fragmentManager = activity.getSupportFragmentManager();
     }
 
@@ -100,20 +100,20 @@ public class    PAFragmentManager {
             @Override
             public void onPageSelected(int position) {
                 if (lastPos != position && direction == null) {
-                    direction = lastPos<position;
+                    direction = lastPos < position;
                 }
-                final MainPageFragment page = (MainPageFragment) getFragmentManager().findFragmentByTag("android:switcher:"+R.id.lvpMain+":"+position);
+                final MainPageFragment page = (MainPageFragment) getFragmentManager().findFragmentByTag("android:switcher:" + R.id.lvpMain + ":" + position);
                 MainPageFragment prevFragment;
-                if (lastPos>position && !direction) {
-                    prevFragment = ((MainPageFragment)getFragmentManager().findFragmentByTag("android:switcher:"+R.id.lvpMain+":"+(position+1)));
+                if (lastPos > position && !direction) {
+                    prevFragment = ((MainPageFragment) getFragmentManager().findFragmentByTag("android:switcher:" + R.id.lvpMain + ":" + (position + 1)));
                     if (prevFragment.getDay().compareTo(page.getDay()) <= 0) {
                         Calendar day = (Calendar) prevFragment.getDay().clone();
                         day.add(Calendar.DAY_OF_MONTH, -1);
                         page.setDay(day);
                     }
                 }
-                if (lastPos<position && direction) {
-                    prevFragment = ((MainPageFragment)getFragmentManager().findFragmentByTag("android:switcher:"+R.id.lvpMain+":"+(position-1)));
+                if (lastPos < position && direction) {
+                    prevFragment = ((MainPageFragment) getFragmentManager().findFragmentByTag("android:switcher:" + R.id.lvpMain + ":" + (position - 1)));
                     if (prevFragment.getDay().compareTo(page.getDay()) >= 0) {
                         final Calendar day = (Calendar) prevFragment.getDay().clone();
                         day.add(Calendar.DAY_OF_MONTH, 1);
@@ -146,7 +146,7 @@ public class    PAFragmentManager {
     }
 
     public MainPageFragment getCurrentFragment() {
-        MainPageFragment fragment = (MainPageFragment) getFragmentManager().findFragmentByTag("android:switcher:"+R.id.lvpMain+":"+lvpMain.getCurrentItem());
+        MainPageFragment fragment = (MainPageFragment) getFragmentManager().findFragmentByTag("android:switcher:" + R.id.lvpMain + ":" + lvpMain.getCurrentItem());
         return fragment;
     }
 
@@ -175,17 +175,17 @@ public class    PAFragmentManager {
         PRESSED = false;
         activity.findViewById(R.id.mainWhite).setVisibility(View.GONE);
         activity.findViewById(R.id.change).setVisibility(View.VISIBLE);
-        MainPageFragment leftPage = (MainPageFragment) fragmentManager.findFragmentByTag("android:switcher:"+R.id.lvpMain+":"+(lvpMain.getCurrentItem()-1));
+        MainPageFragment leftPage = (MainPageFragment) fragmentManager.findFragmentByTag("android:switcher:" + R.id.lvpMain + ":" + (lvpMain.getCurrentItem() - 1));
         if (leftPage != null)
             leftPage.initialize();
-        MainPageFragment rightPage = (MainPageFragment) fragmentManager.findFragmentByTag("android:switcher:"+R.id.lvpMain+":"+(lvpMain.getCurrentItem()+1));
+        MainPageFragment rightPage = (MainPageFragment) fragmentManager.findFragmentByTag("android:switcher:" + R.id.lvpMain + ":" + (lvpMain.getCurrentItem() + 1));
         if (rightPage != null)
             rightPage.initialize();
-        MainPageFragment centerPage = (MainPageFragment) fragmentManager.findFragmentByTag("android:switcher:"+R.id.lvpMain+":"+lvpMain.getCurrentItem());
+        MainPageFragment centerPage = (MainPageFragment) fragmentManager.findFragmentByTag("android:switcher:" + R.id.lvpMain + ":" + lvpMain.getCurrentItem());
         if (centerPage != null)
             centerPage.initialize();
         if (fragmentManager.getBackStackEntryCount() > 0)
-        fragmentManager.popBackStack();
+            fragmentManager.popBackStack();
     }
 
     public void displayFragment(Fragment fragment) {
@@ -202,14 +202,13 @@ public class    PAFragmentManager {
                         R.anim.slide_left_exit_custom_animation,
                         R.anim.slide_left_enter_custom_animation,
                         R.anim.slide_left_exit_custom_animation
-                        )
+                )
                 .addToBackStack(null)
                 .replace(R.id.flMain, fragment)
                 .commit();
     }
 
     public void displayFragment(Fragment fragment, String tag) {
-//        main.setVisibility(View.GONE);
         if (fragmentManager.findFragmentById(R.id.flMain) != null && fragment.getClass().getName().equals(fragmentManager.findFragmentById(R.id.flMain).getClass().getName()))
             return;
         PRESSED = true;
@@ -279,7 +278,7 @@ public class    PAFragmentManager {
             } else if (fragName.equals(PocketClassess.INFO_CREDIT) || fragName.equals(PocketClassess.ADD_CREDIT)) {
                 displayFragment(new CreditTabLay());
             } else if (fragName.equals(PocketClassess.INFO_CREDIT_ARCHIVE)) {
-                CreditTabLay creditTabL=new CreditTabLay();
+                CreditTabLay creditTabL = new CreditTabLay();
                 creditTabL.setArchivePosition();
                 displayFragment(new CreditTabLay());
             } else if (fragName.equals(PocketClassess.INFO_PURPOSE) || fragName.equals(PocketClassess.ADD_PURPOSE)) {

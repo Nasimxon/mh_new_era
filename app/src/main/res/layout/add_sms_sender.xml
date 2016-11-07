@@ -143,6 +143,7 @@
                 android:layout_height="wrap_content"
                 android:background="#f6f6f6"
                 android:paddingBottom="@dimen/five_dp"
+                android:overScrollMode="never"
                 android:paddingTop="@dimen/ten_dp">
             </android.support.v7.widget.RecyclerView>
             <FrameLayout

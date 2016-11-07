@@ -6,7 +6,6 @@
     <ImageView
         android:layout_width="@dimen/thirty_dp"
         android:layout_height="@dimen/thirty_dp"
-
         android:id="@+id/ivSubcatChecker"
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/five_dp"

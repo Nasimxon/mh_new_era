@@ -121,10 +121,8 @@ public class DrawerInitializer {
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
 //            fabIconFrame.setBackgroundResource(R.drawable.cloud_anim);
 //            mAnimationDrawable = (AnimationDrawable) fabIconFrame.getBackground();
-
         } else
 //            fabIconFrame.setBackgroundResource(R.drawable.cloud_sign_in);
-
 
         reg = new SignInGoogleMoneyHold(pocketAccounter, new SignInGoogleMoneyHold.UpdateSucsess() {
             @Override
@@ -164,8 +162,6 @@ public class DrawerInitializer {
                                                         @Override
                                                         public void run() {
                                                             hideProgressDialog();
-
-
 //                                                            fragmentManager.initialize(new GregorianCalendar());
                                                             if (!drawer.isClosed()) {
                                                                 drawer.close();
@@ -393,7 +389,6 @@ public class DrawerInitializer {
             for (int i = 0; i < fragmentManager.getFragmentManager().getBackStackEntryCount(); i++) {
                 fragmentManager.getFragmentManager().popBackStack();
             }
-
         }
     }
 

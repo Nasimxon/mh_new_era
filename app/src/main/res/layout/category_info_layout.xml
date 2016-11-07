@@ -32,12 +32,10 @@
             android:layout_marginTop="@dimen/three_dp"
             android:layout_marginRight="@dimen/fourty_dp"
             android:layout_marginLeft="@dimen/fourty_dp"
-
             android:background="@color/green_light_forline"/>
         <android.support.v7.widget.RecyclerView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             android:id="@+id/rvCatInfoSubcats"
             android:overScrollMode="never"
             android:layout_gravity="center_horizontal"/>
@@ -99,6 +97,7 @@
                 android:layout_height="match_parent"
                 android:id="@+id/rvCategoryInfoOperations"
                 android:layout_marginLeft="@dimen/ten_dp"
+                android:overScrollMode="never"
                 android:layout_marginRight="@dimen/ten_dp"
                 android:layout_weight="1"/>
             <FrameLayout

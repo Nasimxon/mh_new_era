@@ -485,7 +485,6 @@ public class RootCategoryEditFragment extends PABaseInfoFragment implements OnCl
                             subCatAddEditDialog.show();
                         }
                     });
-
                 }
                 else {
                     view.tvSubCatName.setText(result.get(position).getName());
@@ -507,7 +506,7 @@ public class RootCategoryEditFragment extends PABaseInfoFragment implements OnCl
                                             return;
                                         }
                                     }
-                                    for (int i = 0; i < subCategories.size(); i++) {
+                                    for (int i = 1; i < subCategories.size(); i++) {
                                         if (subCategories.get(i).getId().matches(subCategory.getId())) {
                                             subCategories.set(i, subCategory);
                                             break;

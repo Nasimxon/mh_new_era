@@ -200,6 +200,7 @@ public class AccountFragment extends PABaseListFragment {
 							refreshList();
 						}
 					});
+					transferDialog.getWindow().setLayout(8 * getResources().getDisplayMetrics().widthPixels/10, RelativeLayout.LayoutParams.WRAP_CONTENT);
 					transferDialog.show();
 				}
 			});

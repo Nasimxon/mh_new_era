@@ -219,7 +219,6 @@ public class CategoryInfoFragment extends PABaseInfoFragment {
                 }
             }
             for (int i = 0; i < objects.size(); i++) {
-                if (objects.get(i).getSubCategory() == null) continue;
                 boolean notSelected = true;
                 for (SubCategory subCategory : selected) {
                     if (subCategory.getId().equals(objects.get(i).getSubCategoryId())) {
@@ -227,6 +226,7 @@ public class CategoryInfoFragment extends PABaseInfoFragment {
                         break;
                     }
                 }
+                if (objects.get(i).getSubCategory() == null) notSelected = true;
                 if (notSelected) {
                     objects.remove(i);
                     i--;

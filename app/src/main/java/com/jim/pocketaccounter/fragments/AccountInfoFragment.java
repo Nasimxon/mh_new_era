@@ -1,22 +1,20 @@
 package com.jim.pocketaccounter.fragments;
 
 import android.annotation.SuppressLint;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.view.menu.MenuBuilder;
+import android.support.v7.view.menu.MenuPopupHelper;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,27 +25,19 @@ import com.jim.pocketaccounter.R;
 import com.jim.pocketaccounter.database.Account;
 import com.jim.pocketaccounter.database.AccountDao;
 import com.jim.pocketaccounter.database.DaoSession;
-import com.jim.pocketaccounter.database.RootCategory;
-import com.jim.pocketaccounter.database.RootCategoryDao;
-import com.jim.pocketaccounter.database.SubCategory;
 import com.jim.pocketaccounter.managers.CommonOperations;
 import com.jim.pocketaccounter.managers.LogicManager;
 import com.jim.pocketaccounter.managers.LogicManagerConstants;
 import com.jim.pocketaccounter.managers.PAFragmentManager;
 import com.jim.pocketaccounter.managers.ReportManager;
 import com.jim.pocketaccounter.managers.ToolbarManager;
-import com.jim.pocketaccounter.report.FilterSelectable;
 import com.jim.pocketaccounter.report.ReportObject;
-import com.jim.pocketaccounter.utils.FABIcon;
-import com.jim.pocketaccounter.utils.FilterDialog;
-import com.jim.pocketaccounter.utils.OperationsListDialog;
 import com.jim.pocketaccounter.utils.PocketAccounterGeneral;
-import com.jim.pocketaccounter.utils.TransferDialog;
-import com.jim.pocketaccounter.utils.WarningDialog;
 import com.jim.pocketaccounter.utils.cache.DataCache;
 import com.jim.pocketaccounter.utils.catselector.OnItemSelectedListener;
 import com.jim.pocketaccounter.utils.catselector.SelectorView;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -67,13 +57,9 @@ public class AccountInfoFragment extends Fragment {
 	@Inject	PAFragmentManager paFragmentManager;
 	@Inject	DataCache dataCache;
 	private Account account;
-//	private FABIcon fabAccountIcon;
-	private TextView tvAccountNameInfo;
-	private TextView tvAccountConfigurationInfo;
 	private RecyclerView rvAccountDetailsInfo;
-//	private ImageView ivAccountInfoOperationsFilter;
-//	private TextView getPay;
-//	private TextView sendPay;
+	private TextView firstPay;
+	private TextView totalAmount;
 	SelectorView svCategorySelector;
 
 	@SuppressLint("ValidFragment")
@@ -100,13 +86,11 @@ public class AccountInfoFragment extends Fragment {
 		toolbarManager.setOnSecondImageClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				showOperationsList();
+				showOperationsList(v);
 			}
 		});
 
-//		getPay = (TextView) rootView.findViewById(R.id.tvAccountInfoReplanish);
-//		sendPay = (TextView) rootView.findViewById(R.id.tvAccountInfoToCash);
-
+		totalAmount = (TextView) rootView.findViewById(R.id.tvAccountInfoTotal);
 		svCategorySelector = (SelectorView) rootView.findViewById(R.id.svAccountSelector);
 
 		final List<Account> rootAccounts = daoSession.getAccountDao().queryBuilder().orderAsc(AccountDao.Properties.Name).list();
@@ -130,26 +114,23 @@ public class AccountInfoFragment extends Fragment {
 			}
 		});
 
-//		fabAccountIcon = (FABIcon) rootView.findViewById(R.id.fabAccountIcon);
-//		tvAccountNameInfo = (TextView) rootView.findViewById(R.id.tvAccountNameInfo);
-//		tvAccountConfigurationInfo = (TextView) rootView.findViewById(R.id.tvAccountConfigurationInfo);
 		rvAccountDetailsInfo = (RecyclerView) rootView.findViewById(R.id.rvAccountDetailsInfo);
-//		int resId = getContext().getResources().getIdentifier(account.getIcon(), "drawable", getContext().getPackageName());
-//		Bitmap temp = BitmapFactory.decodeResource(getResources(), resId);
-//		Bitmap bitmap = Bitmap.createScaledBitmap(temp, (int) getResources().getDimension(R.dimen.twentyfive_dp),
-//				(int) getResources().getDimension(R.dimen.twentyfive_dp), false);
-//		fabAccountIcon.setImageBitmap(bitmap);
-//		tvAccountNameInfo.setText(account.getName());
+ 		firstPay = (TextView) rootView.findViewById(R.id.tvAccountInfoFirstPay);
 		String info = "";
-		if (account.getAmount() == 0)
-			info += getResources().getString(R.string.start_amount) + ": " + 0 + "\n";
-		else
-			info += getResources().getString(R.string.start_amount) + ": " +account.getAmount() + " "+account.getStartMoneyCurrency().getAbbr() + "\n";
-		if (account.getNoneMinusAccount())
+		if (account.getAmount() == 0) {
+			info += getResources().getString(R.string.start_amount) + " " + 0 + "\n";
+		}
+		else {
+			info += getResources().getString(R.string.start_amount) + " " +account.getAmount() + " "+account.getStartMoneyCurrency().getAbbr() + "\n";
+		}
+		if (account.getNoneMinusAccount()) {
 			info += getResources().getString(R.string.none_minusable_account);
-		else
+		}
+		else {
 			info += getResources().getString(R.string.minusable_account);
-//		tvAccountConfigurationInfo.setText(info);
+		}
+		firstPay.setText(info);
+
 		rvAccountDetailsInfo = (RecyclerView) rootView.findViewById(R.id.rvAccountInfoOperations);
 		rvAccountDetailsInfo.setLayoutManager(new LinearLayoutManager(getContext()));
 //		ivAccountInfoOperationsFilter = (ImageView) rootView.findViewById(R.id.ivAccountInfoOperationsFilter);
@@ -222,21 +203,16 @@ public class AccountInfoFragment extends Fragment {
 		return rootView;
 	}
 
-	private void showOperationsList() {
-		String[] ops = new String[2];
-		ops[0] = getResources().getString(R.string.to_edit);
-		ops[1] = getResources().getString(R.string.delete);
-		final OperationsListDialog operationsListDialog = new OperationsListDialog(getContext());
-		operationsListDialog.setAdapter(ops);
-		operationsListDialog.setOnItemClickListener(new OnItemClickListener() {
+	private void showOperationsList(View v) {
+		PopupMenu popupMenu = new PopupMenu(getContext(), v);
+		popupMenu.inflate(R.menu.toolbar_popup);
+		MenuPopupHelper menuHelper = new MenuPopupHelper(getContext(), (MenuBuilder) popupMenu.getMenu(), v);
+		menuHelper.setForceShowIcon(true);
+		popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
 			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				switch(position) {
-					case 0:
-						paFragmentManager.getFragmentManager().popBackStack();
-						paFragmentManager.displayFragment(new AccountEditFragment(account));
-						break;
-					case 1:
+			public boolean onMenuItemClick(MenuItem item) {
+				switch (item.getItemId()) {
+					case R.id.delete: {
 						List<Account> accounts = new ArrayList<>();
 						accounts.add(account);
 						if (LogicManagerConstants.MUST_BE_AT_LEAST_ONE_OBJECT == logicManager.deleteAccount(accounts)){
@@ -247,27 +223,53 @@ public class AccountInfoFragment extends Fragment {
 						}
 						dataCache.updateAllPercents();
 						break;
+					}
+					case R.id.edit: {
+						paFragmentManager.getFragmentManager().popBackStack();
+						paFragmentManager.displayFragment(new AccountEditFragment(account));
+						break;
+					}
 				}
-				operationsListDialog.dismiss();
+				return false;
 			}
 		});
-		operationsListDialog.show();
+		popupMenu.show();
 	}
 
 	private void refreshOperationsList() {
 		List<ReportObject> objects = reportManager.getAccountOperations(account, account.getCalendar(), Calendar.getInstance());
 		AccountOperationsAdapter accountOperationsAdapter = new AccountOperationsAdapter(objects);
+		DecimalFormat format = new DecimalFormat("0.##");
+		double total = 0.0d;
+		for (ReportObject reportObject : objects) {
+			if (reportObject.getAccount().getId().matches(account.getId()))
+				total += commonOperations.getCost(reportObject.getDate(), reportObject.getCurrency(), reportObject.getAmount());
+			else
+				total -= commonOperations.getCost(reportObject.getDate(), reportObject.getCurrency(), reportObject.getAmount());
+		}
+		totalAmount.setText(getResources().getString(R.string.total) + " " + format.format(total) + commonOperations.getMainCurrency().getAbbr());
 		rvAccountDetailsInfo.setAdapter(accountOperationsAdapter);
 	}
 
 	private void refreshOperationsList(Calendar begin, Calendar end) {
 		List<ReportObject> objects = reportManager.getAccountOperations(account, begin, end);
 		AccountOperationsAdapter accountOperationsAdapter = new AccountOperationsAdapter(objects);
+		DecimalFormat format = new DecimalFormat("0.##");
+		double total = 0.0d;
+		for (ReportObject reportObject : objects) {
+			if (reportObject.getAccount().getId() == account.getId())
+				total += commonOperations.getCost(reportObject.getDate(), reportObject.getCurrency(), reportObject.getAccount().getAmount());
+			else
+				total -= commonOperations.getCost(reportObject.getDate(), reportObject.getCurrency(), reportObject.getAccount().getAmount());
+		}
+		totalAmount.setText(getResources().getString(R.string.total) + " " + format.format(total) + commonOperations.getMainCurrency().getAbbr());
 		rvAccountDetailsInfo.setAdapter(accountOperationsAdapter);
 	}
 
 	private class AccountOperationsAdapter extends RecyclerView.Adapter<AccountInfoFragment.ViewHolder> {
 		private List<ReportObject> result;
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
+
 		public AccountOperationsAdapter(List<ReportObject> result) {
 			this.result = result;
 		}
@@ -275,7 +277,7 @@ public class AccountInfoFragment extends Fragment {
 			return result.size();
 		}
 		public void onBindViewHolder(final AccountInfoFragment.ViewHolder view, final int position) {
-			view.tvAccountInfoDate.setText(dateFormat.format(result.get(position).getDate().getTime()));
+			view.tvAccountInfoDate.setText(simpleDateFormat.format(result.get(position).getDate().getTime()));
 			view.tvAccountInfoName.setText(result.get(position).getDescription());
 			String amount = "";
 			if (result.get(position).getType() == PocketAccounterGeneral.INCOME) {
@@ -286,6 +288,7 @@ public class AccountInfoFragment extends Fragment {
 				amount += "-"+result.get(position).getAmount() + result.get(position).getCurrency().getAbbr();
 				view.tvAccountInfoAmount.setTextColor(ContextCompat.getColor(getContext(), R.color.red));
 			}
+			Log.d("nnn", " " + amount.matches("\\s?[0-9]*[.,]?[0]?\\s?"));
 			view.tvAccountInfoAmount.setText(amount);
 		}
 
@@ -323,7 +326,6 @@ public class AccountInfoFragment extends Fragment {
 			parent.addView(view);
 			return parent;
 		}
-
 		@Override
 		protected int getCount() {
 			return list.size();
