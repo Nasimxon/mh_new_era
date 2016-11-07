@@ -53,6 +53,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/account_from"
+                    android:textSize="@dimen/fourteen_dp"
                     android:gravity="right|center_vertical"
                     android:layout_marginTop="@dimen/five_dp"
                     />
@@ -90,6 +91,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/account_to"
                     android:layout_marginTop="@dimen/five_dp"
+                    android:textSize="@dimen/fourteen_dp"
                     />
 
             </LinearLayout>
@@ -107,7 +109,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <LinearLayout
-                android:layout_width="250dp"
+                android:layout_width="@dimen/two_hundred_fifty_dp"
                 android:padding="2dp"
                 android:layout_centerInParent="true"
                 android:layout_height="wrap_content"
@@ -117,11 +119,11 @@
 
                 <TextView
                     android:id="@+id/tvAccountDialogDate"
-                    android:layout_width="200dp"
+                    android:layout_width="@dimen/two_hundred_eight_dp"
                     android:layout_height="wrap_content"
                     android:text="15 Октябрь, 2016"
-                    android:paddingTop="@dimen/three_dp"
-                    android:paddingBottom="@dimen/three_dp"
+                    android:paddingTop="@dimen/five_dp"
+                    android:paddingBottom="@dimen/five_dp"
                     android:paddingLeft="@dimen/ten_dp"
                     android:textSize="@dimen/fourteen_dp"
                     android:textColor="@color/black_for_myagkiy_glavniy"
@@ -130,8 +132,8 @@
                 <FrameLayout
                     android:layout_width="2px"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="@dimen/sevent_dp"
-                    android:layout_marginBottom="@dimen/sevent_dp"
+                    android:layout_marginTop="@dimen/four_dp"
+                    android:layout_marginBottom="@dimen/four_dp"
                     android:background="#e1e1e1"/>
                 <ImageView
                     android:layout_width="match_parent"
@@ -149,7 +151,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <LinearLayout
-                android:layout_width="250dp"
+                android:layout_width="@dimen/two_hundred_fifty_dp"
                 android:layout_centerInParent="true"
                 android:layout_height="wrap_content"
                 android:background="@drawable/edit_text"
@@ -159,12 +161,12 @@
                 >
                 <EditText
                     android:id="@+id/etAccountEditName"
-                    android:layout_width="200dp"
+                    android:layout_width="@dimen/two_hundred_eight_dp"
                     android:layout_height="wrap_content"
                     android:hint="Ammount"
                     android:textColorHint="@color/black_for_maykiy_secodary"
-                    android:paddingTop="@dimen/three_dp"
-                    android:paddingBottom="@dimen/three_dp"
+                    android:paddingTop="@dimen/five_dp"
+                    android:paddingBottom="@dimen/five_dp"
                     android:textSize="@dimen/fourteen_dp"
                     android:paddingLeft="@dimen/ten_dp"
                     android:background="#fff"
@@ -174,8 +176,8 @@
                 <FrameLayout
                     android:layout_width="2px"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="@dimen/sevent_dp"
-                    android:layout_marginBottom="@dimen/sevent_dp"
+                    android:layout_marginTop="@dimen/four_dp"
+                    android:layout_marginBottom="@dimen/four_dp"
                     android:background="#e1e1e1"/>
                 <Spinner
                     android:id="@+id/spAccManDialog"
