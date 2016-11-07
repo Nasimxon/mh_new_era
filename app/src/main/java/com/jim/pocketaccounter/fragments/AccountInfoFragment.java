@@ -25,7 +25,11 @@ import com.jim.pocketaccounter.PocketAccounter;
 import com.jim.pocketaccounter.PocketAccounterApplication;
 import com.jim.pocketaccounter.R;
 import com.jim.pocketaccounter.database.Account;
+import com.jim.pocketaccounter.database.AccountDao;
 import com.jim.pocketaccounter.database.DaoSession;
+import com.jim.pocketaccounter.database.RootCategory;
+import com.jim.pocketaccounter.database.RootCategoryDao;
+import com.jim.pocketaccounter.database.SubCategory;
 import com.jim.pocketaccounter.managers.CommonOperations;
 import com.jim.pocketaccounter.managers.LogicManager;
 import com.jim.pocketaccounter.managers.LogicManagerConstants;
@@ -41,6 +45,8 @@ import com.jim.pocketaccounter.utils.PocketAccounterGeneral;
 import com.jim.pocketaccounter.utils.TransferDialog;
 import com.jim.pocketaccounter.utils.WarningDialog;
 import com.jim.pocketaccounter.utils.cache.DataCache;
+import com.jim.pocketaccounter.utils.catselector.OnItemSelectedListener;
+import com.jim.pocketaccounter.utils.catselector.SelectorView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -61,13 +67,14 @@ public class AccountInfoFragment extends Fragment {
 	@Inject	PAFragmentManager paFragmentManager;
 	@Inject	DataCache dataCache;
 	private Account account;
-	private FABIcon fabAccountIcon;
+//	private FABIcon fabAccountIcon;
 	private TextView tvAccountNameInfo;
 	private TextView tvAccountConfigurationInfo;
 	private RecyclerView rvAccountDetailsInfo;
-	private ImageView ivAccountInfoOperationsFilter;
-	private TextView getPay;
-	private TextView sendPay;
+//	private ImageView ivAccountInfoOperationsFilter;
+//	private TextView getPay;
+//	private TextView sendPay;
+	SelectorView svCategorySelector;
 
 	@SuppressLint("ValidFragment")
 	public AccountInfoFragment(Account account) {
@@ -76,7 +83,7 @@ public class AccountInfoFragment extends Fragment {
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		final View rootView = inflater.inflate(R.layout.account_info_layout, container, false);
+		final View rootView = inflater.inflate(R.layout.account_info_modern_layout, container, false);
 		((PocketAccounter)getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
 		toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
 		toolbarManager.setImageToSecondImage(R.drawable.ic_more_vert_black_48dp);
@@ -97,19 +104,42 @@ public class AccountInfoFragment extends Fragment {
 			}
 		});
 
-		getPay = (TextView) rootView.findViewById(R.id.tvAccountInfoReplanish);
-		sendPay = (TextView) rootView.findViewById(R.id.tvAccountInfoToCash);
+//		getPay = (TextView) rootView.findViewById(R.id.tvAccountInfoReplanish);
+//		sendPay = (TextView) rootView.findViewById(R.id.tvAccountInfoToCash);
 
-		fabAccountIcon = (FABIcon) rootView.findViewById(R.id.fabAccountIcon);
-		tvAccountNameInfo = (TextView) rootView.findViewById(R.id.tvAccountNameInfo);
-		tvAccountConfigurationInfo = (TextView) rootView.findViewById(R.id.tvAccountConfigurationInfo);
+		svCategorySelector = (SelectorView) rootView.findViewById(R.id.svAccountSelector);
+
+		final List<Account> rootAccounts = daoSession.getAccountDao().queryBuilder().orderAsc(AccountDao.Properties.Name).list();
+		CategorySelectorAdapter adapter = new CategorySelectorAdapter(rootAccounts);
+		int selectedPos = 0;
+		for (int i = 0; i < rootAccounts.size(); i++) {
+			if (rootAccounts.get(i).getId().equals(account.getId())) {
+				selectedPos = i;
+				break;
+			}
+		}
+
+		svCategorySelector.setAdapter(adapter);
+		svCategorySelector.setSelection(selectedPos);
+		svCategorySelector.setOnItemSelectedListener(new OnItemSelectedListener() {
+			@Override
+			public void onItemSelected(int selectedItemPosition) {
+				account = rootAccounts.get(selectedItemPosition);
+				toolbarManager.setSubtitle(account.getName());
+				refreshOperationsList(commonOperations.getFirstDay(), Calendar.getInstance());
+			}
+		});
+
+//		fabAccountIcon = (FABIcon) rootView.findViewById(R.id.fabAccountIcon);
+//		tvAccountNameInfo = (TextView) rootView.findViewById(R.id.tvAccountNameInfo);
+//		tvAccountConfigurationInfo = (TextView) rootView.findViewById(R.id.tvAccountConfigurationInfo);
 		rvAccountDetailsInfo = (RecyclerView) rootView.findViewById(R.id.rvAccountDetailsInfo);
-		int resId = getContext().getResources().getIdentifier(account.getIcon(), "drawable", getContext().getPackageName());
-		Bitmap temp = BitmapFactory.decodeResource(getResources(), resId);
-		Bitmap bitmap = Bitmap.createScaledBitmap(temp, (int) getResources().getDimension(R.dimen.twentyfive_dp),
-				(int) getResources().getDimension(R.dimen.twentyfive_dp), false);
-		fabAccountIcon.setImageBitmap(bitmap);
-		tvAccountNameInfo.setText(account.getName());
+//		int resId = getContext().getResources().getIdentifier(account.getIcon(), "drawable", getContext().getPackageName());
+//		Bitmap temp = BitmapFactory.decodeResource(getResources(), resId);
+//		Bitmap bitmap = Bitmap.createScaledBitmap(temp, (int) getResources().getDimension(R.dimen.twentyfive_dp),
+//				(int) getResources().getDimension(R.dimen.twentyfive_dp), false);
+//		fabAccountIcon.setImageBitmap(bitmap);
+//		tvAccountNameInfo.setText(account.getName());
 		String info = "";
 		if (account.getAmount() == 0)
 			info += getResources().getString(R.string.start_amount) + ": " + 0 + "\n";
@@ -119,73 +149,73 @@ public class AccountInfoFragment extends Fragment {
 			info += getResources().getString(R.string.none_minusable_account);
 		else
 			info += getResources().getString(R.string.minusable_account);
-		tvAccountConfigurationInfo.setText(info);
-		rvAccountDetailsInfo = (RecyclerView) rootView.findViewById(R.id.rvAccountDetailsInfo);
+//		tvAccountConfigurationInfo.setText(info);
+		rvAccountDetailsInfo = (RecyclerView) rootView.findViewById(R.id.rvAccountInfoOperations);
 		rvAccountDetailsInfo.setLayoutManager(new LinearLayoutManager(getContext()));
-		ivAccountInfoOperationsFilter = (ImageView) rootView.findViewById(R.id.ivAccountInfoOperationsFilter);
-		ivAccountInfoOperationsFilter.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				FilterDialog filterDialog = new FilterDialog(getContext());
-				filterDialog.setOnDateSelectedListener(new FilterSelectable() {
-					@Override
-					public void onDateSelected(Calendar begin, Calendar end) {
-						refreshOperationsList(begin, end);
-					}
-				});
-				filterDialog.show();
-			}
-		});
-		sendPay.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (daoSession.getPurposeDao().loadAll().isEmpty()) {
-					final WarningDialog warningDialog = new WarningDialog(getContext());
-					warningDialog.setText(getString(R.string.purpose_list_is_empty));
-					warningDialog.setOnYesButtonListener(new OnClickListener() {
-						@Override
-						public void onClick(View v) {
-							paFragmentManager.getFragmentManager().popBackStack();
-							paFragmentManager.displayFragment(new PurposeFragment());
-							warningDialog.dismiss();
-						}
-					});
-					warningDialog.setOnNoButtonClickListener(new OnClickListener() {
-						@Override
-						public void onClick(View v) {
-							warningDialog.dismiss();
-						}
-					});
-					warningDialog.show();
-				} else {
-					final TransferDialog transferDialog = new TransferDialog(getContext());
-					transferDialog.setAccountOrPurpose(account.getId(), true);
-					transferDialog.setOnTransferDialogSaveListener(new TransferDialog.OnTransferDialogSaveListener() {
-						@Override
-						public void OnTransferDialogSave() {
-							refreshOperationsList();
-							transferDialog.dismiss();
-						}
-					});
-					transferDialog.show();
-				}
-			}
-		});
-		getPay.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				final TransferDialog transferDialog = new TransferDialog(getContext());
-				transferDialog.show();
-				transferDialog.setAccountOrPurpose(account.getId(), false);
-				transferDialog.setOnTransferDialogSaveListener(new TransferDialog.OnTransferDialogSaveListener() {
-					@Override
-					public void OnTransferDialogSave() {
-						refreshOperationsList();
-						transferDialog.dismiss();
-					}
-				});
-			}
-		});
+//		ivAccountInfoOperationsFilter = (ImageView) rootView.findViewById(R.id.ivAccountInfoOperationsFilter);
+//		ivAccountInfoOperationsFilter.setOnClickListener(new OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				FilterDialog filterDialog = new FilterDialog(getContext());
+//				filterDialog.setOnDateSelectedListener(new FilterSelectable() {
+//					@Override
+//					public void onDateSelected(Calendar begin, Calendar end) {
+//						refreshOperationsList(begin, end);
+//					}
+//				});
+//				filterDialog.show();
+//			}
+//		});
+//		sendPay.setOnClickListener(new OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				if (daoSession.getPurposeDao().loadAll().isEmpty()) {
+//					final WarningDialog warningDialog = new WarningDialog(getContext());
+//					warningDialog.setText(getString(R.string.purpose_list_is_empty));
+//					warningDialog.setOnYesButtonListener(new OnClickListener() {
+//						@Override
+//						public void onClick(View v) {
+//							paFragmentManager.getFragmentManager().popBackStack();
+//							paFragmentManager.displayFragment(new PurposeFragment());
+//							warningDialog.dismiss();
+//						}
+//					});
+//					warningDialog.setOnNoButtonClickListener(new OnClickListener() {
+//						@Override
+//						public void onClick(View v) {
+//							warningDialog.dismiss();
+//						}
+//					});
+//					warningDialog.show();
+//				} else {
+//					final TransferDialog transferDialog = new TransferDialog(getContext());
+//					transferDialog.setAccountOrPurpose(account.getId(), true);
+//					transferDialog.setOnTransferDialogSaveListener(new TransferDialog.OnTransferDialogSaveListener() {
+//						@Override
+//						public void OnTransferDialogSave() {
+//							refreshOperationsList();
+//							transferDialog.dismiss();
+//						}
+//					});
+//					transferDialog.show();
+//				}
+//			}
+//		});
+//		getPay.setOnClickListener(new OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				final TransferDialog transferDialog = new TransferDialog(getContext());
+//				transferDialog.show();
+//				transferDialog.setAccountOrPurpose(account.getId(), false);
+//				transferDialog.setOnTransferDialogSaveListener(new TransferDialog.OnTransferDialogSaveListener() {
+//					@Override
+//					public void OnTransferDialogSave() {
+//						refreshOperationsList();
+//						transferDialog.dismiss();
+//					}
+//				});
+//			}
+//		});
 		RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
 		rvAccountDetailsInfo.setLayoutManager(layoutManager);
 		refreshOperationsList();
@@ -274,6 +304,29 @@ public class AccountInfoFragment extends Fragment {
 			tvAccountInfoDate = (TextView) view.findViewById(R.id.tvAccountInfoDate);
 			tvAccountInfoName = (TextView) view.findViewById(R.id.tvAccountInfoName);
 			tvAccountInfoAmount = (TextView) view.findViewById(R.id.tvAccountInfoAmount);
+		}
+	}
+
+	class CategorySelectorAdapter extends SelectorView.SelectorAdapter<Account> {
+		public CategorySelectorAdapter(List<Account> list) {
+			this.list = list;
+		}
+
+		@Override
+		protected ViewGroup getInstantiatedView(int position, ViewGroup parent) {
+			View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cat_selector_item, parent, false);
+			ImageView ivCatSelectorItem = (ImageView) view.findViewById(R.id.ivCatSelectorItem);
+			int resId = getResources().getIdentifier(list.get(position).getIcon(), "drawable", getContext().getPackageName());
+			ivCatSelectorItem.setImageResource(resId);
+			TextView tvCatSelectorItem = (TextView) view.findViewById(R.id.tvCatSelectorItem);
+			tvCatSelectorItem.setText(list.get(position).getName());
+			parent.addView(view);
+			return parent;
+		}
+
+		@Override
+		protected int getCount() {
+			return list.size();
 		}
 	}
 }
