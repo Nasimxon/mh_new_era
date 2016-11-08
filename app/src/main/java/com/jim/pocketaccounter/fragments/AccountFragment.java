@@ -188,7 +188,7 @@ public class AccountFragment extends PABaseListFragment {
 					paFragmentManager.displayFragment(new AccountInfoFragment(result.get(position)));
 				}
 			});
-			view.ivOtherAccount.setOnClickListener(new OnClickListener() {
+			view.llAccountItemOther.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					TransferDialog transferDialog = new TransferDialog(getContext());
@@ -203,7 +203,7 @@ public class AccountFragment extends PABaseListFragment {
 					transferDialog.show();
 				}
 			});
-			view.ivSendPurpose.setOnClickListener(new OnClickListener() {
+			view.llAccountItemPurpose.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					if (daoSession.getPurposeDao().loadAll().isEmpty()) {
@@ -247,8 +247,6 @@ public class AccountFragment extends PABaseListFragment {
 	}
 	public class ViewHolder extends RecyclerView.ViewHolder {
 		public ImageView ivIconItem;
-		public ImageView ivSendPurpose;
-		public ImageView ivOtherAccount;
 		public TextView tvAccountName;
 		public TextView tvAccountIncome;
 		public TextView tvAccountExpanse;
@@ -256,11 +254,12 @@ public class AccountFragment extends PABaseListFragment {
 		public LinearLayout infoOpen;
 		public FrameLayout withGone;
 		public RelativeLayout mainViewF;
+		public LinearLayout llAccountItemPurpose;
+		public LinearLayout llAccountItemOther;
+
 		public ViewHolder(View view) {
 			super(view);
 			ivIconItem = (ImageView) view.findViewById(R.id.ivAccountItemCurrent);
-			ivOtherAccount = (ImageView) view.findViewById(R.id.ivAccountItemExchange);
-			ivSendPurpose = (ImageView) view.findViewById(R.id.ivAccountItemSendPurpose);
 			tvAccountName = (TextView) view.findViewById(R.id.tvAccountItemName);
 			tvAccountIncome = (TextView) view.findViewById(R.id.tvAccountItemIncome);
 			tvAccountExpanse = (TextView) view.findViewById(R.id.tvAccountItemExpanse);
@@ -268,7 +267,8 @@ public class AccountFragment extends PABaseListFragment {
 			infoOpen = (LinearLayout) view.findViewById(R.id.infoOpen);
 			withGone = (FrameLayout) view.findViewById(R.id.withGone);
 			mainViewF = (RelativeLayout) view.findViewById(R.id.mainViewF);
-
+			llAccountItemOther = (LinearLayout) view.findViewById(R.id.llAccountItemOther);
+			llAccountItemPurpose = (LinearLayout) view.findViewById(R.id.llAccountItemPurpose);
 		}
 	}
 }

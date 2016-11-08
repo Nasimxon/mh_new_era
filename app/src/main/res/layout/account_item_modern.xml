@@ -40,6 +40,7 @@
                     android:paddingRight="@dimen/ten_dp"
                     android:paddingLeft="@dimen/ten_dp"
                     android:layout_marginTop="@dimen/twentyfive_dp"
+                    android:id="@+id/llAccountItemPurpose"
                     >
 
                     <ImageView
@@ -101,6 +102,7 @@
                     android:layout_weight="1"
                     android:layout_marginTop="@dimen/twentyfive_dp"
                     android:gravity="center"
+                    android:id="@+id/llAccountItemOther"
                     android:paddingRight="@dimen/ten_dp"
                     android:paddingLeft="@dimen/ten_dp"
                     android:orientation="vertical">
