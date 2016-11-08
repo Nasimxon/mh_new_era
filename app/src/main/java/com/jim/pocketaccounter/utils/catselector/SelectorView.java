@@ -1,6 +1,7 @@
 package com.jim.pocketaccounter.utils.catselector;
 
 import android.content.Context;
+import android.support.v4.view.GestureDetectorCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -81,7 +82,7 @@ public class SelectorView extends DrawingSelectorView{
                     oldX = event.getX();
                     moved = true;
                 }
-                if (event.getAction() == MotionEvent.ACTION_MOVE && moved) {
+                if (moved && event.getAction() == MotionEvent.ACTION_MOVE) {
                     if (oldX + 200 < event.getX()) {
                         if (animating || count <= 1) return false;
                         right = false;
@@ -91,7 +92,7 @@ public class SelectorView extends DrawingSelectorView{
                             listener.onItemSelected(position);
                         doTransition();
                         moved = false;
-                    } else if (oldX - 200 > event.getX() && moved) {
+                    } else if (oldX - 200 > event.getX()) {
                         if(animating || count <= 1) return false;
                         right = true;
                         animating = true;

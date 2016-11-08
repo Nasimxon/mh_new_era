@@ -54,6 +54,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/account_from"
                     android:textSize="@dimen/fourteen_dp"
+                    android:id="@+id/tvAccountTransferDialogFrom"
                     android:gravity="right|center_vertical"
                     android:layout_marginTop="@dimen/five_dp"
                     />
@@ -90,6 +91,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/account_to"
+                    android:id="@+id/tvAccountTransferDialogTo"
                     android:layout_marginTop="@dimen/five_dp"
                     android:textSize="@dimen/fourteen_dp"
                     />

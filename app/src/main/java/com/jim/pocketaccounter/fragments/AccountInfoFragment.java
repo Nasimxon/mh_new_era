@@ -48,15 +48,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 @SuppressLint({"InflateParams", "ValidFragment"})
-public class AccountInfoFragment extends Fragment {
-    @Inject LogicManager logicManager;
-    @Inject ToolbarManager toolbarManager;
-    @Inject DaoSession daoSession;
-	@Inject ReportManager reportManager;
-	@Inject	@Named(value = "display_formatter")	SimpleDateFormat dateFormat;
-	@Inject	CommonOperations commonOperations;
-	@Inject	PAFragmentManager paFragmentManager;
-	@Inject	DataCache dataCache;
+public class AccountInfoFragment extends PABaseInfoFragment {
 	private Account account;
 	private RecyclerView rvAccountDetailsInfo;
 	private TextView firstPay;
@@ -130,6 +122,7 @@ public class AccountInfoFragment extends Fragment {
 		else {
 			info += getResources().getString(R.string.minusable_account);
 		}
+
 		firstPay.setText(info);
 
 		rvAccountDetailsInfo = (RecyclerView) rootView.findViewById(R.id.rvAccountInfoOperations);
@@ -202,22 +195,6 @@ public class AccountInfoFragment extends Fragment {
 		rvAccountDetailsInfo.setLayoutManager(layoutManager);
 		refreshOperationsList();
 
-//		ivCatSelectorItem.setOnTouchListener(new View.OnTouchListener() {
-//			@Override
-//			public boolean onTouch(View v, MotionEvent event) {
-//				if (event.getAction() == MotionEvent.ACTION_DOWN) {
-//					int pos = rootAccounts.indexOf(account);
-////					if (pos ++ >= rootAccounts.size() - 1) {
-////						pos = 0;
-////					}
-//					pos ++;
-//					svCategorySelector.move(pos);
-//					return true;
-//				}
-//				return false;
-//			}
-//		});
-
 		return rootView;
 	}
 
@@ -282,6 +259,11 @@ public class AccountInfoFragment extends Fragment {
 		}
 		totalAmount.setText(getResources().getString(R.string.total) + " " + format.format(total) + commonOperations.getMainCurrency().getAbbr());
 		rvAccountDetailsInfo.setAdapter(accountOperationsAdapter);
+	}
+
+	@Override
+	void refreshList() {
+
 	}
 
 	private class AccountOperationsAdapter extends RecyclerView.Adapter<AccountInfoFragment.ViewHolder> {
