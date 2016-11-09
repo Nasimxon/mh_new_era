@@ -2,25 +2,20 @@ package com.jim.pocketaccounter.modulesandcomponents.modules;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import com.jim.pocketaccounter.PocketAccounterApplication;
 import com.jim.pocketaccounter.database.DaoMaster;
 import com.jim.pocketaccounter.database.DaoSession;
 import com.jim.pocketaccounter.managers.CommonOperations;
-import com.jim.pocketaccounter.managers.PAFragmentManager;
 import com.jim.pocketaccounter.managers.ReportManager;
 import com.jim.pocketaccounter.utils.PocketAccounterGeneral;
+import com.jim.pocketaccounter.utils.billing.PurchaseImplementation;
 import com.jim.pocketaccounter.utils.cache.DataCache;
 
 import org.greenrobot.greendao.database.Database;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-
-import javax.inject.Named;
-
-import java.text.SimpleDateFormat;
 
 import javax.inject.Named;
 
@@ -38,12 +33,15 @@ public class PocketAccounterApplicationModule {
     private SharedPreferences preferences;
     private Calendar begin, end;
     private SimpleDateFormat displayFormatter, commonFormatter;
+    private PurchaseImplementation purchaseImplementation;
     public PocketAccounterApplicationModule(PocketAccounterApplication pocketAccounterApplication) {
         this.pocketAccounterApplication = pocketAccounterApplication;
         DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(pocketAccounterApplication, PocketAccounterGeneral.CURRENT_DB_NAME);
         Database db = helper.getWritableDb();
         daoSession = new DaoMaster(db).newSession();
         preferences = PreferenceManager.getDefaultSharedPreferences(pocketAccounterApplication);
+        purchaseImplementation = new PurchaseImplementation(pocketAccounterApplication, preferences);
+
     }
 
     @Provides
@@ -95,6 +93,15 @@ public class PocketAccounterApplicationModule {
     public CommonOperations getCommonOperations() {
         return new CommonOperations(pocketAccounterApplication);
     }
+
+    @Provides
+    public PurchaseImplementation getPurchaseImplementation() {
+        if (purchaseImplementation == null)
+            purchaseImplementation = new PurchaseImplementation(pocketAccounterApplication, preferences);
+        return purchaseImplementation;
+
+    }
+
     @Provides
     @Named(value = "begin")
     public Calendar getBegin() {
@@ -124,4 +131,6 @@ public class PocketAccounterApplicationModule {
             displayFormatter = new SimpleDateFormat("dd LLLL, yyyy");
         return displayFormatter;
     }
+
+
 }

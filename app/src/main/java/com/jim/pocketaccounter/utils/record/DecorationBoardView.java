@@ -31,15 +31,18 @@ public class DecorationBoardView extends BaseBoardView {
     private Bitmap bitmap;
     private BitmapFactory.Options options;
     protected List<ABoardButton> buttons;
-    private final int DRAWING_PROCESS = 0, DRAWN = 1;
-    private int drawState = DRAWN;
-    private int alpha = 0xFF, fullAlpha = 0xFF;
-    private int frames = 20, elapsed = 0;
-    private long interim = 8;
-    private int position = 0;
-    private boolean longPressed = false;
+
+    private final int DRAWING_PROCESS = 0, DRAWN = 1; //states
+    private int drawState = DRAWN; // drawing state
+    private int alpha = 0xFF, fullAlpha = 0xFF; //alpha control fields
+    private int frames = 20, elapsed = 0; //frames and elapsed time
+    private long interim = 8; //sleep
+
+private int position = 0;
+    private boolean longPressed = false, drawIcons = true;
     private int active, not_active, indicatorFrame;
     private String debtBorrowIcon = "icons_30";
+
     public DecorationBoardView(Context context, int table) {
         super(context, table);
         this.context = context;
@@ -196,7 +199,6 @@ public class DecorationBoardView extends BaseBoardView {
             drawIndicator(canvas);
     }
 
-
     private void drawButtons(Canvas canvas) {
         Paint shadowsPaint = new Paint();
         shadowsPaint.setAntiAlias(true);
@@ -288,6 +290,38 @@ public class DecorationBoardView extends BaseBoardView {
                     button.getContainer().centerY() - icon.getHeight() / 2, shadowsPaint);
         }
     }
+
+    protected void hideIcons(Canvas canvas) {
+        drawIcons = true;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (elapsed <= frames) {
+                    try {
+                        Thread.sleep(interim);
+                        if (elapsed < frames / 2) {
+                            alpha = (int) (fullAlpha * (1 - (float) elapsed / frames));
+                        } else {
+                            alpha = (int) (fullAlpha * (float) elapsed / frames);
+                        }
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } finally {
+                        postInvalidate();
+                        elapsed++;
+                    }
+                }
+                elapsed = 0;
+                drawState = DRAWN;
+            }
+        }).start();
+    }
+
+    protected void showIcons(Canvas canvas) {
+        drawIcons = false;
+
+    }
+
     private void drawIndicator(Canvas canvas) {
         Paint paint = new Paint();
         paint.setAntiAlias(true);

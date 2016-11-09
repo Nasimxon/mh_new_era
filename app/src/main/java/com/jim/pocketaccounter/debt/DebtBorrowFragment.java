@@ -45,7 +45,7 @@ public class DebtBorrowFragment extends Fragment implements View.OnClickListener
     private final int BORROW_FRAGMENT = 0;
     private final int DEBT_FRAGMENT = 1;
     private TabLayout tabLayout;
-    private ViewPagerFixed viewPager;
+    private DebtBorrowViewPager viewPager;
     private FloatingActionButton fb;
 
     @Nullable
@@ -64,7 +64,7 @@ public class DebtBorrowFragment extends Fragment implements View.OnClickListener
             }
         },100);
         tabLayout = (TabLayout) view.findViewById(R.id.tlDebtBorrowFragment);
-        viewPager = (ViewPagerFixed) view.findViewById(R.id.vpDebtBorrowFragment);
+        viewPager = (DebtBorrowViewPager) view.findViewById(R.id.vpDebtBorrowFragment);
 
         toolbarManager.setTitle(getResources().getString(R.string.debts_title));
         toolbarManager.setSubtitle("");
@@ -94,7 +94,9 @@ public class DebtBorrowFragment extends Fragment implements View.OnClickListener
         borrowFragments.add(archiv);
         borrowFragments.add(debt);
         borrowFragments.add(borrow);
-        viewPager.setAdapter(new MyAdapter(borrowFragments, ((PocketAccounter) getContext()).getSupportFragmentManager()));
+        MyAdapter adapter = new MyAdapter(borrowFragments, ((PocketAccounter) getContext()).getSupportFragmentManager());
+        viewPager.setAdapter(adapter);
+        viewPager.storeAdapter(adapter);
         if (getArguments() != null) {
             if (getArguments().getInt("type", -1) != -1) {
                 viewPager.setCurrentItem(getArguments().getInt("type", 0));
@@ -152,9 +154,9 @@ public class DebtBorrowFragment extends Fragment implements View.OnClickListener
                 fb.setAlpha(1-positionOffset);
             }
             else {
-                if(positionOffset>=0.1f&&fb.getVisibility()==View.VISIBLE)
+                if(positionOffset>=0.1f && fb.getVisibility()==View.VISIBLE)
                     fb.setVisibility(View.GONE);
-                else if(positionOffset<=0.1f&&fb.getVisibility()==View.GONE)
+                else if(positionOffset<=0.1f && fb.getVisibility()==View.GONE)
                     fb.setVisibility(View.VISIBLE);
             }
         }

@@ -1,11 +1,13 @@
 package com.jim.pocketaccounter.utils;
 
+import com.jim.pocketaccounter.BuildConfig;
 import com.jim.pocketaccounter.database.Account;
 import com.jim.pocketaccounter.database.RootCategory;
 
 import java.util.Calendar;
 
 public class PocketAccounterGeneral {
+	public static final int PAGES_MAX_COUNT = 10;
 	public static final String OLD_DB_NAME = "PocketAccounterDatabase", CURRENT_DB_NAME = "pocketaccounter-db";
 	public static final int NORMAL_MODE = 0;
 	public static final int EDIT_MODE = 1;
@@ -31,4 +33,30 @@ public class PocketAccounterGeneral {
 			DOWN_MOST_LEFT_PRESSED = 24, DOWN_SIMPLE_PRESSED = 25, DOWN_MOST_RIGHT_PRESSED = 26;
 
 	public static final String HEAD_COLOR = "HEAD_COLOR", HELPER_COLOR = "HELPER_COLOR";
+	public static final String BASE64RSA = BuildConfig.base64rsa;
+	public class MoneyHolderSkus {
+		public static final String SMS_PARSING_SKU = "sms_parsing_sku";
+		public static final String PAGING_SKU = "paging_sku";
+		public static final String ADD_REPLACE_CATEGORY_ON_MAIN_BOARD_SKU = "add_replace_category_on_main_board_sku";
+		public static final String ADD_REPLACE_DEBT_BORROW_ON_MAIN_BOARD_SKU = "add_replace_debt_borrow_on_main_board_sku";
+		public static final String ADD_REPLACE_CREDIT_ON_MAIN_BOARD_SKU = "add_replace_credit_on_main_board_sku";
+		public static final String ADD_REPLACE_FUNCTION_ON_MAIN_BOARD_SKU = "add_replace_function_on_main_board_sku";
+		public static final String ADD_REPLACE_PAGE_ON_MAIN_BOARD_SKU = "add_replace_page_on_main_board_sku";
+		public static final String DESIGN_AQUA = "design_aqua";
+		public static final String DESIGN_WHITE = "design_white";
+		public static final String DESIGN_VIOLETTE = "design_violette";
+
+		public class SkuPreferenceKeys {
+			public static final String SMS_PARSING_COUNT_KEY = "SMS_PARSING_COUNT_KEY";
+			public static final String PAGING_COUNT_KEY = "PAGING_COUNT_KEY";
+			public static final String IS_AVAILABLE_CHANGING_OF_CATEGORY_KEY = "IS_AVAILABLE_CHANGING_OF_CATEGORY_KEY";
+			public static final String IS_AVAILABLE_CHANGING_OF_DEBT_BORROW_KEY = "IS_AVAILABLE_CHANGING_OF_DEBT_BORROW_KEY";
+			public static final String IS_AVAILABLE_CHANGING_OF_CREDIT_KEY = "IS_AVAILABLE_CHANGING_OF_CREDIT_KEY";
+			public static final String IS_AVAILABLE_CHANGING_OF_FUNCTION = "IS_AVAILABLE_CHANGING_OF_FUNCTION";
+			public static final String IS_AVAILABLE_CHANGING_OF_PAGE = "IS_AVAILABLE_CHANGING_OF_PAGE";
+			public static final String DESIGN_AQUA_KEY = "DESIGN_AQUA_KEY";
+			public static final String DESIGN_WHITE_KEY = "DESIGN_WHITE_KEY";
+			public static final String DESIGN_VIOLETTE_KEY = "DESIGN_VIOLETTE_KEY";
+		}
+	}
 }

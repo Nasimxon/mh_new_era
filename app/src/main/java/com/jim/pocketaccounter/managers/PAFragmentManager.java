@@ -1,11 +1,16 @@
 package com.jim.pocketaccounter.managers;
 
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
+import android.widget.FrameLayout;
 
 import com.jim.pocketaccounter.PocketAccounter;
 import com.jim.pocketaccounter.PocketAccounterApplication;
@@ -18,9 +23,11 @@ import com.jim.pocketaccounter.fragments.CategoryFragment;
 import com.jim.pocketaccounter.fragments.CreditTabLay;
 import com.jim.pocketaccounter.fragments.CurrencyFragment;
 import com.jim.pocketaccounter.fragments.MainPageFragment;
+import com.jim.pocketaccounter.fragments.ManualEnterFragment;
 import com.jim.pocketaccounter.fragments.PurposeFragment;
 import com.jim.pocketaccounter.fragments.RecordDetailFragment;
 import com.jim.pocketaccounter.fragments.SmsParseMainFragment;
+import com.jim.pocketaccounter.fragments.VoiceRecognizerFragment;
 import com.jim.pocketaccounter.utils.cache.DataCache;
 
 import java.util.Calendar;
@@ -28,18 +35,21 @@ import java.util.Calendar;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import me.kaelaela.verticalviewpager.VerticalViewPager;
+
 import static com.jim.pocketaccounter.PocketAccounter.PRESSED;
 
 /**
  * Created by DEV on 27.08.2016.
  */
 
-public class PAFragmentManager {
+public class    PAFragmentManager {
     private PocketAccounter activity;
     private FragmentManager fragmentManager;
     private int lastPos = 5000;
     private Boolean direction = null;
     private boolean isMainReturn = false;
+    private VerticalViewPager vpVertical;
 
     public boolean isMainReturn() {
         return isMainReturn;
@@ -49,91 +59,25 @@ public class PAFragmentManager {
         isMainReturn = mainReturn;
     }
 
-    @Inject
-    ReportManager reportManager;
-    @Inject
-    CommonOperations commonOperations;
-    @Inject
-    DataCache dataCache;
-    @Inject
-    @Named(value = "end")
-    Calendar end;
-    private MainPageFragment nextPage;
-    private ViewPager lvpMain;
-
+    @Inject ReportManager reportManager;
+    @Inject CommonOperations commonOperations;
+    @Inject DataCache dataCache;
+    @Inject @Named(value = "end") Calendar end;
+    private VerticalViewPagerAdapter adapter;
     public PAFragmentManager(PocketAccounter activity) {
         this.activity = activity;
         ((PocketAccounterApplication) activity.getApplicationContext()).component().inject(this);
-        lvpMain = (ViewPager) activity.findViewById(R.id.lvpMain);
         fragmentManager = activity.getSupportFragmentManager();
-    }
-
-    public ViewPager getLvpMain() {
-        return lvpMain;
-    }
-
-    public void setLvpMain(ViewPager lvpMain) {
-        this.lvpMain = lvpMain;
+        vpVertical = (VerticalViewPager) activity.findViewById(R.id.vpVertical);
+        adapter = new VerticalViewPagerAdapter(fragmentManager);
+        vpVertical.setAdapter(adapter);
     }
 
     public FragmentManager getFragmentManager() {
         return fragmentManager;
     }
 
-    public void initialize() {
-        final ViewPager lvpMain = (ViewPager) activity.findViewById(R.id.lvpMain);
-        FragmentPagerAdapter adapter = new LVPAdapter(getFragmentManager());
-        lvpMain.setCurrentItem(5000, false);
-        lvpMain.post(new Runnable() {
-            @Override
-            public void run() {
-                lvpMain.setCurrentItem(5000, false);
-            }
-        });
-        lvpMain.setAdapter(adapter);
-        lvpMain.setOffscreenPageLimit(0);
-        lvpMain.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            }
 
-            @Override
-            public void onPageSelected(int position) {
-                if (lastPos != position && direction == null) {
-                    direction = lastPos < position;
-                }
-                final MainPageFragment page = (MainPageFragment) getFragmentManager().findFragmentByTag("android:switcher:" + R.id.lvpMain + ":" + position);
-                MainPageFragment prevFragment;
-                if (lastPos > position && !direction) {
-                    prevFragment = ((MainPageFragment) getFragmentManager().findFragmentByTag("android:switcher:" + R.id.lvpMain + ":" + (position + 1)));
-                    if (prevFragment.getDay().compareTo(page.getDay()) <= 0) {
-                        Calendar day = (Calendar) prevFragment.getDay().clone();
-                        day.add(Calendar.DAY_OF_MONTH, -1);
-                        page.setDay(day);
-                    }
-                }
-                if (lastPos < position && direction) {
-                    prevFragment = ((MainPageFragment) getFragmentManager().findFragmentByTag("android:switcher:" + R.id.lvpMain + ":" + (position - 1)));
-                    if (prevFragment.getDay().compareTo(page.getDay()) >= 0) {
-                        final Calendar day = (Calendar) prevFragment.getDay().clone();
-                        day.add(Calendar.DAY_OF_MONTH, 1);
-                        page.setDay(day);
-                    }
-                }
-                if (page != null) {
-                    page.update();
-                    dataCache.setEndDate(page.getDay());
-                    dataCache.updatePercentsWhenSwiping();
-                    page.update();
-                }
-                lastPos = position;
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-            }
-        });
-    }
 
     public void updateAllFragmentsOnViewPager() {
         int size = fragmentManager.getFragments().size();
@@ -146,7 +90,13 @@ public class PAFragmentManager {
     }
 
     public MainPageFragment getCurrentFragment() {
-        MainPageFragment fragment = (MainPageFragment) getFragmentManager().findFragmentByTag("android:switcher:" + R.id.lvpMain + ":" + lvpMain.getCurrentItem());
+        ManualEnterFragment manualEnterFragment = (ManualEnterFragment) adapter.getItem(1);
+        ViewPager lvpMain = null;
+        if (manualEnterFragment.getLvpMain() != null)
+            lvpMain = manualEnterFragment.getLvpMain();
+        else
+            lvpMain = new ViewPager(activity);
+        MainPageFragment fragment = (MainPageFragment) getFragmentManager().findFragmentByTag("android:switcher:"+ lvpMain+":"+lvpMain.getCurrentItem());
         return fragment;
     }
 
@@ -175,13 +125,19 @@ public class PAFragmentManager {
         PRESSED = false;
         activity.findViewById(R.id.mainWhite).setVisibility(View.GONE);
         activity.findViewById(R.id.change).setVisibility(View.VISIBLE);
-        MainPageFragment leftPage = (MainPageFragment) fragmentManager.findFragmentByTag("android:switcher:" + R.id.lvpMain + ":" + (lvpMain.getCurrentItem() - 1));
+        ManualEnterFragment manualEnterFragment = (ManualEnterFragment) adapter.getItem(1);
+        ViewPager lvpMain = null;
+        if (manualEnterFragment.getLvpMain() != null)
+            lvpMain = manualEnterFragment.getLvpMain();
+        else
+            lvpMain = new ViewPager(activity);
+        MainPageFragment leftPage = (MainPageFragment) fragmentManager.findFragmentByTag("android:switcher:"+ lvpMain+":"+(lvpMain.getCurrentItem()-1));
         if (leftPage != null)
             leftPage.initialize();
-        MainPageFragment rightPage = (MainPageFragment) fragmentManager.findFragmentByTag("android:switcher:" + R.id.lvpMain + ":" + (lvpMain.getCurrentItem() + 1));
+        MainPageFragment rightPage = (MainPageFragment) fragmentManager.findFragmentByTag("android:switcher:"+ lvpMain+":"+(lvpMain.getCurrentItem()+1));
         if (rightPage != null)
             rightPage.initialize();
-        MainPageFragment centerPage = (MainPageFragment) fragmentManager.findFragmentByTag("android:switcher:" + R.id.lvpMain + ":" + lvpMain.getCurrentItem());
+        MainPageFragment centerPage = (MainPageFragment) fragmentManager.findFragmentByTag("android:switcher:"+ lvpMain+":"+lvpMain.getCurrentItem());
         if (centerPage != null)
             centerPage.initialize();
         if (fragmentManager.getBackStackEntryCount() > 0)
@@ -208,6 +164,16 @@ public class PAFragmentManager {
                 .commit();
     }
 
+    public ViewPager getLvpMain() {
+        ManualEnterFragment manualEnterFragment = (ManualEnterFragment) adapter.getItem(1);
+        ViewPager lvpMain;
+        if (manualEnterFragment.getLvpMain() != null)
+            lvpMain = manualEnterFragment.getLvpMain();
+        else
+            lvpMain = new ViewPager(activity);
+        return lvpMain;
+    }
+
     public void displayFragment(Fragment fragment, String tag) {
         if (fragmentManager.findFragmentById(R.id.flMain) != null && fragment.getClass().getName().equals(fragmentManager.findFragmentById(R.id.flMain).getClass().getName()))
             return;
@@ -220,28 +186,28 @@ public class PAFragmentManager {
                 .commit();
     }
 
-    class LVPAdapter extends FragmentPagerAdapter {
-        public LVPAdapter(FragmentManager fm) {
+
+
+    class VerticalViewPagerAdapter extends FragmentStatePagerAdapter {
+
+        public VerticalViewPagerAdapter(FragmentManager fm) {
             super(fm);
         }
 
         @Override
         public Fragment getItem(int position) {
-            Calendar end = Calendar.getInstance();
-            end.add(Calendar.DAY_OF_MONTH, position - 5000);
-            Fragment fragment = new MainPageFragment(activity, end);
-            nextPage = (MainPageFragment) fragment;
+            Fragment fragment;
+            if (position == 0)
+                fragment = new VoiceRecognizerFragment();
+            else {
+                fragment = new ManualEnterFragment();
+            }
             return fragment;
         }
 
         @Override
         public int getCount() {
-            return 10000;
-        }
-
-        @Override
-        public int getItemPosition(Object object) {
-            return POSITION_NONE;
+            return 2;
         }
     }
 
@@ -278,7 +244,7 @@ public class PAFragmentManager {
             } else if (fragName.equals(PocketClassess.INFO_CREDIT) || fragName.equals(PocketClassess.ADD_CREDIT)) {
                 displayFragment(new CreditTabLay());
             } else if (fragName.equals(PocketClassess.INFO_CREDIT_ARCHIVE)) {
-                CreditTabLay creditTabL = new CreditTabLay();
+                CreditTabLay creditTabL=new CreditTabLay();
                 creditTabL.setArchivePosition();
                 displayFragment(new CreditTabLay());
             } else if (fragName.equals(PocketClassess.INFO_PURPOSE) || fragName.equals(PocketClassess.ADD_PURPOSE)) {

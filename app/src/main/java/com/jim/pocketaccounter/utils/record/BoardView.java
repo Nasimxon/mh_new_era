@@ -95,7 +95,7 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
     }
 
     @Override
-    protected void init() {
+    public void init() {
         super.init();
         setClickable(true);
         gestureDetector = new GestureDetectorCompat(getContext(), this);
@@ -798,12 +798,16 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
         lvDialog.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                int buttonsCount = table == PocketAccounterGeneral.INCOME ? INCOME_BUTTONS_COUNT_PER_PAGE : EXPENSE_BUTTONS_COUNT_PER_PAGE;
-                logicManager.changeBoardButton(table, currentPage*buttonsCount+pos, categories.get(position).getId());
-                changeIconInCache(pos, categories.get(position).getIcon());
-                init();
-                paFragmentManager.updateAllFragmentsOnViewPager();
-                dataCache.updateOneDay(day);
+                if (purchaseImplementation.isCategoryChangeAvailable()) {
+                    int buttonsCount = table == PocketAccounterGeneral.INCOME ? INCOME_BUTTONS_COUNT_PER_PAGE : EXPENSE_BUTTONS_COUNT_PER_PAGE;
+                    logicManager.changeBoardButton(table, currentPage*buttonsCount+pos, categories.get(position).getId());
+                    changeIconInCache(pos, categories.get(position).getIcon());
+                    init();
+                    paFragmentManager.updateAllFragmentsOnViewPager();
+                    dataCache.updateOneDay(day);
+                }
+                else
+                    purchaseImplementation.buyCategoryChange((PocketAccounter) getContext());
                 PocketAccounter.PRESSED = false;
                 dialog.dismiss();
             }

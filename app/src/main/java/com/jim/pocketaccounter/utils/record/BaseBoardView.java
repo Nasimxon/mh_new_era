@@ -14,6 +14,7 @@ import com.jim.pocketaccounter.managers.LogicManager;
 import com.jim.pocketaccounter.managers.PAFragmentManager;
 import com.jim.pocketaccounter.managers.ReportManager;
 import com.jim.pocketaccounter.utils.PocketAccounterGeneral;
+import com.jim.pocketaccounter.utils.billing.PurchaseImplementation;
 import com.jim.pocketaccounter.utils.cache.DataCache;
 
 import java.text.SimpleDateFormat;
@@ -37,6 +38,7 @@ public abstract class BaseBoardView extends View {
     @Inject @Named(value = "begin") Calendar begin;
     @Inject @Named(value = "end") Calendar end;
     @Inject @Named(value = "common_formatter") SimpleDateFormat simpleDateFormat;
+    @Inject PurchaseImplementation purchaseImplementation;
     protected int INCOME_BUTTONS_COUNT_PER_PAGE = 4;
     protected int EXPENSE_BUTTONS_COUNT_PER_PAGE = 16;
     protected int setCount = 4;

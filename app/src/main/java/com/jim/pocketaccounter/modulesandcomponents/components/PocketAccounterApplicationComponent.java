@@ -7,6 +7,7 @@ import com.jim.pocketaccounter.SettingsActivity;
 import com.jim.pocketaccounter.database.DaoSession;
 import com.jim.pocketaccounter.finance.CurrencyChooseAdapter;
 import com.jim.pocketaccounter.finance.TransferAccountAdapter;
+import com.jim.pocketaccounter.fragments.ManualEnterFragment;
 import com.jim.pocketaccounter.managers.CommonOperations;
 import com.jim.pocketaccounter.managers.LogicManager;
 import com.jim.pocketaccounter.managers.PAFragmentManager;
@@ -16,6 +17,7 @@ import com.jim.pocketaccounter.syncbase.SyncBase;
 import com.jim.pocketaccounter.utils.SmsService;
 import com.jim.pocketaccounter.utils.SubcatAdapterCircles;
 import com.jim.pocketaccounter.utils.SubcatItemChecker;
+import com.jim.pocketaccounter.utils.billing.PurchaseImplementation;
 import com.jim.pocketaccounter.utils.cache.DataCache;
 import com.jim.pocketaccounter.modulesandcomponents.modules.PocketAccounterApplicationModule;
 import com.jim.pocketaccounter.utils.catselector.DrawingSelectorView;
@@ -44,6 +46,7 @@ public interface PocketAccounterApplicationComponent {
     CommonOperations getCommonOperations();
     ReportManager reportManager();
     PocketAccounterApplicationModule getPocketAccounterApplicationModule();
+    PurchaseImplementation getPurchaseImplementation();
     @Named(value = "begin") Calendar getBegin();
     @Named(value = "end") Calendar getEnd();
     @Named(value = "common_formatter") SimpleDateFormat getCommonFormatter();
@@ -67,4 +70,5 @@ public interface PocketAccounterApplicationComponent {
     void inject(DrawingSelectorView drawingSelectorView);
     void inject(SubcatItemChecker subcatItemChecker);
     void inject(SubcatAdapterCircles subcatAdapterCircles);
+    void inject(ManualEnterFragment manualEnterFragment);
 }

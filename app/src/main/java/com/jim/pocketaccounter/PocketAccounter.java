@@ -13,6 +13,7 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -40,6 +41,7 @@ import com.jim.pocketaccounter.modulesandcomponents.modules.PocketAccounterActiv
 import com.jim.pocketaccounter.utils.PocketAccounterGeneral;
 
 import com.jim.pocketaccounter.utils.WarningDialog;
+import com.jim.pocketaccounter.utils.billing.PurchaseImplementation;
 import com.jim.pocketaccounter.utils.cache.DataCache;
 import com.jim.pocketaccounter.utils.password.OnPasswordRightEntered;
 import com.jim.pocketaccounter.utils.password.PasswordWindow;
@@ -66,27 +68,17 @@ public class PocketAccounter extends AppCompatActivity {
     public static boolean PRESSED = false;
     int WidgetID;
     public static boolean keyboardVisible = false;
-    @Inject
-    PAFragmentManager paFragmentManager;
-    @Inject
-    DaoSession daoSession;
-    @Inject
-    SharedPreferences preferences;
-    @Inject
-    ToolbarManager toolbarManager;
-    @Inject
-    SettingsManager settingsManager;
-    @Inject
-    @Named(value = "display_formatter")
-    SimpleDateFormat format;
-    @Inject
-    DrawerInitializer drawerInitializer;
-    @Inject
-    CommonOperations commonOperations;
-    @Inject
-    DataCache dataCache;
-    @Inject
-    SharedPreferences sharedPreferences;
+    @Inject PAFragmentManager paFragmentManager;
+    @Inject DaoSession daoSession;
+    @Inject SharedPreferences preferences;
+    @Inject ToolbarManager toolbarManager;
+    @Inject SettingsManager settingsManager;
+    @Inject @Named(value = "display_formatter") SimpleDateFormat format;
+    @Inject DrawerInitializer drawerInitializer;
+    @Inject CommonOperations commonOperations;
+    @Inject DataCache dataCache;
+    @Inject SharedPreferences sharedPreferences;
+    @Inject PurchaseImplementation purchaseImplementation;
     PocketAccounterActivityComponent component;
 
     public PocketAccounterActivityComponent component(PocketAccounterApplication application) {
@@ -103,7 +95,7 @@ public class PocketAccounter extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(null);
-        setTheme(R.style.BlueTheme);
+        setTheme(R.style.YellowTheme);
         setContentView(R.layout.pocket_accounter);
         component((PocketAccounterApplication) getApplication()).inject(this);
         String lang = preferences.getString("language", getResources().getString(R.string.language_default));
@@ -123,7 +115,7 @@ public class PocketAccounter extends AppCompatActivity {
         toolbarManager.init();
         date = Calendar.getInstance();
         treatToolbar();
-        paFragmentManager.initialize();
+//        paFragmentManager.initialize();
         dataCache.getCategoryEditFragmentDatas().setDate(date);
         pwPassword = (PasswordWindow) findViewById(R.id.pwPassword);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);

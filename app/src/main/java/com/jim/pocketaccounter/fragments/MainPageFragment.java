@@ -135,6 +135,20 @@ public class MainPageFragment extends Fragment {
         RelativeLayout.LayoutParams lpBalance = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         lpBalance.addRule(RelativeLayout.BELOW, R.id.main_expense);
         lpBalance.addRule(RelativeLayout.ABOVE, R.id.main_income);
+        if (balanceStripe == null) {
+            balanceStripe = new BalanceStripe(pocketAccounter, day);
+            ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            balanceStripe.setLayoutParams(lp);
+            PRESSED = false;
+            balanceStripe.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (PRESSED) return;
+                    paFragmentManager.displayFragment(new RecordDetailFragment(dataCache.getEndDate()));
+                    PRESSED = true;
+                }
+            });
+        }
         balanceStripe.setLayoutParams(lpBalance);
         rlMainPageContainer.addView(balanceStripe);
         balanceStripe.calculateBalance();
@@ -156,8 +170,10 @@ public class MainPageFragment extends Fragment {
     }
     public void updatePageChanges() {
         expenseView.refreshPagesCount();
+        expenseView.init();
         expenseView.invalidate();
         incomeView.refreshPagesCount();
+        incomeView.init();
         incomeView.invalidate();
     }
 
