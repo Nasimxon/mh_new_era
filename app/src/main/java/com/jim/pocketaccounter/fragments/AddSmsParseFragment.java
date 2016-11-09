@@ -14,11 +14,15 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,16 +69,7 @@ import javax.inject.Inject;
  */
 
 @SuppressLint("ValidFragment")
-public class AddSmsParseFragment extends Fragment {
-    @Inject
-    DaoSession daoSession;
-    @Inject
-    PAFragmentManager paFragmentManager;
-    @Inject
-    ToolbarManager toolbarManager;
-    @Inject
-    CommonOperations commonOperations;
-
+public class AddSmsParseFragment extends PABaseFragment implements LoaderManager.LoaderCallbacks<Cursor> {
     private EditText etNumber;
     private TextView ivSms;
     private RadioGroup rgSortSms;
@@ -96,6 +91,7 @@ public class AddSmsParseFragment extends Fragment {
     private int posAmount = -1;
     private SmsParseObject oldObject;
     private List<TemplateSms> templateSmsList;
+    final int REQUEST_CODE_ASK_PERMISSIONS = 123;
 
     int txSize;
 
@@ -118,7 +114,6 @@ public class AddSmsParseFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.add_sms_sender, container, false);
-
         txSize = (int) ((int) (getResources().getDimension(R.dimen.fourteen_dp)) / getResources().getDisplayMetrics().density);
         etNumber = (EditText) rootView.findViewById(R.id.etSmsParseAddNumber);
         ivSms = (TextView) rootView.findViewById(R.id.ivSmsParseGet);
@@ -300,7 +295,8 @@ public class AddSmsParseFragment extends Fragment {
                             REQUEST_CODE_ASK_PERMISSIONS);
                 } else {
                     List<Sms> smsList = new ArrayList<>();
-                    for (Sms sms : getAllSms()) {
+                    getAllSms();
+                    for (Sms sms : lstSms) {
                         if (sms != null && sms.getNumber().equals(s.toString())) {
                             smsList.add(sms);
                         }
@@ -311,8 +307,7 @@ public class AddSmsParseFragment extends Fragment {
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-            }
+            public void afterTextChanged(Editable s) {}
         });
         ivSms.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -358,8 +353,6 @@ public class AddSmsParseFragment extends Fragment {
         return rootView;
     }
 
-    final int REQUEST_CODE_ASK_PERMISSIONS = 123;
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == REQUEST_CODE_ASK_PERMISSIONS) {
@@ -370,33 +363,64 @@ public class AddSmsParseFragment extends Fragment {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-    public List<Sms> getAllSms() {
-        List<Sms> lstSms = new ArrayList<>();
-        Sms objSms;
-        Uri message = Uri.parse("content://sms/");
-        ContentResolver cr = getActivity().getContentResolver();
+    public void getAllSms() {
+        if (lstSms.isEmpty())
+            getLoaderManager().initLoader(URL_LOADER, null, this);
+    }
 
-        Cursor c = cr.query(message, null, null, null, null);
-        getActivity().startManagingCursor(c);
-        int totalSMS = c.getCount();
+    private static final int URL_LOADER = 0;
+    private Uri message = Uri.parse("content://sms/");
+    private static final String[] mProjection = new String[]{"_id", "address", "body", "date", "type"};
+    private List<Sms> lstSms = new ArrayList<>();
 
-        if (c.moveToFirst()) {
-            for (int i = 0; i < totalSMS; i++) {
-                objSms = new Sms();
-                objSms.setId(c.getString(c.getColumnIndexOrThrow("_id")));
-                objSms.setNumber(c.getString(c.getColumnIndexOrThrow("address")));
-                objSms.setBody(c.getString(c.getColumnIndexOrThrow("body")));
-                objSms.setDate(c.getString(c.getColumnIndexOrThrow("date")));
-                if (c.getString(c.getColumnIndexOrThrow("type")).contains("1")) {
-                    objSms.setFolderName("sent");
-                    lstSms.add(objSms);
-                }
-                c.moveToNext();
-            }
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        switch (id) {
+            case URL_LOADER:
+                // Returns a new CursorLoader
+                return new CursorLoader(
+                        getActivity(),   // Parent activity context
+                        message,        // Table to query
+                        mProjection,     // Projection to return
+                        null,            // No selection clause
+                        null,            // No selection arguments
+                        null             // Default sort order
+                );
+            default:
+                // An invalid id was passed in
+                return null;
         }
-        c.close();
-        getActivity().stopManagingCursor(c);
-        return lstSms;
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        if (data.isClosed()) {
+//            data.
+        }
+        int count = data.getCount();
+        Sms objSms;
+
+        if (data.moveToFirst()) {
+            for (int i = 0; i < count; i++) {
+                objSms = new Sms();
+                objSms.setId(data.getString(data.getColumnIndexOrThrow("_id")));
+                objSms.setNumber(data.getString(data.getColumnIndexOrThrow("address")));
+                objSms.setBody(data.getString(data.getColumnIndexOrThrow("body")));
+                objSms.setDate(data.getString(data.getColumnIndexOrThrow("date")));
+                if (data.getString(data.getColumnIndexOrThrow("type")).contains("1")) {
+                objSms.setFolderName("sent");
+                lstSms.add(objSms);
+                }
+            }
+            data.moveToNext();
+        }
+        data.close();
+        getActivity().getSupportLoaderManager().destroyLoader(URL_LOADER);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+
     }
 
     class Sms {
@@ -619,7 +643,7 @@ public class AddSmsParseFragment extends Fragment {
             final TextView tvSmsDialogTypeTitle = (TextView) dialogView.findViewById(R.id.tvSmsDialogTypeTitle);
             if (type) {
                 tvSmsDialogTypeTitle.setText(getResources().getString(R.string.income_decide_with_static_word));
-            }else {
+            } else {
                 tvSmsDialogTypeTitle.setText(R.string.expense_decide_with_static_word);
             }
             amountkey = (TextView) dialogView.findViewById(R.id.amountKey);
@@ -792,7 +816,8 @@ public class AddSmsParseFragment extends Fragment {
         private List<Sms> smsList;
 
         public MyNumberAdapter() {
-            smsList = getAllSms();
+            getAllSms();
+            smsList = lstSms;
         }
 
         public int getItemCount() {

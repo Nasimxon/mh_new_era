@@ -1,16 +1,11 @@
 package com.jim.pocketaccounter.managers;
 
-import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
-import android.widget.FrameLayout;
 
 import com.jim.pocketaccounter.PocketAccounter;
 import com.jim.pocketaccounter.PocketAccounterApplication;
@@ -35,7 +30,7 @@ import java.util.Calendar;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import me.kaelaela.verticalviewpager.VerticalViewPager;
+import fr.castorflex.android.verticalviewpager.VerticalViewPager;
 
 import static com.jim.pocketaccounter.PocketAccounter.PRESSED;
 

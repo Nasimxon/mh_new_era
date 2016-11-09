@@ -4,10 +4,8 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
-import android.view.View;
-import android.widget.HorizontalScrollView;
 
-import me.kaelaela.verticalviewpager.VerticalViewPager;
+import fr.castorflex.android.verticalviewpager.VerticalViewPager;
 
 public class PAVerticalViewPager extends VerticalViewPager {
     float oldX, oldY;
@@ -33,39 +31,41 @@ public class PAVerticalViewPager extends VerticalViewPager {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        Log.d("sss", "dispatcher");
-        super.dispatchTouchEvent(ev);
-        return true;
+        return super.dispatchTouchEvent(ev);
     }
 
     @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
-        Log.d("sss", "intercept " + paging);
-        if (paging) {
-            return true;
+    public boolean onInterceptTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            Log.d("sss", "down ");
+            oldX = event.getX();
+            oldY = event.getY();
         }
-        return super.onInterceptTouchEvent(ev);
+        if (event.getAction() == MotionEvent.ACTION_MOVE) {
+            Log.d("sss", "is paging " + oldY + " "+ event.getY());
+            if (Math.abs(oldX - event.getX()) >= 30) {
+                return super.onInterceptTouchEvent(event);
+            } else if (Math.abs(oldY - event.getY()) >= 30) {
+                return true;
+            }
+        }
+        return super.onInterceptTouchEvent(event);
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        Log.d("sss", "onTouchEvent");
-        super.onTouchEvent(ev);
         if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            Log.d("sss", "down ");
             oldX = ev.getX();
             oldY = ev.getY();
         }
+//        super.onTouchEvent(ev);
         if (ev.getAction() == MotionEvent.ACTION_MOVE) {
-            if (Math.abs(oldX - ev.getX()) >= 50) {
-                paging = true;
-                super.onInterceptTouchEvent(ev);
-
+            Log.d("sss", "is " + oldY + " "+ ev.getY());
+            if (Math.abs(oldY - ev.getY()) >= 30) {
+                Log.d("sss", "onTouchEvent");
+                onInterceptTouchEvent(ev);
             }
-            if (Math.abs(oldY - ev.getY()) >= 50) {
-                paging = false;
-                super.onInterceptTouchEvent(ev);
-            }
-            super.requestDisallowInterceptTouchEvent(false);
         }
         return super.onTouchEvent(ev);
     }

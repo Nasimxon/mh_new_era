@@ -37,20 +37,20 @@ public class PurchaseImplementation {
     public void initialize() {
         smsCount = preferences.getInt(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.SMS_PARSING_COUNT_KEY, 1);
         maxPageCount = preferences.getInt(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.PAGING_COUNT_KEY, 2);
-        mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
-            public void onIabSetupFinished(IabResult result) {
-                if (!result.isSuccess()) {
-                    Log.d("sss", "Problem setting up in-app billing: " + result);
-                    return;
-                }
-                if (mHelper == null) return;
-                try {
-                    mHelper.queryInventoryAsync(mGotInventoryListener);
-                } catch (IabHelper.IabAsyncInProgressException e) {
-                    Log.d("sss", "Error querying inventory. Another async operation in progress.");
-                }
-            }
-        });
+//        mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
+//            public void onIabSetupFinished(IabResult result) {
+//                if (!result.isSuccess()) {
+//                    Log.d("sss", "Problem setting up in-app billing: " + result);
+//                    return;
+//                }
+//                if (mHelper == null) return;
+//                try {
+//                    mHelper.queryInventoryAsync(mGotInventoryListener);
+//                } catch (IabHelper.IabAsyncInProgressException e) {
+//                    Log.d("sss", "Error querying inventory. Another async operation in progress.");
+//                }
+//            }
+//        });
     }
 
     public boolean isCategoryChangeAvailable() {

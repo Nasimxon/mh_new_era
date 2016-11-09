@@ -246,16 +246,16 @@ public class AccountFragment extends PABaseListFragment {
 		}
 	}
 	public class ViewHolder extends RecyclerView.ViewHolder {
-		public ImageView ivIconItem;
-		public TextView tvAccountName;
-		public TextView tvAccountIncome;
-		public TextView tvAccountExpanse;
-		public TextView tvAccountBalance;
-		public LinearLayout infoOpen;
-		public FrameLayout withGone;
-		public RelativeLayout mainViewF;
-		public LinearLayout llAccountItemPurpose;
-		public LinearLayout llAccountItemOther;
+		ImageView ivIconItem;
+		TextView tvAccountName;
+		TextView tvAccountIncome;
+		TextView tvAccountExpanse;
+		TextView tvAccountBalance;
+		LinearLayout infoOpen;
+		FrameLayout withGone;
+		RelativeLayout mainViewF;
+		LinearLayout llAccountItemPurpose;
+		LinearLayout llAccountItemOther;
 
 		public ViewHolder(View view) {
 			super(view);
