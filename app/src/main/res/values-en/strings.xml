@@ -1605,4 +1605,9 @@
     <string name="incom_expense_list">Список расходов и доходов</string>
     <string name="login">Login</string>
     <string name="all">All</string>
+
+    <string-array name="speechAdjectives">
+        <item>income</item>
+        <item>expense</item>
+    </string-array>
 </resources>

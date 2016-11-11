@@ -56,7 +56,8 @@ dependencies {
     compile 'net.zetetic:android-database-sqlcipher:3.5.1'
     apt 'com.google.dagger:dagger-compiler:2.5'
     provided 'org.glassfish:javax.annotation:10.0-b28'
-    compile 'me.kaelaela:verticalviewpager:1.0.0@aar'
+    compile 'com.github.castorflex.verticalviewpager:library:19.0.1'
+    compile 'me.itangqi.waveloadingview:library:0.3.2'
 }
 apply plugin: 'com.google.gms.google-services'
 

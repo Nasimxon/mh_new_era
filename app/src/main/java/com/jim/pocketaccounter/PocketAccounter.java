@@ -95,7 +95,7 @@ public class PocketAccounter extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(null);
-        setTheme(R.style.YellowTheme);
+        setTheme(R.style.FiolaTheme);
         setContentView(R.layout.pocket_accounter);
         component((PocketAccounterApplication) getApplication()).inject(this);
         String lang = preferences.getString("language", getResources().getString(R.string.language_default));
@@ -115,7 +115,6 @@ public class PocketAccounter extends AppCompatActivity {
         toolbarManager.init();
         date = Calendar.getInstance();
         treatToolbar();
-//        paFragmentManager.initialize();
         dataCache.getCategoryEditFragmentDatas().setDate(date);
         pwPassword = (PasswordWindow) findViewById(R.id.pwPassword);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);

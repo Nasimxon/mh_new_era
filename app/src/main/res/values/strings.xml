@@ -1619,4 +1619,9 @@
     <string-array name="main_bg_colors">
         <item>#DCDDDE</item>
     </string-array>
+    <string-array name="speechAdjectives">
+        <item>income</item>
+        <item>expense</item>
+    </string-array>
+
 </resources>

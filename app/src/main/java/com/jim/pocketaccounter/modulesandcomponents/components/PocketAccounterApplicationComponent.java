@@ -8,6 +8,7 @@ import com.jim.pocketaccounter.database.DaoSession;
 import com.jim.pocketaccounter.finance.CurrencyChooseAdapter;
 import com.jim.pocketaccounter.finance.TransferAccountAdapter;
 import com.jim.pocketaccounter.fragments.ManualEnterFragment;
+import com.jim.pocketaccounter.fragments.VoiceRecognizerFragment;
 import com.jim.pocketaccounter.managers.CommonOperations;
 import com.jim.pocketaccounter.managers.LogicManager;
 import com.jim.pocketaccounter.managers.PAFragmentManager;
@@ -71,4 +72,5 @@ public interface PocketAccounterApplicationComponent {
     void inject(SubcatItemChecker subcatItemChecker);
     void inject(SubcatAdapterCircles subcatAdapterCircles);
     void inject(ManualEnterFragment manualEnterFragment);
+    void inject(VoiceRecognizerFragment voiceRecognizerFragment);
 }
