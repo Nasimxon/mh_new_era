@@ -72,8 +72,6 @@ public class    PAFragmentManager {
         return fragmentManager;
     }
 
-
-
     public void updateAllFragmentsOnViewPager() {
         int size = fragmentManager.getFragments().size();
         for (int i = 0; i < size; i++) {
@@ -180,8 +178,6 @@ public class    PAFragmentManager {
                 .add(R.id.flMain, fragment, tag)
                 .commit();
     }
-
-
 
     class VerticalViewPagerAdapter extends FragmentStatePagerAdapter {
 
