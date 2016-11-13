@@ -11,6 +11,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jim.pocketaccounter.PocketAccounter;
@@ -34,6 +35,7 @@ public class CurrencyAdapter extends BaseAdapter {
 	private int mode;
 	private boolean[] selected;
 	private ImageView ivCurrencyMain;
+	private Context context;
 	@Inject LogicManager manager;
 	@Inject CommonOperations commonOperations;
 	@Inject SharedPreferences preferences;
@@ -41,6 +43,7 @@ public class CurrencyAdapter extends BaseAdapter {
 	    this.result = result;
 	    this.selected = selected;
 	    this.mode = mode;
+		this.context = context;
 		((PocketAccounter) context).component((PocketAccounterApplication) context.getApplicationContext()).inject(this);
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
@@ -67,6 +70,18 @@ public class CurrencyAdapter extends BaseAdapter {
 		TextView tvCurrencyName = (TextView) view.findViewById(R.id.tvCurrencyName);
 		tvCurrencyName.setText(result.get(position).getName());
 		ivCurrencyMain = (ImageView) view.findViewById(R.id.ivCurrencyMain);
+		if (position == 0) {
+			LinearLayout llCurrencyListItemRoot = (LinearLayout) view.findViewById(R.id.llCurrencyListItemRoot);
+			LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) llCurrencyListItemRoot.getLayoutParams();
+			int tenDp = (int) context.getResources().getDimension(R.dimen.ten_dp);
+			lp.setMargins(tenDp, tenDp, tenDp, 0);
+		}
+		if (position == result.size() - 1 && position != 0) {
+			LinearLayout llCurrencyListItemRoot = (LinearLayout) view.findViewById(R.id.llCurrencyListItemRoot);
+			LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) llCurrencyListItemRoot.getLayoutParams();
+			int tenDp = (int) context.getResources().getDimension(R.dimen.ten_dp);
+			lp.setMargins(tenDp, 0, tenDp, tenDp);
+		}
 		if (result.get(position).getMain()) {
 			ivCurrencyMain.setImageResource(R.drawable.main_currency);
 			view.findViewById(R.id.tvCurrencyCost).setVisibility(View.GONE);
@@ -91,6 +106,7 @@ public class CurrencyAdapter extends BaseAdapter {
 				}
 			});
 		}
+		ivCurrencyMain.setRotation(90.0f);
 		return view;
 	}
 }
