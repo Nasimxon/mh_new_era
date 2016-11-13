@@ -2,9 +2,11 @@ package com.jim.pocketaccounter.fragments;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,9 +20,6 @@ import com.jim.pocketaccounter.PocketAccounterApplication;
 import com.jim.pocketaccounter.R;
 import com.jim.pocketaccounter.database.DaoSession;
 import com.jim.pocketaccounter.database.FinanceRecord;
-import com.jim.pocketaccounter.database.RootCategory;
-import com.jim.pocketaccounter.database.SubCategory;
-import com.jim.pocketaccounter.utils.speech.ListeningOfSpeechListener;
 import com.jim.pocketaccounter.utils.speech.PASpeechRecognizer;
 import com.jim.pocketaccounter.utils.speech.SpeechListener;
 
@@ -59,12 +58,6 @@ public class VoiceRecognizerFragment extends Fragment {
     private List<FinanceRecord> records = new ArrayList<>();
     //collection finance record;
     private FinanceRecord record = null;
-    //booleans are looking after filling all need fields of collecting record
-    private boolean isDefinitionSet = false,
-            isCategoryChoosen = false,
-            isAccountChoosen = false,
-            isAmountChoosen = false,
-            isCurrencyChoosen = false;
     //adjective definition array
     String[] definitionArrays;
     //Center clickable button
@@ -117,62 +110,39 @@ public class VoiceRecognizerFragment extends Fragment {
 //                List<String> result = Arrays.asList(splitted);
                 processSpeechResults(speechResult);
             }
-        });
-        recognizer.setListeningOfSpeechListener(new ListeningOfSpeechListener() {
+
             @Override
-            public void onListening(boolean listen) {
-                if (listen)
-                    tvListeningIndicator.setText("I\'m listening to you...");
-                else
-                    tvListeningIndicator.setText("I\'m not listening to you...");
+            public void onSpeechPartialListening(List<String> speechResult) {
+                processSpeechResults(speechResult);
+            }
+
+            @Override
+            public void onChangeState(final boolean started) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (started) {
+                            Log.d("sss", "on");
+                            tvListeningIndicator.setText("I\'m listening to you...");
+
+                            ivCenterButton.setBackgroundResource(R.drawable.speech_pressed_circle);
+                            ivMicrophoneIcon.setColorFilter(Color.WHITE);
+                        }
+                        else {
+                            Log.d("sss", "off");
+                            tvListeningIndicator.setText("I\'m not listening to you...");
+                            ivCenterButton.setBackgroundResource(R.drawable.white_circle);
+                            ivMicrophoneIcon.setColorFilter(Color.parseColor("#414141"));
+                        }
+                        VoiceRecognizerFragment.this.started = started;
+                    }
+                });
             }
         });
-//        btnVoiceRecognize.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View view, MotionEvent motionEvent) {
-//                if (motionEvent.getAction() == MotionEvent.ACTION_MOVE) {
-//                    if (!started) {
-//                        started = true;
-//                        recognizer.startVoiceRecognitionCycle();
-//                    }
-//                }
-//                if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-//                    recognizer.stopVoiceRecognition();
-//                    started = false;
-//                }
-//                return false;
-//            }
-//        });
-//        refreshList();
         return rootView;
     }
 
     private void processSpeechResults(List<String> speechResult) {
-//        if (record == null)
-//            record = new FinanceRecord();
-//        List<RootCategory> categories = daoSession.getRootCategoryDao().loadAll();
-//        for (String word : speechResult) {
-//            for (String def : definitionArrays) {
-//                if (word.toLowerCase().equals(def)) {
-//                    isDefinitionSet = true;
-//
-//                    break;
-//                }
-//            }
-//            for (RootCategory category : categories) {
-//                if (category.getName().toLowerCase().equals(word.toLowerCase())) {
-//                    record.setCategory(category);
-//                    break;
-//                }
-//                for (SubCategory subCategory : category.getSubCategories()) {
-//                    if (subCategory.getName().toLowerCase().equals(word.toLowerCase())) {
-//                        record.setCategory(category);
-//                        record.setCategory(category);
-//                        break;
-//                    }
-//                }
-//            }
-//        }
         if (speechResult != null && !speechResult.isEmpty())
             tvSpeechModeEnteredText.setText(speechResult.get(0));
     }
@@ -236,6 +206,9 @@ public class VoiceRecognizerFragment extends Fragment {
         }
     }
 
-
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        recognizer.stopVoiceRecognition();
+    }
 }
