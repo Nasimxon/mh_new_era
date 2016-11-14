@@ -110,4 +110,9 @@
     <dimen name="fiveteen_dp">11dp</dimen>
     <dimen name="ninety_eight_dp">73dp</dimen>
     <dimen name="hundred_fivety_four">115dp</dimen>
+
+    <dimen name="hundred_sixty_dp">150dp</dimen>
+    <dimen name="hundred_eity_five_dp">180dp</dimen>
+    <dimen name="hundred_eity_dp">170dp</dimen>
+    <dimen name="hundred_thiry_five_dp">130dp</dimen>
 </resources>

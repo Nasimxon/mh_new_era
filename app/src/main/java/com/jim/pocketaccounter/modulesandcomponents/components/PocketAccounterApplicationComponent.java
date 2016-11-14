@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import com.jim.pocketaccounter.PocketAccounterApplication;
 import com.jim.pocketaccounter.SettingsActivity;
 import com.jim.pocketaccounter.database.DaoSession;
+import com.jim.pocketaccounter.database.TemplateVoice;
 import com.jim.pocketaccounter.finance.CurrencyChooseAdapter;
 import com.jim.pocketaccounter.finance.TransferAccountAdapter;
 import com.jim.pocketaccounter.fragments.ManualEnterFragment;
@@ -29,6 +30,7 @@ import com.jim.pocketaccounter.widget.WidgetProvider;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.inject.Named;
 
@@ -48,6 +50,7 @@ public interface PocketAccounterApplicationComponent {
     ReportManager reportManager();
     PocketAccounterApplicationModule getPocketAccounterApplicationModule();
     PurchaseImplementation getPurchaseImplementation();
+    List<TemplateVoice> getVoices();
     @Named(value = "begin") Calendar getBegin();
     @Named(value = "end") Calendar getEnd();
     @Named(value = "common_formatter") SimpleDateFormat getCommonFormatter();
@@ -72,5 +75,4 @@ public interface PocketAccounterApplicationComponent {
     void inject(SubcatItemChecker subcatItemChecker);
     void inject(SubcatAdapterCircles subcatAdapterCircles);
     void inject(ManualEnterFragment manualEnterFragment);
-    void inject(VoiceRecognizerFragment voiceRecognizerFragment);
 }

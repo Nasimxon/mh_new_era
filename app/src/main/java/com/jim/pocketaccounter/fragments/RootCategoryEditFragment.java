@@ -39,6 +39,7 @@ import com.jim.pocketaccounter.database.DaoSession;
 import com.jim.pocketaccounter.database.FinanceRecord;
 import com.jim.pocketaccounter.database.RootCategory;
 import com.jim.pocketaccounter.database.SubCategory;
+import com.jim.pocketaccounter.database.TemplateVoice;
 import com.jim.pocketaccounter.finance.SubCategoryAdapter;
 import com.jim.pocketaccounter.managers.LogicManager;
 import com.jim.pocketaccounter.managers.LogicManagerConstants;
@@ -52,6 +53,7 @@ import com.jim.pocketaccounter.utils.OnSubcategorySavingListener;
 import com.jim.pocketaccounter.utils.PocketAccounterGeneral;
 import com.jim.pocketaccounter.utils.SubCatAddEditDialog;
 import com.jim.pocketaccounter.utils.WarningDialog;
+import com.jim.pocketaccounter.utils.regex.RegexBuilder;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -359,7 +361,7 @@ public class RootCategoryEditFragment extends PABaseInfoFragment implements OnCl
                 rootCategory.setSubCategories(subCategories);
                 rootCategory.setId(categoryId);
                 if (category != null) {
-                    daoSession.getRootCategoryDao().insertOrReplace(rootCategory);
+                    logicManager.insertRootCategory(rootCategory);
                     List<BoardButton> list = daoSession
                             .getBoardButtonDao()
                             .queryBuilder()
@@ -409,6 +411,7 @@ public class RootCategoryEditFragment extends PABaseInfoFragment implements OnCl
                 break;
         }
     }
+
 
     private void setMode(int mode) {
         if (mode == PocketAccounterGeneral.NORMAL_MODE) {

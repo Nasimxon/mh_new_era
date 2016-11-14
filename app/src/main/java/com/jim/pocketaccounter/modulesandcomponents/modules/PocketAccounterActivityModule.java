@@ -7,6 +7,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
 import com.jim.pocketaccounter.PocketAccounter;
+import com.jim.pocketaccounter.database.TemplateVoice;
+import com.jim.pocketaccounter.managers.CommonOperations;
 import com.jim.pocketaccounter.managers.DrawerInitializer;
 import com.jim.pocketaccounter.managers.LogicManager;
 import com.jim.pocketaccounter.managers.PAFragmentManager;
@@ -22,6 +24,8 @@ import com.jim.pocketaccounter.utils.TransferDialog;
 import com.jim.pocketaccounter.utils.WarningDialog;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Named;
 

@@ -106,4 +106,9 @@
     <dimen name="fiveteen_dp">22dp</dimen>
     <dimen name="ninety_eight_dp">147dp</dimen>
     <dimen name="hundred_fivety_four">231dp</dimen>
+
+    <dimen name="hundred_sixty_dp">240dp</dimen>
+    <dimen name="hundred_eity_five_dp">277.5dp</dimen>
+    <dimen name="hundred_eity_dp">270dp</dimen>
+    <dimen name="hundred_thiry_five_dp">202.5dp</dimen>
 </resources>

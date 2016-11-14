@@ -23,6 +23,7 @@ import com.jim.pocketaccounter.fragments.PurposeFragment;
 import com.jim.pocketaccounter.fragments.RecordDetailFragment;
 import com.jim.pocketaccounter.fragments.SmsParseMainFragment;
 import com.jim.pocketaccounter.fragments.VoiceRecognizerFragment;
+import com.jim.pocketaccounter.helper.MyVerticalViewPager;
 import com.jim.pocketaccounter.utils.cache.DataCache;
 
 import java.util.Calendar;
@@ -44,7 +45,7 @@ public class    PAFragmentManager {
     private int lastPos = 5000;
     private Boolean direction = null;
     private boolean isMainReturn = false;
-    private VerticalViewPager vpVertical;
+    private MyVerticalViewPager vpVertical;
 
     public boolean isMainReturn() {
         return isMainReturn;
@@ -63,9 +64,14 @@ public class    PAFragmentManager {
         this.activity = activity;
         ((PocketAccounterApplication) activity.getApplicationContext()).component().inject(this);
         fragmentManager = activity.getSupportFragmentManager();
-        vpVertical = (VerticalViewPager) activity.findViewById(R.id.vpVertical);
+        vpVertical = (MyVerticalViewPager) activity.findViewById(R.id.vpVertical);
         adapter = new VerticalViewPagerAdapter(fragmentManager);
+        vpVertical.setOnTouchListener(null);
         vpVertical.setAdapter(adapter);
+    }
+
+    public void setVerticalScrolling (boolean isSwipe) {
+        vpVertical.setSwipe(isSwipe);
     }
 
     public FragmentManager getFragmentManager() {

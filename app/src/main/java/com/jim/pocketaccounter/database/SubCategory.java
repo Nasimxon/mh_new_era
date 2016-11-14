@@ -97,5 +97,4 @@ public class SubCategory {
 	@Generated(hash = 1008922175)
 	public SubCategory() {
 	}
-
 }

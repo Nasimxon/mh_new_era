@@ -141,5 +141,4 @@ public class RootCategory {
 	@Generated(hash = 1043935042)
 	public RootCategory() {
 	}
-
 }

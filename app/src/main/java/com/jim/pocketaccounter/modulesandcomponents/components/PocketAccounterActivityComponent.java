@@ -46,6 +46,7 @@ import com.jim.pocketaccounter.fragments.SMSParseInfoFragment;
 import com.jim.pocketaccounter.fragments.SearchFragment;
 import com.jim.pocketaccounter.fragments.SmsParseMainFragment;
 import com.jim.pocketaccounter.fragments.TableBarFragment;
+import com.jim.pocketaccounter.fragments.VoiceRecognizerFragment;
 import com.jim.pocketaccounter.managers.SettingsManager;
 import com.jim.pocketaccounter.managers.ToolbarManager;
 import com.jim.pocketaccounter.modulesandcomponents.modules.PocketAccounterActivityModule;
@@ -130,4 +131,5 @@ public interface PocketAccounterActivityComponent {
     void inject(CreditArchiveFragment creditArchiveFragment);
     void inject(PABaseFragment paBaseFragment);
     void inject(BaseBoardView baseBoardView);
+    void inject(VoiceRecognizerFragment voiceRecognizerFragment);
 }

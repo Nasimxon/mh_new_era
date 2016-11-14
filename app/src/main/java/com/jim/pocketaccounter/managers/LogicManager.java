@@ -1,6 +1,7 @@
 package com.jim.pocketaccounter.managers;
 
 import android.content.Context;
+
 import com.jim.pocketaccounter.PocketAccounterApplication;
 import com.jim.pocketaccounter.R;
 import com.jim.pocketaccounter.database.Account;
@@ -14,12 +15,10 @@ import com.jim.pocketaccounter.database.BoardButtonDao;
 import com.jim.pocketaccounter.database.CreditDetials;
 import com.jim.pocketaccounter.database.CreditDetialsDao;
 import com.jim.pocketaccounter.database.Currency;
-import com.jim.pocketaccounter.database.CurrencyCost;
 import com.jim.pocketaccounter.database.CurrencyCostState;
 import com.jim.pocketaccounter.database.CurrencyCostStateDao;
 import com.jim.pocketaccounter.database.CurrencyDao;
 import com.jim.pocketaccounter.database.CurrencyWithAmount;
-import com.jim.pocketaccounter.database.CurrencyWithAmountDao;
 import com.jim.pocketaccounter.database.DaoSession;
 import com.jim.pocketaccounter.database.DebtBorrow;
 import com.jim.pocketaccounter.database.DebtBorrowDao;
@@ -41,22 +40,19 @@ import com.jim.pocketaccounter.database.SmsParseSuccess;
 import com.jim.pocketaccounter.database.SmsParseSuccessDao;
 import com.jim.pocketaccounter.database.SubCategory;
 import com.jim.pocketaccounter.database.SubCategoryDao;
+import com.jim.pocketaccounter.database.TemplateVoice;
 import com.jim.pocketaccounter.database.UserEnteredCalendars;
 import com.jim.pocketaccounter.database.UserEnteredCalendarsDao;
 import com.jim.pocketaccounter.utils.PocketAccounterGeneral;
 import com.jim.pocketaccounter.utils.cache.DataCache;
 
-import org.greenrobot.greendao.query.DeleteQuery;
 import org.greenrobot.greendao.query.Query;
 import org.greenrobot.greendao.query.QueryBuilder;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -68,6 +64,7 @@ public class LogicManager {
     @Inject DaoSession daoSession;
     @Inject CommonOperations commonOperations;
     @Inject DataCache dataCache;
+    @Inject List<TemplateVoice> voices;
     private Context context;
     private CurrencyDao currencyDao;
     private FinanceRecordDao recordDao;
@@ -516,6 +513,7 @@ public class LogicManager {
 
     public int insertSubCategory(List<SubCategory> subCategories) {
         subCategoryDao.insertOrReplaceInTx(subCategories);
+
         return LogicManagerConstants.SAVED_SUCCESSFULL;
     }
 
@@ -607,6 +605,7 @@ public class LogicManager {
         if (!query.list().isEmpty())
             return LogicManagerConstants.SUCH_NAME_ALREADY_EXISTS;
         rootCategoryDao.insertOrReplace(rootCategory);
+        CommonOperations.generateRegexVoice(daoSession, voices, rootCategory.getName(), rootCategory.getId());
         return LogicManagerConstants.SAVED_SUCCESSFULL;
     }
 
@@ -654,8 +653,8 @@ public class LogicManager {
     }
 
     public int insertDebtBorrow(DebtBorrow debtBorrow) {
-
         debtBorrowDao.insertOrReplace(debtBorrow);
+        CommonOperations.generateRegexVoice(daoSession, voices, debtBorrow.getPerson().getName(), debtBorrow.getId());
         return LogicManagerConstants.SAVED_SUCCESSFULL;
     }
 
@@ -671,16 +670,13 @@ public class LogicManager {
     }
 
     public int insertPerson(Person person) {
-        Query<Person> query = personDao
-                .queryBuilder()
-                .where(PersonDao.Properties.Id.eq(person.getId()))
-                .build();
         personDao.insertOrReplace(person);
         return LogicManagerConstants.SAVED_SUCCESSFULL;
     }
 
     public int insertCredit(CreditDetials creditDetials) {
         creditDetialsDao.insertOrReplace(creditDetials);
+        CommonOperations.generateRegexVoice(daoSession, voices, creditDetials.getCredit_name(), "" + creditDetials.getMyCredit_id());
         return LogicManagerConstants.SAVED_SUCCESSFULL;
     }
 

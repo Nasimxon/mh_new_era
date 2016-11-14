@@ -34,6 +34,7 @@ import com.jim.pocketaccounter.database.CurrencyCost;
 import com.jim.pocketaccounter.database.CurrencyCostState;
 import com.jim.pocketaccounter.database.CurrencyDao;
 import com.jim.pocketaccounter.database.CurrencyWithAmount;
+import com.jim.pocketaccounter.database.DaoSession;
 import com.jim.pocketaccounter.database.DebtBorrow;
 import com.jim.pocketaccounter.database.DebtBorrowDao;
 import com.jim.pocketaccounter.database.FinanceRecord;
@@ -46,11 +47,11 @@ import com.jim.pocketaccounter.database.RootCategoryDao;
 import com.jim.pocketaccounter.database.SmsParseObject;
 import com.jim.pocketaccounter.database.SmsParseSuccess;
 import com.jim.pocketaccounter.database.SubCategory;
-import com.jim.pocketaccounter.database.DaoSession;
+import com.jim.pocketaccounter.database.TemplateSms;
+import com.jim.pocketaccounter.database.TemplateVoice;
 import com.jim.pocketaccounter.database.UserEnteredCalendars;
 import com.jim.pocketaccounter.utils.CostMigrateObject;
 import com.jim.pocketaccounter.utils.PocketAccounterGeneral;
-import com.jim.pocketaccounter.database.TemplateSms;
 import com.jim.pocketaccounter.utils.cache.DataCache;
 import com.jim.pocketaccounter.utils.regex.RegexBuilder;
 
@@ -76,6 +77,7 @@ import javax.inject.Named;
 public class CommonOperations {
     @Inject
     DaoSession daoSession;
+    @Inject List<TemplateVoice> voices;
     private CurrencyDao currencyDao;
     private Context context;
     private Currency mainCurrency;
@@ -880,6 +882,7 @@ public class CommonOperations {
             account.setCalendar(Calendar.getInstance());
             account.__setDaoSession(daoSession);
             daoSession.getAccountDao().insertOrReplace(account);
+//            generateRegexVoice(daoSession, account.getName(), account.getId());
         }
 
         //inserting categories
@@ -908,11 +911,13 @@ public class CommonOperations {
                     subCategories.add(subCategory);
                     subCategory.__setDaoSession(daoSession);
                     daoSession.getSubCategoryDao().insertOrReplace(subCategory);
+//                    generateRegexVoice(daoSession, subCategory.getName(), subCategory.getId());
                 }
                 rootCategory.setSubCategories(subCategories);
                 rootCategory.__setDaoSession(daoSession);
             }
             daoSession.getRootCategoryDao().insertOrReplace(rootCategory);
+//            generateRegexVoice(daoSession, rootCategory.getName(), rootCategory.getId());
         }
 
         List<RootCategory> incomes = daoSession.getRootCategoryDao()
@@ -1304,6 +1309,7 @@ public class CommonOperations {
             newAccount.setCalendar(Calendar.getInstance());
             accounts.add(newAccount);
             daoSession.getAccountDao().insertOrReplace(newAccount);
+//            generateRegexVoice(daoSession, newAccount.getName(), newAccount.getId());
             cursor.moveToNext();
         }
 
@@ -1944,5 +1950,16 @@ public class CommonOperations {
             if (pageId.equals(categoryId)) return PocketAccounterGeneral.PAGE;
         }
         return PocketAccounterGeneral.NULL;
+    }
+
+    public static void generateRegexVoice(DaoSession daoSession, List<TemplateVoice> voices, String word, String id) {
+        TemplateVoice templateVoice  = new TemplateVoice();
+        templateVoice.setRegex(new RegexBuilder()
+                .anyVisibleCharSeq()
+                .defineWord(word.toLowerCase())
+                .anyVisibleCharSeq()
+                .build());
+        templateVoice.setCategoryId(id);
+        voices.add(templateVoice);
     }
 }

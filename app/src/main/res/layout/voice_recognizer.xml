@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/headColor">
@@ -226,11 +225,14 @@
                     android:layout_weight="1"
                     android:padding="@dimen/five_dp"
                     android:background="@drawable/speech_mode_items_bg"
+                    android:gravity="center"
                     android:layout_marginLeft="@dimen/ten_dp"
                     android:layout_marginRight="@dimen/ten_dp">
+
                     <Spinner
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:gravity="center"
                         android:id="@+id/spSpeechAccount"/>
                 </LinearLayout>
                 <ImageView
@@ -259,6 +261,7 @@
                 android:textSize="@dimen/sixteen_dp"
                 android:gravity="center"
                 android:id="@+id/tvSpeechModeEnteredText"/>
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -293,32 +296,71 @@
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="160dp"
+        android:layout_height="@dimen/hundred_sixty_dp"
         android:layout_alignParentBottom="true"
         android:id="@+id/bottomAnchor" />
 
     <RelativeLayout
-        android:layout_width="185dp"
-        android:layout_height="185dp"
+        android:layout_width="@dimen/hundred_eity_five_dp"
+        android:layout_height="@dimen/hundred_eity_five_dp"
         android:background="@drawable/speech_circle_border"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="@dimen/fifteen_dp" />
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="160dp"
+        android:layout_height="@dimen/hundred_sixty_dp"
         android:layout_alignParentBottom="true"
-        android:background="?attr/headColor"/>
+        android:background="?attr/headColor">
+
+        <FrameLayout
+            android:layout_width="@dimen/seventy_dp"
+            android:layout_height="@dimen/seventy_dp"
+            android:background="@drawable/left"
+            android:layout_centerVertical="true"
+            android:id="@+id/flVoiceRecordStartLeft"
+            android:visibility="gone"
+            >
+
+            <ImageView
+                android:layout_width="@dimen/fourty_dp"
+                android:layout_height="@dimen/fourty_dp"
+                android:src="@drawable/ic_close_black_24dp"
+                android:layout_gravity="center"
+                />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="@dimen/seventy_dp"
+            android:layout_height="@dimen/seventy_dp"
+            android:background="@drawable/right"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:visibility="gone"
+            android:id="@+id/flVoiceRecordStartRight"
+            >
+
+            <ImageView
+                android:layout_width="@dimen/fourty_dp"
+                android:layout_height="@dimen/fourty_dp"
+                android:src="@drawable/check_sign"
+                android:layout_gravity="center"
+                />
+
+        </FrameLayout>
+
+        </RelativeLayout>
     <RelativeLayout
-        android:layout_width="180dp"
-        android:layout_height="180dp"
+        android:layout_width="@dimen/hundred_eity_dp"
+        android:layout_height="@dimen/hundred_eity_dp"
         android:id="@+id/circleContainer"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="@dimen/fifteen_dp">
         <RelativeLayout
-            android:layout_width="160dp"
-            android:layout_height="160dp"
+            android:layout_width="@dimen/hundred_sixty_dp"
+            android:layout_height="@dimen/hundred_sixty_dp"
             android:layout_centerInParent="true"
             android:background="@drawable/speech_circle_container_main_bg">
             <ImageView
@@ -335,8 +377,8 @@
                     android:background="@drawable/center_button_shadow"
                     android:layout_margin="5dp"/>
                 <RelativeLayout
-                    android:layout_width="135dp"
-                    android:layout_height="135dp"
+                    android:layout_width="@dimen/hundred_thiry_five_dp"
+                    android:layout_height="@dimen/hundred_thiry_five_dp"
                     android:layout_centerInParent="true"
                     android:id="@+id/rlCenterButton">
                     <ImageView

@@ -4,8 +4,13 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import com.jim.pocketaccounter.PocketAccounterApplication;
+import com.jim.pocketaccounter.database.Account;
+import com.jim.pocketaccounter.database.Currency;
 import com.jim.pocketaccounter.database.DaoMaster;
 import com.jim.pocketaccounter.database.DaoSession;
+import com.jim.pocketaccounter.database.RootCategory;
+import com.jim.pocketaccounter.database.SubCategory;
+import com.jim.pocketaccounter.database.TemplateVoice;
 import com.jim.pocketaccounter.managers.CommonOperations;
 import com.jim.pocketaccounter.managers.ReportManager;
 import com.jim.pocketaccounter.utils.PocketAccounterGeneral;
@@ -15,7 +20,9 @@ import com.jim.pocketaccounter.utils.cache.DataCache;
 import org.greenrobot.greendao.database.Database;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.inject.Named;
 
@@ -34,6 +41,8 @@ public class PocketAccounterApplicationModule {
     private Calendar begin, end;
     private SimpleDateFormat displayFormatter, commonFormatter;
     private PurchaseImplementation purchaseImplementation;
+    private List<TemplateVoice> voices;
+
     public PocketAccounterApplicationModule(PocketAccounterApplication pocketAccounterApplication) {
         this.pocketAccounterApplication = pocketAccounterApplication;
         DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(pocketAccounterApplication, PocketAccounterGeneral.CURRENT_DB_NAME);
@@ -132,5 +141,24 @@ public class PocketAccounterApplicationModule {
         return displayFormatter;
     }
 
-
+    @Provides
+    public List<TemplateVoice> getVoices() {
+        if (voices == null) {
+            voices = new ArrayList<>();
+            daoSession = getDaoSession();
+            for (Account ac : daoSession.getAccountDao().loadAll()) {
+                CommonOperations.generateRegexVoice(getDaoSession(), voices, ac.getName().toLowerCase(), ac.getId());
+            }
+            for (RootCategory cat : daoSession.getRootCategoryDao().loadAll()) {
+                CommonOperations.generateRegexVoice(daoSession, voices, cat.getName().toLowerCase(), cat.getId());
+            }
+            for (SubCategory subCategory : daoSession.getSubCategoryDao().loadAll()) {
+                CommonOperations.generateRegexVoice(daoSession, voices, subCategory.getName().toLowerCase(), subCategory.getId());
+            }
+            for (Currency currency : daoSession.getCurrencyDao().loadAll()) {
+                CommonOperations.generateRegexVoice(daoSession, voices, currency.getName().toLowerCase(), currency.getId());
+            }
+        }
+        return voices;
+    }
 }

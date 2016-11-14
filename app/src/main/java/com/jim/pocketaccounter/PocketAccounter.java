@@ -56,7 +56,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 public class PocketAccounter extends AppCompatActivity {
-
     public static Toolbar toolbar;
     private PasswordWindow pwPassword;
     private Calendar date;
@@ -95,7 +94,7 @@ public class PocketAccounter extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(null);
-        setTheme(R.style.FiolaTheme);
+        setTheme(R.style.BlueTheme);
         setContentView(R.layout.pocket_accounter);
         component((PocketAccounterApplication) getApplication()).inject(this);
         String lang = preferences.getString("language", getResources().getString(R.string.language_default));
@@ -177,7 +176,6 @@ public class PocketAccounter extends AppCompatActivity {
 
     public void treatToolbar() {
         // toolbar set
-
         toolbarManager.setImageToHomeButton(R.drawable.ic_drawer);
         toolbarManager.setTitle(getResources().getString(R.string.app_name));
         toolbarManager.setSubtitle(format.format(dataCache.getEndDate().getTime()));
