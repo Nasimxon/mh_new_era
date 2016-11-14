@@ -1,11 +1,23 @@
 package com.jim.pocketaccounter.fragments;
 
+import android.Manifest;
+import android.annotation.TargetApi;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.provider.ContactsContract;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -33,6 +45,7 @@ import com.jim.pocketaccounter.database.Currency;
 import com.jim.pocketaccounter.database.CurrencyDao;
 import com.jim.pocketaccounter.database.DaoSession;
 import com.jim.pocketaccounter.database.FinanceRecord;
+import com.jim.pocketaccounter.database.FinanceRecordDao;
 import com.jim.pocketaccounter.database.RootCategory;
 import com.jim.pocketaccounter.database.SubCategory;
 import com.jim.pocketaccounter.database.TemplateVoice;
@@ -42,16 +55,20 @@ import com.jim.pocketaccounter.utils.cache.DataCache;
 import com.jim.pocketaccounter.utils.speech.PASpeechRecognizer;
 import com.jim.pocketaccounter.utils.speech.SpeechListener;
 
+import java.io.File;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.inject.Inject;
+
+import static android.app.Activity.RESULT_OK;
 
 public class VoiceRecognizerFragment extends Fragment {
     public static final int DEBTBORROW = 0;
@@ -100,6 +117,8 @@ public class VoiceRecognizerFragment extends Fragment {
     private FrameLayout recStartLeft;
     //record start right image
     private FrameLayout recStartRight;
+    //auto save voice
+    private TextView autoSave;
     @Inject DaoSession daoSession;
     @Inject PAFragmentManager paFragmentManager;
     @Inject List<TemplateVoice> voices;
@@ -125,6 +144,7 @@ public class VoiceRecognizerFragment extends Fragment {
         spSpeechCurrency = (Spinner) rootView.findViewById(R.id.spSpeechCurrency);
         spSpeechAccount = (Spinner) rootView.findViewById(R.id.spSpeechAccount);
         tvSpeechModeAdjective = (TextView) rootView.findViewById(R.id.tvSpeechModeAdjective);
+        autoSave = (TextView) rootView.findViewById(R.id.tvAutoSaveVoice);
         curString = new String[daoSession.getCurrencyDao().loadAll().size()];
         for (int i = 0; i < curString.length; i++) {
             curString[i] = daoSession.getCurrencyDao().loadAll().get(i).getAbbr();
@@ -144,6 +164,7 @@ public class VoiceRecognizerFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (!started) {
+                    askForContactPermission();
                     startRecognition();
                     recStartRight.setAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.left_gone_anim));
                     recStartLeft.setAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.right_anim));
@@ -182,37 +203,7 @@ public class VoiceRecognizerFragment extends Fragment {
         recStartRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (timer != null) {
-                    // saving operation
-                    if (!categoryId.isEmpty() && summ != 0) {
-                        if (daoSession.getRootCategoryDao().load(categoryId) != null ||
-                                daoSession.getSubCategoryDao().load(categoryId) != null) {
-                            FinanceRecord financeRecord = new FinanceRecord();
-                            financeRecord.setDate(dataCache.getEndDate());
-                            financeRecord.setAmount(summ);
-                            if (accountId.isEmpty()) {
-                                financeRecord.setAccount(daoSession.getAccountDao().queryBuilder().
-                                        where(AccountDao.Properties.Name.eq(spSpeechAccount.getSelectedItem())).unique());
-                            } else {
-                                financeRecord.setAccount(daoSession.getAccountDao().load(accountId));
-                            }
-                            if (currencyId.isEmpty()) {
-                                financeRecord.setCurrency(daoSession.getCurrencyDao().queryBuilder()
-                                .where(CurrencyDao.Properties.Abbr.eq(spSpeechCurrency.getSelectedItem())).unique());
-                            } else {
-                                financeRecord.setCurrency(daoSession.getCurrencyDao().load(currencyId));
-                            }
-                            if (daoSession.getRootCategoryDao().load(categoryId) != null) {
-                                financeRecord.setCategory(daoSession.getRootCategoryDao().load(categoryId));
-                            } else {
-                                SubCategory subCategory = daoSession.getSubCategoryDao().load(categoryId);
-                                financeRecord.setCategory(daoSession.getRootCategoryDao().load(subCategory.getParentId()));
-                                financeRecord.setSubCategory(subCategory);
-                            }
-                            daoSession.getFinanceRecordDao().insertOrReplace(financeRecord);
-                        }
-                    }
-                }
+                savingVoice();
             }
         });
         recognizer = new PASpeechRecognizer(getContext());
@@ -432,20 +423,106 @@ public class VoiceRecognizerFragment extends Fragment {
                 timer.cancel();
                 timer = null;
             }
-            timer = new CountDownTimer(7000, 1000) {
+            autoSave.setVisibility(View.VISIBLE);
+            timer = new CountDownTimer(6000, 1000) {
                 @Override
                 public void onTick(long l) {
-                    Log.d("sss", "left = " + Math.ceil(l/1000));
+                    autoSave.setText("" + Math.ceil(l/1000));
                 }
                 @Override
                 public void onFinish() {
-                    Log.d("sss", "finish");
+                    autoSave.setVisibility(View.GONE);
+                    savingVoice();
                 }
             }.start();
+        }
+    }
 
-            categoryId = "";
-            accountId = "";
-            currencyId = "";
+    private void savingVoice() {
+        if (timer != null) {
+            // saving operation
+            if (!categoryId.isEmpty() && summ != 0) {
+                if (daoSession.getRootCategoryDao().load(categoryId) != null ||
+                        daoSession.getSubCategoryDao().load(categoryId) != null) {
+                    FinanceRecord financeRecord = new FinanceRecord();
+                    financeRecord.setDate(dataCache.getEndDate());
+                    financeRecord.setAmount(summ);
+                    financeRecord.setComment("");
+                    financeRecord.setRecordId(UUID.randomUUID().toString());
+                    if (accountId.isEmpty()) {
+                        financeRecord.setAccount(daoSession.getAccountDao().queryBuilder().
+                                where(AccountDao.Properties.Name.eq(spSpeechAccount.getSelectedItem())).unique());
+                    } else {
+                        financeRecord.setAccount(daoSession.getAccountDao().load(accountId));
+                    }
+                    if (currencyId.isEmpty()) {
+                        financeRecord.setCurrency(daoSession.getCurrencyDao().queryBuilder()
+                                .where(CurrencyDao.Properties.Abbr.eq(spSpeechCurrency.getSelectedItem())).unique());
+                    } else {
+                        financeRecord.setCurrency(daoSession.getCurrencyDao().load(currencyId));
+                    }
+                    if (daoSession.getRootCategoryDao().load(categoryId) != null) {
+                        financeRecord.setCategory(daoSession.getRootCategoryDao().load(categoryId));
+                    } else {
+                        SubCategory subCategory = daoSession.getSubCategoryDao().load(categoryId);
+                        financeRecord.setCategory(daoSession.getRootCategoryDao().load(subCategory.getParentId()));
+                        financeRecord.setSubCategory(subCategory);
+                    }
+                    daoSession.getFinanceRecordDao().insertOrReplace(financeRecord);
+                    timer.cancel();
+                    timer = null;
+                    tvSpeechModeAdjective.setText("");
+                    tvSpeechAmount.setText("0.0");
+                    categoryId = "";
+                    accountId = "";
+                    currencyId = "";
+                    summ = 0;
+                    Log.d("sss", "inserting record");
+                }
+            }
+        }
+    }
+
+    private final int PERMISSION_REQUEST_RECORD = 0;
+
+    public void askForContactPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
+                        Manifest.permission.RECORD_AUDIO)) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setTitle(R.string.contact_access_needed);
+                    builder.setPositiveButton(android.R.string.ok, null);
+                    builder.setMessage(R.string.please_confirm_contact_access);//TODO put real question
+                    builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @TargetApi(Build.VERSION_CODES.M)
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                            requestPermissions(
+                                    new String[]
+                                            {Manifest.permission.RECORD_AUDIO}
+                                    , PERMISSION_REQUEST_RECORD);
+                        }
+                    });
+                    builder.show();
+                } else {
+                    ActivityCompat.requestPermissions(getActivity(),
+                            new String[]{Manifest.permission.RECORD_AUDIO},
+                            PERMISSION_REQUEST_RECORD);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_REQUEST_RECORD: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                }
+                return;
+            }
         }
     }
 }
