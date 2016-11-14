@@ -4,6 +4,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.graphics.PorterDuff;
+import android.support.v4.content.ContextCompat;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -96,8 +98,10 @@ public class TransferDialog extends Dialog implements View.OnClickListener {
         String[] currs = new String[currencies.size()];
         for (int i = 0; i < currencies.size(); i++)
             currs[i] = currencies.get(i).getAbbr();
-        ArrayAdapter<String> currencyAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, currs);
+        ArrayAdapter<String> currencyAdapter = new ArrayAdapter<String>(getContext(), R.layout.spiner_gravity_right_transfer, currs);
+        spAccManDialog.getBackground().setColorFilter(ContextCompat.getColor(context,R.color.grey_ochrang), PorterDuff.Mode.SRC_ATOP);
         spAccManDialog.setAdapter(currencyAdapter);
+
         ivYes = (TextView) dialogView.findViewById(R.id.ivAccountManSave);
         ivYes.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -340,6 +344,7 @@ public class TransferDialog extends Dialog implements View.OnClickListener {
                 TransferDialog.this.onTransferDialogSaveListener.OnTransferDialogSave();
                 accountOperation = null;
                 dismiss();
+
             }
         });
     }

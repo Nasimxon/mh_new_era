@@ -52,6 +52,7 @@ public class AccountInfoFragment extends PABaseInfoFragment {
 	private Account account;
 	private RecyclerView rvAccountDetailsInfo;
 	private TextView firstPay;
+	private TextView canbeNegative;
 	private TextView totalAmount;
 	SelectorView svCategorySelector;
 
@@ -109,21 +110,19 @@ public class AccountInfoFragment extends PABaseInfoFragment {
 
 		rvAccountDetailsInfo = (RecyclerView) rootView.findViewById(R.id.rvAccountDetailsInfo);
  		firstPay = (TextView) rootView.findViewById(R.id.tvAccountInfoFirstPay);
-		String info = "";
+		canbeNegative = (TextView) rootView.findViewById(R.id.tvAccountInfoCanBeNegative);
 		if (account.getAmount() == 0) {
-			info += getResources().getString(R.string.start_amount) + " " + 0 + "\n";
+			firstPay.setText(getResources().getString(R.string.start_amount) + " " + 0 );
 		}
 		else {
-			info += getResources().getString(R.string.start_amount) + " " +account.getAmount() + " "+account.getStartMoneyCurrency().getAbbr() + "\n";
+			firstPay.setText(getResources().getString(R.string.start_amount) + " " +account.getAmount() + " "+account.getStartMoneyCurrency().getAbbr());
 		}
 		if (account.getNoneMinusAccount()) {
-			info += getResources().getString(R.string.none_minusable_account);
+			canbeNegative.setText(getResources().getString(R.string.none_minusable_account)); ;
 		}
 		else {
-			info += getResources().getString(R.string.minusable_account);
+			canbeNegative.setText(getResources().getString(R.string.minusable_account));
 		}
-
-		firstPay.setText(info);
 
 		rvAccountDetailsInfo = (RecyclerView) rootView.findViewById(R.id.rvAccountInfoOperations);
 		rvAccountDetailsInfo.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -194,6 +193,22 @@ public class AccountInfoFragment extends PABaseInfoFragment {
 		RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
 		rvAccountDetailsInfo.setLayoutManager(layoutManager);
 		refreshOperationsList();
+
+//		ivCatSelectorItem.setOnTouchListener(new View.OnTouchListener() {
+//			@Override
+//			public boolean onTouch(View v, MotionEvent event) {
+//				if (event.getAction() == MotionEvent.ACTION_DOWN) {
+//					int pos = rootAccounts.indexOf(account);
+////					if (pos ++ >= rootAccounts.size() - 1) {
+////						pos = 0;
+////					}
+//					pos ++;
+//					svCategorySelector.move(pos);
+//					return true;
+//				}
+//				return false;
+//			}
+//		});
 
 		return rootView;
 	}

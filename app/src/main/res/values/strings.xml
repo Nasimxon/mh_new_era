@@ -1616,6 +1616,7 @@
     <string name="to_purpose">Перевод в капилку</string>
     <string name="account_from">Account from</string>
     <string name="account_to">Account to</string>
+    <string name="scet_imeet_nacalniy_sum">Счет имеет началную сумму:</string>
     <string-array name="main_bg_colors">
         <item>#DCDDDE</item>
     </string-array>

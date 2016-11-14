@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -14,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -36,18 +38,17 @@ import java.util.UUID;
 public class AccountEditFragment extends PABaseInfoFragment implements OnClickListener {
     private Account account;
     private EditText etAccountEditName;
-    private FABIcon fabAccountIcon;
-    private CheckBox chbAccountStartSumEnabled;
+    private ImageView fabAccountIcon;
+    private SwitchCompat chbAccountStartSumEnabled;
     private RelativeLayout rlStartSumContainer;
     private RelativeLayout rlStartLimitContainer;
     private EditText etStartMoney;
     private EditText etStartLimit;
     private Spinner spStartMoneyCurrency;
-    private CheckBox chbAccountNoneZero;
-    private CheckBox chbAccountEnabledLimit;
+    private SwitchCompat chbAccountNoneZero;
+    private SwitchCompat chbAccountEnabledLimit;
     private Spinner spStartLimit;
-    private String choosenIcon = "icons_1";
-    private TextView tvNoneMinusAccountTitle, tvStartSumAccountTitle;
+    private String choosenIcon = "add_icon";
 
     @SuppressLint("ValidFragment")
     public AccountEditFragment(Account account) {
@@ -84,12 +85,9 @@ public class AccountEditFragment extends PABaseInfoFragment implements OnClickLi
         }
         ArrayAdapter arrayAdapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, items);
         etAccountEditName = (EditText) rootView.findViewById(R.id.etAccountEditName); // account name
-        fabAccountIcon = (FABIcon) rootView.findViewById(R.id.fabAccountIcon); // icon chooser
+        fabAccountIcon = (ImageView) rootView.findViewById(R.id.fabAccountIcon); // icon chooser
         int resId = getResources().getIdentifier(choosenIcon, "drawable", getContext().getPackageName());
-        Bitmap temp = BitmapFactory.decodeResource(getResources(), resId);
-        Bitmap bitmap = Bitmap.createScaledBitmap(temp, (int) getResources().getDimension(R.dimen.twentyfive_dp),
-                (int) getResources().getDimension(R.dimen.twentyfive_dp), false);
-        fabAccountIcon.setImageBitmap(bitmap);
+        fabAccountIcon.setImageResource(resId);
         fabAccountIcon.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,10 +98,8 @@ public class AccountEditFragment extends PABaseInfoFragment implements OnClickLi
                     public void OnIconPick(String icon) {
                         choosenIcon = icon;
                         int resId = getResources().getIdentifier(icon, "drawable", getContext().getPackageName());
-                        Bitmap temp = BitmapFactory.decodeResource(getResources(), resId);
-                        Bitmap b = Bitmap.createScaledBitmap(temp, (int) getResources().getDimension(R.dimen.twentyfive_dp),
-                                (int) getResources().getDimension(R.dimen.twentyfive_dp), false);
-                        fabAccountIcon.setImageBitmap(b);
+
+                        fabAccountIcon.setImageResource(resId);
                         iconChooseDialog.setSelectedIcon(icon);
                         iconChooseDialog.dismiss();
                     }
@@ -111,7 +107,7 @@ public class AccountEditFragment extends PABaseInfoFragment implements OnClickLi
                 iconChooseDialog.show();
             }
         });
-        chbAccountStartSumEnabled = (CheckBox) rootView.findViewById(R.id.chbAccountStartSumEnabled); // start sum
+        chbAccountStartSumEnabled = (SwitchCompat) rootView.findViewById(R.id.chbAccountStartSumEnabled); // start sum
         rlStartLimitContainer = (RelativeLayout) rootView.findViewById(R.id.rlStartLimitContainer);
         chbAccountStartSumEnabled.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -122,7 +118,7 @@ public class AccountEditFragment extends PABaseInfoFragment implements OnClickLi
                     rlStartSumContainer.setVisibility(View.GONE);
             }
         });
-        chbAccountEnabledLimit = (CheckBox) rootView.findViewById(R.id.chbAccountEnabledLimit); // for enabling and disabling account limit
+        chbAccountEnabledLimit = (SwitchCompat) rootView.findViewById(R.id.chbAccountEnabledLimit); // for enabling and disabling account limit
         chbAccountEnabledLimit.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -138,19 +134,25 @@ public class AccountEditFragment extends PABaseInfoFragment implements OnClickLi
         spStartMoneyCurrency = (Spinner) rootView.findViewById(R.id.spStartMoneyCurrency); //start money currency
         spStartMoneyCurrency.setAdapter(arrayAdapter);
         spStartMoneyCurrency.setSelection(mainCurrencyPos);
-        tvStartSumAccountTitle = (TextView) rootView.findViewById(R.id.tvStartSumAccountTitle);
         etStartLimit = (EditText) rootView.findViewById(R.id.etStartLimit); //limit amount
         spStartLimit = (Spinner) rootView.findViewById(R.id.spStartLimitCurrency); //limit currency
         spStartLimit.setAdapter(arrayAdapter);
-        tvStartSumAccountTitle.setOnClickListener(new OnClickListener() {
+        rootView.findViewById(R.id.checkBoxSum).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 chbAccountStartSumEnabled.toggle();
             }
         });
-        chbAccountNoneZero = (CheckBox) rootView.findViewById(R.id.noneZeroAccount); // none minus account's checkbox
-        tvNoneMinusAccountTitle = (TextView) rootView.findViewById(R.id.tvNoneMinusAccountTitle);
-        tvNoneMinusAccountTitle.setOnClickListener(new OnClickListener() {
+
+
+        rootView.findViewById(R.id.turnOnLimit).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                chbAccountEnabledLimit.toggle();
+            }
+        });
+        chbAccountNoneZero = (SwitchCompat) rootView.findViewById(R.id.noneZeroAccount); // none minus account's checkbox
+        rootView.findViewById(R.id.rlLimitContainer).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 chbAccountNoneZero.toggle();
@@ -159,11 +161,9 @@ public class AccountEditFragment extends PABaseInfoFragment implements OnClickLi
         if (account != null) { // fill, if account is editing
             etAccountEditName.setText(account.getName());
             resId = getResources().getIdentifier(account.getIcon(), "drawable", getContext().getPackageName());
-            temp = BitmapFactory.decodeResource(getResources(), resId);
-            bitmap = Bitmap.createScaledBitmap(temp, (int) getResources().getDimension(R.dimen.twentyfive_dp),
-                    (int) getResources().getDimension(R.dimen.twentyfive_dp), false);
+
             choosenIcon = account.getIcon();
-            fabAccountIcon.setImageBitmap(bitmap);
+            fabAccountIcon.setImageResource(resId);
             chbAccountNoneZero.setChecked(account.getNoneMinusAccount());
             if (account.getAmount() != 0) {
                 chbAccountStartSumEnabled.setChecked(true);

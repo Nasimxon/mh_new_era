@@ -79,8 +79,8 @@
 
         <item name="android:typeface">serif</item>
         <item name="colorControlNormal">@color/forlines</item>
-        <item name="colorControlActivated">@color/colorAccent</item>
-        <item name="colorControlHighlight">@color/colorAccent</item>
+        <item name="colorControlActivated">#3d8787</item>
+        <item name="colorControlHighlight">@color/forlines</item>
         <item name="android:preferenceCategoryStyle">@style/PreferenceCategoryStyle</item>
         <item name="android:popupMenuStyle">@style/PopupMenu</item>
         <item name="android:actionBarSize">@dimen/sixty_dp</item>

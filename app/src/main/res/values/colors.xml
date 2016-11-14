@@ -77,4 +77,5 @@
     <item name="indicators_frame" type="color">#fafafa</item>
     <item name="active_circle" type="color">#9da1a1</item>
     <item name="not_active_circle" type="color">#c8cccc</item>
+    <item name="grey_ochrang" type="color">#e1e1e1</item>
 </resources>

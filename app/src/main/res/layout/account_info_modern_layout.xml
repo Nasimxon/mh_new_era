@@ -26,7 +26,18 @@
             android:gravity="center"
             android:text="@string/sub_cats"
             android:id="@+id/tvAccountInfoFirstPay"
+            android:layout_marginTop="@dimen/five_dp"
             android:layout_marginBottom="@dimen/two_dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/twelve_dp"
+            android:textColor="@color/black_for_maykiy_secodary"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/sub_cats"
+            android:id="@+id/tvAccountInfoCanBeNegative"
+            android:layout_marginBottom="@dimen/ten_dp"/>
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="2px"
