@@ -82,7 +82,7 @@ public class VoiceRecognizerFragment extends Fragment {
     //Not speech mode records list
     private RecyclerView rvNotSpeechModeRecordsList;
     //Speech mode layout
-    private LinearLayout llSpeechMode;
+    private RelativeLayout llSpeechMode;
     //Speech mode adjective recognition
     private TextView tvSpeechModeAdjective;
     //Speech mode category recognition and its icon
@@ -127,6 +127,7 @@ public class VoiceRecognizerFragment extends Fragment {
     private String [] accString;
     private CountDownTimer timer;
     private int leftSaving;
+    private RecyclerView rvAfterSavedVoice;
 
     @Nullable
     @Override
@@ -135,6 +136,7 @@ public class VoiceRecognizerFragment extends Fragment {
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
         rlCenterButton = (RelativeLayout) rootView.findViewById(R.id.rlCenterButton);
         ivCenterButton = (ImageView) rootView.findViewById(R.id.ivCenterButton);
+        llSpeechMode = (RelativeLayout) rootView.findViewById(R.id.llSpeechMode);
         ivMicrophoneIcon = (ImageView) rootView.findViewById(R.id.ivMicrophoneIcon);
         recStartLeft = (FrameLayout) rootView.findViewById(R.id.flVoiceRecordStartLeft);
         recStartRight = (FrameLayout) rootView.findViewById(R.id.flVoiceRecordStartRight);
@@ -165,17 +167,9 @@ public class VoiceRecognizerFragment extends Fragment {
                 if (!started) {
                     askForContactPermission();
                     startRecognition();
-                    recStartRight.setAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.left_gone_anim));
-                    recStartLeft.setAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.right_anim));
-                    recStartRight.setVisibility(View.VISIBLE);
-                    recStartLeft.setVisibility(View.VISIBLE);
-                    paFragmentManager.setVerticalScrolling(false);
+                    visibilLR();
                 } else {
-                    recStartRight.setAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.left_anim));
-                    recStartLeft.setAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.right_gone_anim));
-                    recStartRight.setVisibility(View.GONE);
-                    recStartLeft.setVisibility(View.GONE);
-                    paFragmentManager.setVerticalScrolling(true);
+                    visibilityGoneLR();
                     stopRecognition();
                 }
                 started = !started;
@@ -240,6 +234,22 @@ public class VoiceRecognizerFragment extends Fragment {
         return rootView;
     }
 
+    private void visibilityGoneLR () {
+        recStartRight.setAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.left_anim));
+        recStartLeft.setAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.right_gone_anim));
+        recStartRight.setVisibility(View.GONE);
+        recStartLeft.setVisibility(View.GONE);
+        paFragmentManager.setVerticalScrolling(true);
+    }
+
+    private void visibilLR () {
+        recStartRight.setAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.left_gone_anim));
+        recStartLeft.setAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.right_anim));
+        recStartRight.setVisibility(View.VISIBLE);
+        recStartLeft.setVisibility(View.VISIBLE);
+        paFragmentManager.setVerticalScrolling(false);
+    }
+
     private void processSpeechResults(final List<String> speechResult) {
         if (speechResult != null && !speechResult.isEmpty()) {
             tvSpeechModeEnteredText.setText(speechResult.get(0));
@@ -280,7 +290,6 @@ public class VoiceRecognizerFragment extends Fragment {
             view.tvSpeechRecognizeFinanceRecordAccountName.setText(result.get(position).getAccount().getName());
             view.tvSpeechRecognizeFinanceRecordAmount.setText("" + result.get(position).getAmount());
             view.tvSpeechRecognizeFinanceRecordCurrency.setText(result.get(position).getCurrency().getName());
-
         }
         public VoiceRecognizerFragment.ViewHolder onCreateViewHolder(ViewGroup parent, int var2) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.speech_rec_finance_record_list_item, parent, false);
@@ -312,6 +321,7 @@ public class VoiceRecognizerFragment extends Fragment {
         recognizer.stopVoiceRecognition();
     }
 
+    private List<String> catIds;
     private String categoryId = "";
     private String accountId = "";
     private String currencyId = "";
@@ -426,11 +436,12 @@ public class VoiceRecognizerFragment extends Fragment {
             timer = new CountDownTimer(6000, 1000) {
                 @Override
                 public void onTick(long l) {
-                    autoSave.setText("" + Math.ceil(l/1000));
+                    autoSave.setText("sec " + Math.ceil(l/1000));
                 }
                 @Override
                 public void onFinish() {
                     autoSave.setVisibility(View.GONE);
+                    autoSave.setText("");
                     savingVoice();
                 }
             }.start();
@@ -468,6 +479,8 @@ public class VoiceRecognizerFragment extends Fragment {
                         financeRecord.setSubCategory(subCategory);
                     }
                     daoSession.getFinanceRecordDao().insertOrReplace(financeRecord);
+                    paFragmentManager.updateAllFragmentsPageChanges();
+                    paFragmentManager.updateAllFragmentsOnViewPager();
                     timer.cancel();
                     timer = null;
                     tvSpeechModeAdjective.setText("");
@@ -476,10 +489,11 @@ public class VoiceRecognizerFragment extends Fragment {
                     accountId = "";
                     currencyId = "";
                     summ = 0;
-                    Log.d("sss", "inserting record");
                 }
             }
         }
+        visibilityGoneLR();
+        stopRecognition();
     }
 
     private final int PERMISSION_REQUEST_RECORD = 0;

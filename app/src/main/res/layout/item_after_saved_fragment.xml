@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="@dimen/sixteen_dp"
+    >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvItemAfterSavedDate"
+        android:gravity="center"
+        android:text="12.06.2016"
+        android:textSize="@dimen/fiveteen_dp"
+        android:layout_weight="1"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvItemAfterSavedCatName"
+        android:text="Home water"
+        android:textSize="@dimen/fiveteen_dp"
+        android:gravity="center"
+        android:layout_weight="1"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvItemAfterSavedAmount"
+        android:text="126 $"
+        android:textSize="@dimen/fiveteen_dp"
+        android:gravity="center"
+        android:layout_weight="1"
+        />
+
+</LinearLayout>

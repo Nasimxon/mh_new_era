@@ -5,9 +5,11 @@ import android.preference.PreferenceManager;
 
 import com.jim.pocketaccounter.PocketAccounterApplication;
 import com.jim.pocketaccounter.database.Account;
+import com.jim.pocketaccounter.database.CreditDetials;
 import com.jim.pocketaccounter.database.Currency;
 import com.jim.pocketaccounter.database.DaoMaster;
 import com.jim.pocketaccounter.database.DaoSession;
+import com.jim.pocketaccounter.database.DebtBorrow;
 import com.jim.pocketaccounter.database.RootCategory;
 import com.jim.pocketaccounter.database.SubCategory;
 import com.jim.pocketaccounter.database.TemplateVoice;
@@ -150,6 +152,13 @@ public class PocketAccounterApplicationModule {
             }
             for (Currency currency : daoSession.getCurrencyDao().loadAll()) {
                 CommonOperations.generateRegexVoice(daoSession, voices, currency.getName().toLowerCase(), currency.getId());
+            }
+            for (CreditDetials creditDetials : daoSession.getCreditDetialsDao().loadAll()) {
+                CommonOperations.generateRegexVoice(daoSession, voices,
+                        creditDetials.getCredit_name().toLowerCase(), "" + creditDetials.getMyCredit_id());
+            }
+            for (DebtBorrow debtBorrow : daoSession.getDebtBorrowDao().loadAll()) {
+                CommonOperations.generateRegexVoice(daoSession, voices, debtBorrow.getPerson().getName().toLowerCase(), debtBorrow.getId());
             }
         }
         return voices;

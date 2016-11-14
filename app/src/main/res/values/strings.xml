@@ -1628,4 +1628,8 @@
         <item>expense</item>
     </string-array>
 
+    <string-array name="currency_voice_names">
+
+    </string-array>
+
 </resources>
