@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Money Holder</string>
+    <string name="app_name">Finansia</string>
     <string-array name="week_days">
         <item>Monday</item>
         <item>Tuesday</item>

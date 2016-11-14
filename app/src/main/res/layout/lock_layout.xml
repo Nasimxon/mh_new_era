@@ -6,8 +6,11 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/main_lock_center_shader"
-        android:alpha="0.4"/>
+
+        android:alpha="0.4"
+
+        />
+    <!--android:background="@drawable/main_lock_center_shader"-->
     <ImageView
         android:layout_width="@dimen/eighty_dp"
         android:layout_height="@dimen/eighty_dp"

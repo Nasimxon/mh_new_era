@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="@dimen/hundred_and_ten_dp"
-    android:layout_height="@dimen/hundred_and_ten_dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/white"
     android:layout_centerInParent="true">
     <com.jim.pocketaccounter.utils.CurrencyChecbox

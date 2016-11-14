@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/carditem">
+
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="@dimen/five_dp"
-        android:src="@drawable/circle_unchecked"/>
+        android:layout_height="@dimen/ten_dp"
+        android:src="@drawable/not_main_currency"
+        android:layout_marginBottom="@dimen/ten_dp"
+        android:layout_alignParentBottom="true"
+        android:visibility="visible"/>
     <ImageView
-        android:layout_width="@dimen/twenty_dp"
-        android:layout_height="@dimen/twenty_dp"
-        android:src="@drawable/checkbox_check_sign"
-        android:layout_alignParentRight="true"
-        android:layout_margin="@dimen/twentyfive_dp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/ten_dp"
+        android:src="@drawable/main_currency"
+        android:layout_marginBottom="@dimen/ten_dp"
+        android:layout_alignParentBottom="true"
         android:id="@+id/ivCheckSign"
-        android:visibility="gone"/>
+        android:visibility="visible"/>
 </RelativeLayout>

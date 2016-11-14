@@ -274,6 +274,7 @@ public class PocketAccounter extends AppCompatActivity {
             warningDialog.setOnYesButtonListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    warningDialog.dismiss();
                     PocketAccounter.super.onBackPressed();
                 }
             });
@@ -285,10 +286,7 @@ public class PocketAccounter extends AppCompatActivity {
             });
             int width = getResources().getDisplayMetrics().widthPixels;
             warningDialog.getWindow().setLayout(8 * width / 10, ViewGroup.LayoutParams.WRAP_CONTENT);
-            try {
-                warningDialog.show();
-            } catch (Exception e) {
-            }
+            warningDialog.show();
         }
     }
 

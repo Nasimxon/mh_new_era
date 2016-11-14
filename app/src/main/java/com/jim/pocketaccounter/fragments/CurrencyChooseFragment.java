@@ -1,6 +1,8 @@
 package com.jim.pocketaccounter.fragments;
 
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -21,7 +23,7 @@ import java.util.Calendar;
 import java.util.List;
 
 public class CurrencyChooseFragment extends PABaseInfoFragment {
-    private GridView gvCurrencyChoose;
+    private RecyclerView gvCurrencyChoose;
     private ArrayList<Currency> currencies;
     private boolean[] chbs;
     private WarningDialog dialog;
@@ -38,7 +40,7 @@ public class CurrencyChooseFragment extends PABaseInfoFragment {
             }
         });
         toolbarManager.setImageToSecondImage(R.drawable.check_sign);
-        gvCurrencyChoose = (GridView) view.findViewById(R.id.gvCurrencyChoose); // gridview for representing currencies
+        gvCurrencyChoose = (RecyclerView) view.findViewById(R.id.gvCurrencyChoose); // gridview for representing currencies
 
         final String[] baseCurrencies = getResources().getStringArray(R.array.base_currencies); // getting data from resources to creating default currency list
         final String[] baseAbbrs = getResources().getStringArray(R.array.base_abbrs);
@@ -65,6 +67,8 @@ public class CurrencyChooseFragment extends PABaseInfoFragment {
             currencies.add(currency);
         }
         CurrencyChooseAdapter adapter = new CurrencyChooseAdapter(getActivity(), currencies, chbs);
+        RecyclerView.LayoutManager layoutManager= new GridLayoutManager(getContext(), 3);
+        gvCurrencyChoose.setLayoutManager(layoutManager);
         gvCurrencyChoose.setAdapter(adapter);
         toolbarManager.setOnSecondImageClickListener(new OnClickListener() {
             @Override

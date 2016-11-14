@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Money Holder</string>
+    <string name="app_name">Finansia</string>
     <string-array name="week_days">
         <item>Monday</item>
         <item>Tuesday</item>
@@ -1620,6 +1620,7 @@
     <string name="previous">Back</string>
     <string name="unlock">Unlock</string>
     <string name="page">страница</string>
+    <string name="main_curr">Main currency</string>
     <string-array name="main_bg_colors">
         <item>#DCDDDE</item>
     </string-array>

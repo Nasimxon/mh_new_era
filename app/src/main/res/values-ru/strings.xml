@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Мои деньги</string>
+    <string name="app_name">Finansia</string>
     <string-array name="week_days">
         <item>Понедельник</item>
         <item>Вторник</item>

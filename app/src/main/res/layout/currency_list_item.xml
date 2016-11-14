@@ -3,14 +3,19 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:descendantFocusability="blocksDescendants" >
+    android:background="@drawable/carditem"
+    android:paddingTop="@dimen/sexteen_dp"
+    android:paddingBottom="@dimen/sexteen_dp"
+    android:layout_marginLeft="@dimen/ten_dp"
+    android:layout_marginRight="@dimen/ten_dp"
+    android:descendantFocusability="blocksDescendants"
+    android:layout_marginBottom="@dimen/five_dp">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:background="@drawable/carditem"
-        android:layout_marginLeft="@dimen/ten_dp"
-        android:layout_marginRight="@dimen/ten_dp"
+
+
         android:id="@+id/llCurrencyListItemRoot">
         <TextView
             android:id="@+id/tvCurrencyItemAbbr"
@@ -19,20 +24,22 @@
             android:layout_centerInParent="true"
             android:text="$"
             android:textColor="@color/toolbar_text_color"
-            android:textSize="@dimen/twentyfive_dp"
+            android:textSize="@dimen/thirty_dp"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/ten_dp"
             android:layout_marginBottom="@dimen/ten_dp"
-            android:layout_marginLeft="@dimen/six_dp"
-            android:layout_marginRight="@dimen/ten_dp"/>
+            android:layout_marginLeft="@dimen/thirty_dp"
+            android:layout_marginRight="@dimen/thirty_dp"/>
 
         <ImageView
+            android:id="@+id/imageView9"
             android:layout_width="2px"
             android:layout_height="match_parent"
-            android:background="#eeeeee"
-            android:layout_marginTop="@dimen/ten_dp"
-            android:layout_marginBottom="@dimen/ten_dp"
-            android:layout_marginRight="@dimen/ten_dp"/>
+            android:layout_marginBottom="@dimen/five_dp"
+            android:layout_marginRight="@dimen/twenty_dp"
+            android:layout_marginTop="@dimen/five_dp"
+            android:background="#eaeaea" />
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -48,14 +55,14 @@
                 android:layout_height="wrap_content"
                 android:text="TextView"
                 android:textColor="#414141"
-                android:textSize="@dimen/eighteen_sp" />
+                android:textSize="@dimen/twenty_dp" />
             <TextView
                 android:id="@+id/tvCurrencyCost"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="TextView"
-                android:textColor="@color/currency_chooser"
-                android:textSize="@dimen/fourteen_sp" />
+                android:textColor="#cbcbcb"
+                android:textSize="@dimen/sixteen_dp" />
         </LinearLayout>
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -67,8 +74,9 @@
             android:layout_gravity="center_vertical">
             <ImageView
                 android:id="@+id/ivCurrencyMain"
-                android:layout_width="@dimen/fourty_dp"
+                android:layout_width="@dimen/ten_dp"
                 android:layout_height="@dimen/fourty_dp"
+                android:src="@drawable/main_currency_vertical"
                 android:layout_centerInParent="true"/>
             <CheckBox
                 android:id="@+id/chbCurrencyEdit"
