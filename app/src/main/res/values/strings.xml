@@ -1617,6 +1617,9 @@
     <string name="account_from">Account from</string>
     <string name="account_to">Account to</string>
     <string name="scet_imeet_nacalniy_sum">Счет имеет началную сумму:</string>
+    <string name="previous">Back</string>
+    <string name="unlock">Unlock</string>
+    <string name="page">страница</string>
     <string-array name="main_bg_colors">
         <item>#DCDDDE</item>
     </string-array>

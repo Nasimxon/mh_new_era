@@ -24,10 +24,13 @@ import com.jim.pocketaccounter.managers.PAFragmentManager;
 import com.jim.pocketaccounter.managers.ReportManager;
 import com.jim.pocketaccounter.managers.ToolbarManager;
 import com.jim.pocketaccounter.utils.PocketAccounterGeneral;
+import com.jim.pocketaccounter.utils.billing.LockViewButtonClickListener;
+import com.jim.pocketaccounter.utils.billing.MainPageLockView;
 import com.jim.pocketaccounter.utils.cache.DataCache;
 import com.jim.pocketaccounter.utils.record.BalanceStripe;
 import com.jim.pocketaccounter.utils.record.BoardView;
 import com.jim.pocketaccounter.utils.record.DecorationBoardView;
+import com.jim.pocketaccounter.utils.record.PageChangeListener;
 import com.jim.pocketaccounter.utils.record.RecordExpanseView;
 import com.jim.pocketaccounter.utils.record.RecordIncomesView;
 import com.jim.pocketaccounter.utils.record.TextDrawingBoardView;
@@ -51,9 +54,9 @@ public class MainPageFragment extends Fragment {
     private PocketAccounter pocketAccounter;
     private boolean keyboardVisible = false;
     private RelativeLayout rlMainPageContainer;
-    private Map<String, Double> balance;
     private BalanceStripe balanceStripe;
     private BoardView expenseView, incomeView;
+    private MainPageLockView lockView;
     @Inject ReportManager reportManager;
     @Inject DataCache dataCache;
     @Inject CommonOperations commonOperations;
@@ -83,7 +86,6 @@ public class MainPageFragment extends Fragment {
                 }
             }
         });
-
         if (keyboardVisible) {
             InputMethodManager imm = (InputMethodManager) pocketAccounter.getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(pocketAccounter.findViewById(R.id.main).getWindowToken(), 0);
@@ -112,6 +114,48 @@ public class MainPageFragment extends Fragment {
         initialize();
         return rootView;
     }
+
+    private boolean checkAccessForPage(int position) {
+        String key = "";
+        switch (position) {
+            case 0:
+                key = PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.ZERO_PAGE_COUNT_KEY;
+                break;
+            case 1:
+                key = PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.FIRST_PAGE_COUNT_KEY;
+                break;
+            case 2:
+                key = PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.SECOND_PAGE_COUNT_KEY;
+                break;
+            case 3:
+                key = PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.THIRD_PAGE_COUNT_KEY;
+                break;
+            case 4:
+                key = PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.FOURTH_PAGE_COUNT_KEY;
+                break;
+            case 5:
+                key = PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.FIFTH_PAGE_COUNT_KEY;
+                break;
+            case 6:
+                key = PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.SIXTH_PAGE_COUNT_KEY;
+                break;
+            case 7:
+                key = PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.SEVENTH_PAGE_COUNT_KEY;
+                break;
+            case 8:
+                key = PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.EIGHTH_PAGE_COUNT_KEY;
+                break;
+            case 9:
+                key = PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.FIRST_PAGE_COUNT_KEY;
+                break;
+        }
+        return preferences.getBoolean(key, false);
+    }
+
+    public void startAnimation() {
+        lockView.animateClouds();
+    }
+
     public void initialize() {
         DisplayMetrics dm = pocketAccounter.getResources().getDisplayMetrics();
         double width = (double) dm.widthPixels;
@@ -121,10 +165,55 @@ public class MainPageFragment extends Fragment {
         expenseView = new BoardView(getContext(), PocketAccounterGeneral.EXPENSE, day);
         RelativeLayout.LayoutParams lpExpenses = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dm.widthPixels);
         lpExpenses.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+        lockView = new MainPageLockView(getContext(), expenseView.getCurrentPage());
+        lockView.setLayoutParams(lpExpenses);
         expenseView.setLayoutParams(lpExpenses);
         expenseView.setId(R.id.main_expense);
+        expenseView.setOnPageChangeListener(new PageChangeListener() {
+            @Override
+            public void onPageChange(int position) {
+                if (checkAccessForPage(position)) {
+                    expenseView.unlockPage();
+                    lockView.setVisibility(View.GONE);
+                }
+                else {
+                    expenseView.lockPage();
+                    lockView.setVisibility(View.VISIBLE);
+                }
+                lockView.setPage(position+1);
+            }
+        });
         rlMainPageContainer.addView(expenseView);
+        lockView.setPage(expenseView.getCurrentPage()+1);
+        rlMainPageContainer.addView(lockView);
+        if (checkAccessForPage(expenseView.getCurrentPage())) {
+            lockView.setVisibility(View.GONE);
+            expenseView.unlockPage();
+        }
+        else {
+            lockView.setVisibility(View.VISIBLE);
+            expenseView.lockPage();
+        }
+        lockView.setLockViewButtonClickListener(new LockViewButtonClickListener() {
+            @Override
+            public void onLockViewButtonClickListener(boolean toForward) {
+                if (checkAccessForPage(expenseView.getCurrentPage()))
+                    expenseView.unlockPage();
+                else
+                    expenseView.unlockPage();
+                if (toForward) {
+                    expenseView.incCurrentPage();
+                    lockView.animateButtons(false);
+                }
+                else {
+                    expenseView.decCurrentPage();
+                    lockView.animateButtons(true);
+                }
 
+                lockView.setPage(expenseView.getCurrentPage()+1);
+                paFragmentManager.updateAllFragmentsPageChanges();
+            }
+        });
         incomeView = new BoardView(getContext(), PocketAccounterGeneral.INCOME, day);
         RelativeLayout.LayoutParams lpIncomes = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dm.widthPixels/4);
         lpIncomes.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
@@ -163,18 +252,41 @@ public class MainPageFragment extends Fragment {
         commonOperations.refreshCurrency();
     }
     public void update() {
+        if (checkAccessForPage(expenseView.getCurrentPage())) {
+            lockView.setVisibility(View.GONE);
+            expenseView.unlockPage();
+        }
+        else {
+            lockView.setVisibility(View.VISIBLE);
+            expenseView.lockPage();
+        }
+        lockView.setPage(expenseView.getCurrentPage()+1);
+
         toolbarManager.setSubtitle(simpleDateFormat.format(day.getTime()));
         balanceStripe.calculateBalance();
         expenseView.invalidate();
         incomeView.invalidate();
     }
     public void updatePageChanges() {
+        if (checkAccessForPage(expenseView.getCurrentPage())) {
+            lockView.setVisibility(View.GONE);
+            expenseView.unlockPage();
+        }
+        else {
+            lockView.setVisibility(View.VISIBLE);
+            expenseView.lockPage();
+        }
+        lockView.setPage(expenseView.getCurrentPage()+1);
         expenseView.refreshPagesCount();
         expenseView.init();
         expenseView.invalidate();
         incomeView.refreshPagesCount();
         incomeView.init();
         incomeView.invalidate();
+    }
+
+    public void hideClouds() {
+        lockView.hideClouds();
     }
 
     public static float dpToPx(Context context, float valueInDp) {

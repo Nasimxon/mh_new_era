@@ -2,8 +2,6 @@ package com.jim.pocketaccounter.fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
@@ -12,13 +10,11 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jim.pocketaccounter.R;
@@ -26,7 +22,6 @@ import com.jim.pocketaccounter.database.Account;
 import com.jim.pocketaccounter.database.Currency;
 import com.jim.pocketaccounter.database.CurrencyDao;
 import com.jim.pocketaccounter.managers.LogicManagerConstants;
-import com.jim.pocketaccounter.utils.FABIcon;
 import com.jim.pocketaccounter.utils.IconChooseDialog;
 import com.jim.pocketaccounter.utils.OnIconPickListener;
 

@@ -22,6 +22,7 @@ import com.jim.pocketaccounter.utils.OperationsListDialog;
 import com.jim.pocketaccounter.utils.SubCatAddEditDialog;
 import com.jim.pocketaccounter.utils.TransferDialog;
 import com.jim.pocketaccounter.utils.WarningDialog;
+import com.jim.pocketaccounter.utils.billing.PurchaseImplementation;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -43,6 +44,7 @@ public class PocketAccounterActivityModule {
     private DrawerInitializer drawerInitializer;
     private Toolbar toolbar;
     private LogicManager logicManager;
+    private PurchaseImplementation purchaseImplementation;
 
     public PocketAccounterActivityModule(PocketAccounter pocketAccounter, Toolbar toolbar) {
         this.pocketAccounter = pocketAccounter;
@@ -51,7 +53,6 @@ public class PocketAccounterActivityModule {
         toolbarManager = new ToolbarManager(pocketAccounter, toolbar);
         drawerInitializer = new DrawerInitializer(this.pocketAccounter, paFragmentManager);
         logicManager = new LogicManager(pocketAccounter);
-        Log.d("sss", toolbar == null ? "null toolbar" : toolbar.getClass().getName());
     }
 
     @Provides
@@ -119,4 +120,11 @@ public class PocketAccounterActivityModule {
         return new TransferDialog(pocketAccounter);
     }
 
+    @Provides
+    public PurchaseImplementation getPurchaseImplementation() {
+        if (purchaseImplementation == null)
+            purchaseImplementation = new PurchaseImplementation(pocketAccounter, paFragmentManager);
+        return purchaseImplementation;
+
+    }
 }

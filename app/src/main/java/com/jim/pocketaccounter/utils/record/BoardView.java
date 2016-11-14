@@ -75,6 +75,7 @@ import java.util.List;
 @SuppressLint("NewApi")
 public class BoardView extends TextDrawingBoardView implements GestureDetector.OnGestureListener {
     private GestureDetectorCompat gestureDetector;
+    private PageChangeListener pageChangeListener;
     public BoardView(Context context, int table, Calendar day) {
         super(context, table, day);
         gestureDetector = new GestureDetectorCompat(getContext(), this);
@@ -392,6 +393,8 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
                                     init();
                                     invalidate();
                                     paFragmentManager.updateAllFragmentsPageChanges();
+                                    if (pageChangeListener != null)
+                                        pageChangeListener.onPageChange(currentPage);
                                     break;
                                 case 5:
                                     if (currentPage == 0)
@@ -411,6 +414,8 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
                                     init();
                                     invalidate();
                                     paFragmentManager.updateAllFragmentsPageChanges();
+                                    if (pageChangeListener != null)
+                                        pageChangeListener.onPageChange(currentPage);
                                     break;
                             }
                             PocketAccounter.PRESSED = false;
@@ -422,6 +427,10 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
             }
         }
         return false;
+    }
+
+    public void setOnPageChangeListener(PageChangeListener pageChangeListener) {
+        this.pageChangeListener = pageChangeListener;
     }
 
     @Override
@@ -717,12 +726,16 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
         lvDialog.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                int buttonsCount = table == PocketAccounterGeneral.INCOME ? INCOME_BUTTONS_COUNT_PER_PAGE : EXPENSE_BUTTONS_COUNT_PER_PAGE;
-                logicManager.changeBoardButton(table, currentPage*buttonsCount+pos, categories.get(position).getId());
-                changeIconInCache(pos, categories.get(position).getIcon());
-                init();
-                paFragmentManager.updateAllFragmentsOnViewPager();
-                dataCache.updateOneDay(day);
+                boolean isAvailable = sharedPreferences.getBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.IS_AVAILABLE_CHANGING_OF_PAGE, false);
+                if (isAvailable) {
+                    int buttonsCount = table == PocketAccounterGeneral.INCOME ? INCOME_BUTTONS_COUNT_PER_PAGE : EXPENSE_BUTTONS_COUNT_PER_PAGE;
+                    logicManager.changeBoardButton(table, currentPage * buttonsCount + pos, categories.get(position).getId());
+                    changeIconInCache(pos, categories.get(position).getIcon());
+                    init();
+                    paFragmentManager.updateAllFragmentsOnViewPager();
+                    dataCache.updateOneDay(day);
+                } else
+                    purchaseImplementation.buyChangingPage();
                 PocketAccounter.PRESSED = false;
                 dialog.dismiss();
             }
@@ -756,12 +769,17 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
         lvDialog.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                int buttonsCount = table == PocketAccounterGeneral.INCOME ? INCOME_BUTTONS_COUNT_PER_PAGE : EXPENSE_BUTTONS_COUNT_PER_PAGE;
-                logicManager.changeBoardButton(table, currentPage*buttonsCount+pos, categories.get(position).getId());
-                changeIconInCache(pos, categories.get(position).getIcon());
-                init();
-                paFragmentManager.updateAllFragmentsOnViewPager();
-                dataCache.updateOneDay(day);
+                boolean isAvailable = sharedPreferences.getBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.IS_AVAILABLE_CHANGING_OF_FUNCTION, false);
+                if (isAvailable) {
+                    int buttonsCount = table == PocketAccounterGeneral.INCOME ? INCOME_BUTTONS_COUNT_PER_PAGE : EXPENSE_BUTTONS_COUNT_PER_PAGE;
+                    logicManager.changeBoardButton(table, currentPage * buttonsCount + pos, categories.get(position).getId());
+                    changeIconInCache(pos, categories.get(position).getIcon());
+                    init();
+                    paFragmentManager.updateAllFragmentsOnViewPager();
+                    dataCache.updateOneDay(day);
+                }
+                else
+                    purchaseImplementation.buyChangingFunction();
                 PocketAccounter.PRESSED = false;
                 dialog.dismiss();
             }
@@ -798,7 +816,19 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
         lvDialog.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (purchaseImplementation.isCategoryChangeAvailable()) {
+                if (table == PocketAccounterGeneral.EXPENSE) {
+                    boolean isAvailable = sharedPreferences.getBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.IS_AVAILABLE_CHANGING_OF_CATEGORY_KEY, false);
+                    if (isAvailable) {
+                        int buttonsCount = table == PocketAccounterGeneral.INCOME ? INCOME_BUTTONS_COUNT_PER_PAGE : EXPENSE_BUTTONS_COUNT_PER_PAGE;
+                        logicManager.changeBoardButton(table, currentPage*buttonsCount+pos, categories.get(position).getId());
+                        changeIconInCache(pos, categories.get(position).getIcon());
+                        init();
+                        paFragmentManager.updateAllFragmentsOnViewPager();
+                        dataCache.updateOneDay(day);
+                    }
+                    else
+                        purchaseImplementation.buyChangingCategory();
+                } else {
                     int buttonsCount = table == PocketAccounterGeneral.INCOME ? INCOME_BUTTONS_COUNT_PER_PAGE : EXPENSE_BUTTONS_COUNT_PER_PAGE;
                     logicManager.changeBoardButton(table, currentPage*buttonsCount+pos, categories.get(position).getId());
                     changeIconInCache(pos, categories.get(position).getIcon());
@@ -806,8 +836,6 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
                     paFragmentManager.updateAllFragmentsOnViewPager();
                     dataCache.updateOneDay(day);
                 }
-                else
-                    purchaseImplementation.buyCategoryChange((PocketAccounter) getContext());
                 PocketAccounter.PRESSED = false;
                 dialog.dismiss();
             }
@@ -843,12 +871,17 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
             lvDialog.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    int buttonsCount = table == PocketAccounterGeneral.INCOME ? INCOME_BUTTONS_COUNT_PER_PAGE : EXPENSE_BUTTONS_COUNT_PER_PAGE;
-                    logicManager.changeBoardButton(table, currentPage*buttonsCount+pos, categories.get(position).getId());
-                    changeIconInCache(pos, categories.get(position).getIcon());
-                    init();
-                    paFragmentManager.updateAllFragmentsOnViewPager();
-                    dataCache.updateOneDay(day);
+                    boolean isAvailable = sharedPreferences.getBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.IS_AVAILABLE_CHANGING_OF_DEBT_BORROW_KEY, false);
+                    if (isAvailable) {
+                        int buttonsCount = table == PocketAccounterGeneral.INCOME ? INCOME_BUTTONS_COUNT_PER_PAGE : EXPENSE_BUTTONS_COUNT_PER_PAGE;
+                        logicManager.changeBoardButton(table, currentPage * buttonsCount + pos, categories.get(position).getId());
+                        changeIconInCache(pos, categories.get(position).getIcon());
+                        init();
+                        paFragmentManager.updateAllFragmentsOnViewPager();
+                        dataCache.updateOneDay(day);
+                    }
+                    else
+                        purchaseImplementation.buyChangingDebtBorrow();
                     PocketAccounter.PRESSED = false;
                     dialog.dismiss();
                 }
@@ -892,13 +925,18 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
             lvDialog.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    int buttonsCount = table == PocketAccounterGeneral.INCOME ? INCOME_BUTTONS_COUNT_PER_PAGE : EXPENSE_BUTTONS_COUNT_PER_PAGE;
-                    logicManager.changeBoardButton(table, currentPage*buttonsCount+pos, categories.get(position).getId());
-                    changeIconInCache(pos, categories.get(position).getIcon());
-                    init();
-                    invalidate();
-                    paFragmentManager.updateAllFragmentsOnViewPager();
-                    dataCache.updateOneDay(day);
+                    boolean isAvailble = sharedPreferences.getBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.IS_AVAILABLE_CHANGING_OF_CREDIT_KEY, false);
+                    if (isAvailble) {
+                        int buttonsCount = table == PocketAccounterGeneral.INCOME ? INCOME_BUTTONS_COUNT_PER_PAGE : EXPENSE_BUTTONS_COUNT_PER_PAGE;
+                        logicManager.changeBoardButton(table, currentPage * buttonsCount + pos, categories.get(position).getId());
+                        changeIconInCache(pos, categories.get(position).getIcon());
+                        init();
+                        invalidate();
+                        paFragmentManager.updateAllFragmentsOnViewPager();
+                        dataCache.updateOneDay(day);
+                    }
+                    else
+                        purchaseImplementation.buyChanchingCredit();
                     PocketAccounter.PRESSED = false;
                     dialog.dismiss();
                 }
@@ -985,6 +1023,22 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
         }
     }
 
+    public void lockPage() {
+        manualAlphaSetted = true;
+        alpha = (int) (fullAlpha * 0.1);
+        invalidate();
+    }
+
+    public void unlockPage() {
+        alpha = fullAlpha;
+        invalidate();
+        manualAlphaSetted = false;
+    }
+
+    public int getCurrentPage() {
+        return currentPage;
+    }
+
     @Override
     public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
         return false;
@@ -994,6 +1048,51 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
     @Override
     public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
         return false;
+    }
+
+    public void incCurrentPage() {
+        if (currentPage == setCount-1)
+            currentPage = 0;
+        else
+            currentPage++;
+        if (table == PocketAccounterGeneral.EXPENSE)
+            sharedPreferences
+                    .edit()
+                    .putInt("expense_current_page", currentPage)
+                    .commit();
+        else
+            sharedPreferences
+                    .edit()
+                    .putInt("income_current_page", currentPage)
+                    .commit();
+        if (pageChangeListener != null)
+            pageChangeListener.onPageChange(currentPage);
+        init();
+        invalidate();
+        paFragmentManager.updateAllFragmentsPageChanges();
+
+    }
+
+    public void decCurrentPage() {
+        if (currentPage == 0)
+            currentPage = setCount-1;
+        else
+            currentPage--;
+        if (table == PocketAccounterGeneral.EXPENSE)
+            sharedPreferences
+                    .edit()
+                    .putInt("expense_current_page", currentPage)
+                    .commit();
+        else
+            sharedPreferences
+                    .edit()
+                    .putInt("income_current_page", currentPage)
+                    .commit();
+        if (pageChangeListener != null)
+            pageChangeListener.onPageChange(currentPage);
+        init();
+        invalidate();
+        paFragmentManager.updateAllFragmentsPageChanges();
     }
 
 }

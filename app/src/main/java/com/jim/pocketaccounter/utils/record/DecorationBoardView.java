@@ -15,7 +15,9 @@ import android.util.AttributeSet;
 import com.jim.pocketaccounter.R;
 import com.jim.pocketaccounter.database.BoardButton;
 import com.jim.pocketaccounter.database.BoardButtonDao;
+import com.jim.pocketaccounter.database.CreditDetials;
 import com.jim.pocketaccounter.database.CreditDetialsDao;
+import com.jim.pocketaccounter.database.RootCategory;
 import com.jim.pocketaccounter.database.RootCategoryDao;
 import com.jim.pocketaccounter.utils.PocketAccounterGeneral;
 
@@ -31,18 +33,21 @@ public class DecorationBoardView extends BaseBoardView {
     private Bitmap bitmap;
     private BitmapFactory.Options options;
     protected List<ABoardButton> buttons;
-
+    protected boolean manualAlphaSetted = false;
     private final int DRAWING_PROCESS = 0, DRAWN = 1; //states
     private int drawState = DRAWN; // drawing state
-    private int alpha = 0xFF, fullAlpha = 0xFF; //alpha control fields
+    protected int alpha = 0xFF, fullAlpha = 0xFF; //alpha control fields
     private int frames = 20, elapsed = 0; //frames and elapsed time
     private long interim = 8; //sleep
 
-private int position = 0;
+    private int position = 0;
     private boolean longPressed = false, drawIcons = true;
     private int active, not_active, indicatorFrame;
     private String debtBorrowIcon = "icons_30";
 
+    private List<BoardButton> boardButtons;
+    private List<RootCategory> categories;
+    private List<CreditDetials> credits;
     public DecorationBoardView(Context context, int table) {
         super(context, table);
         this.context = context;
@@ -93,8 +98,15 @@ private int position = 0;
         shadowSide = whiteSide / 0.7f;
         oneDp = getResources().getDimension(R.dimen.one_dp);
         gradientSide = whiteSide - oneDp;
+        initForButtons();
         loadDrawingElements();
         initButtons();
+    }
+
+    private void initForButtons() {
+        boardButtons = daoSession.getBoardButtonDao().loadAll();
+        categories = daoSession.getRootCategoryDao().loadAll();
+        credits = daoSession.getCreditDetialsDao().loadAll();
     }
 
     public void loadDrawingElements() {
@@ -211,8 +223,13 @@ private int position = 0;
             } else if (longPressed && buttons.indexOf(button) == position){
                 shadowsPaint.setAlpha(fullAlpha/2);
             }
+            else if (manualAlphaSetted) {
+                shadowsPaint.setAlpha(alpha);
+                whitePaint.setAlpha(alpha);
+            }
             else {
                 shadowsPaint.setAlpha(fullAlpha);
+                whitePaint.setAlpha(fullAlpha);
             }
             if (table == PocketAccounterGeneral.EXPENSE) {
                 switch (button.getPosition()%EXPENSE_BUTTONS_COUNT_PER_PAGE) {
@@ -322,6 +339,34 @@ private int position = 0;
 
     }
 
+    private String getIcon(int type, String id) {
+        String iconPath = "";
+        switch (type) {
+            case PocketAccounterGeneral.CATEGORY:
+                for (RootCategory category : categories)
+                    if (category.getId().equals(id))
+                        iconPath = category.getIcon();
+                break;
+            case PocketAccounterGeneral.CREDIT:
+                for (CreditDetials creditDetials : credits)
+                    if (Long.toString(creditDetials.getMyCredit_id()).equals(id))
+                        iconPath = creditDetials.getIcon_ID();
+                break;
+        }
+        return iconPath;
+    }
+
+    private BoardButton getId(Long buttonId) {
+        BoardButton result = null;
+        for (BoardButton button : boardButtons) {
+            if (button.getId() == buttonId) {
+                result = button;
+                break;
+            }
+        }
+        return result;
+    }
+
     private void drawIndicator(Canvas canvas) {
         Paint paint = new Paint();
         paint.setAntiAlias(true);
@@ -372,14 +417,9 @@ private int position = 0;
         public ABoardButton category(Long buttonId) {
             this.buttonId = buttonId;
             String categoryId = null;
-            BoardButton boardButton = null;
-            List<BoardButton> buttons = daoSession
-                    .getBoardButtonDao()
-                    .queryBuilder()
-                    .where(BoardButtonDao.Properties.Id.eq(buttonId))
-                    .list();
-            if (!buttons.isEmpty()) {
-                boardButton = buttons.get(0);
+            BoardButton boardButton = getId(buttonId);
+
+            if (getId(buttonId) != null) {
                 categoryId = boardButton.getCategoryId();
             }
             if (categoryId == null) {
@@ -392,22 +432,10 @@ private int position = 0;
                 String iconPath = null;
                 switch (boardButton.getType()) {
                     case PocketAccounterGeneral.CATEGORY:
-                        iconPath = daoSession
-                                .getRootCategoryDao()
-                                .queryBuilder()
-                                .where(RootCategoryDao.Properties.Id.eq(categoryId))
-                                .list()
-                                .get(0)
-                                .getIcon();
+                        iconPath = getIcon(PocketAccounterGeneral.CATEGORY, categoryId);
                         break;
                     case PocketAccounterGeneral.CREDIT:
-                        iconPath = daoSession
-                                .getCreditDetialsDao()
-                                .queryBuilder()
-                                .where(CreditDetialsDao.Properties.MyCredit_id.eq(categoryId))
-                                .list()
-                                .get(0)
-                                .getIcon_ID();
+                        iconPath = getIcon(PocketAccounterGeneral.CREDIT, categoryId);
                         break;
                     case PocketAccounterGeneral.DEBT_BORROW:
                         iconPath = debtBorrowIcon;

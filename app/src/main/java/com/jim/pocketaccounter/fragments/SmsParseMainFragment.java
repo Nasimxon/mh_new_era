@@ -1,8 +1,10 @@
 package com.jim.pocketaccounter.fragments;
 
 import android.app.Dialog;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -28,9 +30,9 @@ import com.jim.pocketaccounter.database.SmsParseSuccess;
 import com.jim.pocketaccounter.managers.CommonOperations;
 import com.jim.pocketaccounter.managers.PAFragmentManager;
 import com.jim.pocketaccounter.managers.ToolbarManager;
-import com.jim.pocketaccounter.utils.FloatingActionButton;
 import com.jim.pocketaccounter.utils.PocketAccounterGeneral;
 import com.jim.pocketaccounter.database.TemplateSms;
+import com.jim.pocketaccounter.utils.billing.PurchaseImplementation;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -42,14 +44,12 @@ import javax.inject.Inject;
  */
 
 public class SmsParseMainFragment extends Fragment implements View.OnClickListener {
-    @Inject
-    ToolbarManager toolbarManager;
-    @Inject
-    PAFragmentManager paFragmentManager;
-    @Inject
-    DaoSession daoSession;
-    @Inject
-    CommonOperations commonOperations;
+    @Inject ToolbarManager toolbarManager;
+    @Inject PAFragmentManager paFragmentManager;
+    @Inject DaoSession daoSession;
+    @Inject CommonOperations commonOperations;
+    @Inject PurchaseImplementation purchaseImplementation;
+    @Inject SharedPreferences preferences;
     private RecyclerView recyclerView;
     private FloatingActionButton floatingActionButton;
     private TextView ifListEmpty;
@@ -79,8 +79,15 @@ public class SmsParseMainFragment extends Fragment implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fbDebtBorrowFragment: {
-                paFragmentManager.getFragmentManager().popBackStack();
-                paFragmentManager.displayFragment(new AddSmsParseFragment(null));
+                int accessCount = preferences.getInt(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.SMS_PARSING_COUNT_KEY, 1);
+                int smsCount = (int) daoSession.getSmsParseObjectDao().count();
+                if (smsCount < accessCount) {
+                    paFragmentManager.getFragmentManager().popBackStack();
+                    paFragmentManager.displayFragment(new AddSmsParseFragment(null));
+                }
+                else {
+                    purchaseImplementation.buySms();
+                }
                 break;
             }
         }

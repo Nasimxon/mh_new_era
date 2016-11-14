@@ -40,7 +40,6 @@ public class PocketAccounterApplicationModule {
     private SharedPreferences preferences;
     private Calendar begin, end;
     private SimpleDateFormat displayFormatter, commonFormatter;
-    private PurchaseImplementation purchaseImplementation;
     private List<TemplateVoice> voices;
 
     public PocketAccounterApplicationModule(PocketAccounterApplication pocketAccounterApplication) {
@@ -49,7 +48,7 @@ public class PocketAccounterApplicationModule {
         Database db = helper.getWritableDb();
         daoSession = new DaoMaster(db).newSession();
         preferences = PreferenceManager.getDefaultSharedPreferences(pocketAccounterApplication);
-        purchaseImplementation = new PurchaseImplementation(pocketAccounterApplication, preferences);
+
 
     }
 
@@ -103,13 +102,7 @@ public class PocketAccounterApplicationModule {
         return new CommonOperations(pocketAccounterApplication);
     }
 
-    @Provides
-    public PurchaseImplementation getPurchaseImplementation() {
-        if (purchaseImplementation == null)
-            purchaseImplementation = new PurchaseImplementation(pocketAccounterApplication, preferences);
-        return purchaseImplementation;
 
-    }
 
     @Provides
     @Named(value = "begin")

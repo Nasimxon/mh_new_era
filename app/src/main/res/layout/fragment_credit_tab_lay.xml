@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/sliding_tabs"
         android:background="@android:color/white" />
-    <com.jim.pocketaccounter.utils.FloatingActionButton
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/fbDebtBorrowFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

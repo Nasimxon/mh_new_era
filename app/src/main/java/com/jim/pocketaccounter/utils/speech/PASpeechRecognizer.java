@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import me.itangqi.waveloadingview.WaveLoadingView;
 
 
 public class PASpeechRecognizer implements RecognitionListener {

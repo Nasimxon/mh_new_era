@@ -5,16 +5,47 @@ apply plugin: 'com.neenbedankt.android-apt'
 
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion '25.0.0'
+    compileSdkVersion 25
+    buildToolsVersion "25.0.0"
 
     defaultConfig {
         applicationId "com.jim.pocketaccounter"
         minSdkVersion 16
-        targetSdkVersion 23
+        targetSdkVersion 25
         vectorDrawables.useSupportLibrary = true
         buildConfigField("String", "base64rsa", base64rsa)
-
+        buildConfigField("String", "sms_parsing_sku", sms_parsing_sku)
+        buildConfigField("String", "zero_page_sku", zero_page_sku)
+        buildConfigField("String", "first_page_sku", first_page_sku)
+        buildConfigField("String", "second_page_sku", second_page_sku)
+        buildConfigField("String", "third_page_sku", third_page_sku)
+        buildConfigField("String", "fourth_page_sku", fourth_page_sku)
+        buildConfigField("String", "fifth_page_sku", fifth_page_sku)
+        buildConfigField("String", "sixth_page_sku", sixth_page_sku)
+        buildConfigField("String", "seventh_page_sku", seventh_page_sku)
+        buildConfigField("String", "eighth_page_sku", eighth_page_sku)
+        buildConfigField("String", "ninth_page_sku", ninth_page_sku)
+        buildConfigField("String", "add_replace_category_on_main_board_sku", add_replace_category_on_main_board_sku)
+        buildConfigField("String", "add_replace_debt_borrow_on_main_board_sku", add_replace_debt_borrow_on_main_board_sku)
+        buildConfigField("String", "add_replace_credit_on_main_board_sku", add_replace_credit_on_main_board_sku)
+        buildConfigField("String", "add_replace_function_on_main_board_sku", add_replace_function_on_main_board_sku)
+        buildConfigField("String", "add_replace_page_on_main_board_sku", add_replace_page_on_main_board_sku)
+        buildConfigField("String", "SMS_PARSING_COUNT_KEY", SMS_PARSING_COUNT_KEY)
+        buildConfigField("String", "ZERO_PAGE_COUNT_KEY", ZERO_PAGE_COUNT_KEY)
+        buildConfigField("String", "FIRST_PAGE_COUNT_KEY", FIRST_PAGE_COUNT_KEY)
+        buildConfigField("String", "SECOND_PAGE_COUNT_KEY", SECOND_PAGE_COUNT_KEY)
+        buildConfigField("String", "THIRD_PAGE_COUNT_KEY", THIRD_PAGE_COUNT_KEY)
+        buildConfigField("String", "FOURTH_PAGE_COUNT_KEY", FOURTH_PAGE_COUNT_KEY)
+        buildConfigField("String", "FIFTH_PAGE_COUNT_KEY", FIFTH_PAGE_COUNT_KEY)
+        buildConfigField("String", "SIXTH_PAGE_COUNT_KEY", SIXTH_PAGE_COUNT_KEY)
+        buildConfigField("String", "SEVENTH_PAGE_COUNT_KEY", SEVENTH_PAGE_COUNT_KEY)
+        buildConfigField("String", "EIGHTH_PAGE_COUNT_KEY", EIGHTH_PAGE_COUNT_KEY)
+        buildConfigField("String", "NINTH_PAGE_COUNT_KEY", NINTH_PAGE_COUNT_KEY)
+        buildConfigField("String", "IS_AVAILABLE_CHANGING_OF_CATEGORY_KEY", IS_AVAILABLE_CHANGING_OF_CATEGORY_KEY)
+        buildConfigField("String", "IS_AVAILABLE_CHANGING_OF_DEBT_BORROW_KEY", IS_AVAILABLE_CHANGING_OF_DEBT_BORROW_KEY)
+        buildConfigField("String", "IS_AVAILABLE_CHANGING_OF_CREDIT_KEY", IS_AVAILABLE_CHANGING_OF_CREDIT_KEY)
+        buildConfigField("String", "IS_AVAILABLE_CHANGING_OF_FUNCTION", IS_AVAILABLE_CHANGING_OF_FUNCTION)
+        buildConfigField("String", "IS_AVAILABLE_CHANGING_OF_PAGE", IS_AVAILABLE_CHANGING_OF_PAGE)
     }
 
     buildTypes {
@@ -40,11 +71,10 @@ greendao {
 dependencies {
     compile files('libs/jxl.jar')
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.4'
-    compile 'com.android.support:support-v4:23.4.0'
-    compile 'com.android.support:appcompat-v7:23.4.0'
-    compile 'com.android.support:design:23.4.0'
-    compile 'com.melnykov:floatingactionbutton:1.3.0'
-    compile 'com.android.support:cardview-v7:23.4.0'
+    compile 'com.android.support:support-v4:25.0.0'
+    compile 'com.android.support:appcompat-v7:25.0.0'
+    compile 'com.android.support:design:25.0.0'
+    compile 'com.android.support:cardview-v7:25.0.0'
     compile 'de.hdodenhof:circleimageview:1.3.0'
     compile 'com.github.PhilJay:MPAndroidChart:v2.2.5'
     compile 'net.objecthunter:exp4j:0.4.4'
@@ -59,9 +89,7 @@ dependencies {
     apt 'com.google.dagger:dagger-compiler:2.5'
     provided 'org.glassfish:javax.annotation:10.0-b28'
     compile 'com.github.castorflex.verticalviewpager:library:19.0.1'
-    compile 'me.itangqi.waveloadingview:library:0.3.2'
-    compile 'com.github.castorflex.verticalviewpager:library:19.0.1'
-
+    compile 'com.github.developer-shivam:WaveView:1.0'
 }
 apply plugin: 'com.google.gms.google-services'
 

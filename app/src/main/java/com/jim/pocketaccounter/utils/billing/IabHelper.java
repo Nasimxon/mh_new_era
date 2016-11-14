@@ -907,6 +907,8 @@ public class IabHelper {
         }
     }
 
+
+
     void flagEndAsync() {
         synchronized (mAsyncInProgressLock) {
             logDebug("Ending async operation: " + mAsyncOperation);

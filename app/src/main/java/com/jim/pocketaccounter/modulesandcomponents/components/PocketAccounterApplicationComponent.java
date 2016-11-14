@@ -49,7 +49,6 @@ public interface PocketAccounterApplicationComponent {
     CommonOperations getCommonOperations();
     ReportManager reportManager();
     PocketAccounterApplicationModule getPocketAccounterApplicationModule();
-    PurchaseImplementation getPurchaseImplementation();
     List<TemplateVoice> getVoices();
     @Named(value = "begin") Calendar getBegin();
     @Named(value = "end") Calendar getEnd();

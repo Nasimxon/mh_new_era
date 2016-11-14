@@ -1605,6 +1605,10 @@
     <string name="incom_expense_list">Список расходов и доходов</string>
     <string name="login">Login</string>
     <string name="all">All</string>
+    <string name="previous">Назад</string>
+    <string name="next_page">След.</string>
+    <string name="unlock">Unlock</string>
+    <string name="page">страница</string>
     <string-array name="speechAdjectives">
         <item>доход</item>
         <item>расход</item>

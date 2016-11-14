@@ -32,6 +32,10 @@ public class PocketAccounterApplication extends Application {
                 .pocketAccounterApplicationModule(new PocketAccounterApplicationModule(this))
                 .build();
         pocketAccounterApplicationComponent.inject(this);
+        sharedPreferences
+                .edit()
+                .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.ZERO_PAGE_COUNT_KEY, true)
+                .commit();
         String  oldDbPath= "//data//data//" + getPackageName().toString()
                         + "//databases//" + PocketAccounterGeneral.OLD_DB_NAME;
         if (!(new File(oldDbPath).exists()) && !sharedPreferences.getBoolean(PocketAccounterGeneral.DB_ONCREATE_ENTER, false)) {

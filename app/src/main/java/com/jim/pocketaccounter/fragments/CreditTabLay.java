@@ -3,6 +3,7 @@ package com.jim.pocketaccounter.fragments;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -22,7 +23,6 @@ import com.jim.pocketaccounter.credit.AdapterCridetArchive;
 import com.jim.pocketaccounter.managers.DrawerInitializer;
 import com.jim.pocketaccounter.managers.PAFragmentManager;
 import com.jim.pocketaccounter.managers.ToolbarManager;
-import com.jim.pocketaccounter.utils.FloatingActionButton;
 
 import java.util.ArrayList;
 

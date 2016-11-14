@@ -93,20 +93,3 @@
       </RelativeLayout>
     </LinearLayout>
 </LinearLayout>
-
-<!--<ImageView-->
-<!--android:id="@+id/ivSubCatSave"-->
-<!--android:layout_width="@dimen/twentyfive_dp"-->
-<!--android:layout_height="@dimen/twentyfive_dp"-->
-<!--android:layout_marginBottom="@dimen/eight_dp"-->
-<!--android:layout_marginRight="@dimen/twentyfour_dp"-->
-<!--android:layout_marginTop="@dimen/eight_dp"-->
-<!--android:src="@drawable/check_sign" />-->
-<!--<com.jim.pocketaccounter.utils.FABIcon-->
-<!--android:id="@+id/fabChooseIcon"-->
-<!--android:layout_width="@dimen/fiftysix_dp"-->
-<!--android:layout_height="@dimen/fiftysix_dp"-->
-<!--android:layout_gravity="center_vertical"-->
-<!--android:layout_marginBottom="@dimen/fifteen_dp"-->
-<!--android:layout_marginRight="@dimen/sixteen_dp"-->
-<!--android:layout_marginTop="@dimen/fifteen_dp" />-->

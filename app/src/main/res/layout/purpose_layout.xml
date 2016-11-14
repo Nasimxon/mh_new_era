@@ -11,7 +11,7 @@
         android:paddingTop="@dimen/sevent_dp"
         android:clipToPadding="false"
         />
-    <com.jim.pocketaccounter.utils.FABIcon
+    <android.support.design.widget.FloatingActionButton
         android:layout_width="@dimen/fiftysix_dp"
         android:layout_height="@dimen/fiftysix_dp"
         android:layout_alignParentRight="true"

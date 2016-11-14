@@ -122,8 +122,7 @@ public class VoiceRecognizerFragment extends Fragment {
     @Inject DaoSession daoSession;
     @Inject PAFragmentManager paFragmentManager;
     @Inject List<TemplateVoice> voices;
-    @Inject
-    DataCache dataCache;
+    @Inject DataCache dataCache;
     private String [] curString;
     private String [] accString;
     private CountDownTimer timer;

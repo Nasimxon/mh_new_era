@@ -1930,19 +1930,19 @@ public class CommonOperations {
                 .queryBuilder()
                 .where(RootCategoryDao.Properties.Id.eq(categoryId))
                 .list();
+        if (!categories.isEmpty()) return PocketAccounterGeneral.CATEGORY;
         List<CreditDetials> credits = daoSession.getCreditDetialsDao()
                 .queryBuilder()
                 .where(CreditDetialsDao.Properties.MyCredit_id.eq(categoryId))
                 .list();
+        if (!credits.isEmpty()) return PocketAccounterGeneral.CREDIT;
         List<DebtBorrow> debtBorrows = daoSession.getDebtBorrowDao()
                 .queryBuilder()
                 .where(DebtBorrowDao.Properties.Id.eq(categoryId))
                 .list();
+        if (!debtBorrows.isEmpty()) return PocketAccounterGeneral.DEBT_BORROW;
         String[] operationIds = context.getResources().getStringArray(R.array.operation_ids);
         String[] pageIds = context.getResources().getStringArray(R.array.page_ids);
-        if (!categories.isEmpty()) return PocketAccounterGeneral.CATEGORY;
-        if (!credits.isEmpty()) return PocketAccounterGeneral.CREDIT;
-        if (!debtBorrows.isEmpty()) return PocketAccounterGeneral.DEBT_BORROW;
         for (String operationId : operationIds) {
             if (operationId.equals(categoryId)) return PocketAccounterGeneral.FUNCTION;
         }

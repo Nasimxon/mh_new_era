@@ -3,6 +3,7 @@ package com.jim.pocketaccounter.fragments;
 import android.content.Context;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -25,7 +26,7 @@ import com.jim.pocketaccounter.database.RootCategory;
 import com.jim.pocketaccounter.database.RootCategoryDao;
 import com.jim.pocketaccounter.database.SubCategory;
 import com.jim.pocketaccounter.managers.LogicManagerConstants;
-import com.jim.pocketaccounter.utils.FABIcon;
+
 import com.jim.pocketaccounter.utils.OnSubcategorySavingListener;
 import com.jim.pocketaccounter.utils.PocketAccounterGeneral;
 import com.jim.pocketaccounter.utils.SubCatAddEditDialog;
@@ -36,7 +37,7 @@ import java.util.List;
 public class CategoryFragment extends PABaseListFragment implements OnClickListener, OnCheckedChangeListener {
 	private RecyclerView rvCategories;
 	private CheckBox chbCatIncomes, chbCatExpanses;
-	private FABIcon fabCategoryAdd;
+	private FloatingActionButton fabCategoryAdd;
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		final View rootView = inflater.inflate(R.layout.category_layout, container, false);
@@ -51,7 +52,7 @@ public class CategoryFragment extends PABaseListFragment implements OnClickListe
 		toolbarManager.setTitle(getResources().getString(R.string.category));
 		toolbarManager.setSubtitle("");
 		toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
-		fabCategoryAdd = (FABIcon) rootView.findViewById(R.id.fabAccountAdd);
+		fabCategoryAdd = (FloatingActionButton) rootView.findViewById(R.id.fabAccountAdd);
 		fabCategoryAdd.setOnClickListener(this);
 		rvCategories = (RecyclerView) rootView.findViewById(R.id.rvCategories);
 		rvCategories.addItemDecoration(new MarginDecoration((int) getResources().getDimension(R.dimen.ten_dp)));

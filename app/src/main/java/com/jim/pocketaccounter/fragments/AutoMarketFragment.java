@@ -3,6 +3,7 @@ package com.jim.pocketaccounter.fragments;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,7 +27,6 @@ import com.jim.pocketaccounter.managers.LogicManager;
 import com.jim.pocketaccounter.managers.LogicManagerConstants;
 import com.jim.pocketaccounter.managers.PAFragmentManager;
 import com.jim.pocketaccounter.managers.ToolbarManager;
-import com.melnykov.fab.FloatingActionButton;
 
 import org.w3c.dom.Text;
 

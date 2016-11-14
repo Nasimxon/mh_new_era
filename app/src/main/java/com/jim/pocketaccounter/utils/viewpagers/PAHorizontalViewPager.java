@@ -19,7 +19,6 @@ public class PAHorizontalViewPager extends ViewPager {
 //
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        Log.d("sss", "onTouch child");
 //        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
 //            oldY = ev.getY();
 //        }

@@ -11,7 +11,7 @@
         android:dividerHeight="@dimen/eight_dp"
         android:divider="#f4f4f4" >
     </ListView>
-    <com.jim.pocketaccounter.utils.FloatingActionButton
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabCurrencyAdd"
         android:layout_width="@dimen/fiftysix_dp"
         android:layout_height="@dimen/fiftysix_dp"

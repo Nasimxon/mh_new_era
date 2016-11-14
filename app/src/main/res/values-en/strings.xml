@@ -1605,6 +1605,9 @@
     <string name="incom_expense_list">Список расходов и доходов</string>
     <string name="login">Login</string>
     <string name="all">All</string>
+    <string name="previous">Back</string>
+    <string name="unlock">Unlock</string>
+    <string name="page">страница</string>
 
     <string-array name="speechAdjectives">
         <item>income</item>

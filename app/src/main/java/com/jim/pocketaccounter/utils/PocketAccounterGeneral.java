@@ -1,10 +1,6 @@
 package com.jim.pocketaccounter.utils;
 
 import com.jim.pocketaccounter.BuildConfig;
-import com.jim.pocketaccounter.database.Account;
-import com.jim.pocketaccounter.database.RootCategory;
-
-import java.util.Calendar;
 
 public class PocketAccounterGeneral {
 	public static final int PAGES_MAX_COUNT = 10;
@@ -35,28 +31,40 @@ public class PocketAccounterGeneral {
 	public static final String HEAD_COLOR = "HEAD_COLOR", HELPER_COLOR = "HELPER_COLOR";
 	public static final String BASE64RSA = BuildConfig.base64rsa;
 	public class MoneyHolderSkus {
-		public static final String SMS_PARSING_SKU = "sms_parsing_sku";
-		public static final String PAGING_SKU = "paging_sku";
-		public static final String ADD_REPLACE_CATEGORY_ON_MAIN_BOARD_SKU = "add_replace_category_on_main_board_sku";
-		public static final String ADD_REPLACE_DEBT_BORROW_ON_MAIN_BOARD_SKU = "add_replace_debt_borrow_on_main_board_sku";
-		public static final String ADD_REPLACE_CREDIT_ON_MAIN_BOARD_SKU = "add_replace_credit_on_main_board_sku";
-		public static final String ADD_REPLACE_FUNCTION_ON_MAIN_BOARD_SKU = "add_replace_function_on_main_board_sku";
-		public static final String ADD_REPLACE_PAGE_ON_MAIN_BOARD_SKU = "add_replace_page_on_main_board_sku";
-		public static final String DESIGN_AQUA = "design_aqua";
-		public static final String DESIGN_WHITE = "design_white";
-		public static final String DESIGN_VIOLETTE = "design_violette";
+		public static final String SMS_PARSING_SKU = BuildConfig.sms_parsing_sku;
+		public static final String ZERO_PAGE_SKU = BuildConfig.zero_page_sku;
+		public static final String FIRST_PAGE_SKU = BuildConfig.first_page_sku;
+		public static final String SECOND_PAGE_SKU = BuildConfig.second_page_sku;
+		public static final String THIRD_PAGE_SKU = BuildConfig.third_page_sku;
+		public static final String FOURTH_PAGE_SKU = BuildConfig.fourth_page_sku;
+		public static final String FIFTH_PAGE_SKU = BuildConfig.fifth_page_sku;
+		public static final String SIXTH_PAGE_SKU = BuildConfig.sixth_page_sku;
+		public static final String SEVENTH_PAGE_SKU = BuildConfig.seventh_page_sku;
+		public static final String EIGHTH_PAGE_SKU = BuildConfig.eighth_page_sku;
+		public static final String NINTH_PAGE_SKU = BuildConfig.ninth_page_sku;
+		public static final String ADD_REPLACE_CATEGORY_ON_MAIN_BOARD_SKU = BuildConfig.add_replace_category_on_main_board_sku;
+		public static final String ADD_REPLACE_DEBT_BORROW_ON_MAIN_BOARD_SKU = BuildConfig.add_replace_debt_borrow_on_main_board_sku;
+		public static final String ADD_REPLACE_CREDIT_ON_MAIN_BOARD_SKU = BuildConfig.add_replace_credit_on_main_board_sku;
+		public static final String ADD_REPLACE_FUNCTION_ON_MAIN_BOARD_SKU = BuildConfig.add_replace_function_on_main_board_sku;
+		public static final String ADD_REPLACE_PAGE_ON_MAIN_BOARD_SKU = BuildConfig.add_replace_page_on_main_board_sku;
 
 		public class SkuPreferenceKeys {
-			public static final String SMS_PARSING_COUNT_KEY = "SMS_PARSING_COUNT_KEY";
-			public static final String PAGING_COUNT_KEY = "PAGING_COUNT_KEY";
-			public static final String IS_AVAILABLE_CHANGING_OF_CATEGORY_KEY = "IS_AVAILABLE_CHANGING_OF_CATEGORY_KEY";
-			public static final String IS_AVAILABLE_CHANGING_OF_DEBT_BORROW_KEY = "IS_AVAILABLE_CHANGING_OF_DEBT_BORROW_KEY";
-			public static final String IS_AVAILABLE_CHANGING_OF_CREDIT_KEY = "IS_AVAILABLE_CHANGING_OF_CREDIT_KEY";
-			public static final String IS_AVAILABLE_CHANGING_OF_FUNCTION = "IS_AVAILABLE_CHANGING_OF_FUNCTION";
-			public static final String IS_AVAILABLE_CHANGING_OF_PAGE = "IS_AVAILABLE_CHANGING_OF_PAGE";
-			public static final String DESIGN_AQUA_KEY = "DESIGN_AQUA_KEY";
-			public static final String DESIGN_WHITE_KEY = "DESIGN_WHITE_KEY";
-			public static final String DESIGN_VIOLETTE_KEY = "DESIGN_VIOLETTE_KEY";
+			public static final String SMS_PARSING_COUNT_KEY = BuildConfig.SMS_PARSING_COUNT_KEY;
+			public static final String ZERO_PAGE_COUNT_KEY = BuildConfig.ZERO_PAGE_COUNT_KEY;
+			public static final String FIRST_PAGE_COUNT_KEY = BuildConfig.FIRST_PAGE_COUNT_KEY;
+			public static final String SECOND_PAGE_COUNT_KEY = BuildConfig.SECOND_PAGE_COUNT_KEY;
+			public static final String THIRD_PAGE_COUNT_KEY = BuildConfig.THIRD_PAGE_COUNT_KEY;
+			public static final String FOURTH_PAGE_COUNT_KEY = BuildConfig.FOURTH_PAGE_COUNT_KEY;
+			public static final String FIFTH_PAGE_COUNT_KEY = BuildConfig.FIFTH_PAGE_COUNT_KEY;
+			public static final String SIXTH_PAGE_COUNT_KEY = BuildConfig.SIXTH_PAGE_COUNT_KEY;
+			public static final String SEVENTH_PAGE_COUNT_KEY = BuildConfig.SEVENTH_PAGE_COUNT_KEY;
+			public static final String EIGHTH_PAGE_COUNT_KEY = BuildConfig.EIGHTH_PAGE_COUNT_KEY;
+			public static final String NINTH_PAGE_COUNT_KEY = BuildConfig.NINTH_PAGE_COUNT_KEY;
+			public static final String IS_AVAILABLE_CHANGING_OF_CATEGORY_KEY = BuildConfig.IS_AVAILABLE_CHANGING_OF_CATEGORY_KEY;
+			public static final String IS_AVAILABLE_CHANGING_OF_DEBT_BORROW_KEY = BuildConfig.IS_AVAILABLE_CHANGING_OF_DEBT_BORROW_KEY;
+			public static final String IS_AVAILABLE_CHANGING_OF_CREDIT_KEY = BuildConfig.IS_AVAILABLE_CHANGING_OF_CREDIT_KEY;
+			public static final String IS_AVAILABLE_CHANGING_OF_FUNCTION = BuildConfig.IS_AVAILABLE_CHANGING_OF_FUNCTION;
+			public static final String IS_AVAILABLE_CHANGING_OF_PAGE = BuildConfig.IS_AVAILABLE_CHANGING_OF_PAGE;
 		}
 	}
 }

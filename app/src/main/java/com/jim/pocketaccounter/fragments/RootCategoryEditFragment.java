@@ -5,11 +5,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -18,49 +14,30 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.jim.pocketaccounter.PocketAccounter;
-import com.jim.pocketaccounter.PocketAccounterApplication;
 import com.jim.pocketaccounter.R;
 import com.jim.pocketaccounter.database.BoardButton;
 import com.jim.pocketaccounter.database.BoardButtonDao;
-import com.jim.pocketaccounter.database.DaoSession;
-import com.jim.pocketaccounter.database.FinanceRecord;
 import com.jim.pocketaccounter.database.RootCategory;
 import com.jim.pocketaccounter.database.SubCategory;
-import com.jim.pocketaccounter.database.TemplateVoice;
-import com.jim.pocketaccounter.finance.SubCategoryAdapter;
-import com.jim.pocketaccounter.managers.LogicManager;
 import com.jim.pocketaccounter.managers.LogicManagerConstants;
-import com.jim.pocketaccounter.managers.PAFragmentManager;
-import com.jim.pocketaccounter.managers.ToolbarManager;
-import com.jim.pocketaccounter.utils.cache.DataCache;
-import com.jim.pocketaccounter.utils.FABIcon;
 import com.jim.pocketaccounter.utils.IconChooseDialog;
 import com.jim.pocketaccounter.utils.OnIconPickListener;
 import com.jim.pocketaccounter.utils.OnSubcategorySavingListener;
 import com.jim.pocketaccounter.utils.PocketAccounterGeneral;
 import com.jim.pocketaccounter.utils.SubCatAddEditDialog;
 import com.jim.pocketaccounter.utils.WarningDialog;
-import com.jim.pocketaccounter.utils.regex.RegexBuilder;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
-
-import javax.inject.Inject;
 
 @SuppressLint({"InflateParams", "ValidFragment"})
 public class RootCategoryEditFragment extends PABaseInfoFragment implements OnClickListener {

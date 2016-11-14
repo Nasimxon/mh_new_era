@@ -3,6 +3,7 @@ package com.jim.pocketaccounter.fragments;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,7 +23,6 @@ import com.jim.pocketaccounter.R;
 import com.jim.pocketaccounter.database.Currency;
 import com.jim.pocketaccounter.finance.CurrencyAdapter;
 import com.jim.pocketaccounter.managers.LogicManagerConstants;
-import com.jim.pocketaccounter.utils.FloatingActionButton;
 import com.jim.pocketaccounter.utils.PocketAccounterGeneral;
 import com.jim.pocketaccounter.utils.ScrollDirectionListener;
 import com.jim.pocketaccounter.utils.WarningDialog;
@@ -56,52 +56,6 @@ public class CurrencyFragment extends PABaseListFragment implements OnClickListe
 		fabCurrencyAdd.setOnClickListener(this);
 		lvCurrency = (ListView) rootView.findViewById(R.id.lvCurrency);
 		lvCurrency.setOnItemClickListener(this);
-		fabCurrencyAdd.attachToListView(lvCurrency, new ScrollDirectionListener() {
-			@Override
-			public void onScrollUp() {
-				if (mode == PocketAccounterGeneral.EDIT_MODE) return;
-				if (fabCurrencyAdd.getVisibility() == View.GONE) return;
-				Animation down = AnimationUtils.loadAnimation(getContext(), R.anim.fab_down);
-				synchronized (down) {
-					down.setAnimationListener(new AnimationListener() {
-						@Override
-						public void onAnimationStart(Animation animation) {
-							fabCurrencyAdd.setClickable(false);
-							fabCurrencyAdd.setVisibility(View.GONE);
-						}
-						@Override
-						public void onAnimationEnd(Animation animation) {
-						}
-						@Override
-						public void onAnimationRepeat(Animation animation) {
-						}
-					});
-					fabCurrencyAdd.startAnimation(down);
-				}
-			}
-			@Override
-			public void onScrollDown() {
-				if (mode == PocketAccounterGeneral.EDIT_MODE) return;
-				if (fabCurrencyAdd.getVisibility() == View.VISIBLE) return;
-				Animation up = AnimationUtils.loadAnimation(getActivity(), R.anim.fab_up);
-				synchronized (up) {
-					up.setAnimationListener(new AnimationListener() {
-						@Override
-						public void onAnimationStart(Animation animation) {
-							fabCurrencyAdd.setVisibility(View.VISIBLE);
-							fabCurrencyAdd.setClickable(true);
-						}
-						@Override
-						public void onAnimationEnd(Animation animation) {
-						}
-						@Override
-						public void onAnimationRepeat(Animation animation) {
-						}
-					});
-					fabCurrencyAdd.startAnimation(up);
-				}
-			}
-		});
 		refreshList();
 		return rootView;
 	}

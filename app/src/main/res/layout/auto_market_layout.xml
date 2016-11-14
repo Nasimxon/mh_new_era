@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:clipToPadding="false"
         android:paddingTop="@dimen/ten_dp" />
-    <com.melnykov.fab.FloatingActionButton
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/fbAutoMarketAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

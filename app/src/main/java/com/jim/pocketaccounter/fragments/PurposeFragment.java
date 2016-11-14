@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,17 +16,13 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.jim.pocketaccounter.PocketAccounter;
 import com.jim.pocketaccounter.PocketAccounterApplication;
 import com.jim.pocketaccounter.R;
-import com.jim.pocketaccounter.database.Account;
 import com.jim.pocketaccounter.database.AccountOperation;
 import com.jim.pocketaccounter.database.DaoSession;
-import com.jim.pocketaccounter.database.DebtBorrow;
 import com.jim.pocketaccounter.database.Purpose;
 import com.jim.pocketaccounter.managers.CommonOperations;
 import com.jim.pocketaccounter.managers.DrawerInitializer;
@@ -33,13 +30,11 @@ import com.jim.pocketaccounter.managers.LogicManager;
 import com.jim.pocketaccounter.managers.PAFragmentManager;
 import com.jim.pocketaccounter.managers.ReportManager;
 import com.jim.pocketaccounter.managers.ToolbarManager;
-import com.jim.pocketaccounter.utils.FABIcon;
-import com.jim.pocketaccounter.utils.ObservableScrollView;
 import com.jim.pocketaccounter.utils.TransferDialog;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.List;
+
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -49,7 +44,7 @@ import javax.inject.Named;
 
 public class PurposeFragment extends Fragment{
     private RecyclerView rvPurposes;
-    private FABIcon fabPurposesAdd;
+    private FloatingActionButton fabPurposesAdd;
     TextView ifListEmpty;
     @Inject
     ToolbarManager toolbarManager;
@@ -89,7 +84,7 @@ public class PurposeFragment extends Fragment{
         rvPurposes = (RecyclerView) rootView.findViewById(R.id.rvPurposes);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         rvPurposes.setLayoutManager(layoutManager);
-        fabPurposesAdd = (FABIcon) rootView.findViewById(R.id.fabPurposesAdd);
+        fabPurposesAdd = (FloatingActionButton) rootView.findViewById(R.id.fabPurposesAdd);
         fabPurposesAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

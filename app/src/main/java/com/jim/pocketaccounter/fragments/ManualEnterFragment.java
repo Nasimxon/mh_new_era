@@ -17,12 +17,13 @@ import com.jim.pocketaccounter.R;
 import com.jim.pocketaccounter.utils.cache.DataCache;
 
 import java.util.Calendar;
+import java.util.List;
 
 import javax.inject.Inject;
 
 public class ManualEnterFragment extends Fragment {
     private ViewPager lvpMain;
-    private int lastPos = 5000;
+    private int lastPos = 5000, idleLast = 5000;
     private Boolean direction = null;
     private MainPageFragment nextPage;
     @Inject
@@ -80,13 +81,28 @@ public class ManualEnterFragment extends Fragment {
                     page.update();
                     dataCache.setEndDate(page.getDay());
                     dataCache.updatePercentsWhenSwiping();
-                    page.update();
+
                 }
                 lastPos = position;
+                Log.d("sss", "page selected "+position);
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
+                if (state == ViewPager.SCROLL_STATE_IDLE) {
+                    if (idleLast == lastPos) return;
+                    for (int i = 0; i < getFragmentManager().getFragments().size(); i++) {
+                        if (getFragmentManager().getFragments().get(i) != null &&
+                                getFragmentManager().getFragments().get(i).getClass().getName().equals(MainPageFragment.class.getName()) &&
+                                !getFragmentManager().getFragments().get(i).getTag().equals("android:switcher:"+R.id.lvpMain+":"+lastPos)) {
+                            ((MainPageFragment) getFragmentManager().getFragments().get(i)).hideClouds();
+                        }
+                    }
+                    final MainPageFragment page = (MainPageFragment) getFragmentManager().findFragmentByTag("android:switcher:"+R.id.lvpMain+":"+lastPos);
+                    if (page != null)
+                        page.startAnimation();
+                    idleLast = lastPos;
+                }
             }
         });
     }
@@ -94,7 +110,6 @@ public class ManualEnterFragment extends Fragment {
         public LVPAdapter(FragmentManager fm) {
             super(fm);
         }
-
         @Override
         public Fragment getItem(int position) {
             Calendar end = Calendar.getInstance();
@@ -103,12 +118,10 @@ public class ManualEnterFragment extends Fragment {
             nextPage = (MainPageFragment) fragment;
             return fragment;
         }
-
         @Override
         public int getCount() {
             return 10000;
         }
-
         @Override
         public int getItemPosition(Object object) {
             return POSITION_NONE;
