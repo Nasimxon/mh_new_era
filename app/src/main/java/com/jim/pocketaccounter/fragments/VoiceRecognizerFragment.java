@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -59,6 +61,7 @@ import java.io.File;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -119,15 +122,18 @@ public class VoiceRecognizerFragment extends Fragment {
     private FrameLayout recStartRight;
     //auto save voice
     private TextView autoSave;
-    @Inject DaoSession daoSession;
-    @Inject PAFragmentManager paFragmentManager;
-    @Inject List<TemplateVoice> voices;
-    @Inject DataCache dataCache;
-    private String [] curString;
-    private String [] accString;
+    @Inject
+    DaoSession daoSession;
+    @Inject
+    PAFragmentManager paFragmentManager;
+    @Inject
+    List<TemplateVoice> voices;
+    @Inject
+    DataCache dataCache;
+    private String[] curString;
+    private String[] accString;
     private CountDownTimer timer;
     private int leftSaving;
-    private RecyclerView rvAfterSavedVoice;
 
     @Nullable
     @Override
@@ -137,11 +143,13 @@ public class VoiceRecognizerFragment extends Fragment {
         rlCenterButton = (RelativeLayout) rootView.findViewById(R.id.rlCenterButton);
         ivCenterButton = (ImageView) rootView.findViewById(R.id.ivCenterButton);
         llSpeechMode = (RelativeLayout) rootView.findViewById(R.id.llSpeechMode);
+        rlNotSpeechMode = (RelativeLayout) rootView.findViewById(R.id.rlNotSpeechMode);
         ivMicrophoneIcon = (ImageView) rootView.findViewById(R.id.ivMicrophoneIcon);
         recStartLeft = (FrameLayout) rootView.findViewById(R.id.flVoiceRecordStartLeft);
         recStartRight = (FrameLayout) rootView.findViewById(R.id.flVoiceRecordStartRight);
         tvSpeechAmount = (TextView) rootView.findViewById(R.id.tvSpeechAmount);
         tvSpeechModeCategory = (TextView) rootView.findViewById(R.id.tvSpeechModeCategory);
+        rvNotSpeechModeRecordsList = (RecyclerView) rootView.findViewById(R.id.rvNotSpeechModeRecordsList);
         spSpeechCurrency = (Spinner) rootView.findViewById(R.id.spSpeechCurrency);
         spSpeechAccount = (Spinner) rootView.findViewById(R.id.spSpeechAccount);
         tvSpeechModeAdjective = (TextView) rootView.findViewById(R.id.tvSpeechModeAdjective);
@@ -175,6 +183,12 @@ public class VoiceRecognizerFragment extends Fragment {
                 started = !started;
             }
         });
+
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+        rvNotSpeechModeRecordsList.setLayoutManager(layoutManager);
+        ViewGroup.LayoutParams params=rvNotSpeechModeRecordsList.getLayoutParams();
+        params.height= (int) (8*Utils.convertDpToPixel(getResources().getDimension(R.dimen.thirty_dp) + 26));
+        rvNotSpeechModeRecordsList.setLayoutParams(params);
         tvSpeechModeEnteredText = (TextView) rootView.findViewById(R.id.tvSpeechModeEnteredText);
         tvListeningIndicator = (TextView) rootView.findViewById(R.id.tvListeningIndicator);
         recStartLeft.setOnClickListener(new View.OnClickListener() {
@@ -190,6 +204,7 @@ public class VoiceRecognizerFragment extends Fragment {
                     accountId = "";
                     currencyId = "";
                     summ = 0;
+                    visibilityGoneLR();
                 }
             }
         });
@@ -219,12 +234,11 @@ public class VoiceRecognizerFragment extends Fragment {
                         if (started) {
                             ivCenterButton.setBackgroundResource(R.drawable.speech_pressed_circle);
                             ivMicrophoneIcon.setColorFilter(Color.WHITE);
-                            paFragmentManager.setVerticalScrolling(false);
-                        }
-                        else {
+                            visibilLR();
+                        } else {
                             ivCenterButton.setBackgroundResource(R.drawable.white_circle);
                             ivMicrophoneIcon.setColorFilter(Color.parseColor("#414141"));
-                            paFragmentManager.setVerticalScrolling(true);
+                            visibilityGoneLR();
                         }
                         VoiceRecognizerFragment.this.started = started;
                     }
@@ -234,20 +248,27 @@ public class VoiceRecognizerFragment extends Fragment {
         return rootView;
     }
 
-    private void visibilityGoneLR () {
+    private void visibilityGoneLR() {
         recStartRight.setAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.left_anim));
         recStartLeft.setAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.right_gone_anim));
         recStartRight.setVisibility(View.GONE);
         recStartLeft.setVisibility(View.GONE);
         paFragmentManager.setVerticalScrolling(true);
+        rlNotSpeechMode.setAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.left_gone_anim));
+        rlNotSpeechMode.setVisibility(View.VISIBLE);
+        llSpeechMode.setVisibility(View.GONE);
+        rvNotSpeechModeRecordsList.setAdapter(new MyAfterSavedAdapter());
     }
 
-    private void visibilLR () {
+    private void visibilLR() {
         recStartRight.setAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.left_gone_anim));
         recStartLeft.setAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.right_anim));
+        rlNotSpeechMode.setAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.left_gone_anim));
         recStartRight.setVisibility(View.VISIBLE);
         recStartLeft.setVisibility(View.VISIBLE);
         paFragmentManager.setVerticalScrolling(false);
+        rlNotSpeechMode.setVisibility(View.GONE);
+        llSpeechMode.setVisibility(View.VISIBLE);
     }
 
     private void processSpeechResults(final List<String> speechResult) {
@@ -262,57 +283,11 @@ public class VoiceRecognizerFragment extends Fragment {
         ivMicrophoneIcon.setColorFilter(Color.WHITE);
         recognizer.startVoiceRecognitionCycle();
     }
+
     private void stopRecognition() {
         ivCenterButton.setBackgroundResource(R.drawable.white_circle);
         ivMicrophoneIcon.setColorFilter(Color.parseColor("#414141"));
         recognizer.stopVoiceRecognition();
-    }
-    private void refreshList() {
-        SpeechRecognizerAdapter adapter = new SpeechRecognizerAdapter(records);
-//        rvSpeechRecognize.setAdapter(adapter);
-    }
-
-    private class SpeechRecognizerAdapter extends RecyclerView.Adapter<VoiceRecognizerFragment.ViewHolder> {
-        private List<FinanceRecord> result;
-        public SpeechRecognizerAdapter(List<FinanceRecord> result) {
-            this.result = result;
-        }
-        public int getItemCount() {
-            return result.size();
-        }
-        public void onBindViewHolder(final VoiceRecognizerFragment.ViewHolder view, final int position) {
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
-            view.tvSpeechRecognizeFinanceRecordDate.setText(simpleDateFormat.format(result.get(position).getDate().getTime()));
-            view.tvSpeechRecognizeFinanceRecordCategoryName.setText(result.get(position).getCategory().getName());
-            if (result.get(position).getSubCategory().getName() != null)
-                view.tvSpeechRecognizeFinanceRecordSubcategoryName.setText(result.get(position).getSubCategory().getName());
-            view.tvSpeechRecognizeFinanceRecordAccountName.setText(result.get(position).getAccount().getName());
-            view.tvSpeechRecognizeFinanceRecordAccountName.setText(result.get(position).getAccount().getName());
-            view.tvSpeechRecognizeFinanceRecordAmount.setText("" + result.get(position).getAmount());
-            view.tvSpeechRecognizeFinanceRecordCurrency.setText(result.get(position).getCurrency().getName());
-        }
-        public VoiceRecognizerFragment.ViewHolder onCreateViewHolder(ViewGroup parent, int var2) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.speech_rec_finance_record_list_item, parent, false);
-            return new VoiceRecognizerFragment.ViewHolder(view);
-        }
-    }
-
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvSpeechRecognizeFinanceRecordDate,
-                tvSpeechRecognizeFinanceRecordCategoryName,
-                tvSpeechRecognizeFinanceRecordSubcategoryName,
-                tvSpeechRecognizeFinanceRecordAccountName,
-                tvSpeechRecognizeFinanceRecordAmount,
-                tvSpeechRecognizeFinanceRecordCurrency;
-        public ViewHolder(View view) {
-            super(view);
-            tvSpeechRecognizeFinanceRecordDate = (TextView) view.findViewById(R.id.tvSpeechRecognizeFinanceRecordDate);
-            tvSpeechRecognizeFinanceRecordCategoryName = (TextView) view.findViewById(R.id.tvSpeechRecognizeFinanceRecordCategoryName);
-            tvSpeechRecognizeFinanceRecordSubcategoryName = (TextView) view.findViewById(R.id.tvSpeechRecognizeFinanceRecordSubcategoryName);
-            tvSpeechRecognizeFinanceRecordAccountName = (TextView) view.findViewById(R.id.tvSpeechRecognizeFinanceRecordAccountName);
-            tvSpeechRecognizeFinanceRecordAmount = (TextView) view.findViewById(R.id.tvSpeechRecognizeFinanceRecordAmount);
-            tvSpeechRecognizeFinanceRecordCurrency = (TextView) view.findViewById(R.id.tvSpeechRecognizeFinanceRecordCurrency);
-        }
     }
 
     @Override
@@ -321,7 +296,6 @@ public class VoiceRecognizerFragment extends Fragment {
         recognizer.stopVoiceRecognition();
     }
 
-    private List<String> catIds;
     private String categoryId = "";
     private String accountId = "";
     private String currencyId = "";
@@ -428,7 +402,7 @@ public class VoiceRecognizerFragment extends Fragment {
                 }
             }
             leftSaving = 5;
-            if(timer != null) {
+            if (timer != null) {
                 timer.cancel();
                 timer = null;
             }
@@ -436,8 +410,9 @@ public class VoiceRecognizerFragment extends Fragment {
             timer = new CountDownTimer(6000, 1000) {
                 @Override
                 public void onTick(long l) {
-                    autoSave.setText("sec " + Math.ceil(l/1000));
+                    autoSave.setText("sec " + Math.ceil(l / 1000));
                 }
+
                 @Override
                 public void onFinish() {
                     autoSave.setVisibility(View.GONE);
@@ -492,8 +467,60 @@ public class VoiceRecognizerFragment extends Fragment {
                 }
             }
         }
+
         visibilityGoneLR();
         stopRecognition();
+    }
+
+    private class MyAfterSavedAdapter extends RecyclerView.Adapter<MyViewHolder> {
+        private List<FinanceRecord> financeRecords;
+        private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
+
+        public MyAfterSavedAdapter() {
+            financeRecords = daoSession.getFinanceRecordDao().queryBuilder()
+                    .where(FinanceRecordDao.Properties.Date.eq(simpleDateFormat.format(
+                            Calendar.getInstance().getTime()))).list();
+        }
+
+        @Override
+        public void onBindViewHolder(MyViewHolder holder, int position) {
+            holder.itemAmount.setText("" + financeRecords.get(position).getAmount() +
+                    financeRecords.get(position).getCurrency().getAbbr());
+            if (financeRecords.get(position).getSubCategory() != null) {
+                holder.itemCatName.setText(financeRecords.get(position).getCategory().getName()
+                        + " " + financeRecords.get(position).getSubCategory().getName());
+                holder.itemIcon.setImageResource(getResources().getIdentifier(financeRecords.get(position)
+                        .getSubCategory().getIcon(), "drawable", getContext().getPackageName()));
+            } else {
+                holder.itemCatName.setText(financeRecords.get(position).getCategory().getName());
+                holder.itemIcon.setImageResource(getResources().getIdentifier(financeRecords.get(position)
+                        .getCategory().getIcon(), "drawable", getContext().getPackageName()));
+            }
+        }
+
+        @Override
+        public int getItemCount() {
+            return financeRecords.size();
+        }
+
+        @Override
+        public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(getContext()).inflate(R.layout.item_after_saved_fragment, parent, false);
+            return new MyViewHolder(view);
+        }
+    }
+
+    private class MyViewHolder extends RecyclerView.ViewHolder {
+        public ImageView itemIcon;
+        public TextView itemCatName;
+        public TextView itemAmount;
+
+        public MyViewHolder(View itemView) {
+            super(itemView);
+            itemIcon = (ImageView) itemView.findViewById(R.id.ivItemAfterSavedIcon);
+            itemAmount = (TextView) itemView.findViewById(R.id.tvItemAfterSavedAmount);
+            itemCatName = (TextView) itemView.findViewById(R.id.tvItemAfterSavedCatName);
+        }
     }
 
     private final int PERMISSION_REQUEST_RECORD = 0;

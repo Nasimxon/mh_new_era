@@ -2,19 +2,18 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="@dimen/thirty_dp"
     android:orientation="horizontal"
-    android:padding="@dimen/sixteen_dp"
+    android:paddingTop="@dimen/ten_dp"
     >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvItemAfterSavedDate"
-        android:gravity="center"
-        android:text="12.06.2016"
-        android:textSize="@dimen/fiveteen_dp"
+    <ImageView
+        android:layout_width="@dimen/thirty_dp"
+        android:layout_height="@dimen/thirty_dp"
+        android:id="@+id/ivItemAfterSavedIcon"
+        android:gravity="left"
         android:layout_weight="1"
+        android:src="@drawable/icons_4"
         />
 
     <TextView
@@ -23,7 +22,6 @@
         android:id="@+id/tvItemAfterSavedCatName"
         android:text="Home water"
         android:textSize="@dimen/fiveteen_dp"
-        android:gravity="center"
         android:layout_weight="1"
         />
 
@@ -33,7 +31,7 @@
         android:id="@+id/tvItemAfterSavedAmount"
         android:text="126 $"
         android:textSize="@dimen/fiveteen_dp"
-        android:gravity="center"
+        android:gravity="right"
         android:layout_weight="1"
         />
 

@@ -15,7 +15,7 @@
             android:id="@+id/rlNotSpeechMode"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <LinearLayout
                 android:id="@+id/balanceStripe"
@@ -125,9 +125,12 @@
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rvNotSpeechModeRecordsList"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/two_hundred_fifty_dp"
+                android:padding="@dimen/sixteen_dp"
+                android:layout_centerInParent="true"
                 android:layout_below="@+id/balanceStripe" />
+
         </RelativeLayout>
 
         <RelativeLayout
