@@ -3,14 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#fff">
+    android:background="#eaeaea">
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/rvPurposes"
         android:paddingTop="@dimen/sevent_dp"
-        android:clipToPadding="false"
-        />
+        android:clipToPadding="false" />
     <android.support.design.widget.FloatingActionButton
         android:layout_width="@dimen/fiftysix_dp"
         android:layout_height="@dimen/fiftysix_dp"

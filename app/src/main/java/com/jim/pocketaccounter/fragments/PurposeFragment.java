@@ -30,8 +30,10 @@ import com.jim.pocketaccounter.managers.LogicManager;
 import com.jim.pocketaccounter.managers.PAFragmentManager;
 import com.jim.pocketaccounter.managers.ReportManager;
 import com.jim.pocketaccounter.managers.ToolbarManager;
+import com.jim.pocketaccounter.utils.PercentView;
 import com.jim.pocketaccounter.utils.TransferDialog;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -46,25 +48,15 @@ public class PurposeFragment extends Fragment{
     private RecyclerView rvPurposes;
     private FloatingActionButton fabPurposesAdd;
     TextView ifListEmpty;
-    @Inject
-    ToolbarManager toolbarManager;
-    @Inject
-    DrawerInitializer drawerInitializer;
-    @Inject
-    DaoSession daoSession;
-    @Inject
-    LogicManager logicManager;
-    @Inject
-    PAFragmentManager paFragmentManager;
-    @Inject
-    TransferDialog transferDialog;
-    @Inject
-    ReportManager reportManager;
-    @Inject
-    @Named(value = "display_formatter")
-    SimpleDateFormat dateFormat;
-    @Inject
-    CommonOperations commonOperations;
+    @Inject ToolbarManager toolbarManager;
+    @Inject DrawerInitializer drawerInitializer;
+    @Inject DaoSession daoSession;
+    @Inject LogicManager logicManager;
+    @Inject PAFragmentManager paFragmentManager;
+    @Inject TransferDialog transferDialog;
+    @Inject ReportManager reportManager;
+    @Inject @Named(value = "display_formatter") SimpleDateFormat dateFormat;
+    @Inject CommonOperations commonOperations;
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -155,7 +147,7 @@ public class PurposeFragment extends Fragment{
                     paFragmentManager.displayFragment(new PurposeInfoFragment(item));
                 }
             });
-            view.tvPutMoney.setOnClickListener(new View.OnClickListener() {
+            view.llPurposePayIn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     transferDialog.show();
@@ -169,7 +161,7 @@ public class PurposeFragment extends Fragment{
                     });
                 }
             });
-            view.tvGetMoney.setOnClickListener(new View.OnClickListener() {
+            view.llPurposeSpend.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     transferDialog.show();
@@ -186,52 +178,59 @@ public class PurposeFragment extends Fragment{
             double leftAmmountdb = lefAmmount(item);
             double allAmmount = item.getPurpose();
             double paid = allAmmount - leftAmmountdb;
-            view.tvNal.setText(parseToWithoutNull(leftAmmountdb) + item.getCurrency().getAbbr());
-            view.tvPaid.setText(parseToWithoutNull(paid) + item.getCurrency().getAbbr());
-            view.tvAllPurpose.setText(parseToWithoutNull(allAmmount) + item.getCurrency().getAbbr());
-            double template = allAmmount / 100;
-            float persant = (float) (paid / template);
-            view.frameLayout.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, persant));
-
-
-            if (item.getBegin() != null && item.getEnd() != null) {
-                view.leftdateGone.setVisibility(View.VISIBLE);
-                int t[] = InfoCreditFragment.getDateDifferenceInDDMMYYYY(item.getBegin().getTime(), item.getEnd().getTime());
-                if (t[0] * t[1] * t[2] < 0 && (t[0] + t[1] + t[2]) != 0) {
-                    view.tvLeftDate.setText(R.string.ends);
-                    view.tvLeftDate.setTextColor(Color.parseColor("#832e1c"));
-                } else {
-                    String left_date_string = "";
-                    if (t[0] != 0) {
-                               left_date_string += commonOperations.generateYearString(t[0]);
-                    }
-                    if (t[1] != 0) {
-                        if (!left_date_string.matches("")) {
-                            left_date_string += " ";
-                        }
-                        if (t[1] > 1) {
-                            left_date_string += Integer.toString(t[1]) + " " + getString(R.string.moths);
-                        } else {
-                            left_date_string += Integer.toString(t[1]) + " " + getString(R.string.moth);
-                        }
-                    }
-                    if (t[2] != 0) {
-                        if (!left_date_string.matches("")) {
-                            left_date_string += " ";
-                        }
-                        if (t[2] > 1) {
-                            left_date_string += Integer.toString(t[2]) + " " + getString(R.string.days);
-                        } else {
-                            left_date_string += Integer.toString(t[2]) + " " + getString(R.string.day);
-                        }
-                    }
-                    if(!left_date_string.equals(""))
-                    view.tvLeftDate.setText(left_date_string);
-                    else view.tvLeftDate.setText(R.string.ends);
+            view.tvTotalAmount.setText(getResources().getString(R.string.purpose_ammount) + " "+parseToWithoutNull(allAmmount) + commonOperations.getMainCurrency().getAbbr());
+            DecimalFormat format = new DecimalFormat("0.##");
+            String abbr = commonOperations.getMainCurrency().getAbbr();
+            String topText = getString(R.string.saved_money) + ": " + format.format(paid) + abbr;
+            String bottomText = getString(R.string.left_acomuleted) + " " + format.format(leftAmmountdb) + abbr;
+            view.pvPercent.setPercent((int) (100*paid/allAmmount));
+            view.pvPercent.setTopText(topText);
+            view.pvPercent.setBottomText(bottomText);
+            view.pvPercent.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    view.pvPercent.animatePercent(0, 1500);
                 }
-            } else {
-                view.leftdateGone.setVisibility(View.GONE);
-            }
+            });
+            view.pvPercent.animatePercent(0, 1500);
+//            if (item.getBegin() != null && item.getEnd() != null) {
+//                view.leftdateGone.setVisibility(View.VISIBLE);
+//                int t[] = InfoCreditFragment.getDateDifferenceInDDMMYYYY(item.getBegin().getTime(), item.getEnd().getTime());
+//                if (t[0] * t[1] * t[2] < 0 && (t[0] + t[1] + t[2]) != 0) {
+//                    view.tvLeftDate.setText(R.string.ends);
+//                    view.tvLeftDate.setTextColor(Color.parseColor("#832e1c"));
+//                } else {
+//                    String left_date_string = "";
+//                    if (t[0] != 0) {
+//                               left_date_string += commonOperations.generateYearString(t[0]);
+//                    }
+//                    if (t[1] != 0) {
+//                        if (!left_date_string.matches("")) {
+//                            left_date_string += " ";
+//                        }
+//                        if (t[1] > 1) {
+//                            left_date_string += Integer.toString(t[1]) + " " + getString(R.string.moths);
+//                        } else {
+//                            left_date_string += Integer.toString(t[1]) + " " + getString(R.string.moth);
+//                        }
+//                    }
+//                    if (t[2] != 0) {
+//                        if (!left_date_string.matches("")) {
+//                            left_date_string += " ";
+//                        }
+//                        if (t[2] > 1) {
+//                            left_date_string += Integer.toString(t[2]) + " " + getString(R.string.days);
+//                        } else {
+//                            left_date_string += Integer.toString(t[2]) + " " + getString(R.string.day);
+//                        }
+//                    }
+//                    if(!left_date_string.equals(""))
+//                    view.tvLeftDate.setText(left_date_string);
+//                    else view.tvLeftDate.setText(R.string.ends);
+//                }
+//            } else {
+//                view.leftdateGone.setVisibility(View.GONE);
+//            }
         }
 
         public PurposeFragment.ViewHolder onCreateViewHolder(ViewGroup parent, int var2) {
@@ -250,36 +249,26 @@ public class PurposeFragment extends Fragment{
         double qoldiq = 0;
         for (AccountOperation accountOperation: reportManager.getAccountOpertions(purpose)) {
             if (accountOperation.getTargetId().equals(purpose.getId()))
-            qoldiq += accountOperation.getAmount();
-            else qoldiq -= accountOperation.getAmount();
+            qoldiq += commonOperations.getCost(accountOperation.getDate(), accountOperation.getCurrency(), accountOperation.getAmount());
+            else qoldiq -= commonOperations.getCost(accountOperation.getDate(), accountOperation.getCurrency(), accountOperation.getAmount());;
         }
         return purpose.getPurpose() - qoldiq;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        LinearLayout llPurposePayIn, llPurposeSpend;
         ImageView ivPurposeItem;
-        TextView tvPurposeName;
-        TextView tvPutMoney;
-        TextView tvGetMoney;
-        TextView tvLeftDate;
-        TextView tvNal;
-        TextView tvAllPurpose;
-        TextView tvPaid;
-        FrameLayout frameLayout;
-        RelativeLayout leftdateGone;
+        TextView tvPurposeName, tvTotalAmount;
+        PercentView pvPercent;
         View view;
         public ViewHolder(View view) {
             super(view);
+            llPurposePayIn = (LinearLayout) view.findViewById(R.id.llPurposePayIn);
+            llPurposeSpend = (LinearLayout) view.findViewById(R.id.llPurposeSpend);
             ivPurposeItem = (ImageView) view.findViewById(R.id.ivPurposeItem);
             tvPurposeName = (TextView) view.findViewById(R.id.tvPurposeName);
-            tvPutMoney = (TextView) view.findViewById(R.id.tvPutMoney);
-            tvGetMoney = (TextView) view.findViewById(R.id.tvGetMoney);
-            tvLeftDate = (TextView) view.findViewById(R.id.tvLeftDate);
-            tvAllPurpose = (TextView) view.findViewById(R.id.allAmmount);
-            tvPaid = (TextView) view.findViewById(R.id.tvSumAmmount);
-            frameLayout = (FrameLayout) view.findViewById(R.id.zapolnit);
-            tvNal = (TextView) view.findViewById(R.id.tvNal);
-            leftdateGone = (RelativeLayout) view.findViewById(R.id.left_date_for_gone);
+            tvTotalAmount = (TextView) view.findViewById(R.id.tvTotalAmount);
+            pvPercent = (PercentView) view.findViewById(R.id.pvPercent);
             this.view = view;
         }
     }

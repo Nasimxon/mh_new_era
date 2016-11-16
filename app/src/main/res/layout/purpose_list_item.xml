@@ -4,238 +4,101 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
-    <android.support.v7.widget.CardView
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="@dimen/sevent_dp"
-        android:layout_marginLeft="@dimen/eight_dp"
-        android:layout_marginRight="@dimen/eight_dp"
-        android:layout_marginTop="@dimen/two_dp"
-        card:cardCornerRadius="@dimen/eight_dp"
-        card:cardElevation="@dimen/five_dp"
-        card:cardMaxElevation="@dimen/ten_dp">
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:background="@drawable/carditem"
+        android:descendantFocusability="blocksDescendants"
+        android:orientation="vertical"
+        android:layout_marginLeft="@dimen/ten_dp"
+        android:layout_marginRight="@dimen/ten_dp"
+        android:layout_marginTop="@dimen/five_dp"
+        android:layout_marginBottom="@dimen/five_dp">
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/grey_light2"
-            android:descendantFocusability="blocksDescendants"
-            android:orientation="vertical">
+            android:layout_marginTop="@dimen/ten_dp">
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="#ffffff"
-                android:orientation="horizontal">
+                android:orientation="vertical"
+                android:id="@+id/llPurposePayIn"
+                android:layout_toLeftOf="@+id/llPurposeCenter"
+                android:layout_marginTop="@dimen/fifteen_dp">
+                <ImageView
+                    android:id="@+id/ivPurposePayIn"
+                    android:layout_width="@dimen/thirty_dp"
+                    android:layout_height="@dimen/thirty_dp"
+                    android:layout_marginBottom="@dimen/fifteen_dp"
+                    android:src="@drawable/cat_list_item_edit"
+                    android:layout_gravity="center_horizontal"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/replanish"
+                    android:layout_gravity="center_horizontal"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_centerInParent="true"
+                android:id="@+id/llPurposeCenter"
+                android:layout_marginLeft="@dimen/twenty_dp"
+                android:layout_marginRight="@dimen/twenty_dp">
                 <ImageView
                     android:id="@+id/ivPurposeItem"
-                    android:layout_width="@dimen/fourty_dp"
-                    android:layout_height="@dimen/fourty_dp"
-                    android:layout_marginBottom="@dimen/fifteen_dp"
-                    android:layout_marginLeft="@dimen/sixteen_dp"
-                    android:layout_marginTop="@dimen/fifteen_dp" />
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                    <TextView
-                        android:id="@+id/tvPurposeName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="@dimen/five_dp"
-                        android:layout_marginLeft="@dimen/fifteen_dp"
-                        android:layout_marginRight="@dimen/sixteen_sp"
-                        android:layout_marginTop="@dimen/five_dp"
-                        android:gravity="center_vertical"
-                        android:text="TextView"
-                        android:textColor="@color/toolbar_text_color"
-                        android:textSize="@dimen/sixteen_sp" />
-                </RelativeLayout>
-            </LinearLayout>
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/eight_dp">
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="2px"
-                    android:layout_centerVertical="true"
-                    android:background="@color/green_light_forline" />
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/four_dp"
-                    android:layout_alignParentTop="true"
-                    android:background="#fff" />
-                <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="@dimen/seventy_dp"
+                    android:layout_height="@dimen/seventy_dp"
+                    android:layout_marginBottom="@dimen/ten_dp"/>
+                <TextView
+                    android:id="@+id/tvPurposeName"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/sixteen_dp"
-                    android:layout_marginRight="@dimen/sixteen_dp"
-                    android:background="@drawable/progres_frame"
-                    android:padding="2px"
-                    android:weightSum="100">
-                    <FrameLayout
-                        android:id="@+id/zapolnit"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="35"
-                        android:background="@drawable/progres" />
-                </LinearLayout>
-            </RelativeLayout>
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/sixteen_dp"
-                android:layout_marginRight="@dimen/sixteen_dp"
-                android:layout_marginTop="@dimen/twelve_dp">
-                <TextView
-                    android:id="@+id/tvSumAmmount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/textView7"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentTop="true"
-                    android:gravity="bottom"
-                    android:text="150$"
-                    android:textColor="@color/green_light"
-                    android:textSize="@dimen/twelve_dp" />
-                <TextView
-                    android:id="@+id/textView7"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_toLeftOf="@+id/left_date"
-                    android:layout_toStartOf="@+id/left_date"
-                    android:text="@string/saved_money"
-                    android:textColor="@color/for_darker"
-                    android:textSize="@dimen/twelve_dp" />
-            </RelativeLayout>
-            <RelativeLayout
-                android:id="@+id/realrt1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/sixteen_dp"
-                android:layout_marginRight="@dimen/sixteen_dp">
-                <TextView
-                    android:id="@+id/tvNal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/textView2"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentTop="true"
-                    android:gravity="bottom"
-                    android:text="120$"
-                    android:textColor="@color/red"
-                    android:textSize="@dimen/twelve_dp" />
-                <TextView
-                    android:id="@+id/textView2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_toLeftOf="@+id/left_date"
-                    android:layout_toStartOf="@+id/left_date"
-                    android:text="@string/left_acomuleted"
-                    android:textColor="@color/for_darker"
-                    android:textSize="@dimen/twelve_dp" />
-            </RelativeLayout>
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/sixteen_dp"
-                android:layout_marginRight="@dimen/sixteen_dp">
-                <TextView
-                    android:id="@+id/allAmmount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/textView90"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentTop="true"
-                    android:gravity="bottom"
-                    android:text="270$"
-                    android:textColor="@color/black_for_glavniy_text"
-                    android:textSize="@dimen/twelve_dp" />
-                <TextView
-                    android:id="@+id/textView90"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_toLeftOf="@+id/left_date"
-                    android:layout_toStartOf="@+id/left_date"
-                    android:text="@string/purpose_ammount"
-                    android:textColor="@color/for_darker"
-                    android:textSize="@dimen/twelve_dp" />
-            </RelativeLayout>
-            <RelativeLayout
-                android:id="@+id/left_date_for_gone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/five_dp"
-                android:layout_marginLeft="@dimen/sixteen_dp"
-                android:layout_marginRight="@dimen/sixteen_dp">
-                <TextView
-                    android:id="@+id/tvLeftDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/textView5"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentTop="true"
-                    android:gravity="bottom"
-                    android:text="2 month"
-                    android:textColor="@color/black_for_glavniy_text"
-                    android:textSize="@dimen/twelve_dp" />
-                <TextView
-                    android:id="@+id/textView5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_toLeftOf="@+id/left_date"
-                    android:layout_toStartOf="@+id/left_date"
-                    android:text="@string/left_datee"
-                    android:textColor="@color/for_darker"
-                    android:textSize="@dimen/twelve_dp" />
-            </RelativeLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="@dimen/ten_dp"
-                android:layout_marginTop="@dimen/six_dp"
-                android:orientation="horizontal">
-                <TextView
-                    android:id="@+id/tvPutMoney"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/sixteen_dp"
-                    android:layout_marginRight="@dimen/five_dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/knopka_zeleniy"
-                    android:gravity="center"
-                    android:text="@string/spend"
-                    android:textColor="@color/green_light"
-                    android:textSize="@dimen/twelve_dp" />
-                <TextView
-                    android:id="@+id/tvGetMoney"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/five_dp"
-                    android:layout_marginRight="@dimen/sixteen_dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/knopka_zeleniy"
-                    android:gravity="center"
-                    android:text="@string/replanish"
-                    android:textColor="@color/green_light"
-                    android:textSize="@dimen/twelve_dp" />
+                    android:gravity="center_horizontal"
+                    android:text="TextView"
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="@color/toolbar_text_color"
+                    android:textSize="@dimen/sixteen_sp" />
             </LinearLayout>
-        </LinearLayout>
-    </android.support.v7.widget.CardView>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/llPurposeSpend"
+                android:layout_toRightOf="@+id/llPurposeCenter"
+                android:layout_marginTop="@dimen/fifteen_dp" >
+                <ImageView
+                    android:id="@+id/ivPurposeSpend"
+                    android:layout_width="@dimen/thirty_dp"
+                    android:layout_height="@dimen/thirty_dp"
+                    android:layout_marginBottom="@dimen/ten_dp"
+                    android:src="@drawable/cat_list_item_edit"
+                    android:layout_gravity="center_horizontal"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/spend"/>
+            </LinearLayout>
+        </RelativeLayout>
+        <TextView
+            android:id="@+id/tvTotalAmount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="270$"
+            android:layout_marginTop="@dimen/five_dp"
+            android:layout_marginBottom="@dimen/five_dp"
+            android:textColor="@color/black_for_glavniy_text"
+            android:textSize="@dimen/sixteen_dp" />
+        <com.jim.pocketaccounter.utils.PercentView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/pvPercent"
+            android:layout_marginLeft="@dimen/ten_dp"
+            android:layout_marginRight="@dimen/ten_dp"
+            android:layout_marginBottom="@dimen/ten_dp"/>
+    </LinearLayout>
 </LinearLayout>
 
 

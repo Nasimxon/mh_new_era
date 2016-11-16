@@ -1632,5 +1632,6 @@
     <string-array name="currency_voice_names">
 
     </string-array>
+    <string name="next_page">Next</string>
 
 </resources>
