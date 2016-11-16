@@ -47,6 +47,7 @@ import com.jim.pocketaccounter.database.RootCategoryDao;
 import com.jim.pocketaccounter.database.SmsParseObject;
 import com.jim.pocketaccounter.database.SmsParseSuccess;
 import com.jim.pocketaccounter.database.SubCategory;
+import com.jim.pocketaccounter.database.TemplateAccount;
 import com.jim.pocketaccounter.database.TemplateSms;
 import com.jim.pocketaccounter.database.TemplateVoice;
 import com.jim.pocketaccounter.database.UserEnteredCalendars;
@@ -61,6 +62,7 @@ import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
@@ -77,18 +79,26 @@ import javax.inject.Named;
 public class CommonOperations {
     @Inject
     DaoSession daoSession;
-    @Inject List<TemplateVoice> voices;
+    @Inject
+    List<TemplateVoice> voices;
     private CurrencyDao currencyDao;
     private Context context;
     private Currency mainCurrency;
-    @Inject @Named(value = "begin") Calendar begin;
-    @Inject @Named(value = "end") Calendar end;
-    @Inject SharedPreferences sharedPreferences;
+    @Inject
+    @Named(value = "begin")
+    Calendar begin;
+    @Inject
+    @Named(value = "end")
+    Calendar end;
+    @Inject
+    SharedPreferences sharedPreferences;
+
     public CommonOperations(Context context) {
         ((PocketAccounterApplication) context.getApplicationContext()).component().inject(this);
         this.currencyDao = daoSession.getCurrencyDao();
         this.context = context;
     }
+
     public Currency getMainCurrency() {
         if (mainCurrency == null) {
             List<Currency> currencies = currencyDao.loadAll();
@@ -99,6 +109,7 @@ public class CommonOperations {
         }
         return mainCurrency;
     }
+
     public void refreshCurrency() {
         mainCurrency = null;
         List<Currency> currencies = currencyDao.loadAll();
@@ -107,6 +118,7 @@ public class CommonOperations {
                 mainCurrency = currency;
         }
     }
+
     public double getCost(FinanceRecord record) {
         double amount = 0.0;
         if (record.getCurrency().getMain())
@@ -115,34 +127,35 @@ public class CommonOperations {
         long diff = record.getDate().getTimeInMillis() - record.getCurrency().getCosts().get(0).getDay().getTimeInMillis();
         if (diff < 0) {
             koeff = record.getCurrency().getCosts().get(0).getCost();
-            return record.getAmount()*koeff;
+            return record.getAmount() * koeff;
         }
         int pos = 0;
         while (diff >= 0 && pos < record.getCurrency().getCosts().size()) {
             diff = record.getDate().getTimeInMillis() - record.getCurrency().getCosts().get(pos).getDay().getTimeInMillis();
-            if(diff>=0)
+            if (diff >= 0)
                 koeff = record.getCurrency().getCosts().get(pos).getCost();
             pos++;
         }
-        amount = record.getAmount()*koeff;
+        amount = record.getAmount() * koeff;
         return amount;
     }
+
     public double getCost(Calendar date, Currency currency, double amount) {
         if (currency.getMain()) return amount;
         double koeff = 1.0;
         long diff = date.getTimeInMillis() - currency.getCosts().get(0).getDay().getTimeInMillis();
         if (diff < 0) {
             koeff = currency.getCosts().get(0).getCost();
-            return amount*koeff;
+            return amount * koeff;
         }
         int pos = 0;
         while (diff >= 0 && pos < currency.getCosts().size()) {
             diff = date.getTimeInMillis() - currency.getCosts().get(pos).getDay().getTimeInMillis();
-            if(diff>=0)
+            if (diff >= 0)
                 koeff = currency.getCosts().get(pos).getCost();
             pos++;
         }
-        amount = amount*koeff;
+        amount = amount * koeff;
         return amount;
     }
 
@@ -152,7 +165,7 @@ public class CommonOperations {
         double toKoeff = 1.0;
         long fromDiff = date.getTimeInMillis() - fromCurrency.getCosts().get(0).getDay().getTimeInMillis();
         long toDiff = date.getTimeInMillis() - toCurrency.getCosts().get(0).getDay().getTimeInMillis();
-        if(fromDiff < 0){
+        if (fromDiff < 0) {
             fromKoeff = fromCurrency.getCosts().get(0).getCost();
         }
         if (toDiff < 0) {
@@ -161,18 +174,18 @@ public class CommonOperations {
         int pos = 0;
         while (fromDiff >= 0 && pos < fromCurrency.getCosts().size()) {
             fromDiff = date.getTimeInMillis() - fromCurrency.getCosts().get(pos).getDay().getTimeInMillis();
-            if(fromDiff>=0)
+            if (fromDiff >= 0)
                 fromKoeff = fromCurrency.getCosts().get(pos).getCost();
             pos++;
         }
-        pos=0;
+        pos = 0;
         while (toDiff >= 0 && pos < toCurrency.getCosts().size()) {
             toDiff = date.getTimeInMillis() - toCurrency.getCosts().get(pos).getDay().getTimeInMillis();
-            if(toDiff>=0)
+            if (toDiff >= 0)
                 toKoeff = toCurrency.getCosts().get(pos).getCost();
             pos++;
         }
-        amount = toKoeff*amount/fromKoeff;
+        amount = toKoeff * amount / fromKoeff;
         return amount;
     }
 
@@ -183,15 +196,15 @@ public class CommonOperations {
         return px;
     }
 
-    public  void ColorSubSeq(String text, String whichWordColor, String colorCode, TextView textView){
-        String textUpper=text.toUpperCase();
-        String whichWordColorUpper=whichWordColor.toUpperCase();
+    public void ColorSubSeq(String text, String whichWordColor, String colorCode, TextView textView) {
+        String textUpper = text.toUpperCase();
+        String whichWordColorUpper = whichWordColor.toUpperCase();
         SpannableString ss = new SpannableString(text);
-        int strar=0;
+        int strar = 0;
 
-        while (textUpper.indexOf(whichWordColorUpper,strar)>=0&&whichWordColor.length()!=0) {
-            ss.setSpan(new BackgroundColorSpan(Color.parseColor(colorCode)),textUpper.indexOf(whichWordColorUpper,strar), textUpper.indexOf(whichWordColorUpper,strar)+whichWordColorUpper.length(),  Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            strar=textUpper.indexOf(whichWordColorUpper,strar)+whichWordColorUpper.length();
+        while (textUpper.indexOf(whichWordColorUpper, strar) >= 0 && whichWordColor.length() != 0) {
+            ss.setSpan(new BackgroundColorSpan(Color.parseColor(colorCode)), textUpper.indexOf(whichWordColorUpper, strar), textUpper.indexOf(whichWordColorUpper, strar) + whichWordColorUpper.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            strar = textUpper.indexOf(whichWordColorUpper, strar) + whichWordColorUpper.length();
         }
         textView.setText(ss);
     }
@@ -207,8 +220,8 @@ public class CommonOperations {
         e.set(Calendar.MINUTE, 0);
         e.set(Calendar.SECOND, 0);
         e.set(Calendar.MILLISECOND, 0);
-        long day = 24L*60L*60L*1000L;
-        return 1+(e.getTimeInMillis() - b.getTimeInMillis())/day;
+        long day = 24L * 60L * 60L * 1000L;
+        return 1 + (e.getTimeInMillis() - b.getTimeInMillis()) / day;
     }
 
 
@@ -246,7 +259,7 @@ public class CommonOperations {
         String regex;
         if (splittedText != null && !splittedText.isEmpty()) {
             //amountPos > incExpPos
-            if (incExpPos == 0 && incExpPos + 1 == amountPos && amountPos != splittedText.size()-1) {
+            if (incExpPos == 0 && incExpPos + 1 == amountPos && amountPos != splittedText.size() - 1) {
                 for (String keyWord : incomeKeywords) {
                     regex = new RegexBuilder().builder()
                             .beginsWithWord(keyWord)
@@ -269,12 +282,12 @@ public class CommonOperations {
                     TemplateSms template = new TemplateSms(regex, PocketAccounterGeneral.EXPENSE, amountBlockPos);
                     templates.add(template);
                 }
-            } else if (incExpPos == 0 && incExpPos + 1 != amountPos && incExpPos < amountPos && amountPos != splittedText.size()-1) {
+            } else if (incExpPos == 0 && incExpPos + 1 != amountPos && incExpPos < amountPos && amountPos != splittedText.size() - 1) {
                 for (String keyWord : incomeKeywords) {
                     regex = new RegexBuilder().builder()
                             .beginsWithWord(keyWord)
                             .openGroup().anyWhitespaceSeq().anyVisibleCharSeq().closeGroup()
-                            .defineWord(splittedText.get(amountPos-1))
+                            .defineWord(splittedText.get(amountPos - 1))
                             .anyWhitespaceSeq()
                             .defineNumber()
                             .openGroup().anyWhitespaceSeq().anyVisibleCharSeq().closeGroup()
@@ -287,7 +300,7 @@ public class CommonOperations {
                     regex = new RegexBuilder().builder()
                             .beginsWithWord(keyWord)
                             .openGroup().anyWhitespaceSeq().anyVisibleCharSeq().closeGroup()
-                            .defineWord(splittedText.get(amountPos-1))
+                            .defineWord(splittedText.get(amountPos - 1))
                             .anyWhitespaceSeq()
                             .defineNumber()
                             .openGroup().anyWhitespaceSeq().anyVisibleCharSeq().closeGroup()
@@ -296,12 +309,11 @@ public class CommonOperations {
                     TemplateSms template = new TemplateSms(regex, PocketAccounterGeneral.EXPENSE, amountBlockPos);
                     templates.add(template);
                 }
-            }
-            else if (incExpPos != 0 && incExpPos+1 == amountPos && amountPos != splittedText.size()-1) {
+            } else if (incExpPos != 0 && incExpPos + 1 == amountPos && amountPos != splittedText.size() - 1) {
                 for (String keyWord : incomeKeywords) {
                     regex = new RegexBuilder().builder()
                             .openGroup().anyVisibleCharSeq().anyWhitespaceSeq().closeGroup()
-                            .defineWord(splittedText.get(incExpPos-1))
+                            .defineWord(splittedText.get(incExpPos - 1))
                             .anyWhitespaceSeq()
                             .defineWord(keyWord)
                             .anyWhitespaceSeq()
@@ -315,7 +327,7 @@ public class CommonOperations {
                 for (String keyWord : expenseKeywords) {
                     regex = new RegexBuilder().builder()
                             .openGroup().anyVisibleCharSeq().anyWhitespaceSeq().closeGroup()
-                            .defineWord(splittedText.get(incExpPos-1))
+                            .defineWord(splittedText.get(incExpPos - 1))
                             .anyWhitespaceSeq()
                             .defineWord(keyWord)
                             .anyWhitespaceSeq()
@@ -326,15 +338,15 @@ public class CommonOperations {
                     TemplateSms template = new TemplateSms(regex, PocketAccounterGeneral.EXPENSE, amountBlockPos);
                     templates.add(template);
                 }
-            } else if (incExpPos != 0 && amountPos+1 != incExpPos && incExpPos < amountPos && amountPos != splittedText.size()-1) {
+            } else if (incExpPos != 0 && amountPos + 1 != incExpPos && incExpPos < amountPos && amountPos != splittedText.size() - 1) {
                 for (String keyWord : incomeKeywords) {
                     regex = new RegexBuilder().builder()
                             .openGroup().anyVisibleCharSeq().anyWhitespaceSeq().closeGroup()
-                            .defineWord(splittedText.get(incExpPos-1))
+                            .defineWord(splittedText.get(incExpPos - 1))
                             .anyWhitespaceSeq()
                             .defineWord(keyWord)
                             .openGroup().anyVisibleCharSeq().anyWhitespaceSeq().closeGroup()
-                            .defineWord(splittedText.get(amountPos-1))
+                            .defineWord(splittedText.get(amountPos - 1))
                             .anyWhitespaceSeq()
                             .defineNumber()
                             .openGroup().anyVisibleCharSeq().anyWhitespaceSeq().closeGroup()
@@ -346,11 +358,11 @@ public class CommonOperations {
                 for (String keyWord : expenseKeywords) {
                     regex = new RegexBuilder().builder()
                             .openGroup().anyVisibleCharSeq().anyWhitespaceSeq().closeGroup()
-                            .defineWord(splittedText.get(incExpPos-1))
+                            .defineWord(splittedText.get(incExpPos - 1))
                             .anyWhitespaceSeq()
                             .defineWord(keyWord)
                             .openGroup().anyVisibleCharSeq().anyWhitespaceSeq().closeGroup()
-                            .defineWord(splittedText.get(amountPos-1))
+                            .defineWord(splittedText.get(amountPos - 1))
                             .anyWhitespaceSeq()
                             .defineNumber()
                             .openGroup().anyVisibleCharSeq().anyWhitespaceSeq().closeGroup()
@@ -359,15 +371,15 @@ public class CommonOperations {
                     TemplateSms template = new TemplateSms(regex, PocketAccounterGeneral.EXPENSE, amountBlockPos);
                     templates.add(template);
                 }
-            } else if (incExpPos != 0 && amountPos+1 != incExpPos && incExpPos < amountPos && amountPos == splittedText.size()-1) {
+            } else if (incExpPos != 0 && amountPos + 1 != incExpPos && incExpPos < amountPos && amountPos == splittedText.size() - 1) {
                 for (String keyWord : incomeKeywords) {
                     regex = new RegexBuilder().builder()
                             .openGroup().anyVisibleCharSeq().anyWhitespaceSeq().closeGroup()
-                            .defineWord(splittedText.get(incExpPos-1))
+                            .defineWord(splittedText.get(incExpPos - 1))
                             .anyWhitespaceSeq()
                             .defineWord(keyWord)
                             .openGroup().anyVisibleCharSeq().anyWhitespaceSeq().closeGroup()
-                            .defineWord(splittedText.get(amountPos-1))
+                            .defineWord(splittedText.get(amountPos - 1))
                             .anyWhitespaceSeq()
                             .defineNumber()
                             .build();
@@ -378,11 +390,11 @@ public class CommonOperations {
                 for (String keyWord : expenseKeywords) {
                     regex = new RegexBuilder().builder()
                             .openGroup().anyVisibleCharSeq().anyWhitespaceSeq().closeGroup()
-                            .defineWord(splittedText.get(incExpPos-1))
+                            .defineWord(splittedText.get(incExpPos - 1))
                             .anyWhitespaceSeq()
                             .defineWord(keyWord)
                             .openGroup().anyVisibleCharSeq().anyWhitespaceSeq().closeGroup()
-                            .defineWord(splittedText.get(amountPos-1))
+                            .defineWord(splittedText.get(amountPos - 1))
                             .anyWhitespaceSeq()
                             .defineNumber()
                             .build();
@@ -390,11 +402,11 @@ public class CommonOperations {
                     TemplateSms template = new TemplateSms(regex, PocketAccounterGeneral.EXPENSE, amountBlockPos);
                     templates.add(template);
                 }
-            } else if (incExpPos != 0 && amountPos+1 == incExpPos && amountPos == splittedText.size()-1) {
+            } else if (incExpPos != 0 && amountPos + 1 == incExpPos && amountPos == splittedText.size() - 1) {
                 for (String keyWord : incomeKeywords) {
                     regex = new RegexBuilder().builder()
                             .openGroup().anyVisibleCharSeq().anyWhitespaceSeq().closeGroup()
-                            .defineWord(splittedText.get(incExpPos-1))
+                            .defineWord(splittedText.get(incExpPos - 1))
                             .anyWhitespaceSeq()
                             .defineWord(keyWord)
                             .anyWhitespaceSeq()
@@ -407,7 +419,7 @@ public class CommonOperations {
                 for (String keyWord : expenseKeywords) {
                     regex = new RegexBuilder().builder()
                             .openGroup().anyVisibleCharSeq().anyWhitespaceSeq().closeGroup()
-                            .defineWord(splittedText.get(incExpPos-1))
+                            .defineWord(splittedText.get(incExpPos - 1))
                             .anyWhitespaceSeq()
                             .defineWord(keyWord)
                             .anyWhitespaceSeq()
@@ -419,7 +431,7 @@ public class CommonOperations {
                 }
             }
             //amountPos < incExpPos
-            else if (amountPos == 0 && amountPos+1 == incExpPos && incExpPos != splittedText.size()-1) {
+            else if (amountPos == 0 && amountPos + 1 == incExpPos && incExpPos != splittedText.size() - 1) {
                 for (String keyWord : incomeKeywords) {
                     regex = new RegexBuilder().builder()
                             .defineNumber()
@@ -442,12 +454,12 @@ public class CommonOperations {
                     TemplateSms template = new TemplateSms(regex, PocketAccounterGeneral.EXPENSE, amountBlockPos);
                     templates.add(template);
                 }
-            } else if (amountPos == 0 && amountPos+1 != incExpPos && incExpPos != splittedText.size()-1) {
+            } else if (amountPos == 0 && amountPos + 1 != incExpPos && incExpPos != splittedText.size() - 1) {
                 for (String keyWord : incomeKeywords) {
                     regex = new RegexBuilder().builder()
                             .defineNumber()
                             .openGroup().anyVisibleCharSeq().anyWhitespaceSeq().closeGroup()
-                            .defineWord(splittedText.get(incExpPos-1))
+                            .defineWord(splittedText.get(incExpPos - 1))
                             .anyWhitespaceSeq()
                             .defineWord(keyWord)
                             .openGroup().anyVisibleCharSeq().anyWhitespaceSeq().closeGroup()
@@ -460,7 +472,7 @@ public class CommonOperations {
                     regex = new RegexBuilder().builder()
                             .defineNumber()
                             .openGroup().anyVisibleCharSeq().anyWhitespaceSeq().closeGroup()
-                            .defineWord(splittedText.get(incExpPos-1))
+                            .defineWord(splittedText.get(incExpPos - 1))
                             .anyWhitespaceSeq()
                             .defineWord(keyWord)
                             .openGroup().anyVisibleCharSeq().anyWhitespaceSeq().closeGroup()
@@ -469,11 +481,11 @@ public class CommonOperations {
                     TemplateSms template = new TemplateSms(regex, PocketAccounterGeneral.EXPENSE, amountBlockPos);
                     templates.add(template);
                 }
-            } else if (amountPos != 0 && amountPos+1 == incExpPos && incExpPos != splittedText.size()-1) {
+            } else if (amountPos != 0 && amountPos + 1 == incExpPos && incExpPos != splittedText.size() - 1) {
                 for (String keyWord : incomeKeywords) {
                     regex = new RegexBuilder().builder()
                             .openGroup().anyVisibleCharSeq().anyWhitespaceSeq().closeGroup()
-                            .defineWord(splittedText.get(amountPos-1))
+                            .defineWord(splittedText.get(amountPos - 1))
                             .anyWhitespaceSeq()
                             .defineNumber()
                             .anyWhitespaceSeq()
@@ -487,7 +499,7 @@ public class CommonOperations {
                 for (String keyWord : expenseKeywords) {
                     regex = new RegexBuilder().builder()
                             .openGroup().anyVisibleCharSeq().anyWhitespaceSeq().closeGroup()
-                            .defineWord(splittedText.get(amountPos-1))
+                            .defineWord(splittedText.get(amountPos - 1))
                             .anyWhitespaceSeq()
                             .defineNumber()
                             .anyWhitespaceSeq()
@@ -498,16 +510,15 @@ public class CommonOperations {
                     TemplateSms template = new TemplateSms(regex, PocketAccounterGeneral.EXPENSE, amountBlockPos);
                     templates.add(template);
                 }
-            }
-            else if (amountPos != 0 && amountPos+1 != incExpPos && amountPos <incExpPos && incExpPos != splittedText.size()-1) {
+            } else if (amountPos != 0 && amountPos + 1 != incExpPos && amountPos < incExpPos && incExpPos != splittedText.size() - 1) {
                 for (String keyWord : incomeKeywords) {
                     regex = new RegexBuilder().builder()
                             .openGroup().anyVisibleCharSeq().anyWhitespaceSeq().closeGroup()
-                            .defineWord(splittedText.get(amountPos-1))
+                            .defineWord(splittedText.get(amountPos - 1))
                             .anyWhitespaceSeq()
                             .defineNumber()
                             .openGroup().anyVisibleCharSeq().anyWhitespaceSeq().closeGroup()
-                            .defineWord(splittedText.get(incExpPos-1))
+                            .defineWord(splittedText.get(incExpPos - 1))
                             .anyWhitespaceSeq()
                             .defineWord(keyWord)
                             .openGroup().anyVisibleCharSeq().anyWhitespaceSeq().closeGroup()
@@ -519,11 +530,11 @@ public class CommonOperations {
                 for (String keyWord : expenseKeywords) {
                     regex = new RegexBuilder().builder()
                             .openGroup().anyVisibleCharSeq().anyWhitespaceSeq().closeGroup()
-                            .defineWord(splittedText.get(amountPos-1))
+                            .defineWord(splittedText.get(amountPos - 1))
                             .anyWhitespaceSeq()
                             .defineNumber()
                             .openGroup().anyVisibleCharSeq().anyWhitespaceSeq().closeGroup()
-                            .defineWord(splittedText.get(incExpPos-1))
+                            .defineWord(splittedText.get(incExpPos - 1))
                             .anyWhitespaceSeq()
                             .defineWord(keyWord)
                             .openGroup().anyVisibleCharSeq().anyWhitespaceSeq().closeGroup()
@@ -532,16 +543,15 @@ public class CommonOperations {
                     TemplateSms template = new TemplateSms(regex, PocketAccounterGeneral.EXPENSE, amountBlockPos);
                     templates.add(template);
                 }
-            }
-            else if (amountPos != 0 && amountPos+1 != incExpPos && incExpPos == splittedText.size()-1) {
+            } else if (amountPos != 0 && amountPos + 1 != incExpPos && incExpPos == splittedText.size() - 1) {
                 for (String keyWord : incomeKeywords) {
                     regex = new RegexBuilder().builder()
                             .openGroup().anyVisibleCharSeq().anyWhitespaceSeq().closeGroup()
-                            .defineWord(splittedText.get(amountPos-1))
+                            .defineWord(splittedText.get(amountPos - 1))
                             .anyWhitespaceSeq()
                             .defineNumber()
                             .openGroup().anyVisibleCharSeq().anyWhitespaceSeq().closeGroup()
-                            .defineWord(splittedText.get(incExpPos-1))
+                            .defineWord(splittedText.get(incExpPos - 1))
                             .anyWhitespaceSeq()
                             .defineWord(keyWord)
                             .build();
@@ -552,11 +562,11 @@ public class CommonOperations {
                 for (String keyWord : expenseKeywords) {
                     regex = new RegexBuilder().builder()
                             .openGroup().anyVisibleCharSeq().anyWhitespaceSeq().closeGroup()
-                            .defineWord(splittedText.get(amountPos-1))
+                            .defineWord(splittedText.get(amountPos - 1))
                             .anyWhitespaceSeq()
                             .defineNumber()
                             .openGroup().anyVisibleCharSeq().anyWhitespaceSeq().closeGroup()
-                            .defineWord(splittedText.get(incExpPos-1))
+                            .defineWord(splittedText.get(incExpPos - 1))
                             .anyWhitespaceSeq()
                             .defineWord(keyWord)
                             .build();
@@ -564,12 +574,11 @@ public class CommonOperations {
                     TemplateSms template = new TemplateSms(regex, PocketAccounterGeneral.EXPENSE, amountBlockPos);
                     templates.add(template);
                 }
-            }
-            else if (amountPos != 0 && amountPos+1 == incExpPos && incExpPos == splittedText.size()-1) {
+            } else if (amountPos != 0 && amountPos + 1 == incExpPos && incExpPos == splittedText.size() - 1) {
                 for (String keyWord : incomeKeywords) {
                     regex = new RegexBuilder().builder()
                             .openGroup().anyVisibleCharSeq().anyWhitespaceSeq().closeGroup()
-                            .defineWord(splittedText.get(amountPos-1))
+                            .defineWord(splittedText.get(amountPos - 1))
                             .anyWhitespaceSeq()
                             .defineNumber()
                             .anyWhitespaceSeq()
@@ -582,7 +591,7 @@ public class CommonOperations {
                 for (String keyWord : expenseKeywords) {
                     regex = new RegexBuilder().builder()
                             .openGroup().anyVisibleCharSeq().anyWhitespaceSeq().closeGroup()
-                            .defineWord(splittedText.get(amountPos-1))
+                            .defineWord(splittedText.get(amountPos - 1))
                             .anyWhitespaceSeq()
                             .defineNumber()
                             .anyWhitespaceSeq()
@@ -593,8 +602,7 @@ public class CommonOperations {
                     templates.add(template);
                 }
             }
-        }
-        else {
+        } else {
             if (!amountKeywords.isEmpty() && (!incomeKeywords.isEmpty() || !expenseKeywords.isEmpty())) {
                 for (String amountKeyWord : amountKeywords) {
                     for (String keyWord : incomeKeywords) {
@@ -659,7 +667,7 @@ public class CommonOperations {
         final RectF rectF = new RectF(rect);
         paint.setAntiAlias(true);
         canvas.drawARGB(0, 0, 0, 0);
-        canvas.drawRoundRect(rectF, cornerRadius/8, cornerRadius/8, paint);
+        canvas.drawRoundRect(rectF, cornerRadius / 8, cornerRadius / 8, paint);
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
         canvas.drawBitmap(bitmap, rect, rect, paint);
         return output;
@@ -705,7 +713,7 @@ public class CommonOperations {
                 if (calendar.compareTo(debtBorrow.getTakenDate()) >= 0)
                     calendar = (Calendar) debtBorrow.getTakenDate().clone();
             }
-            for (Recking recking: debtBorrow.getReckings()) {
+            for (Recking recking : debtBorrow.getReckings()) {
                 if (calendar == null)
                     calendar = (Calendar) recking.getPayDate().clone();
                 else {
@@ -727,20 +735,20 @@ public class CommonOperations {
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
-        return  calendar;
+        return calendar;
     }
 
-    public boolean compareTimeInOneDay(Calendar source, Calendar target){
+    public boolean compareTimeInOneDay(Calendar source, Calendar target) {
         begin.setTimeInMillis(source.getTimeInMillis());
-        begin.set(Calendar.HOUR,0);
-        begin.set(Calendar.MINUTE,0);
-        begin.set(Calendar.SECOND,0);
-        begin.set(Calendar.MILLISECOND,0);
+        begin.set(Calendar.HOUR, 0);
+        begin.set(Calendar.MINUTE, 0);
+        begin.set(Calendar.SECOND, 0);
+        begin.set(Calendar.MILLISECOND, 0);
         end.setTimeInMillis(source.getTimeInMillis());
-        end.set(Calendar.HOUR,23);
-        end.set(Calendar.MINUTE,59);
-        end.set(Calendar.SECOND,59);
-        end.set(Calendar.MILLISECOND,59);
+        end.set(Calendar.HOUR, 23);
+        end.set(Calendar.MINUTE, 59);
+        end.set(Calendar.SECOND, 59);
+        end.set(Calendar.MILLISECOND, 59);
         return begin.compareTo(target) <= 0 &&
                 end.compareTo(target) >= 0;
     }
@@ -782,25 +790,26 @@ public class CommonOperations {
             if (old.getVersion() == 5 && ((StandardDatabase) daoSession.getDatabase()).getSQLiteDatabase().getVersion() == 6)
                 upgradeFiveToSix(context, old, daoSession);
             //delete file
-            if (old.getVersion()!=6 && migrationDbFile.delete())
+            if (old.getVersion() != 6 && migrationDbFile.delete())
                 Log.d(PocketAccounterGeneral.TAG, migrationDbFile.getName() + " is deleted successfully !!!");
             else
                 Log.d(PocketAccounterGeneral.TAG, "Can't delete file: " + migrationDbFile.getName() + ". Please try again...");
         }
     }
+
     public static void createDefaultDatas(SharedPreferences preferences, Context context, DaoSession daoSession) {
         preferences
                 .edit()
                 .putBoolean(PocketAccounterGeneral.DB_ONCREATE_ENTER, true)
                 .commit();
         //inserting currencies
-        String [] currencyNames = context.getResources().getStringArray(R.array.base_currencies);
-        String [] currencyIds = context.getResources().getStringArray(R.array.currency_ids);
-        String [] currencyCostAmounts = context.getResources().getStringArray(R.array.currency_costs);
-        String [] currencySigns = context.getResources().getStringArray(R.array.base_abbrs);
+        String[] currencyNames = context.getResources().getStringArray(R.array.base_currencies);
+        String[] currencyIds = context.getResources().getStringArray(R.array.currency_ids);
+        String[] currencyCostAmounts = context.getResources().getStringArray(R.array.currency_costs);
+        String[] currencySigns = context.getResources().getStringArray(R.array.base_abbrs);
 
         Calendar momentDay = Calendar.getInstance();
-        for (int i=0; i<3; i++) {
+        for (int i = 0; i < 3; i++) {
             Currency currency = new Currency();
             currency.setName(currencyNames[i]);
             currency.setId(currencyIds[i]);
@@ -825,7 +834,7 @@ public class CommonOperations {
                 CurrencyDao.Properties.IsMain.eq(false)).list();
 
         for (Currency notMainCur : notMainCurs) {
-            CurrencyWithAmount  withAmount = new CurrencyWithAmount();
+            CurrencyWithAmount withAmount = new CurrencyWithAmount();
             withAmount.setCurrency(notMainCur);
             withAmount.setParentId(currencyCostState.getId());
             for (int i = 0; i < currencyIds.length; i++) {
@@ -848,14 +857,14 @@ public class CommonOperations {
 
             CurrencyWithAmount tempWithAmount = new CurrencyWithAmount();
             tempWithAmount.setCurrency(currencyCostState.getMainCurrency());
-            tempWithAmount.setAmount(1/currencyWithAmount.getAmount());
+            tempWithAmount.setAmount(1 / currencyWithAmount.getAmount());
             tempWithAmount.setParentId(costState.getId());
             daoSession.getCurrencyWithAmountDao().insertOrReplace(tempWithAmount);
             for (CurrencyWithAmount withAmount : currencyCostState.getCurrencyWithAmountList()) {
                 if (!withAmount.getCurrencyId().equals(currencyWithAmount.getCurrencyId())) {
                     CurrencyWithAmount newWithAmount = new CurrencyWithAmount();
                     newWithAmount.setCurrency(withAmount.getCurrency());
-                    newWithAmount.setAmount(withAmount.getAmount()/currencyWithAmount.getAmount());
+                    newWithAmount.setAmount(withAmount.getAmount() / currencyWithAmount.getAmount());
                     newWithAmount.setParentId(costState.getId());
                     daoSession.getCurrencyWithAmountDao().insertOrReplace(newWithAmount);
                 }
@@ -867,11 +876,11 @@ public class CommonOperations {
         String[] accountIds = context.getResources().getStringArray(R.array.account_ids);
         String[] accountIcons = context.getResources().getStringArray(R.array.account_icons);
         int[] icons = new int[accountIcons.length];
-        for (int i=0; i<accountIcons.length; i++) {
+        for (int i = 0; i < accountIcons.length; i++) {
             int resId = context.getResources().getIdentifier(accountIcons[i], "drawable", context.getPackageName());
             icons[i] = resId;
         }
-        for (int i=0; i<accountNames.length; i++) {
+        for (int i = 0; i < accountNames.length; i++) {
             Account account = new Account();
             account.setName(accountNames[i]);
             account.setIcon(accountIcons[i]);
@@ -889,7 +898,7 @@ public class CommonOperations {
         String[] catValues = context.getResources().getStringArray(R.array.cat_values);
         String[] catTypes = context.getResources().getStringArray(R.array.cat_types);
         String[] catIcons = context.getResources().getStringArray(R.array.cat_icons);
-        for (int i=0; i<catValues.length; i++) {
+        for (int i = 0; i < catValues.length; i++) {
             RootCategory rootCategory = new RootCategory();
             int resId = context.getResources().getIdentifier(catValues[i], "string", context.getPackageName());
             rootCategory.setName(context.getResources().getString(resId));
@@ -898,11 +907,11 @@ public class CommonOperations {
             rootCategory.setIcon(catIcons[i]);
             int arrayId = context.getResources().getIdentifier(catValues[i], "array", context.getPackageName());
             if (arrayId != 0) {
-                int subcatIconArrayId = context.getResources().getIdentifier(catValues[i]+"_icons", "array", context.getPackageName());
+                int subcatIconArrayId = context.getResources().getIdentifier(catValues[i] + "_icons", "array", context.getPackageName());
                 String[] subCats = context.getResources().getStringArray(arrayId);
                 String[] tempIcons = context.getResources().getStringArray(subcatIconArrayId);
                 List<SubCategory> subCategories = new ArrayList<>();
-                for (int j=0; j<subCats.length; j++) {
+                for (int j = 0; j < subCats.length; j++) {
                     SubCategory subCategory = new SubCategory();
                     subCategory.setName(subCats[j]);
                     subCategory.setId(UUID.randomUUID().toString());
@@ -935,8 +944,7 @@ public class CommonOperations {
                 boardButton.setTable(PocketAccounterGeneral.INCOME);
                 boardButton.setType(PocketAccounterGeneral.FUNCTION);
                 daoSession.getBoardButtonDao().insertOrReplace(boardButton);
-            }
-            else {
+            } else {
                 boardButton = new BoardButton();
                 if (incomes.size() <= i || incomes.get(i) == null)
                     boardButton.setCategoryId(null);
@@ -949,8 +957,8 @@ public class CommonOperations {
             }
         }
         int page = 2;
-        for (int i=4; i<40; i++) {
-            if ((i+1)%(page*4) == 0) {
+        for (int i = 4; i < 40; i++) {
+            if ((i + 1) % (page * 4) == 0) {
                 boardButton = new BoardButton();
                 boardButton.setCategoryId(forwardId);
                 boardButton.setPos(i);
@@ -958,8 +966,7 @@ public class CommonOperations {
                 boardButton.setType(PocketAccounterGeneral.FUNCTION);
                 daoSession.getBoardButtonDao().insertOrReplace(boardButton);
                 page++;
-            }
-            else {
+            } else {
                 boardButton = new BoardButton();
                 boardButton.setCategoryId(null);
                 boardButton.setPos(i);
@@ -972,23 +979,21 @@ public class CommonOperations {
                 .queryBuilder().where(RootCategoryDao.Properties.Type.eq(PocketAccounterGeneral.EXPENSE))
                 .list();
         for (int i = 0; i < 16; i++) {
-            if (i == expenses.size()-2) {
+            if (i == expenses.size() - 2) {
                 boardButton = new BoardButton();
                 boardButton.setCategoryId(backIds);
                 boardButton.setPos(i);
                 boardButton.setTable(PocketAccounterGeneral.EXPENSE);
                 boardButton.setType(PocketAccounterGeneral.FUNCTION);
                 daoSession.getBoardButtonDao().insertOrReplace(boardButton);
-            }
-            else if (i == expenses.size()-1) {
+            } else if (i == expenses.size() - 1) {
                 boardButton = new BoardButton();
                 boardButton.setCategoryId(forwardId);
                 boardButton.setPos(i);
                 boardButton.setTable(PocketAccounterGeneral.EXPENSE);
                 boardButton.setType(PocketAccounterGeneral.FUNCTION);
                 daoSession.getBoardButtonDao().insertOrReplace(boardButton);
-            }
-            else {
+            } else {
                 boardButton = new BoardButton();
                 if (expenses.size() <= i || expenses.get(i) == null)
                     boardButton.setCategoryId(null);
@@ -1001,15 +1006,14 @@ public class CommonOperations {
         }
         page = 2;
         for (int i = 16; i < 160; i++) {
-            if ((i+2)%(page*16) == 0) {
+            if ((i + 2) % (page * 16) == 0) {
                 boardButton = new BoardButton();
                 boardButton.setCategoryId(backIds);
                 boardButton.setPos(i);
                 boardButton.setTable(PocketAccounterGeneral.EXPENSE);
                 boardButton.setType(PocketAccounterGeneral.FUNCTION);
                 daoSession.getBoardButtonDao().insertOrReplace(boardButton);
-            }
-            else if ((i+1)%(page*16) == 0) {
+            } else if ((i + 1) % (page * 16) == 0) {
                 boardButton = new BoardButton();
                 boardButton.setCategoryId(forwardId);
                 boardButton.setPos(i);
@@ -1017,8 +1021,7 @@ public class CommonOperations {
                 boardButton.setType(PocketAccounterGeneral.FUNCTION);
                 daoSession.getBoardButtonDao().insertOrReplace(boardButton);
                 page++;
-            }
-            else {
+            } else {
                 boardButton = new BoardButton();
                 boardButton.setCategoryId(null);
                 boardButton.setPos(i);
@@ -1028,6 +1031,7 @@ public class CommonOperations {
             }
         }
     }
+
     private static void upgradeFiveToSix(Context context, SQLiteDatabase old, DaoSession daoSession) {
         Cursor cursor = old.query("currency_table", null, null, null, null, null, null);
         Cursor costCursor = old.query("currency_costs_table", null, null, null, null, null, null);
@@ -1041,8 +1045,8 @@ public class CommonOperations {
             newCurrency.setAbbr(cursor.getString(cursor.getColumnIndex("currency_sign")));
             String currId = cursor.getString(cursor.getColumnIndex("currency_id"));
             newCurrency.setId(currId);
-            newCurrency.setIsMain(cursor.getInt(cursor.getColumnIndex("currency_main"))!=0);
-            newCurrency.setMain(cursor.getInt(cursor.getColumnIndex("currency_main"))!=0);
+            newCurrency.setIsMain(cursor.getInt(cursor.getColumnIndex("currency_main")) != 0);
+            newCurrency.setMain(cursor.getInt(cursor.getColumnIndex("currency_main")) != 0);
             daoSession.getCurrencyDao().insertOrReplace(newCurrency);
             currencies.add(newCurrency);
             cursor.moveToNext();
@@ -1051,7 +1055,7 @@ public class CommonOperations {
         //generate costs
         List<CostMigrateObject> costMigrateObjects = new ArrayList<>();
         costCursor.moveToFirst();
-        while(!costCursor.isAfterLast()) {
+        while (!costCursor.isAfterLast()) {
             CostMigrateObject object = new CostMigrateObject();
             object.setCurrencyId(costCursor.getString(costCursor.getColumnIndex("currency_id")));
             try {
@@ -1073,8 +1077,7 @@ public class CommonOperations {
         for (Currency currency : currencies) {
             if (currency.getIsMain()) {
                 mainCurrency = currency;
-            }
-            else
+            } else
                 noneMainCurrencies.add(currency);
         }
         Collections.sort(costMigrateObjects, new Comparator<CostMigrateObject>() {
@@ -1083,7 +1086,7 @@ public class CommonOperations {
                 return lhs.getDay().compareTo(rhs.getDay());
             }
         });
-        Calendar day = (Calendar) costMigrateObjects.get(costMigrateObjects.size()-1).getDay().clone();
+        Calendar day = (Calendar) costMigrateObjects.get(costMigrateObjects.size() - 1).getDay().clone();
         for (Currency currency : currencies) {
             UserEnteredCalendars userEnteredCalendars = new UserEnteredCalendars();
             userEnteredCalendars.setCalendar(day);
@@ -1099,32 +1102,32 @@ public class CommonOperations {
             withAmount.setParentId(mainState.getId());
             withAmount.setCurrency(currency);
             double amount = 1.0d;
-            for (int i = costMigrateObjects.size()-1; i >= 0; i--) {
+            for (int i = costMigrateObjects.size() - 1; i >= 0; i--) {
                 if (costMigrateObjects.get(i).getCurrencyId().equals(currency.getId())) {
                     amount = costMigrateObjects.get(i).getAmount();
                     break;
                 }
             }
-            withAmount.setAmount(1/amount);
+            withAmount.setAmount(1 / amount);
             daoSession.getCurrencyWithAmountDao().insertOrReplace(withAmount);
         }
         mainCurrency.resetUserEnteredCalendarses();
         List<CurrencyWithAmount> currencyWithAmounts = mainState.getCurrencyWithAmountList();
         for (CurrencyWithAmount currencyWithAmount : currencyWithAmounts) {
             CurrencyCostState anotherState = new CurrencyCostState();
-            anotherState.setDay((Calendar)day.clone());
+            anotherState.setDay((Calendar) day.clone());
             anotherState.setMainCurrency(currencyWithAmount.getCurrency());
             daoSession.getCurrencyCostStateDao().insertOrReplace(anotherState);
             CurrencyWithAmount anotherStatesAmount = new CurrencyWithAmount();
             anotherStatesAmount.setCurrency(mainState.getMainCurrency());
-            anotherStatesAmount.setAmount(1/currencyWithAmount.getAmount());
+            anotherStatesAmount.setAmount(1 / currencyWithAmount.getAmount());
             anotherStatesAmount.setParentId(anotherState.getId());
             daoSession.getCurrencyWithAmountDao().insertOrReplace(anotherStatesAmount);
             for (CurrencyWithAmount amnt : currencyWithAmounts) {
                 if (!amnt.getCurrencyId().equals(currencyWithAmount.getCurrencyId())) {
                     CurrencyWithAmount anotherStatesRestAmounts = new CurrencyWithAmount();
                     anotherStatesRestAmounts.setCurrency(amnt.getCurrency());
-                    anotherStatesRestAmounts.setAmount(amnt.getAmount()/currencyWithAmount.getAmount());
+                    anotherStatesRestAmounts.setAmount(amnt.getAmount() / currencyWithAmount.getAmount());
                     anotherStatesRestAmounts.setParentId(anotherState.getId());
                     daoSession.getCurrencyWithAmountDao().insertOrReplace(anotherStatesRestAmounts);
                 }
@@ -1135,7 +1138,7 @@ public class CommonOperations {
         Cursor catCursor = old.query("category_table", null, null, null, null, null, null);
         Cursor subcatCursor = old.query("subcategory_table", null, null, null, null, null, null);
         catCursor.moveToFirst();
-        while(!catCursor.isAfterLast()) {
+        while (!catCursor.isAfterLast()) {
             RootCategory newCategory = new RootCategory();
             newCategory.setName(catCursor.getString(catCursor.getColumnIndex("category_name")));
             String catId = catCursor.getString(catCursor.getColumnIndex("category_id"));
@@ -1144,7 +1147,7 @@ public class CommonOperations {
             newCategory.setIcon(catCursor.getString(catCursor.getColumnIndex("icon")));
             subcatCursor.moveToFirst();
             List<SubCategory> subCats = new ArrayList<>();
-            while(!subcatCursor.isAfterLast()) {
+            while (!subcatCursor.isAfterLast()) {
                 if (subcatCursor.getString(subcatCursor.getColumnIndex("category_id")).equals(catId)) {
                     SubCategory newSubCategory = new SubCategory();
                     newSubCategory.setName(subcatCursor.getString(subcatCursor.getColumnIndex("subcategory_name")));
@@ -1167,7 +1170,7 @@ public class CommonOperations {
         ArrayList<RootCategory> incomes = new ArrayList<>();
         cursor = old.query("incomes_table", null, null, null, null, null, null);
         cursor.moveToFirst();
-        while(!cursor.isAfterLast()) {
+        while (!cursor.isAfterLast()) {
             RootCategory newCategory = new RootCategory();
             if (cursor.getString(cursor.getColumnIndex("category_name")).equals(context.getResources().getString(R.string.no_category))) {
                 incomes.add(null);
@@ -1186,7 +1189,7 @@ public class CommonOperations {
         ArrayList<RootCategory> expenses = new ArrayList<RootCategory>();
         cursor = old.query("expanses_table", null, null, null, null, null, null);
         cursor.moveToFirst();
-        while(!cursor.isAfterLast()) {
+        while (!cursor.isAfterLast()) {
             RootCategory newCategory = new RootCategory();
             if (cursor.getString(cursor.getColumnIndex("category_name")).equals(context.getResources().getString(R.string.no_category))) {
                 expenses.add(null);
@@ -1215,8 +1218,8 @@ public class CommonOperations {
             daoSession.getBoardButtonDao().insertOrReplace(boardButton);
         }
         int page = 2;
-        for (int i=4; i<40; i++) {
-            if ((i+1)%(page*4) == 0) {
+        for (int i = 4; i < 40; i++) {
+            if ((i + 1) % (page * 4) == 0) {
                 boardButton = new BoardButton();
                 boardButton.setCategoryId(forwardId);
                 boardButton.setPos(i);
@@ -1224,8 +1227,7 @@ public class CommonOperations {
                 boardButton.setType(PocketAccounterGeneral.FUNCTION);
                 daoSession.getBoardButtonDao().insertOrReplace(boardButton);
                 page++;
-            }
-            else {
+            } else {
                 boardButton = new BoardButton();
                 boardButton.setCategoryId(null);
                 boardButton.setPos(i);
@@ -1247,15 +1249,14 @@ public class CommonOperations {
         }
         page = 2;
         for (int i = 16; i < 160; i++) {
-            if ((i+2)%(page*16) == 0) {
+            if ((i + 2) % (page * 16) == 0) {
                 boardButton = new BoardButton();
                 boardButton.setCategoryId(backIds);
                 boardButton.setPos(i);
                 boardButton.setTable(PocketAccounterGeneral.EXPENSE);
                 boardButton.setType(PocketAccounterGeneral.FUNCTION);
                 daoSession.getBoardButtonDao().insertOrReplace(boardButton);
-            }
-            else if ((i+1)%(page*16) == 0) {
+            } else if ((i + 1) % (page * 16) == 0) {
                 boardButton = new BoardButton();
                 boardButton.setCategoryId(forwardId);
                 boardButton.setPos(i);
@@ -1263,8 +1264,7 @@ public class CommonOperations {
                 boardButton.setType(PocketAccounterGeneral.FUNCTION);
                 daoSession.getBoardButtonDao().insertOrReplace(boardButton);
                 page++;
-            }
-            else {
+            } else {
                 boardButton = new BoardButton();
                 boardButton.setCategoryId(null);
                 boardButton.setPos(i);
@@ -1276,7 +1276,7 @@ public class CommonOperations {
         ArrayList<Account> accounts = new ArrayList<>();
         cursor = old.query("account_table", null, null, null, null, null, null);
         cursor.moveToFirst();
-        while(!cursor.isAfterLast()) {
+        while (!cursor.isAfterLast()) {
             Account newAccount = new Account();
             newAccount.setName(cursor.getString(cursor.getColumnIndex("account_name")));
             newAccount.setId(cursor.getString(cursor.getColumnIndex("account_id")));
@@ -1284,7 +1284,7 @@ public class CommonOperations {
             boolean iconFound = false;
             int pos = 0;
             String icons[] = context.getResources().getStringArray(R.array.icons);
-            for (int i=0; i<icons.length; i++) {
+            for (int i = 0; i < icons.length; i++) {
                 if (context.getResources().getIdentifier(icons[i], "drawable", context.getPackageName()) == resId) {
                     iconFound = true;
                     pos = i;
@@ -1327,37 +1327,37 @@ public class CommonOperations {
                 e.printStackTrace();
             }
             newRecord.setDate(cal);
-            for (int i=0; i<categories.size(); i++) {
+            for (int i = 0; i < categories.size(); i++) {
                 if (cursor.getString(cursor.getColumnIndex("category_id")).equals(categories.get(i).getId())) {
                     newRecord.setCategory(categories.get(i));
                     if (cursor.getString(cursor.getColumnIndex("subcategory_id")).equals(context.getResources().getString(R.string.no_category))) {
                         newRecord.setSubCategory(null);
                         break;
                     }
-                    for (int j=0; j<categories.get(i).getSubCategories().size(); j++) {
+                    for (int j = 0; j < categories.get(i).getSubCategories().size(); j++) {
                         if (cursor.getString(cursor.getColumnIndex("subcategory_id")).equals(categories.get(i).getSubCategories().get(j).getId()))
                             newRecord.setSubCategory(categories.get(i).getSubCategories().get(j));
                     }
                     break;
                 }
             }
-            for (int i=0; i<accounts.size(); i++) {
+            for (int i = 0; i < accounts.size(); i++) {
                 if (cursor.getString(cursor.getColumnIndex("account_id")).equals(accounts.get(i).getId()))
                     newRecord.setAccount(accounts.get(i));
             }
-            for (int i=0; i<currencies.size(); i++) {
+            for (int i = 0; i < currencies.size(); i++) {
                 if (cursor.getString(cursor.getColumnIndex("currency_id")).equals(currencies.get(i).getId()))
                     newRecord.setCurrency(currencies.get(i));
             }
             newRecord.setRecordId(cursor.getString(cursor.getColumnIndex("record_id")));
             newRecord.setAmount(cursor.getDouble(cursor.getColumnIndex("amount")));
             newRecord.setComment(cursor.getString(cursor.getColumnIndex("empty")));
-            List<PhotoDetails> phDet=new ArrayList<>();
+            List<PhotoDetails> phDet = new ArrayList<>();
             Cursor cursorPhotoTable = old.query("record_photo_table", null, null, null, null, null, null);
             cursorPhotoTable.moveToFirst();
             while (!cursorPhotoTable.isAfterLast()) {
-                if(cursorPhotoTable.getString(cursorPhotoTable.getColumnIndex("record_id")).equals(newRecord.getRecordId())){
-                    PhotoDetails temp=new PhotoDetails();
+                if (cursorPhotoTable.getString(cursorPhotoTable.getColumnIndex("record_id")).equals(newRecord.getRecordId())) {
+                    PhotoDetails temp = new PhotoDetails();
                     temp.setPhotopath(cursorPhotoTable.getString(cursorPhotoTable.getColumnIndex("photopath")));
                     temp.setPhotopathCache(cursorPhotoTable.getString(cursorPhotoTable.getColumnIndex("photopathCache")));
                     temp.setRecordId(cursorPhotoTable.getString(cursorPhotoTable.getColumnIndex("record_id")));
@@ -1401,7 +1401,7 @@ public class CommonOperations {
             }
             String accountId = dbCursor.getString(dbCursor.getColumnIndex("account_id"));
             String currencyId = dbCursor.getString(dbCursor.getColumnIndex("currency_id"));
-            for (int i=0; i<accounts.size(); i++) {
+            for (int i = 0; i < accounts.size(); i++) {
                 if (accounts.get(i).getId().equals(accountId)) {
                     newDebtBorrow.setAccount(accounts.get(i));
                     break;
@@ -1462,7 +1462,7 @@ public class CommonOperations {
             boolean iconFound = false;
             int pos = 0;
             String icons[] = context.getResources().getStringArray(R.array.icons);
-            for (int i=0; i<icons.length; i++) {
+            for (int i = 0; i < icons.length; i++) {
                 if (context.getResources().getIdentifier(icons[i], "drawable", context.getPackageName()) == resId) {
                     iconFound = true;
                     pos = i;
@@ -1484,11 +1484,11 @@ public class CommonOperations {
             credit.setValue_of_credit(curCreditTable.getDouble(curCreditTable.getColumnIndex("credit_value")));
             credit.setValue_of_credit_with_procent(curCreditTable.getDouble(curCreditTable.getColumnIndex("credit_value_with_percent")));
             credit.setPeriod_time_tip(Long.parseLong(curCreditTable.getString(curCreditTable.getColumnIndex("period_time_tip"))));
-            credit.setKey_for_include(curCreditTable.getInt(curCreditTable.getColumnIndex("key_for_include"))!=0);
-            credit.setKey_for_archive(curCreditTable.getInt(curCreditTable.getColumnIndex("key_for_archive"))!=0);
+            credit.setKey_for_include(curCreditTable.getInt(curCreditTable.getColumnIndex("key_for_include")) != 0);
+            credit.setKey_for_archive(curCreditTable.getInt(curCreditTable.getColumnIndex("key_for_archive")) != 0);
             String currencyId = curCreditTable.getString(curCreditTable.getColumnIndex("currency_id"));
             Currency currency = null;
-            for (int i = 0; i<currencies.size(); i++)  {
+            for (int i = 0; i < currencies.size(); i++) {
                 if (currencyId.equals(currencies.get(i).getId())) {
                     currency = currencies.get(i);
                     break;
@@ -1497,14 +1497,14 @@ public class CommonOperations {
             credit.setValyute_currency(currency);
             List<ReckingCredit> reckings = new ArrayList<ReckingCredit>();
             curCreditRecking.moveToFirst();
-            while(!curCreditRecking.isAfterLast()) {
+            while (!curCreditRecking.isAfterLast()) {
                 if (Long.parseLong(curCreditRecking.getString(curCreditRecking.getColumnIndex("credit_id"))) == Long.parseLong(curCreditTable.getString(curCreditTable.getColumnIndex("credit_id")))) {
                     double amount = curCreditRecking.getDouble(curCreditRecking.getColumnIndex("amount"));
                     long payDate = Long.parseLong(curCreditRecking.getString(curCreditRecking.getColumnIndex("pay_date")));
                     String comment = curCreditRecking.getString(curCreditRecking.getColumnIndex("comment"));
                     String accountId = curCreditRecking.getString(curCreditRecking.getColumnIndex("account_id"));
                     long creditId = Long.parseLong(curCreditRecking.getString(curCreditRecking.getColumnIndex("credit_id")));
-                    Calendar calen=Calendar.getInstance();
+                    Calendar calen = Calendar.getInstance();
                     calen.setTimeInMillis(payDate);
                     ReckingCredit newReckingCredit = new ReckingCredit(calen, amount, accountId, creditId, comment);
                     daoSession.getReckingCreditDao().insertOrReplace(newReckingCredit);
@@ -1567,9 +1567,9 @@ public class CommonOperations {
             newCurrency.setAbbr(curCursor.getString(curCursor.getColumnIndex("currency_sign")));
             String currId = curCursor.getString(curCursor.getColumnIndex("currency_id"));
             newCurrency.setId(currId);
-            newCurrency.setMain(curCursor.getInt(curCursor.getColumnIndex("currency_main"))!=0);
+            newCurrency.setMain(curCursor.getInt(curCursor.getColumnIndex("currency_main")) != 0);
             curCostCursor.moveToFirst();
-            while(!curCostCursor.isAfterLast()) {
+            while (!curCostCursor.isAfterLast()) {
                 if (curCostCursor.getString(curCostCursor.getColumnIndex("currency_id")).equals(currId)) {
                     CurrencyCost newCurrencyCost = new CurrencyCost();
                     try {
@@ -1596,7 +1596,7 @@ public class CommonOperations {
                 break;
             }
         }
-        while(!cursor.isAfterLast()) {
+        while (!cursor.isAfterLast()) {
             Account newAccount = new Account();
             newAccount.setName(cursor.getString(cursor.getColumnIndex("account_name")));
             newAccount.setId(cursor.getString(cursor.getColumnIndex("account_id")));
@@ -1624,9 +1624,9 @@ public class CommonOperations {
                 + ");");
 
         Cursor csr = db.query("account_table", null, null, null, null, null, null);
-        Log.d("sss", "account_table_is_created " + (csr == null) + " cursor " + csr.getCount() + " accounts "+result.size());
+        Log.d("sss", "account_table_is_created " + (csr == null) + " cursor " + csr.getCount() + " accounts " + result.size());
 
-        Log.d("sss", "start_amount: "+csr.getColumnIndex("start_money")+" account_name: "+csr.getColumnIndex("start_money"));
+        Log.d("sss", "start_amount: " + csr.getColumnIndex("start_money") + " account_name: " + csr.getColumnIndex("start_money"));
         ContentValues values = new ContentValues();
         for (Account account : result) {
             values.put("account_name", account.getName());
@@ -1650,12 +1650,13 @@ public class CommonOperations {
 
 
     }
+
     private static void upgradeFromThreeToFour(Context context, SQLiteDatabase db) {
         String[] resCatsId = context.getResources().getStringArray(R.array.cat_values);
         String[] resCatIcons = context.getResources().getStringArray(R.array.cat_icons);
         String[] allIcons = context.getResources().getStringArray(R.array.icons);
         int[] allIconsId = new int[allIcons.length];
-        for (int i=0; i<allIcons.length; i++)
+        for (int i = 0; i < allIcons.length; i++)
             allIconsId[i] = context.getResources().getIdentifier(allIcons[i], "drawable", context.getPackageName());
         Cursor catsCursor = db.query("category_table", null, null, null, null, null, null);
         Cursor subCatsCursor = db.query("subcategory_table", null, null, null, null, null, null);
@@ -1668,7 +1669,7 @@ public class CommonOperations {
             String id = catsCursor.getString(catsCursor.getColumnIndex("category_id"));
             boolean catIdFound = false;
             int pos = 0;
-            for (int i=0; i<resCatsId.length; i++) {
+            for (int i = 0; i < resCatsId.length; i++) {
                 if (resCatsId[i].equals(id)) {
                     catIdFound = true;
                     pos = i;
@@ -1679,7 +1680,7 @@ public class CommonOperations {
             if (catIdFound) {
                 category.setIcon(resCatIcons[pos]);
                 subCatsCursor.moveToFirst();
-                while(!subCatsCursor.isAfterLast()) {
+                while (!subCatsCursor.isAfterLast()) {
                     if (id.equals(subCatsCursor.getString(subCatsCursor.getColumnIndex("category_id")))) {
                         SubCategory subCategory = new SubCategory();
                         subCategory.setName(subCatsCursor.getString(subCatsCursor.getColumnIndex("subcategory_name")));
@@ -1689,23 +1690,22 @@ public class CommonOperations {
                             boolean q = false;
                             int s = 0;
                             String[] scn = context.getResources().getStringArray(subcatIconArrayId);
-                            for (int i=0; i<scn.length; i++) {
+                            for (int i = 0; i < scn.length; i++) {
                                 if (scn[i].equals(subCatId)) {
                                     q = true;
                                     s = i;
                                     break;
                                 }
                             }
-                            if(q){
-                                int h = context.getResources().getIdentifier(id+"_icons", "array", context.getPackageName());
+                            if (q) {
+                                int h = context.getResources().getIdentifier(id + "_icons", "array", context.getPackageName());
                                 String[] subCatsId = context.getResources().getStringArray(h);
                                 subCategory.setIcon(subCatsId[s]);
-                            }
-                            else {
+                            } else {
                                 int subCatIconId = subCatsCursor.getInt(subCatsCursor.getColumnIndex("icon"));
                                 boolean f = false;
                                 int p = 0;
-                                for (int i=0; i<allIconsId.length; i++) {
+                                for (int i = 0; i < allIconsId.length; i++) {
                                     if (subCatIconId == allIconsId[i]) {
                                         f = true;
                                         p = i;
@@ -1720,7 +1720,7 @@ public class CommonOperations {
                         } else {
                             boolean s = false;
                             int a = 0;
-                            for (int i=0; i<allIconsId.length; i++) {
+                            for (int i = 0; i < allIconsId.length; i++) {
                                 if (allIconsId[i] == subCatsCursor.getInt(subCatsCursor.getColumnIndex("icon"))) {
                                     s = true;
                                     a = i;
@@ -1737,12 +1737,11 @@ public class CommonOperations {
                     }
                     subCatsCursor.moveToNext();
                 }
-            }
-            else {
+            } else {
                 int iconId = catsCursor.getInt(catsCursor.getColumnIndex("icon"));
                 boolean found = false;
                 pos = 0;
-                for (int i=0; i<allIconsId.length; i++) {
+                for (int i = 0; i < allIconsId.length; i++) {
                     if (allIconsId[i] == iconId) {
                         found = true;
                         pos = i;
@@ -1763,7 +1762,7 @@ public class CommonOperations {
                         iconId = subCatsCursor.getInt(subCatsCursor.getColumnIndex("icon"));
                         found = false;
                         pos = 0;
-                        for (int i=0; i<allIconsId.length; i++) {
+                        for (int i = 0; i < allIconsId.length; i++) {
                             if (allIconsId[i] == iconId) {
                                 found = true;
                                 pos = i;
@@ -1804,14 +1803,14 @@ public class CommonOperations {
                 + "empty TEXT"
                 + ");");
         //saving categories begin
-        for (int i=0; i<categories.size(); i++) {
+        for (int i = 0; i < categories.size(); i++) {
             ContentValues values = new ContentValues();
             values.put("category_name", categories.get(i).getName());
             values.put("category_id", categories.get(i).getId());
             values.put("category_type", categories.get(i).getType());
             values.put("icon", categories.get(i).getIcon());
             db.insert("category_table", null, values);
-            for (int j=0; j<categories.get(i).getSubCategories().size(); j++) {
+            for (int j = 0; j < categories.get(i).getSubCategories().size(); j++) {
                 values.clear();
                 values.put("subcategory_name", categories.get(i).getSubCategories().get(j).getName());
                 values.put("subcategory_id", categories.get(i).getSubCategories().get(j).getId());
@@ -1822,7 +1821,7 @@ public class CommonOperations {
         }
         //saving categories end
         Cursor incomesCursor = db.query("incomes_table", null, null, null, null, null, null);
-        Log.d("sss", incomesCursor.getCount()+"");
+        Log.d("sss", incomesCursor.getCount() + "");
         ArrayList<String> incomesId = new ArrayList<>();
         incomesCursor.moveToFirst();
         while (!incomesCursor.isAfterLast()) {
@@ -1838,14 +1837,14 @@ public class CommonOperations {
                 + "icon TEXT,"
                 + "empty TEXT"
                 + ");");
-        for (int i=0; i<incomesId.size(); i++) {
+        for (int i = 0; i < incomesId.size(); i++) {
             ContentValues values = new ContentValues();
             if (incomesId.get(i) == null) {
                 values.put("category_name", context.getResources().getString(R.string.no_category));
                 db.insert("incomes_table", null, values);
                 continue;
             }
-            for (int j=0; j<categories.size(); j++) {
+            for (int j = 0; j < categories.size(); j++) {
                 if (incomesId.get(i).equals(categories.get(j).getId())) {
                     values.put("category_name", categories.get(j).getName());
                     values.put("category_id", categories.get(j).getId());
@@ -1873,14 +1872,14 @@ public class CommonOperations {
                 + "icon TEXT,"
                 + "empty TEXT"
                 + ");");
-        for (int i=0; i<expensesId.size(); i++) {
+        for (int i = 0; i < expensesId.size(); i++) {
             ContentValues values = new ContentValues();
             if (expensesId.get(i) == null) {
                 values.put("category_name", context.getResources().getString(R.string.no_category));
                 db.insert("expanses_table", null, values);
                 continue;
             }
-            for (int j=0; j<categories.size(); j++) {
+            for (int j = 0; j < categories.size(); j++) {
                 if (expensesId.get(i).equals(categories.get(j).getId())) {
                     values.put("category_name", categories.get(j).getName());
                     values.put("category_id", categories.get(j).getId());
@@ -1892,34 +1891,35 @@ public class CommonOperations {
             }
         }
     }
-    public String generateYearString(int t){
+
+    public String generateYearString(int t) {
         if (t > 1) {
-            if(t<5)
-                return  t+" "+context.getString(R.string.god_and_years);
-            else if(t<21)
-                return t+" "+context.getString(R.string.let_and_years);
-            else if(t>20&&t%10<5&&t>0)
-                return t+" "+context.getString(R.string.god_and_years);
-            else if(t>20)
-                return t+" "+context.getString(R.string.let_and_years);
+            if (t < 5)
+                return t + " " + context.getString(R.string.god_and_years);
+            else if (t < 21)
+                return t + " " + context.getString(R.string.let_and_years);
+            else if (t > 20 && t % 10 < 5 && t > 0)
+                return t + " " + context.getString(R.string.god_and_years);
+            else if (t > 20)
+                return t + " " + context.getString(R.string.let_and_years);
         } else {
-            return t+" "+context.getString(R.string.year);
+            return t + " " + context.getString(R.string.year);
         }
         return null;
     }
 
-    public void changeIconToNull(int pos, DataCache dataCache, int table ) {
+    public void changeIconToNull(int pos, DataCache dataCache, int table) {
         Bitmap scaled = null;
         int resId = context.getResources().getIdentifier("no_category", "drawable", context.getPackageName());
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inPreferredConfig = Bitmap.Config.RGB_565;
         scaled = BitmapFactory.decodeResource(context.getResources(), resId, options);
 
-        scaled = Bitmap.createScaledBitmap(scaled, (int)context.getResources().getDimension(R.dimen.thirty_dp), (int) context.getResources().getDimension(R.dimen.thirty_dp), true);
+        scaled = Bitmap.createScaledBitmap(scaled, (int) context.getResources().getDimension(R.dimen.thirty_dp), (int) context.getResources().getDimension(R.dimen.thirty_dp), true);
 
-        List<BoardButton> boardButtons=daoSession.getBoardButtonDao().queryBuilder()
-                .where(BoardButtonDao.Properties.Table.eq(table),BoardButtonDao.Properties.Pos.eq(pos)).build().list();
-        if(!boardButtons.isEmpty()){
+        List<BoardButton> boardButtons = daoSession.getBoardButtonDao().queryBuilder()
+                .where(BoardButtonDao.Properties.Table.eq(table), BoardButtonDao.Properties.Pos.eq(pos)).build().list();
+        if (!boardButtons.isEmpty()) {
             dataCache.getBoardBitmapsCache().put(boardButtons.get(0).getId(),
                     scaled);
         }
@@ -1952,14 +1952,70 @@ public class CommonOperations {
         return PocketAccounterGeneral.NULL;
     }
 
-    public static void generateRegexVoice(DaoSession daoSession, List<TemplateVoice> voices, String word, String id) {
-        TemplateVoice templateVoice  = new TemplateVoice();
+    public static void generateRegexVoice(List<TemplateVoice> voices, RootCategory object) {
+        List<SubCategory> subCategories = object.getSubCategories();
+        if (subCategories != null && !subCategories.isEmpty()) {
+            for (SubCategory subCategory : subCategories) {
+                TemplateVoice templateVoice = new TemplateVoice();
+
+                templateVoice.setRegex(new RegexBuilder()
+                        .openGroup()
+                        .anyVisibleCharSeq()
+                        .defineWord(object.getName().toLowerCase())
+                        .anyWhitespaceSeq()
+                        .anyVisibleCharSeq()
+                        .defineWord(subCategory.getName())
+                        .anyVisibleCharSeq()
+                        .closeGroup()
+                        .or()
+                        .openGroup()
+                        .anyVisibleCharSeq()
+                        .defineWord(subCategory.getName().toLowerCase())
+                        .anyWhitespaceSeq()
+                        .anyVisibleCharSeq()
+                        .defineWord(object.getName())
+                        .anyVisibleCharSeq()
+                        .closeGroup()
+                        .or()
+                        .openGroup()
+                        .anyVisibleCharSeq()
+                        .defineWord(subCategory.getName().toLowerCase())
+                        .anyVisibleCharSeq()
+                        .closeGroup()
+                        .build());
+                templateVoice.getPairs().put(1, Arrays.asList(2, 3));
+                templateVoice.getPairs().put(2, Arrays.asList(5, 6));
+                templateVoice.getPairs().put(3, Arrays.asList(8, 8));
+
+                templateVoice.setCatName(object.getName().toLowerCase());
+                templateVoice.setCategoryId(object.getId());
+                templateVoice.setSubCatId(subCategory.getId());
+                templateVoice.setSubCatName(subCategory.getName().toLowerCase());
+                voices.add(templateVoice);
+            }
+        }
+        TemplateVoice templateVoice = new TemplateVoice();
+        templateVoice.setCatName(object.getName());
+        templateVoice.setCategoryId(object.getId());
         templateVoice.setRegex(new RegexBuilder()
                 .anyVisibleCharSeq()
-                .defineWord(word.toLowerCase())
+                .defineWord(object.getName().toLowerCase())
                 .anyVisibleCharSeq()
                 .build());
-        templateVoice.setCategoryId(id);
         voices.add(templateVoice);
+    }
+
+    public static void generateRegexAcocuntVoice(List<TemplateAccount> templateAccounts, Account account) {
+        TemplateAccount templateAccount = new TemplateAccount();
+        templateAccount.setRegex(
+                new RegexBuilder()
+                .anyVisibleCharSeq()
+                .defineWord(account.getName())
+                .anyVisibleCharSeq()
+                .build()
+        );
+        templateAccount.setAccountName(account.getName());
+        templateAccount.setAccountId(account.getId());
+        templateAccounts.add(templateAccount);
     }
 }

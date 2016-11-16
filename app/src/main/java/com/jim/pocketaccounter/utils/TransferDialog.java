@@ -46,6 +46,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import static com.jim.pocketaccounter.R.string.account;
+import static com.jim.pocketaccounter.R.string.add;
 
 /**
  * Created by DEV on 06.09.2016.
@@ -69,7 +70,7 @@ public class TransferDialog extends Dialog implements View.OnClickListener {
     private TransferAccountAdapter firstAdapter, secondAdapter;
     private Spinner spAccManDialog;
     private List<Currency> currencies;
-    private ImageView  ivAccountManClose;
+    private ImageView ivAccountManClose;
     private TextView ivYes;
     private TextView date;
     private Calendar calendar;
@@ -103,7 +104,7 @@ public class TransferDialog extends Dialog implements View.OnClickListener {
         for (int i = 0; i < currencies.size(); i++)
             currs[i] = currencies.get(i).getAbbr();
         ArrayAdapter<String> currencyAdapter = new ArrayAdapter<String>(getContext(), R.layout.spiner_gravity_right_transfer, currs);
-        spAccManDialog.getBackground().setColorFilter(ContextCompat.getColor(context,R.color.grey_ochrang), PorterDuff.Mode.SRC_ATOP);
+        spAccManDialog.getBackground().setColorFilter(ContextCompat.getColor(context, R.color.grey_ochrang), PorterDuff.Mode.SRC_ATOP);
         spAccManDialog.setAdapter(currencyAdapter);
 
         ivYes = (TextView) dialogView.findViewById(R.id.ivAccountManSave);
@@ -273,43 +274,47 @@ public class TransferDialog extends Dialog implements View.OnClickListener {
             first.addAll(allTemp);
             second.addAll(allTemp);
 
-            chooseAccountFirstId = id;
-            chooseAccountSecondId = daoSession.getAccountDao().queryBuilder().
-                    where(AccountDao.Properties.Id.notEq(id)).list().get(0).getId();
-            if (!type && daoSession.getAccountDao().load(chooseAccountFirstId) != null) {
+            if (!type && daoSession.getPurposeDao().load(id) != null) {
+                chooseAccountSecondId = id;
+                chooseAccountFirstId = daoSession.getAccountDao().queryBuilder().
+                        where(AccountDao.Properties.Id.notEq(id)).list().get(0).getId();
+            } else {
+                chooseAccountFirstId = id;
+                chooseAccountSecondId = daoSession.getAccountDao().queryBuilder().
+                        where(AccountDao.Properties.Id.notEq(id)).list().get(0).getId();
+                spTransferSecond.setImageResource(getContext().getResources().getIdentifier
+                        (daoSession.getAccountDao().load(chooseAccountSecondId).getIcon(), "drawable", getContext().getPackageName()));
+            }
+
+            if (!type && daoSession.getPurposeDao().load(chooseAccountFirstId) != null) {
                 spTransferFirst.setImageResource(getContext().getResources().getIdentifier
                         (daoSession.getAccountDao().load(chooseAccountFirstId).getIcon(), "drawable", getContext().getPackageName()));
-            } else if (daoSession.getPurposeDao().load(chooseAccountFirstId) != null){
+            } else if (type && daoSession.getPurposeDao().load(chooseAccountFirstId) != null) {
                 spTransferFirst.setImageResource(getContext().getResources().getIdentifier
                         (daoSession.getPurposeDao().load(chooseAccountFirstId).getIcon(), "drawable", getContext().getPackageName()));
+            } else if (!type && daoSession.getPurposeDao().load(chooseAccountSecondId) != null) {
+                spTransferSecond.setImageResource(getContext().getResources().getIdentifier
+                        (daoSession.getPurposeDao().load(chooseAccountSecondId).getIcon(), "drawable", getContext().getPackageName()));
+                spTransferFirst.setImageResource(getContext().getResources().getIdentifier
+                        (daoSession.getAccountDao().load(chooseAccountFirstId).getIcon(), "drawable", getContext().getPackageName()));
             } else {
                 spTransferFirst.setImageResource(getContext().getResources().getIdentifier
                         (daoSession.getAccountDao().load(chooseAccountFirstId).getIcon(), "drawable", getContext().getPackageName()));
             }
-            spTransferSecond.setImageResource(getContext().getResources().getIdentifier
-                    (daoSession.getAccountDao().load(chooseAccountSecondId).getIcon(), "drawable", getContext().getPackageName()));
-            if (!type && daoSession.getAccountDao().load(chooseAccountFirstId) != null)
+
+            if (!type && daoSession.getAccountDao().load(chooseAccountFirstId) != null) {
                 fromAccount.setText(daoSession.getAccountDao().load(chooseAccountFirstId).getName());
-            else if (daoSession.getPurposeDao().load(chooseAccountFirstId) != null) {
+                if (daoSession.getPurposeDao().load(chooseAccountSecondId) != null)
+                    toAccount.setText(daoSession.getPurposeDao().load(chooseAccountSecondId).getDescription());
+                else
+                    toAccount.setText(daoSession.getAccountDao().load(chooseAccountSecondId).getName());
+            } else if (daoSession.getPurposeDao().load(chooseAccountFirstId) != null) {
                 fromAccount.setText(daoSession.getPurposeDao().load(chooseAccountFirstId).getDescription());
+                toAccount.setText(daoSession.getAccountDao().load(chooseAccountSecondId).getName());
             } else {
                 fromAccount.setText(daoSession.getAccountDao().load(chooseAccountFirstId).getName());
+                toAccount.setText(daoSession.getAccountDao().load(chooseAccountSecondId).getName());
             }
-            toAccount.setText(daoSession.getAccountDao().load(chooseAccountSecondId).getName());
-
-//            secondAdapter = new TransferAccountAdapter(getContext(), second);
-//            spTransferSecond.setAdapter(secondAdapter);
-//            firstAdapter = new TransferAccountAdapter(getContext(), first);
-//            spTransferFirst.setAdapter(firstAdapter);
-//            if (type) {
-//                spTransferFirst.setSelection(selectedPos);
-//                spTransferSecond.setSelection(selectedPos == 0
-//                        ? ((allTemp.size() == 1) ? 0 : 1) : 0);
-//            } else {
-//                spTransferSecond.setSelection(selectedPos);
-//                spTransferFirst.setSelection(selectedPos == 0
-//                        ? ((allTemp.size() == 1) ? 0 : 1) : 0);
-//            }
         }
     }
 
@@ -368,6 +373,7 @@ public class TransferDialog extends Dialog implements View.OnClickListener {
     public interface OnTransferDialogSaveListener {
         void OnTransferDialogSave();
     }
+
     private Dialog dialogChoose;
     private String chooseAccountFirstId = "";
     private String chooseAccountSecondId = "";
@@ -386,7 +392,7 @@ public class TransferDialog extends Dialog implements View.OnClickListener {
         else dialogAdapter = new DialogAdapter(false);
 
         recyclerView.setAdapter(dialogAdapter);
-        dialogChoose.getWindow().setLayout(6 * getContext().getResources().getDisplayMetrics().widthPixels/10, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        dialogChoose.getWindow().setLayout(6 * getContext().getResources().getDisplayMetrics().widthPixels / 10, RelativeLayout.LayoutParams.WRAP_CONTENT);
         dialogChoose.show();
     }
 
@@ -394,7 +400,7 @@ public class TransferDialog extends Dialog implements View.OnClickListener {
         private List<Object> list;
         private boolean isFirst;
 
-        public DialogAdapter (boolean isFirst) {
+        public DialogAdapter(boolean isFirst) {
             this.isFirst = isFirst;
             list = new ArrayList<>();
             if (isFirst) {

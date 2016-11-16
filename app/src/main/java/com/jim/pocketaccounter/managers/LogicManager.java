@@ -605,7 +605,7 @@ public class LogicManager {
         if (!query.list().isEmpty())
             return LogicManagerConstants.SUCH_NAME_ALREADY_EXISTS;
         rootCategoryDao.insertOrReplace(rootCategory);
-        CommonOperations.generateRegexVoice(daoSession, voices, rootCategory.getName(), rootCategory.getId());
+        CommonOperations.generateRegexVoice(voices, rootCategory);
         return LogicManagerConstants.SAVED_SUCCESSFULL;
     }
 
@@ -654,7 +654,6 @@ public class LogicManager {
 
     public int insertDebtBorrow(DebtBorrow debtBorrow) {
         debtBorrowDao.insertOrReplace(debtBorrow);
-        CommonOperations.generateRegexVoice(daoSession, voices, debtBorrow.getPerson().getName(), debtBorrow.getId());
         return LogicManagerConstants.SAVED_SUCCESSFULL;
     }
 
@@ -676,7 +675,6 @@ public class LogicManager {
 
     public int insertCredit(CreditDetials creditDetials) {
         creditDetialsDao.insertOrReplace(creditDetials);
-        CommonOperations.generateRegexVoice(daoSession, voices, creditDetials.getCredit_name(), "" + creditDetials.getMyCredit_id());
         return LogicManagerConstants.SAVED_SUCCESSFULL;
     }
 

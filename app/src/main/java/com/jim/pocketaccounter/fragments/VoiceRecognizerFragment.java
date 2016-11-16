@@ -10,6 +10,7 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.media.Image;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -50,6 +51,7 @@ import com.jim.pocketaccounter.database.FinanceRecord;
 import com.jim.pocketaccounter.database.FinanceRecordDao;
 import com.jim.pocketaccounter.database.RootCategory;
 import com.jim.pocketaccounter.database.SubCategory;
+import com.jim.pocketaccounter.database.TemplateAccount;
 import com.jim.pocketaccounter.database.TemplateVoice;
 import com.jim.pocketaccounter.managers.PAFragmentManager;
 import com.jim.pocketaccounter.utils.PocketAccounterGeneral;
@@ -62,7 +64,10 @@ import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
@@ -129,7 +134,12 @@ public class VoiceRecognizerFragment extends Fragment {
     @Inject
     List<TemplateVoice> voices;
     @Inject
+    List<TemplateAccount> templateAccountVoices;
+    @Inject
     DataCache dataCache;
+    private Thread categoryThread;
+    private Thread accountThread;
+    private Thread currencyThread;
     private String[] curString;
     private String[] accString;
     private CountDownTimer timer;
@@ -186,8 +196,8 @@ public class VoiceRecognizerFragment extends Fragment {
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         rvNotSpeechModeRecordsList.setLayoutManager(layoutManager);
-        ViewGroup.LayoutParams params=rvNotSpeechModeRecordsList.getLayoutParams();
-        params.height= (int) (8*Utils.convertDpToPixel(getResources().getDimension(R.dimen.thirty_dp) + 26));
+        ViewGroup.LayoutParams params = rvNotSpeechModeRecordsList.getLayoutParams();
+        params.height = (int) (8 * Utils.convertDpToPixel(getResources().getDimension(R.dimen.thirty_dp) + 26));
         rvNotSpeechModeRecordsList.setLayoutParams(params);
         tvSpeechModeEnteredText = (TextView) rootView.findViewById(R.id.tvSpeechModeEnteredText);
         tvListeningIndicator = (TextView) rootView.findViewById(R.id.tvListeningIndicator);
@@ -234,11 +244,11 @@ public class VoiceRecognizerFragment extends Fragment {
                         if (started) {
                             ivCenterButton.setBackgroundResource(R.drawable.speech_pressed_circle);
                             ivMicrophoneIcon.setColorFilter(Color.WHITE);
-                            visibilLR();
+//                            visibilLR();
                         } else {
                             ivCenterButton.setBackgroundResource(R.drawable.white_circle);
                             ivMicrophoneIcon.setColorFilter(Color.parseColor("#414141"));
-                            visibilityGoneLR();
+//                            visibilityGoneLR();
                         }
                         VoiceRecognizerFragment.this.started = started;
                     }
@@ -301,87 +311,228 @@ public class VoiceRecognizerFragment extends Fragment {
     private String currencyId = "";
     private double summ = 0;
 
-    private void parseVoice(String newLetter) {
-        for (TemplateVoice temp : voices) {
-            if (newLetter.toLowerCase().matches(temp.getRegex())) {
-                if (categoryId.isEmpty() && daoSession.getRootCategoryDao().load(temp.getCategoryId()) != null
-                        || daoSession.getSubCategoryDao().load(temp.getCategoryId()) != null) {
-                    categoryId = temp.getCategoryId();
+    private TemplateVoice templateVoice = null;
+
+    private class MyTask extends AsyncTask<Void, Void, Void> {
+        private String newLetter = "";
+        private List<TemplateVoice> successTemplates;
+        private List<TemplateAccount> templateAccounts;
+
+        public MyTask(String newLetter) {
+            this.newLetter = newLetter;
+            successTemplates = new ArrayList<>();
+            templateAccounts = new ArrayList<>();
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            for (TemplateVoice temp : voices) {
+                if (newLetter.matches(temp.getRegex())) {
+                    successTemplates.add(temp);
                 }
-                if (accountId.isEmpty() && daoSession.getAccountDao().load(temp.getCategoryId()) != null) {
-                    accountId = temp.getCategoryId();
+            }
+            for (TemplateAccount voice : templateAccountVoices) {
+                if (newLetter.matches(voice.getRegex())) {
+                    templateAccounts.add(voice);
                 }
-                if (currencyId.isEmpty() && daoSession.getCurrencyDao().load(temp.getCategoryId()) != null) {
-                    currencyId = temp.getCategoryId();
-                }
-                if (daoSession.getRootCategoryDao().load(temp.getCategoryId()) != null) {
-                    RootCategory comeCategory = daoSession.getRootCategoryDao().load(temp.getCategoryId());
-                    if (daoSession.getRootCategoryDao().load(categoryId) != null) {
-                        RootCategory oldCategory = daoSession.getRootCategoryDao().load(categoryId);
-                        if (comeCategory.getName().contains(oldCategory.getName())
-                                || newLetter.indexOf(comeCategory.getName()) > newLetter.indexOf(oldCategory.getName())) {
-                            categoryId = temp.getCategoryId();
-                        }
-                    } else {
-                        SubCategory oldSubCategory = daoSession.getSubCategoryDao().load(categoryId);
-                        if (comeCategory.getName().contains(oldSubCategory.getName())
-                                || newLetter.indexOf(comeCategory.getName()) > newLetter.indexOf(oldSubCategory.getName())) {
-                            categoryId = temp.getCategoryId();
+            }
+            if (!successTemplates.isEmpty()) {
+                if (successTemplates.size() == 1) {
+                    categoryId = successTemplates.get(0).getCategoryId();
+                } else {
+                    int posSplit = -1;
+                    String[] splt = newLetter.split(" ");
+
+                    for (TemplateVoice successTemplate : successTemplates) {
+                        for (int i = 0; i < splt.length; i++) {
+                            if (successTemplate.getCatName().startsWith(splt[i])
+                                    || (successTemplate.getSubCatName() != null && successTemplate.getSubCatName().startsWith(splt[i]))) {
+                                if (posSplit < 0 || posSplit < i) {
+                                    posSplit = i;
+                                }
+                            }
                         }
                     }
-                } else if (daoSession.getSubCategoryDao().load(temp.getCategoryId()) != null) {
-                    SubCategory comeSubCategory = daoSession.getSubCategoryDao().load(temp.getCategoryId());
-                    if (daoSession.getSubCategoryDao().load(categoryId) != null) {
-                        SubCategory oldSubCategory = daoSession.getSubCategoryDao().load(categoryId);
-                        if (comeSubCategory.getName().contains(oldSubCategory.getName())
-                                || newLetter.indexOf(comeSubCategory.getName()) > newLetter.indexOf(oldSubCategory.getName())) {
-                            categoryId = temp.getCategoryId();
-                        }
-                    } else {
-                        RootCategory oldCategory = daoSession.getRootCategoryDao().load(categoryId);
-                        if (comeSubCategory.getName().contains(oldCategory.getName())
-                                || newLetter.indexOf(comeSubCategory.getName()) > newLetter.indexOf(oldCategory.getName())) {
-                            categoryId = temp.getCategoryId();
+
+                    if (posSplit == -1) return null;
+                    for (int i = 0; i < successTemplates.size(); i++) {
+                        if (!splt[posSplit].equals(successTemplates.get(i).getCatName()) &&
+                                (successTemplates.get(i).getSubCatName() != null &&
+                                        !splt[posSplit].equals(successTemplates.get(i).getSubCatName()))) {
+                            successTemplates.remove(i);
+                            i--;
                         }
                     }
-                } else if (daoSession.getAccountDao().load(temp.getCategoryId()) != null) {
-                    Account comeAccount = daoSession.getAccountDao().load(temp.getCategoryId());
-                    Account oldAccount = daoSession.getAccountDao().load(accountId);
-                    if (comeAccount.getName().contains(oldAccount.getName())
-                            || newLetter.indexOf(comeAccount.getName()) > newLetter.indexOf(oldAccount.getName())) {
-                        accountId = temp.getCategoryId();
+
+                    for (TemplateVoice successTemplate : successTemplates) {
+                        setPriority(successTemplate, newLetter);
                     }
-                } else if (daoSession.getCurrencyDao().load(temp.getCategoryId()) != null) {
-                    Currency comeCurrency = daoSession.getCurrencyDao().load(temp.getCategoryId());
-                    Currency oldCurrency = daoSession.getCurrencyDao().load(currencyId);
-                    if (comeCurrency.getName().contains(oldCurrency.getName()) ||
-                            newLetter.indexOf(comeCurrency.getName()) > newLetter.indexOf(oldCurrency.getName())) {
-                        currencyId = temp.getCategoryId();
+                    Collections.sort(successTemplates, new Comparator<TemplateVoice>() {
+                        @Override
+                        public int compare(TemplateVoice templateVoice, TemplateVoice t1) {
+                            return (new Integer(templateVoice.getPriority())).compareTo((new Integer(t1.getPriority())));
+                        }
+                    });
+
+                    int endPos = -1;
+
+                    for (TemplateVoice successTemplate : successTemplates) {
+                        if (newLetter.lastIndexOf(successTemplate.getCatName())
+                                + successTemplate.getCatName().length() > endPos || endPos < 0) {
+                            endPos = newLetter.lastIndexOf(successTemplate.getCatName())
+                                    + successTemplate.getCatName().length();
+                        }
+                        if (newLetter.lastIndexOf(successTemplate.getSubCatName()) +
+                                successTemplate.getSubCatName().length() > endPos || endPos < 0) {
+                            endPos = newLetter.lastIndexOf(successTemplate.getSubCatName())
+                                    + successTemplate.getSubCatName().length();
+                        }
+                    }
+
+                    for (int i = 0; i < successTemplates.size(); i++) {
+                        boolean isAccess = true;
+                        String name = successTemplates.get(i).getCatName();
+                        if (newLetter.lastIndexOf(name) > 0 &&
+                                name.length() + newLetter.lastIndexOf(name) == endPos) {
+                            isAccess = false;
+                        }
+                        name = successTemplates.get(i).getSubCatName();
+                        if (newLetter.lastIndexOf(name) > 0 &&
+                                name.length() + newLetter.lastIndexOf(name) == endPos) {
+                            isAccess = false;
+                        }
+
+                        if (isAccess) {
+                            successTemplates.remove(i);
+                            i--;
+                        }
+                    }
+
+                    List<TemplateVoice> cloneTemp = new ArrayList<>();
+                    cloneTemp.addAll(successTemplates);
+
+                    for (int i = 0; i < cloneTemp.size(); i++) {
+                        for (int j = 0; j < successTemplates.size(); j++) {
+                            if (!cloneTemp.get(i).getCategoryId().equals(successTemplates.get(j).getCategoryId())) {
+                                if (cloneTemp.get(i).getCatName().contains(successTemplates.get(j).getCatName())) {
+                                    successTemplates.remove(j);
+                                    break;
+                                }
+                                if (!cloneTemp.get(i).getSubCatName().equals(successTemplates.get(j).getSubCatName())
+                                        && cloneTemp.get(i).getSubCatName().contains(successTemplates.get(j).getSubCatName())) {
+                                    successTemplates.remove(j);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                    if (successTemplates.isEmpty() && successTemplates.size() > 1) {
+                        boolean tek = false;
+
+                        for (TemplateVoice successTemplate : successTemplates) {
+                            if (successTemplate.getPriority() == 2) {
+                                tek = true;
+                                break;
+                            }
+                        }
+
+                        int pr;
+
+                        if (tek) {
+                            pr = 2;
+                        } else {
+                            pr = successTemplates.get(successTemplates.size() - 1).getPriority();
+                        }
+
+                        for (int i = 0; i < successTemplates.size(); i++) {
+                            if (pr != successTemplates.get(i).getPriority()) {
+                                successTemplates.remove(i);
+                                i--;
+                            }
+                        }
+
+                        if (successTemplates.size() == 1) {
+                            categoryId = successTemplates.get(0).getCategoryId();
+                        } else {
+                            int pos = 0;
+                            int diff = -1;
+
+                            String[] splitText = newLetter.split(" ");
+
+                            for (int i = 0; i < successTemplates.size(); i++) {
+                                int first = 0;
+                                int second = 0;
+                                for (int j = 0; j < splitText.length; j++) {
+                                    if (splitText[j].equals(successTemplates.get(i).getCatName())) {
+                                        first = j;
+                                    }
+                                    if (successTemplates.get(i).getSubCatName() != null &&
+                                            splitText[j].equals(successTemplates.get(i).getSubCatName())) {
+                                        second = j;
+                                    }
+                                }
+                                if (diff < 0 || Math.abs(first - second) < diff) {
+                                    diff = Math.abs(first - second);
+                                    pos = i;
+                                }
+                            }
+                            categoryId = successTemplates.get(pos).getCategoryId();
+                        }
+                    } else if (!successTemplates.isEmpty()){
+                        categoryId = successTemplates.get(0).getCategoryId();
+                    }
+                }
+                for (TemplateVoice voice : successTemplates) {
+                    if (voice.getCategoryId().equals(categoryId)) {
+                        templateVoice = voice;
+                        break;
                     }
                 }
             }
+            if (!templateAccounts.isEmpty()) {
+                if (templateAccounts.size() == 1) {
+                    accountId = templateAccounts.get(0).getAccountId();
+                } else {
+                    String[] splt = newLetter.split(" ");
+                    int pos = -1;
+                    for (String s : splt) {
+                        for (int i = 0; i < templateAccounts.size(); i++) {
+                            if (pos < 0 || (templateAccounts.get(i).getAccountName().startsWith(s) && pos < i)) {
+                                pos = i;
+                            }
+                        }
+                    }
+                    for (int i = 0; i < templateAccounts.size(); i++) {
+                        if (!splt[pos].startsWith(templateAccounts.get(i).getAccountName())) {
+                            templateAccounts.remove(i);
+                            i--;
+                        }
+                    }
+                    if (!templateAccounts.isEmpty()) {
+                        accountId = templateAccounts.get(0).getAccountId();
+                    }
+                }
+            }
+            return null;
         }
-        String amountRegex = "[([^0-9]*)\\s*([0-9]+[.,]?[0-9]*)]*\\s([$]*)([0-9]+[.,]?[0-9]*).*";
-        Pattern pattern = Pattern.compile(amountRegex);
-        Matcher matcher = pattern.matcher(newLetter);
-        if (matcher.matches()) {
-            summ = Double.parseDouble(matcher.group(matcher.groupCount()));
-        }
-        tvSpeechAmount.setText("" + summ);
-        if (!categoryId.isEmpty()) {
-            if (daoSession.getRootCategoryDao().load(categoryId) != null) {
-                RootCategory rootCategory = daoSession.getRootCategoryDao().load(categoryId);
-                if (rootCategory.getType() == PocketAccounterGeneral.INCOME)
-                    tvSpeechModeAdjective.setText(getResources().getString(R.string.income));
-                else tvSpeechModeAdjective.setText(getResources().getString(R.string.expanse));
-                tvSpeechModeCategory.setText(rootCategory.getName());
-            } else if (daoSession.getSubCategoryDao().load(categoryId) != null) {
-                SubCategory subCategory = daoSession.getSubCategoryDao().load(categoryId);
-                if (daoSession.getRootCategoryDao().load(subCategory.getParentId()).getType() == PocketAccounterGeneral.INCOME)
-                    tvSpeechModeAdjective.setText(getResources().getString(R.string.income));
-                else tvSpeechModeAdjective.setText(getResources().getString(R.string.expanse));
-                tvSpeechModeCategory.setText(daoSession.getRootCategoryDao().load
-                        (subCategory.getParentId()).getName() + ", " + subCategory.getName());
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            if (!categoryId.isEmpty()) {
+                String s = "";
+                if (templateVoice.getSubCatName() != null && !templateVoice.getSubCatName().isEmpty())
+                    s = " " + templateVoice.getSubCatName();
+                tvSpeechModeCategory.setText(templateVoice.getCatName() + s);
+                String amountRegex = "[([^0-9]*)\\s*([0-9]+[.,]?[0-9]*)]*\\s([$]*)([0-9]+[.,]?[0-9]*).*";
+                Pattern pattern = Pattern.compile(amountRegex);
+                Matcher matcher = pattern.matcher(newLetter);
+                if (matcher.matches()) {
+                    summ = Double.parseDouble(matcher.group(matcher.groupCount()));
+                }
+                tvSpeechAmount.setText("" + summ);
+                categoryId = "";
             }
             if (!accountId.isEmpty()) {
                 Account account = daoSession.getAccountDao().load(accountId);
@@ -392,40 +543,107 @@ public class VoiceRecognizerFragment extends Fragment {
                     }
                 }
             }
-            if (!currencyId.isEmpty()) {
-                Currency currency = daoSession.getCurrencyDao().load(currencyId);
-                for (int i = 0; i < curString.length; i++) {
-                    if (currency.getAbbr().equals(curString[i])) {
-                        spSpeechCurrency.setSelection(i);
-                        break;
-                    }
-                }
-            }
-            leftSaving = 5;
-            if (timer != null) {
-                timer.cancel();
-                timer = null;
-            }
-            autoSave.setVisibility(View.VISIBLE);
-            timer = new CountDownTimer(6000, 1000) {
-                @Override
-                public void onTick(long l) {
-                    autoSave.setText("sec " + Math.ceil(l / 1000));
-                }
+        }
+    }
 
-                @Override
-                public void onFinish() {
-                    autoSave.setVisibility(View.GONE);
-                    autoSave.setText("");
-                    savingVoice();
-                }
-            }.start();
+    private MyTask myTask;
+
+    private void parseVoice(final String newLetter) {
+        if (myTask != null) {
+            myTask.cancel(true);
+            myTask = null;
+        }
+        myTask = new MyTask(newLetter);
+        myTask.execute();
+
+//        accountThread.start();
+//        categoryId = idTemp;
+//        String amountRegex = "[([^0-9]*)\\s*([0-9]+[.,]?[0-9]*)]*\\s([$]*)([0-9]+[.,]?[0-9]*).*";
+//        Pattern pattern = Pattern.compile(amountRegex);
+//        Matcher matcher = pattern.matcher(newLetter);
+//        if (matcher.matches()) {
+//            summ = Double.parseDouble(matcher.group(matcher.groupCount()));
+//        }
+//        tvSpeechAmount.setText("" + summ);
+//        if (!categoryId.isEmpty()) {
+//            if (daoSession.getRootCategoryDao().load(categoryId) != null) {
+//                RootCategory rootCategory = daoSession.getRootCategoryDao().load(categoryId);
+//                if (rootCategory.getType() == PocketAccounterGeneral.INCOME)
+//                    tvSpeechModeAdjective.setText(getResources().getString(R.string.income));
+//                else tvSpeechModeAdjective.setText(getResources().getString(R.string.expanse));
+//                tvSpeechModeCategory.setText(rootCategory.getName());
+//            } else if (daoSession.getSubCategoryDao().load(categoryId) != null) {
+//                SubCategory subCategory = daoSession.getSubCategoryDao().load(categoryId);
+//                if (daoSession.getRootCategoryDao().load(subCategory.getParentId()).getType() == PocketAccounterGeneral.INCOME)
+//                    tvSpeechModeAdjective.setText(getResources().getString(R.string.income));
+//                else tvSpeechModeAdjective.setText(getResources().getString(R.string.expanse));
+//                tvSpeechModeCategory.setText(daoSession.getRootCategoryDao().load
+//                        (subCategory.getParentId()).getName() + ", " + subCategory.getName());
+//            }
+//            if (!accountId.isEmpty()) {
+//                Account account = daoSession.getAccountDao().load(accountId);
+//                for (int i = 0; i < accString.length; i++) {
+//                    if (account.getName().toLowerCase().equals(accString[i])) {
+//                        spSpeechAccount.setSelection(i);
+//                        break;
+//                    }
+//                }
+//            }
+//            if (!currencyId.isEmpty()) {
+//                Currency currency = daoSession.getCurrencyDao().load(currencyId);
+//                for (int i = 0; i < curString.length; i++) {
+//                    if (currency.getAbbr().equals(curString[i])) {
+//                        spSpeechCurrency.setSelection(i);
+//                        break;
+//                    }
+//                }
+//            }
+//            leftSaving = 5;
+//            if (timer != null) {
+//                timer.cancel();
+//                timer = null;
+//            }
+//            autoSave.setVisibility(View.VISIBLE);
+//            timer = new CountDownTimer(6000, 1000) {
+//                @Override
+//                public void onTick(long l) {
+//                    autoSave.setText("sec " + Math.ceil(l / 1000));
+//                }
+//
+//                @Override
+//                public void onFinish() {
+//                    autoSave.setVisibility(View.GONE);
+//                    autoSave.setText("");
+//                    savingVoice();
+//                }
+//            }.start();
+//        }
+    }
+
+    private void setPriority(TemplateVoice voice, String newLine) {
+        Pattern pattern = Pattern.compile(voice.getRegex());
+        Matcher matcher = pattern.matcher(newLine);
+        matcher.matches();
+        if (voice.getSubCatName() == null || voice.getSubCatName().isEmpty()) {
+            voice.setPriority(3);
+            return;
+        }
+        for (List<Integer> val : voice.getPairs().values()) {
+            int pr = 0;
+            if (matcher.group(val.get(0)) != null) {
+                pr++;
+            }
+            if (matcher.group(val.get(1)) != null) {
+                pr++;
+            }
+            if (voice.getPriority() <= pr) {
+                voice.setPriority(pr);
+            }
         }
     }
 
     private void savingVoice() {
         if (timer != null) {
-            // saving operation
             if (!categoryId.isEmpty() && summ != 0) {
                 if (daoSession.getRootCategoryDao().load(categoryId) != null ||
                         daoSession.getSubCategoryDao().load(categoryId) != null) {

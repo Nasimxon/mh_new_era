@@ -12,6 +12,7 @@ import com.jim.pocketaccounter.database.DaoSession;
 import com.jim.pocketaccounter.database.DebtBorrow;
 import com.jim.pocketaccounter.database.RootCategory;
 import com.jim.pocketaccounter.database.SubCategory;
+import com.jim.pocketaccounter.database.TemplateAccount;
 import com.jim.pocketaccounter.database.TemplateVoice;
 import com.jim.pocketaccounter.managers.CommonOperations;
 import com.jim.pocketaccounter.managers.ReportManager;
@@ -43,6 +44,7 @@ public class PocketAccounterApplicationModule {
     private Calendar begin, end;
     private SimpleDateFormat displayFormatter, commonFormatter;
     private List<TemplateVoice> voices;
+    private List<TemplateAccount> accountVoice;
 
     public PocketAccounterApplicationModule(PocketAccounterApplication pocketAccounterApplication) {
         this.pocketAccounterApplication = pocketAccounterApplication;
@@ -104,8 +106,6 @@ public class PocketAccounterApplicationModule {
         return new CommonOperations(pocketAccounterApplication);
     }
 
-
-
     @Provides
     @Named(value = "begin")
     public Calendar getBegin() {
@@ -140,27 +140,22 @@ public class PocketAccounterApplicationModule {
     public List<TemplateVoice> getVoices() {
         if (voices == null) {
             voices = new ArrayList<>();
-            daoSession = getDaoSession();
-            for (Account ac : daoSession.getAccountDao().loadAll()) {
-                CommonOperations.generateRegexVoice(getDaoSession(), voices, ac.getName().toLowerCase(), ac.getId());
-            }
             for (RootCategory cat : daoSession.getRootCategoryDao().loadAll()) {
-                CommonOperations.generateRegexVoice(daoSession, voices, cat.getName().toLowerCase(), cat.getId());
-            }
-            for (SubCategory subCategory : daoSession.getSubCategoryDao().loadAll()) {
-                CommonOperations.generateRegexVoice(daoSession, voices, subCategory.getName().toLowerCase(), subCategory.getId());
-            }
-            for (Currency currency : daoSession.getCurrencyDao().loadAll()) {
-                CommonOperations.generateRegexVoice(daoSession, voices, currency.getName().toLowerCase(), currency.getId());
-            }
-            for (CreditDetials creditDetials : daoSession.getCreditDetialsDao().loadAll()) {
-                CommonOperations.generateRegexVoice(daoSession, voices,
-                        creditDetials.getCredit_name().toLowerCase(), "" + creditDetials.getMyCredit_id());
-            }
-            for (DebtBorrow debtBorrow : daoSession.getDebtBorrowDao().loadAll()) {
-                CommonOperations.generateRegexVoice(daoSession, voices, debtBorrow.getPerson().getName().toLowerCase(), debtBorrow.getId());
+                CommonOperations.generateRegexVoice(voices, cat);
             }
         }
         return voices;
     }
+
+    @Provides
+    public List<TemplateAccount> getAccountVoice () {
+        if (accountVoice == null) {
+            accountVoice = new ArrayList<>();
+            daoSession = getDaoSession();
+            for (Account ac : daoSession.getAccountDao().loadAll()) {
+                CommonOperations.generateRegexAcocuntVoice(accountVoice, ac);
+            }
+        }
+        return accountVoice;
+     }
 }

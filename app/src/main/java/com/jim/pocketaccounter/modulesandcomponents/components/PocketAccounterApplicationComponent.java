@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import com.jim.pocketaccounter.PocketAccounterApplication;
 import com.jim.pocketaccounter.SettingsActivity;
 import com.jim.pocketaccounter.database.DaoSession;
+import com.jim.pocketaccounter.database.TemplateAccount;
 import com.jim.pocketaccounter.database.TemplateVoice;
 import com.jim.pocketaccounter.finance.CurrencyChooseAdapter;
 import com.jim.pocketaccounter.finance.TransferAccountAdapter;
@@ -50,6 +51,7 @@ public interface PocketAccounterApplicationComponent {
     ReportManager reportManager();
     PocketAccounterApplicationModule getPocketAccounterApplicationModule();
     List<TemplateVoice> getVoices();
+    List<TemplateAccount> getTemplateAccounts();
     @Named(value = "begin") Calendar getBegin();
     @Named(value = "end") Calendar getEnd();
     @Named(value = "common_formatter") SimpleDateFormat getCommonFormatter();

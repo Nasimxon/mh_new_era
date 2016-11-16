@@ -78,6 +78,11 @@ public class RegexBuilder {
         template += pattern;
         return this;
     }
+
+    public RegexBuilder abcentable () {
+        template += "*";
+        return this;
+    }
     public String build() {
         return template;
     }

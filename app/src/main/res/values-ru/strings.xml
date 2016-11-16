@@ -1625,5 +1625,11 @@
     <string name="select_icons_sb">Select subcategory icon</string>
     <string name="subcategory_empty">Subcategory name is empty</string>
     <string name="to_purpose">Перевод в копилку</string>
+
+    <string-array name="speech_rouble">
+        <item>руб.</item>
+        <item>рубль</item>
+        <item>рублей</item>
+    </string-array>
 </resources>
 
