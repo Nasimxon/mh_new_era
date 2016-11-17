@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:id="@+id/llCurrencyListItemRoot"
     android:background="@drawable/carditem"
     android:paddingTop="@dimen/sexteen_dp"
     android:paddingBottom="@dimen/sexteen_dp"
@@ -10,26 +11,34 @@
     android:layout_marginRight="@dimen/ten_dp"
     android:descendantFocusability="blocksDescendants"
     android:layout_marginBottom="@dimen/five_dp">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
 
 
-        android:id="@+id/llCurrencyListItemRoot">
-        <TextView
-            android:id="@+id/tvCurrencyItemAbbr"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="$"
-            android:textColor="@color/toolbar_text_color"
-            android:textSize="@dimen/thirty_dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/ten_dp"
-            android:layout_marginBottom="@dimen/ten_dp"
-            android:layout_marginLeft="@dimen/thirty_dp"
-            android:layout_marginRight="@dimen/thirty_dp"/>
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="@dimen/eightyfive_dp"
+            android:layout_height="match_parent"
+            android:paddingLeft="@dimen/five_dp"
+            android:paddingRight="@dimen/five_dp">
+
+
+            <TextView
+                android:id="@+id/tvCurrencyItemAbbr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/ten_dp"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:text="BYN"
+                android:textColor="@color/toolbar_text_color"
+                android:textSize="@dimen/twentyfive_dp" />
+        </RelativeLayout>
+
 
         <ImageView
             android:id="@+id/imageView9"
@@ -48,7 +57,8 @@
             android:layout_marginRight="@dimen/sixteen_dp"
             android:layout_marginTop="@dimen/ten_dp"
             android:layout_weight="1"
-            android:orientation="vertical" >
+            android:orientation="vertical">
+
             <TextView
                 android:id="@+id/tvCurrencyName"
                 android:layout_width="wrap_content"
@@ -56,6 +66,7 @@
                 android:text="TextView"
                 android:textColor="#414141"
                 android:textSize="@dimen/twenty_dp" />
+
             <TextView
                 android:id="@+id/tvCurrencyCost"
                 android:layout_width="wrap_content"
@@ -64,20 +75,23 @@
                 android:textColor="#cbcbcb"
                 android:textSize="@dimen/sixteen_dp" />
         </LinearLayout>
+
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_marginBottom="@dimen/ten_dp"
             android:layout_marginLeft="@dimen/ten_dp"
             android:layout_marginRight="@dimen/sixteen_dp"
-            android:layout_marginTop="@dimen/ten_dp"
-            android:layout_gravity="center_vertical">
+            android:layout_marginTop="@dimen/ten_dp">
+
             <ImageView
                 android:id="@+id/ivCurrencyMain"
                 android:layout_width="@dimen/ten_dp"
                 android:layout_height="@dimen/fourty_dp"
-                android:src="@drawable/main_currency_vertical"
-                android:layout_centerInParent="true"/>
+                android:layout_centerInParent="true"
+                android:src="@drawable/main_currency_vertical" />
+
             <CheckBox
                 android:id="@+id/chbCurrencyEdit"
                 android:layout_width="wrap_content"

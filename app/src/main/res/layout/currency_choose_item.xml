@@ -1,19 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mainViewForChoiser"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
-    android:layout_centerInParent="true">
+    android:layout_margin="@dimen/five_dp"
+    >
     <com.jim.pocketaccounter.utils.CurrencyChecbox
         android:id="@+id/chbCurrencyChoose"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="@dimen/five_dp"
-        android:layout_centerInParent="true"/>
-    <TextView
-        android:id="@+id/tvCurrencyChooseSign"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:textSize="@dimen/sixteen_sp"/>
+        android:layout_height="@dimen/hunder_and_fourty_dp"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/hunder_and_fourty_dp"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/tvCurrencyChooseSign"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/sixteen_dp"
+            android:text="BYN"
+            android:textColor="@color/black_for_myagkiy_glavniy"
+            android:gravity="center_horizontal|bottom"
+            android:textSize="@dimen/thirty_dp"/>
+        <TextView
+            android:id="@+id/namcur"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="@dimen/ten_dp"
+            android:paddingRight="@dimen/ten_dp"
+            android:text=" The Belaruisian rubl"
+            android:textSize="@dimen/twelve_dp"
+            android:gravity="center"
+            android:layout_marginBottom="@dimen/thirtyfour_dp"
+            android:textColor="#bfbfbf"
+            />
+    </LinearLayout>
+
 </RelativeLayout>

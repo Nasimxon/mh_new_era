@@ -1621,6 +1621,9 @@
     <string name="unlock">Unlock</string>
     <string name="page">страница</string>
     <string name="main_curr">Main currency</string>
+    <string name="change_rate">Change rate</string>
+    <string name="set_to_main">Set to main</string>
+    <string name="rate">Rate</string>
     <string-array name="main_bg_colors">
         <item>#DCDDDE</item>
     </string-array>

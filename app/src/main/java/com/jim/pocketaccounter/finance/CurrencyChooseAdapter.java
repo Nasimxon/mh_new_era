@@ -9,11 +9,13 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jim.pocketaccounter.PocketAccounterApplication;
 import com.jim.pocketaccounter.R;
 import com.jim.pocketaccounter.database.Currency;
+import com.jim.pocketaccounter.managers.CommonOperations;
 import com.jim.pocketaccounter.utils.CurrencyChecbox;
 import com.jim.pocketaccounter.database.DaoSession;
 
@@ -44,8 +46,9 @@ public class CurrencyChooseAdapter extends RecyclerView.Adapter<CurrencyChooseAd
 	}
 
 	@Override
-	public void onBindViewHolder(myViewHolder holder,final int position) {
+	public void onBindViewHolder(final myViewHolder holder,final int position) {
 		holder.tvChooseAbbr.setText(result.get(position).getAbbr());
+		holder.namcur.setText(result.get(position).getName());
 
 		for (Currency currency : daoSession.getCurrencyDao().loadAll()) {
 			if (result.get(position).getId().matches(currency.getId())) {
@@ -57,8 +60,16 @@ public class CurrencyChooseAdapter extends RecyclerView.Adapter<CurrencyChooseAd
 		holder.chbChoose.setOnCheckListener(new CurrencyChecbox.OnCheckListener() {
 
 			@Override
-			public void onCheck(boolean isChecked) {
-				chbs[position] = isChecked;
+			public void onCheck(final boolean isChecked) {
+
+				CommonOperations.buttonClickCustomAnimation(0.95f,holder.mainViewForChoiser, new CommonOperations.AfterAnimationEnd() {
+					@Override
+					public void onAnimoationEnd() {
+
+						chbs[position] = isChecked;
+					}
+				});
+
 			}
 		});
 	}
@@ -72,10 +83,14 @@ public class CurrencyChooseAdapter extends RecyclerView.Adapter<CurrencyChooseAd
 	public static class myViewHolder extends RecyclerView.ViewHolder {
 		TextView tvChooseAbbr;
 		CurrencyChecbox chbChoose;
+		TextView namcur;
+		RelativeLayout mainViewForChoiser;
 		public myViewHolder(View view) {
 			super(view);
 			tvChooseAbbr = (TextView) view.findViewById(R.id.tvCurrencyChooseSign);
+			namcur = (TextView) view.findViewById(R.id.namcur);
 			chbChoose = (CurrencyChecbox) view.findViewById(R.id.chbCurrencyChoose);
+			mainViewForChoiser = (RelativeLayout) view.findViewById(R.id.mainViewForChoiser);
 		}
 	}
 

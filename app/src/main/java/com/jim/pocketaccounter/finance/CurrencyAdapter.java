@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -71,17 +73,24 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.myView
 		holder.llCurrencyListItemRoot.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (mode == PocketAccounterGeneral.EDIT_MODE) {
+				CommonOperations.buttonClickCustomAnimation(0.95f,holder.llCurrencyListItemRoot, new CommonOperations.AfterAnimationEnd() {
+					@Override
+					public void onAnimoationEnd() {
+						if (mode == PocketAccounterGeneral.EDIT_MODE) {
 
-					holder.chbCurrencyEdit.setChecked(!holder.chbCurrencyEdit.isChecked());
-					selected[position] = holder.chbCurrencyEdit.isChecked();
-				} else {
-					if (daoSession.getCurrencyDao().loadAll().get(position).getMain()) {
-						Toast.makeText(context, context.getResources().getString(R.string.main_currency_edit), Toast.LENGTH_SHORT).show();
-						return;
+							holder.chbCurrencyEdit.setChecked(!holder.chbCurrencyEdit.isChecked());
+							selected[position] = holder.chbCurrencyEdit.isChecked();
+						} else {
+							if (daoSession.getCurrencyDao().loadAll().get(position).getMain()) {
+								Toast.makeText(context, context.getResources().getString(R.string.main_currency_edit), Toast.LENGTH_SHORT).show();
+								return;
+							}
+							paFragmentManager.displayFragment(new CurrencyEditFragment(daoSession.getCurrencyDao().loadAll().get(position)));
+						}
 					}
-					paFragmentManager.displayFragment(new CurrencyEditFragment(daoSession.getCurrencyDao().loadAll().get(position)));
-				}
+				});
+
+
 			}
 		});
 
@@ -95,7 +104,7 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.myView
 			DecimalFormat decFormat = new DecimalFormat("0.00##");
 
 			holder.tvCurrencyCost.setText("1"+result.get(position).getAbbr()+
-					": "+decFormat.format(result.get(position).getCosts().get(result.get(position).getCosts().size()-1).getCost())+commonOperations.getMainCurrency().getAbbr());
+					" = "+decFormat.format(result.get(position).getCosts().get(result.get(position).getCosts().size()-1).getCost())+commonOperations.getMainCurrency().getAbbr());
 		}
 		if (mode == PocketAccounterGeneral.EDIT_MODE) {
 			holder.ivCurrencyMain.setVisibility(View.GONE);
@@ -109,9 +118,25 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.myView
 				}
 			});
 		}
+		setAnimation(holder.llCurrencyListItemRoot,position);
+	}
+	int lastPosition = -1;
+	private void setAnimation(View viewToAnimate, int position)
+	{
+		// If the bound view wasn't previously displayed on screen, it's animated
+		if (position > lastPosition)
+		{
+			Animation animation = AnimationUtils.loadAnimation(context, android.R.anim.slide_in_left);
+			viewToAnimate.startAnimation(animation);
+			lastPosition = position;
+		}
 	}
 
-
+	@Override
+	public void onViewDetachedFromWindow(final CurrencyAdapter.myViewHolder holder)
+	{
+		((myViewHolder)holder).clearAnimation();
+	}
 	@Override
 	public int getItemCount() {
 		return result.size();
@@ -125,6 +150,10 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.myView
 		LinearLayout llCurrencyListItemRoot;
 		TextView tvCurrencyCost;
 		CheckBox chbCurrencyEdit;
+		public void clearAnimation()
+		{
+			llCurrencyListItemRoot.clearAnimation();
+		}
 		public myViewHolder(View view) {
 			super(view);
 			tvCurrencyItemAbbr = (TextView) view.findViewById(R.id.tvCurrencyItemAbbr);

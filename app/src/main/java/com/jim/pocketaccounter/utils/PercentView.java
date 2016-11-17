@@ -4,10 +4,13 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.provider.SyncStateContract;
+import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -94,6 +97,7 @@ public class PercentView extends RelativeLayout {
         if (animator != null && animator.isStarted() && fromPercent < percent) return;
         animator = ValueAnimator.ofInt(fromPercent, percent);
         animator.setDuration(duration);
+        animator.setInterpolator(new FastOutLinearInInterpolator());
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {

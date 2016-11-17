@@ -64,6 +64,7 @@ public class CurrencyChecbox extends RelativeLayout implements View.OnClickListe
     }
     @Override
     public void onClick(View v) {
+
         checked = !checked;
         if (checked)
             ivCheckSign.setVisibility(VISIBLE);

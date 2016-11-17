@@ -182,8 +182,13 @@ public class PurposeFragment extends Fragment{
             DecimalFormat format = new DecimalFormat("0.##");
             String abbr = commonOperations.getMainCurrency().getAbbr();
             String topText = getString(R.string.saved_money) + ": " + format.format(paid) + abbr;
-            String bottomText = getString(R.string.left_acomuleted) + " " + format.format(leftAmmountdb) + abbr;
-            view.pvPercent.setPercent((int) (100*paid/allAmmount));
+            String bottomText;
+            if(!(leftAmmountdb <0))
+             bottomText = getString(R.string.left_acomuleted) + " " + format.format(leftAmmountdb) + abbr;
+            else
+             bottomText = getString(R.string.left_acomuleted) + " " + 0 + abbr;
+
+            view.pvPercent.setPercent((((int) (100*paid/allAmmount))<100)?((int)(100*paid/allAmmount)):((int)100));
             view.pvPercent.setTopText(topText);
             view.pvPercent.setBottomText(bottomText);
             view.pvPercent.setOnClickListener(new View.OnClickListener() {

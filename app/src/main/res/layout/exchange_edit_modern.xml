@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/dialog_shape"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="right"
+        android:layout_marginTop="@dimen/ten_dp"
+        android:layout_marginRight="@dimen/ten_dp">
+
+        <ImageView
+            android:id="@+id/ivCurrencyEditDialogCancel"
+            android:layout_width="@dimen/twenty_dp"
+            android:layout_height="@dimen/twenty_dp"
+            android:layout_marginTop="@dimen/five_dp"
+            android:layout_marginRight="@dimen/five_dp"
+            android:src="@drawable/cancel_sign" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ten_dp"
+            >
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/sixteen_dp"
+                android:layout_marginBottom="@dimen/sixteen_dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/currentCurrencyidic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1P = "
+                    android:textSize="@dimen/twenty_dp"
+                    />
+                <TextView
+                    android:id="@+id/currentRateBig"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0.0084$"
+                    android:textColor="@color/black_for_myagkiy_glavniy"
+                    android:textSize="@dimen/fourty_dp"/>
+            </LinearLayout>
+
+
+        </RelativeLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Change to exchange rate"
+            android:gravity="center_horizontal"
+            android:textColor="@color/seecondary_button"
+            android:textSize="@dimen/sixteen_dp"
+            android:layout_marginTop="@dimen/five_dp"
+            />
+
+
+        <LinearLayout
+            android:id="@+id/tvExchangeEditDate"
+            android:layout_width="@dimen/two_hundred_sixty_four_dp"
+            android:paddingTop="@dimen/two_dp"
+            android:paddingBottom="@dimen/two_dp"
+            android:paddingLeft="@dimen/two_dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/sixteen_dp"
+            android:layout_marginBottom="@dimen/ten_dp"
+            android:layout_marginRight="@dimen/sixteen_dp"
+            android:layout_marginLeft="@dimen/sixteen_dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edit_text"
+            android:gravity="end"
+            android:orientation="horizontal"
+            >
+
+            <EditText
+                android:id="@+id/etDateExchangeRate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="4px"
+                android:layout_weight="1"
+                android:focusableInTouchMode="false"
+                android:background="#00ffffff"
+                android:paddingBottom="@dimen/five_dp"
+                android:paddingLeft="@dimen/ten_dp"
+                android:paddingTop="@dimen/five_dp"
+                android:text="15 Октябрь, 2016"
+                android:textColor="@color/black_for_myagkiy_glavniy"
+                android:textSize="@dimen/fourteen_dp" />
+
+            <FrameLayout
+                android:layout_width="2px"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/four_dp"
+                android:layout_marginBottom="@dimen/four_dp"
+                android:background="#e1e1e1"/>
+            <ImageView
+                android:layout_width="@dimen/thirty_dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/finance_calendar"
+                android:tint="#e1e1e1"
+                android:layout_marginRight="@dimen/five_dp"
+                android:layout_marginLeft="@dimen/five_dp"
+                android:paddingTop="@dimen/three_dp"
+                android:paddingBottom="@dimen/three_dp"
+                />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="@dimen/two_hundred_sixty_four_dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/twentyfive_dp"
+            android:layout_marginRight="@dimen/sixteen_dp"
+            android:layout_marginLeft="@dimen/sixteen_dp"
+            >
+            <LinearLayout
+
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:orientation="horizontal"
+                android:background="@drawable/edit_text"
+                 >
+                <EditText
+                    android:id="@+id/etHowMuch"
+                    android:paddingTop="@dimen/five_dp"
+                    android:paddingBottom="@dimen/five_dp"
+                    android:layout_width="wrap_content"
+                    android:layout_margin="@dimen/one_dp"
+                    android:background="#00ffffff"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/fourteen_dp"
+                    android:inputType="numberDecimal"
+                    android:textColor="@color/black_for_myagkiy_glavniy"
+                    android:paddingLeft="@dimen/ten_dp"
+                    android:text="123"/>
+                <FrameLayout
+                    android:layout_width="2px"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/four_dp"
+                    android:layout_marginBottom="@dimen/four_dp"
+                    android:background="#e1e1e1"/>
+                <TextView
+                    android:id="@+id/glava"
+                    android:layout_width="@dimen/thirty_dp"
+                    android:layout_height="wrap_content"
+                    android:text="BYN"
+                    android:textSize="@dimen/fourteen_dp"
+                    android:textColor="@color/seecondary_button"
+                    android:layout_marginLeft="@dimen/five_dp"
+                    android:paddingTop="@dimen/three_dp"
+                    android:paddingBottom="@dimen/three_dp"
+                    android:layout_marginRight="@dimen/five_dp"
+                    android:gravity="center"/>
+            </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text=" = "
+                android:gravity="center"
+                android:textSize="@dimen/twenty_dp"
+                android:textColor="@color/black_for_myagkiy_glavniy"
+                />
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:orientation="horizontal"
+                android:background="@drawable/edit_text">
+
+                <EditText
+                    android:id="@+id/etExchange"
+                    android:textSize="@dimen/fourteen_dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/one_dp"
+                    android:layout_weight="1"
+                    android:background="#00ffffff"
+                    android:maxLength="100"
+                    android:inputType="numberDecimal"
+                    android:paddingBottom="@dimen/five_dp"
+                    android:paddingLeft="@dimen/ten_dp"
+                    android:paddingTop="@dimen/five_dp"
+                    android:text="1"
+                    android:textColor="@color/black_for_myagkiy_glavniy" />
+
+                <FrameLayout
+                    android:layout_width="2px"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/four_dp"
+                    android:layout_marginBottom="@dimen/four_dp"
+                    android:background="#e1e1e1"/>
+
+                <TextView
+                    android:id="@+id/tvCurrentCurrencyAbr"
+                    android:layout_width="@dimen/thirty_dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/five_dp"
+                    android:layout_marginRight="@dimen/five_dp"
+                    android:gravity="center"
+                    android:paddingBottom="@dimen/three_dp"
+                    android:paddingTop="@dimen/three_dp"
+                    android:text="$"
+                    android:textColor="@color/seecondary_button"
+                    android:textSize="@dimen/fourteen_dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="@dimen/twentyfive_dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/deleteButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/diaolog_button_enable_color"
+                    android:paddingBottom="@dimen/five_dp"
+                    android:paddingLeft="@dimen/thirty_dp"
+                    android:paddingRight="@dimen/thirty_dp"
+                    android:paddingTop="@dimen/five_dp"
+                    android:text="Delete"
+                    android:layout_marginRight="@dimen/five_dp"
+                    android:layout_marginLeft="@dimen/five_dp"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/eighteen_sp" />
+                <TextView
+                    android:id="@+id/ivCurrencyEditDialogOk"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/diaolog_buttons"
+                    android:paddingBottom="@dimen/five_dp"
+                    android:paddingLeft="@dimen/thirty_dp"
+                    android:paddingRight="@dimen/thirty_dp"
+                    android:paddingTop="@dimen/five_dp"
+                    android:text="Change"
+                    android:layout_marginRight="@dimen/five_dp"
+                    android:layout_marginLeft="@dimen/five_dp"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/eighteen_sp" />
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

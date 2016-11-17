@@ -39,7 +39,7 @@
     <color name="red" type="color">#d60810</color>
     <color name="green_just" type="color">#29952e</color>
     <color name="black_for_glavniy_text" type="color">#212121</color>
-    <color name="black_for_myagkiy_glavniy" type="color">#212121</color>
+    <color name="black_for_myagkiy_glavniy" type="color">#414141</color>
     <color name="black_for_secondary_text" type="color">#838383</color>
     <color name="black_for_maykiy_secodary" type="color">#969696</color>
     <color name="forlines" type="color">#494949</color>
@@ -78,4 +78,9 @@
     <item name="active_circle" type="color">#9da1a1</item>
     <item name="not_active_circle" type="color">#c8cccc</item>
     <item name="grey_ochrang" type="color">#e1e1e1</item>
+    <item name="seecondary_button" type="color">#aeaaaa</item>
+
+
+
+
 </resources>
