@@ -127,11 +127,16 @@ public class VoiceRecognizerFragment extends Fragment {
     private FrameLayout recStartRight;
     //auto save voice
     private TextView autoSave;
-    @Inject DaoSession daoSession;
-    @Inject PAFragmentManager paFragmentManager;
-    @Inject List<TemplateVoice> voices;
-    @Inject List<TemplateAccount> templateAccountVoices;
-    @Inject DataCache dataCache;
+    @Inject
+    DaoSession daoSession;
+    @Inject
+    PAFragmentManager paFragmentManager;
+    @Inject
+    List<TemplateVoice> voices;
+    @Inject
+    List<TemplateAccount> templateAccountVoices;
+    @Inject
+    DataCache dataCache;
     private String[] curString;
     private String[] accString;
     private CountDownTimer timer;
@@ -177,6 +182,9 @@ public class VoiceRecognizerFragment extends Fragment {
                     askForContactPermission();
                     startRecognition();
                     visibilLR();
+                    if (rlNotSpeechMode.getVisibility() == View.VISIBLE) {
+                        refreshMode(true);
+                    }
                 } else {
                     visibilityGoneLR();
                     stopRecognition();
@@ -205,14 +213,19 @@ public class VoiceRecognizerFragment extends Fragment {
                     accountId = "";
                     currencyId = "";
                     summ = 0;
-                    visibilityGoneLR();
                 }
+                visibilityGoneLR();
+                refreshMode(false);
             }
         });
         recStartRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                savingVoice();
+                if (!categoryId.isEmpty())
+                    savingVoice();
+                else
+                    visibilityGoneLR();
+                refreshMode(false);
             }
         });
         recognizer = new PASpeechRecognizer(getContext());
@@ -235,17 +248,17 @@ public class VoiceRecognizerFragment extends Fragment {
                         if (started) {
                             ivCenterButton.setBackgroundResource(R.drawable.speech_pressed_circle);
                             ivMicrophoneIcon.setColorFilter(Color.WHITE);
-//                            visibilLR();
                         } else {
                             ivCenterButton.setBackgroundResource(R.drawable.white_circle);
                             ivMicrophoneIcon.setColorFilter(Color.parseColor("#414141"));
-//                            visibilityGoneLR();
                         }
                         VoiceRecognizerFragment.this.started = started;
                     }
                 });
             }
         });
+        visibilityGoneLR();
+        refreshMode(false);
         return rootView;
     }
 
@@ -255,10 +268,7 @@ public class VoiceRecognizerFragment extends Fragment {
         recStartRight.setVisibility(View.GONE);
         recStartLeft.setVisibility(View.GONE);
         paFragmentManager.setVerticalScrolling(true);
-        rlNotSpeechMode.setAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.left_gone_anim));
-        rlNotSpeechMode.setVisibility(View.VISIBLE);
-        llSpeechMode.setVisibility(View.GONE);
-        rvNotSpeechModeRecordsList.setAdapter(new MyAfterSavedAdapter());
+        stopRecognition();
     }
 
     private void visibilLR() {
@@ -268,8 +278,18 @@ public class VoiceRecognizerFragment extends Fragment {
         recStartRight.setVisibility(View.VISIBLE);
         recStartLeft.setVisibility(View.VISIBLE);
         paFragmentManager.setVerticalScrolling(false);
-        rlNotSpeechMode.setVisibility(View.GONE);
-        llSpeechMode.setVisibility(View.VISIBLE);
+    }
+
+    private void refreshMode(boolean isRecord) {
+        if (isRecord) {
+            rlNotSpeechMode.setVisibility(View.GONE);
+            llSpeechMode.setVisibility(View.VISIBLE);
+        } else {
+            rlNotSpeechMode.setAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.left_gone_anim));
+            rlNotSpeechMode.setVisibility(View.VISIBLE);
+            llSpeechMode.setVisibility(View.GONE);
+            rvNotSpeechModeRecordsList.setAdapter(new MyAfterSavedAdapter());
+        }
     }
 
     private void processSpeechResults(final List<String> speechResult) {
@@ -452,7 +472,7 @@ public class VoiceRecognizerFragment extends Fragment {
                             //after finding
                             categoryId = successTemplates.get(pos).getCategoryId();
                         }
-                    } else if (!successTemplates.isEmpty()){ // if success templates size = 1
+                    } else if (!successTemplates.isEmpty()) { // if success templates size = 1
                         categoryId = successTemplates.get(0).getCategoryId();
                     }
                 }
@@ -630,49 +650,46 @@ public class VoiceRecognizerFragment extends Fragment {
     }
 
     private void savingVoice() {
-        if (timer != null) {
-            if (!categoryId.isEmpty() && summ != 0) {
-                if (daoSession.getRootCategoryDao().load(categoryId) != null ||
-                        daoSession.getSubCategoryDao().load(categoryId) != null) {
-                    FinanceRecord financeRecord = new FinanceRecord();
-                    financeRecord.setDate(dataCache.getEndDate());
-                    financeRecord.setAmount(summ);
-                    financeRecord.setComment("");
-                    financeRecord.setRecordId(UUID.randomUUID().toString());
-                    if (accountId.isEmpty()) {
-                        financeRecord.setAccount(daoSession.getAccountDao().queryBuilder().
-                                where(AccountDao.Properties.Name.eq(spSpeechAccount.getSelectedItem())).unique());
-                    } else {
-                        financeRecord.setAccount(daoSession.getAccountDao().load(accountId));
-                    }
-                    if (currencyId.isEmpty()) {
-                        financeRecord.setCurrency(daoSession.getCurrencyDao().queryBuilder()
-                                .where(CurrencyDao.Properties.Abbr.eq(spSpeechCurrency.getSelectedItem())).unique());
-                    } else {
-                        financeRecord.setCurrency(daoSession.getCurrencyDao().load(currencyId));
-                    }
-                    if (daoSession.getRootCategoryDao().load(categoryId) != null) {
-                        financeRecord.setCategory(daoSession.getRootCategoryDao().load(categoryId));
-                    } else {
-                        SubCategory subCategory = daoSession.getSubCategoryDao().load(categoryId);
-                        financeRecord.setCategory(daoSession.getRootCategoryDao().load(subCategory.getParentId()));
-                        financeRecord.setSubCategory(subCategory);
-                    }
-                    daoSession.getFinanceRecordDao().insertOrReplace(financeRecord);
-                    paFragmentManager.updateAllFragmentsPageChanges();
-                    paFragmentManager.updateAllFragmentsOnViewPager();
-                    timer.cancel();
-                    timer = null;
-                    tvSpeechModeAdjective.setText("");
-                    tvSpeechAmount.setText("0.0");
-                    categoryId = "";
-                    accountId = "";
-                    currencyId = "";
-                    summ = 0;
+        if (!categoryId.isEmpty() && summ != 0) {
+            if (daoSession.getRootCategoryDao().load(categoryId) != null ||
+                    daoSession.getSubCategoryDao().load(categoryId) != null) {
+                FinanceRecord financeRecord = new FinanceRecord();
+                financeRecord.setDate(dataCache.getEndDate());
+                financeRecord.setAmount(summ);
+                financeRecord.setComment("");
+                financeRecord.setRecordId(UUID.randomUUID().toString());
+                if (accountId.isEmpty()) {
+                    financeRecord.setAccount(daoSession.getAccountDao().queryBuilder().
+                            where(AccountDao.Properties.Name.eq(spSpeechAccount.getSelectedItem())).unique());
+                } else {
+                    financeRecord.setAccount(daoSession.getAccountDao().load(accountId));
                 }
+                if (currencyId.isEmpty()) {
+                    financeRecord.setCurrency(daoSession.getCurrencyDao().queryBuilder()
+                            .where(CurrencyDao.Properties.Abbr.eq(spSpeechCurrency.getSelectedItem())).unique());
+                } else {
+                    financeRecord.setCurrency(daoSession.getCurrencyDao().load(currencyId));
+                }
+                if (daoSession.getRootCategoryDao().load(categoryId) != null) {
+                    financeRecord.setCategory(daoSession.getRootCategoryDao().load(categoryId));
+                } else {
+                    SubCategory subCategory = daoSession.getSubCategoryDao().load(categoryId);
+                    financeRecord.setCategory(daoSession.getRootCategoryDao().load(subCategory.getParentId()));
+                    financeRecord.setSubCategory(subCategory);
+                }
+                daoSession.getFinanceRecordDao().insertOrReplace(financeRecord);
+                paFragmentManager.updateAllFragmentsPageChanges();
+                paFragmentManager.updateAllFragmentsOnViewPager();
+                timer.cancel();
+                timer = null;
+                tvSpeechModeAdjective.setText("");
+                tvSpeechAmount.setText("0.0");
+                categoryId = "";
+                accountId = "";
+                currencyId = "";
+                summ = 0;
             }
         }
-
         visibilityGoneLR();
         stopRecognition();
     }
