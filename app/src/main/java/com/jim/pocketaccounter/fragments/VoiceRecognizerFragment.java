@@ -127,23 +127,14 @@ public class VoiceRecognizerFragment extends Fragment {
     private FrameLayout recStartRight;
     //auto save voice
     private TextView autoSave;
-    @Inject
-    DaoSession daoSession;
-    @Inject
-    PAFragmentManager paFragmentManager;
-    @Inject
-    List<TemplateVoice> voices;
-    @Inject
-    List<TemplateAccount> templateAccountVoices;
-    @Inject
-    DataCache dataCache;
-    private Thread categoryThread;
-    private Thread accountThread;
-    private Thread currencyThread;
+    @Inject DaoSession daoSession;
+    @Inject PAFragmentManager paFragmentManager;
+    @Inject List<TemplateVoice> voices;
+    @Inject List<TemplateAccount> templateAccountVoices;
+    @Inject DataCache dataCache;
     private String[] curString;
     private String[] accString;
     private CountDownTimer timer;
-    private int leftSaving;
 
     @Nullable
     @Override
@@ -326,100 +317,68 @@ public class VoiceRecognizerFragment extends Fragment {
 
         @Override
         protected Void doInBackground(Void... voids) {
+            //finding a category
+            //accumulating suitable to collection of regular expressions
             for (TemplateVoice temp : voices) {
                 if (newLetter.matches(temp.getRegex())) {
                     successTemplates.add(temp);
                 }
             }
-            for (TemplateAccount voice : templateAccountVoices) {
-                if (newLetter.matches(voice.getRegex())) {
-                    templateAccounts.add(voice);
-                }
-            }
+            //after accumulating we begin finding suitable for us category
             if (!successTemplates.isEmpty()) {
-                if (successTemplates.size() == 1) {
+                if (successTemplates.size() == 1) { // if only one suitable
                     categoryId = successTemplates.get(0).getCategoryId();
-                } else {
-                    int posSplit = -1;
-                    String[] splt = newLetter.split(" ");
-
-                    for (TemplateVoice successTemplate : successTemplates) {
-                        for (int i = 0; i < splt.length; i++) {
-                            if (successTemplate.getCatName().startsWith(splt[i])
-                                    || (successTemplate.getSubCatName() != null && successTemplate.getSubCatName().startsWith(splt[i]))) {
-                                if (posSplit < 0 || posSplit < i) {
-                                    posSplit = i;
-                                }
-                            }
-                        }
-                    }
-
-                    if (posSplit == -1) return null;
-                    for (int i = 0; i < successTemplates.size(); i++) {
-                        if (!splt[posSplit].equals(successTemplates.get(i).getCatName()) &&
-                                (successTemplates.get(i).getSubCatName() != null &&
-                                        !splt[posSplit].equals(successTemplates.get(i).getSubCatName()))) {
-                            successTemplates.remove(i);
-                            i--;
-                        }
-                    }
-
-                    for (TemplateVoice successTemplate : successTemplates) {
-                        setPriority(successTemplate, newLetter);
-                    }
-                    Collections.sort(successTemplates, new Comparator<TemplateVoice>() {
-                        @Override
-                        public int compare(TemplateVoice templateVoice, TemplateVoice t1) {
-                            return (new Integer(templateVoice.getPriority())).compareTo((new Integer(t1.getPriority())));
-                        }
-                    });
-
+                } else { // otherwise
+                    //It need to find and to concentrate attention in last said word, which suits with one of category or subcategory
+                    //end pos of last said word, which suits to one of category or subcategory
                     int endPos = -1;
-
+                    //finding end pos
                     for (TemplateVoice successTemplate : successTemplates) {
                         if (newLetter.lastIndexOf(successTemplate.getCatName())
                                 + successTemplate.getCatName().length() > endPos || endPos < 0) {
                             endPos = newLetter.lastIndexOf(successTemplate.getCatName())
                                     + successTemplate.getCatName().length();
                         }
+                        if (successTemplate.getSubCatName() == null) continue;
                         if (newLetter.lastIndexOf(successTemplate.getSubCatName()) +
                                 successTemplate.getSubCatName().length() > endPos || endPos < 0) {
                             endPos = newLetter.lastIndexOf(successTemplate.getSubCatName())
                                     + successTemplate.getSubCatName().length();
                         }
                     }
-
+                    //after end pos found, filtering templates, those not suitable for said sentence's last found category
                     for (int i = 0; i < successTemplates.size(); i++) {
                         boolean isAccess = true;
                         String name = successTemplates.get(i).getCatName();
-                        if (newLetter.lastIndexOf(name) > 0 &&
+                        if (newLetter.lastIndexOf(name) >= 0 &&
                                 name.length() + newLetter.lastIndexOf(name) == endPos) {
                             isAccess = false;
                         }
                         name = successTemplates.get(i).getSubCatName();
-                        if (newLetter.lastIndexOf(name) > 0 &&
-                                name.length() + newLetter.lastIndexOf(name) == endPos) {
-                            isAccess = false;
+                        if (name != null) {
+                            if (newLetter.lastIndexOf(name) >= 0 &&
+                                    name.length() + newLetter.lastIndexOf(name) == endPos) {
+                                isAccess = false;
+                            }
                         }
-
                         if (isAccess) {
                             successTemplates.remove(i);
                             i--;
                         }
                     }
 
+                    //filtering again for choose more suitable template. if sad: "expense motor oil 100$", we must choose as category word motor oil, not only oil.
                     List<TemplateVoice> cloneTemp = new ArrayList<>();
                     cloneTemp.addAll(successTemplates);
-
                     for (int i = 0; i < cloneTemp.size(); i++) {
                         for (int j = 0; j < successTemplates.size(); j++) {
                             if (!cloneTemp.get(i).getCategoryId().equals(successTemplates.get(j).getCategoryId())) {
-                                if (cloneTemp.get(i).getCatName().contains(successTemplates.get(j).getCatName())) {
+                                if (cloneTemp.get(i).getCatName().toLowerCase().contains(successTemplates.get(j).getCatName().toLowerCase())) {
                                     successTemplates.remove(j);
                                     break;
                                 }
                                 if (!cloneTemp.get(i).getSubCatName().equals(successTemplates.get(j).getSubCatName())
-                                        && cloneTemp.get(i).getSubCatName().contains(successTemplates.get(j).getSubCatName())) {
+                                        && cloneTemp.get(i).getSubCatName().toLowerCase().contains(successTemplates.get(j).getSubCatName().toLowerCase())) {
                                     successTemplates.remove(j);
                                     break;
                                 }
@@ -427,39 +386,52 @@ public class VoiceRecognizerFragment extends Fragment {
                         }
                     }
 
-                    if (successTemplates.isEmpty() && successTemplates.size() > 1) {
+                    //check, there is found more than one template, we must choose one of them using order priority
+                    if (successTemplates.size() > 1) {
+                        //giving priority to each of templates:
+                        //priority 1: only one of between category and subcategory is suitable - bad
+                        //priority 2: both suitable - good
+                        //priority 3: for template, which hasn't subcategory - norm
+                        for (TemplateVoice successTemplate : successTemplates) {
+                            setPriority(successTemplate, newLetter);
+                        }
+                        Collections.sort(successTemplates, new Comparator<TemplateVoice>() {
+                            @Override
+                            public int compare(TemplateVoice templateVoice, TemplateVoice t1) {
+                                return (new Integer(templateVoice.getPriority())).compareTo((new Integer(t1.getPriority())));
+                            }
+                        });
+                        //boolean for finding better priority
                         boolean tek = false;
-
                         for (TemplateVoice successTemplate : successTemplates) {
                             if (successTemplate.getPriority() == 2) {
                                 tek = true;
                                 break;
                             }
                         }
-
                         int pr;
-
                         if (tek) {
-                            pr = 2;
+                            pr = 2; //for good priority
                         } else {
-                            pr = successTemplates.get(successTemplates.size() - 1).getPriority();
+                            pr = successTemplates.get(successTemplates.size() - 1).getPriority(); // for other priorities
                         }
-
+                        //after found, we are leaving only one template which priority is better
                         for (int i = 0; i < successTemplates.size(); i++) {
                             if (pr != successTemplates.get(i).getPriority()) {
                                 successTemplates.remove(i);
                                 i--;
                             }
                         }
-
-                        if (successTemplates.size() == 1) {
+                        //after priority check
+                        if (successTemplates.size() == 1) { // if found
                             categoryId = successTemplates.get(0).getCategoryId();
-                        } else {
+                        } else { // otherwise
+                            //finding nearest pair to last said word, which suits to one of category of subcategory
+                            //pos for saving position of found template
                             int pos = 0;
+                            //for saving data, which contains distance between pairs
                             int diff = -1;
-
                             String[] splitText = newLetter.split(" ");
-
                             for (int i = 0; i < successTemplates.size(); i++) {
                                 int first = 0;
                                 int second = 0;
@@ -477,17 +449,25 @@ public class VoiceRecognizerFragment extends Fragment {
                                     pos = i;
                                 }
                             }
+                            //after finding
                             categoryId = successTemplates.get(pos).getCategoryId();
                         }
-                    } else if (!successTemplates.isEmpty()){
+                    } else if (!successTemplates.isEmpty()){ // if success templates size = 1
                         categoryId = successTemplates.get(0).getCategoryId();
                     }
                 }
+                //passing data to another block
                 for (TemplateVoice voice : successTemplates) {
                     if (voice.getCategoryId().equals(categoryId)) {
                         templateVoice = voice;
                         break;
                     }
+                }
+            }
+            //finding an account
+            for (TemplateAccount voice : templateAccountVoices) {
+                if (newLetter.matches(voice.getRegex())) {
+                    templateAccounts.add(voice);
                 }
             }
             if (!templateAccounts.isEmpty()) {

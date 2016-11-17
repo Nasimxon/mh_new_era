@@ -1964,7 +1964,7 @@ public class CommonOperations {
                         .defineWord(object.getName().toLowerCase())
                         .anyWhitespaceSeq()
                         .anyVisibleCharSeq()
-                        .defineWord(subCategory.getName())
+                        .defineWord(subCategory.getName().toLowerCase())
                         .anyVisibleCharSeq()
                         .closeGroup()
                         .or()
@@ -1973,7 +1973,7 @@ public class CommonOperations {
                         .defineWord(subCategory.getName().toLowerCase())
                         .anyWhitespaceSeq()
                         .anyVisibleCharSeq()
-                        .defineWord(object.getName())
+                        .defineWord(object.getName().toLowerCase())
                         .anyVisibleCharSeq()
                         .closeGroup()
                         .or()
@@ -1995,7 +1995,7 @@ public class CommonOperations {
             }
         }
         TemplateVoice templateVoice = new TemplateVoice();
-        templateVoice.setCatName(object.getName());
+        templateVoice.setCatName(object.getName().toLowerCase());
         templateVoice.setCategoryId(object.getId());
         templateVoice.setRegex(new RegexBuilder()
                 .anyVisibleCharSeq()
