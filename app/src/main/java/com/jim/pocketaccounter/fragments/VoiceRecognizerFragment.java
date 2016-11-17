@@ -112,7 +112,7 @@ public class VoiceRecognizerFragment extends Fragment {
     //collection finance record;
     private FinanceRecord record = null;
     //adjective definition array
-    String[] definitionArrays;
+    private String[] definitionArrays;
     //Center clickable button
     private RelativeLayout rlCenterButton;
     //bg must be changed
@@ -470,13 +470,15 @@ public class VoiceRecognizerFragment extends Fragment {
                     templateAccounts.add(voice);
                 }
             }
+            //found suitable account regular expressions
             if (!templateAccounts.isEmpty()) {
                 if (templateAccounts.size() == 1) {
                     accountId = templateAccounts.get(0).getAccountId();
                 } else {
-                    String[] splt = newLetter.split(" ");
+                    String[] split = newLetter.split(" ");
                     int pos = -1;
-                    for (String s : splt) {
+
+                    for (String s : split) {
                         for (int i = 0; i < templateAccounts.size(); i++) {
                             if (pos < 0 || (templateAccounts.get(i).getAccountName().startsWith(s) && pos < i)) {
                                 pos = i;
@@ -484,7 +486,7 @@ public class VoiceRecognizerFragment extends Fragment {
                         }
                     }
                     for (int i = 0; i < templateAccounts.size(); i++) {
-                        if (!splt[pos].startsWith(templateAccounts.get(i).getAccountName())) {
+                        if (!split[pos].equals(templateAccounts.get(i).getAccountName().toLowerCase())) {
                             templateAccounts.remove(i);
                             i--;
                         }
@@ -500,29 +502,34 @@ public class VoiceRecognizerFragment extends Fragment {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            if (!categoryId.isEmpty()) {
-                String s = "";
+            String s = "";
+            if (templateVoice != null) {
                 if (templateVoice.getSubCatName() != null && !templateVoice.getSubCatName().isEmpty())
                     s = " " + templateVoice.getSubCatName();
                 tvSpeechModeCategory.setText(templateVoice.getCatName() + s);
-                String amountRegex = "[([^0-9]*)\\s*([0-9]+[.,]?[0-9]*)]*\\s([$]*)([0-9]+[.,]?[0-9]*).*";
-                Pattern pattern = Pattern.compile(amountRegex);
-                Matcher matcher = pattern.matcher(newLetter);
-                if (matcher.matches()) {
-                    summ = Double.parseDouble(matcher.group(matcher.groupCount()));
-                }
-                tvSpeechAmount.setText("" + summ);
-                categoryId = "";
             }
-            if (!accountId.isEmpty()) {
+            String amountRegex = "([([^0-9]*)\\s*([0-9]+[.,]?[0-9]*)]*\\s([$]*)([0-9]+[.,]?[0-9]*).*)|(^([0-9]+[.,]?[0-9]*).*)";
+            Pattern pattern = Pattern.compile(amountRegex);
+            Matcher matcher = pattern.matcher(newLetter);
+            final int firstOrGroup = 3, secondOrGroup = 5;
+            if (matcher.matches()) {
+                if (matcher.group(firstOrGroup) != null)
+                    summ = Double.parseDouble(matcher.group(firstOrGroup));
+                if (matcher.group(secondOrGroup) != null)
+                    summ = Double.parseDouble(matcher.group(secondOrGroup));
+            }
+            tvSpeechAmount.setText(Double.toString(summ));
+            if (accountId != null && !accountId.isEmpty()) {
                 Account account = daoSession.getAccountDao().load(accountId);
                 for (int i = 0; i < accString.length; i++) {
-                    if (account.getName().toLowerCase().equals(accString[i])) {
+                    if (account.getName().toLowerCase().equals(accString[i].toLowerCase())) {
                         spSpeechAccount.setSelection(i);
                         break;
                     }
                 }
             }
+            if (categoryId != null && !categoryId.isEmpty() && summ != 0)
+                savingVoice();
         }
     }
 
