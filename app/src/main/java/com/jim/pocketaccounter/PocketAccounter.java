@@ -79,7 +79,6 @@ public class PocketAccounter extends AppCompatActivity {
     @Inject SharedPreferences sharedPreferences;
     @Inject PurchaseImplementation purchaseImplementation;
     PocketAccounterActivityComponent component;
-
     public PocketAccounterActivityComponent component(PocketAccounterApplication application) {
         if (component == null) {
             component = DaggerPocketAccounterActivityComponent
@@ -94,7 +93,7 @@ public class PocketAccounter extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(null);
-        setTheme(R.style.BlueTheme);
+        setTheme(R.style.FiolaTheme);
         setContentView(R.layout.pocket_accounter);
         component((PocketAccounterApplication) getApplication()).inject(this);
         String lang = preferences.getString("language", getResources().getString(R.string.language_default));
@@ -159,6 +158,7 @@ public class PocketAccounter extends AppCompatActivity {
                 }
             });
         }
+
     }
 
     public void setLocale(String lang) {
@@ -179,6 +179,7 @@ public class PocketAccounter extends AppCompatActivity {
         toolbarManager.setImageToHomeButton(R.drawable.ic_drawer);
         toolbarManager.setTitle(getResources().getString(R.string.app_name));
         toolbarManager.setSubtitle(format.format(dataCache.getEndDate().getTime()));
+        toolbarManager.setSubtitleIconVisibility(View.VISIBLE);
         toolbarManager.setOnHomeButtonClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -188,12 +189,12 @@ public class PocketAccounter extends AppCompatActivity {
         toolbarManager.setSpinnerVisibility(View.GONE);
         toolbarManager.setToolbarIconsVisibility(View.VISIBLE, View.GONE, View.VISIBLE);
         toolbarManager.setSearchView(drawerInitializer, format, paFragmentManager, findViewById(R.id.main));
-        toolbarManager.setImageToSecondImage(R.drawable.finance_calendar);
+        toolbarManager.setImageToSecondImage(R.drawable.ic_info_outline_black_48dp);
         toolbarManager.setSearchView(drawerInitializer, format, paFragmentManager, findViewById(R.id.main));
         toolbarManager.setImageToStartImage(R.drawable.ic_search_black_24dp);
-        toolbarManager.setOnSecondImageClickListener(new View.OnClickListener() {
+        toolbarManager.setOnTitleClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 final Dialog dialog = new Dialog(PocketAccounter.this);
                 final View dialogView = getLayoutInflater().inflate(R.layout.date_picker, null);
                 dialogView.findViewById(R.id.dp).setVisibility(View.VISIBLE);
@@ -248,6 +249,12 @@ public class PocketAccounter extends AppCompatActivity {
                     }
                 });
                 dialog.show();
+            }
+        });
+        toolbarManager.setOnSecondImageClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            paFragmentManager.toggleVisibilityForInfos();
             }
         });
     }

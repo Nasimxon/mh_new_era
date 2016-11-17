@@ -21,6 +21,7 @@ public abstract class PABaseListFragment extends PABaseFragment {
             }
         });
         toolbarManager.setSpinnerVisibility(View.GONE);
+        toolbarManager.setSubtitleIconVisibility(View.GONE);
     }
     abstract void refreshList();
 }

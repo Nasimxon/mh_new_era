@@ -16,11 +16,14 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.jim.pocketaccounter.PocketAccounter;
 import com.jim.pocketaccounter.R;
 import com.jim.pocketaccounter.fragments.SearchFragment;
+import com.jim.pocketaccounter.utils.CurrencyChecbox;
 import com.jim.pocketaccounter.utils.PocketAccounterGeneral;
 
 import java.text.SimpleDateFormat;
@@ -37,11 +40,18 @@ public class ToolbarManager {
     private Spinner spTest;
     private EditText searchEditToolbar;
     private Handler whenKeyboardClosed;
+    private TextView tvToolbarTitle, tvToolbarSubtitle;
+    private ImageView ivSubtitle;
+    private LinearLayout llToolbarTitle;
+    private View.OnClickListener listener;
     public void setTitle(String title){
-        toolbar.setTitle(title);
+        tvToolbarTitle.setText(title);
     }
-    public void setSubtitle(String title){
-        toolbar.setSubtitle(title);
+    public void setSubtitle(String title) {
+        tvToolbarSubtitle.setText(title);
+    }
+    public void setSubtitleIconVisibility(int visibility) {
+        ivSubtitle.setVisibility(visibility);
     }
     public ToolbarManager(Context context, Toolbar toolbar) {
         this.context = context;
@@ -52,7 +62,12 @@ public class ToolbarManager {
         searchEditToolbar = (EditText) toolbar.findViewById(R.id.editToolbar);
         spinner = (Spinner) toolbar.findViewById(R.id.spToolbar);
         spTest = (Spinner) toolbar.findViewById(R.id.spTest);
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        tvToolbarTitle = (TextView) toolbar.findViewById(R.id.tvToolbarTitle);
+        tvToolbarSubtitle = (TextView) toolbar.findViewById(R.id.tvToolbarSubtitle);
+        ivSubtitle = (ImageView) toolbar.findViewById(R.id.ivSubtitle);
+        llToolbarTitle = (LinearLayout) toolbar.findViewById(R.id.llToolbarTitle);
+        toolbar.setTitle("");
+        toolbar.setSubtitle("");
     }
     public Spinner getSpTest () {
         return spTest;
@@ -62,7 +77,7 @@ public class ToolbarManager {
         toolbar.setTitleTextColor(ContextCompat.getColor(context, toolbar_text_color));
         ((PocketAccounter) context).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
-    public void setOnSpinerItemSelectedListener(AdapterView.OnItemSelectedListener listener) {
+    public void setOnSpinnerItemSelectedListener(AdapterView.OnItemSelectedListener listener) {
         spinner.setOnItemSelectedListener(listener);
     }
     public void setOnFirstImageClickListener(View.OnClickListener listener) {
@@ -74,11 +89,8 @@ public class ToolbarManager {
     public void setVisiblityEditSearch(){
         searchEditToolbar.setVisibility(View.GONE);
     }
-
-
     public void setOnHomeButtonClickListener(View.OnClickListener listener) {
         toolbar.setNavigationOnClickListener(listener);
-
     }
     public void setToolbarIconsVisibility(int start, int first, int second) {
         ivToolbarFirst.setVisibility(first);
@@ -90,7 +102,6 @@ public class ToolbarManager {
     SimpleDateFormat format;
     PAFragmentManager fragmentManager;
     boolean keyboardIsOpen=true;
-
     public static float dpToPx(Context context, float valueInDp) {
         DisplayMetrics metrics = context.getResources().getDisplayMetrics();
         return TypedValue.applyDimension(COMPLEX_UNIT_DIP, valueInDp, metrics);
@@ -126,12 +137,9 @@ public class ToolbarManager {
         searchEditToolbar.setVisibility(View.VISIBLE);
         searchEditToolbar.setFocusableInTouchMode(true);
         searchEditToolbar.requestFocus();
-
         if (searchFragment == null) {
-
             searchFragment = new SearchFragment();
             textChangeListnerW=searchFragment.getListnerChange();
-
             searchEditToolbar.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -143,15 +151,12 @@ public class ToolbarManager {
                 }
             });
         }
-
         fragmentManager.displayFragment(searchFragment, "salom");
-
         final InputMethodManager inputMethodManager = (InputMethodManager) context
                 .getSystemService(Context.INPUT_METHOD_SERVICE);
         if(inputMethodManager==null)
             return;
         inputMethodManager.showSoftInput(searchEditToolbar, InputMethodManager.SHOW_IMPLICIT);
-
         ivToolbarStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -170,7 +175,6 @@ public class ToolbarManager {
         ivToolbarStart.setImageResource(R.drawable.ic_close_black_24dp);
         toolbar.setTitle(null);
         toolbar.setSubtitle(null);
-
     }
     Runnable runForItClose;
     public void closeSearchFragment(){
@@ -231,11 +235,9 @@ public class ToolbarManager {
                             openSearchTools();
                         }
                     });
-
                     ivToolbarStart.setImageResource(R.drawable.ic_search_black_24dp);
                     toolbar.setTitle(context.getResources().getString(R.string.app_name));
                     toolbar.setSubtitle(format.format(Calendar.getInstance().getTime()));
-
                 }
                 else{
                     InputMethodManager imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -246,14 +248,12 @@ public class ToolbarManager {
                 }
             }
         };
-
         if(keyboardIsOpen){
             InputMethodManager imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
             if(imm==null)
                 return;
             imm.hideSoftInputFromWindow(searchEditToolbar.getWindowToken(), 0);
         }
-
         whenKeyboardClosed.postDelayed(runForItClose,200);
     }
     public void closeSearchTools(){
@@ -262,7 +262,6 @@ public class ToolbarManager {
             @Override
             public void run() {
                 if(!keyboardIsOpen){
-
                     searchEditToolbar.setVisibility(View.GONE);
                     ivToolbarStart.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -270,12 +269,10 @@ public class ToolbarManager {
                             openSearchTools();
                         }
                     });
-
                     if(firstIconActive)  ivToolbarFirst.setVisibility(View.VISIBLE);
                     else ivToolbarFirst.setVisibility(View.GONE);
                     if(secondIconActive) ivToolbarSecond.setVisibility(View.VISIBLE);
                     else ivToolbarSecond.setVisibility(View.GONE);
-
                     ivToolbarStart.setImageResource(R.drawable.ic_search_black_24dp);
                     setImageToHomeButton(R.drawable.ic_drawer);
                     toolbar.setTitle(context.getResources().getString(R.string.app_name));
@@ -286,7 +283,6 @@ public class ToolbarManager {
                             drawerInitializer.getDrawer().openLeftSide();
                         }
                     });
-
                     fragmentManager.getFragmentManager().popBackStack();
                     fragmentManager.displayMainWindow();
                 }
@@ -299,16 +295,13 @@ public class ToolbarManager {
                 }
             }
         };
-
         if(keyboardIsOpen){
             InputMethodManager imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
             if(imm==null)
                 return;
             imm.hideSoftInputFromWindow(searchEditToolbar.getWindowToken(), 0);
         }
-
         whenKeyboardClosed.postDelayed(runForItClose,200);
-
     }
     public void setImageToStartImage(int resId) {
         ivToolbarStart.setImageDrawable(null);
@@ -331,5 +324,12 @@ public class ToolbarManager {
     }
     public void setSpinnerVisibility(int visibility) {
         spinner.setVisibility(visibility);
+    }
+    public void setOnTitleClickListener(View.OnClickListener listener) {
+        this.listener = listener;
+        llToolbarTitle.setOnClickListener(this.listener);
+    }
+    public void disableTitleClick() {
+        llToolbarTitle.setOnClickListener(null);
     }
 }

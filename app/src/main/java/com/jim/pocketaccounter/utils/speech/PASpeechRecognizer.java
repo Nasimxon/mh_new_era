@@ -138,7 +138,6 @@ public class PASpeechRecognizer implements RecognitionListener {
                 message = "Network timeout";
                 break;
             case SpeechRecognizer.ERROR_NO_MATCH:
-
                 message = "No match";
                 break;
             case SpeechRecognizer.ERROR_RECOGNIZER_BUSY:

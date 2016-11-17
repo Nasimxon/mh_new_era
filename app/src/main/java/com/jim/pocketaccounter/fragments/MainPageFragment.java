@@ -152,6 +152,16 @@ public class MainPageFragment extends Fragment {
         return preferences.getBoolean(key, false);
     }
 
+    public void visiblityForInfos(boolean visible) {
+        if (visible) {
+            expenseView.showText();
+            incomeView.showText();
+        } else {
+            expenseView.hideText();
+            incomeView.hideText();
+        }
+    }
+
     public void startAnimation() {
         lockView.animateClouds();
     }

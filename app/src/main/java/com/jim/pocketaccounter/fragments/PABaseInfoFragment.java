@@ -13,6 +13,7 @@ public abstract class PABaseInfoFragment extends PABaseFragment {
         toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
         toolbarManager.setImageToSecondImage(R.drawable.check_sign);
         toolbarManager.setSpinnerVisibility(View.GONE);
+        toolbarManager.setSubtitleIconVisibility(View.GONE);
     }
     abstract void refreshList();
 }

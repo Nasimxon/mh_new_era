@@ -149,6 +149,7 @@ public class TextDrawingBoardView extends DecorationBoardView {
                 }
                 elapsed = 0;
                 drawn = true;
+                sharedPreferences.edit().putBoolean(PocketAccounterGeneral.INFO_VISIBILITY, true).commit();
             }
         }).start();
     }
@@ -157,6 +158,7 @@ public class TextDrawingBoardView extends DecorationBoardView {
         drawing = false;
         drawn = false;
         invalidate();
+        sharedPreferences.edit().putBoolean(PocketAccounterGeneral.INFO_VISIBILITY, false).commit();
     }
 
     class TextElement {

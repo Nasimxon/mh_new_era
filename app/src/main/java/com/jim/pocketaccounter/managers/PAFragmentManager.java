@@ -1,5 +1,6 @@
 package com.jim.pocketaccounter.managers;
 
+import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -24,6 +25,7 @@ import com.jim.pocketaccounter.fragments.RecordDetailFragment;
 import com.jim.pocketaccounter.fragments.SmsParseMainFragment;
 import com.jim.pocketaccounter.fragments.VoiceRecognizerFragment;
 import com.jim.pocketaccounter.helper.MyVerticalViewPager;
+import com.jim.pocketaccounter.utils.PocketAccounterGeneral;
 import com.jim.pocketaccounter.utils.cache.DataCache;
 
 import java.util.Calendar;
@@ -46,20 +48,19 @@ public class    PAFragmentManager {
     private Boolean direction = null;
     private boolean isMainReturn = false;
     private MyVerticalViewPager vpVertical;
-
     public boolean isMainReturn() {
         return isMainReturn;
     }
-
     public void setMainReturn(boolean mainReturn) {
         isMainReturn = mainReturn;
     }
-
     @Inject ReportManager reportManager;
     @Inject CommonOperations commonOperations;
     @Inject DataCache dataCache;
     @Inject @Named(value = "end") Calendar end;
+    @Inject SharedPreferences preferences;
     private VerticalViewPagerAdapter adapter;
+    private boolean infosVisibility ;
     public PAFragmentManager(PocketAccounter activity) {
         this.activity = activity;
         ((PocketAccounterApplication) activity.getApplicationContext()).component().inject(this);
@@ -68,6 +69,19 @@ public class    PAFragmentManager {
         adapter = new VerticalViewPagerAdapter(fragmentManager);
         vpVertical.setOnTouchListener(null);
         vpVertical.setAdapter(adapter);
+        infosVisibility = preferences.getBoolean(PocketAccounterGeneral.INFO_VISIBILITY, true);
+    }
+
+    public void toggleVisibilityForInfos() {
+        int size = fragmentManager.getFragments().size();
+        for (int i = 0; i < size; i++) {
+            Fragment fragment = fragmentManager.getFragments().get(i);
+            if (fragment != null && fragment.getClass().getName().equals(MainPageFragment.class.getName())) {
+                ((MainPageFragment) fragment).visiblityForInfos(infosVisibility);
+            }
+        }
+
+        infosVisibility = !infosVisibility;
     }
 
     public void setVerticalScrolling (boolean isSwipe) {

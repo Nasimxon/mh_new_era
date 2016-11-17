@@ -28,6 +28,7 @@ public class PocketAccounterGeneral {
 			DOWN_WORKSPACE_SHADER = 20, DOWN_MOST_LEFT = 21, DOWN_SIMPLE = 22, DOWN_MOST_RIGHT = 23,
 			DOWN_MOST_LEFT_PRESSED = 24, DOWN_SIMPLE_PRESSED = 25, DOWN_MOST_RIGHT_PRESSED = 26;
 
+	public static final String INFO_VISIBILITY = "INFO_VISIBILITY";
 	public static final String HEAD_COLOR = "HEAD_COLOR", HELPER_COLOR = "HELPER_COLOR";
 	public static final String BASE64RSA = BuildConfig.base64rsa;
 	public class MoneyHolderSkus {

@@ -85,17 +85,16 @@ public class VoiceRecognizerFragment extends Fragment {
     public static final int ACCOUNT = 3;
     //Not speech mode layout
     private RelativeLayout rlNotSpeechMode;
+    //Speech mode layout
+    private RelativeLayout llSpeechMode;
     //Not speech mode balance stripe textviews
     private TextView tvNotSpeechModeIncome, tvNotSpeechModeBalance, tvNotSpeechModeExpense;
     //Not speech mode records list
     private RecyclerView rvNotSpeechModeRecordsList;
-    //Speech mode layout
-    private RelativeLayout llSpeechMode;
     //Speech mode adjective recognition
     private TextView tvSpeechModeAdjective;
     //Speech mode category recognition and its icon
     private TextView tvSpeechModeCategory;
-    private ImageView ivSpeechModeCategoryIcon;
     //Speech mode amount and currency recognition
     private TextView tvSpeechAmount;
     private Spinner spSpeechCurrency;
@@ -127,20 +126,15 @@ public class VoiceRecognizerFragment extends Fragment {
     private FrameLayout recStartRight;
     //auto save voice
     private TextView autoSave;
-    @Inject
-    DaoSession daoSession;
-    @Inject
-    PAFragmentManager paFragmentManager;
-    @Inject
-    List<TemplateVoice> voices;
-    @Inject
-    List<TemplateAccount> templateAccountVoices;
-    @Inject
-    DataCache dataCache;
+    //switching between modes
+    @Inject DaoSession daoSession;
+    @Inject PAFragmentManager paFragmentManager;
+    @Inject List<TemplateVoice> voices;
+    @Inject List<TemplateAccount> templateAccountVoices;
+    @Inject DataCache dataCache;
     private String[] curString;
     private String[] accString;
     private CountDownTimer timer;
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -164,17 +158,16 @@ public class VoiceRecognizerFragment extends Fragment {
         for (int i = 0; i < curString.length; i++) {
             curString[i] = daoSession.getCurrencyDao().loadAll().get(i).getAbbr();
         }
-        ArrayAdapter<String> curAdapter = new ArrayAdapter<String>(getContext(),
+        ArrayAdapter<String> curAdapter = new ArrayAdapter<>(getContext(),
                 android.R.layout.simple_list_item_1, curString);
         spSpeechCurrency.setAdapter(curAdapter);
         accString = new String[daoSession.getAccountDao().loadAll().size()];
         for (int i = 0; i < accString.length; i++) {
             accString[i] = daoSession.getAccountDao().loadAll().get(i).getName();
         }
-        final ArrayAdapter<String> accAdapter = new ArrayAdapter<String>(getContext(),
+        final ArrayAdapter<String> accAdapter = new ArrayAdapter<>(getContext(),
                 android.R.layout.simple_list_item_1, accString);
         spSpeechAccount.setAdapter(accAdapter);
-
         rlCenterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -556,12 +549,223 @@ public class VoiceRecognizerFragment extends Fragment {
     private MyTask myTask;
 
     private void parseVoice(final String newLetter) {
-        if (myTask != null) {
-            myTask.cancel(true);
-            myTask = null;
+        List<TemplateVoice> successTemplates = new ArrayList<>();
+        List<TemplateAccount> templateAccounts = new ArrayList<>();
+        //finding a category
+        //accumulating suitable to collection of regular expressions
+        for (TemplateVoice temp : voices) {
+            if (newLetter.matches(temp.getRegex())) {
+                successTemplates.add(temp);
+            }
         }
-        myTask = new MyTask(newLetter);
-        myTask.execute();
+        //after accumulating we begin finding suitable for us category
+        if (!successTemplates.isEmpty()) {
+            if (successTemplates.size() == 1) { // if only one suitable
+                categoryId = successTemplates.get(0).getCategoryId();
+            } else { // otherwise
+                //It need to find and to concentrate attention in last said word, which suits with one of category or subcategory
+                //end pos of last said word, which suits to one of category or subcategory
+                int endPos = -1;
+                //finding end pos
+                for (TemplateVoice successTemplate : successTemplates) {
+                    if (newLetter.lastIndexOf(successTemplate.getCatName())
+                            + successTemplate.getCatName().length() > endPos || endPos < 0) {
+                        endPos = newLetter.lastIndexOf(successTemplate.getCatName())
+                                + successTemplate.getCatName().length();
+                    }
+                    if (successTemplate.getSubCatName() == null) continue;
+                    if (newLetter.lastIndexOf(successTemplate.getSubCatName()) +
+                            successTemplate.getSubCatName().length() > endPos || endPos < 0) {
+                        endPos = newLetter.lastIndexOf(successTemplate.getSubCatName())
+                                + successTemplate.getSubCatName().length();
+                    }
+                }
+                //after end pos found, filtering templates, those not suitable for said sentence's last found category
+                for (int i = 0; i < successTemplates.size(); i++) {
+                    boolean isAccess = true;
+                    String name = successTemplates.get(i).getCatName();
+                    if (newLetter.lastIndexOf(name) >= 0 &&
+                            name.length() + newLetter.lastIndexOf(name) == endPos) {
+                        isAccess = false;
+                    }
+                    name = successTemplates.get(i).getSubCatName();
+                    if (name != null) {
+                        if (newLetter.lastIndexOf(name) >= 0 &&
+                                name.length() + newLetter.lastIndexOf(name) == endPos) {
+                            isAccess = false;
+                        }
+                    }
+                    if (isAccess) {
+                        successTemplates.remove(i);
+                        i--;
+                    }
+                }
+
+                //filtering again for choose more suitable template. if sad: "expense motor oil 100$", we must choose as category word motor oil, not only oil.
+                List<TemplateVoice> cloneTemp = new ArrayList<>();
+                cloneTemp.addAll(successTemplates);
+                for (int i = 0; i < cloneTemp.size(); i++) {
+                    for (int j = 0; j < successTemplates.size(); j++) {
+                        if (!cloneTemp.get(i).getCategoryId().equals(successTemplates.get(j).getCategoryId())) {
+                            if (cloneTemp.get(i).getCatName().toLowerCase().contains(successTemplates.get(j).getCatName().toLowerCase())) {
+                                successTemplates.remove(j);
+                                break;
+                            }
+                            if (!cloneTemp.get(i).getSubCatName().equals(successTemplates.get(j).getSubCatName())
+                                    && cloneTemp.get(i).getSubCatName().toLowerCase().contains(successTemplates.get(j).getSubCatName().toLowerCase())) {
+                                successTemplates.remove(j);
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                //check, there is found more than one template, we must choose one of them using order priority
+                if (successTemplates.size() > 1) {
+                    //giving priority to each of templates:
+                    //priority 1: only one of between category and subcategory is suitable - bad
+                    //priority 2: both suitable - good
+                    //priority 3: for template, which hasn't subcategory - norm
+                    for (TemplateVoice successTemplate : successTemplates) {
+                        setPriority(successTemplate, newLetter);
+                    }
+                    Collections.sort(successTemplates, new Comparator<TemplateVoice>() {
+                        @Override
+                        public int compare(TemplateVoice templateVoice, TemplateVoice t1) {
+                            return (new Integer(templateVoice.getPriority())).compareTo((new Integer(t1.getPriority())));
+                        }
+                    });
+                    //boolean for finding better priority
+                    boolean tek = false;
+                    for (TemplateVoice successTemplate : successTemplates) {
+                        if (successTemplate.getPriority() == 2) {
+                            tek = true;
+                            break;
+                        }
+                    }
+                    int pr;
+                    if (tek) {
+                        pr = 2; //for good priority
+                    } else {
+                        pr = successTemplates.get(successTemplates.size() - 1).getPriority(); // for other priorities
+                    }
+                    //after found, we are leaving only one template which priority is better
+                    for (int i = 0; i < successTemplates.size(); i++) {
+                        if (pr != successTemplates.get(i).getPriority()) {
+                            successTemplates.remove(i);
+                            i--;
+                        }
+                    }
+                    //after priority check
+                    if (successTemplates.size() == 1) { // if found
+                        categoryId = successTemplates.get(0).getCategoryId();
+                    } else { // otherwise
+                        //finding nearest pair to last said word, which suits to one of category of subcategory
+                        //pos for saving position of found template
+                        int pos = 0;
+                        //for saving data, which contains distance between pairs
+                        int diff = -1;
+                        String[] splitText = newLetter.split(" ");
+                        for (int i = 0; i < successTemplates.size(); i++) {
+                            int first = 0;
+                            int second = 0;
+                            for (int j = 0; j < splitText.length; j++) {
+                                if (splitText[j].equals(successTemplates.get(i).getCatName())) {
+                                    first = j;
+                                }
+                                if (successTemplates.get(i).getSubCatName() != null &&
+                                        splitText[j].equals(successTemplates.get(i).getSubCatName())) {
+                                    second = j;
+                                }
+                            }
+                            if (diff < 0 || Math.abs(first - second) < diff) {
+                                diff = Math.abs(first - second);
+                                pos = i;
+                            }
+                        }
+                        //after finding
+                        categoryId = successTemplates.get(pos).getCategoryId();
+                    }
+                } else if (!successTemplates.isEmpty()) { // if success templates size = 1
+                    categoryId = successTemplates.get(0).getCategoryId();
+                }
+            }
+            //passing data to another block
+            for (TemplateVoice voice : successTemplates) {
+                if (voice.getCategoryId().equals(categoryId)) {
+                    templateVoice = voice;
+                    break;
+                }
+            }
+        }
+        //finding an account
+        for (TemplateAccount voice : templateAccountVoices) {
+            if (newLetter.matches(voice.getRegex())) {
+                templateAccounts.add(voice);
+            }
+        }
+        //found suitable account regular expressions
+        if (!templateAccounts.isEmpty()) {
+            if (templateAccounts.size() == 1) {
+                accountId = templateAccounts.get(0).getAccountId();
+            } else {
+                String[] split = newLetter.split(" ");
+                int pos = -1;
+
+                for (String s : split) {
+                    for (int i = 0; i < templateAccounts.size(); i++) {
+                        if (pos < 0 || (templateAccounts.get(i).getAccountName().startsWith(s) && pos < i)) {
+                            pos = i;
+                        }
+                    }
+                }
+                for (int i = 0; i < templateAccounts.size(); i++) {
+                    if (!split[pos].equals(templateAccounts.get(i).getAccountName().toLowerCase())) {
+                        templateAccounts.remove(i);
+                        i--;
+                    }
+                }
+                if (!templateAccounts.isEmpty()) {
+                    accountId = templateAccounts.get(0).getAccountId();
+                }
+            }
+        }
+
+        String s = "";
+        if (templateVoice != null) {
+
+            if (templateVoice.getSubCatName() != null && !templateVoice.getSubCatName().isEmpty())
+                s = " " + templateVoice.getSubCatName();
+            tvSpeechModeCategory.setText(templateVoice.getCatName() + s);
+        }
+        String amountRegex = "([([^0-9]*)\\s*([0-9]+[.,]?[0-9]*)]*\\s([$]*)([0-9]+[.,]?[0-9]*).*)|(^([0-9]+[.,]?[0-9]*).*)";
+        Pattern pattern = Pattern.compile(amountRegex);
+        Matcher matcher = pattern.matcher(newLetter);
+        final int firstOrGroup = 3, secondOrGroup = 5;
+        if (matcher.matches()) {
+            if (matcher.group(firstOrGroup) != null)
+                summ = Double.parseDouble(matcher.group(firstOrGroup));
+            if (matcher.group(secondOrGroup) != null)
+                summ = Double.parseDouble(matcher.group(secondOrGroup));
+        }
+        tvSpeechAmount.setText(Double.toString(summ));
+        if (accountId != null && !accountId.isEmpty()) {
+            Account account = daoSession.getAccountDao().load(accountId);
+            for (int i = 0; i < accString.length; i++) {
+                if (account.getName().toLowerCase().equals(accString[i].toLowerCase())) {
+                    spSpeechAccount.setSelection(i);
+                    break;
+                }
+            }
+        }
+        if (categoryId != null && !categoryId.isEmpty() && summ != 0) savingVoice();
+
+//        if (myTask != null) {
+//            myTask.cancel(true);
+//            myTask = null;
+//        }
+//        myTask = new MyTask(newLetter);
+//        myTask.execute();
 
 //        accountThread.start();
 //        categoryId = idTemp;
@@ -680,8 +884,8 @@ public class VoiceRecognizerFragment extends Fragment {
                 daoSession.getFinanceRecordDao().insertOrReplace(financeRecord);
                 paFragmentManager.updateAllFragmentsPageChanges();
                 paFragmentManager.updateAllFragmentsOnViewPager();
-                timer.cancel();
-                timer = null;
+//                timer.cancel();
+//                timer = null;
                 tvSpeechModeAdjective.setText("");
                 tvSpeechAmount.setText("0.0");
                 categoryId = "";
