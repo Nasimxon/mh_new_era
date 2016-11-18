@@ -66,7 +66,8 @@ public class MainPageFragment extends Fragment {
     @Inject @Named(value = "begin") Calendar begin;
     @Inject @Named(value = "end") Calendar end;
     @Inject SharedPreferences preferences;
-    private boolean pressed = false;
+    private boolean infosVisibility;
+
     public MainPageFragment(Context context, Calendar day) {
         this.day = (Calendar) day.clone();
         this.pocketAccounter = (PocketAccounter) context;
@@ -152,16 +153,6 @@ public class MainPageFragment extends Fragment {
         return preferences.getBoolean(key, false);
     }
 
-    public void visiblityForInfos(boolean visible) {
-        if (visible) {
-            expenseView.showText();
-            incomeView.showText();
-        } else {
-            expenseView.hideText();
-            incomeView.hideText();
-        }
-    }
-
     public void startAnimation() {
         lockView.animateClouds();
     }
@@ -191,6 +182,7 @@ public class MainPageFragment extends Fragment {
                     lockView.setVisibility(View.VISIBLE);
                 }
                 lockView.setPage(position+1);
+                paFragmentManager.notifyInfosVisibility();
             }
         });
         rlMainPageContainer.addView(expenseView);
@@ -219,18 +211,17 @@ public class MainPageFragment extends Fragment {
                     expenseView.decCurrentPage();
                     lockView.animateButtons(true);
                 }
-
                 lockView.setPage(expenseView.getCurrentPage()+1);
                 paFragmentManager.updateAllFragmentsPageChanges();
+                paFragmentManager.notifyInfosVisibility();
             }
         });
         incomeView = new BoardView(getContext(), PocketAccounterGeneral.INCOME, day);
-        RelativeLayout.LayoutParams lpIncomes = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dm.widthPixels/4);
+        RelativeLayout.LayoutParams lpIncomes = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dm.widthPixels/4 + (int) getResources().getDimension(R.dimen.ten_dp));
         lpIncomes.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
         incomeView.setLayoutParams(lpIncomes);
         incomeView.setId(R.id.main_income);
         rlMainPageContainer.addView(incomeView);
-
         RelativeLayout.LayoutParams lpBalance = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         lpBalance.addRule(RelativeLayout.BELOW, R.id.main_expense);
         lpBalance.addRule(RelativeLayout.ABOVE, R.id.main_income);
@@ -257,6 +248,15 @@ public class MainPageFragment extends Fragment {
         else {
             balanceStripe.hideNotImportantPart();
         }
+        infosVisibility = preferences.getBoolean(PocketAccounterGeneral.INFO_VISIBILITY, true);
+        if (infosVisibility) {
+            expenseView.showText();
+            incomeView.showText();
+        }
+        else {
+            expenseView.hideText();
+            incomeView.hideText();
+        }
     }
     public void refreshCurrencyChanges() {
         commonOperations.refreshCurrency();
@@ -271,7 +271,6 @@ public class MainPageFragment extends Fragment {
             expenseView.lockPage();
         }
         lockView.setPage(expenseView.getCurrentPage()+1);
-
         toolbarManager.setSubtitle(simpleDateFormat.format(day.getTime()));
         balanceStripe.calculateBalance();
         expenseView.invalidate();
@@ -295,10 +294,61 @@ public class MainPageFragment extends Fragment {
         incomeView.invalidate();
     }
 
+    public void toggleVisibilityForInfos() {
+        boolean isAccess = true;
+        switch (expenseView.getCurrentPage()) {
+                case 0:
+                    isAccess = preferences.getBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.ZERO_PAGE_COUNT_KEY, false);
+                    break;
+                case 1:
+                    isAccess = preferences.getBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.FIRST_PAGE_COUNT_KEY, false);
+                    break;
+                case 2:
+                    isAccess = preferences.getBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.SECOND_PAGE_COUNT_KEY, false);
+                    break;
+                case 3:
+                    isAccess = preferences.getBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.THIRD_PAGE_COUNT_KEY, false);
+                    break;
+                case 4:
+                    isAccess = preferences.getBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.FOURTH_PAGE_COUNT_KEY, false);
+                    break;
+                case 5:
+                    isAccess = preferences.getBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.FIFTH_PAGE_COUNT_KEY, false);
+                    break;
+                case 6:
+                    isAccess = preferences.getBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.SIXTH_PAGE_COUNT_KEY, false);
+                    break;
+                case 7:
+                    isAccess = preferences.getBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.SEVENTH_PAGE_COUNT_KEY, false);
+                    break;
+                case 8:
+                    isAccess = preferences.getBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.EIGHTH_PAGE_COUNT_KEY, false);
+                    break;
+                case 9:
+                    isAccess = preferences.getBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.NINTH_PAGE_COUNT_KEY, false);
+                    break;
+                }
+        if (!isAccess) {
+            expenseView.hideText();
+            incomeView.hideText();
+            infosVisibility = false;
+        }
+        else {
+            infosVisibility = !infosVisibility;
+            if (infosVisibility){
+                expenseView.showText();
+                incomeView.showText();
+            } else {
+                expenseView.hideText();
+                incomeView.hideText();
+            }
+        }
+        preferences.edit().putBoolean(PocketAccounterGeneral.INFO_VISIBILITY, infosVisibility).commit();
+
+    }
     public void hideClouds() {
         lockView.hideClouds();
     }
-
     public static float dpToPx(Context context, float valueInDp) {
         DisplayMetrics metrics = context.getResources().getDisplayMetrics();
         return TypedValue.applyDimension(COMPLEX_UNIT_DIP, valueInDp, metrics);

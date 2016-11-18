@@ -53,7 +53,6 @@ public class BalanceStripe extends LinearLayout {
         this.day = day;
         init();
     }
-
     public BalanceStripe(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes, Calendar day) {
         super(context, attrs, defStyleAttr, defStyleRes);
         ((PocketAccounterApplication) context.getApplicationContext()).component().inject(this);
@@ -69,8 +68,10 @@ public class BalanceStripe extends LinearLayout {
         paddingIskustvenno = (FrameLayout) findViewById(R.id.paddingIskustvenniy);
         llBalanceStripeBackground = (LinearLayout) findViewById(R.id.llBalanceStripeBackground);
     }
-    public void hideNotImportantPart() { llNotImportant.setVisibility(GONE);
-        paddingIskustvenno.setVisibility(VISIBLE);}
+    public void hideNotImportantPart() {
+        llNotImportant.setVisibility(GONE);
+        paddingIskustvenno.setVisibility(VISIBLE);
+    }
     public void showNotImportantPart() { llNotImportant.setVisibility(VISIBLE); paddingIskustvenno.setVisibility(GONE); }
     public void calculateBalance() {
         String mode = preferences.getString("balance_solve", "0");
@@ -90,7 +91,7 @@ public class BalanceStripe extends LinearLayout {
             begin.set(Calendar.MILLISECOND, 0);
         }
         Map<String, Double> balance = reportManager.calculateBalance(begin, end);
-        DecimalFormat decFormat = new DecimalFormat("0.00");
+        DecimalFormat decFormat = new DecimalFormat("0.##");
         String abbr = commonOperations.getMainCurrency().getAbbr();
         for (String key : balance.keySet()) {
             switch (key) {

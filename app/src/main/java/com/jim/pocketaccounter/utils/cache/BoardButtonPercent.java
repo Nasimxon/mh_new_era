@@ -19,10 +19,10 @@ public class BoardButtonPercent {
     public void setPosition(Integer position) {
         this.position = position;
     }
-    public Double getPercent() {
+    public Double getAmount() {
         return percent;
     }
-    public void setPercent(Double percent) {
+    public void setAmount(Double percent) {
         this.percent = percent;
     }
 }

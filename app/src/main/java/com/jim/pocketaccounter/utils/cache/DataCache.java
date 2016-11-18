@@ -130,6 +130,7 @@ public class DataCache {
 
     public void updateOneDay(final Calendar day) {
         String date = format(day);
+        //defining interval for accumulating data (00:00:00 - 23:59:59)
         begin.setTimeInMillis(day.getTimeInMillis());
         begin.set(Calendar.HOUR_OF_DAY, 0);
         begin.set(Calendar.MINUTE, 0);
@@ -140,10 +141,12 @@ public class DataCache {
         end.set(Calendar.MINUTE, 59);
         end.set(Calendar.SECOND, 59);
         end.set(Calendar.MILLISECOND, 59);
+        //all finance records
         List<FinanceRecord> financeRecords = daoSession.getFinanceRecordDao()
                                                         .queryBuilder()
                                                         .where(FinanceRecordDao.Properties.Date.eq(simpleDateFormat.format(begin.getTime())))
                                                         .list();
+        //all credits
         List<CreditDetials> tempCredits = daoSession.getCreditDetialsDao().loadAll();
         List<CreditDetials> creditDetialList= new ArrayList<>();
         for (CreditDetials creditDetial : tempCredits) {
@@ -156,6 +159,7 @@ public class DataCache {
                 }
             }
         }
+        //all debt borrows
         List<DebtBorrow> tempDebtBorrows = daoSession.getDebtBorrowDao().loadAll();
         List<DebtBorrow> debtBorrows = new ArrayList<>();
         for (DebtBorrow debtBorrow : tempDebtBorrows) {
@@ -173,9 +177,11 @@ public class DataCache {
                 }
             }
         }
+        //balance data for given interval(day)
         Map<String, Double> balance = reportManager.calculateBalance(begin, end);
         Double allExpenses = balance.get(PocketAccounterGeneral.EXPENSES);
         Double allIncomes = balance.get(PocketAccounterGeneral.INCOMES);
+        //all board buttons
         List<BoardButton> boardButtonList = daoSession.getBoardButtonDao().loadAll();
         BoardButtonPercent boardButtonPercent = null;
         for (int i=0; i<boardButtonList.size(); i++) {
@@ -184,8 +190,7 @@ public class DataCache {
                 boardButtonPercent = new BoardButtonPercent();
                 boardButtonPercent.setPosition(boardButtonList.get(i).getPos());
                 boardButtonPercent.setTable(boardButtonList.get(i).getTable());
-                boardButtonPercent.setPercent(0.0d);
-
+                boardButtonPercent.setAmount(0.0d);
                 if (percents.get(date) == null) {
                     List<BoardButtonPercent> list = new ArrayList<>();
                     list.add(boardButtonPercent);
@@ -204,7 +209,7 @@ public class DataCache {
                         }
                     }
                     if (found)
-                        percents.get(date).get(pos).setPercent(0.0d);
+                        percents.get(date).get(pos).setAmount(0.0d);
                     else
                         percents.get(date).add(boardButtonPercent);
 
@@ -230,16 +235,17 @@ public class DataCache {
                     boardButtonPercent.setTable(boardButtonList.get(i).getTable());
                     if (boardButtonList.get(i).getTable() == PocketAccounterGeneral.EXPENSE) {
                         if (allExpenses == 0)
-                            boardButtonPercent.setPercent(0.0d);
+                            boardButtonPercent.setAmount(0.0d);
                         else
-                            boardButtonPercent.setPercent(100.0d*categoryExpenses/allExpenses);
+                            boardButtonPercent.setAmount(categoryExpenses);
                     }
                     else {
                         if (allIncomes == 0)
-                            boardButtonPercent.setPercent(0.0d);
+                            boardButtonPercent.setAmount(0.0d);
                         else
-                            boardButtonPercent.setPercent(100.0d*categoryIncomes/allIncomes);
+                            boardButtonPercent.setAmount(categoryIncomes);
                     }
+
                     if (percents.get(date) == null) {
                         List<BoardButtonPercent> list = new ArrayList<>();
                         list.add(boardButtonPercent);
@@ -258,7 +264,7 @@ public class DataCache {
                             }
                         }
                         if (found)
-                            percents.get(date).get(pos).setPercent(boardButtonPercent.getPercent());
+                            percents.get(date).get(pos).setAmount(boardButtonPercent.getAmount());
                         else
                             percents.get(date).add(boardButtonPercent);
 
@@ -278,7 +284,7 @@ public class DataCache {
                     boardButtonPercent = new BoardButtonPercent();
                     boardButtonPercent.setPosition(boardButtonList.get(i).getPos());
                     boardButtonPercent.setTable(boardButtonList.get(i).getTable());
-                    boardButtonPercent.setPercent(100.0d*credit/allExpenses);
+                    boardButtonPercent.setAmount(credit);
                     if (percents.get(date) == null) {
                         List<BoardButtonPercent> list = new ArrayList<>();
                         list.add(boardButtonPercent);
@@ -297,7 +303,7 @@ public class DataCache {
                             }
                         }
                         if (found)
-                            percents.get(date).get(pos).setPercent(boardButtonPercent.getPercent());
+                            percents.get(date).get(pos).setAmount(boardButtonPercent.getAmount());
                         else
                             percents.get(date).add(boardButtonPercent);
 
@@ -330,15 +336,15 @@ public class DataCache {
                     boardButtonPercent.setTable(boardButtonList.get(i).getTable());
                     if (boardButtonList.get(i).getTable() == PocketAccounterGeneral.EXPENSE) {
                         if (allExpenses == 0.0d)
-                            boardButtonPercent.setPercent(0.0d);
+                            boardButtonPercent.setAmount(0.0d);
                         else
-                            boardButtonPercent.setPercent(100.0d*debtBorrowExpenses/allExpenses);
+                            boardButtonPercent.setAmount(debtBorrowExpenses);
                     }
                     else {
                         if (allIncomes ==0)
-                            boardButtonPercent.setPercent(0.0d);
+                            boardButtonPercent.setAmount(0.0d);
                         else
-                            boardButtonPercent.setPercent(100.0d*debtBorrowIncomes/allIncomes);
+                            boardButtonPercent.setAmount(debtBorrowIncomes);
                     }
                     if (percents.get(date) == null) {
                         List<BoardButtonPercent> list = new ArrayList<>();
@@ -358,10 +364,9 @@ public class DataCache {
                             }
                         }
                         if (found)
-                            percents.get(date).get(pos).setPercent(boardButtonPercent.getPercent());
+                            percents.get(date).get(pos).setAmount(boardButtonPercent.getAmount());
                         else
                             percents.get(date).add(boardButtonPercent);
-
                     }
                     break;
             }
@@ -465,7 +470,7 @@ public class DataCache {
             for (BoardButtonPercent boardButtonPercent : boardButtonPercents) {
                 if (boardButtonPercent.getTable() == table &&
                         boardButtonPercent.getPosition() == position)
-                    return boardButtonPercent.getPercent();
+                    return boardButtonPercent.getAmount();
             }
         }
         return 0.0;

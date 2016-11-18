@@ -90,9 +90,9 @@ public class DecorationBoardView extends BaseBoardView {
         int width = getResources().getDisplayMetrics().widthPixels;
         beginMargin = width * 0.0371402f;
         if (table == PocketAccounterGeneral.EXPENSE)
-            workscpace = new RectF(beginMargin, 0, width - beginMargin, width);
+            workscpace = new RectF(beginMargin, beginMargin, width - beginMargin, width);
         else
-            workscpace = new RectF(beginMargin, 0, width - beginMargin, width*buttonSideRatio);
+            workscpace = new RectF(beginMargin, beginMargin, width - beginMargin, width*buttonSideRatio);
         betweenButtonsMargin = workscpace.width() * betweenButtonsRatio;
         whiteSide = width * buttonSideRatio;
         shadowSide = whiteSide / 0.7f;

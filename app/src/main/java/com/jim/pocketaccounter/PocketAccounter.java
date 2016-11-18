@@ -254,7 +254,7 @@ public class PocketAccounter extends AppCompatActivity {
         toolbarManager.setOnSecondImageClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            paFragmentManager.toggleVisibilityForInfos();
+            paFragmentManager.notifyInfosVisibility();
             }
         });
     }

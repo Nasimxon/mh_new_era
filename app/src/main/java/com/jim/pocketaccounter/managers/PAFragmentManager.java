@@ -41,7 +41,7 @@ import static com.jim.pocketaccounter.PocketAccounter.PRESSED;
  * Created by DEV on 27.08.2016.
  */
 
-public class    PAFragmentManager {
+public class PAFragmentManager {
     private PocketAccounter activity;
     private FragmentManager fragmentManager;
     private int lastPos = 5000;
@@ -60,7 +60,6 @@ public class    PAFragmentManager {
     @Inject @Named(value = "end") Calendar end;
     @Inject SharedPreferences preferences;
     private VerticalViewPagerAdapter adapter;
-    private boolean infosVisibility ;
     public PAFragmentManager(PocketAccounter activity) {
         this.activity = activity;
         ((PocketAccounterApplication) activity.getApplicationContext()).component().inject(this);
@@ -69,29 +68,38 @@ public class    PAFragmentManager {
         adapter = new VerticalViewPagerAdapter(fragmentManager);
         vpVertical.setOnTouchListener(null);
         vpVertical.setAdapter(adapter);
-        infosVisibility = preferences.getBoolean(PocketAccounterGeneral.INFO_VISIBILITY, true);
+        int mainSelectedPage = preferences.getInt(PocketAccounterGeneral.VERTICAL_SELECTED_PAGE, 1);
+        vpVertical.setCurrentItem(mainSelectedPage, false);
+        vpVertical.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+            @Override
+            public void onPageSelected(int position) {
+                preferences
+                        .edit()
+                        .putInt(PocketAccounterGeneral.VERTICAL_SELECTED_PAGE, position)
+                        .commit();
+            }
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
     }
-
-    public void toggleVisibilityForInfos() {
+    public void notifyInfosVisibility() {
         int size = fragmentManager.getFragments().size();
         for (int i = 0; i < size; i++) {
             Fragment fragment = fragmentManager.getFragments().get(i);
-            if (fragment != null && fragment.getClass().getName().equals(MainPageFragment.class.getName())) {
-                ((MainPageFragment) fragment).visiblityForInfos(infosVisibility);
-            }
+            if (fragment != null && fragment.getClass().getName().equals(MainPageFragment.class.getName()))
+                ((MainPageFragment) fragment).toggleVisibilityForInfos();
         }
-
-        infosVisibility = !infosVisibility;
     }
-
     public void setVerticalScrolling (boolean isSwipe) {
         vpVertical.setSwipe(isSwipe);
     }
-
     public FragmentManager getFragmentManager() {
         return fragmentManager;
     }
-
     public void updateAllFragmentsOnViewPager() {
         int size = fragmentManager.getFragments().size();
         for (int i = 0; i < size; i++) {
@@ -101,7 +109,6 @@ public class    PAFragmentManager {
             }
         }
     }
-
     public MainPageFragment getCurrentFragment() {
         ManualEnterFragment manualEnterFragment = (ManualEnterFragment) adapter.getItem(1);
         ViewPager lvpMain = null;
@@ -109,10 +116,9 @@ public class    PAFragmentManager {
             lvpMain = manualEnterFragment.getLvpMain();
         else
             lvpMain = new ViewPager(activity);
-        MainPageFragment fragment = (MainPageFragment) getFragmentManager().findFragmentByTag("android:switcher:"+ lvpMain+":"+lvpMain.getCurrentItem());
+        MainPageFragment fragment = (MainPageFragment) getFragmentManager().findFragmentByTag("android:switcher:" + lvpMain + ":" + lvpMain.getCurrentItem());
         return fragment;
     }
-
     public void updateAllFragmentsPageChanges() {
         int size = fragmentManager.getFragments().size();
         for (int i = 0; i < size; i++) {
@@ -122,7 +128,6 @@ public class    PAFragmentManager {
             }
         }
     }
-
     public void updateCurrencyChanges() {
         int size = fragmentManager.getFragments().size();
         for (int i = 0; i < size; i++) {
@@ -132,7 +137,6 @@ public class    PAFragmentManager {
             }
         }
     }
-
     public void displayMainWindow() {
         activity.treatToolbar();
         PRESSED = false;
@@ -156,7 +160,6 @@ public class    PAFragmentManager {
         if (fragmentManager.getBackStackEntryCount() > 0)
             fragmentManager.popBackStack();
     }
-
     public void displayFragment(Fragment fragment) {
         if (fragmentManager.findFragmentById(R.id.flMain) != null && fragment.getClass().getName().equals(fragmentManager.findFragmentById(R.id.flMain).getClass().getName()))
             return;
@@ -176,7 +179,6 @@ public class    PAFragmentManager {
                 .replace(R.id.flMain, fragment)
                 .commit();
     }
-
     public ViewPager getLvpMain() {
         ManualEnterFragment manualEnterFragment = (ManualEnterFragment) adapter.getItem(1);
         ViewPager lvpMain;
@@ -186,7 +188,6 @@ public class    PAFragmentManager {
             lvpMain = new ViewPager(activity);
         return lvpMain;
     }
-
     public void displayFragment(Fragment fragment, String tag) {
         if (fragmentManager.findFragmentById(R.id.flMain) != null && fragment.getClass().getName().equals(fragmentManager.findFragmentById(R.id.flMain).getClass().getName()))
             return;
@@ -198,13 +199,10 @@ public class    PAFragmentManager {
                 .add(R.id.flMain, fragment, tag)
                 .commit();
     }
-
     class VerticalViewPagerAdapter extends FragmentStatePagerAdapter {
-
         public VerticalViewPagerAdapter(FragmentManager fm) {
             super(fm);
         }
-
         @Override
         public Fragment getItem(int position) {
             Fragment fragment;
@@ -215,13 +213,11 @@ public class    PAFragmentManager {
             }
             return fragment;
         }
-
         @Override
         public int getCount() {
             return 2;
         }
     }
-
     public void remoteBackPress() {
         String fragName = getFragmentManager().findFragmentById(R.id.flMain).getClass().getName();
         int count = getFragmentManager().getBackStackEntryCount();

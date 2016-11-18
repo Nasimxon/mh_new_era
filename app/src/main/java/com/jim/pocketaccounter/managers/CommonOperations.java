@@ -93,21 +93,14 @@ import javax.inject.Named;
  */
 
 public class CommonOperations {
-    @Inject
-    DaoSession daoSession;
-    @Inject
-    List<TemplateVoice> voices;
+    @Inject DaoSession daoSession;
+    @Inject List<TemplateVoice> voices;
     private CurrencyDao currencyDao;
     private Context context;
     private Currency mainCurrency;
-    @Inject
-    @Named(value = "begin")
-    Calendar begin;
-    @Inject
-    @Named(value = "end")
-    Calendar end;
-    @Inject
-    SharedPreferences sharedPreferences;
+    @Inject @Named(value = "begin") Calendar begin;
+    @Inject @Named(value = "end") Calendar end;
+    @Inject SharedPreferences sharedPreferences;
 
     public CommonOperations(Context context) {
         ((PocketAccounterApplication) context.getApplicationContext()).component().inject(this);
@@ -1436,7 +1429,7 @@ public class CommonOperations {
             String id = dbCursor.getString(dbCursor.getColumnIndex("id"));
             newDebtBorrow.setId(id);
             reckCursor.moveToFirst();
-            ArrayList<Recking> list = new ArrayList<Recking>();
+            ArrayList<Recking> list = new ArrayList<>();
             while (!reckCursor.isAfterLast()) {
                 if (id.equals(reckCursor.getString(reckCursor.getColumnIndex("id")))) {
                     try {
@@ -1511,7 +1504,7 @@ public class CommonOperations {
                 }
             }
             credit.setValyute_currency(currency);
-            List<ReckingCredit> reckings = new ArrayList<ReckingCredit>();
+            List<ReckingCredit> reckings = new ArrayList<>();
             curCreditRecking.moveToFirst();
             while (!curCreditRecking.isAfterLast()) {
                 if (Long.parseLong(curCreditRecking.getString(curCreditRecking.getColumnIndex("credit_id"))) == Long.parseLong(curCreditTable.getString(curCreditTable.getColumnIndex("credit_id")))) {
@@ -1942,26 +1935,20 @@ public class CommonOperations {
     }
 
     public int defineType(String categoryId) {
-        List<RootCategory> categories = daoSession.getRootCategoryDao()
-                .queryBuilder()
-                .where(RootCategoryDao.Properties.Id.eq(categoryId))
-                .list();
-        if (!categories.isEmpty()) return PocketAccounterGeneral.CATEGORY;
-        List<CreditDetials> credits = daoSession.getCreditDetialsDao()
-                .queryBuilder()
-                .where(CreditDetialsDao.Properties.MyCredit_id.eq(categoryId))
-                .list();
-        if (!credits.isEmpty()) return PocketAccounterGeneral.CREDIT;
-        List<DebtBorrow> debtBorrows = daoSession.getDebtBorrowDao()
-                .queryBuilder()
-                .where(DebtBorrowDao.Properties.Id.eq(categoryId))
-                .list();
-        if (!debtBorrows.isEmpty()) return PocketAccounterGeneral.DEBT_BORROW;
+        RootCategory categorie = daoSession.getRootCategoryDao().load(categoryId);
+        if (categorie != null) return PocketAccounterGeneral.CATEGORY;
+        try {
+            CreditDetials credit = daoSession.getCreditDetialsDao().load(Long.parseLong(categoryId));
+            if (credit != null) return PocketAccounterGeneral.CREDIT;
+        }
+        catch (Exception e) { Log.e("sss", "print stack"); }
+        DebtBorrow debtBorrow = daoSession.getDebtBorrowDao().load(categoryId);
+        if (debtBorrow != null) return PocketAccounterGeneral.DEBT_BORROW;
         String[] operationIds = context.getResources().getStringArray(R.array.operation_ids);
-        String[] pageIds = context.getResources().getStringArray(R.array.page_ids);
         for (String operationId : operationIds) {
             if (operationId.equals(categoryId)) return PocketAccounterGeneral.FUNCTION;
         }
+        String[] pageIds = context.getResources().getStringArray(R.array.page_ids);
         for (String pageId : pageIds) {
             if (pageId.equals(categoryId)) return PocketAccounterGeneral.PAGE;
         }
@@ -1973,7 +1960,6 @@ public class CommonOperations {
         if (subCategories != null && !subCategories.isEmpty()) {
             for (SubCategory subCategory : subCategories) {
                 TemplateVoice templateVoice = new TemplateVoice();
-
                 templateVoice.setRegex(new RegexBuilder()
                         .openGroup()
                         .anyVisibleCharSeq()
@@ -2002,7 +1988,6 @@ public class CommonOperations {
                 templateVoice.getPairs().put(1, Arrays.asList(2, 3));
                 templateVoice.getPairs().put(2, Arrays.asList(5, 6));
                 templateVoice.getPairs().put(3, Arrays.asList(8, 8));
-
                 templateVoice.setCatName(object.getName().toLowerCase());
                 templateVoice.setCategoryId(object.getId());
                 templateVoice.setSubCatId(subCategory.getId());

@@ -15,6 +15,7 @@ import com.jim.pocketaccounter.R;
 import com.jim.pocketaccounter.database.BoardButton;
 import com.jim.pocketaccounter.utils.PocketAccounterGeneral;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -28,6 +29,7 @@ public class TextDrawingBoardView extends DecorationBoardView {
     private float execFrame;
     private int color, red, green;
     private float delay;
+    private DecimalFormat format = new DecimalFormat("0.##");
     public TextDrawingBoardView(Context context, int table, Calendar day) {
         super(context, table);
         this.day = day;
@@ -85,6 +87,7 @@ public class TextDrawingBoardView extends DecorationBoardView {
         paint.setStrokeWidth(1f);
         paint.setColor(color);
         paint.setAlpha(0x80);
+        paint.setAlpha(alpha);
         paint.setStyle(Paint.Style.STROKE);
         RectF cont = element.getContainer();
         RectF container = new RectF(cont.left + delay, cont.top + delay, cont.right, cont.bottom);
@@ -108,14 +111,19 @@ public class TextDrawingBoardView extends DecorationBoardView {
                 textPaint.setTextSize(getResources().getDimension(R.dimen.twelve_dp));
                 Rect rect = new Rect();
                 textPaint.getTextBounds(element.getText(), 0, element.getText().length(), rect);
-                canvas.drawText(element.getText(), container.left /*right - rect.width()*/, container.top - rect.height()/3, textPaint);
-                String amount = element.getAmount() + commonOperations.getMainCurrency().getAbbr();
-                textPaint.getTextBounds(amount, 0, amount.length(), rect);
-                if (table == PocketAccounterGeneral.EXPENSE)
-                    textPaint.setColor(red);
-                else
-                    textPaint.setColor(green);
-                canvas.drawText(amount, container.right - rect.width(), container.top + 4*rect.height()/3, textPaint);
+                canvas.drawText(element.getText(), container.left, container.top - rect.height()/3, textPaint);
+                if (element.getAmount() != 0) {
+                    String amount = format.format(element.getAmount());
+                    if (amount.length() >= 14)
+                        amount = amount.substring(0, 8) + "...";
+                    amount += commonOperations.getMainCurrency().getAbbr();
+                    textPaint.getTextBounds(amount, 0, amount.length(), rect);
+                    if (table == PocketAccounterGeneral.EXPENSE)
+                        textPaint.setColor(red);
+                    else
+                        textPaint.setColor(green);
+                    canvas.drawText(amount, container.right - rect.width(), container.top + 4*rect.height()/3, textPaint);
+                }
             }
         }
     }

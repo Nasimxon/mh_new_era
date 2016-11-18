@@ -1,6 +1,7 @@
 package com.jim.pocketaccounter.managers;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.jim.pocketaccounter.PocketAccounterApplication;
 import com.jim.pocketaccounter.R;
@@ -208,7 +209,6 @@ public class LogicManager {
 
     public void generateCurrencyCosts(Calendar day, double amount, Currency adding) {
         final int EARLIEST = 0, MIDDLE = 1, LATEST = 2; // position of adding currency
-
         //defining the position
         int position = EARLIEST;
         List<CurrencyCostState> allStates = daoSession
@@ -230,7 +230,6 @@ public class LogicManager {
             else
                 position = MIDDLE;
         }
-
         //after defining position, we consider all options of position of currency
         CurrencyCostState supplyState = null;
         switch (position) { //finding anchor state and generate day currency costs
@@ -252,6 +251,7 @@ public class LogicManager {
         generateCostForTheDay((Calendar) day.clone(), amount, adding, supplyState);
         if (position != LATEST)
             generateCostsForRestDays((Calendar) day.clone(), amount, adding);
+        Log.d("sss", "test");
     }
 
     private void generateCostForTheDay(Calendar day, double amount, Currency adding, CurrencyCostState supply) { //generating costs using supplying data
@@ -353,7 +353,6 @@ public class LogicManager {
                     .list();
             for (Currency currency : notMainCurrencies) {
                 CurrencyWithAmount withAmount = new CurrencyWithAmount();
-                withAmount.__setDaoSession(daoSession);
                 if (currency.getId().equals(adding.getId())) {
                     withAmount.setAmount(amount);
                 }

@@ -55,21 +55,13 @@ public class Currency {
 	public List<CurrencyCost> getCosts() {
 		costs = new ArrayList<>();
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
-		Currency mainCur = daoSession.getCurrencyDao()
-					.queryBuilder()
-					.where(CurrencyDao.Properties.IsMain.eq(true))
-					.list()
-					.get(0);
-		List<CurrencyCostState> costStateList = daoSession.getCurrencyCostStateDao()
-				.queryBuilder()
-				.where(CurrencyCostStateDao.Properties.MainCurId.eq(mainCur.getId()))
-				.list();
+		List<CurrencyCostState> costStateList = daoSession.getCurrencyCostStateDao().loadAll();
 		for (UserEnteredCalendars userCalendar : getUserEnteredCalendarses()) {
 			for (CurrencyCostState currencyCostState : costStateList) {
 				String formattedUserCalendar = simpleDateFormat.format(userCalendar.getCalendar().getTime());
 				String formattedStateDay = simpleDateFormat.format(currencyCostState.getDay().getTime());
 				if (formattedUserCalendar.equals(formattedStateDay)) {
-					double cost = 0;
+					double cost = 1.0;
 					for (CurrencyWithAmount withAmount : currencyCostState.getCurrencyWithAmountList()) {
 						if (withAmount.getCurrencyId().equals(getId())) {
 							cost = withAmount.getAmount();
@@ -78,6 +70,7 @@ public class Currency {
 					}
 					CurrencyCost currencyCost = new CurrencyCost(cost, userCalendar.getCalendar());
 					costs.add(currencyCost);
+					break;
 				}
 			}
 		}
