@@ -1,23 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="#fcfcfc">
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/rootView">
-
-        <ImageView
-            android:layout_width="@dimen/fifty_dp"
-            android:layout_height="@dimen/fifty_dp"
-            android:id="@+id/ivReport"
-            android:src="@drawable/goal"/>
-        <com.jim.pocketaccounter.MirrorView
+        android:id="@+id/rtView"
+        android:layout_marginTop="@dimen/twenty_dp"
+        android:background="@color/white">
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_centerInParent="true"
-            android:id="@+id/mvReport"
-            android:layout_gravity="right" />
-
+            android:fillViewport="true"
+            android:id="@+id/svScroll">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <ImageView
+                    android:layout_width="@dimen/hundred"
+                    android:layout_height="@dimen/hundred"
+                    android:src="@drawable/icons_42"/>
+                <ImageView
+                    android:layout_width="@dimen/hundred"
+                    android:layout_height="@dimen/hundred"
+                    android:src="@drawable/ic_mode_edit_black_24dp"/>
+                <ImageView
+                    android:layout_width="@dimen/hundred"
+                    android:layout_height="@dimen/hundred"
+                    android:src="@drawable/ic_add_black_24dp"/>
+                <ImageView
+                    android:layout_width="@dimen/hundred"
+                    android:layout_height="@dimen/hundred"
+                    android:src="@drawable/goal"/>
+                <ImageView
+                    android:layout_width="@dimen/hundred"
+                    android:layout_height="@dimen/hundred"
+                    android:src="@drawable/ic_cat_trash"/>
+                <ImageView
+                    android:layout_width="@dimen/hundred"
+                    android:layout_height="@dimen/hundred"
+                    android:src="@drawable/ic_arrow_forward_black_24dp"/>
+                <ImageView
+                    android:layout_width="@dimen/hundred"
+                    android:layout_height="@dimen/hundred"
+                    android:src="@drawable/ic_search_black_24dp"/>
+            </LinearLayout>
+        </ScrollView>
     </FrameLayout>
+    <com.jim.pocketaccounter.RollBehindView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/thirtyfive_dp"
+        android:id="@+id/rbView"
+        android:background="@color/white"
+        android:visibility="visible"
+        android:layout_marginTop="@dimen/twentyone_dp"/>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/thirtyfive_dp"
+        android:layout_marginTop="@dimen/twenty_dp"
+        android:src="@drawable/shadow_roll"
+        android:alpha="0.3"/>
 </RelativeLayout>

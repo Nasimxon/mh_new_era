@@ -1,25 +1,19 @@
 package com.jim.pocketaccounter.fragments;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.DisplayMetrics;
-import android.util.TypedValue;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 
-import com.jim.pocketaccounter.MirrorView;
+import com.jim.pocketaccounter.RollBehindView;
 import com.jim.pocketaccounter.PocketAccounter;
 import com.jim.pocketaccounter.PocketAccounterApplication;
 import com.jim.pocketaccounter.R;
@@ -27,22 +21,13 @@ import com.jim.pocketaccounter.managers.CommonOperations;
 import com.jim.pocketaccounter.managers.PAFragmentManager;
 import com.jim.pocketaccounter.managers.ReportManager;
 import com.jim.pocketaccounter.managers.ToolbarManager;
-import com.jim.pocketaccounter.utils.PocketAccounterGeneral;
-import com.jim.pocketaccounter.utils.billing.LockViewButtonClickListener;
-import com.jim.pocketaccounter.utils.billing.MainPageLockView;
 import com.jim.pocketaccounter.utils.cache.DataCache;
-import com.jim.pocketaccounter.utils.record.BalanceStripe;
-import com.jim.pocketaccounter.utils.record.BoardView;
-import com.jim.pocketaccounter.utils.record.PageChangeListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-
-import static android.util.TypedValue.COMPLEX_UNIT_DIP;
-import static com.jim.pocketaccounter.PocketAccounter.PRESSED;
 
 @SuppressLint("ValidFragment")
 public class ReportFragment extends Fragment {
@@ -55,20 +40,51 @@ public class ReportFragment extends Fragment {
     @Inject @Named(value = "begin") Calendar begin;
     @Inject @Named(value = "end") Calendar end;
     @Inject SharedPreferences preferences;
-    MirrorView mvReport;
+    RollBehindView rbView;
+    Bitmap bitmap;
+    ScrollView svScroll;
+    float thirty = 0.0f;
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.report_fragment, container, false);
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
-        final FrameLayout root = (FrameLayout) rootView.findViewById(R.id.rootView);
+        thirty = getResources().getDimension(R.dimen.thirtyfive_dp);
+        rbView = (RollBehindView) rootView.findViewById(R.id.rbView);
+        svScroll = (ScrollView) rootView.findViewById(R.id.svScroll);
+        final FrameLayout root = (FrameLayout) rootView.findViewById(R.id.rtView);
         root.post(new Runnable() {
             @Override
             public void run() {
                 root.setDrawingCacheEnabled(true);
                 root.buildDrawingCache();
-                Bitmap bitmap = root.getDrawingCache();
-
+                bitmap = root.getDrawingCache();
+                Bitmap temp = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), (int) thirty);
+                rbView.setBitmap(temp);
             }
         });
+        svScroll.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+            @Override
+            public void onScrollChanged() {
+                int scrollY = svScroll.getScrollY(); // For ScrollView
+                int scrollX = svScroll.getScrollX(); // For HorizontalScrollView
+                if (scrollY < 0) return;
+                if (bitmap != null && !bitmap.isRecycled()) {
+                    Log.d("sss", "y: " + scrollY + " bitmap: " + bitmap.getHeight());
+                    Bitmap temp = Bitmap.createBitmap(bitmap, 0, scrollY, bitmap.getWidth(), (int) thirty);
+                    rbView.setBitmap(temp);
+                } else {
+                    root.setDrawingCacheEnabled(true);
+                    root.buildDrawingCache();
+                    bitmap = root.getDrawingCache();
+                    Log.d("sss", "y: " + scrollY + " bitmap: " + bitmap.getHeight());
+
+                    Bitmap temp = Bitmap.createBitmap(bitmap, 0, scrollY, bitmap.getWidth(), (int) thirty);
+                    rbView.setBitmap(temp);
+                }
+
+                // DO SOMETHING WITH THE SCROLL COORDINATES
+            }
+        });
+
         return rootView;
     }
 }
