@@ -34,6 +34,7 @@ import com.jim.pocketaccounter.fragments.CategoryFragment;
 import com.jim.pocketaccounter.fragments.CreditTabLay;
 import com.jim.pocketaccounter.fragments.CurrencyFragment;
 import com.jim.pocketaccounter.fragments.PurposeFragment;
+import com.jim.pocketaccounter.fragments.ReportFragment;
 import com.jim.pocketaccounter.fragments.SmsParseMainFragment;
 import com.jim.pocketaccounter.syncbase.SignInGoogleMoneyHold;
 import com.jim.pocketaccounter.syncbase.SyncBase;
@@ -325,6 +326,7 @@ public class DrawerInitializer {
                                 fragmentManager.displayFragment(new SmsParseMainFragment());
                                 break;
                             case 9:
+                                fragmentManager.displayFragment(new ReportFragment());
                                 //report
                                 break;
                             case 10:

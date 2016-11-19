@@ -41,6 +41,7 @@ import com.jim.pocketaccounter.fragments.ReportByCategoryExpansesFragment;
 import com.jim.pocketaccounter.fragments.ReportByCategoryIncomesFragment;
 import com.jim.pocketaccounter.fragments.ReportByIncomeExpanseBarFragment;
 import com.jim.pocketaccounter.fragments.ReportByIncomeExpanseTableFragment;
+import com.jim.pocketaccounter.fragments.ReportFragment;
 import com.jim.pocketaccounter.fragments.RootCategoryEditFragment;
 import com.jim.pocketaccounter.fragments.SMSParseInfoFragment;
 import com.jim.pocketaccounter.fragments.SearchFragment;
@@ -136,4 +137,5 @@ public interface PocketAccounterActivityComponent {
     void inject(MainPageLockView mainPageLockView);
     void inject(VoiceRecognizerFragment voiceRecognizerFragment);
     void inject(PurchaseImplementation purchaseImplementation);
+    void inject(ReportFragment reportFragment);
 }
