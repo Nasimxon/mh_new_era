@@ -35,15 +35,18 @@
 
     <style name="FiolaTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="headColor">#e6d9e6</item>
+
         <item name="colorPrimaryDark">#d9c9d9</item>
+
+        <item name="headColor">#e6d9e6</item>
         <item name="headAccedent">#664266</item>
 
-        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimary">#d9c9d9</item>
+        <item name="colorAccent">#664266</item>
         <!--<item name="colorAccent">@color/colorAccent</item>-->
         <item name="android:typeface">serif</item>
         <item name="colorControlNormal">@color/forlines</item>
-        <item name="colorControlActivated">@color/colorAccent</item>
+        <item name="colorControlActivated">#664266</item>
         <item name="colorControlHighlight">@color/colorAccent</item>
         <item name="android:preferenceCategoryStyle">@style/PreferenceCategoryStyle</item>
         <item name="android:actionBarSize">64dp</item>

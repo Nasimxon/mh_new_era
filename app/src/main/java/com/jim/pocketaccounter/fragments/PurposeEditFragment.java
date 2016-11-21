@@ -70,7 +70,7 @@ public class PurposeEditFragment extends Fragment implements OnClickListener, On
     @Inject
     CommonOperations commonOperations;
 
-    private String choosenIcon = "icons_1";
+    private String choosenIcon = "add_icon";
     private Purpose purpose;
     private EditText purposeName;
     private ImageView iconPurpose;
@@ -80,16 +80,13 @@ public class PurposeEditFragment extends Fragment implements OnClickListener, On
     private EditText beginDate;
     private EditText endDate;
     private LinearLayout linearLayoutForGone;
-    private RelativeLayout relativeLayoutForGone;
     private Calendar begCalendar;
     private Calendar endCalendar;
-    private TextView tvperido;
     private TextView etPeriodCount;
-
     public PurposeEditFragment(Purpose purpose) {
         this.purpose = purpose;
     }
-
+    SimpleDateFormat simpleDateFormat;
     boolean forCustomPeriod = false;
 
     @Override
@@ -104,7 +101,8 @@ public class PurposeEditFragment extends Fragment implements OnClickListener, On
     DatePickerDialog.OnDateSetListener getDatesetListener2;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.purpose_edit_layout_moder, container, false);
+        final View rootView = inflater.inflate(R.layout.purpose_edit_layout
+                , container, false);
         purposeName = (EditText) rootView.findViewById(R.id.etPurposeEditName);
         iconPurpose = (ImageView) rootView.findViewById(R.id.fabPurposeIcon);
         amountPurpose = (EditText) rootView.findViewById(R.id.etPurposeTotal);
@@ -112,17 +110,16 @@ public class PurposeEditFragment extends Fragment implements OnClickListener, On
         periodPurpose = (Spinner) rootView.findViewById(R.id.spPurposePeriod);
         beginDate = (EditText) rootView.findViewById(R.id.tvPurposeBeginDate);
         endDate = (EditText) rootView.findViewById(R.id.tvPurposeEndDate);
-        linearLayoutForGone = (LinearLayout) rootView.findViewById(R.id.linTextForGOne);
-        relativeLayoutForGone = (RelativeLayout) rootView.findViewById(R.id.rlForGOne);
-        tvperido = (TextView) rootView.findViewById(R.id.tvperido);
+            linearLayoutForGone = (LinearLayout) rootView.findViewById(R.id.linTextForGOne);
         etPeriodCount = (EditText) rootView.findViewById(R.id.for_period_credit);
         CurrencyDao currencyDao = daoSession.getCurrencyDao();
         final List<String> curList = new ArrayList<>();
         for (Currency c : currencyDao.queryBuilder().list()) {
             curList.add(c.getAbbr());
         }
+        simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
 
-        beginDate.setText(dateFormat.format(begCalendar.getTime()));
+        beginDate.setText(simpleDateFormat.format(begCalendar.getTime()));
         // ------------ Toolbar setting ----------
         toolbarManager.setImageToSecondImage(R.drawable.check_sign);
         toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
@@ -134,7 +131,13 @@ public class PurposeEditFragment extends Fragment implements OnClickListener, On
                 } else if (purposeName.getText().toString().isEmpty()) {
                     amountPurpose.setError(null);
                     purposeName.setError(getResources().getString(R.string.enter_name_error));
-                } else {
+                } else if(choosenIcon.equals("add_icon")){
+//                    iconPurpose.animate().tra
+                        Toast.makeText(getContext(),getString(R.string.choise_photo),Toast.LENGTH_SHORT).show();
+                        return;
+                }
+
+                else {
                     if (purpose == null) {
                         purpose = new Purpose();
                     }
@@ -173,10 +176,7 @@ public class PurposeEditFragment extends Fragment implements OnClickListener, On
         // ------------ end toolbar setting ------
         // ------------ icon set ----------
         int resId = getResources().getIdentifier(purpose != null ? purpose.getIcon() : choosenIcon, "drawable", getContext().getPackageName());
-        Bitmap temp = BitmapFactory.decodeResource(getResources(), resId);
-        Bitmap bitmap = Bitmap.createScaledBitmap(temp, (int) commonOperations.convertDpToPixel((int) getResources().getDimension(R.dimen.twentyfive_dp)),
-                (int) commonOperations.convertDpToPixel((int) getResources().getDimension(R.dimen.twentyfive_dp)), true);
-        iconPurpose.setImageBitmap(bitmap);
+        iconPurpose.setImageResource(resId);
         iconPurpose.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -185,10 +185,7 @@ public class PurposeEditFragment extends Fragment implements OnClickListener, On
                     public void OnIconPick(String icon) {
                         choosenIcon = icon;
                         int resId = getResources().getIdentifier(icon, "drawable", getContext().getPackageName());
-                        Bitmap temp = BitmapFactory.decodeResource(getResources(), resId);
-                        Bitmap b = Bitmap.createScaledBitmap(temp, (int) getResources().getDimension(R.dimen.twentyfive_dp),
-                                (int) getResources().getDimension(R.dimen.twentyfive_dp), false);
-                        iconPurpose.setImageBitmap(b);
+                        iconPurpose.setImageResource(resId);
                         iconChooseDialog.setSelectedIcon(icon);
                         iconChooseDialog.dismiss();
                     }
@@ -210,9 +207,7 @@ public class PurposeEditFragment extends Fragment implements OnClickListener, On
         curPurpose.setSelection(posMain);
         // ------------ end spinner currency -------
         // ------------ period purpose spinner ------
-        relativeLayoutForGone.setVisibility(View.GONE);
         linearLayoutForGone.setVisibility(View.GONE);
-        tvperido.setVisibility(View.VISIBLE);
         String periodList[] = getResources().getStringArray(R.array.period_purpose);
         ArrayAdapter<String> periodAdapter = new ArrayAdapter<>(getContext(),
                 R.layout.adapter_spiner, periodList);
@@ -235,23 +230,19 @@ public class PurposeEditFragment extends Fragment implements OnClickListener, On
 
                 switch (position) {
                     case 0: {
-                        relativeLayoutForGone.setVisibility(View.GONE);
                         linearLayoutForGone.setVisibility(View.GONE);
-                        tvperido.setVisibility(View.VISIBLE);
                         etPeriodCount.setVisibility(View.GONE);
                         begCalendar = null;
                         endCalendar = null;
                         endDate.setText("");
                         begCalendar = Calendar.getInstance();
-                        beginDate.setText(dateFormat.format(begCalendar.getTime()));
+                        beginDate.setText(simpleDateFormat.format(begCalendar.getTime()));
                         keyb = true;
                         forCustomPeriod = false;
                         break;
                     }
                     case 1: {
-                        relativeLayoutForGone.setVisibility(View.VISIBLE);
                         linearLayoutForGone.setVisibility(View.VISIBLE);
-                        tvperido.setVisibility(View.GONE);
                         etPeriodCount.setVisibility(View.VISIBLE);
                         keyb = false;
                         forCustomPeriod = false;
@@ -273,9 +264,7 @@ public class PurposeEditFragment extends Fragment implements OnClickListener, On
                         break;
                     }
                     case 2: {
-                        relativeLayoutForGone.setVisibility(View.VISIBLE);
                         linearLayoutForGone.setVisibility(View.VISIBLE);
-                        tvperido.setVisibility(View.GONE);
                         etPeriodCount.setVisibility(View.VISIBLE);
                         keyb = false;
                         forCustomPeriod = false;
@@ -297,9 +286,7 @@ public class PurposeEditFragment extends Fragment implements OnClickListener, On
                         break;
                     }
                     case 3: {
-                        relativeLayoutForGone.setVisibility(View.VISIBLE);
                         linearLayoutForGone.setVisibility(View.VISIBLE);
-                        tvperido.setVisibility(View.GONE);
                         etPeriodCount.setVisibility(View.VISIBLE);
                         keyb = false;
                         forCustomPeriod = false;
@@ -322,9 +309,7 @@ public class PurposeEditFragment extends Fragment implements OnClickListener, On
                         break;
                     }
                     case 4: {
-                        relativeLayoutForGone.setVisibility(View.VISIBLE);
                         linearLayoutForGone.setVisibility(View.VISIBLE);
-                        tvperido.setVisibility(View.VISIBLE);
                         etPeriodCount.setVisibility(View.GONE);
                         keyb = false;
                         forCustomPeriod = true;
@@ -399,7 +384,7 @@ public class PurposeEditFragment extends Fragment implements OnClickListener, On
         final DatePickerDialog.OnDateSetListener getDatesetListener = new DatePickerDialog.OnDateSetListener() {
             public void onDateSet(android.widget.DatePicker arg0, int arg1, int arg2, int arg3) {
                 begCalendar = new GregorianCalendar(arg1, arg2, arg3);
-                beginDate.setText(dateFormat.format(begCalendar.getTime()));
+                beginDate.setText(simpleDateFormat.format(begCalendar.getTime()));
                 if (!forCustomPeriod) {
                     endCalendar = (Calendar) begCalendar.clone();
                     int period_long = 1;
@@ -430,7 +415,7 @@ public class PurposeEditFragment extends Fragment implements OnClickListener, On
 
                         // forCompute+=period_long;
 
-                        endDate.setText(dateFormat.format(endCalendar.getTime()));
+                        endDate.setText(simpleDateFormat.format(endCalendar.getTime()));
 
                     } else {
                         etPeriodCount.setError(getString(R.string.first_enter_period));
@@ -441,7 +426,7 @@ public class PurposeEditFragment extends Fragment implements OnClickListener, On
         getDatesetListener2 = new DatePickerDialog.OnDateSetListener() {
             public void onDateSet(android.widget.DatePicker arg0, int arg1, int arg2, int arg3) {
                 endCalendar = new GregorianCalendar(arg1, arg2, arg3);
-                endDate.setText(dateFormat.format(endCalendar.getTime()));
+                endDate.setText(simpleDateFormat.format(endCalendar.getTime()));
                 if (!forCustomPeriod) {
                     begCalendar = (Calendar) endCalendar.clone();
                     int period_long = 1;
@@ -470,7 +455,7 @@ public class PurposeEditFragment extends Fragment implements OnClickListener, On
                                 return;
                         }
 
-                        beginDate.setText(dateFormat.format(begCalendar.getTime()));
+                        beginDate.setText(simpleDateFormat.format(begCalendar.getTime()));
 
                     } else {
                         etPeriodCount.setError(getString(R.string.first_enter_period));
@@ -538,8 +523,8 @@ public class PurposeEditFragment extends Fragment implements OnClickListener, On
             begCalendar = purpose.getBegin();
             endCalendar = purpose.getEnd();
             periodPurpose.setSelection(purpose.getPeriodPos());
-            beginDate.setText(dateFormat.format(purpose.getBegin().getTime()));
-            endDate.setText(dateFormat.format(purpose.getEnd().getTime()));
+            beginDate.setText(simpleDateFormat.format(purpose.getBegin().getTime()));
+            endDate.setText(simpleDateFormat.format(purpose.getEnd().getTime()));
             etPeriodCount.setText("" + purpose.getPeriodSize());
         }
         return rootView;
@@ -547,7 +532,7 @@ public class PurposeEditFragment extends Fragment implements OnClickListener, On
 
     public void forDateSyncFirst() {
         if (!forCustomPeriod) {
-            beginDate.setText(dateFormat.format(begCalendar.getTime()));
+            beginDate.setText(simpleDateFormat.format(begCalendar.getTime()));
             endCalendar = (Calendar) begCalendar.clone();
             int period_long = 1;
             if (!etPeriodCount.getText().toString().matches("")) {
@@ -578,7 +563,7 @@ public class PurposeEditFragment extends Fragment implements OnClickListener, On
 
                 // forCompute+=period_long;
 
-                endDate.setText(dateFormat.format(endCalendar.getTime()));
+                endDate.setText(simpleDateFormat.format(endCalendar.getTime()));
 
             } else {
                 etPeriodCount.setError(getString(R.string.first_enter_period));
@@ -588,7 +573,7 @@ public class PurposeEditFragment extends Fragment implements OnClickListener, On
 
     public void forDateSyncLast() {
         if (!forCustomPeriod) {
-            endDate.setText(dateFormat.format(endCalendar.getTime()));
+            endDate.setText(simpleDateFormat.format(endCalendar.getTime()));
             begCalendar = (Calendar) endCalendar.clone();
             int period_long = 1;
             if (!etPeriodCount.getText().toString().matches("")) {
@@ -614,7 +599,7 @@ public class PurposeEditFragment extends Fragment implements OnClickListener, On
                         return;
                 }
 
-                beginDate.setText(dateFormat.format(begCalendar.getTime()));
+                beginDate.setText(simpleDateFormat.format(begCalendar.getTime()));
 
             } else {
                 etPeriodCount.setError(getString(R.string.first_enter_period));

@@ -1126,7 +1126,7 @@
     <string name="balance">Balance</string>
     <string name="total_pay_sum">The total payment:</string>
     <string name="pay_date">Payment Date</string>
-    <string name="amount">Amount:</string>
+    <string name="amount">Amount</string>
     <string name="enter_amount">Enter the amount</string>
     <string name="enter_comment">Type your comment</string>
     <string name="borrows">Debt to me</string>
@@ -1636,5 +1636,7 @@
 
     </string-array>
     <string name="next_page">Next</string>
+    <string name="choise_photo">Choise icon for your purpose!</string>
+    <string name="repeat_every">Repeat every</string>
 
 </resources>

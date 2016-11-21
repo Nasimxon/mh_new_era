@@ -1,118 +1,355 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/pustoyy"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:clickable="true"
-    android:orientation="vertical"
-    android:paddingBottom="@dimen/ten_dp">
-    <RelativeLayout
+    android:background="#fff">
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/five_dp"
-        android:layout_marginTop="@dimen/twenty_dp"
-        android:orientation="horizontal">
-        <EditText
-            android:id="@+id/etPurposeEditName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/fabPurposeIcon"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignTop="@+id/fabAccountIcon"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="@dimen/sixteen_dp"
-            android:layout_marginRight="@dimen/ten_dp"
-            android:layout_toLeftOf="@+id/fabAccountIcon"
-            android:layout_toStartOf="@+id/fabAccountIcon"
-            android:layout_weight="1"
-            android:ems="10"
-            android:hint="@string/cat_name"
-            android:maxLength="25"
-            android:textColor="@color/toolbar_text_color"
-            android:textSize="@dimen/sixteen_sp" />
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fabPurposeIcon"
-            android:layout_width="@dimen/fiftysix_dp"
-            android:layout_height="@dimen/fiftysix_dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_gravity="center_vertical"
-            android:layout_marginBottom="@dimen/twelve_dp"
-            android:layout_marginRight="@dimen/sixteen_dp"
-            android:layout_marginTop="@dimen/twelve_dp" />
-    </RelativeLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/sixteen_dp"
-        android:layout_marginLeft="@dimen/sixteen_dp"
-        android:layout_marginRight="@dimen/sixteen_dp"
-        android:layout_marginTop="@dimen/ten_dp"
-        android:orientation="horizontal">
-        <EditText
-            android:id="@+id/etPurposeTotal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="@dimen/ten_dp"
-            android:hint="@string/enter_amount" />
-        <Spinner
-            android:id="@+id/spPurposeCurrency"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="@dimen/ten_dp" />
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/llPurposePeriod"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="@dimen/sixteen_dp"
-        android:layout_marginLeft="@dimen/sixteen_dp"
-        android:layout_marginRight="@dimen/sixteen_dp"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/ten_dp"
-                android:text="@string/period"
-                android:textSize="@dimen/sixteen_dp" />
-            <Spinner
-                android:id="@+id/spPurposePeriod"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/llCatEditHeader"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:orientation="horizontal">
-            <TextView
-                android:id="@+id/tvPurposeBeginDate"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/ten_dp"
-                android:background="@drawable/knopka_zeleniy"
-                android:text="@string/begin_date"
-                android:textColor="@color/green_just"
-                android:textSize="@dimen/sixteen_dp" />
-            <TextView
-                android:id="@+id/tvPurposeEndDate"
-                android:layout_width="wrap_content"
+                android:background="#f8f8f8"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/fabPurposeIcon"
+                    android:layout_width="@dimen/seventy_dp"
+                    android:layout_height="@dimen/seventy_dp"
+                    android:layout_marginBottom="@dimen/ten_dp"
+                    android:layout_marginLeft="@dimen/sixteen_dp"
+                    android:layout_marginTop="@dimen/twenty_dp"
+                    android:src="@drawable/add_icon" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/five_dp"
+                    android:layout_marginLeft="@dimen/sixteen_dp"
+                    android:layout_marginRight="@dimen/sixteen_dp"
+                    android:layout_marginTop="@dimen/ten_dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvCatEditName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/three_dp"
+                        android:layout_marginRight="@dimen/ten_dp"
+                        android:layout_marginTop="@dimen/ten_dp"
+                        android:text="@string/your_purpose"
+                        android:textColor="@color/toolbar_text_color"
+                        android:textSize="@dimen/sixteen_dp" />
+
+                    <EditText
+                        android:id="@+id/etPurposeEditName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/sixteen_dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/edit_text"
+                        android:ems="10"
+                        android:maxLength="22"
+                        android:paddingBottom="@dimen/five_dp"
+                        android:paddingLeft="@dimen/eight_dp"
+                        android:paddingRight="@dimen/eight_dp"
+                        android:paddingTop="@dimen/five_dp"
+                        android:textColor="@color/toolbar_text_color"
+                        android:textSize="@dimen/sixteen_dp">
+
+                        <requestFocus />
+                    </EditText>
+
+                </LinearLayout>
+            </LinearLayout>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+
+                android:background="#efefef"
+                />
+             <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/ten_dp"
-                android:layout_marginLeft="@dimen/twenty_dp"
-                android:background="@drawable/knopka_zeleniy"
-                android:text="@string/begin_date"
-                android:textColor="@color/green_just"
-                android:textSize="@dimen/sixteen_dp" />
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:id="@+id/checkBoxSum"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/ten_dp"
+                    android:layout_marginTop="@dimen/ten_dp"
+                    android:paddingTop="@dimen/ten_dp">
+
+                    <TextView
+                        android:id="@+id/tvStartSumAccountTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/sixteen_dp"
+                        android:layout_marginRight="@dimen/sixteen_dp"
+                        android:layout_toLeftOf="@+id/chbAccountStartSumEnabled"
+                        android:text="@string/accumulation"
+                        android:textColor="@color/black_for_glavniy_text"
+                        android:textSize="@dimen/fourteen_dp" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rlStartSumContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/sixteen_dp"
+                    android:layout_marginLeft="@dimen/sixteen_dp"
+                    android:layout_marginRight="@dimen/sixteen_dp"
+                    android:background="@drawable/edit_text"
+                    android:paddingBottom="@dimen/eight_dp"
+                    android:paddingLeft="@dimen/ten_dp"
+                    android:paddingRight="@dimen/five_dp"
+                    android:paddingTop="@dimen/eight_dp"
+                    android:visibility="visible">
+
+                    <EditText
+                        android:id="@+id/etPurposeTotal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_gravity="center_vertical"
+                        android:layout_toLeftOf="@+id/spStartMoneyCurrency"
+
+                        android:layout_weight="1"
+                        android:background="#fff"
+                        android:ems="10"
+                        android:hint="@string/enter_the_amount"
+                        android:inputType="numberDecimal"
+                        android:maxLength="25"
+                        android:textColor="@color/black_for_glavniy_text"
+                        android:textSize="@dimen/sixteen_dp" />
+
+                    <Spinner
+                        android:id="@+id/spPurposeCurrency"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/etStartMoney"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/sixteen_dp"
+                        android:gravity="right" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/ten_dp"
+                    android:paddingTop="@dimen/ten_dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/sixteen_dp"
+                        android:layout_marginRight="@dimen/sixteen_dp"
+                        android:layout_toLeftOf="@+id/chbAccountStartSumEnabled"
+                        android:text="@string/term_of_purpose"
+                        android:textColor="@color/black_for_glavniy_text"
+
+                        android:textSize="@dimen/fourteen_dp" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/sixteen_dp"
+                    android:layout_marginLeft="@dimen/sixteen_dp"
+                    android:layout_marginRight="@dimen/sixteen_dp"
+                    android:background="@drawable/edit_text"
+                    android:paddingBottom="@dimen/eight_dp"
+                    android:paddingLeft="@dimen/ten_dp"
+
+                    android:paddingRight="@dimen/five_dp"
+                    android:paddingTop="@dimen/eight_dp"
+                    android:visibility="visible">
+
+                    <TextView
+                        android:id="@+id/tvperido"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/spPurposePeriod"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginRight="@dimen/six_dp"
+                        android:layout_toLeftOf="@+id/spPurposePeriod"
+                        android:layout_toStartOf="@+id/spPurposePeriod"
+                        android:gravity="center_vertical"
+                        android:inputType="number"
+                        android:text="@string/duration"
+                        android:textColor="@color/black_for_glavniy_text"
+                        android:textSize="@dimen/sixteen_dp"
+                        android:visibility="gone" />
+
+                    <EditText
+                        android:id="@+id/for_period_credit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_gravity="center_vertical"
+                        android:background="#fff"
+                        android:ems="10"
+                        android:hint="@string/period_of_save"
+                        android:inputType="numberDecimal"
+                        android:maxLength="25"
+                        android:textColor="@color/black_for_glavniy_text"
+                        android:textSize="@dimen/sixteen_dp"
+                        android:visibility="gone" />
+
+                    <Spinner
+                        android:id="@+id/spPurposePeriod"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+
+                        android:layout_alignParentTop="true"
+                        android:layout_gravity="center_vertical"
+                        android:layout_toEndOf="@+id/for_period_credit"
+                        android:layout_toRightOf="@+id/for_period_credit"
+                        android:gravity="left" />
+
+                </RelativeLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/linTextForGOne"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="@dimen/ten_dp"
+                        android:paddingTop="@dimen/ten_dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/sixteen_dp"
+                            android:layout_marginRight="@dimen/sixteen_dp"
+                            android:layout_toLeftOf="@+id/chbAccountStartSumEnabled"
+                            android:text="@string/interval"
+                            android:textColor="@color/black_for_glavniy_text"
+
+                            android:textSize="@dimen/fourteen_dp" />
+
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/sixteen_dp"
+                        android:layout_marginLeft="@dimen/sixteen_dp"
+
+                        android:layout_marginRight="@dimen/sixteen_dp"
+                        android:orientation="horizontal"
+                        android:visibility="visible">
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/edit_text"
+                            android:paddingBottom="@dimen/eight_dp"
+                            android:paddingLeft="@dimen/ten_dp"
+                            android:paddingRight="@dimen/five_dp"
+                            android:paddingTop="@dimen/eight_dp">
+
+                            <EditText
+                                android:id="@+id/tvPurposeBeginDate"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentLeft="true"
+                                android:layout_alignParentStart="true"
+                                android:layout_gravity="center_vertical"
+                                android:layout_weight="1"
+                                android:focusableInTouchMode="false"
+                                android:background="#fff"
+                                android:ems="10"
+                                android:hint="@string/credit_begin_date"
+                                android:inputType="numberDecimal"
+                                android:maxLength="25"
+                                android:textColor="@color/black_for_glavniy_text"
+                                android:textSize="@dimen/sixteen_dp" />
+                        </RelativeLayout>
+
+                        <ImageView
+                            android:id="@+id/imageView2"
+                            android:layout_width="@dimen/thirty_dp"
+                            android:layout_height="@dimen/fourty_dp"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginLeft="@dimen/five_dp"
+                            android:layout_marginRight="@dimen/five_dp"
+                            android:padding="@dimen/five_dp"
+                            android:src="@drawable/ikitar"
+                            android:tint="#c8c8c8" />
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/edit_text"
+                            android:paddingBottom="@dimen/eight_dp"
+                            android:paddingLeft="@dimen/ten_dp"
+                            android:paddingRight="@dimen/five_dp"
+                            android:paddingTop="@dimen/eight_dp">
+
+                            <EditText
+                                android:id="@+id/tvPurposeEndDate"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentLeft="true"
+                                android:layout_alignParentStart="true"
+                                android:layout_gravity="center_vertical"
+                                android:layout_weight="1"
+                                android:focusableInTouchMode="false"
+                                android:background="#fff"
+                                android:ems="10"
+                                android:hint="@string/credit_return_date"
+                                android:inputType="numberDecimal"
+                                android:maxLength="25"
+                                android:textColor="@color/black_for_glavniy_text"
+                                android:textSize="@dimen/sixteen_dp" />
+                        </RelativeLayout>
+
+                    </LinearLayout>
+                </LinearLayout>
+
+
+
+
+            </LinearLayout>
+
         </LinearLayout>
-    </LinearLayout>
-</LinearLayout>
+    </ScrollView>
+</FrameLayout>

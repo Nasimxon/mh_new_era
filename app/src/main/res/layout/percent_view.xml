@@ -29,65 +29,77 @@
             android:src="@drawable/goal"
             android:layout_alignParentRight="true"/>
     </RelativeLayout>
+
     <RelativeLayout
+            android:id="@+id/llPercentRoot"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/llPercentRoot">
+        android:layout_height="wrap_content">
+
         <ImageView
+            android:id="@+id/ivMain"
             android:layout_width="match_parent"
             android:layout_height="@dimen/five_dp"
-            android:background="@drawable/percent_view_helper_bg"
-            android:id="@+id/ivMain"
-            android:layout_alignBottom="@+id/llTop"/>
+            android:layout_alignBottom="@+id/llTop"
+            android:background="@drawable/percent_view_helper_bg" />
+
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="65%"
-            android:textColor="?attr/headAccedent"
-            android:textSize="@dimen/fourteen_dp"
             android:id="@+id/tvPercent"
-            android:layout_below="@id/ivMain" />
-        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:layout_below="@id/ivMain"
+            android:text="65%"
+            android:layout_marginTop="@dimen/five_dp"
+            android:textColor="?attr/headAccedent"
+            android:textSize="@dimen/fourteen_dp" />
+
+        <LinearLayout
+            android:id="@+id/llTop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentTop="false"
-            android:id="@+id/llTop" >
+            android:orientation="vertical">
+
             <TextView
+                android:id="@+id/tvActiveSide"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Накопленная сумма: 500$"
-                android:textColor="?attr/headAccedent"
                 android:layout_gravity="center_horizontal"
-                android:textSize="@dimen/fourteen_dp"
-                android:id="@+id/tvActiveSide"/>
+                android:text="Накопленная сумма: 500$"
+                android:paddingBottom="@dimen/five_dp"
+                android:textColor="?attr/headAccedent"
+                android:textSize="@dimen/fourteen_dp" />
+
             <ImageView
+                android:id="@+id/ivPercentStripe"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/five_dp"
-                android:background="@drawable/percent_view_main_bg"
                 android:layout_centerVertical="true"
-                android:id="@+id/ivPercentStripe"  />
+                android:background="@drawable/percent_view_main_bg" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:layout_alignParentRight="true"
             android:layout_alignTop="@+id/ivMain"
-            android:layout_alignParentRight="true">
+            android:orientation="vertical">
+
             <ImageView
+                android:id="@+id/ivEmptySide"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/five_dp"
                 android:layout_centerVertical="true"
-                android:id="@+id/ivEmptySide"
-                android:layout_gravity="right"/>
+                android:layout_gravity="right" />
+
             <TextView
+                android:id="@+id/tvNotActiveSide"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:text="Накопленная сумма: 500$"
                 android:textColor="#c8c8c8"
-                android:layout_gravity="center_horizontal"
-                android:textSize="@dimen/fourteen_dp"
-                android:id="@+id/tvNotActiveSide"/>
+                android:layout_marginTop="@dimen/five_dp"
+                android:textSize="@dimen/fourteen_dp" />
         </LinearLayout>
     </RelativeLayout>
 

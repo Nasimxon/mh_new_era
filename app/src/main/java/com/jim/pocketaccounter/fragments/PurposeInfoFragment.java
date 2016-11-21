@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,10 +40,12 @@ import com.jim.pocketaccounter.managers.ToolbarManager;
 import com.jim.pocketaccounter.report.FilterSelectable;
 import com.jim.pocketaccounter.utils.FilterDialog;
 import com.jim.pocketaccounter.utils.OperationsListDialog;
+import com.jim.pocketaccounter.utils.PercentView;
 import com.jim.pocketaccounter.utils.PocketAccounterGeneral;
 import com.jim.pocketaccounter.utils.TransferDialog;
 import org.greenrobot.greendao.query.Query;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -80,12 +83,12 @@ public class PurposeInfoFragment extends Fragment implements View.OnClickListene
     private MyAdapter myAdapter;
     private Purpose purpose;
     private ImageView iconPurpose;
-    private ImageView deleteOpertions;
+//    private ImageView deleteOpertions;
     private ImageView filterOpertions;
     private TextView namePurpose;
     private TextView amountPurpose;
-    private TextView cashAdd;
-    private TextView cashSend;
+    private LinearLayout cashAdd;
+    private LinearLayout cashSend;
     private TextView myLefDate;
     private TextView Allcashes;
     private RecyclerView recyclerView;
@@ -94,7 +97,7 @@ public class PurposeInfoFragment extends Fragment implements View.OnClickListene
     private RelativeLayout forGoneLeftDate;
     private Calendar beginDate;
     private Calendar endDate;
-
+    private PercentView pvPercent;
     public PurposeInfoFragment(Purpose purpose) {
         this.purpose = purpose;
         if (purpose == null) {
@@ -106,16 +109,18 @@ public class PurposeInfoFragment extends Fragment implements View.OnClickListene
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
-        View rooView = inflater.inflate(R.layout.purpose_info_layout_modern, container, false);
+        View rooView = inflater.inflate(R.layout.purpose_info_layout, container, false);
         beginDate = null;
         endDate = null;
         forGoneLeftDate = (RelativeLayout) rooView.findViewById(R.id.forGoneLeftDate);
-        deleteOpertions = (ImageView) rooView.findViewById(R.id.ivPurposeInfoDelete);
+//        deleteOpertions = (ImageView) rooView.findViewById(R.id.ivPurposeInfoDelete);
         filterOpertions = (ImageView) rooView.findViewById(R.id.ivPurposeInfoFilter);
-        cashAdd = (TextView) rooView.findViewById(R.id.tvPurposeInfoToCash);
+        cashAdd = (LinearLayout) rooView.findViewById(R.id.tvPurposeInfoToCash);
+        cashSend = (LinearLayout) rooView.findViewById(R.id.tvPurposeInfoReplanish);
         myLefDate = (TextView) rooView.findViewById(R.id.leftdate);
         Allcashes = (TextView) rooView.findViewById(R.id.totaly);
-        cashSend = (TextView) rooView.findViewById(R.id.tvPurposeInfoReplanish);
+        pvPercent = (PercentView) rooView.findViewById(R.id.pvPercent);
+        pvPercent.setPercetStripeVisibility(false);
         toolbarManager.setImageToSecondImage(R.drawable.ic_more_vert_black_48dp);
         toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
         toolbarManager.setOnSecondImageClickListener(new View.OnClickListener() {
@@ -211,14 +216,11 @@ public class PurposeInfoFragment extends Fragment implements View.OnClickListene
         recyclerView = (RecyclerView) rooView.findViewById(R.id.rvPurposeInfo);
         // ---------- icon set start ---------
         int resId = getResources().getIdentifier(purpose.getIcon(), "drawable", getContext().getPackageName());
-        Bitmap temp = BitmapFactory.decodeResource(getResources(), resId);
-        Bitmap bitmap = Bitmap.createScaledBitmap(temp, (int)getResources().getDimension(R.dimen.twentyfive_dp) ,
-                (int)getResources().getDimension(R.dimen.twentyfive_dp), true);
-        iconPurpose.setImageBitmap(bitmap);
+
+        iconPurpose.setImageResource(resId);
         // ---------- end icon set ---------
         namePurpose.setText(purpose.getDescription());
-        amountPurpose.setText("" + purpose.getPurpose()+purpose.getCurrency().getAbbr());
-        deleteOpertions.setOnClickListener(this);
+     //     deleteOpertions.setOnClickListener(this);
         filterOpertions.setOnClickListener(this);
         cashAdd.setOnClickListener(this);
         cashSend.setOnClickListener(this);
@@ -226,6 +228,30 @@ public class PurposeInfoFragment extends Fragment implements View.OnClickListene
         recyclerView.setLayoutManager(layoutManager);
         myAdapter = new MyAdapter();
         recyclerView.setAdapter(myAdapter);
+
+        double leftAmmountdb = lefAmmount(purpose);
+        double allAmmount = purpose.getPurpose();
+        double paid = allAmmount - leftAmmountdb;
+
+        DecimalFormat format = new DecimalFormat("0.##");
+        String abbr = commonOperations.getMainCurrency().getAbbr();
+        String topText = getString(R.string.saved_money) + " " + format.format(paid) + abbr;
+        String bottomText;
+        if(!(leftAmmountdb <0))
+            bottomText = getString(R.string.left_acomuleted) + " " + format.format(leftAmmountdb) + abbr;
+        else
+            bottomText = getString(R.string.left_acomuleted) + " " + 0 + abbr;
+
+        pvPercent.setPercent((((int) (100*paid/allAmmount))<100)?((int)(100*paid/allAmmount)):((int)100));
+        amountPurpose.setText(bottomText);
+        pvPercent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pvPercent.animatePercent(0, 1200);
+            }
+        });
+        pvPercent.animatePercent(0, 1200);
+
         return rooView;
     }
     public void updateAllInfo(){
@@ -303,6 +329,7 @@ public class PurposeInfoFragment extends Fragment implements View.OnClickListene
         private ArrayList<AccountOperation> purposes;
         private ArrayList<AccountOperation> allPurposes;
         private boolean tek[];
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
 
         public MyAdapter() {
             allPurposes = (ArrayList<AccountOperation>) reportManager.getAccountOpertions(purpose);
@@ -367,7 +394,7 @@ public class PurposeInfoFragment extends Fragment implements View.OnClickListene
             int type = purpose.getId().matches(purposes.get(position).getSourceId())
                     ? PocketAccounterGeneral.EXPENSE : PocketAccounterGeneral.INCOME;
 
-            view.dateOperation.setText(dateFormat.format(purposes.get(position).getDate().getTime()));
+            view.dateOperation.setText(simpleDateFormat.format(purposes.get(position).getDate().getTime()));
 
             String name = "", sign = "";
             int color = 0;

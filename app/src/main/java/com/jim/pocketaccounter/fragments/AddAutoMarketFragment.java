@@ -2,6 +2,7 @@ package com.jim.pocketaccounter.fragments;
 
 import android.app.ActionBar;
 import android.app.Dialog;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -142,7 +143,7 @@ public class AddAutoMarketFragment extends Fragment {
             accs[i] = accounts.get(i).getName();
         }
         ArrayAdapter<String> adapter_scet = new ArrayAdapter<String>(getActivity(),
-                R.layout.spiner_gravity_right, accs);
+                android.R.layout.simple_spinner_item, accs);
         ArrayAdapter<String> curAdapter = new ArrayAdapter<String>(getActivity()
                 , R.layout.spiner_gravity_right, curs);
 
@@ -453,15 +454,28 @@ public class AddAutoMarketFragment extends Fragment {
                 view.frameLayout.setVisibility(View.GONE);
             }
             view.day.setText(days[position]);
-            view.day.setTextColor(ContextCompat.getColor(getContext(), R.color.black_for_secondary_text));
-            if (tek[position]) view.day.setTextColor(ContextCompat.getColor(getContext(), R.color.green_just));
+            if (tek[position])
+            {
+                view.day.setTextColor(ContextCompat.getColor(getContext(), R.color.green_just));
+                view.day.setTypeface(null, Typeface.BOLD);
+
+            }
+            else {
+                view.day.setTextColor(ContextCompat.getColor(getContext(), R.color.black_for_secondary_text));
+                view.day.setTypeface(null, Typeface.NORMAL);
+
+            }
             view.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (!tek[position]) {
                         view.day.setTextColor(ContextCompat.getColor(getContext(), R.color.green_just));
+                        view.day.setTypeface(null, Typeface.BOLD);
+
                     } else {
                         view.day.setTextColor(ContextCompat.getColor(getContext(), R.color.black_for_secondary_text));
+                        view.day.setTypeface(null, Typeface.NORMAL);
+
                     }
                     tek[position] = !tek[position];
                 }

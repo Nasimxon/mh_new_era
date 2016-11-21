@@ -181,7 +181,7 @@ public class PurposeFragment extends Fragment{
             view.tvTotalAmount.setText(getResources().getString(R.string.purpose_ammount) + " "+parseToWithoutNull(allAmmount) + commonOperations.getMainCurrency().getAbbr());
             DecimalFormat format = new DecimalFormat("0.##");
             String abbr = commonOperations.getMainCurrency().getAbbr();
-            String topText = getString(R.string.saved_money) + ": " + format.format(paid) + abbr;
+            String topText = getString(R.string.saved_money) + " " + format.format(paid) + abbr;
             String bottomText;
             if(!(leftAmmountdb <0))
              bottomText = getString(R.string.left_acomuleted) + " " + format.format(leftAmmountdb) + abbr;
@@ -194,10 +194,11 @@ public class PurposeFragment extends Fragment{
             view.pvPercent.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    view.pvPercent.animatePercent(0, 1500);
+                    view.pvPercent.animatePercent(0, 1200);
                 }
             });
-            view.pvPercent.animatePercent(0, 1500);
+            view.pvPercent.animatePercent(0, 1200);
+            view.pvPercent.setBowArrowVisibility(false);
 //            if (item.getBegin() != null && item.getEnd() != null) {
 //                view.leftdateGone.setVisibility(View.VISIBLE);
 //                int t[] = InfoCreditFragment.getDateDifferenceInDDMMYYYY(item.getBegin().getTime(), item.getEnd().getTime());

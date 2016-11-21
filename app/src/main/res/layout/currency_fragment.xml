@@ -10,7 +10,7 @@
         android:layout_height="match_parent"
         android:dividerHeight="@dimen/eight_dp"
         android:paddingTop="@dimen/ten_dp"
-        android:cropToPadding="false"
+        android:clipToPadding="false"
         android:divider="#f4f4f4" >
     </android.support.v7.widget.RecyclerView>
     <android.support.design.widget.FloatingActionButton

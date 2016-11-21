@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
+import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -26,6 +27,9 @@ public class PercentView extends RelativeLayout {
     private ValueAnimator animator;
     private RelativeLayout rlBowArrow, rlTop;
     private boolean isBowArrowVisible = true;
+    private boolean isPercentStripeVisible = true;
+
+    private RelativeLayout llPercentRoot;
     public PercentView(Context context) {
         super(context);
         init(context);
@@ -55,6 +59,7 @@ public class PercentView extends RelativeLayout {
         tvPercent = (TextView) findViewById(R.id.tvPercent);
         rlBowArrow = (RelativeLayout) findViewById(R.id.rlBowArrow);
         rlTop = (RelativeLayout) findViewById(R.id.rlTop);
+        llPercentRoot = (RelativeLayout) findViewById(R.id.llPercentRoot);
     }
 
     public void setPercent(final int percent) {
@@ -97,7 +102,7 @@ public class PercentView extends RelativeLayout {
         if (animator != null && animator.isStarted() && fromPercent < percent) return;
         animator = ValueAnimator.ofInt(fromPercent, percent);
         animator.setDuration(duration);
-        animator.setInterpolator(new FastOutLinearInInterpolator());
+        animator.setInterpolator(new LinearInterpolator());
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -105,12 +110,16 @@ public class PercentView extends RelativeLayout {
                 setPercent(value);
             }
         });
-        animator.start();
-    }
+        animator.start();}
 
     public void setBowArrowVisibility(boolean isBowArrowVisible) {
         this.isBowArrowVisible = isBowArrowVisible;
         rlTop.setVisibility(isBowArrowVisible ? VISIBLE : GONE);
     }
+    public void setPercetStripeVisibility(boolean isPercentStripeVisible) {
+        this.isPercentStripeVisible = isPercentStripeVisible;
+        llPercentRoot.setVisibility(isPercentStripeVisible ? VISIBLE : GONE);
+    }
+
 
 }
