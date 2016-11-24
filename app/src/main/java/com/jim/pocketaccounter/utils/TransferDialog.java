@@ -248,31 +248,64 @@ public class TransferDialog extends Dialog implements View.OnClickListener {
         spAccManDialog.setSelection(currencyPos);
     }
 
+    public void setEditAccountPurpose (AccountOperation accountOperation) {
+        this.accountOperation = accountOperation;
+        chooseAccountFirstId = accountOperation.getSourceId();
+        chooseAccountSecondId = accountOperation.getTargetId();
+        if (daoSession.getAccountDao().load(chooseAccountFirstId) != null) {
+            spTransferFirst.setImageResource(getContext().getResources().getIdentifier(
+                    daoSession.getAccountDao().load(chooseAccountFirstId).getIcon(), "draweble", getContext().getPackageName()));
+            fromAccount.setText(daoSession.getAccountDao().load(chooseAccountFirstId).getName());
+        } else {
+            spTransferFirst.setImageResource(getContext().getResources().getIdentifier(
+                    daoSession.getPurposeDao().load(chooseAccountFirstId).getIcon(), "draweble", getContext().getPackageName()));
+            fromAccount.setText(daoSession.getPurposeDao().load(chooseAccountFirstId).getDescription());
+        }
+        if (daoSession.getAccountDao().load(chooseAccountSecondId) != null) {
+            spTransferSecond.setImageResource(getContext().getResources().getIdentifier(
+                    daoSession.getAccountDao().load(chooseAccountSecondId).getIcon(), "draweble", getContext().getPackageName()));
+            toAccount.setText(daoSession.getAccountDao().load(chooseAccountSecondId).getName());
+        } else {
+            spTransferSecond.setImageResource(getContext().getResources().getIdentifier(
+                    daoSession.getPurposeDao().load(chooseAccountSecondId).getIcon(), "draweble", getContext().getPackageName()));
+            toAccount.setText(daoSession.getPurposeDao().load(chooseAccountSecondId).getDescription());
+        }
+        etAccountEditName.setText(Double.toString(accountOperation.getAmount()));
+        int currencyPos = 0;
+        for (int i = 0; i < currencies.size(); i++) {
+            if (currencies.get(i).getId().equals(accountOperation.getCurrencyId())) {
+                currencyPos = i;
+                break;
+            }
+        }
+        spAccManDialog.setSelection(currencyPos);
+    }
+
     public void setAccountOrPurpose(String id, boolean type) {
         if (id != null) {
-            List<String> allTemp = new ArrayList<>();
-            first = new ArrayList<>();
-            second = new ArrayList<>();
-            int selectedPos = 0;
-
-            List<Account> accounts = daoSession.getAccountDao().loadAll();
-            for (Account account : accounts) {
-                allTemp.add(account.getId());
-            }
-            List<Purpose> purposes = daoSession.getPurposeDao().loadAll();
-            for (Purpose purpose : purposes) {
-                allTemp.add(purpose.getId());
-            }
-
-            for (int i = 0; i < allTemp.size(); i++) {
-                if (allTemp.get(i).matches(id)) {
-                    selectedPos = i;
-                    break;
-                }
-            }
-
-            first.addAll(allTemp);
-            second.addAll(allTemp);
+//            List<String> allTemp = new ArrayList<>();
+//            first = new ArrayList<>();
+//            second = new ArrayList<>();
+//            int selectedPos = 0;
+//
+//            List<Account> accounts = daoSession.getAccountDao().loadAll();
+//            for (Account account : accounts) {
+//                allTemp.add(account.getId());
+//            }
+//            List<Purpose> purposes = daoSession.getPurposeDao().loadAll();
+//            for (Purpose purpose : purposes) {
+//                allTemp.add(purpose.getId());
+//            }
+//
+//            for (int i = 0; i < allTemp.size(); i++) {
+//                if (allTemp.get(i).matches(id)) {
+//                    selectedPos = i;
+//                    break;
+//                }
+//            }
+//
+//            first.addAll(allTemp);
+//            second.addAll(allTemp);
 
             if (!type && daoSession.getPurposeDao().load(id) != null) {
                 chooseAccountSecondId = id;
@@ -285,7 +318,6 @@ public class TransferDialog extends Dialog implements View.OnClickListener {
                 spTransferSecond.setImageResource(getContext().getResources().getIdentifier
                         (daoSession.getAccountDao().load(chooseAccountSecondId).getIcon(), "drawable", getContext().getPackageName()));
             }
-
             if (!type && daoSession.getPurposeDao().load(chooseAccountFirstId) != null) {
                 spTransferFirst.setImageResource(getContext().getResources().getIdentifier
                         (daoSession.getAccountDao().load(chooseAccountFirstId).getIcon(), "drawable", getContext().getPackageName()));

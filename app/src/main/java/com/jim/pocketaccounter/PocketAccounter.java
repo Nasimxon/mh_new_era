@@ -6,23 +6,17 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.graphics.Color;
-import android.os.Build;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.DatePicker;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jim.pocketaccounter.credit.notificat.NotificationManagerCredit;
@@ -38,8 +32,6 @@ import com.jim.pocketaccounter.managers.ToolbarManager;
 import com.jim.pocketaccounter.modulesandcomponents.components.DaggerPocketAccounterActivityComponent;
 import com.jim.pocketaccounter.modulesandcomponents.components.PocketAccounterActivityComponent;
 import com.jim.pocketaccounter.modulesandcomponents.modules.PocketAccounterActivityModule;
-import com.jim.pocketaccounter.utils.PocketAccounterGeneral;
-
 import com.jim.pocketaccounter.utils.WarningDialog;
 import com.jim.pocketaccounter.utils.billing.PurchaseImplementation;
 import com.jim.pocketaccounter.utils.cache.DataCache;
@@ -79,6 +71,7 @@ public class PocketAccounter extends AppCompatActivity {
     @Inject SharedPreferences sharedPreferences;
     @Inject PurchaseImplementation purchaseImplementation;
     PocketAccounterActivityComponent component;
+
     public PocketAccounterActivityComponent component(PocketAccounterApplication application) {
         if (component == null) {
             component = DaggerPocketAccounterActivityComponent
@@ -158,7 +151,6 @@ public class PocketAccounter extends AppCompatActivity {
                 }
             });
         }
-
     }
 
     public void setLocale(String lang) {

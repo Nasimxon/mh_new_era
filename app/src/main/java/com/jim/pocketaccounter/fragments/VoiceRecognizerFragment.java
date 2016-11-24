@@ -4,26 +4,18 @@ import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Color;
-import android.media.Image;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.provider.ContactsContract;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,17 +23,14 @@ import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.mikephil.charting.utils.Utils;
 import com.jim.pocketaccounter.PocketAccounter;
 import com.jim.pocketaccounter.PocketAccounterApplication;
 import com.jim.pocketaccounter.R;
-import com.jim.pocketaccounter.animations.Cieo;
 import com.jim.pocketaccounter.database.Account;
 import com.jim.pocketaccounter.database.AccountDao;
 import com.jim.pocketaccounter.database.Currency;
@@ -49,18 +38,19 @@ import com.jim.pocketaccounter.database.CurrencyDao;
 import com.jim.pocketaccounter.database.DaoSession;
 import com.jim.pocketaccounter.database.FinanceRecord;
 import com.jim.pocketaccounter.database.FinanceRecordDao;
-import com.jim.pocketaccounter.database.RootCategory;
 import com.jim.pocketaccounter.database.SubCategory;
 import com.jim.pocketaccounter.database.TemplateAccount;
+import com.jim.pocketaccounter.database.TemplateCurrencyVoice;
 import com.jim.pocketaccounter.database.TemplateVoice;
+import com.jim.pocketaccounter.managers.CommonOperations;
 import com.jim.pocketaccounter.managers.PAFragmentManager;
+import com.jim.pocketaccounter.managers.ReportManager;
 import com.jim.pocketaccounter.utils.PocketAccounterGeneral;
 import com.jim.pocketaccounter.utils.cache.DataCache;
 import com.jim.pocketaccounter.utils.speech.PASpeechRecognizer;
 import com.jim.pocketaccounter.utils.speech.SpeechListener;
 
-import java.io.File;
-import java.sql.Time;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -68,15 +58,11 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.inject.Inject;
-
-import static android.app.Activity.RESULT_OK;
 
 public class VoiceRecognizerFragment extends Fragment {
     public static final int DEBTBORROW = 0;
@@ -127,14 +113,26 @@ public class VoiceRecognizerFragment extends Fragment {
     //auto save voice
     private TextView autoSave;
     //switching between modes
-    @Inject DaoSession daoSession;
-    @Inject PAFragmentManager paFragmentManager;
-    @Inject List<TemplateVoice> voices;
-    @Inject List<TemplateAccount> templateAccountVoices;
-    @Inject DataCache dataCache;
+    @Inject
+    DaoSession daoSession;
+    @Inject
+    PAFragmentManager paFragmentManager;
+    @Inject
+    List<TemplateVoice> voices;
+    @Inject
+    List<TemplateAccount> templateAccountVoices;
+    @Inject
+    DataCache dataCache;
+    @Inject
+    ReportManager reportManager;
+    @Inject
+    CommonOperations commonOperations;
+    @Inject
+    List<TemplateCurrencyVoice> templateCurrencyVoices;
     private String[] curString;
     private String[] accString;
     private CountDownTimer timer;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -143,6 +141,9 @@ public class VoiceRecognizerFragment extends Fragment {
         rlCenterButton = (RelativeLayout) rootView.findViewById(R.id.rlCenterButton);
         ivCenterButton = (ImageView) rootView.findViewById(R.id.ivCenterButton);
         llSpeechMode = (RelativeLayout) rootView.findViewById(R.id.llSpeechMode);
+        tvNotSpeechModeBalance = (TextView) rootView.findViewById(R.id.tvNotSpeechModeBalance);
+        tvNotSpeechModeIncome = (TextView) rootView.findViewById(R.id.tvNotSpeechModeIncome);
+        tvNotSpeechModeExpense = (TextView) rootView.findViewById(R.id.tvNotSpeechModeExpense);
         rlNotSpeechMode = (RelativeLayout) rootView.findViewById(R.id.rlNotSpeechMode);
         ivMicrophoneIcon = (ImageView) rootView.findViewById(R.id.ivMicrophoneIcon);
         recStartLeft = (FrameLayout) rootView.findViewById(R.id.flVoiceRecordStartLeft);
@@ -174,12 +175,11 @@ public class VoiceRecognizerFragment extends Fragment {
                 if (!started) {
                     askForContactPermission();
                     startRecognition();
-                    visibilLR();
                     if (rlNotSpeechMode.getVisibility() == View.VISIBLE) {
+                        visibilLR();
                         refreshMode(true);
                     }
                 } else {
-                    visibilityGoneLR();
                     stopRecognition();
                 }
                 started = !started;
@@ -189,7 +189,7 @@ public class VoiceRecognizerFragment extends Fragment {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         rvNotSpeechModeRecordsList.setLayoutManager(layoutManager);
         ViewGroup.LayoutParams params = rvNotSpeechModeRecordsList.getLayoutParams();
-        params.height = (int) (8 * Utils.convertDpToPixel(getResources().getDimension(R.dimen.thirty_dp) + 26));
+        params.height = (int) (5 * Utils.convertDpToPixel(getResources().getDimension(R.dimen.fourty_dp) + 26));
         rvNotSpeechModeRecordsList.setLayoutParams(params);
         tvSpeechModeEnteredText = (TextView) rootView.findViewById(R.id.tvSpeechModeEnteredText);
         tvListeningIndicator = (TextView) rootView.findViewById(R.id.tvListeningIndicator);
@@ -201,6 +201,7 @@ public class VoiceRecognizerFragment extends Fragment {
                     timer.cancel();
                     timer = null;
                     tvSpeechModeAdjective.setText("");
+                    tvSpeechModeCategory.setText("");
                     tvSpeechAmount.setText("0.0");
                     categoryId = "";
                     accountId = "";
@@ -731,9 +732,25 @@ public class VoiceRecognizerFragment extends Fragment {
             }
         }
 
+        for (TemplateCurrencyVoice voice: templateCurrencyVoices) {
+            if (newLetter.matches(voice.getRegex())) {
+                currencyId = voice.getCurId();
+                break;
+            }
+        }
+
+        if (!currencyId.isEmpty()) {
+            List<Currency> currencies = daoSession.getCurrencyDao().loadAll();
+            for (int i = 0; i < currencies.size(); i++) {
+                if (currencies.get(i).getId().equals(currencyId)) {
+                    spSpeechCurrency.setSelection(i);
+                    break;
+                }
+            }
+        }
+
         String s = "";
         if (templateVoice != null) {
-
             if (templateVoice.getSubCatName() != null && !templateVoice.getSubCatName().isEmpty())
                 s = " " + templateVoice.getSubCatName();
             tvSpeechModeCategory.setText(templateVoice.getCatName() + s);
@@ -758,8 +775,24 @@ public class VoiceRecognizerFragment extends Fragment {
                 }
             }
         }
-        if (categoryId != null && !categoryId.isEmpty() && summ != 0) savingVoice();
+        if (timer == null) {
+            if (categoryId != null && !categoryId.isEmpty() && summ != 0) {
+                autoSave.setVisibility(View.VISIBLE);
+                timer = new CountDownTimer(6000, 1000) {
+                    @Override
+                    public void onTick(long l) {
+                        autoSave.setText("sec " + Math.floor(l / 1000));
+                    }
 
+                    @Override
+                    public void onFinish() {
+                        autoSave.setVisibility(View.GONE);
+                        autoSave.setText("");
+                        savingVoice();
+                    }
+                }.start();
+            }
+        }
 //        if (myTask != null) {
 //            myTask.cancel(true);
 //            myTask = null;
@@ -884,9 +917,10 @@ public class VoiceRecognizerFragment extends Fragment {
                 daoSession.getFinanceRecordDao().insertOrReplace(financeRecord);
                 paFragmentManager.updateAllFragmentsPageChanges();
                 paFragmentManager.updateAllFragmentsOnViewPager();
-//                timer.cancel();
-//                timer = null;
+                timer.cancel();
+                timer = null;
                 tvSpeechModeAdjective.setText("");
+                tvSpeechModeEnteredText.setText("Entered text");
                 tvSpeechAmount.setText("0.0");
                 categoryId = "";
                 accountId = "";
@@ -895,6 +929,7 @@ public class VoiceRecognizerFragment extends Fragment {
             }
         }
         visibilityGoneLR();
+        refreshMode(false);
         stopRecognition();
     }
 
@@ -906,6 +941,22 @@ public class VoiceRecognizerFragment extends Fragment {
             financeRecords = daoSession.getFinanceRecordDao().queryBuilder()
                     .where(FinanceRecordDao.Properties.Date.eq(simpleDateFormat.format(
                             Calendar.getInstance().getTime()))).list();
+            Map<String, Double> balance = reportManager.calculateBalance(dataCache.getBeginDate(), dataCache.getEndDate());
+            DecimalFormat decFormat = new DecimalFormat("0.00");
+            String abbr = commonOperations.getMainCurrency().getAbbr();
+            for (String key : balance.keySet()) {
+                switch (key) {
+                    case PocketAccounterGeneral.INCOMES:
+                        tvNotSpeechModeIncome.setText(decFormat.format(balance.get(key)) + abbr);
+                        break;
+                    case PocketAccounterGeneral.EXPENSES:
+                        tvNotSpeechModeExpense.setText(decFormat.format(balance.get(key)) + abbr);
+                        break;
+                    case PocketAccounterGeneral.BALANCE:
+                        tvNotSpeechModeBalance.setText(decFormat.format(balance.get(key)) + abbr);
+                        break;
+                }
+            }
         }
 
         @Override

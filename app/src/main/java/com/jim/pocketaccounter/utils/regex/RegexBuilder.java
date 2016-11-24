@@ -1,8 +1,5 @@
 package com.jim.pocketaccounter.utils.regex;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by root on 10/16/16.
  */
@@ -10,45 +7,98 @@ import java.util.List;
 public class RegexBuilder {
     private String template = "";
     private int numberOfGroups = 0;
+
     public RegexBuilder builder() {
         template = "";
         return this;
     }
+
+    private String anyErrorChar = ".*[/^*~&%@!+()$#-\\/'\\{`\\];\\[:].*";
+
     public RegexBuilder beginsWithWord(String beginWord) {
-        template += "^(\\b"+beginWord+")";
+        String partRegex = "";
+        if (beginWord.matches(anyErrorChar)) {
+            partRegex = "^(";
+            String keyPart = "\\b";
+            for (Character c : beginWord.toCharArray()) {
+                if (("" + c).matches(anyErrorChar)) {
+                    if (!keyPart.equals("\\b")) {
+                        partRegex = partRegex + keyPart;
+                        keyPart = "\\b";
+                    }
+                    String s = "" + (char) 92 + c;
+                    partRegex = partRegex + "[" + s + "]";
+                } else {
+                    keyPart = keyPart + c;
+                }
+            }
+            if (!keyPart.equals("\\b")) {
+                partRegex += keyPart;
+            }
+            partRegex += ")";
+            template += partRegex;
+        } else
+            template += "^(\\b" + beginWord + ")";
         numberOfGroups++;
         return this;
     }
+
     public RegexBuilder beginsWithSequence(String seq) {
-        template += "^("+seq+")";
+        template += "^(" + seq + ")";
         numberOfGroups++;
         return this;
     }
+
     public RegexBuilder openGroup() {
         template += "(";
         numberOfGroups++;
         return this;
     }
+
     public RegexBuilder closeGroup() {
         template += ")";
         return this;
     }
+
     public RegexBuilder anyVisibleCharSeq() {
         template += ".*";
         return this;
     }
+
     public RegexBuilder anyWhitespaceSeq() {
         template += "\\s*";
         return this;
     }
 
     public RegexBuilder defineWord(String word) {
-        template += "(\\b"+word+")";
+        String partRegex = "";
+        if (word.matches(anyErrorChar)) {
+            partRegex = "(";
+            String keyPart = "\\b";
+            for (Character c : word.toCharArray()) {
+                if (("" + c).matches(anyErrorChar)) {
+                    if (!keyPart.equals("\\b")) {
+                        partRegex = partRegex + keyPart;
+                        keyPart = "\\b";
+                    }
+                    String s = "" + (char) 92 + c;
+                    partRegex = partRegex + "[" + s + "]";
+                } else {
+                    keyPart = keyPart + c;
+                }
+            }
+            if (!keyPart.equals("\\b")) {
+                partRegex += keyPart;
+            }
+            partRegex += ")";
+            template += partRegex;
+        } else
+            template += "(\\b" + word + ")";
         return this;
     }
 
     public RegexBuilder defineSequence(String seq) {
-        template += "("+seq+")";
+        template += "(" + seq + ")";
         numberOfGroups++;
         return this;
     }
@@ -79,10 +129,26 @@ public class RegexBuilder {
         return this;
     }
 
-    public RegexBuilder abcentable () {
+    public RegexBuilder abcentable() {
         template += "*";
         return this;
     }
+
+    public RegexBuilder openBlock() {
+        template += "[";
+        return this;
+    }
+
+    public RegexBuilder closeBlock() {
+        template += "]";
+        return this;
+    }
+
+    public RegexBuilder anyErrorChars() {
+        template += "[/^*~&%@!+()$#-\\/'\\\\{}`;:]";
+        return this;
+    }
+
     public String build() {
         return template;
     }

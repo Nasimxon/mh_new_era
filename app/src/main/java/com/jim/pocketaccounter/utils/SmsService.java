@@ -65,7 +65,6 @@ public class SmsService extends Service {
             daoSession = new DaoMaster(db).newSession();
         }
 
-
         List<SmsParseObject> smsParseObjects = daoSession.getSmsParseObjectDao().queryBuilder()
                 .where(SmsParseObjectDao.Properties.Number.eq(intent.getStringExtra("number"))).list();
 

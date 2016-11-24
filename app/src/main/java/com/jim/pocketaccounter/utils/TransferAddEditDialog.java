@@ -2,24 +2,35 @@ package com.jim.pocketaccounter.utils;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.support.v7.view.menu.MenuBuilder;
+import android.support.v7.view.menu.MenuPopupHelper;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jim.pocketaccounter.PocketAccounter;
 import com.jim.pocketaccounter.PocketAccounterApplication;
 import com.jim.pocketaccounter.R;
+import com.jim.pocketaccounter.database.Account;
 import com.jim.pocketaccounter.database.AccountDao;
 import com.jim.pocketaccounter.database.AccountOperation;
 import com.jim.pocketaccounter.database.DaoSession;
 import com.jim.pocketaccounter.database.PurposeDao;
+import com.jim.pocketaccounter.fragments.AccountEditFragment;
+import com.jim.pocketaccounter.fragments.AccountFragment;
+import com.jim.pocketaccounter.managers.LogicManagerConstants;
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -29,11 +40,12 @@ import javax.inject.Inject;
  */
 
 public class TransferAddEditDialog extends Dialog {
-
     private View dialogView;
     private RecyclerView recyclerView;
     private ImageView ivClose;
-    @Inject DaoSession daoSession;
+    @Inject
+    DaoSession daoSession;
+
     public TransferAddEditDialog(Context context) {
         super(context);
         ((PocketAccounter) context).component((PocketAccounterApplication) context.getApplicationContext()).inject(this);
@@ -56,90 +68,137 @@ public class TransferAddEditDialog extends Dialog {
         TransferAddEditDialogAdapter transferAddEditDialogAdapter = new TransferAddEditDialogAdapter(daoSession.getAccountOperationDao().loadAll());
         recyclerView.setAdapter(transferAddEditDialogAdapter);
     }
+
     private String getAccountOrPurposeNameById(String id) {
         if (!daoSession.getAccountDao().queryBuilder().where(AccountDao.Properties.Id.eq(id)).list().isEmpty()) {
-            return  daoSession.getAccountDao().queryBuilder().where(AccountDao.Properties.Id.eq(id)).list().get(0).getName();
+            return daoSession.getAccountDao().queryBuilder().where(AccountDao.Properties.Id.eq(id)).list().get(0).getName();
         } else if (!daoSession.getPurposeDao().queryBuilder().where(PurposeDao.Properties.Id.eq(id)).list().isEmpty()) {
             return daoSession.getPurposeDao().queryBuilder().where(PurposeDao.Properties.Id.eq(id)).list().get(0).getDescription();
-        }
-        else return null;
+        } else return null;
     }
 
     private class TransferAddEditDialogAdapter extends RecyclerView.Adapter<TransferAddEditDialog.ViewHolder> {
         private List<AccountOperation> result;
+        private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
+
         public TransferAddEditDialogAdapter(List<AccountOperation> result) {
             this.result = result;
         }
+
         public int getItemCount() {
             return result.size();
         }
-        public void onBindViewHolder(final TransferAddEditDialog.ViewHolder view, final int position) {
-            view.ivTransferAddEditEdit.setOnClickListener(new View.OnClickListener() {
+
+        private void showOperationsList(View v, final int position) {
+            PopupMenu popupMenu = new PopupMenu(getContext(), v);
+            popupMenu.inflate(R.menu.toolbar_popup);
+            MenuPopupHelper menuHelper = new MenuPopupHelper(getContext(), (MenuBuilder) popupMenu.getMenu(), v);
+            menuHelper.setForceShowIcon(true);
+            popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                 @Override
-                public void onClick(View v) {
-                    final TransferDialog transferDialog = new TransferDialog(getContext());
-                    transferDialog.setAccountOperation(result.get(position));
-                    transferDialog.setOnTransferDialogSaveListener(new TransferDialog.OnTransferDialogSaveListener() {
-                        @Override
-                        public void OnTransferDialogSave() {
-                            refreshList();
+                public boolean onMenuItemClick(MenuItem item) {
+                    switch (item.getItemId()) {
+                        case R.id.delete: {
+                            final WarningDialog warningDialog = new WarningDialog(getContext());
+                            warningDialog.setText(getContext().getResources().getString(R.string.do_you_want_to_delete));
+                            warningDialog.setOnYesButtonListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    daoSession.getAccountOperationDao().delete(result.get(0));
+                                    refreshList();
+                                    warningDialog.dismiss();
+                                }
+                            });
+                            warningDialog.setOnNoButtonClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    warningDialog.dismiss();
+                                }
+                            });
+                            warningDialog.show();
+                            break;
                         }
-                    });
-                    transferDialog.show();
+                        case R.id.edit: {
+                            final TransferDialog transferDialog = new TransferDialog(getContext());
+                            transferDialog.setEditAccountPurpose(result.get(position));
+                            transferDialog.setOnTransferDialogSaveListener(new TransferDialog.OnTransferDialogSaveListener() {
+                                @Override
+                                public void OnTransferDialogSave() {
+                                    refreshList();
+                                }
+                            });
+                            transferDialog.show();
+                            break;
+                        }
+                    }
+                    return false;
                 }
             });
-            view.ivTransferAddEditTrash.setOnClickListener(new View.OnClickListener() {
+            popupMenu.show();
+        }
+
+        public void onBindViewHolder(final TransferAddEditDialog.ViewHolder view, final int position) {
+            view.ivItemTransferAccountEditDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    final WarningDialog warningDialog = new WarningDialog(getContext());
-                    warningDialog.setText(getContext().getResources().getString(R.string.do_you_want_to_delete));
-                    warningDialog.setOnYesButtonListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            daoSession.getAccountOperationDao().delete(result.get(0));
-                            refreshList();
-                            warningDialog.dismiss();
-                        }
-                    });
-                    warningDialog.setOnNoButtonClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            warningDialog.dismiss();
-                        }
-                    });
-                    warningDialog.show();
+                    showOperationsList(v, position);
                 }
             });
             String fromName = getAccountOrPurposeNameById(result.get(position).getSourceId());
             if (fromName != null)
-                view.tvTransferAddEditFrom.setText(getContext().getResources().getString(R.string.from)+" "+fromName);
+                view.tvItemAccountFromName.setText(getContext().getResources().getString(R.string.from) + " " + fromName);
             DecimalFormat dateFormat = new DecimalFormat("0.00");
             String toName = getAccountOrPurposeNameById(result.get(position).getTargetId());
             if (toName != null)
-                view.tvTransferAddEditTo.setText(getContext().getResources().getString(R.string.to)+" "+toName);
-            view.tvTransferAddEditAmount.setText(getContext().getResources().getString(R.string.amount)+" "+
-                    dateFormat.format(result.get(position).getAmount())+result.get(position).getCurrency().getAbbr());
+                view.tvItemAccountToName.setText(getContext().getResources().getString(R.string.to) + " " + toName);
+            view.tvItemAccountAmount.setText(getContext().getResources().getString(R.string.amount) + " " +
+                    dateFormat.format(result.get(position).getAmount()) + result.get(position).getCurrency().getAbbr());
+            view.tvItemAccountDate.setText(simpleDateFormat.format(result.get(position).getDate().getTime()));
+            if (daoSession.getAccountDao().load(result.get(position).getSourceId()) != null) {
+                view.ivItemTransferAccountFrom.setImageResource(getContext().getResources().getIdentifier(
+                        daoSession.getAccountDao().load(result.get(position).getSourceId()).getIcon(),
+                        "drawable", getContext().getPackageName()));
+            } else {
+                view.ivItemTransferAccountFrom.setImageResource(getContext().getResources().getIdentifier(
+                        daoSession.getPurposeDao().load(result.get(position).getSourceId()).getIcon(),
+                        "drawable", getContext().getPackageName()));
+            }
+            if (daoSession.getAccountDao().load(result.get(position).getTargetId()) != null) {
+                view.ivItemTransferAccountTo.setImageResource(getContext().getResources().getIdentifier(
+                        daoSession.getAccountDao().load(result.get(position).getTargetId()).getIcon(),
+                        "drawable", getContext().getPackageName()));
+            } else {
+                view.ivItemTransferAccountTo.setImageResource(getContext().getResources().getIdentifier(
+                        daoSession.getPurposeDao().load(result.get(position).getTargetId()).getIcon(),
+                        "drawable", getContext().getPackageName()));
+            }
+
         }
 
         public TransferAddEditDialog.ViewHolder onCreateViewHolder(ViewGroup parent, int var2) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.transfer_add_edit_list_item, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_transfer_account_modern, parent, false);
             return new TransferAddEditDialog.ViewHolder(view);
         }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView ivTransferAddEditEdit;
-        ImageView ivTransferAddEditTrash;
-        TextView tvTransferAddEditFrom;
-        TextView tvTransferAddEditTo;
-        TextView tvTransferAddEditAmount;
+        ImageView ivItemTransferAccountEditDelete;
+        ImageView ivItemTransferAccountFrom;
+        ImageView ivItemTransferAccountTo;
+        TextView tvItemAccountFromName;
+        TextView tvItemAccountToName;
+        TextView tvItemAccountAmount;
+        TextView tvItemAccountDate;
+
         public ViewHolder(View view) {
             super(view);
-            ivTransferAddEditEdit = (ImageView) view.findViewById(R.id.ivTransferAddEditEdit);
-            ivTransferAddEditTrash = (ImageView) view.findViewById(R.id.ivTransferAddEditTrash);
-            tvTransferAddEditFrom = (TextView) view.findViewById(R.id.tvTransferAddEditFrom);
-            tvTransferAddEditTo = (TextView) view.findViewById(R.id.tvTransferAddEditTo);
-            tvTransferAddEditAmount = (TextView) view.findViewById(R.id.tvTransferAddEditAmount);
+            ivItemTransferAccountFrom = (ImageView) view.findViewById(R.id.ivItemTransferAccountFrom);
+            ivItemTransferAccountTo = (ImageView) view.findViewById(R.id.ivItemAccountTo);
+            tvItemAccountFromName = (TextView) view.findViewById(R.id.tvItemAccountFromName);
+            tvItemAccountToName = (TextView) view.findViewById(R.id.tvItemAccountToName);
+            tvItemAccountAmount = (TextView) view.findViewById(R.id.tvItemAccountAmount);
+            tvItemAccountDate = (TextView) view.findViewById(R.id.tvItemAccountDate);
+            ivItemTransferAccountEditDelete = (ImageView) view.findViewById(R.id.ivItemTransferAccountEditDelete);
         }
     }
 

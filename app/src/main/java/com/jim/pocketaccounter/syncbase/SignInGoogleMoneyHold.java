@@ -122,7 +122,6 @@ public class SignInGoogleMoneyHold {
     public void revokeAccess() {
 
          mAuth.signOut();
-
             mGoogleApiClient.connect();
             mGoogleApiClient.registerConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
                 @Override

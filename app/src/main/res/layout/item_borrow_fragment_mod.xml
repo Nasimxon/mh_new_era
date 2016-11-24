@@ -1,249 +1,152 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
-    <android.support.v7.widget.CardView
+    android:padding="@dimen/sixteen_dp">
+
+    <LinearLayout
+        android:id="@+id/llItemDebtBorrowTop"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="@dimen/sevent_dp"
-        android:layout_marginLeft="@dimen/eight_dp"
-        android:layout_marginRight="@dimen/eight_dp"
-        android:layout_marginTop="@dimen/two_dp"
-        android:background="#000"
-        card:cardCornerRadius="@dimen/eight_dp"
-        card:cardElevation="@dimen/five_dp"
-        card:cardMaxElevation="@dimen/ten_dp">
+        android:gravity="center"
+        android:orientation="horizontal">
+
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:id="@+id/llItemDebtBorrowSms"
             android:orientation="vertical">
-            <LinearLayout
-                android:layout_width="match_parent"
+
+            <ImageView
+                android:layout_width="@dimen/twenty_sp"
+                android:layout_height="@dimen/twenty_sp"
+                android:src="@drawable/drawer_letter_us"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/five_dp"
-                android:orientation="horizontal">
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/imBorrowPerson"
-                    android:layout_width="@dimen/seventy_dp"
-                    android:layout_height="@dimen/seventy_dp"
-                    android:layout_marginBottom="@dimen/twelve_dp"
-                    android:layout_marginLeft="@dimen/sixteen_dp"
-                    android:layout_marginRight="@dimen/sixteen_dp"
-                    android:layout_marginTop="@dimen/ten_dp"
-                    card:border_color="@color/green_light_forline"
-                    card:border_overlay="true"
-                    card:border_width="2px" />
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/ten_dp"
-                    android:layout_marginRight="@dimen/sixteen_dp"
-                    android:layout_marginTop="@dimen/ten_dp"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical">
-                    <TextView
-                        android:id="@+id/tvBorrowPersonName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginTop="@dimen/fifteen_dp"
-                        android:gravity="bottom"
-                        android:maxLength="50"
-                        android:text="John Melesovskiy"
-                        android:textColor="@color/black_for_glavniy_text"
-                        android:textSize="@dimen/twenty_dp" />
-                    <TextView
-                        android:id="@+id/tvBorrowPersonNumber"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true"
-                        android:layout_below="@+id/tvBorrowPersonName"
-                        android:layout_toLeftOf="@+id/totalpayd"
-                        android:layout_toStartOf="@+id/totalpayd"
-                        android:text="+99894666316"
-                        android:textColor="@color/for_darker"
-                        android:textSize="@dimen/fourteen_sp" />
-                </RelativeLayout>
-            </LinearLayout>
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/eight_dp">
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="2px"
-                    android:layout_centerVertical="true"
-                    android:background="@color/green_light_forline" />
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/four_dp"
-                    android:layout_alignParentBottom="true"
-                    android:background="@color/grey_light2" />
-                <LinearLayout
-                    android:id="@+id/forCango"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="@dimen/one_dp"
-                    android:layout_marginLeft="@dimen/sixteen_dp"
-                    android:layout_marginRight="@dimen/sixteen_dp"
-                    android:layout_marginTop="@dimen/one_dp"
-                    android:background="@drawable/progres_frame"
-                    android:padding="2px"
-                    android:weightSum="100">
-                    <FrameLayout
-                        android:id="@+id/zapolnit"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="35"
-                        android:background="@drawable/progres" />
-                </LinearLayout>
-            </RelativeLayout>
-            <RelativeLayout
-                android:id="@+id/rlDebtBorrowTop"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/five_dp"
-                android:background="@color/grey_light2"
-                android:paddingBottom="@dimen/ten_dp"
-                android:paddingLeft="@dimen/sixteen_dp"
-                android:paddingRight="@dimen/sixteen_dp"
-                android:paddingTop="@dimen/six_dp">
-                <RelativeLayout
-                    android:id="@+id/relativeLayout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-                    <RelativeLayout
-                        android:id="@+id/rela2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/realrt1"
-                        android:layout_marginTop="@dimen/two_dp">
-                        <TextView
-                            android:id="@+id/dateay"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentLeft="true"
-                            android:layout_alignParentStart="true"
-                            android:layout_alignParentTop="true"
-                            android:layout_toLeftOf="@+id/tvBorrowPersonDateRepeat"
-                            android:layout_toStartOf="@+id/tvBorrowPersonDateRepeat"
-                            android:text="@string/return_date"
-                            android:textColor="@color/for_darker"
-                            android:textSize="@dimen/twelve_sp" />
-                        <TextView
-                            android:id="@+id/tvBorrowPersonDateRepeat"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentRight="true"
-                            android:layout_alignParentTop="true"
-                            android:gravity="bottom"
-                            android:text="18.06.2016"
-                            android:textColor="@color/black_for_glavniy_text"
-                            android:textSize="@dimen/twelve_sp" />
-                    </RelativeLayout>
-                    <RelativeLayout
-                        android:id="@+id/realrt1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/three_dp">
-                        <TextView
-                            android:id="@+id/tvBorrowPersonDateGet"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignBottom="@+id/textView2"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentRight="true"
-                            android:layout_alignParentTop="true"
-                            android:gravity="bottom"
-                            android:text="10.05.2016"
-                            android:textColor="@color/black_for_glavniy_text"
-                            android:textSize="@dimen/twelve_sp" />
-                        <TextView
-                            android:id="@+id/textView2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentLeft="true"
-                            android:layout_alignParentStart="true"
-                            android:layout_alignParentTop="true"
-                            android:layout_toLeftOf="@+id/tvBorrowPersonDateGet"
-                            android:layout_toStartOf="@+id/tvBorrowPersonDateGet"
-                            android:text="@string/begin_date"
-                            android:textColor="@color/for_darker"
-                            android:textSize="@dimen/twelve_sp" />
-                    </RelativeLayout>
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/rela2"
-                        android:layout_marginTop="@dimen/three_dp">
-                        <TextView
-                            android:id="@+id/tvBorrowPersonSumm"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignBottom="@+id/textView3"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentRight="true"
-                            android:layout_alignParentTop="true"
-                            android:gravity="bottom"
-                            android:text="1240$"
-                            android:textColor="@color/red"
-                            android:textSize="@dimen/twelve_sp" />
-                        <TextView
-                            android:id="@+id/textView3"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentLeft="true"
-                            android:layout_alignParentStart="true"
-                            android:layout_alignParentTop="true"
-                            android:text="@string/left"
-                            android:textColor="@color/for_darker"
-                            android:textSize="@dimen/twelve_sp" />
-                    </RelativeLayout>
-                </RelativeLayout>
-            </RelativeLayout>
-            <LinearLayout
-                android:id="@+id/frameLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/relativeLayout"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
-                android:background="@color/grey_light2"
-                android:orientation="horizontal"
-                android:paddingLeft="@dimen/sixteen_dp"
-                android:paddingRight="@dimen/sixteen_dp">
-                <TextView
-                    android:id="@+id/call_person_debt_borrow"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/sixteen_dp"
-                    android:layout_marginRight="@dimen/five_dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/knopka_zeleniy"
-                    android:gravity="center"
-                    android:text="@string/call"
-                    android:textColor="@color/green_light"
-                    android:textSize="@dimen/twelve_sp" />
-                <TextView
-                    android:id="@+id/btBorrowPersonPay"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/sixteen_dp"
-                    android:layout_marginLeft="@dimen/five_dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/knopka_zeleniy"
-                    android:gravity="center"
-                    android:text="@string/payy"
-                    android:textColor="@color/green_light"
-                    android:textSize="@dimen/twelve_sp" />
-            </LinearLayout>
+                android:layout_marginTop="@dimen/five_dp"
+                android:text="sms" />
+
         </LinearLayout>
-    </android.support.v7.widget.CardView>
-</LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="@dimen/fifty_dp"
+                android:layout_height="@dimen/fifty_dp"
+                android:layout_gravity="center"
+                android:id="@+id/imBorrowPerson"
+                android:src="@drawable/no_photo" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/five_dp"
+                android:id="@+id/tvBorrowPersonName"
+                android:text="Stive Jobs" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:id="@+id/llItemDebtBorrowCall"
+            >
+
+            <ImageView
+                android:layout_width="@dimen/twenty_sp"
+                android:layout_height="@dimen/twenty_sp"
+                android:src="@drawable/drawer_letter_us" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/five_dp"
+                android:text="@string/call" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llItemDebtBorrowMiddle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/llItemDebtBorrowTop"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Residue" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/five_dp"
+                android:text="Return deadline" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvItemDebtBorrowLeft"
+                android:text="1200$" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/five_dp"
+                android:text="20 days" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/llItemDebtBorrowMiddle"
+        android:layout_marginTop="@dimen/ten_dp"
+        android:id="@+id/flItemDebtBorrowPay"
+        android:background="@color/green_light_forline">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/ten_dp"
+            android:text="@string/pay"
+            android:id="@+id/btBorrowPersonPay"
+            android:textSize="@dimen/sixteen_dp" />
+
+    </FrameLayout>
+
+    <!--<android.support.v7.widget.CardView--><!--android:layout_width="match_parent"--><!--android:layout_height="wrap_content"--><!--android:layout_gravity="center_horizontal"--><!--android:layout_marginBottom="@dimen/sevent_dp"--><!--android:layout_marginLeft="@dimen/eight_dp"--><!--android:layout_marginRight="@dimen/eight_dp"--><!--android:layout_marginTop="@dimen/two_dp"--><!--android:background="#000"--><!--card:cardCornerRadius="@dimen/eight_dp"--><!--card:cardElevation="@dimen/five_dp"--><!--card:cardMaxElevation="@dimen/ten_dp">--><!--<LinearLayout--><!--android:layout_width="match_parent"--><!--android:layout_height="match_parent"--><!--android:orientation="vertical">--><!--<LinearLayout--><!--android:layout_width="match_parent"--><!--android:layout_height="wrap_content"--><!--android:layout_marginBottom="@dimen/five_dp"--><!--android:orientation="horizontal">--><!--<de.hdodenhof.circleimageview.CircleImageView--><!--android:id="@+id/imBorrowPerson"--><!--android:layout_width="@dimen/seventy_dp"--><!--android:layout_height="@dimen/seventy_dp"--><!--android:layout_marginBottom="@dimen/twelve_dp"--><!--android:layout_marginLeft="@dimen/sixteen_dp"--><!--android:layout_marginRight="@dimen/sixteen_dp"--><!--android:layout_marginTop="@dimen/ten_dp"--><!--card:border_color="@color/green_light_forline"--><!--card:border_overlay="true"--><!--card:border_width="2px" />--><!--<RelativeLayout--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:layout_marginBottom="@dimen/ten_dp"--><!--android:layout_marginRight="@dimen/sixteen_dp"--><!--android:layout_marginTop="@dimen/ten_dp"--><!--android:gravity="center_horizontal"--><!--android:orientation="vertical">--><!--<TextView--><!--android:id="@+id/tvBorrowPersonName"--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:layout_alignParentLeft="true"--><!--android:layout_alignParentStart="true"--><!--android:layout_alignParentTop="true"--><!--android:layout_marginTop="@dimen/fifteen_dp"--><!--android:gravity="bottom"--><!--android:maxLength="50"--><!--android:text="John Melesovskiy"--><!--android:textColor="@color/black_for_glavniy_text"--><!--android:textSize="@dimen/twenty_dp" />--><!--<TextView--><!--android:id="@+id/tvBorrowPersonNumber"--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:layout_alignParentLeft="true"--><!--android:layout_alignParentStart="true"--><!--android:layout_below="@+id/tvBorrowPersonName"--><!--android:layout_toLeftOf="@+id/totalpayd"--><!--android:layout_toStartOf="@+id/totalpayd"--><!--android:text="+99894666316"--><!--android:textColor="@color/for_darker"--><!--android:textSize="@dimen/fourteen_sp" />--><!--</RelativeLayout>--><!--</LinearLayout>--><!--<RelativeLayout--><!--android:layout_width="match_parent"--><!--android:layout_height="@dimen/eight_dp">--><!--<FrameLayout--><!--android:layout_width="match_parent"--><!--android:layout_height="2px"--><!--android:layout_centerVertical="true"--><!--android:background="@color/green_light_forline" />--><!--<FrameLayout--><!--android:layout_width="match_parent"--><!--android:layout_height="@dimen/four_dp"--><!--android:layout_alignParentBottom="true"--><!--android:background="@color/grey_light2" />--><!--<LinearLayout--><!--android:id="@+id/forCango"--><!--android:layout_width="match_parent"--><!--android:layout_height="match_parent"--><!--android:layout_marginBottom="@dimen/one_dp"--><!--android:layout_marginLeft="@dimen/sixteen_dp"--><!--android:layout_marginRight="@dimen/sixteen_dp"--><!--android:layout_marginTop="@dimen/one_dp"--><!--android:background="@drawable/progres_frame"--><!--android:padding="2px"--><!--android:weightSum="100">--><!--<FrameLayout--><!--android:id="@+id/zapolnit"--><!--android:layout_width="0dp"--><!--android:layout_height="match_parent"--><!--android:layout_weight="35"--><!--android:background="@drawable/progres" />--><!--</LinearLayout>--><!--</RelativeLayout>--><!--<RelativeLayout--><!--android:id="@+id/rlDebtBorrowTop"--><!--android:layout_width="match_parent"--><!--android:layout_height="wrap_content"--><!--android:layout_marginBottom="@dimen/five_dp"--><!--android:background="@color/grey_light2"--><!--android:paddingBottom="@dimen/ten_dp"--><!--android:paddingLeft="@dimen/sixteen_dp"--><!--android:paddingRight="@dimen/sixteen_dp"--><!--android:paddingTop="@dimen/six_dp">--><!--<RelativeLayout--><!--android:id="@+id/relativeLayout"--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content">--><!--<RelativeLayout--><!--android:id="@+id/rela2"--><!--android:layout_width="match_parent"--><!--android:layout_height="wrap_content"--><!--android:layout_below="@+id/realrt1"--><!--android:layout_marginTop="@dimen/two_dp">--><!--<TextView--><!--android:id="@+id/dateay"--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:layout_alignParentLeft="true"--><!--android:layout_alignParentStart="true"--><!--android:layout_alignParentTop="true"--><!--android:layout_toLeftOf="@+id/tvBorrowPersonDateRepeat"--><!--android:layout_toStartOf="@+id/tvBorrowPersonDateRepeat"--><!--android:text="@string/return_date"--><!--android:textColor="@color/for_darker"--><!--android:textSize="@dimen/twelve_sp" />--><!--<TextView--><!--android:id="@+id/tvBorrowPersonDateRepeat"--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:layout_alignParentEnd="true"--><!--android:layout_alignParentRight="true"--><!--android:layout_alignParentTop="true"--><!--android:gravity="bottom"--><!--android:text="18.06.2016"--><!--android:textColor="@color/black_for_glavniy_text"--><!--android:textSize="@dimen/twelve_sp" />--><!--</RelativeLayout>--><!--<RelativeLayout--><!--android:id="@+id/realrt1"--><!--android:layout_width="match_parent"--><!--android:layout_height="wrap_content"--><!--android:layout_marginTop="@dimen/three_dp">--><!--<TextView--><!--android:id="@+id/tvBorrowPersonDateGet"--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:layout_alignBottom="@+id/textView2"--><!--android:layout_alignParentEnd="true"--><!--android:layout_alignParentRight="true"--><!--android:layout_alignParentTop="true"--><!--android:gravity="bottom"--><!--android:text="10.05.2016"--><!--android:textColor="@color/black_for_glavniy_text"--><!--android:textSize="@dimen/twelve_sp" />--><!--<TextView--><!--android:id="@+id/textView2"--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:layout_alignParentLeft="true"--><!--android:layout_alignParentStart="true"--><!--android:layout_alignParentTop="true"--><!--android:layout_toLeftOf="@+id/tvBorrowPersonDateGet"--><!--android:layout_toStartOf="@+id/tvBorrowPersonDateGet"--><!--android:text="@string/begin_date"--><!--android:textColor="@color/for_darker"--><!--android:textSize="@dimen/twelve_sp" />--><!--</RelativeLayout>--><!--<RelativeLayout--><!--android:layout_width="match_parent"--><!--android:layout_height="wrap_content"--><!--android:layout_below="@+id/rela2"--><!--android:layout_marginTop="@dimen/three_dp">--><!--<TextView--><!--android:id="@+id/tvBorrowPersonSumm"--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:layout_alignBottom="@+id/textView3"--><!--android:layout_alignParentEnd="true"--><!--android:layout_alignParentRight="true"--><!--android:layout_alignParentTop="true"--><!--android:gravity="bottom"--><!--android:text="1240$"--><!--android:textColor="@color/red"--><!--android:textSize="@dimen/twelve_sp" />--><!--<TextView--><!--android:id="@+id/textView3"--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:layout_alignParentLeft="true"--><!--android:layout_alignParentStart="true"--><!--android:layout_alignParentTop="true"--><!--android:text="@string/left"--><!--android:textColor="@color/for_darker"--><!--android:textSize="@dimen/twelve_sp" />--><!--</RelativeLayout>--><!--</RelativeLayout>--><!--</RelativeLayout>--><!--<LinearLayout--><!--android:id="@+id/frameLayout"--><!--android:layout_width="match_parent"--><!--android:layout_height="wrap_content"--><!--android:layout_alignBottom="@+id/relativeLayout"--><!--android:layout_alignParentEnd="true"--><!--android:layout_alignParentRight="true"--><!--android:layout_alignParentTop="true"--><!--android:background="@color/grey_light2"--><!--android:orientation="horizontal"--><!--android:paddingLeft="@dimen/sixteen_dp"--><!--android:paddingRight="@dimen/sixteen_dp">--><!--<TextView--><!--android:id="@+id/call_person_debt_borrow"--><!--android:layout_width="0dp"--><!--android:layout_height="wrap_content"--><!--android:layout_marginBottom="@dimen/sixteen_dp"--><!--android:layout_marginRight="@dimen/five_dp"--><!--android:layout_weight="1"--><!--android:background="@drawable/knopka_zeleniy"--><!--android:gravity="center"--><!--android:text="@string/call"--><!--android:textColor="@color/green_light"--><!--android:textSize="@dimen/twelve_sp" />--><!--<TextView--><!--android:id="@+id/btBorrowPersonPay"--><!--android:layout_width="0dp"--><!--android:layout_height="wrap_content"--><!--android:layout_marginBottom="@dimen/sixteen_dp"--><!--android:layout_marginLeft="@dimen/five_dp"--><!--android:layout_weight="1"--><!--android:background="@drawable/knopka_zeleniy"--><!--android:gravity="center"--><!--android:text="@string/payy"--><!--android:textColor="@color/green_light"--><!--android:textSize="@dimen/twelve_sp" />--><!--</LinearLayout>--><!--</LinearLayout>--><!--</android.support.v7.widget.CardView>-->
+</RelativeLayout>

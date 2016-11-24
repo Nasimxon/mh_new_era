@@ -64,6 +64,7 @@ import com.jim.pocketaccounter.database.SmsParseObject;
 import com.jim.pocketaccounter.database.SmsParseSuccess;
 import com.jim.pocketaccounter.database.SubCategory;
 import com.jim.pocketaccounter.database.TemplateAccount;
+import com.jim.pocketaccounter.database.TemplateCurrencyVoice;
 import com.jim.pocketaccounter.database.TemplateSms;
 import com.jim.pocketaccounter.database.TemplateVoice;
 import com.jim.pocketaccounter.database.UserEnteredCalendars;
@@ -101,6 +102,7 @@ public class CommonOperations {
     @Inject @Named(value = "begin") Calendar begin;
     @Inject @Named(value = "end") Calendar end;
     @Inject SharedPreferences sharedPreferences;
+
 
     public CommonOperations(Context context) {
         ((PocketAccounterApplication) context.getApplicationContext()).component().inject(this);
@@ -2005,10 +2007,12 @@ public class CommonOperations {
                 .build());
         voices.add(templateVoice);
     }
-    public interface AfterAnimationEnd{
+
+    public interface AfterAnimationEnd {
         void onAnimoationEnd();
     }
-    public static void buttonClickCustomAnimation(final View view,final   AfterAnimationEnd afterAnimationEnd ){
+
+    public static void buttonClickCustomAnimation(final View view, final AfterAnimationEnd afterAnimationEnd) {
         final Runnable onClickAction = new Runnable() {
             @Override
             public void run() {
@@ -2021,10 +2025,9 @@ public class CommonOperations {
             }
         };
         view.animate().setDuration(50).scaleXBy(0.5f).scaleYBy(0.5f).scaleX(0.90f).scaleY(0.90f).setInterpolator(new DecelerateInterpolator()).withEndAction(endAction);
-
-
     }
-    public static void buttonClickCustomAnimation( float scaleSize , final View view,final   AfterAnimationEnd afterAnimationEnd ){
+
+    public static void buttonClickCustomAnimation(float scaleSize, final View view, final AfterAnimationEnd afterAnimationEnd) {
         final Runnable onClickAction = new Runnable() {
             @Override
             public void run() {
@@ -2039,17 +2042,42 @@ public class CommonOperations {
         view.animate().setDuration(50).scaleXBy(0.5f).scaleYBy(0.5f).scaleX(scaleSize).scaleY(scaleSize).setInterpolator(new DecelerateInterpolator()).withEndAction(endAction);
 
     }
+
     public static void generateRegexAcocuntVoice(List<TemplateAccount> templateAccounts, Account account) {
         TemplateAccount templateAccount = new TemplateAccount();
         templateAccount.setRegex(
                 new RegexBuilder()
-                .anyVisibleCharSeq()
-                .defineWord(account.getName().toLowerCase())
-                .anyVisibleCharSeq()
-                .build()
+                        .anyVisibleCharSeq()
+                        .defineWord(account.getName().toLowerCase())
+                        .anyVisibleCharSeq()
+                        .build()
         );
         templateAccount.setAccountName(account.getName().toLowerCase());
         templateAccount.setAccountId(account.getId());
         templateAccounts.add(templateAccount);
+    }
+
+    public static void generateRegexCurrencyVoice(List<TemplateCurrencyVoice> currencyVoices, Currency currency, Context context) {
+        int resId = context.getResources().getIdentifier(currency.getId(), "array", context.getPackageName());
+        if (resId != 0) {
+            String curRes[] = context.getResources().getStringArray(resId);
+            TemplateCurrencyVoice templateCurrencyVoice = new TemplateCurrencyVoice();
+            templateCurrencyVoice.setCurName(currency.getName());
+            templateCurrencyVoice.setCurId(currency.getId());
+            RegexBuilder regexBuilder = new RegexBuilder();
+            regexBuilder
+                    .anyVisibleCharSeq()
+                    .defineWord(currency.getName())
+                    .anyVisibleCharSeq();
+            for (String curString : curRes) {
+                regexBuilder
+                        .or()
+                        .anyVisibleCharSeq()
+                        .defineWord(curString)
+                        .anyVisibleCharSeq();
+            }
+            templateCurrencyVoice.setRegex(regexBuilder.build());
+            currencyVoices.add(templateCurrencyVoice);
+        }
     }
 }

@@ -1639,4 +1639,10 @@
     <string name="choise_photo">Choise icon for your purpose!</string>
     <string name="repeat_every">Repeat every</string>
 
+    <string-array name="currency_2">
+        <item>руб.</item>
+        <item>рубль</item>
+        <item>рублей</item>
+    </string-array>
+
 </resources>

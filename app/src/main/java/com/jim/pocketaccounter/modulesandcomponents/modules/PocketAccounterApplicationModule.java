@@ -13,6 +13,7 @@ import com.jim.pocketaccounter.database.DebtBorrow;
 import com.jim.pocketaccounter.database.RootCategory;
 import com.jim.pocketaccounter.database.SubCategory;
 import com.jim.pocketaccounter.database.TemplateAccount;
+import com.jim.pocketaccounter.database.TemplateCurrencyVoice;
 import com.jim.pocketaccounter.database.TemplateVoice;
 import com.jim.pocketaccounter.managers.CommonOperations;
 import com.jim.pocketaccounter.managers.ReportManager;
@@ -45,6 +46,7 @@ public class PocketAccounterApplicationModule {
     private SimpleDateFormat displayFormatter, commonFormatter;
     private List<TemplateVoice> voices;
     private List<TemplateAccount> accountVoice;
+    private List<TemplateCurrencyVoice> currencyVoices;
 
     public PocketAccounterApplicationModule(PocketAccounterApplication pocketAccounterApplication) {
         this.pocketAccounterApplication = pocketAccounterApplication;
@@ -158,4 +160,16 @@ public class PocketAccounterApplicationModule {
         }
         return accountVoice;
      }
+
+    @Provides
+    public List<TemplateCurrencyVoice> getCurrencyVoices () {
+        if (currencyVoices == null) {
+            currencyVoices = new ArrayList<>();
+            daoSession = getDaoSession();
+            for (Currency cr: daoSession.getCurrencyDao().loadAll()) {
+                CommonOperations.generateRegexCurrencyVoice(currencyVoices, cr, getPocketAccounterApplication());
+            }
+        }
+        return currencyVoices;
+    }
 }

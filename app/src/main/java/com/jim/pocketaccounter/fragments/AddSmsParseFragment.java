@@ -307,7 +307,8 @@ public class AddSmsParseFragment extends PABaseFragment implements LoaderManager
             }
 
             @Override
-            public void afterTextChanged(Editable s) {}
+            public void afterTextChanged(Editable s) {
+            }
         });
         ivSms.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -408,8 +409,8 @@ public class AddSmsParseFragment extends PABaseFragment implements LoaderManager
                 objSms.setBody(data.getString(data.getColumnIndexOrThrow("body")));
                 objSms.setDate(data.getString(data.getColumnIndexOrThrow("date")));
                 if (data.getString(data.getColumnIndexOrThrow("type")).contains("1")) {
-                objSms.setFolderName("sent");
-                lstSms.add(objSms);
+                    objSms.setFolderName("sent");
+                    lstSms.add(objSms);
                 }
             }
             data.moveToNext();
