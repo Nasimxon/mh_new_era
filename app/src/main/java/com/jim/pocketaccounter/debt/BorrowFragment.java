@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -167,7 +168,7 @@ public class BorrowFragment extends Fragment {
                     }
                 }
             }
-            if(persons.size()!=0){
+            if (persons.size() != 0) {
                 ifListEmpty.setVisibility(View.GONE);
             } else {
                 //TODO Har bittasini zapisi bomi yomi tekshirish kere
@@ -188,6 +189,8 @@ public class BorrowFragment extends Fragment {
             final int t = 0;
             final DebtBorrow person = persons.get(Math.abs(t - position));
             if (person.getType() == DebtBorrow.DEBT) {
+                view.flItemDebtBorrowPay.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.red_pay_background));
+                view.pay.setTextColor(ContextCompat.getColor(getContext(), R.color.red));
 //                view.rl.setBackgroundResource(R.color.grey_light_red);
 //                view.fl.setBackgroundResource(R.color.grey_light_red);
             }
@@ -195,11 +198,11 @@ public class BorrowFragment extends Fragment {
                 view.BorrowPersonName.setText(person.getPerson().getName());
 //                view.BorrowPersonNumber.setText(person.getPerson().getPhoneNumber());
 //                view.BorrowPersonDateGet.setText(dateFormat.format(person.getTakenDate().getTime()));
-//                if (person.getReturnDate() == null) {
-//                    view.BorrowPersonDateRepeat.setText(R.string.no_date_selected);
-//                } else {
-//                    view.BorrowPersonDateRepeat.setText(dateFormat.format(person.getReturnDate().getTime()));
-//                }
+                if (person.getReturnDate() == null) {
+                    view.tvItemDebtBorrowLeft.setText(R.string.no_date_selected);
+                } else {
+                    view.tvItemDebtBorrowLeft.setText(dateFormat.format(person.getReturnDate().getTime()));
+                }
                 if (person.getPerson().getPhoto().matches("") || person.getPerson().getPhoto().matches("0")) {
                     view.BorrowPersonPhotoPath.setImageResource(R.drawable.no_photo);
                 } else {
@@ -213,13 +216,57 @@ public class BorrowFragment extends Fragment {
                 if (person.getPerson().getPhoneNumber().matches("")) {
 //                    view.call.setVisibility(View.INVISIBLE);
                 }
-            } catch (NullPointerException e) {}
+            } catch (NullPointerException e) {
+            }
             double qq = 0;
             if (person.getReckings() != null) {
                 for (Recking rk : person.getReckings()) {
                     qq += rk.getAmount();
                 }
             }
+
+            // left Date
+            Calendar currentDate = Calendar.getInstance();
+            int day = 0;
+            int mounth = 0;
+            int year = 0;
+
+            if (person.getReturnDate() != null && currentDate.compareTo(person.getReturnDate()) <= 0) {
+                if (currentDate.get(Calendar.DAY_OF_MONTH) <= person.getReturnDate().get(Calendar.DAY_OF_MONTH)) {
+                    day = person.getReturnDate().get(Calendar.DAY_OF_MONTH) - currentDate.get(Calendar.DAY_OF_MONTH);
+                    if (currentDate.get(Calendar.MONTH) <= person.getReturnDate().get(Calendar.MONTH)) {
+                        mounth = person.getReturnDate().get(Calendar.MONTH) - currentDate.get(Calendar.MONTH);
+                        if (currentDate.get(Calendar.YEAR) <= person.getReturnDate().get(Calendar.YEAR)) {
+                            year = person.getReturnDate().get(Calendar.YEAR) - currentDate.get(Calendar.YEAR);
+                        }
+                    } else {
+                        mounth = person.getReturnDate().get(Calendar.MONTH) + 12 - currentDate.get(Calendar.MONTH);
+                        year = person.getReturnDate().get(Calendar.YEAR) - 1 - currentDate.get(Calendar.YEAR);
+                    }
+                } else {
+                    person.getReturnDate().add(Calendar.MONTH, -1);
+                    day = person.getReturnDate().get(Calendar.DAY_OF_MONTH) + person.getReturnDate()
+                            .getActualMaximum(Calendar.MONTH) - currentDate.get(Calendar.DAY_OF_MONTH);
+                    if (person.getReturnDate().get(Calendar.MONTH) >= currentDate.get(Calendar.MONTH)) {
+                        mounth = person.getReturnDate().get(Calendar.MONTH) - currentDate.get(Calendar.MONTH);
+                        if (person.getReturnDate().get(Calendar.YEAR) >= currentDate.get(Calendar.YEAR)) {
+                            year = person.getReturnDate().get(Calendar.YEAR) - currentDate.get(Calendar.YEAR);
+                        }
+                    } else {
+                        mounth = person.getReturnDate().get(Calendar.MONTH) + 12 - currentDate.get(Calendar.MONTH);
+                        if (person.getReturnDate().get(Calendar.YEAR) > currentDate.get(Calendar.YEAR)) {
+                            year = person.getReturnDate().get(Calendar.YEAR) - 1 - currentDate.get(Calendar.YEAR);
+                        }
+                    }
+                }
+            }
+            String sana = (year != 0 ? year + " " + getString(R.string.year) : "")
+                    + (mounth != 0 ? mounth + " " + getString(R.string.moth) : "")
+                    + (day != 0 ? day + " " + getString(R.string.day) : "");
+            if (person.getReturnDate() == null) {
+                view.tvItemDebtBorrowLeftDate.setText(getResources().getString(R.string.no_date_selected));
+            } else
+                view.tvItemDebtBorrowLeftDate.setText(sana);
 
 //            if(persons.get(position).getTo_archive())
 //                view.forCango.setVisibility(View.GONE);
@@ -240,13 +287,18 @@ public class BorrowFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     if (!person.getPerson().getPhoneNumber().isEmpty()) {
-
+                        Intent intent = new Intent(Intent.ACTION_SENDTO);
+                        intent.setData(Uri.parse("smsto:"));
+                        intent.putExtra("address", person.getPerson().getPhoneNumber());
+                        if (intent.resolveActivity(getContext().getPackageManager()) != null) {
+                            startActivity(intent);
+                        }
                     }
                 }
             });
 
-            double template= persons.get(position).getAmount()/100;
-            int procet=(int) (qq/template);
+            double template = persons.get(position).getAmount() / 100;
+            int procet = (int) (qq / template);
 //            view.frameLayout.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, procet));
 
             String ss = (person.getAmount() - qq) == (int) (person.getAmount() - qq) ? "" + (int) (person.getAmount() - qq) : "" + (person.getAmount() - qq);
@@ -271,8 +323,8 @@ public class BorrowFragment extends Fragment {
                 for (Recking rec : person.getReckings()) {
                     total += rec.getAmount();
                 }
-                double templatee= persons.get(position).getAmount()/100;
-                int procett=(int) (total/templatee);
+                double templatee = persons.get(position).getAmount() / 100;
+                int procett = (int) (total / templatee);
 //                view.frameLayout.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, procett));
 
                 if (total >= person.getAmount()) {
@@ -377,8 +429,8 @@ public class BorrowFragment extends Fragment {
                                                     for (Recking recking1 : persons.get(position).getReckings()) {
                                                         total += recking1.getAmount();
                                                     }
-                                                    double template= persons.get(position).getAmount()/100;
-                                                    int procet=(int) (total/template);
+                                                    double template = persons.get(position).getAmount() / 100;
+                                                    int procet = (int) (total / template);
 //                                                    view.frameLayout.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, procet));
                                                     if (persons.get(position).getAmount() <= total) {
                                                         view.pay.setText(getString(R.string.archive));
@@ -395,8 +447,8 @@ public class BorrowFragment extends Fragment {
                                                     for (Recking recking1 : persons.get(position).getReckings()) {
                                                         total += recking1.getAmount();
                                                     }
-                                                    double template= persons.get(position).getAmount()/100;
-                                                    int procet=(int) (total/template);
+                                                    double template = persons.get(position).getAmount() / 100;
+                                                    int procet = (int) (total / template);
 //                                                    view.frameLayout.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, procet));
                                                     if (persons.get(position).getAmount() <= total) {
                                                         view.pay.setText(getString(R.string.archive));
@@ -430,8 +482,8 @@ public class BorrowFragment extends Fragment {
                                             for (Recking recking1 : persons.get(position).getReckings()) {
                                                 total += recking1.getAmount();
                                             }
-                                            double template= persons.get(position).getAmount()/100;
-                                            int procet=(int) (total/template);
+                                            double template = persons.get(position).getAmount() / 100;
+                                            int procet = (int) (total / template);
 //                                            view.frameLayout.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, procet));
                                             if (persons.get(position).getAmount() <= total) {
                                                 view.pay.setText(getString(R.string.archive));
@@ -458,8 +510,8 @@ public class BorrowFragment extends Fragment {
                                                 if (persons.get(position).getAmount() <= total) {
                                                     view.pay.setText(getString(R.string.archive));
                                                 }
-                                                double template= persons.get(position).getAmount()/100;
-                                                int procet=(int) (total/template);
+                                                double template = persons.get(position).getAmount() / 100;
+                                                int procet = (int) (total / template);
 //                                                view.frameLayout.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, procet));
 
                                                 logicManager.insertReckingDebt(recking);
@@ -488,15 +540,15 @@ public class BorrowFragment extends Fragment {
                                 debtBorrowDao.queryBuilder().list().get(i).setTo_archive(true);
                                 person.setTo_archive(true);
 
-                                List<BoardButton> boardButtons=daoSession.getBoardButtonDao().loadAll();
-                                for(BoardButton boardButton:boardButtons){
-                                    if(boardButton.getCategoryId()!=null)
-                                        if(boardButton.getCategoryId().equals(persons.get(position).getId())){
-                                            if(boardButton.getTable()== PocketAccounterGeneral.EXPANSE_MODE)
-                                                logicManager.changeBoardButton(PocketAccounterGeneral.EXPENSE,boardButton.getPos(),null);
+                                List<BoardButton> boardButtons = daoSession.getBoardButtonDao().loadAll();
+                                for (BoardButton boardButton : boardButtons) {
+                                    if (boardButton.getCategoryId() != null)
+                                        if (boardButton.getCategoryId().equals(persons.get(position).getId())) {
+                                            if (boardButton.getTable() == PocketAccounterGeneral.EXPANSE_MODE)
+                                                logicManager.changeBoardButton(PocketAccounterGeneral.EXPENSE, boardButton.getPos(), null);
                                             else
-                                                logicManager.changeBoardButton(PocketAccounterGeneral.INCOME,boardButton.getPos(),null);
-                                            commonOperations.changeIconToNull(boardButton.getPos(),dataCache,boardButton.getTable());
+                                                logicManager.changeBoardButton(PocketAccounterGeneral.INCOME, boardButton.getPos(), null);
+                                            commonOperations.changeIconToNull(boardButton.getPos(), dataCache, boardButton.getTable());
                                         }
                                 }
                                 paFragmentManager.updateAllFragmentsOnViewPager();
@@ -581,13 +633,15 @@ public class BorrowFragment extends Fragment {
 
         public TextView BorrowPersonName;
         public TextView tvItemDebtBorrowLeft;
-//        public TextView BorrowPersonNumber;
+        //        public TextView BorrowPersonNumber;
 //        public TextView BorrowPersonSumm;
 //        public TextView BorrowPersonDateGet;
 //        public TextView BorrowPersonDateRepeat;
         public CircleImageView BorrowPersonPhotoPath;
+        public TextView tvItemDebtBorrowLeftDate;
         public TextView pay;
-//        public TextView call;
+
+        //        public TextView call;
 //        public RelativeLayout rl;
 //        public LinearLayout fl;
 //        public FrameLayout frameLayout;
@@ -599,12 +653,13 @@ public class BorrowFragment extends Fragment {
             BorrowPersonName = (TextView) view.findViewById(R.id.tvBorrowPersonName);
             flItemDebtBorrowPay = (FrameLayout) view.findViewById(R.id.flItemDebtBorrowPay);
             tvItemDebtBorrowLeft = (TextView) view.findViewById(R.id.tvItemDebtBorrowLeft);
+            tvItemDebtBorrowLeftDate = (TextView) view.findViewById(R.id.tvItemDebtBorrowLeftDate);
+            BorrowPersonPhotoPath = (CircleImageView) view.findViewById(R.id.imBorrowPerson);
+            pay = (TextView) view.findViewById(R.id.btBorrowPersonPay);
 //            BorrowPersonNumber = (TextView) view.findViewById(R.id.tvBorrowPersonNumber);
 //            BorrowPersonSumm = (TextView) view.findViewById(R.id.tvBorrowPersonSumm);
 //            BorrowPersonDateGet = (TextView) view.findViewById(R.id.tvBorrowPersonDateGet);
 //            BorrowPersonDateRepeat = (TextView) view.findViewById(R.id.tvBorrowPersonDateRepeat);
-            BorrowPersonPhotoPath = (CircleImageView) view.findViewById(R.id.imBorrowPerson);
-            pay = (TextView) view.findViewById(R.id.btBorrowPersonPay);
 //            call = (TextView) view.findViewById(R.id.call_person_debt_borrow);
 //            rl = (RelativeLayout) view.findViewById(R.id.rlDebtBorrowTop);
 //            fl = (LinearLayout) view.findViewById(R.id.frameLayout);

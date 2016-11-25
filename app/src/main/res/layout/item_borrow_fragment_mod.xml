@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card="http://schemas.android.com/apk/res-auto"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/sixteen_dp">
+    android:layout_marginBottom="@dimen/sevent_dp"
+    android:background="@drawable/carditem"
+    android:layout_marginRight="@dimen/ten_dp"
+    android:layout_marginLeft="@dimen/ten_dp"
+    >
 
     <LinearLayout
         android:id="@+id/llItemDebtBorrowTop"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:layout_marginLeft="@dimen/eight_dp"
+        android:layout_marginRight="@dimen/eight_dp"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -23,26 +29,37 @@
             <ImageView
                 android:layout_width="@dimen/twenty_sp"
                 android:layout_height="@dimen/twenty_sp"
-                android:src="@drawable/drawer_letter_us"
+                android:src="@drawable/sms"
+                android:tint="#ddc731"
                 />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/five_dp"
-                android:text="sms" />
+                android:text="sms"
+                />
 
         </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="2px"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/fourty_dp"
+            android:layout_marginBottom="@dimen/fourty_dp"
+            android:background="#b4b4b4"
+            />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_marginTop="@dimen/five_dp"
             android:orientation="vertical">
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_width="@dimen/fifty_dp"
-                android:layout_height="@dimen/fifty_dp"
+                android:layout_width="@dimen/seventy_dp"
+                android:layout_height="@dimen/seventy_dp"
                 android:layout_gravity="center"
                 android:id="@+id/imBorrowPerson"
                 android:src="@drawable/no_photo" />
@@ -51,11 +68,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:textSize="@dimen/eighteen_sp"
                 android:layout_marginTop="@dimen/five_dp"
                 android:id="@+id/tvBorrowPersonName"
                 android:text="Stive Jobs" />
 
         </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="2px"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/fourty_dp"
+            android:layout_marginBottom="@dimen/fourty_dp"
+            android:background="#b4b4b4"
+            />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -69,7 +95,9 @@
             <ImageView
                 android:layout_width="@dimen/twenty_sp"
                 android:layout_height="@dimen/twenty_sp"
-                android:src="@drawable/drawer_letter_us" />
+                android:src="@drawable/call"
+                android:tint="#8cc156"
+                />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -85,44 +113,76 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/llItemDebtBorrowTop"
-        android:orientation="horizontal">
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:background="#b4b4b4"
+            />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="horizontal"
+            android:background="#fbfbfb"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:textSize="@dimen/sixteen_dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Residue"
+                android:layout_marginLeft="@dimen/eight_dp"
+                />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Residue" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/five_dp"
-                android:text="Return deadline" />
+                android:layout_marginRight="@dimen/eight_dp"
+                android:id="@+id/tvItemDebtBorrowLeft"
+                android:textColor="#8cc156"
+                android:layout_weight="1"
+                android:layout_gravity="right"
+                android:gravity="right"
+                android:textSize="@dimen/sixteen_dp"
+                android:text="1200$" />
 
         </LinearLayout>
 
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:background="#b4b4b4"
+            />
+
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:gravity="right"
-            android:orientation="vertical">
+            android:orientation="horizontal"
+            android:layout_marginLeft="@dimen/eight_dp"
+            android:layout_marginRight="@dimen/eight_dp"
+            android:layout_marginTop="@dimen/five_dp"
+            >
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/tvItemDebtBorrowLeft"
-                android:text="1200$" />
+                android:layout_gravity="left"
+                android:layout_weight="1"
+                android:textSize="@dimen/sixteen_dp"
+                android:text="Return deadline" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/five_dp"
+                android:textSize="@dimen/sixteen_dp"
+                android:layout_gravity="right"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:id="@+id/tvItemDebtBorrowLeftDate"
                 android:text="20 days" />
 
         </LinearLayout>
@@ -135,7 +195,10 @@
         android:layout_below="@+id/llItemDebtBorrowMiddle"
         android:layout_marginTop="@dimen/ten_dp"
         android:id="@+id/flItemDebtBorrowPay"
-        android:background="@color/green_light_forline">
+        android:layout_marginLeft="@dimen/eight_dp"
+        android:layout_marginRight="@dimen/eight_dp"
+        android:layout_marginBottom="@dimen/ten_dp"
+        android:background="@drawable/green_pay_background">
 
         <TextView
             android:layout_width="wrap_content"
@@ -143,6 +206,7 @@
             android:layout_gravity="center"
             android:layout_margin="@dimen/ten_dp"
             android:text="@string/pay"
+            android:textColor="@color/green_just"
             android:id="@+id/btBorrowPersonPay"
             android:textSize="@dimen/sixteen_dp" />
 

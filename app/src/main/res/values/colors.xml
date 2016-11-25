@@ -38,6 +38,8 @@
     <color name="grey_light_backgr" type="color">#fefefe</color>
     <color name="red" type="color">#d60810</color>
     <color name="green_just" type="color">#19c221</color>
+    <color name="green_pay_cheti">#8cc156</color>
+    <color name="red_pay_cheti">#dc4849</color>
     <color name="black_for_glavniy_text" type="color">#212121</color>
     <color name="black_for_myagkiy_glavniy" type="color">#414141</color>
     <color name="black_for_secondary_text" type="color">#838383</color>
