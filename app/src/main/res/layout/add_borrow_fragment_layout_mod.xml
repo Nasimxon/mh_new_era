@@ -56,8 +56,14 @@
                             android:hint="@string/enter_name_error"
                             android:maxLength="13"
                             android:maxLines="1"
+                            android:background="@drawable/edit_text"
+                            android:paddingTop="@dimen/eight_dp"
+                            android:paddingBottom="@dimen/eight_dp"
+                            android:paddingLeft="@dimen/ten_dp"
+                            android:paddingRight="@dimen/five_dp"
                             android:textColor="@color/black_for_glavniy_text"
                             android:textColorHint="@color/black_for_secondary_text"
+                            android:layout_marginTop="@dimen/five_dp"
                             android:textSize="@dimen/sixteen_dp" />
                         <FrameLayout
                             android:id="@+id/btBorrowAddPopupContact"
@@ -115,7 +121,12 @@
                     </LinearLayout>
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/edit_text"
+                        android:paddingTop="@dimen/eight_dp"
+                        android:paddingBottom="@dimen/eight_dp"
+                        android:paddingLeft="@dimen/ten_dp"
+                        android:paddingRight="@dimen/five_dp">
                         <EditText
                             android:id="@+id/etBorrowAddPopupNumber"
                             android:layout_width="match_parent"
@@ -123,6 +134,9 @@
                             android:layout_alignParentLeft="true"
                             android:layout_alignParentStart="true"
                             android:layout_alignParentTop="true"
+                            android:background="@color/white"
+                            android:paddingTop="@dimen/five_dp"
+                            android:paddingBottom="@dimen/five_dp"
                             android:hint="@string/enter_phone_number"
                             android:inputType="phone"
                             android:textSize="@dimen/fourteen_sp" />
@@ -152,7 +166,12 @@
                     </LinearLayout>
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/edit_text"
+                        android:paddingTop="@dimen/eight_dp"
+                        android:paddingLeft="@dimen/ten_dp"
+                        android:paddingRight="@dimen/five_dp"
+                        >
                         <Spinner
                             android:id="@+id/spBorrowAddPopupValyuta"
                             android:layout_width="wrap_content"
@@ -170,6 +189,9 @@
                             android:layout_alignParentTop="true"
                             android:layout_toLeftOf="@+id/spBorrowAddPopupValyuta"
                             android:hint="@string/enter_debt_amoount"
+                            android:background="@color/white"
+                            android:paddingTop="@dimen/five_dp"
+                            android:paddingBottom="@dimen/five_dp"
                             android:inputType="numberDecimal"
                             android:maxLength="13"
                             android:text=""
@@ -199,7 +221,8 @@
                     </LinearLayout>
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        >
                         <EditText
                             android:id="@+id/etBorrowAddPopupDataGet"
                             android:layout_width="wrap_content"
@@ -208,6 +231,11 @@
                             android:layout_alignParentStart="true"
                             android:layout_marginRight="@dimen/six_dp"
                             android:layout_toLeftOf="@+id/imageView2"
+                            android:background="@drawable/edit_text"
+                            android:paddingTop="@dimen/eight_dp"
+                            android:paddingBottom="@dimen/eight_dp"
+                            android:paddingLeft="@dimen/ten_dp"
+                            android:paddingRight="@dimen/five_dp"
                             android:focusableInTouchMode="false"
                             android:hint="@string/begin_date"
                             android:textSize="@dimen/fourteen_sp" />
@@ -226,6 +254,11 @@
                             android:layout_alignParentRight="true"
                             android:layout_marginLeft="@dimen/six_dp"
                             android:layout_toEndOf="@+id/imageView2"
+                            android:background="@drawable/edit_text"
+                            android:paddingLeft="@dimen/ten_dp"
+                            android:paddingRight="@dimen/five_dp"
+                            android:paddingTop="@dimen/eight_dp"
+                            android:paddingBottom="@dimen/eight_dp"
                             android:layout_toRightOf="@+id/imageView2"
                             android:focusableInTouchMode="false"
                             android:hint="@string/end_time"
@@ -347,6 +380,11 @@
                             android:layout_marginRight="@dimen/six_dp"
                             android:layout_toLeftOf="@+id/spBorrowAddPopupAccount"
                             android:layout_toStartOf="@+id/spBorrowAddPopupAccount"
+                            android:background="@drawable/edit_text"
+                            android:paddingTop="@dimen/eight_dp"
+                            android:paddingBottom="@dimen/eight_dp"
+                            android:paddingLeft="@dimen/ten_dp"
+                            android:paddingRight="@dimen/five_dp"
                             android:hint="@string/enter_first_transaction"
                             android:inputType="numberDecimal"
                             android:maxLength="13"

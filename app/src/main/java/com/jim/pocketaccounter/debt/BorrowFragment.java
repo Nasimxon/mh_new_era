@@ -288,7 +288,7 @@ public class BorrowFragment extends Fragment {
                 public void onClick(View view) {
                     if (!person.getPerson().getPhoneNumber().isEmpty()) {
                         Intent intent = new Intent(Intent.ACTION_SENDTO);
-                        intent.setData(Uri.parse("smsto:"));
+                        intent.setData(Uri.parse("smsto:" + person.getPerson().getPhoneNumber()));
                         intent.putExtra("address", person.getPerson().getPhoneNumber());
                         if (intent.resolveActivity(getContext().getPackageManager()) != null) {
                             startActivity(intent);

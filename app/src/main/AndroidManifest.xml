@@ -23,8 +23,10 @@
     <uses-permission android:name="android.permission.WRITE_SMS" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.intent.action.DATE_CHANGED" />
+    <uses-permission android:name="android.permission.SET_TIME"/>
     <uses-permission android:name="com.android.vending.BILLING" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
@@ -87,11 +89,13 @@
         <receiver
             android:name=".credit.notificat.AutoMarketReciver"
             android:enabled="true"
-            android:exported="false">
+            android:exported="true">
             <intent-filter>
+                <action android:name="android.intent.action.TIME_TICK"/>
                 <action android:name="android.intent.action.DATE_CHANGED" />
             </intent-filter>
         </receiver>
+
         <service android:name=".credit.notificat.AutoMarketService"/>
         <activity android:name=".photocalc.PhotoViewActivity"
             android:screenOrientation="portrait"/>

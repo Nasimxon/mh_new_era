@@ -20,12 +20,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -99,17 +101,17 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
     private TextView totalPayAmount;
     private TextView calculate;
     private TextView tvTotalsummInfo;
-    private FrameLayout borrowPay;
+    private LinearLayout borrowPay;
     private CircleImageView circleImageView;
     private android.support.v7.widget.RecyclerView recyclerView;
     private String id = "";
     private PeysAdapter peysAdapter;
     private Spinner accountSp;
     private DebtBorrow debtBorrow;
-    private FrameLayout deleteFrame;
+    private ImageView deleteFrame;
     private ImageView info;
-    private FrameLayout infoFrame;
-    private FrameLayout isHaveReking;
+    private RelativeLayout infoFrame;
+    //    private FrameLayout isHaveReking;
     private TextView tvInfoDebtBorrowTakeDate;
     private TextView payText;
     private boolean isCheks[];
@@ -117,6 +119,9 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
     private TextView phoneNumber;
     static int TYPE = 0;
     private int posMain = 0;
+
+    private RelativeLayout rlInfo;
+    private LinearLayout llDebtBOrrowItemEdit;
 
     public static InfoDebtBorrowFragment getInstance(String id, int type) {
         InfoDebtBorrowFragment fragment = new InfoDebtBorrowFragment();
@@ -135,16 +140,17 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.info_debt_borrow_fragment_mod, container, false);
+        final View view = inflater.inflate(R.layout.modern_debt_borrow_info, container, false);
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
         warningDialog = new WarningDialog(getContext());
         debtBorrowDao = daoSession.getDebtBorrowDao();
         accountDao = daoSession.getAccountDao();
         borrowName = (TextView) view.findViewById(R.id.name_of_borrow);
+        llDebtBOrrowItemEdit = (LinearLayout) view.findViewById(R.id.llDebtBOrrowItemEdit);
         leftAmount = (TextView) view.findViewById(R.id.tvAmountDebtBorrowInfo);
         borrowLeftDate = (TextView) view.findViewById(R.id.tvLeftDayDebtBorrowInfo);
-        borrowPay = (FrameLayout) view.findViewById(R.id.btPayDebtBorrowInfo);
-        deleteFrame = (FrameLayout) view.findViewById(R.id.flInfoDebtBorrowDeleted);
+        borrowPay = (LinearLayout) view.findViewById(R.id.btPayDebtBorrowInfo);
+        deleteFrame = (ImageView) view.findViewById(R.id.flInfoDebtBorrowDeleted);
         totalPayAmount = (TextView) view.findViewById(R.id.total_summ_debt_borrow);
         tvTotalsummInfo = (TextView) view.findViewById(R.id.tvInfoDebtBorrowTotalSumm);
         payText = (TextView) view.findViewById(R.id.paybut);
@@ -152,12 +158,13 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
         circleImageView = (CircleImageView) view.findViewById(R.id.iconDebtBorrowInfo);
         recyclerView = (RecyclerView) view.findViewById(R.id.rvDebtBorrowInfo);
         info = (ImageView) view.findViewById(R.id.ivInfoDebtBorrowInfo);
-        infoFrame = (FrameLayout) view.findViewById(R.id.flInfoDebtBorrowVisibl);
+        infoFrame = (RelativeLayout) view.findViewById(R.id.flInfoDebtBorrowVisibl);
         tvInfoDebtBorrowTakeDate = (TextView) view.findViewById(R.id.tvInfoDebtBorrowTakeDate);
         infoFrame.setVisibility(View.GONE);
         calculate = (TextView) view.findViewById(R.id.tvInfoDebtBorrowIsCalculate);
         id = getArguments().getString("id");
-        isHaveReking = (FrameLayout) view.findViewById(R.id.ifListHave);
+        rlInfo = (RelativeLayout) view.findViewById(R.id.rlInfo);
+//        isHaveReking = (FrameLayout) view.findViewById(R.id.ifListHave);
 
         debtBorrow = new DebtBorrow();
         if (debtBorrowDao.queryBuilder().list() != null) {
@@ -177,90 +184,90 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
         toolbarManager.setSpinnerVisibility(View.GONE);
         toolbarManager.setImageToHomeButton(R.drawable.ic_drawer);
         toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
-        if (!debtBorrow.getTo_archive()) {
-            toolbarManager.setImageToSecondImage(R.drawable.ic_more_vert_black_48dp);
-            toolbarManager.setOnSecondImageClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String[] st = new String[2];
-                    st[0] = getResources().getString(R.string.edit);
-                    st[1] = getResources().getString(R.string.delete);
-                    operationsListDialog.setAdapter(st);
-                    operationsListDialog.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            if (position == 0) {
-                                AddBorrowFragment addBorrowFragment = AddBorrowFragment.getInstance(TYPE, debtBorrow);
-
-                                if (!daoSession.getBoardButtonDao().queryBuilder()
-                                        .where(BoardButtonDao.Properties.CategoryId.eq(debtBorrow.getId()))
-                                        .list().isEmpty()) {
-                                    BoardButton boardButton = daoSession.getBoardButtonDao().queryBuilder()
-                                            .where(BoardButtonDao.Properties.CategoryId.eq(debtBorrow.getId()))
-                                            .list().get(0);
-                                    addBorrowFragment.setMainView(boardButton);
-                                }
-
-                                int count = paFragmentManager.getFragmentManager().getBackStackEntryCount();
-                                while (count > 0) {
-                                    paFragmentManager.getFragmentManager().popBackStack();
-                                    count--;
-                                }
-                                operationsListDialog.dismiss();
-                                paFragmentManager.displayFragment(addBorrowFragment);
-                            } else {
-                                warningDialog.setOnNoButtonClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        warningDialog.dismiss();
-                                    }
-                                });
-                                warningDialog.setOnYesButtonListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        switch (logicManager.deleteDebtBorrow(debtBorrow)) {
-                                            case LogicManagerConstants.REQUESTED_OBJECT_NOT_FOUND: {
-                                                Toast.makeText(getContext(), "No this debt", Toast.LENGTH_SHORT).show();
-                                                operationsListDialog.dismiss();
-                                                break;
-                                            }
-                                            case LogicManagerConstants.DELETED_SUCCESSFUL: {
-                                                if (paFragmentManager.isMainReturn()) {
-                                                    paFragmentManager.displayMainWindow();
-                                                } else {
-                                                    paFragmentManager.getFragmentManager().popBackStack();
-                                                    paFragmentManager.displayFragment(new DebtBorrowFragment());
-                                                }
-                                                List<BoardButton> boardButtons = daoSession.getBoardButtonDao().loadAll();
-                                                for (BoardButton boardButton : boardButtons) {
-                                                    if (boardButton.getCategoryId() != null)
-                                                        if (boardButton.getCategoryId().equals(debtBorrow.getId())) {
-                                                            if (boardButton.getTable() == PocketAccounterGeneral.EXPENSE)
-                                                                logicManager.changeBoardButton(PocketAccounterGeneral.EXPENSE, boardButton.getPos(), null);
-                                                            else
-                                                                logicManager.changeBoardButton(PocketAccounterGeneral.INCOME, boardButton.getPos(), null);
-                                                            commonOperations.changeIconToNull(boardButton.getPos(), dataCache, boardButton.getTable());
-                                                        }
-                                                }
-                                                dataCache.updateAllPercents();
-                                                paFragmentManager.updateAllFragmentsOnViewPager();
-                                                operationsListDialog.dismiss();
-                                                break;
-                                            }
-                                        }
-                                        warningDialog.dismiss();
-                                    }
-                                });
-                                warningDialog.setText(debtBorrow.getCalculate() ?
-                                        getResources().getString(R.string.delete_credit) : getString(R.string.delete));
-                                warningDialog.show();
-                            }
-                        }
-                    });
-                    operationsListDialog.show();
-                }
-            });
-        } else {
+//        if (!debtBorrow.getTo_archive()) {
+//            toolbarManager.setImageToSecondImage(R.drawable.ic_more_vert_black_48dp);
+//            toolbarManager.setOnSecondImageClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    String[] st = new String[2];
+//                    st[0] = getResources().getString(R.string.edit);
+//                    st[1] = getResources().getString(R.string.delete);
+//                    operationsListDialog.setAdapter(st);
+//                    operationsListDialog.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                        @Override
+//                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                            if (position == 0) {
+//                                AddBorrowFragment addBorrowFragment = AddBorrowFragment.getInstance(TYPE, debtBorrow);
+//
+//                                if (!daoSession.getBoardButtonDao().queryBuilder()
+//                                        .where(BoardButtonDao.Properties.CategoryId.eq(debtBorrow.getId()))
+//                                        .list().isEmpty()) {
+//                                    BoardButton boardButton = daoSession.getBoardButtonDao().queryBuilder()
+//                                            .where(BoardButtonDao.Properties.CategoryId.eq(debtBorrow.getId()))
+//                                            .list().get(0);
+//                                    addBorrowFragment.setMainView(boardButton);
+//                                }
+//
+//                                int count = paFragmentManager.getFragmentManager().getBackStackEntryCount();
+//                                while (count > 0) {
+//                                    paFragmentManager.getFragmentManager().popBackStack();
+//                                    count--;
+//                                }
+//                                operationsListDialog.dismiss();
+//                                paFragmentManager.displayFragment(addBorrowFragment);
+//                            } else {
+//                                warningDialog.setOnNoButtonClickListener(new View.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(View v) {
+//                                        warningDialog.dismiss();
+//                                    }
+//                                });
+//                                warningDialog.setOnYesButtonListener(new View.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(View v) {
+//                                        switch (logicManager.deleteDebtBorrow(debtBorrow)) {
+//                                            case LogicManagerConstants.REQUESTED_OBJECT_NOT_FOUND: {
+//                                                Toast.makeText(getContext(), "No this debt", Toast.LENGTH_SHORT).show();
+//                                                operationsListDialog.dismiss();
+//                                                break;
+//                                            }
+//                                            case LogicManagerConstants.DELETED_SUCCESSFUL: {
+//                                                if (paFragmentManager.isMainReturn()) {
+//                                                    paFragmentManager.displayMainWindow();
+//                                                } else {
+//                                                    paFragmentManager.getFragmentManager().popBackStack();
+//                                                    paFragmentManager.displayFragment(new DebtBorrowFragment());
+//                                                }
+//                                                List<BoardButton> boardButtons = daoSession.getBoardButtonDao().loadAll();
+//                                                for (BoardButton boardButton : boardButtons) {
+//                                                    if (boardButton.getCategoryId() != null)
+//                                                        if (boardButton.getCategoryId().equals(debtBorrow.getId())) {
+//                                                            if (boardButton.getTable() == PocketAccounterGeneral.EXPENSE)
+//                                                                logicManager.changeBoardButton(PocketAccounterGeneral.EXPENSE, boardButton.getPos(), null);
+//                                                            else
+//                                                                logicManager.changeBoardButton(PocketAccounterGeneral.INCOME, boardButton.getPos(), null);
+//                                                            commonOperations.changeIconToNull(boardButton.getPos(), dataCache, boardButton.getTable());
+//                                                        }
+//                                                }
+//                                                dataCache.updateAllPercents();
+//                                                paFragmentManager.updateAllFragmentsOnViewPager();
+//                                                operationsListDialog.dismiss();
+//                                                break;
+//                                            }
+//                                        }
+//                                        warningDialog.dismiss();
+//                                    }
+//                                });
+//                                warningDialog.setText(debtBorrow.getCalculate() ?
+//                                        getResources().getString(R.string.delete_credit) : getString(R.string.delete));
+//                                warningDialog.show();
+//                            }
+//                        }
+//                    });
+//                    operationsListDialog.show();
+//                }
+//            });
+//        } else {
             toolbarManager.setImageToSecondImage(R.drawable.trash);
             toolbarManager.setOnSecondImageClickListener(new View.OnClickListener() {
                 @Override
@@ -315,31 +322,73 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
                     warningDialog.show();
                 }
             });
-        }
-        phoneNumber.setText(debtBorrow.getPerson().getPhoneNumber());
-        tvInfoDebtBorrowTakeDate.setText(dateFormat.format(debtBorrow.getTakenDate().getTime()));
-        calculate.setText(debtBorrow.getCalculate() ?
-                getString(R.string.calc_in_balance) :
-                getString(R.string.no_calc_in_balance));
+//        }
+//        phoneNumber.setText(debtBorrow.getPerson().getPhoneNumber());
+//        tvInfoDebtBorrowTakeDate.setText(dateFormat.format(debtBorrow.getTakenDate().getTime()));
+//        calculate.setText(debtBorrow.getCalculate() ?
+//                getString(R.string.calc_in_balance) :
+//                getString(R.string.no_calc_in_balance));
         infoFrame.setVisibility(View.GONE);
-        view.findViewById(R.id.with_wlyuzik).setVisibility(view.GONE);
+//        view.findViewById(R.id.with_wlyuzik).setVisibility(view.GONE);
+
+        llDebtBOrrowItemEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AddBorrowFragment addBorrowFragment = AddBorrowFragment.getInstance(TYPE, debtBorrow);
+                if (!daoSession.getBoardButtonDao().queryBuilder()
+                        .where(BoardButtonDao.Properties.CategoryId.eq(debtBorrow.getId()))
+                        .list().isEmpty()) {
+                    BoardButton boardButton = daoSession.getBoardButtonDao().queryBuilder()
+                            .where(BoardButtonDao.Properties.CategoryId.eq(debtBorrow.getId()))
+                            .list().get(0);
+                    addBorrowFragment.setMainView(boardButton);
+                }
+
+                int count = paFragmentManager.getFragmentManager().getBackStackEntryCount();
+                while (count > 0) {
+                    paFragmentManager.getFragmentManager().popBackStack();
+                    count--;
+                }
+                operationsListDialog.dismiss();
+                paFragmentManager.displayFragment(addBorrowFragment);
+            }
+        });
+
         view.findViewById(R.id.infoooc).setOnClickListener(new View.OnClickListener() {
                                                                @Override
                                                                public void onClick(View v) {
                                                                    if (infoFrame.getVisibility() == View.GONE) {
+                                                                       rlInfo.setVisibility(View.GONE);
                                                                        infoFrame.setVisibility(View.VISIBLE);
-                                                                       info.setImageResource(R.drawable.pasga_ochil);
-                                                                       view.findViewById(R.id.with_wlyuzik).setVisibility(View.VISIBLE);
+//                                                                       info.setImageResource(R.drawable.pasga_ochil);
+//                                                                       view.findViewById(R.id.with_wlyuzik).setVisibility(View.VISIBLE);
                                                                    } else {
                                                                        infoFrame.setVisibility(View.GONE);
-                                                                       info.setImageResource(R.drawable.infoo);
-                                                                       view.findViewById(R.id.with_wlyuzik).setVisibility(view.GONE);
+                                                                       rlInfo.setVisibility(View.VISIBLE);
+//                                                                       info.setImageResource(R.drawable.infoo);
+//                                                                       view.findViewById(R.id.with_wlyuzik).setVisibility(view.GONE);
                                                                    }
                                                                }
                                                            }
         );
+        view.findViewById(R.id.rlBottom).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (infoFrame.getVisibility() == View.GONE) {
+                    infoFrame.setVisibility(View.VISIBLE);
+                    rlInfo.setVisibility(View.GONE);
+//                                                                       info.setImageResource(R.drawable.pasga_ochil);
+//                                                                       view.findViewById(R.id.with_wlyuzik).setVisibility(View.VISIBLE);
+                } else {
+                    infoFrame.setVisibility(View.GONE);
+                    rlInfo.setVisibility(View.VISIBLE);
+//                                                                       info.setImageResource(R.drawable.infoo);
+//                                                                       view.findViewById(R.id.with_wlyuzik).setVisibility(view.GONE);
+                }
+            }
+        });
         if (debtBorrow.getReckings().isEmpty()) {
-            isHaveReking.setVisibility(View.GONE);
+//            isHaveReking.setVisibility(View.GONE);
         }
 
         peysAdapter = new PeysAdapter((ArrayList<Recking>) debtBorrow.getReckings());
@@ -397,9 +446,9 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
                 + (mounth != 0 ? mounth + " " + getString(R.string.moth) : "")
                 + (day != 0 ? day + " " + getString(R.string.day) : "");
         if (debtBorrow.getReturnDate() == null) {
-            borrowLeftDate.setText(getResources().getString(R.string.no_date_selected));
+//            borrowLeftDate.setText(getResources().getString(R.string.no_date_selected));
         } else {
-            borrowLeftDate.setText(sana);
+//            borrowLeftDate.setText(sana);
         }
         totalPayAmount.setText("" + (total == ((int) total) ? ("" + ((int) total)) : ("" + total)) + debtBorrow.getCurrency().getAbbr());
         if (total >= debtBorrow.getAmount()) {
@@ -706,7 +755,7 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
         }
 
         public void onBindViewHolder(final InfoDebtBorrowFragment.ViewHolder view, final int position) {
-            view.infoDate.setText(getString(R.string.pay_daet) + dateFormat.format(list.get(position).getPayDate().getTime()));
+            view.infoDate.setText(dateFormat.format(list.get(position).getPayDate().getTime()));
             view.infoSumm.setText((list.get(position).getAmount() == ((int) list.get(position).getAmount())
                     ? ("" + ((int) list.get(position).getAmount())) : ("" + list.get(position).getAmount()))
                     + "" + debtBorrow.getCurrency().getAbbr());
@@ -757,7 +806,7 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
         }
 
         public InfoDebtBorrowFragment.ViewHolder onCreateViewHolder(ViewGroup parent, int var2) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.payed_item, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.modern_debt_borrow_info_item, parent, false);
             return new ViewHolder(view);
         }
 
@@ -774,7 +823,7 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
                     ? "" + ((int) (debtBorrow.getAmount() - total)) : "" + (debtBorrow.getAmount() - total);
             leftAmount.setText(qq + "" + debtBorrow.getCurrency().getAbbr());
             if (debtBorrow.getReckings().isEmpty()) {
-                isHaveReking.setVisibility(View.GONE);
+//                isHaveReking.setVisibility(View.GONE);
             }
             dataCache.updateAllPercents();
             paFragmentManager.updateAllFragmentsOnViewPager();
@@ -806,7 +855,7 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
                 leftAmount.setText(getResources().getString(R.string.repaid));
             }
             logicManager.insertReckingDebt(recking);
-            isHaveReking.setVisibility(View.VISIBLE);
+//            isHaveReking.setVisibility(View.VISIBLE);
             notifyItemInserted(0);
             isCheks = new boolean[list.size()];
             for (int i = 0; i < isCheks.length; i++) {

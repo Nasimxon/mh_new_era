@@ -128,7 +128,6 @@ public class AutoMarketService extends Service {
                         }
                         if (!tek)
                             daoSession.getFinanceRecordDao().insertOrReplace(financeRecord);
-
                         currentDay.add(Calendar.WEEK_OF_MONTH, -1);
                     }
                 }

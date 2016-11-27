@@ -1111,7 +1111,7 @@
     <string name="enter_pay_value">Enter the amount of payment</string>
     <string name="return_date">Return date</string>
     <string name="left">Residue</string>
-    <string name="call">Call</string>
+    <string name="call">CALL</string>
     <string name="payy">Pay</string>
     <string name="debt_delete_meessage">The entry is removed from the balance.</string>
     <string name="delete">Delete</string>

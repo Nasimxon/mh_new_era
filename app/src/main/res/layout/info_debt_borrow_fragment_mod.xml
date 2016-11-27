@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#fff"
-    android:clickable="true"
-    tools:context="com.jim.pocketaccounter.InfoCreditFragment">
+    android:clickable="true" >
     <RelativeLayout
         android:id="@+id/pustooyy"
         android:layout_width="match_parent"
@@ -172,6 +171,7 @@
                         android:layout_marginTop="@dimen/four_dp">
                         <TextView
                             android:id="@+id/tvLeftDayDebtBorrowInfo"
+                            android:text="17 days"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
@@ -179,7 +179,6 @@
                             android:layout_alignParentTop="true"
                             android:gravity="right"
                             android:paddingLeft="@dimen/ten_dp"
-                            android:text="17 days"
                             android:textColor="@color/black_for_glavniy_text"
                             android:textSize="@dimen/twelve_sp" />
                         <TextView
