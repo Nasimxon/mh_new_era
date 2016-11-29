@@ -169,12 +169,12 @@ public class PAFragmentManager {
         PRESSED = true;
         fragmentManager
                 .beginTransaction()
-                .setCustomAnimations(
-                        R.anim.slide_left_enter_custom_animation,
-                        R.anim.slide_left_exit_custom_animation,
-                        R.anim.slide_left_enter_custom_animation,
-                        R.anim.slide_left_exit_custom_animation
-                )
+//                .setCustomAnimations(
+//                        R.anim.slide_left_enter_custom_animation,
+//                        R.anim.slide_left_exit_custom_animation,
+//                        R.anim.slide_left_enter_custom_animation,
+//                        R.anim.slide_left_exit_custom_animation
+//                )
                 .addToBackStack(null)
                 .replace(R.id.flMain, fragment)
                 .commit();
