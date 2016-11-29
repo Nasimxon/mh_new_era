@@ -22,6 +22,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.transition.ChangeBounds;
 import android.transition.Fade;
+import android.transition.Visibility;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -631,7 +632,8 @@ public class BorrowFragment extends Fragment {
     private void addNextFragment(DebtBorrow debtBorrow, ImageView squareBlue, boolean overlap) {
         Fragment fragment = InfoDebtBorrowFragment.getInstance(debtBorrow.getId(), TYPE);
 
-        Fade slideTransition = new Fade(Gravity.RIGHT);
+        Fade slideTransition = new Fade(Gravity.LEFT);
+        slideTransition.setMode(Visibility.MODE_IN);
         ChangeBounds changeBoundsTransition = new ChangeBounds();
         slideTransition.setDuration(150);
         changeBoundsTransition.setDuration(150);
