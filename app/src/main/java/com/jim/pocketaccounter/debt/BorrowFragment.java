@@ -10,15 +10,20 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.transition.ChangeBounds;
+import android.transition.Fade;
 import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -308,25 +313,22 @@ public class BorrowFragment extends Fragment {
                 view.tvItemDebtBorrowLeft.setText(ss + person.getCurrency().getAbbr());
 
             view.itemView.setOnClickListener(new View.OnClickListener() {
+                @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                 @Override
                 public void onClick(View v) {
-                    Fragment fragment = InfoDebtBorrowFragment.getInstance(persons.get(Math.abs(t - position)).getId(), TYPE);
-                    paFragmentManager.getFragmentManager().popBackStack();
-                    paFragmentManager.displayFragment(fragment);
+//                    Fragment fragment = InfoDebtBorrowFragment.getInstance(persons.get(Math.abs(t - position)).getId(), TYPE);
+//                    paFragmentManager.getFragmentManager().popBackStack();
+//                    paFragmentManager.displayFragment(fragment);
+                    addNextFragment(person, view.BorrowPersonPhotoPath, false);
                 }
             });
             if (TYPE == 2) {
                 view.pay.setVisibility(View.GONE);
-//                view.call.setVisibility(View.GONE);
             } else {
                 double total = 0;
                 for (Recking rec : person.getReckings()) {
                     total += rec.getAmount();
                 }
-                double templatee = persons.get(position).getAmount() / 100;
-                int procett = (int) (total / templatee);
-//                view.frameLayout.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, procett));
-
                 if (total >= person.getAmount()) {
                     view.pay.setText(getString(R.string.archive));
                 } else view.pay.setText(getString(R.string.payy));
@@ -420,19 +422,19 @@ public class BorrowFragment extends Fragment {
                                                 if (person.getCalculate()) {
                                                     Recking recking = new Recking(date,
                                                             Double.parseDouble(enterPay.getText().toString()),
-                                                            persons.get(position).getId(), finalAc,
+                                                            person.getId(), finalAc,
                                                             comment.getText().toString());
 
-                                                    persons.get(position).getReckings().add(0, recking);
+                                                    person.getReckings().add(0, recking);
                                                     logicManager.insertReckingDebt(recking);
                                                     double total = 0;
                                                     for (Recking recking1 : persons.get(position).getReckings()) {
                                                         total += recking1.getAmount();
                                                     }
-                                                    double template = persons.get(position).getAmount() / 100;
+                                                    double template = person.getAmount() / 100;
                                                     int procet = (int) (total / template);
 //                                                    view.frameLayout.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, procet));
-                                                    if (persons.get(position).getAmount() <= total) {
+                                                    if (person.getAmount() <= total) {
                                                         view.pay.setText(getString(R.string.archive));
                                                     }
                                                     view.tvItemDebtBorrowLeft.setText(getResources().getString(R.string.repaid));
@@ -440,17 +442,17 @@ public class BorrowFragment extends Fragment {
                                                 } else {
                                                     Recking recking = new Recking(date,
                                                             Double.parseDouble(enterPay.getText().toString()),
-                                                            persons.get(position).getId(), comment.getText().toString());
+                                                            person.getId(), comment.getText().toString());
                                                     logicManager.insertReckingDebt(recking);
-                                                    persons.get(position).getReckings().add(0, recking);
+                                                    person.getReckings().add(0, recking);
                                                     double total = 0;
-                                                    for (Recking recking1 : persons.get(position).getReckings()) {
+                                                    for (Recking recking1 : person.getReckings()) {
                                                         total += recking1.getAmount();
                                                     }
-                                                    double template = persons.get(position).getAmount() / 100;
+                                                    double template = person.getAmount() / 100;
                                                     int procet = (int) (total / template);
 //                                                    view.frameLayout.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, procet));
-                                                    if (persons.get(position).getAmount() <= total) {
+                                                    if (person.getAmount() <= total) {
                                                         view.pay.setText(getString(R.string.archive));
                                                     }
                                                     view.tvItemDebtBorrowLeft.setText(getResources().getString(R.string.repaid));
@@ -471,28 +473,28 @@ public class BorrowFragment extends Fragment {
                                             warningDialog.show();
                                         }
                                     } else {
-                                        Recking recking = null;
+                                        Recking recking;
                                         if (person.getCalculate() && isMumkin(person, ac, Double.parseDouble(enterPay.getText().toString()))) {
                                             recking = new Recking(date,
                                                     Double.parseDouble(enterPay.getText().toString()),
-                                                    persons.get(position).getId(), ac,
+                                                    person.getId(), ac,
                                                     comment.getText().toString());
-                                            persons.get(position).getReckings().add(0, recking);
+                                            person.getReckings().add(0, recking);
                                             double total = 0;
-                                            for (Recking recking1 : persons.get(position).getReckings()) {
+                                            for (Recking recking1 : person.getReckings()) {
                                                 total += recking1.getAmount();
                                             }
-                                            double template = persons.get(position).getAmount() / 100;
+                                            double template = person.getAmount() / 100;
                                             int procet = (int) (total / template);
 //                                            view.frameLayout.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, procet));
-                                            if (persons.get(position).getAmount() <= total) {
+                                            if (person.getAmount() <= total) {
                                                 view.pay.setText(getString(R.string.archive));
                                             }
                                             logicManager.insertReckingDebt(recking);
-                                            view.tvItemDebtBorrowLeft.setText("" + ((persons.get(position).getAmount() - total) ==
-                                                    ((int) (persons.get(position).getAmount() - total)) ?
-                                                    ("" + (int) (persons.get(position).getAmount() - total)) :
-                                                    ("" + (persons.get(position).getAmount() - total))) + person.getCurrency().getAbbr());
+                                            view.tvItemDebtBorrowLeft.setText("" + ((person.getAmount() - total) ==
+                                                    ((int) (person.getAmount() - total)) ?
+                                                    ("" + (int) (person.getAmount() - total)) :
+                                                    ("" + (person.getAmount() - total))) + person.getCurrency().getAbbr());
                                             paFragmentManager.updateAllFragmentsOnViewPager();
                                             dataCache.updateAllPercents();
                                             dialog.dismiss();
@@ -500,25 +502,24 @@ public class BorrowFragment extends Fragment {
                                             if (!person.getCalculate()) {
                                                 recking = new Recking(date,
                                                         Double.parseDouble(enterPay.getText().toString()),
-                                                        persons.get(position).getId(),
-                                                        comment.getText().toString());
-                                                persons.get(position).getReckings().add(0, recking);
+                                                        person.getId(), comment.getText().toString());
+                                                person.getReckings().add(0, recking);
                                                 double total = 0;
-                                                for (Recking recking1 : persons.get(position).getReckings()) {
+                                                for (Recking recking1 : person.getReckings()) {
                                                     total += recking1.getAmount();
                                                 }
-                                                if (persons.get(position).getAmount() <= total) {
+                                                if (person.getAmount() <= total) {
                                                     view.pay.setText(getString(R.string.archive));
                                                 }
-                                                double template = persons.get(position).getAmount() / 100;
+                                                double template = person.getAmount() / 100;
                                                 int procet = (int) (total / template);
 //                                                view.frameLayout.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, procet));
 
                                                 logicManager.insertReckingDebt(recking);
-                                                view.tvItemDebtBorrowLeft.setText("" + ((persons.get(position).getAmount() - total) ==
-                                                        ((int) (persons.get(position).getAmount() - total)) ?
-                                                        ("" + (int) (persons.get(position).getAmount() - total)) :
-                                                        ("" + (persons.get(position).getAmount() - total))) + person.getCurrency().getAbbr());
+                                                view.tvItemDebtBorrowLeft.setText("" + ((person.getAmount() - total) ==
+                                                        ((int) (person.getAmount() - total)) ?
+                                                        ("" + (int) (person.getAmount() - total)) :
+                                                        ("" + (person.getAmount() - total))) + person.getCurrency().getAbbr());
                                                 paFragmentManager.updateAllFragmentsOnViewPager();
                                                 dataCache.updateAllPercents();
                                                 dialog.dismiss();
@@ -543,7 +544,7 @@ public class BorrowFragment extends Fragment {
                                 List<BoardButton> boardButtons = daoSession.getBoardButtonDao().loadAll();
                                 for (BoardButton boardButton : boardButtons) {
                                     if (boardButton.getCategoryId() != null)
-                                        if (boardButton.getCategoryId().equals(persons.get(position).getId())) {
+                                        if (boardButton.getCategoryId().equals(person.getId())) {
                                             if (boardButton.getTable() == PocketAccounterGeneral.EXPANSE_MODE)
                                                 logicManager.changeBoardButton(PocketAccounterGeneral.EXPENSE, boardButton.getPos(), null);
                                             else
@@ -626,26 +627,42 @@ public class BorrowFragment extends Fragment {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    private void addNextFragment(DebtBorrow debtBorrow, ImageView squareBlue, boolean overlap) {
+        Fragment fragment = InfoDebtBorrowFragment.getInstance(debtBorrow.getId(), TYPE);
+
+        Fade slideTransition = new Fade(Gravity.RIGHT);
+        ChangeBounds changeBoundsTransition = new ChangeBounds();
+        slideTransition.setDuration(150);
+        changeBoundsTransition.setDuration(150);
+        fragment.setEnterTransition(slideTransition);
+        fragment.setAllowEnterTransitionOverlap(overlap);
+        fragment.setAllowReturnTransitionOverlap(overlap);
+        fragment.setSharedElementEnterTransition(changeBoundsTransition);
+
+        int count = getActivity().getSupportFragmentManager().getBackStackEntryCount();
+        while (count > 0) {
+            getActivity().getSupportFragmentManager().popBackStack();
+            count--;
+        }
+
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.flMain, fragment)
+                .addToBackStack(null)
+                .addSharedElement(squareBlue, "imageView")
+                .commit();
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         public LinearLayout llItemDebtBorrowSms;
         public LinearLayout llItemDebtBorrowCall;
         public FrameLayout flItemDebtBorrowPay;
-
         public TextView BorrowPersonName;
         public TextView tvItemDebtBorrowLeft;
-        //        public TextView BorrowPersonNumber;
-//        public TextView BorrowPersonSumm;
-//        public TextView BorrowPersonDateGet;
-//        public TextView BorrowPersonDateRepeat;
         public CircleImageView BorrowPersonPhotoPath;
         public TextView tvItemDebtBorrowLeftDate;
         public TextView pay;
 
-        //        public TextView call;
-//        public RelativeLayout rl;
-//        public LinearLayout fl;
-//        public FrameLayout frameLayout;
-//        public LinearLayout forCango;
         public ViewHolder(View view) {
             super(view);
             llItemDebtBorrowSms = (LinearLayout) view.findViewById(R.id.llItemDebtBorrowSms);
@@ -656,15 +673,6 @@ public class BorrowFragment extends Fragment {
             tvItemDebtBorrowLeftDate = (TextView) view.findViewById(R.id.tvItemDebtBorrowLeftDate);
             BorrowPersonPhotoPath = (CircleImageView) view.findViewById(R.id.imBorrowPerson);
             pay = (TextView) view.findViewById(R.id.btBorrowPersonPay);
-//            BorrowPersonNumber = (TextView) view.findViewById(R.id.tvBorrowPersonNumber);
-//            BorrowPersonSumm = (TextView) view.findViewById(R.id.tvBorrowPersonSumm);
-//            BorrowPersonDateGet = (TextView) view.findViewById(R.id.tvBorrowPersonDateGet);
-//            BorrowPersonDateRepeat = (TextView) view.findViewById(R.id.tvBorrowPersonDateRepeat);
-//            call = (TextView) view.findViewById(R.id.call_person_debt_borrow);
-//            rl = (RelativeLayout) view.findViewById(R.id.rlDebtBorrowTop);
-//            fl = (LinearLayout) view.findViewById(R.id.frameLayout);
-//            frameLayout = (FrameLayout) view.findViewById(R.id.zapolnit);
-//            forCango = (LinearLayout) view.findViewById(R.id.forCango);
         }
     }
 

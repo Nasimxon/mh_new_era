@@ -21,6 +21,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -113,7 +114,7 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
     private String photoPath = "";
     private Calendar getDate;
     private Calendar returnDate;
-    private CheckBox calculate;
+    private SwitchCompat calculate;
     private int TYPE = 0;
     private static final int REQUEST_SELECT_CONTACT = 2;
     public static int RESULT_LOAD_IMAGE = 1;
@@ -197,7 +198,7 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
                 adapter.add(getResources().getString(R.string.notif_weekly));
                 adapter.add(getResources().getString(R.string.notif_monthly));
             }
-            ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, adapter);
+            ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(getContext(), R.layout.spinner_single_item, adapter);
             spNotifMode.setAdapter(adapter1);
         }
     };
@@ -217,7 +218,7 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
         adapter.add(getResources().getString(R.string.notif_everyday));
         adapter.add(getResources().getString(R.string.notif_weekly));
         adapter.add(getResources().getString(R.string.notif_monthly));
-        ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, adapter);
+        ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(getContext(), R.layout.spinner_single_item, adapter);
         spNotifMode.setAdapter(adapter1);
         spNotifMode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -254,7 +255,7 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
         firstPay = (EditText) view.findViewById(R.id.etDebtBorrowFirstPay);
         PersonValyuta = (Spinner) view.findViewById(R.id.spBorrowAddPopupValyuta);
         PersonAccount = (Spinner) view.findViewById(R.id.spBorrowAddPopupAccount);
-        calculate = (CheckBox) view.findViewById(R.id.chbAddDebtBorrowCalculate);
+        calculate = (SwitchCompat) view.findViewById(R.id.chbAddDebtBorrowCalculate);
         getDate = paFragmentManager.isMainReturn() ? dataCache.getEndDate() : Calendar.getInstance();
         if (TYPE == DebtBorrow.DEBT) {
             PersonSumm.setHint(getResources().getString(R.string.enter_borrow_amoount));
@@ -279,11 +280,11 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
                 getContext(), R.layout.spiner_gravity_right, valyuts);
 
         arrayAdapter.setDropDownViewResource(
-                android.R.layout.simple_spinner_dropdown_item);
+                R.layout.spinner_single_item);
         PersonAccount.setAdapter(arrayAdapter);
 
         arrayValyuAdapter.setDropDownViewResource(
-                android.R.layout.simple_spinner_dropdown_item);
+                R.layout.spinner_single_item);
         PersonValyuta.setAdapter(arrayValyuAdapter);
         int posMain = 0;
         for (int i = 0; i < valyuts.length; i++) {

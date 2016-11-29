@@ -68,7 +68,9 @@
                 android:layout_gravity="center"
                 app:border_color="#cecece"
                 android:id="@+id/imBorrowPerson"
-                android:src="@drawable/no_photo" />
+                android:src="@drawable/no_photo"
+                android:transitionName="imageView"
+                />
 
             <TextView
                 android:layout_width="wrap_content"

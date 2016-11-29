@@ -525,8 +525,8 @@ public class AutoMarketFragment extends Fragment implements View.OnClickListener
                             nextOperation.set(Calendar.DAY_OF_MONTH, Integer.parseInt(days[0]) + 1);
                         }
                     } else {
-                        current = current - Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
                         nextOperation.set(Calendar.DAY_OF_MONTH, current);
+                        current = current - Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
                     }
                 } else {
                     int current = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);

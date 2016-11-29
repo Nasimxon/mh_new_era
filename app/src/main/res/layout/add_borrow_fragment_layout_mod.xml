@@ -45,7 +45,7 @@
                             android:layout_marginTop="@dimen/twentynine_dp"
                             android:text="@string/name"
                             android:textColor="#212121"
-                            android:textSize="@dimen/twenty_sp" />
+                            android:textSize="@dimen/sixteen_dp"/>
                         <EditText
                             android:id="@+id/etBorrowAddPopupName"
                             android:layout_width="match_parent"
@@ -64,7 +64,8 @@
                             android:textColor="@color/black_for_glavniy_text"
                             android:textColorHint="@color/black_for_secondary_text"
                             android:layout_marginTop="@dimen/five_dp"
-                            android:textSize="@dimen/sixteen_dp" />
+                            android:textSize="@dimen/sixteen_dp"
+                            />
                         <FrameLayout
                             android:id="@+id/btBorrowAddPopupContact"
                             android:layout_width="wrap_content"
@@ -89,7 +90,7 @@
                 </LinearLayout>
                 <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/two_dp"
+                    android:layout_height="2px"
                     android:background="@color/green_light_forline" />
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -108,16 +109,9 @@
                             android:layout_marginRight="@dimen/ten_dp"
                             android:text="@string/tel_number"
                             android:textColor="@color/black_for_glavniy_text"
-                            android:textSize="@dimen/eighteen_sp" />
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center">
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="1px"
-                                android:background="@color/green_light_forline" />
-                        </RelativeLayout>
+                            android:textSize="@dimen/fourteen_dp"
+                            />
+
                     </LinearLayout>
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -135,11 +129,10 @@
                             android:layout_alignParentStart="true"
                             android:layout_alignParentTop="true"
                             android:background="@color/white"
-                            android:paddingTop="@dimen/five_dp"
-                            android:paddingBottom="@dimen/five_dp"
                             android:hint="@string/enter_phone_number"
                             android:inputType="phone"
-                            android:textSize="@dimen/fourteen_sp" />
+                            android:textSize="@dimen/sixteen_dp"
+                            />
                     </RelativeLayout>
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -153,16 +146,9 @@
                             android:layout_marginRight="@dimen/ten_dp"
                             android:text="@string/debt_amount"
                             android:textColor="@color/black_for_glavniy_text"
-                            android:textSize="@dimen/eighteen_sp" />
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center">
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="1px"
-                                android:background="@color/green_light_forline" />
-                        </RelativeLayout>
+                            android:textSize="@dimen/fourteen_dp"
+                            />
+
                     </LinearLayout>
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -179,7 +165,8 @@
                             android:layout_alignParentEnd="true"
                             android:layout_alignParentRight="true"
                             android:layout_centerInParent="true"
-                            android:layout_marginTop="@dimen/fourteen_dp" />
+                            android:layout_marginTop="@dimen/fourteen_dp"
+                            android:textSize="@dimen/sixteen_dp"/>
                         <EditText
                             android:id="@+id/etBorrowAddPopupSumm"
                             android:layout_width="wrap_content"
@@ -190,12 +177,11 @@
                             android:layout_toLeftOf="@+id/spBorrowAddPopupValyuta"
                             android:hint="@string/enter_debt_amoount"
                             android:background="@color/white"
-                            android:paddingTop="@dimen/five_dp"
-                            android:paddingBottom="@dimen/five_dp"
                             android:inputType="numberDecimal"
                             android:maxLength="13"
                             android:text=""
-                            android:textSize="@dimen/fourteen_sp" />
+                            android:textSize="@dimen/sixteen_dp"
+                            />
                     </RelativeLayout>
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -208,16 +194,9 @@
                             android:layout_marginRight="@dimen/ten_dp"
                             android:text="@string/date"
                             android:textColor="@color/black_for_glavniy_text"
-                            android:textSize="@dimen/eighteen_sp" />
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center">
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="2px"
-                                android:background="@color/green_light_forline" />
-                        </RelativeLayout>
+                            android:textSize="@dimen/fourteen_dp"
+                            />
+
                     </LinearLayout>
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -238,7 +217,8 @@
                             android:paddingRight="@dimen/five_dp"
                             android:focusableInTouchMode="false"
                             android:hint="@string/begin_date"
-                            android:textSize="@dimen/fourteen_sp" />
+                            android:textSize="@dimen/sixteen_dp"
+                            />
                         <ImageView
                             android:id="@+id/imageView2"
                             android:layout_width="@dimen/thirty_dp"
@@ -262,7 +242,8 @@
                             android:layout_toRightOf="@+id/imageView2"
                             android:focusableInTouchMode="false"
                             android:hint="@string/end_time"
-                            android:textSize="@dimen/fourteen_sp" />
+                            android:textSize="@dimen/sixteen_dp"
+                            />
                     </RelativeLayout>
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -275,28 +256,26 @@
                             android:layout_marginRight="@dimen/ten_dp"
                             android:text="@string/notif_setting"
                             android:textColor="@color/black_for_glavniy_text"
-                            android:textSize="@dimen/eighteen_sp" />
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center">
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="@dimen/one_dp"
-                                android:background="@color/green_light_forline" />
-                        </RelativeLayout>
+                            android:textSize="@dimen/fourteen_dp"
+                            />
+
                     </LinearLayout>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/five_dp"
+                        android:background="@drawable/edit_text"
+                        android:paddingBottom="@dimen/eight_dp"
+                        android:paddingTop="@dimen/eight_dp"
                         android:orientation="horizontal">
                         <Spinner
                             android:id="@+id/spNotifMode"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="@dimen/ten_dp"
-                            android:layout_weight="1" />
+                            android:layout_weight="1"
+                            android:textSize="@dimen/sixteen_dp"
+                            />
                         <FrameLayout
                             android:id="@+id/btnDetalization"
                             android:layout_width="wrap_content"
@@ -304,8 +283,10 @@
                             android:layout_alignBottom="@+id/name_text_view"
                             android:layout_alignParentEnd="true"
                             android:layout_alignParentRight="true"
-                            android:layout_gravity="center_vertical"
+                            android:layout_gravity="center"
                             android:layout_marginBottom="@dimen/two_dp"
+                            android:layout_marginTop="@dimen/five_dp"
+                            android:layout_marginRight="@dimen/five_dp"
                             android:background="@drawable/rounded_rectangle_1">
                             <TextView
                                 android:layout_width="wrap_content"
@@ -330,16 +311,8 @@
                             android:layout_marginRight="@dimen/ten_dp"
                             android:text="@string/transactions"
                             android:textColor="@color/black_for_glavniy_text"
-                            android:textSize="@dimen/eighteen_sp" />
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center">
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="2px"
-                                android:background="@color/green_light_forline" />
-                        </RelativeLayout>
+                            android:textSize="@dimen/fourteen_dp"
+                            />
                     </LinearLayout>
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -357,20 +330,35 @@
                             android:text="@string/include_in_balance"
                             android:textColor="@color/black_for_glavniy_text"
                             android:textSize="@dimen/twelve_sp" />
-                        <CheckBox
-                            android:id="@+id/chbAddDebtBorrowCalculate"
+
+                        <android.support.v7.widget.SwitchCompat
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignBottom="@+id/textView4"
-                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/sixteen_dp"
                             android:layout_alignParentRight="true"
-                            android:layout_alignTop="@+id/textView4"
-                            android:checked="true"
-                            android:text="" />
+                            android:layout_alignParentEnd="true"
+                            android:id="@+id/chbAddDebtBorrowCalculate" />
+
+                        <!--<CheckBox-->
+                            <!--android:id="@+id/chbAddDebtBorrowCalculate"-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_alignBottom="@+id/textView4"-->
+                            <!--android:layout_alignParentEnd="true"-->
+                            <!--android:layout_alignParentRight="true"-->
+                            <!--android:layout_alignTop="@+id/textView4"-->
+                            <!--android:checked="true"-->
+                            <!--android:text="" />-->
                     </RelativeLayout>
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/edit_text"
+                        android:paddingTop="@dimen/eight_dp"
+                        android:paddingLeft="@dimen/five_dp"
+                        android:paddingBottom="@dimen/eight_dp"
+                        >
                         <EditText
                             android:id="@+id/etDebtBorrowFirstPay"
                             android:layout_width="match_parent"
@@ -378,24 +366,24 @@
                             android:layout_alignParentLeft="true"
                             android:layout_alignParentStart="true"
                             android:layout_marginRight="@dimen/six_dp"
-                            android:layout_toLeftOf="@+id/spBorrowAddPopupAccount"
-                            android:layout_toStartOf="@+id/spBorrowAddPopupAccount"
-                            android:background="@drawable/edit_text"
-                            android:paddingTop="@dimen/eight_dp"
-                            android:paddingBottom="@dimen/eight_dp"
+                            android:background="@color/white"
                             android:paddingLeft="@dimen/ten_dp"
                             android:paddingRight="@dimen/five_dp"
                             android:hint="@string/enter_first_transaction"
                             android:inputType="numberDecimal"
+                            android:layout_centerVertical="true"
                             android:maxLength="13"
-                            android:textSize="@dimen/fourteen_sp" />
+                            android:textSize="@dimen/sixteen_dp"
+                            />
                         <Spinner
                             android:id="@+id/spBorrowAddPopupAccount"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_alignParentEnd="true"
+                            android:textSize="@dimen/sixteen_dp"
+                            android:layout_centerVertical="true"
                             android:layout_alignParentRight="true"
-                            android:layout_marginTop="@dimen/fourteen_dp" />
+                            />
                     </RelativeLayout>
                 </LinearLayout>
                 <RelativeLayout
@@ -407,7 +395,7 @@
                     android:gravity="center">
                     <ImageView
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/two_dp"
+                        android:layout_height="2px"
                         android:background="@color/green_light_forline" />
                 </RelativeLayout>
             </LinearLayout>

@@ -155,7 +155,7 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
         tvTotalsummInfo = (TextView) view.findViewById(R.id.tvInfoDebtBorrowTotalSumm);
         payText = (TextView) view.findViewById(R.id.paybut);
         phoneNumber = (TextView) view.findViewById(R.id.tvInfoDebtBorrowPhoneNumber);
-        circleImageView = (CircleImageView) view.findViewById(R.id.iconDebtBorrowInfo);
+        circleImageView = (CircleImageView) view.findViewById(R.id.imBorrowPerson);
         recyclerView = (RecyclerView) view.findViewById(R.id.rvDebtBorrowInfo);
         info = (ImageView) view.findViewById(R.id.ivInfoDebtBorrowInfo);
         infoFrame = (RelativeLayout) view.findViewById(R.id.flInfoDebtBorrowVisibl);

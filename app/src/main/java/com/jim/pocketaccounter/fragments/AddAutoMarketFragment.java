@@ -185,9 +185,9 @@ public class AddAutoMarketFragment extends Fragment {
                     autoMarket.setAccount(accountDao.loadAll().get(account_sp.getSelectedItemPosition()));
                     autoMarket.setType(type);
                     autoMarket.setDates(sequence.substring(0, sequence.length() - 1));
-                    if (!type) {
+//                    if (!type) {
                         autoMarket.setPosDays(daysAdapter.posDays());
-                    }
+//                    }
                     daoSession.getAutoMarketDao().insertOrReplace(autoMarket);
                     paFragmentManager.getFragmentManager().popBackStack();
                     paFragmentManager.displayFragment(new AutoMarketFragment());
@@ -205,9 +205,9 @@ public class AddAutoMarketFragment extends Fragment {
                     autoMarket.setCurrency(currencyDao.queryBuilder().where(CurrencyDao.Properties.Abbr.eq(curs.get(spCurrency.getSelectedItemPosition()))).list().get(0));
                     autoMarket.setAccount(accountDao.loadAll().get(account_sp.getSelectedItemPosition()));
                     autoMarket.setType(type);
-                    if (!type) {
+//                    if (!type) {
                         autoMarket.setPosDays(daysAdapter.posDays());
-                    }
+//                    }
                     autoMarket.setCreateDay(Calendar.getInstance());
                     autoMarket.setDates(sequence.substring(0, sequence.length() - 1));
                     switch (logicManager.insertAutoMarket(autoMarket)) {
