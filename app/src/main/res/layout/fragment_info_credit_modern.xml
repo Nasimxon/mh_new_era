@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="#fff"
     android:layout_height="wrap_content"
+    tools:context="com.jim.pocketaccounter.fragments.InfoCreditFragment"
     android:layout_gravity="center_horizontal">
 
     <RelativeLayout
@@ -40,7 +42,7 @@
                     android:id="@+id/ivAccountItemSendPurpose"
                     android:layout_width="@dimen/twentyfive_dp"
                     android:layout_height="@dimen/thirty_dp"
-                    android:src="@drawable/cat_list_item_edit"
+                    android:src="@drawable/schedule"
                     android:tint="#c7c7c7" />
 
                 <TextView
@@ -48,7 +50,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/five_dp"
                     android:gravity="center"
-                    android:text="Edit"
+                    android:text="@string/schedule"
                     android:textColor="#aeaaaa"
                     android:textSize="@dimen/ten_dp" />
 
@@ -69,19 +71,16 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/imBorrowPerson"
-                    android:layout_width="@dimen/sexty_dp"
-                    android:layout_height="@dimen/sexty_dp"
-                    android:layout_marginTop="@dimen/sixteen_dp"
+                <ImageView
+                    android:id="@+id/icon_creditt"
+                    android:layout_width="@dimen/seventy_dp"
+                    android:layout_height="@dimen/seventy_dp"
+                    android:layout_marginTop="@dimen/twelve_dp"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
                     android:src="@drawable/iconforpr"
-                    app:border_color="@color/green_light_forline"
-                    android:transitionName="imageView"
-                    app:border_overlay="true"
-                    app:border_width="2dp" />
+                     />
 
             </LinearLayout>
 
@@ -93,7 +92,7 @@
                 android:background="#f1f1f1" />
 
             <LinearLayout
-                android:id="@+id/btPayDebtBorrowInfo"
+                android:id="@+id/frameLayout2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/twentyfive_dp"
@@ -106,7 +105,7 @@
                 <ImageView
                     android:layout_width="@dimen/thirty_dp"
                     android:layout_height="@dimen/thirty_dp"
-                    android:src="@drawable/debt_icon" />
+                    android:src="@drawable/yellow_mony" />
 
                 <TextView
                     android:id="@+id/paybut"
@@ -114,13 +113,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/five_dp"
                     android:gravity="center"
-                    android:text="Pay"
-                    android:textColor="@color/bar_income"
+                    android:text="@string/payment"
+                    android:textColor="@color/credit_yellow"
                     android:textSize="@dimen/ten_dp" />
             </LinearLayout>
         </LinearLayout>
         <TextView
-            android:id="@+id/name_of_borrow"
+            android:id="@+id/name_of_credit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/three_dp"
@@ -168,7 +167,7 @@
                 android:textSize="@dimen/sixteen_sp" />
 
             <ImageView
-                android:id="@+id/pastgaOcil"
+                android:id="@+id/wlyuzik_opener"
                 android:layout_width="@dimen/twenty_dp"
                 android:layout_height="@dimen/twenty_dp"
                 android:layout_alignTop="@+id/tvInfo"
@@ -185,7 +184,7 @@
     </LinearLayout>
 
     <RelativeLayout
-        android:id="@+id/flInfoDebtBorrowVisibl"
+        android:id="@+id/shlyuzik"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/info"
@@ -214,16 +213,16 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/phone_number"
+                        android:text="@string/procent_of_credit"
                         android:textColor="#838383"
                         android:textSize="@dimen/sixteen_sp" />
 
                     <TextView
-                        android:id="@+id/tvInfoDebtBorrowPhoneNumber"
+                        android:id="@+id/procentCredInfo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="right"
-                        android:text="+99891562342"
+                        android:text="15%"
                         android:textColor="#414141"
                         android:textSize="@dimen/sixteen_sp" />
 
@@ -243,16 +242,16 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/left_date_debts"
+                        android:text="@string/total_credit_value"
                         android:textColor="#838383"
                         android:textSize="@dimen/sixteen_sp" />
 
                     <TextView
-                        android:id="@+id/tvLeftDayDebtBorrowInfo"
+                        android:id="@+id/takedValueInfo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="right"
-                        android:text="17 days"
+                        android:text="5000$"
                         android:textColor="#414141"
                         android:textSize="@dimen/sixteen_sp" />
 
@@ -272,16 +271,16 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/begin_date"
+                        android:text="@string/with_interest"
                         android:textColor="#838383"
                         android:textSize="@dimen/sixteen_sp" />
 
                     <TextView
-                        android:id="@+id/tvInfoDebtBorrowTakeDate"
+                        android:id="@+id/totalReturnValueInfo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="right"
-                        android:text="01.02.2016"
+                        android:text="6200$"
                         android:textColor="#414141"
                         android:textSize="@dimen/sixteen_sp" />
 
@@ -301,7 +300,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/total_sum"
+                        android:text="@string/period_ends"
                         android:textColor="#838383"
                         android:textSize="@dimen/sixteen_sp" />
 
@@ -310,7 +309,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="right"
-                        android:text="1200$"
+                        android:text="15 days"
                         android:textColor="#414141"
                         android:textSize="@dimen/sixteen_sp" />
 
@@ -329,7 +328,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/balance"
+                        android:text="@string/period_payment"
                         android:textColor="#838383"
                         android:textSize="@dimen/sixteen_sp" />
 
@@ -338,7 +337,115 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="right"
-                        android:text="Calculetes"
+                        android:text="380$"
+                        android:textColor="@color/credit_yellow"
+                        android:textSize="@dimen/sixteen_sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#fbfbfb"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/sixteen_dp"
+                    android:paddingTop="@dimen/five_dp"
+                    android:paddingBottom="@dimen/five_dp"
+                    android:paddingRight="@dimen/sixteen_dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/in_the_balance"
+                        android:textColor="#838383"
+                        android:textSize="@dimen/sixteen_sp" />
+
+                    <TextView
+                        android:id="@+id/it_is_include_balance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:text="Include"
+                        android:textColor="#414141"
+                        android:textSize="@dimen/sixteen_sp" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingTop="@dimen/five_dp"
+                    android:paddingBottom="@dimen/five_dp"
+                    android:paddingLeft="@dimen/sixteen_dp"
+                    android:paddingRight="@dimen/sixteen_dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/taked_date"
+                        android:textColor="#838383"
+                        android:textSize="@dimen/sixteen_sp" />
+
+                    <TextView
+                        android:id="@+id/takedtimeInfo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:text="15 Nov, 2016"
+                        android:textColor="#414141"
+                        android:textSize="@dimen/sixteen_sp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#fbfbfb"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/sixteen_dp"
+                    android:paddingTop="@dimen/five_dp"
+                    android:paddingBottom="@dimen/five_dp"
+                    android:paddingRight="@dimen/sixteen_dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/period_of_credit2"
+                        android:textColor="#838383"
+                        android:textSize="@dimen/sixteen_sp" />
+
+                    <TextView
+                        android:id="@+id/intervalCreditInfo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:text="2 years"
+                        android:textColor="#414141"
+                        android:textSize="@dimen/sixteen_sp" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingTop="@dimen/five_dp"
+                    android:paddingBottom="@dimen/five_dp"
+                    android:paddingLeft="@dimen/sixteen_dp"
+                    android:paddingRight="@dimen/sixteen_dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/balance"
+                        android:textColor="#838383"
+                        android:textSize="@dimen/sixteen_sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:text="3200$"
                         android:textColor="#414141"
                         android:textSize="@dimen/sixteen_sp" />
                 </LinearLayout>
@@ -387,7 +494,7 @@
         android:id="@+id/rlInfo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/flInfoDebtBorrowVisibl"
+        android:layout_below="@+id/shlyuzik"
         android:layout_centerHorizontal="true"
         android:background="#fafafa">
 
@@ -420,14 +527,14 @@
                     android:textSize="@dimen/sixteen_dp"/>
 
                 <ImageView
-                    android:id="@+id/flInfoDebtBorrowDeleted"
+                    android:id="@+id/frameLayout3"
                     android:layout_width="@dimen/twentyfive_dp"
                     android:layout_height="@dimen/twentyfive_dp"
                     android:src="@drawable/subcat_delete"
                     android:tint="#c8c8c8"
                     android:padding="2dp"
                     android:layout_marginRight="@dimen/ten_dp"
-                   />
+                    />
                 <ImageView
                     android:id="@+id/cancel_button"
                     android:layout_width="@dimen/twentyfive_dp"
@@ -440,11 +547,11 @@
                     />
             </LinearLayout>
 
-                <android.support.v7.widget.RecyclerView
-                android:id="@+id/rvDebtBorrowInfo"
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_for_transactions"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                    android:layout_marginTop="@dimen/ten_dp"
+                android:layout_marginTop="@dimen/ten_dp"
                 android:layout_marginLeft="@dimen/ten_dp"
                 android:layout_marginRight="@dimen/ten_dp"
                 android:layout_weight="1"
@@ -500,7 +607,7 @@
 
 
                     <TextView
-                        android:id="@+id/total_summ_debt_borrow"
+                        android:id="@+id/total_transaction"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="right"
@@ -508,7 +615,7 @@
                         android:textColor="@color/bar_income"
                         android:textSize="@dimen/twelve_dp" />
                     <TextView
-                        android:id="@+id/tvAmountDebtBorrowInfo"
+                        android:id="@+id/value_credit_all"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="right"

@@ -24,6 +24,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -95,16 +96,14 @@ public class InfoCreditFragment extends Fragment {
     DebtBorrowDao debtBorrowDao;
 
     ImageView expandableBut;
-    FrameLayout expandablePanel;
-    FrameLayout expandableLiniya;
-    FrameLayout ifHaveItem;
+    ImageView cancel_button;
+    RelativeLayout expandablePanel;
     RecyclerView tranact_recyc;
     CreditDetials currentCredit;
     boolean toArcive = false;
     TextView myCreditName;
     TextView myLefAmount;
     TextView myProcent;
-    TextView myLefDate;
     TextView myPeriodOfCredit;
     TextView myTakedCredTime;
     TextView myTakedValue;
@@ -124,7 +123,8 @@ public class InfoCreditFragment extends Fragment {
     boolean isExpandOpen = false;
     private Context context;
     DecimalFormat formater;
-    TextView myPay, myDelete;
+    TextView myPay;
+//    ImageView myDelete;
     boolean fromMainWindow = false;
     private boolean[] isCheks;
     private int positionOfBourdMain;
@@ -171,18 +171,16 @@ public class InfoCreditFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View V = inflater.inflate(R.layout.fragment_info_credit, container, false);
+        View V = inflater.inflate(R.layout.fragment_info_credit_modern, container, false);
         Date dateForSimpleDate = (new Date());
         if (fromMainWindow)
             paFragmentManager.setMainReturn(true);
         expandableBut = (ImageView) V.findViewById(R.id.wlyuzik_opener);
-        expandablePanel = (FrameLayout) V.findViewById(R.id.shlyuzik);
-        expandableLiniya = (FrameLayout) V.findViewById(R.id.with_wlyuzik);
-        ifHaveItem = (FrameLayout) V.findViewById(R.id.ifListHave);
+        expandablePanel = (RelativeLayout) V.findViewById(R.id.shlyuzik);
         myCreditName = (TextView) V.findViewById(R.id.name_of_credit);
         myLefAmount = (TextView) V.findViewById(R.id.value_credit_all);
         myProcent = (TextView) V.findViewById(R.id.procentCredInfo);
-        myLefDate = (TextView) V.findViewById(R.id.leftDateInfo);
+//        myLefDate = (TextView) V.findViewById(R.id.leftDateInfo);
         myPeriodOfCredit = (TextView) V.findViewById(R.id.intervalCreditInfo);
         myTakedCredTime = (TextView) V.findViewById(R.id.takedtimeInfo);
         myTakedValue = (TextView) V.findViewById(R.id.takedValueInfo);
@@ -191,12 +189,13 @@ public class InfoCreditFragment extends Fragment {
         calculeted = (TextView) V.findViewById(R.id.it_is_include_balance);
         tranact_recyc = (RecyclerView) V.findViewById(R.id.recycler_for_transactions);
         icon_credit = (ImageView) V.findViewById(R.id.icon_creditt);
+        cancel_button = (ImageView) V.findViewById(R.id.cancel_button);
 
         rcList = currentCredit.getReckings();
         currentCredit.resetReckings();
         adapRecyc = new PaysCreditAdapter(rcList);
         myPay = (TextView) V.findViewById(R.id.paybut);
-        myDelete = (TextView) V.findViewById(R.id.deleterbut);
+//        myDelete = (ImageView) V.findViewById(R.id.deleterbut);
         LinearLayoutManager llm = new LinearLayoutManager(context);
         tranact_recyc.setLayoutManager(llm);
 
@@ -319,12 +318,7 @@ public class InfoCreditFragment extends Fragment {
         });
 
         tranact_recyc.setAdapter(adapRecyc);
-        if (rcList.size() == 0) {
-            ifHaveItem.setVisibility(View.GONE);
-        } else {
-            ifHaveItem.setVisibility(View.VISIBLE);
 
-        }
         double total_paid = 0;
         for (ReckingCredit item : rcList) {
             total_paid += item.getAmount();
@@ -402,14 +396,9 @@ public class InfoCreditFragment extends Fragment {
                     delete_flag = false;
                     myPay.setText(R.string.archive);
                     adapRecyc.notifyDataSetChanged();
-                } else {
-                    delete_flag = false;
-                    myPay.setText(R.string.pay);
-                    for (int i = 0; i < isCheks.length; i++) {
-                        isCheks[i] = false;
-                    }
-                    adapRecyc.notifyDataSetChanged();
                 }
+
+
             }
         });
 
@@ -421,7 +410,18 @@ public class InfoCreditFragment extends Fragment {
         myTakedCredTime.setText(dateFormat.format(dateForSimpleDate));
         myCreditName.setText(currentCredit.getCredit_name());
         calculeted.setText((currentCredit.getKey_for_include()) ? getString(R.string.calculaed) : getString(R.string.not_calc));
-
+        cancel_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                delete_flag = false;
+                cancel_button.setVisibility(View.GONE);
+//                    myPay.setText(R.string.pay);
+                for (int i = 0; i < isCheks.length; i++) {
+                    isCheks[i] = false;
+                }
+                adapRecyc.notifyDataSetChanged();
+            }
+        });
         myTotalPaid.setText(parseToWithoutNull(total_paid) + currentCredit.getValyute_currency().getAbbr());
         if (currentCredit.getValue_of_credit_with_procent() - total_paid <= 0) {
             myLefAmount.setText(getString(R.string.repaid));
@@ -450,7 +450,8 @@ public class InfoCreditFragment extends Fragment {
                 } else {
                     delete_flag = true;
                     adapRecyc.notifyDataSetChanged();
-                    myPay.setText(getString(R.string.cancel));
+                    cancel_button.setVisibility(View.VISIBLE);
+//                    myPay.setText(getString(R.string.cancel));
                 }
             }
         });
@@ -482,13 +483,11 @@ public class InfoCreditFragment extends Fragment {
             public void onClick(View v) {
                 if (isExpandOpen) {
                     expandablePanel.setVisibility(View.GONE);
-                    expandableLiniya.setVisibility(View.GONE);
-                    expandableBut.setImageResource(R.drawable.infoo);
+                    expandableBut.setImageResource(R.drawable.info_open);
                     isExpandOpen = false;
                 } else {
                     expandablePanel.setVisibility(View.VISIBLE);
-                    expandableLiniya.setVisibility(View.VISIBLE);
-                    expandableBut.setImageResource(R.drawable.pasga_ochil);
+                    expandableBut.setImageResource(R.drawable.info_pastga);
                     isExpandOpen = true;
                 }
             }
@@ -499,8 +498,8 @@ public class InfoCreditFragment extends Fragment {
         Date from = new Date();
         int t[] = getDateDifferenceInDDMMYYYY(from, to.getTime());
         if (t[0] * t[1] * t[2] < 0 && (t[0] + t[1] + t[2]) != 0) {
-            myLefDate.setText(R.string.ends);
-            myLefDate.setTextColor(Color.parseColor("#832e1c"));
+//            myLefDate.setText(R.string.ends);
+//            myLefDate.setTextColor(Color.parseColor("#832e1c"));
         } else {
             String left_date_string = "";
             if (t[0] != 0) {
@@ -531,14 +530,9 @@ public class InfoCreditFragment extends Fragment {
                     left_date_string += Integer.toString(t[2]) + " " + getString(R.string.day);
                 }
             }
-            myLefDate.setText(left_date_string);
+//            myLefDate.setText(left_date_string);
         }
 
-        V.findViewById(R.id.pustooyy).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            }
-        });
 
 
         return V;
@@ -773,11 +767,7 @@ public class InfoCreditFragment extends Fragment {
             toArcive = false;
             myLefAmount.setText(parseToWithoutNull(currentCredit.getValue_of_credit_with_procent() - total_paid) + currentCredit.getValyute_currency().getAbbr());
         }
-        if (rcList.size() == 0) {
-            ifHaveItem.setVisibility(View.GONE);
-        } else {
-            ifHaveItem.setVisibility(View.VISIBLE);
-        }
+
         myTotalPaid.setText(parseToWithoutNull(total_paid) + currentCredit.getValyute_currency().getAbbr());
         //TODO update recycler
     }
@@ -828,7 +818,8 @@ public class InfoCreditFragment extends Fragment {
         } else {
             adapRecyc.notifyDataSetChanged();
         }
-        myPay.setText(getString(R.string.pay));
+        cancel_button.setVisibility(View.GONE);
+//        myPay.setText(getString(R.string.pay));
     }
 
     @Override
@@ -859,7 +850,7 @@ public class InfoCreditFragment extends Fragment {
 
         public void onBindViewHolder(final ViewHolder view, final int position) {
             ReckingCredit item = list.get(position);
-            view.infoDate.setText(getString(R.string.date_of_pay) + ": " + dateFormat.format(item.getPayDate().getTime()));
+            view.infoDate.setText(dateFormat.format(item.getPayDate().getTime()));
             view.infoSumm.setText(parseToWithoutNull(item.getAmount()) + currentCredit.getValyute_currency().getAbbr());
             if (currentCredit.getKey_for_include()) {
                 ArrayList<Account> accounts = (ArrayList<Account>) accountDao.queryBuilder().list();

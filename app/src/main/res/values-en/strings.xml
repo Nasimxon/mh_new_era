@@ -1171,7 +1171,7 @@
     <string name="notif_debt">Check your debts!</string>
     <string name="payment_balans">"Unpaid balance:"</string>
     <string name="payment_balance2">"\nYou are overpay for the sum:"</string>
-    <string name="total_credit_value">Total amount:</string>
+    <string name="total_credit_value">Credit amount</string>
     <string name="left2">Credit term:</string>
     <string name="taken_date">Payment day:</string>
     <string name="adding_to_archive">To archive:</string>
@@ -1198,9 +1198,9 @@
     <string name="do_you_want_note">Enter your notes</string>
     <string name="this_amount_will_absorb_your_credit">Partial or full payment</string>
     <string name="left_amount">Residue:</string>
-    <string name="procent_of_credit">Percent of credit:</string>
+    <string name="procent_of_credit">Percent of credit</string>
     <string name="left_date">Left:</string>
-    <string name="period_of_credit2">Credit period:</string>
+    <string name="period_of_credit2">Credit period</string>
     <string name="taked_credit_time">Credit date:</string>
     <string name="in_the_balance">In the balance:</string>
     <string name="transactions2">Transactions</string>

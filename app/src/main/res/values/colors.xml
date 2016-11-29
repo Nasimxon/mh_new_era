@@ -52,6 +52,7 @@
     <color name="green_light_forline_darker2" type="color">#dcdcdc</color>
     <color name="for_darker" type="color">#414141</color>
     <color name="deletecolor" type="color">#d8d8d8</color>
+    <color name="secondaryCred" type="color">#a4a4a4</color>
     <color name="expp" type="color">#ffffff</color>
     <color name="new_green" type="color">#028929</color>
     <color name="new_red" type="color">#ff0000</color>
@@ -81,8 +82,7 @@
     <item name="not_active_circle" type="color">#c8cccc</item>
     <item name="grey_ochrang" type="color">#e1e1e1</item>
     <item name="seecondary_button" type="color">#aeaaaa</item>
-
-
-
-
+    <item name="credit_yellow" type="color">#d6ae48</item>
+    <item name="credit_white_grey" type="color">#fbfbfb</item>
+    <item name="credit_liniya" type="color">#eaeaea</item>
 </resources>

@@ -1171,7 +1171,7 @@
     <string name="notif_debt">Проверьте ваши долги!</string>
     <string name="payment_balans">"Неоплаченный остаток:"</string>
     <string name="payment_balance2">"\nВы переплачивате на сумму:"</string>
-    <string name="total_credit_value">Общая сумма кредита:</string>
+    <string name="total_credit_value">Cумма кредита</string>
     <string name="left2">Срок кредитования:</string>
     <string name="taken_date">День выплаты:</string>
     <string name="adding_to_archive">В архив:</string>
@@ -1198,9 +1198,9 @@
     <string name="do_you_want_note">Ваши примечания</string>
     <string name="this_amount_will_absorb_your_credit">Частичная либо полная выплата</string>
     <string name="left_amount">Остаток:</string>
-    <string name="procent_of_credit">Процент кредита:</string>
+    <string name="procent_of_credit">Процент кредита</string>
     <string name="left_date">Осталось:</string>
-    <string name="period_of_credit2">Период кредита:</string>
+    <string name="period_of_credit2">Период кредита</string>
     <string name="taked_credit_time">Дата кредита:</string>
     <string name="in_the_balance">В балансе:</string>
     <string name="transactions2">Транзакции</string>

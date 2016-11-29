@@ -109,6 +109,8 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
     private Spinner accountSp;
     private DebtBorrow debtBorrow;
     private ImageView deleteFrame;
+    private ImageView pastgaOcil;
+    private ImageView cancel_button;
     private ImageView info;
     private RelativeLayout infoFrame;
     //    private FrameLayout isHaveReking;
@@ -151,6 +153,8 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
         borrowLeftDate = (TextView) view.findViewById(R.id.tvLeftDayDebtBorrowInfo);
         borrowPay = (LinearLayout) view.findViewById(R.id.btPayDebtBorrowInfo);
         deleteFrame = (ImageView) view.findViewById(R.id.flInfoDebtBorrowDeleted);
+        pastgaOcil = (ImageView) view.findViewById(R.id.pastgaOcil);
+        cancel_button = (ImageView) view.findViewById(R.id.cancel_button);
         totalPayAmount = (TextView) view.findViewById(R.id.total_summ_debt_borrow);
         tvTotalsummInfo = (TextView) view.findViewById(R.id.tvInfoDebtBorrowTotalSumm);
         payText = (TextView) view.findViewById(R.id.paybut);
@@ -183,6 +187,17 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
         toolbarManager.setImageToSecondImage(R.drawable.ic_delete_black);
         toolbarManager.setSpinnerVisibility(View.GONE);
         toolbarManager.setImageToHomeButton(R.drawable.ic_drawer);
+        cancel_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mode = 1;
+                for (int i = 0; i < isCheks.length; i++) {
+                    isCheks[i] = false;
+                    peysAdapter.notifyItemChanged(i);
+                }
+               cancel_button.setVisibility(View.GONE);
+            }
+        });
         toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
 //        if (!debtBorrow.getTo_archive()) {
 //            toolbarManager.setImageToSecondImage(R.drawable.ic_more_vert_black_48dp);
@@ -360,11 +375,13 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
                                                                    if (infoFrame.getVisibility() == View.GONE) {
                                                                        rlInfo.setVisibility(View.GONE);
                                                                        infoFrame.setVisibility(View.VISIBLE);
+                                                                       pastgaOcil.setImageResource(R.drawable.info_pastga);
 //                                                                       info.setImageResource(R.drawable.pasga_ochil);
 //                                                                       view.findViewById(R.id.with_wlyuzik).setVisibility(View.VISIBLE);
                                                                    } else {
                                                                        infoFrame.setVisibility(View.GONE);
                                                                        rlInfo.setVisibility(View.VISIBLE);
+                                                                       pastgaOcil.setImageResource(R.drawable.info_open);
 //                                                                       info.setImageResource(R.drawable.infoo);
 //                                                                       view.findViewById(R.id.with_wlyuzik).setVisibility(view.GONE);
                                                                    }
@@ -432,7 +449,7 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
             total += rc.getAmount();
         }
         if (debtBorrow.getTo_archive()) {
-            deleteFrame.setVisibility(View.GONE);
+//            deleteFrame.setVisibility(View.GONE);
             borrowPay.setVisibility(View.GONE);
         }
         borrowName.setText(debtBorrow.getPerson().getName());
@@ -453,7 +470,7 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
         totalPayAmount.setText("" + (total == ((int) total) ? ("" + ((int) total)) : ("" + total)) + debtBorrow.getCurrency().getAbbr());
         if (total >= debtBorrow.getAmount()) {
             payText.setText(getResources().getString(R.string.archive));
-            deleteFrame.setVisibility(View.GONE);
+//            deleteFrame.setVisibility(View.GONE);
         }
 
         if (!debtBorrow.getPerson().getPhoto().equals("") && !debtBorrow.getPerson().getPhoto().matches("0")) {
@@ -481,7 +498,9 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
                     for (int i = 0; i < peysAdapter.getItemCount(); i++) {
                         peysAdapter.notifyItemChanged(i);
                     }
-                    payText.setText(getResources().getString(R.string.cancel));
+                    //as
+                    cancel_button.setVisibility(View.VISIBLE);
+//                    payText.setText(getResources().getString(R.string.cancel));
                 } else {
                     boolean tek = false;
                     for (boolean isChek : isCheks) {
@@ -512,7 +531,8 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
                                 for (int i = 0; i < isCheks.length; i++) {
                                     isCheks[i] = false;
                                 }
-                                payText.setText(getResources().getString(R.string.payy));
+//                                payText.setText(getResources().getString(R.string.payy));
+                                cancel_button.setVisibility(View.GONE);
                                 mode = 1;
                                 peysAdapter.notifyDataSetChanged();
                                 warningDialog.dismiss();
@@ -525,8 +545,10 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
                             isCheks[i] = false;
                             peysAdapter.notifyItemChanged(i);
                         }
-                        payText.setText(getResources().getString(R.string.payy));
+//                        payText.setText(getResources().getString(R.string.payy));
+                        cancel_button.setVisibility(View.GONE);
                     }
+
                 }
             }
         });
@@ -723,16 +745,11 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        if (payText.getText().toString().matches(getResources().getString(R.string.cancel))) {
-            mode = 1;
-            for (int i = 0; i < isCheks.length; i++) {
-                isCheks[i] = false;
-                peysAdapter.notifyItemChanged(i);
-            }
-            payText.setText(getResources().getString(R.string.payy));
-        } else {
+//        if (payText.getText().toString().matches(getResources().getString(R.string.cancel))) {
+//
+//        } else {
             openDialog();
-        }
+//        }
     }
 
     @Override
@@ -851,7 +868,7 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
 
             if (qoldiq >= debtBorrow.getAmount()) {
                 payText.setText(getResources().getString(R.string.archive));
-                deleteFrame.setVisibility(View.GONE);
+//                deleteFrame.setVisibility(View.GONE);
                 leftAmount.setText(getResources().getString(R.string.repaid));
             }
             logicManager.insertReckingDebt(recking);

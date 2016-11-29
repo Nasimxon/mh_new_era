@@ -1,89 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-    <RelativeLayout
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:id="@+id/rlRootView"
+android:layout_width="match_parent"
+android:layout_height="wrap_content">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:layout_marginBottom="@dimen/ten_dp"
+    >
+
+    <CheckBox
+        android:id="@+id/for_delete_check_box"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
+        android:visibility="gone" />
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:id="@+id/rlRootView">
-        <CheckBox
-            android:id="@+id/for_delete_check_box"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/twentyfive_dp"
-            android:checked="false"
-            android:text=""
-            android:visibility="gone"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="@dimen/six_dp"
-            android:layout_toRightOf="@+id/frameLayout6"
-            android:layout_toEndOf="@+id/frameLayout6"
-            android:layout_alignBottom="@+id/frameLayout6" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="right"
-            android:layout_marginRight="@dimen/ten_dp"
-            android:layout_marginBottom="@dimen/ten_dp"
-            android:textColor="@color/green_light"
-            android:textSize="@dimen/fourteen_sp"
-            android:id="@+id/paid_value"
-            android:layout_alignBottom="@+id/linearLayout2"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+        android:orientation="vertical">
+
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:id="@+id/linearLayout2"
-            android:paddingBottom="@dimen/ten_dp"
-            android:paddingTop="@dimen/ten_dp"
             android:layout_marginLeft="@dimen/ten_dp"
             android:layout_marginRight="@dimen/ten_dp"
-            android:layout_alignParentTop="true"
-            android:layout_toLeftOf="@+id/paid_value"
-            android:layout_toEndOf="@+id/for_delete_check_box"
-            android:layout_toRightOf="@+id/for_delete_check_box">
+            android:orientation="horizontal">
+
             <TextView
                 android:id="@+id/via_acount"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="left|center"
+                android:text="Transitions list"
+                android:textColor="@color/black_for_myagkiy_glavniy"
+                android:textSize="@dimen/fourteen_dp" />
+
+            <TextView
+                android:id="@+id/paid_value"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="visible"
-                android:textColor="@color/for_darker"
-                android:textSize="@dimen/sixteen_sp"/>
+                android:layout_height="match_parent"
+                android:gravity="right|center"
+                android:text="1000$"
+                android:textColor="@color/bar_income"
+                android:textSize="@dimen/fourteen_dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/ten_dp"
+            android:layout_marginRight="@dimen/ten_dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="left|center"
+                android:text="Payment date: "
+                android:layout_marginRight="@dimen/five_dp"
+                android:textColor="#b5b5b5"
+                android:textSize="@dimen/twelve_dp" />
+
             <TextView
                 android:id="@+id/date_of_trans"
-                android:visibility="visible"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/for_darker"
-                android:textSize="@dimen/twelve_sp" />
+                android:layout_height="match_parent"
+                android:gravity="left|center"
+                android:text="08 November, 2016 "
+                android:textColor="#b5b5b5"
+                android:textSize="@dimen/twelve_dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/ten_dp"
+            android:layout_marginRight="@dimen/ten_dp"
+            android:orientation="horizontal">
+
             <TextView
                 android:id="@+id/comment_trans"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/twelve_sp"
-                android:visibility="visible" />
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="left|center"
+                android:text="Payment before using the application"
+                android:textColor="#b5b5b5"
+                android:textSize="@dimen/twelve_dp" />
         </LinearLayout>
-        <FrameLayout
-            android:layout_width="2px"
-            android:layout_height="wrap_content"
-            android:background="@color/green_light_forline"
-            android:layout_alignBottom="@+id/linearLayout2"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:id="@+id/frameLayout4" />
-        <FrameLayout
-            android:layout_width="2px"
-            android:layout_height="wrap_content"
-            android:background="@color/green_light_forline"
-            android:layout_alignBottom="@+id/linearLayout2"
-            android:layout_alignParentTop="true"
-            android:id="@+id/frameLayout6" />
-    </RelativeLayout>
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="2px"
-        android:background="@color/green_light_forline" />
+    </LinearLayout>
 </LinearLayout>
+
+</RelativeLayout>

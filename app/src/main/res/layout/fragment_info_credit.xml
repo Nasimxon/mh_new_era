@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#fff"
-    tools:context="com.jim.pocketaccounter.InfoCreditFragment">
+    tools:context="com.jim.pocketaccounter.fragments.InfoCreditFragment">
     <RelativeLayout
         android:id="@+id/pustooyy"
         android:layout_width="match_parent"
@@ -122,7 +122,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/grey_light_backgr"
-                android:visibility="gone">
+                android:visibility="visible">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
