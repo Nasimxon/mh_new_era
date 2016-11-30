@@ -10,7 +10,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:id="@+id/tvItemAutoMarketOperationDate"
-        android:textSize="@dimen/sixteen_dp"
+        android:textSize="@dimen/fourteen_dp"
         android:text="20.03.2016" />
 
     <TextView
@@ -19,7 +19,7 @@
         android:layout_weight="1"
         android:id="@+id/tvItemAutoMarketOperationAmount"
         android:gravity="center"
-        android:textSize="@dimen/sixteen_dp"
+        android:textSize="@dimen/fourteen_dp"
         android:text="100$" />
 
     <TextView
@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
-        android:textSize="@dimen/sixteen_dp"
+        android:textSize="@dimen/fourteen_dp"
         android:id="@+id/tvItemAutoMarketOperationIsSuccess"
         android:text="success" />
 

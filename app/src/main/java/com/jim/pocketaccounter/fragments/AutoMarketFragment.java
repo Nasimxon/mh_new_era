@@ -1,27 +1,25 @@
 package com.jim.pocketaccounter.fragments;
 
-import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.view.menu.MenuPopupHelper;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -36,15 +34,11 @@ import com.jim.pocketaccounter.database.AutoMarketDao;
 import com.jim.pocketaccounter.database.DaoSession;
 import com.jim.pocketaccounter.database.FinanceRecord;
 import com.jim.pocketaccounter.database.FinanceRecordDao;
-import com.jim.pocketaccounter.debt.DebtBorrowFragment;
 import com.jim.pocketaccounter.managers.LogicManager;
-import com.jim.pocketaccounter.managers.LogicManagerConstants;
 import com.jim.pocketaccounter.managers.PAFragmentManager;
 import com.jim.pocketaccounter.managers.ToolbarManager;
-import com.jim.pocketaccounter.utils.TransferDialog;
+import com.jim.pocketaccounter.utils.PocketAccounterGeneral;
 import com.jim.pocketaccounter.utils.WarningDialog;
-
-import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -54,8 +48,6 @@ import java.util.Comparator;
 import java.util.List;
 
 import javax.inject.Inject;
-
-import jxl.format.VerticalAlignment;
 
 /**
  * Created by root on 9/15/16.
@@ -118,18 +110,57 @@ public class AutoMarketFragment extends Fragment implements View.OnClickListener
 
         public AutoAdapter() {
             list = (ArrayList<AutoMarket>) autoMarketDao.loadAll();
-            Collections.sort(list, new Comparator<AutoMarket>() {
-                @Override
-                public int compare(AutoMarket autoMarket, AutoMarket t1) {
-                    return autoMarket.getCreateDay().compareTo(t1.getCreateDay());
-                }
-            });
             if (list.size() == 0) {
                 ifListEmpty.setVisibility(View.VISIBLE);
                 ifListEmpty.setText(R.string.auto_op_is_empty);
             } else {
                 ifListEmpty.setVisibility(View.GONE);
             }
+        }
+
+        public int checkCalculateLeftDayForDate (String [] days) {
+            int current = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+            for (String day : days) {
+                if (current < Integer.parseInt(day) + 1) {
+                    current = Integer.parseInt(day) + 1;
+                    break;
+                }
+            }
+            if (current == Calendar.getInstance().get(Calendar.DAY_OF_MONTH)) {
+                if (days.length == 1) {
+                    // left one month
+                    current = Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH);
+                } else {
+                    current = Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH)
+                            - current + Integer.parseInt(days[0]) + 1;
+                }
+            } else {
+                current = current - Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+            }
+            return current;
+        }
+
+        private int checkCalculateLeftDayForWeeks (String days []) {
+            int result = 1;
+            Calendar currentDay = Calendar.getInstance();
+            currentDay.add(Calendar.DAY_OF_MONTH, 1);
+            int [] positions = new int[days.length];
+            for (int i = 0; i < days.length; i++) {
+                positions[i] = Integer.parseInt(days[i]) + 1;
+            }
+            boolean tek = false;
+            while (true) {
+                for (int position : positions) {
+                    if (position == currentDay.get(Calendar.DAY_OF_WEEK)) {
+                        tek = true;
+                        break;
+                    }
+                }
+                currentDay.add(Calendar.DAY_OF_MONTH, 1);
+                if (tek) break;
+                result ++;
+            }
+            return result;
         }
 
         public int getItemCount() {
@@ -150,11 +181,15 @@ public class AutoMarketFragment extends Fragment implements View.OnClickListener
                 view.catIcon.setImageResource(getResources().getIdentifier(list.get(position).getRootCategory().getIcon(), "drawable", getActivity().getPackageName()));
             else
                 view.catIcon.setImageResource(getResources().getIdentifier(list.get(position).getSubCategory().getIcon(), "drawable", getActivity().getPackageName()));
-
+            if (list.get(position).getRootCategory().getType() == PocketAccounterGeneral.EXPENSE) {
+                view.amount.setTextColor(Color.parseColor("#dc4849"));
+            }
             if (list.get(position).getAmount() == (int) list.get(position).getAmount()) {
-                view.amount.setText("" + ((int) list.get(position).getAmount()) + list.get(position).getCurrency().getAbbr());
+                view.amount.setText("" + (list.get(position).getRootCategory().getType() == PocketAccounterGeneral.EXPENSE ? "-" : "+")
+                        + ((int) list.get(position).getAmount()) + list.get(position).getCurrency().getAbbr());
             } else {
-                view.amount.setText("" + list.get(position).getAmount() + list.get(position).getCurrency().getAbbr());
+                view.amount.setText("" + (list.get(position).getRootCategory().getType() == PocketAccounterGeneral.EXPENSE ? "-" : "+")
+                        + list.get(position).getAmount() + list.get(position).getCurrency().getAbbr());
             }
             view.account.setText(list.get(position).getAccount().getName());
             view.llAutoMarketItemDays.setOnClickListener(new View.OnClickListener() {
@@ -163,10 +198,15 @@ public class AutoMarketFragment extends Fragment implements View.OnClickListener
                     // todo marked days introduction
                     recordAdapter = null;
                     if (view.recyclerView.getVisibility() == View.GONE || daysAdapter == null) {
+                        view.ivCalendar.setColorFilter(Color.BLACK);
+                        view.tvOperation.setTextColor(Color.BLACK);
+                        view.ivClock.setColorFilter(Color.parseColor("#c8c8c8"));
+                        view.nextDay.setTextColor(Color.parseColor("#c8c8c8"));
                         daysAdapter = new DaysAdapter(list.get(position));
                         view.recyclerView.setVisibility(View.VISIBLE);
                         view.llAutoMarketItemSwitchMode.setVisibility(View.VISIBLE);
                         view.llAutoMarketItemDefaultMode.setVisibility(View.GONE);
+                        view.deleteOperationItem.setVisibility(View.GONE);
                         view.rvTitle.setText("switch days");
                         RecyclerView.LayoutManager layoutManager;
                         if (list.get(position).getType()) {
@@ -179,13 +219,20 @@ public class AutoMarketFragment extends Fragment implements View.OnClickListener
                         view.recyclerView.setLayoutManager(layoutManager);
                         view.recyclerView.setAdapter(daysAdapter);
                     } else {
-                        list.get(position).setPosDays(daysAdapter.posDays());
-                        list.get(position).setDates(sequence);
-                        daoSession.getAutoMarketDao().insertOrReplace(list.get(position));
-                        daysAdapter = null;
-                        view.recyclerView.setVisibility(View.GONE);
-                        view.llAutoMarketItemDefaultMode.setVisibility(View.VISIBLE);
-                        view.llAutoMarketItemSwitchMode.setVisibility(View.GONE);
+                        if (daysAdapter.posDays().isEmpty()) {
+                            Toast.makeText(getContext(), "Select days", Toast.LENGTH_SHORT).show();
+                        } else {
+                            view.ivCalendar.setColorFilter(Color.parseColor("#c8c8c8"));
+                            view.tvOperation.setTextColor(Color.parseColor("#c8c8c8"));
+                            list.get(position).setPosDays(daysAdapter.posDays());
+                            list.get(position).setDates(sequence);
+                            daoSession.getAutoMarketDao().insertOrReplace(list.get(position));
+                            autoAdapter.notifyDataSetChanged();
+                            daysAdapter = null;
+                            view.recyclerView.setVisibility(View.GONE);
+                            view.llAutoMarketItemDefaultMode.setVisibility(View.VISIBLE);
+                            view.llAutoMarketItemSwitchMode.setVisibility(View.GONE);
+                        }
                     }
                 }
             });
@@ -193,8 +240,22 @@ public class AutoMarketFragment extends Fragment implements View.OnClickListener
                 @Override
                 public void onClick(View v) {
                     // todo left next operation day
+                    if (daysAdapter != null && view.llAutoMarketItemDefaultMode.getVisibility() == View.GONE) {
+                        if (daysAdapter.posDays().isEmpty()) {
+                            Toast.makeText(getContext(), "Select days", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        view.ivCalendar.setColorFilter(Color.BLACK);
+                        list.get(position).setPosDays(daysAdapter.posDays());
+                        list.get(position).setDates(sequence);
+                        daoSession.getAutoMarketDao().insertOrReplace(list.get(position));
+                    }
                     daysAdapter = null;
                     if (view.llAutoMarketItemDefaultMode.getVisibility() == View.VISIBLE || recordAdapter == null) {
+                        view.ivClock.setColorFilter(Color.BLACK);
+                        view.nextDay.setTextColor(Color.BLACK);
+                        view.ivCalendar.setColorFilter(Color.parseColor("#c8c8c8"));
+                        view.tvOperation.setTextColor(Color.parseColor("#c8c8c8"));
                         view.rvTitle.setText("operation lists");
                         view.recyclerView.setVisibility(View.VISIBLE);
                         view.llAutoMarketItemSwitchMode.setVisibility(View.VISIBLE);
@@ -219,6 +280,8 @@ public class AutoMarketFragment extends Fragment implements View.OnClickListener
                         });
                     } else {
                         recordAdapter = null;
+                        view.ivClock.setColorFilter(Color.parseColor("#c8c8c8"));
+                        view.nextDay.setTextColor(Color.parseColor("#c8c8c8"));
                         view.llAutoMarketItemDefaultMode.setVisibility(View.VISIBLE);
                         view.llAutoMarketItemSwitchMode.setVisibility(View.GONE);
                         view.recyclerView.setVisibility(View.GONE);
@@ -275,49 +338,11 @@ public class AutoMarketFragment extends Fragment implements View.OnClickListener
                 }
             });
 
-//            String dates[] = list.get(position).getDates().split(",");
-//            int count = dates.length;
-//            String date = "";
-//            if (count >= 8) {
-//                for (int i = 0; i < dates.length; i++) {
-//                    date += count / 2 == i ? ("\n" + dates[i] + ",") : dates[i] + ",";
-//                }
-//            } else {
-//                date = list.get(position).getDates();
-//            }
-
-//            view.period.setText(date);
-//            view.edit.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    AddAutoMarketFragment addAutoMarketFragment = new AddAutoMarketFragment();
-//                    Bundle bundle = new Bundle();
-//                    bundle.putString("key", list.get(position).getId());
-//                    addAutoMarketFragment.setArguments(bundle);
-//                    paFragmentManager.getFragmentManager().popBackStack();
-//                    paFragmentManager.displayFragment(addAutoMarketFragment);
-//                }
-//            });
-//            view.delete.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-//                    builder.setMessage(getResources().getString(R.string.delete))
-//                            .setPositiveButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
-//                                public void onClick(DialogInterface dialog, int id) {
-//                                    dialog.cancel();
-//                                }
-//                            }).setNegativeButton(getResources().getString(R.string.delete), new DialogInterface.OnClickListener() {
-//                        public void onClick(DialogInterface dialog, int id) {
-//                            dialog.cancel();
-//                            logicManager.deleteAutoMarket(list.get(position));
-//                            list.remove(position);
-//                            notifyItemRemoved(position);
-//                        }
-//                    });
-//                    builder.create().show();
-//                }
-//            });
+            if (list.get(position).getType()) {
+                view.nextDay.setText("Next operations:\n" + checkCalculateLeftDayForDate(list.get(position).getPosDays().split(",")) + " day");
+            } else {
+                view.nextDay.setText("Next operations:\n" + checkCalculateLeftDayForWeeks(list.get(position).getPosDays().split(",")) + " day");
+            }
         }
 
         public ViewHolder onCreateViewHolder(ViewGroup parent, int var2) {
@@ -334,6 +359,8 @@ public class AutoMarketFragment extends Fragment implements View.OnClickListener
         public RecyclerView recyclerView;
         public ImageView catIcon;
         public ImageView editDelete;
+        public ImageView ivCalendar;
+        public ImageView ivClock;
         public ImageView deleteOperationItem;
         public TextView catName;
         public TextView subCatName;
@@ -341,10 +368,13 @@ public class AutoMarketFragment extends Fragment implements View.OnClickListener
         public TextView account;
         public TextView nextDay;
         public TextView rvTitle;
+        public TextView tvOperation;
 
         public ViewHolder(View view) {
             super(view);
             catIcon = (ImageView) view.findViewById(R.id.ivItemAutoMarketCategoryIcon);
+            ivCalendar = (ImageView) view.findViewById(R.id.ivCalendar);
+            ivClock = (ImageView) view.findViewById(R.id.ivClock);
             catName = (TextView) view.findViewById(R.id.tvItemAutoMarketCatName);
             subCatName = (TextView) view.findViewById(R.id.tvItemAutoMarketSubCatName);
             amount = (TextView) view.findViewById(R.id.tvAutoMarketItemAmount);
@@ -355,6 +385,7 @@ public class AutoMarketFragment extends Fragment implements View.OnClickListener
             recyclerView = (RecyclerView) view.findViewById(R.id.rvAutoMarketItemDays);
             llAutoMarketItemDefaultMode = (LinearLayout) view.findViewById(R.id.llAutoMarketItemDefaultMode);
             rvTitle = (TextView) view.findViewById(R.id.tvItemAutoMarketRvTitle);
+            tvOperation = (TextView) view.findViewById(R.id.tvOperation);
             llAutoMarketItemSwitchMode = (LinearLayout) view.findViewById(R.id.llAutoMarketItemSwitchMode);
             editDelete = (ImageView) view.findViewById(R.id.ivAutoMarketItemDelete);
             deleteOperationItem = (ImageView) view.findViewById(R.id.ivItemAutoMarketOperationDelete);
@@ -393,6 +424,7 @@ public class AutoMarketFragment extends Fragment implements View.OnClickListener
 
         public String posDays() {
             String posDay = "";
+            sequence = "";
             for (int i = 0; i < tek.length; i++) {
                 if (tek[i]) {
                     posDay += i + ",";
@@ -423,7 +455,6 @@ public class AutoMarketFragment extends Fragment implements View.OnClickListener
             } else {
                 view.day.setTextColor(ContextCompat.getColor(getContext(), R.color.black_for_secondary_text));
                 view.day.setTypeface(null, Typeface.NORMAL);
-
             }
             view.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -431,13 +462,20 @@ public class AutoMarketFragment extends Fragment implements View.OnClickListener
                     if (!tek[position]) {
                         view.day.setTextColor(ContextCompat.getColor(getContext(), R.color.green_just));
                         view.day.setTypeface(null, Typeface.BOLD);
-
                     } else {
+                        tek[position] = !tek[position];
+                        if (posDays().isEmpty()) {
+                            tek[position] = !tek[position];
+                            return;
+                        }
+                        tek[position] = !tek[position];
                         view.day.setTextColor(ContextCompat.getColor(getContext(), R.color.black_for_secondary_text));
                         view.day.setTypeface(null, Typeface.NORMAL);
-
                     }
                     tek[position] = !tek[position];
+                    autoMarket.setPosDays(posDays());
+                    autoMarket.setDates(sequence);
+                    daoSession.getAutoMarketDao().insertOrReplace(autoMarket);
                 }
             });
         }
@@ -471,14 +509,19 @@ public class AutoMarketFragment extends Fragment implements View.OnClickListener
         public RecordAdapter(AutoMarket autoMarket) {
             this.autoMarket = autoMarket;
             financeRecordList = daoSession.getFinanceRecordDao().queryBuilder()
-                    .where(FinanceRecordDao.Properties.RecordId.like("auto"),
-                            FinanceRecordDao.Properties.CategoryId.eq(autoMarket.getCatId()),
-                            FinanceRecordDao.Properties.SubCategoryId.eq(autoMarket.getCatSubId()))
-                    .list();
+                    .where(FinanceRecordDao.Properties.CategoryId.eq(autoMarket.getCatId())).list();
+
+            for (int i = financeRecordList.size() - 1; i >= 0; i --) {
+                if (!financeRecordList.get(i).getRecordId().startsWith("auto")
+                        || (financeRecordList.get(i).getSubCategory() != null &&
+                        financeRecordList.get(i).getSubCategory() != autoMarket.getSubCategory())) {
+                    daoSession.getFinanceRecordDao().delete(financeRecordList.get(i));
+                }
+            }
             Collections.sort(financeRecordList, new Comparator<FinanceRecord>() {
                 @Override
                 public int compare(FinanceRecord financeRecord, FinanceRecord t1) {
-                    return financeRecord.getDate().compareTo(t1.getDate());
+                    return t1.getDate().compareTo(financeRecord.getDate());
                 }
             });
             if (financeRecordList.size() > 7) {
@@ -502,7 +545,7 @@ public class AutoMarketFragment extends Fragment implements View.OnClickListener
 
         @Override
         public void onBindViewHolder(final ViewHolderRecord view, final int position) {
-            if (financeRecordList.size() == position) {
+            if (position == 0) {
                 Calendar nextOperation = Calendar.getInstance();
                 String[] days = autoMarket.getPosDays().split(",");
                 if (autoMarket.getType()) {
@@ -516,51 +559,42 @@ public class AutoMarketFragment extends Fragment implements View.OnClickListener
                     if (current == Calendar.getInstance().get(Calendar.DAY_OF_MONTH)) {
                         if (days.length == 1) {
                             // left one month
-                            current = Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH);
                             nextOperation.add(Calendar.MONTH, 1);
                         } else {
-                            current = Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH)
-                                    - current + Integer.parseInt(days[0]) + 1;
                             nextOperation.add(Calendar.MONTH, 1);
                             nextOperation.set(Calendar.DAY_OF_MONTH, Integer.parseInt(days[0]) + 1);
                         }
                     } else {
                         nextOperation.set(Calendar.DAY_OF_MONTH, current);
-                        current = current - Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
                     }
                 } else {
-                    int current = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
-                    for (String day : days) {
-                        if (current < Integer.parseInt(day) + 1) {
-                            current = Integer.parseInt(day) + 1;
-                            break;
-                        }
-                    }
-                    if (current == Calendar.getInstance().get(Calendar.DAY_OF_WEEK)) {
-                        if (days.length == 1) {
-                            // left one month
-                            current = 7;
-                            nextOperation.add(Calendar.WEEK_OF_MONTH, 1);
-                        } else {
-                            current = 7 - Calendar.getInstance().get(Calendar.DAY_OF_WEEK) + Integer.parseInt(days[0]);
-                            nextOperation.set(Calendar.DAY_OF_WEEK, Integer.parseInt(days[0]));
-                        }
-                    } else {
-                        current = current - Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
-                        nextOperation.set(Calendar.DAY_OF_WEEK, current);
-                    }
+                    nextOperation.add(Calendar.DAY_OF_MONTH,
+                            autoAdapter.checkCalculateLeftDayForWeeks(autoMarket.getPosDays().split(",")));
                 }
                 view.tvDate.setText(simpleDate.format(nextOperation.getTime()));
                 view.tvAmount.setText("" + autoMarket.getAmount() + autoMarket.getCurrency().getAbbr());
                 view.tvIsSuccess.setText("Waiting");
             } else {
-                view.tvDate.setText(simpleDate.format(financeRecordList.get(position).getDate().getTime()));
-                view.tvAmount.setText("" + financeRecordList.get(position).getAmount());
+                view.tvDate.setText(simpleDate.format(financeRecordList.get(position - 1).getDate().getTime()));
+                view.tvAmount.setText("" + financeRecordList.get(position - 1).getAmount()
+                        + financeRecordList.get(position - 1).getCurrency().getAbbr());
                 view.tvIsSuccess.setText("Success");
                 if (mode) {
                     view.checkBox.setVisibility(View.VISIBLE);
-                    tek[position] = !tek[position];
-                    view.checkBox.setChecked(tek[position]);
+                    view.checkBox.setChecked(tek[position - 1]);
+                    view.itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            view.checkBox.setChecked(!tek[position - 1]);
+                        }
+                    });
+                    view.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                            view.checkBox.setChecked(b);
+                            tek[position - 1] = b;
+                        }
+                    });
                 } else {
                     // todo delete finance records
                     view.checkBox.setVisibility(View.GONE);
@@ -575,9 +609,10 @@ public class AutoMarketFragment extends Fragment implements View.OnClickListener
         }
 
         public void deleteItems() {
-            for (int i = 0; i < tek.length; i++) {
+            for (int i = tek.length - 1; i >= 0; i--) {
                 if (tek[i]) {
                     daoSession.getFinanceRecordDao().delete(financeRecordList.get(i));
+                    financeRecordList.remove(i);
                 }
             }
             mode = false;

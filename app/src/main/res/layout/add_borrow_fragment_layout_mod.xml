@@ -338,6 +338,7 @@
                             android:layout_marginRight="@dimen/sixteen_dp"
                             android:layout_alignParentRight="true"
                             android:layout_alignParentEnd="true"
+                            android:checked="true"
                             android:id="@+id/chbAddDebtBorrowCalculate" />
 
                         <!--<CheckBox-->

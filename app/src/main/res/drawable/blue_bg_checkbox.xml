@@ -5,4 +5,5 @@
      <item android:state_pressed="true"
            android:drawable="@drawable/blue_background_checked" /> 
      <item android:drawable="@drawable/blue_background_unchecked" />
+
 </selector>

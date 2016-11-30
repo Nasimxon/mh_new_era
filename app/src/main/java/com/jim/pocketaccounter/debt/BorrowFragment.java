@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Build;
@@ -196,14 +197,11 @@ public class BorrowFragment extends Fragment {
             final DebtBorrow person = persons.get(Math.abs(t - position));
             if (person.getType() == DebtBorrow.DEBT) {
                 view.flItemDebtBorrowPay.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.red_pay_background));
-                view.pay.setTextColor(ContextCompat.getColor(getContext(), R.color.red));
-//                view.rl.setBackgroundResource(R.color.grey_light_red);
-//                view.fl.setBackgroundResource(R.color.grey_light_red);
+                view.tvItemDebtBorrowLeft.setTextColor(Color.parseColor("#dc4849"));
+                view.pay.setTextColor(Color.parseColor("#dc4849"));
             }
             try {
                 view.BorrowPersonName.setText(person.getPerson().getName());
-//                view.BorrowPersonNumber.setText(person.getPerson().getPhoneNumber());
-//                view.BorrowPersonDateGet.setText(dateFormat.format(person.getTakenDate().getTime()));
                 if (person.getReturnDate() == null) {
                     view.tvItemDebtBorrowLeft.setText(R.string.no_date_selected);
                 } else {
@@ -218,9 +216,6 @@ public class BorrowFragment extends Fragment {
                         Bitmap bit = BitmapFactory.decodeFile(person.getPerson().getPhoto());
                         view.BorrowPersonPhotoPath.setImageBitmap(bit);
                     }
-                }
-                if (person.getPerson().getPhoneNumber().matches("")) {
-//                    view.call.setVisibility(View.INVISIBLE);
                 }
             } catch (NullPointerException e) {
             }
@@ -274,9 +269,6 @@ public class BorrowFragment extends Fragment {
             } else
                 view.tvItemDebtBorrowLeftDate.setText(sana);
 
-//            if(persons.get(position).getTo_archive())
-//                view.forCango.setVisibility(View.GONE);
-//            else view.forCango.setVisibility(View.VISIBLE);
             view.llItemDebtBorrowCall.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -302,10 +294,6 @@ public class BorrowFragment extends Fragment {
                     }
                 }
             });
-
-            double template = persons.get(position).getAmount() / 100;
-            int procet = (int) (qq / template);
-//            view.frameLayout.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, procet));
 
             String ss = (person.getAmount() - qq) == (int) (person.getAmount() - qq) ? "" + (int) (person.getAmount() - qq) : "" + (person.getAmount() - qq);
             if (person.getTo_archive() || qq >= person.getAmount()) {

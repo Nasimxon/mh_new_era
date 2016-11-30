@@ -88,7 +88,7 @@ public class AddAutoMarketFragment extends Fragment {
 
     private AutoMarketDao autoMarketDao;
     private EditText amount;
-    private Spinner spCurrency,account_sp;
+    private Spinner spCurrency, account_sp;
     private ImageView ivCategory;
     private TextView categoryName;
     private TextView subCategoryName;
@@ -104,7 +104,8 @@ public class AddAutoMarketFragment extends Fragment {
     private DaysAdapter daysAdapter;
     private RadioGroup radioGroup;
 
-    public AddAutoMarketFragment() {}
+    public AddAutoMarketFragment() {
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -176,7 +177,7 @@ public class AddAutoMarketFragment extends Fragment {
                     Toast.makeText(getContext(), R.string.dates_not_choosen_error, Toast.LENGTH_SHORT).show();
                 } else if (autoMarket != null) {
                     amount.setError(null);
-                    if (category_item != null && subCategory !=null) {
+                    if (category_item != null && subCategory != null) {
                         autoMarket.setRootCategory(category_item);
                         autoMarket.setSubCategory(subCategory);
                     }
@@ -185,13 +186,11 @@ public class AddAutoMarketFragment extends Fragment {
                     autoMarket.setAccount(accountDao.loadAll().get(account_sp.getSelectedItemPosition()));
                     autoMarket.setType(type);
                     autoMarket.setDates(sequence.substring(0, sequence.length() - 1));
-//                    if (!type) {
-                        autoMarket.setPosDays(daysAdapter.posDays());
-//                    }
+                    autoMarket.setPosDays(daysAdapter.posDays());
                     daoSession.getAutoMarketDao().insertOrReplace(autoMarket);
                     paFragmentManager.getFragmentManager().popBackStack();
                     paFragmentManager.displayFragment(new AutoMarketFragment());
-                } else if (selectCategory == -1 && selectSubCategory == -1) {
+                } else if (selectCategory == -1 && selectSubCategory == -1 && category_item == null) {
                     Toast.makeText(getContext(), R.string.select_category_error, Toast.LENGTH_SHORT).show();
                 } else {
                     amount.setError(null);
@@ -205,9 +204,8 @@ public class AddAutoMarketFragment extends Fragment {
                     autoMarket.setCurrency(currencyDao.queryBuilder().where(CurrencyDao.Properties.Abbr.eq(curs.get(spCurrency.getSelectedItemPosition()))).list().get(0));
                     autoMarket.setAccount(accountDao.loadAll().get(account_sp.getSelectedItemPosition()));
                     autoMarket.setType(type);
-//                    if (!type) {
-                        autoMarket.setPosDays(daysAdapter.posDays());
-//                    }
+                    autoMarket.setPosDays(daysAdapter.posDays());
+
                     autoMarket.setCreateDay(Calendar.getInstance());
                     autoMarket.setDates(sequence.substring(0, sequence.length() - 1));
                     switch (logicManager.insertAutoMarket(autoMarket)) {
@@ -324,6 +322,7 @@ public class AddAutoMarketFragment extends Fragment {
     private boolean inc = false;
 
     RootCategory category_item;
+
     private void openCategoryDialog(final ArrayList<RootCategory> categories) {
         final Dialog dialog = new Dialog(getActivity());
         View dialogView = getActivity().getLayoutInflater().inflate(R.layout.category_choose_list, null);
@@ -336,6 +335,7 @@ public class AddAutoMarketFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 category_item = categories.get(position);
+                selectCategory = position;
                 openSubCategoryDialog();
                 dialog.dismiss();
             }
@@ -345,7 +345,9 @@ public class AddAutoMarketFragment extends Fragment {
         dialog.getWindow().setLayout(8 * width / 9, ActionBarOverlayLayout.LayoutParams.MATCH_PARENT);
         dialog.show();
     }
+
     SubCategory subCategory;
+
     private void openSubCategoryDialog() {
         final Dialog dialog = new Dialog(getActivity());
         View dialogView = getActivity().getLayoutInflater().inflate(R.layout.category_choose_list, null);
@@ -367,21 +369,19 @@ public class AddAutoMarketFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (subCategories.get(position) == null) {
-                    subCategory=null;
+                    subCategory = null;
                     ivCategory.setImageResource(getResources().getIdentifier(subCategory.getIcon(), "drawable", getActivity().getPackageName()));
                     categoryName.setText(category_item.getName());
-                    subCategoryName.setText((category_item.getType()==PocketAccounterGeneral.INCOME)?"Income category":"Expanse category");
+                    subCategoryName.setText((category_item.getType() == PocketAccounterGeneral.INCOME) ? "Income category" : "Expanse category");
 
-                } else if (subCategories.get(position).getId().matches(getResources().getString(R.string.no_category))){
-                    subCategory=null;
+                } else if (subCategories.get(position).getId().matches(getResources().getString(R.string.no_category))) {
+                    subCategory = null;
                     ivCategory.setImageResource(getResources().getIdentifier(category_item.getIcon(), "drawable", getActivity().getPackageName()));
                     categoryName.setText(category_item.getName());
-                    subCategoryName.setText((category_item.getType()==PocketAccounterGeneral.INCOME)?"Income category":"Expanse category");
+                    subCategoryName.setText((category_item.getType() == PocketAccounterGeneral.INCOME) ? "Income category" : "Expanse category");
 
-                }
-                else
-                if (subCategories.get(position) != null) {
-                    subCategory=subCategories.get(position);
+                } else if (subCategories.get(position) != null) {
+                    subCategory = subCategories.get(position);
                     selectSubCategory = position;
                     categoryName.setText(category_item.getName());
                     subCategoryName.setText(subCategory.getName());
@@ -414,7 +414,7 @@ public class AddAutoMarketFragment extends Fragment {
             }
             tek = new boolean[days.length];
             if (autoMarket != null) {
-                String [] dates = autoMarket.getDates().split(",");
+                String[] dates = autoMarket.getDates().split(",");
                 for (int i = 0; i < days.length; i++) {
                     for (String date : dates) {
                         if (days[i].matches(date)) {
@@ -438,7 +438,7 @@ public class AddAutoMarketFragment extends Fragment {
             String posDay = "";
             for (int i = 0; i < tek.length; i++) {
                 if (tek[i]) {
-                    posDay +=i + ",";
+                    posDay += i + ",";
                 }
             }
             return posDay;
@@ -454,13 +454,11 @@ public class AddAutoMarketFragment extends Fragment {
                 view.frameLayout.setVisibility(View.GONE);
             }
             view.day.setText(days[position]);
-            if (tek[position])
-            {
+            if (tek[position]) {
                 view.day.setTextColor(ContextCompat.getColor(getContext(), R.color.green_just));
                 view.day.setTypeface(null, Typeface.BOLD);
 
-            }
-            else {
+            } else {
                 view.day.setTextColor(ContextCompat.getColor(getContext(), R.color.black_for_secondary_text));
                 view.day.setTypeface(null, Typeface.NORMAL);
 
@@ -492,9 +490,10 @@ public class AddAutoMarketFragment extends Fragment {
         public TextView day;
         public FrameLayout frameLayout;
         public View itemView;
+
         public ViewHolderDialog(View view) {
             super(view);
-            itemView  = view;
+            itemView = view;
             day = (TextView) view.findViewById(R.id.tvItemDay);
             frameLayout = (FrameLayout) view.findViewById(R.id.flItemDay);
         }
