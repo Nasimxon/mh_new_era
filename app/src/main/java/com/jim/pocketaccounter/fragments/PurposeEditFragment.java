@@ -52,23 +52,14 @@ import javax.inject.Named;
 
 @SuppressLint({"InflateParams", "ValidFragment"})
 public class PurposeEditFragment extends Fragment implements OnClickListener, OnItemClickListener {
-    @Inject
-    LogicManager logicManager;
-    @Inject
-    ToolbarManager toolbarManager;
-    @Inject
-    DaoSession daoSession;
-    @Inject
-    @Named(value = "display_formatter")
-    SimpleDateFormat dateFormat;
-    @Inject
-    PAFragmentManager paFragmentManager;
-    @Inject
-    IconChooseDialog iconChooseDialog;
-    @Inject
-    DatePicker datePicker;
-    @Inject
-    CommonOperations commonOperations;
+    @Inject LogicManager logicManager;
+    @Inject ToolbarManager toolbarManager;
+    @Inject DaoSession daoSession;
+    @Inject @Named(value = "display_formatter") SimpleDateFormat dateFormat;
+    @Inject PAFragmentManager paFragmentManager;
+    @Inject IconChooseDialog iconChooseDialog;
+    @Inject DatePicker datePicker;
+    @Inject CommonOperations commonOperations;
 
     private String choosenIcon = "add_icon";
     private Purpose purpose;

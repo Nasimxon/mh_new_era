@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.jim.pocketaccounter.utils.reportviews.ReportPieView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/rpvReport"
+        android:layout_weight="1"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Dom"
+        android:id="@+id/tvReportByCategoryRootCatName"
+        android:textSize="@dimen/sixteen_dp"
+        android:textColor="#414141"
+        android:layout_margin="@dimen/ten_dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Obshyaya summa: 250$"
+        android:id="@+id/tvReportByCategoryRootCatSum"
+        android:textSize="@dimen/fourteen_dp"
+        android:textColor="#414141"
+        android:layout_marginBottom="@dimen/ten_dp"/>
+</LinearLayout>

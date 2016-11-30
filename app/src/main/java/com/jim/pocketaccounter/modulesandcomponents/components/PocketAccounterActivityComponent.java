@@ -39,6 +39,7 @@ import com.jim.pocketaccounter.fragments.ReportByAccountFragment;
 import com.jim.pocketaccounter.fragments.ReportByCategory;
 import com.jim.pocketaccounter.fragments.ReportByCategoryExpansesFragment;
 import com.jim.pocketaccounter.fragments.ReportByCategoryIncomesFragment;
+import com.jim.pocketaccounter.fragments.ReportByCategoryRootCategoryFragment;
 import com.jim.pocketaccounter.fragments.ReportByIncomeExpanseBarFragment;
 import com.jim.pocketaccounter.fragments.ReportByIncomeExpanseTableFragment;
 import com.jim.pocketaccounter.fragments.ReportFragment;
@@ -64,6 +65,7 @@ import com.jim.pocketaccounter.utils.billing.PurchaseImplementation;
 import com.jim.pocketaccounter.utils.record.BaseBoardView;
 import com.jim.pocketaccounter.utils.record.RecordExpanseView;
 import com.jim.pocketaccounter.utils.record.RecordIncomesView;
+import com.jim.pocketaccounter.utils.reportviews.CategorySliding;
 
 import dagger.Component;
 
@@ -138,4 +140,6 @@ public interface PocketAccounterActivityComponent {
     void inject(VoiceRecognizerFragment voiceRecognizerFragment);
     void inject(PurchaseImplementation purchaseImplementation);
     void inject(ReportFragment reportFragment);
+    void inject(ReportByCategoryRootCategoryFragment reportByCategoryRootCategoryFragment);
+    void inject(CategorySliding categorySliding);
 }

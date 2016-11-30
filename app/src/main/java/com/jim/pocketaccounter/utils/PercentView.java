@@ -110,16 +110,27 @@ public class PercentView extends RelativeLayout {
                 setPercent(value);
             }
         });
-        animator.start();}
+        animator.start();
+    }
 
     public void setBowArrowVisibility(boolean isBowArrowVisible) {
         this.isBowArrowVisible = isBowArrowVisible;
         rlTop.setVisibility(isBowArrowVisible ? VISIBLE : GONE);
     }
+    public void setVisibilityOfPercent(boolean isVisible) {
+        if (isVisible)
+            tvPercent.setVisibility(VISIBLE);
+        else
+            tvPercent.setVisibility(GONE);
+    }
+    public void setNotActiveSideTextVisibility(boolean isVisible) {
+        if (isVisible)
+            tvNotActiveSide.setVisibility(VISIBLE);
+        else
+            tvNotActiveSide.setVisibility(GONE);
+    }
     public void setPercetStripeVisibility(boolean isPercentStripeVisible) {
         this.isPercentStripeVisible = isPercentStripeVisible;
         llPercentRoot.setVisibility(isPercentStripeVisible ? VISIBLE : GONE);
     }
-
-
 }

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/ten_dp"
+    android:layout_marginRight="@dimen/ten_dp">
+    <com.jim.pocketaccounter.utils.reportviews.SubcatReportView
+        android:layout_width="@dimen/sixty_dp"
+        android:layout_height="@dimen/sixty_dp"
+        android:id="@+id/srvReportByCategory"
+        android:layout_centerHorizontal="true"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvReportSubcatPercentsName"
+        android:layout_marginTop="@dimen/five_dp"
+        android:layout_centerHorizontal="true"
+        android:textSize="@dimen/ten_dp"
+        android:textColor="#414141"
+        android:text="Subcategory name"
+        android:layout_below="@+id/srvReportByCategory"/>
+</RelativeLayout>
