@@ -46,9 +46,9 @@
                     <ImageView
                         android:id="@+id/ivAccountItemSendPurpose"
                         android:layout_width="@dimen/twentyfive_dp"
+                        android:tint="#c8c8c8"
                         android:layout_height="@dimen/twentyfive_dp"
-                        android:tint="#979797"
-                        android:src="@drawable/drawer_categoryreport" />
+                        android:src="@drawable/parasen" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -57,7 +57,7 @@
                         android:gravity="center"
                         android:textSize="@dimen/ten_dp"
                         android:text="@string/to_purpose"
-                        android:textColor="#aeaaaa" />
+                        android:textColor="#c8c8c8" />
 
                 </LinearLayout>
                 <FrameLayout
@@ -110,9 +110,9 @@
                     <ImageView
                         android:id="@+id/ivAccountItemExchange"
                         android:layout_width="@dimen/twentyfive_dp"
-                        android:tint="#979797"
                         android:layout_height="@dimen/twentyfive_dp"
-                        android:src="@drawable/drawer_categoryreport" />
+                        android:tint="#c8c8c8"
+                        android:src="@drawable/transfer" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -121,7 +121,7 @@
                         android:gravity="center"
                         android:textSize="@dimen/ten_dp"
                         android:text="Перевод на другую счет"
-                        android:textColor="#aeaaaa" />
+                        android:textColor="#c8c8c8" />
 
                 </LinearLayout>
 

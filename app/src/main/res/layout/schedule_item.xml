@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/twenty_dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvCountItemPerios"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/sixteen_dp"
+            android:layout_marginRight="@dimen/ten_dp"
+            android:text="1"
+            android:textColor="@color/black_for_myagkiy_glavniy"
+            android:textSize="@dimen/eighteen_sp" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/ten_dp">
+
+                <ImageView
+                    android:layout_width="2px"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="@dimen/ten_dp"
+                    android:background="#e7e7e7" />
+
+                <TextView
+                    android:id="@+id/tvPeriodEndDate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="27 NOV, 2016"
+                    android:textColor="@color/black_for_myagkiy_glavniy"
+                    android:textSize="@dimen/eighteen_sp" />
+
+                <TextView
+                    android:id="@+id/tvTitleSum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/sixteen_dp"
+                    android:text="COMPLETE"
+                    android:textColor="#8cc056"
+                    android:textSize="@dimen/eighteen_sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#fbfbfb"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/three_dp"
+                android:paddingTop="@dimen/three_dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="@dimen/ten_dp"
+                    android:text="Principal"
+                    android:textColor="#8a8a8a"
+                    android:textSize="@dimen/sixteen_dp" />
+
+                <TextView
+                    android:id="@+id/tvPrincipal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/sixteen_dp"
+                    android:text="300,00$"
+                    android:textColor="@color/black_for_myagkiy_glavniy"
+                    android:textSize="@dimen/sixteen_dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/three_dp"
+                android:paddingTop="@dimen/three_dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="@dimen/ten_dp"
+                    android:text="Interest"
+                    android:textColor="#8a8a8a"
+                    android:textSize="@dimen/sixteen_dp" />
+
+                <TextView
+                    android:id="@+id/tvInterest"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/sixteen_dp"
+                    android:text="18,50$"
+                    android:textColor="@color/black_for_myagkiy_glavniy"
+                    android:textSize="@dimen/sixteen_dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#fbfbfb"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/three_dp"
+                android:paddingTop="@dimen/three_dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="@dimen/ten_dp"
+                    android:text="Monthly fee"
+                    android:textColor="#8a8a8a"
+                    android:textSize="@dimen/sixteen_dp" />
+
+                <TextView
+                    android:id="@+id/tvMonthlyFee"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/sixteen_dp"
+                    android:text="1,30$"
+                    android:textColor="@color/black_for_myagkiy_glavniy"
+                    android:textSize="@dimen/sixteen_dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/three_dp"
+                android:paddingTop="@dimen/three_dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="@dimen/ten_dp"
+                    android:text="Should pay"
+                    android:textColor="#8a8a8a"
+                    android:textSize="@dimen/sixteen_dp" />
+
+                <TextView
+                    android:id="@+id/tvPaymentSum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/sixteen_dp"
+                    android:text="319,80$"
+                    android:textColor="@color/credit_yellow"
+                    android:textSize="@dimen/sixteen_dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#fbfbfb"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/three_dp"
+                android:paddingTop="@dimen/three_dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="@dimen/ten_dp"
+                    android:text="Payment"
+                    android:textColor="#8a8a8a"
+                    android:textSize="@dimen/sixteen_dp" />
+
+                <TextView
+                    android:id="@+id/tvPeriodPayed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/sixteen_dp"
+                    android:text="400,00$"
+                    android:textColor="#8cc056"
+                    android:textSize="@dimen/sixteen_dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/twenty_dp"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/three_dp"
+                android:paddingTop="@dimen/three_dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="@dimen/ten_dp"
+                    android:text="Balance"
+                    android:textColor="#8a8a8a"
+                    android:textSize="@dimen/sixteen_dp" />
+
+                <TextView
+                    android:id="@+id/tvBalance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/sixteen_dp"
+                    android:text="5600,00$"
+                    android:textColor="@color/black_for_myagkiy_glavniy"
+                    android:textSize="@dimen/sixteen_dp" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:background="#e7e7e7"/>
+</LinearLayout>

@@ -599,7 +599,7 @@
     <string name="years">years</string>
     <string name="days">days</string>
     <string name="ends">End</string>
-    <string name="archive">Archive</string>
+    <string name="archive">Loan to \narchive</string>
     <string name="toritus">This system of credit registration, very flexible. Credit conditions may be different, in this regard, you can customize the application to fit your requirements.</string>
     <string-array name="cat_values">
         <item>home</item>
@@ -925,7 +925,7 @@
     <string name="borrow_recking_statistics">Returned debt</string>
     <string name="debt_statistics">Borrowed</string>
     <string name="debt_recking_statistics">Returned debt</string>
-    <string name="pay">Pay</string>
+    <string name="pay">Payment for \nloan</string>
     <string name="cancel">Cancel</string>
     <string name="repaid">Completed</string>
     <string name="active">Active</string>
@@ -1110,10 +1110,10 @@
     <string name="period_of_credit">Credit term</string>
     <string name="enter_period_of_credit">Enter credit term</string>
     <string name="interval">Period</string>
-    <string name="credit_begin_date">Start of payments</string>
-    <string name="credit_return_date">End of payments</string>
+    <string name="credit_begin_date">Start</string>
+    <string name="credit_return_date">End</string>
     <string name="transactions">Transactions</string>
-    <string name="include_credit_in_balance">Consider credit in the balance</string>
+    <string name="include_credit_in_balance">Payments consider in the balance</string>
     <string name="enter_name_error">Enter name</string>
     <string name="enter_amount_error">Enter amount</string>
     <string name="enter_takendate_error">Select start date</string>
@@ -1257,7 +1257,7 @@
     <string name="ti_type_parsinga_sms_sobsheni_eti_type_parsinga_sms_sobshenieti_type_parsinga_sms_sobsheni">Here you can select type of SMS, which you get from your bank</string>
     <string name="monthly_diagram">Expense and income</string>
     <string name="sys_not_found_accanount">There is not enough count of account !</string>
-    <string name="notif_setting">Notification settings</string>
+    <string name="notif_setting">Notification settings*</string>
     <string name="detalization">Detail</string>
     <string name="notif_annual">Annual</string>
     <string name="notif_everyday">Daily</string>
@@ -1626,4 +1626,6 @@
     <string name="select_icons_sb">Select subcategory icon</string>
     <string name="subcategory_empty">Subcategory name is empty</string>
     <string name="to_purpose">Перевод в копилку</string>
+    <string name="history_transfers">History of Transfers</string>
+    <string name="summ_transfer">Summ transfer</string>
 </resources>

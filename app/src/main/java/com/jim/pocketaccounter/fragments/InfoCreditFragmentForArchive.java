@@ -1,50 +1,78 @@
 package com.jim.pocketaccounter.fragments;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jim.pocketaccounter.PocketAccounter;
 import com.jim.pocketaccounter.PocketAccounterApplication;
 import com.jim.pocketaccounter.R;
 import com.jim.pocketaccounter.credit.AdapterCridetArchive;
+import com.jim.pocketaccounter.credit.CreditsSchedule;
+import com.jim.pocketaccounter.credit.HeaderData;
 import com.jim.pocketaccounter.database.Account;
 import com.jim.pocketaccounter.database.AccountDao;
+import com.jim.pocketaccounter.database.BoardButton;
 import com.jim.pocketaccounter.database.CreditDetials;
 import com.jim.pocketaccounter.database.CreditDetialsDao;
 import com.jim.pocketaccounter.database.DaoSession;
+import com.jim.pocketaccounter.database.DebtBorrow;
+import com.jim.pocketaccounter.database.DebtBorrowDao;
+import com.jim.pocketaccounter.database.FinanceRecordDao;
+import com.jim.pocketaccounter.database.Recking;
 import com.jim.pocketaccounter.database.ReckingCredit;
 import com.jim.pocketaccounter.database.ReckingCreditDao;
+import com.jim.pocketaccounter.debt.PocketClassess;
+import com.jim.pocketaccounter.database.FinanceRecord;
+import com.jim.pocketaccounter.managers.CommonOperations;
 import com.jim.pocketaccounter.managers.LogicManager;
 import com.jim.pocketaccounter.managers.PAFragmentManager;
 import com.jim.pocketaccounter.managers.ToolbarManager;
+import com.jim.pocketaccounter.utils.PocketAccounterGeneral;
+import com.jim.pocketaccounter.utils.WarningDialog;
 import com.jim.pocketaccounter.utils.cache.DataCache;
 
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
 
 public class InfoCreditFragmentForArchive extends Fragment {
-    @Inject
-    ToolbarManager toolbarManager;
     @Inject
     @Named(value = "display_formatter")
     SimpleDateFormat dateFormat;
@@ -53,47 +81,74 @@ public class InfoCreditFragmentForArchive extends Fragment {
     @Inject
     DaoSession daoSession;
     @Inject
+    DataCache dataCache;
+    @Inject
+    ToolbarManager toolbarManager;
+    @Inject
+    CommonOperations commonOperations;
+    @Inject
     LogicManager logicManager;
     @Inject
-    DataCache dataCache;
-    private CreditDetialsDao creditDetialsDao;
-    private ReckingCreditDao reckingCreditDao;
-    private AccountDao accountDao;
+    LogicManager financeManager;
 
+    WarningDialog warningDialog;
+    SimpleDateFormat sDateFormat = new SimpleDateFormat("dd MMM, yyyy");
+    CreditDetialsDao creditDetialsDao;
+    ReckingCreditDao reckingCreditDao;
+    AccountDao accountDao;
+    FinanceRecordDao financeRecordDao;
+    DebtBorrowDao debtBorrowDao;
+    ArrayList<CreditsSchedule> creditsSchedules;
     ImageView expandableBut;
-    FrameLayout expandablePanel;
-    FrameLayout expandableLiniya;
-    FrameLayout ifHaveItem;
+    ImageView cancel_button;
+    RelativeLayout expandablePanel;
+    RelativeLayout rlBottom;
     RecyclerView tranact_recyc;
     CreditDetials currentCredit;
+    boolean toArcive = false;
     TextView myCreditName;
     TextView myLefAmount;
     TextView myProcent;
-    TextView myLefDate;
     TextView myPeriodOfCredit;
     TextView myTakedCredTime;
     TextView myTakedValue;
     TextView myReturnValue;
     TextView myTotalPaid;
+    TextView intervalCreditInfo;
     TextView calculeted;
+    TextView tvEndPeriodDay;
+    TextView tvPeriodPayment;
+    TextView tvBalancePer;
+    TextView tvPeriodPaymentTitle;
+    TextView tvEndPeriodDayTitle;
     ImageView icon_credit;
-    PaysCreditAdapter adapRecyc;
-    ArrayList<ReckingCredit> rcList;
-    final static long forDay=1000L*60L*60L*24L;
-    final static long forMoth=1000L*60L*60L*24L*30L;
-    final static long forWeek=1000L*60L*60L*24L*7L;
-    final static long forYear=1000L*60L*60L*24L*365L;
-    final static String CALCULATED="Calculeted";
-    final static String NOT_CALCULATED="Not calculeted";
-    boolean isExpandOpen=false;
-    private Context context;
-    TextView myPay,myDelete;
-    DecimalFormat  formater;
     AdapterCridetArchive.ListnerDel A1;
+    PaysCreditAdapter adapRecyc;
+    List<ReckingCredit> rcList;
+    boolean delete_flag = false;
+    int currentPOS = 0;
+    final static long forDay = 1000L * 60L * 60L * 24L;
+    final static long forMoth = 1000L * 60L * 60L * 24L * 30L;
+    final static long forWeek = 1000L * 60L * 60L * 24L * 7L;
+    final static long forYear = 1000L * 60L * 60L * 24L * 365L;
+    boolean isExpandOpen = false;
+    private Context context;
+    DecimalFormat formater;
+    TextView myPay;
+    //    ImageView myDelete;
+    boolean fromMainWindow = false;
+    private boolean[] isCheks;
+    private int positionOfBourdMain;
+    private int modeOfMain;
+    boolean fromSearch = false;
     int POSITIOn;
-    boolean fromSearch=false;
     public InfoCreditFragmentForArchive() {
         // Required empty public constructor
+    }
+    public void setConteentFragment(CreditDetials temp){
+        currentCredit=temp;
+        formater=new DecimalFormat("0.##");
+        fromSearch=true;
     }
     public void setConteent(CreditDetials temp,int position, AdapterCridetArchive.ListnerDel A1){
         currentCredit=temp;
@@ -101,257 +156,409 @@ public class InfoCreditFragmentForArchive extends Fragment {
         formater=new DecimalFormat("0.##");
         POSITIOn=position;
     }
-    public void setConteentFragment(CreditDetials temp){
-        currentCredit=temp;
-        formater=new DecimalFormat("0.##");
-        fromSearch=true;
+
+    public void setContentFromMainWindow(CreditDetials temp, int positionOfBourd, int modeOfMain) {
+        fromMainWindow = true;
+
+        currentCredit = temp;
+        this.positionOfBourdMain = positionOfBourd;
+        this.modeOfMain = modeOfMain;
     }
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        context=getActivity();
+
+    public void setDefaultContent(CreditDetials temp) {
+        currentCredit = temp;
+        fromSearch = true;
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View V=inflater.inflate(R.layout.fragment_info_credit_archive, container, false);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
         creditDetialsDao = daoSession.getCreditDetialsDao();
         reckingCreditDao = daoSession.getReckingCreditDao();
         accountDao = daoSession.getAccountDao();
+        formater = new DecimalFormat("0.00");
+        context = getActivity();
+        warningDialog = new WarningDialog(context);
 
+    }
+
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View V = inflater.inflate(R.layout.fragment_info_credit_archive, container, false);
         Date dateForSimpleDate = (new Date());
-        expandableBut=(ImageView) V.findViewById(R.id.wlyuzik_opener);
-        expandablePanel=(FrameLayout) V.findViewById(R.id.shlyuzik);
-        expandableLiniya=(FrameLayout) V.findViewById(R.id.with_wlyuzik);
-        ifHaveItem=(FrameLayout) V.findViewById(R.id.ifListHave);
-         myCreditName=(TextView) V.findViewById(R.id.name_of_credit);
-        myLefAmount=(TextView) V.findViewById(R.id.value_credit_all);
-        myProcent=(TextView) V.findViewById(R.id.procentCredInfo);
-        myLefDate=(TextView) V.findViewById(R.id.leftDateInfo);
-        myPeriodOfCredit=(TextView) V.findViewById(R.id.intervalCreditInfo);
-        myTakedCredTime=(TextView) V.findViewById(R.id.takedtimeInfo);
-        myTakedValue=(TextView) V.findViewById(R.id.takedValueInfo);
-        myReturnValue=(TextView) V.findViewById(R.id.totalReturnValueInfo);
-        myTotalPaid=(TextView) V.findViewById(R.id.total_transaction);
-        calculeted=(TextView) V.findViewById(R.id.it_is_include_balance);
-        tranact_recyc=(RecyclerView) V.findViewById(R.id.recycler_for_transactions);
-        icon_credit=(ImageView) V.findViewById(R.id.icon_creditt);
-        rcList= (ArrayList<ReckingCredit>) reckingCreditDao.queryBuilder().list();
-        adapRecyc=new PaysCreditAdapter(rcList);
-        myPay=(TextView)  V.findViewById(R.id.paybut);
-        myDelete=(TextView)  V.findViewById(R.id.deleterbut);
+        if (fromMainWindow)
+            paFragmentManager.setMainReturn(true);
+        expandableBut = (ImageView) V.findViewById(R.id.wlyuzik_opener);
+        expandablePanel = (RelativeLayout) V.findViewById(R.id.shlyuzik);
+        myCreditName = (TextView) V.findViewById(R.id.name_of_credit);
+        myLefAmount = (TextView) V.findViewById(R.id.value_credit_all);
+        myProcent = (TextView) V.findViewById(R.id.procentCredInfo);
+//        myLefDate = (TextView) V.findViewById(R.id.leftDateInfo);
+        myPeriodOfCredit = (TextView) V.findViewById(R.id.intervalCreditInfo);
+        myTakedCredTime = (TextView) V.findViewById(R.id.takedtimeInfo);
+        myTakedValue = (TextView) V.findViewById(R.id.takedValueInfo);
+        myReturnValue = (TextView) V.findViewById(R.id.totalReturnValueInfo);
+        myTotalPaid = (TextView) V.findViewById(R.id.total_transaction);
+        tvEndPeriodDay = (TextView) V.findViewById(R.id.tvEndPeriodDay);
+        calculeted = (TextView) V.findViewById(R.id.it_is_include_balance);
+        tvEndPeriodDayTitle = (TextView) V.findViewById(R.id.tvEndPeriodDayTitle);
+        intervalCreditInfo = (TextView) V.findViewById(R.id.intervalCreditInfo);
+        tvPeriodPayment = (TextView) V.findViewById(R.id.tvPeriodPayment);
+        tvBalancePer = (TextView) V.findViewById(R.id.tvBalancePer);
+        tvPeriodPaymentTitle = (TextView) V.findViewById(R.id.tvPeriodPaymentTitle);
+        tranact_recyc = (RecyclerView) V.findViewById(R.id.recycler_for_transactions);
+        icon_credit = (ImageView) V.findViewById(R.id.icon_creditt);
+        cancel_button = (ImageView) V.findViewById(R.id.cancel_button);
+        rlBottom = (RelativeLayout) V.findViewById(R.id.rlBottom);
+        V.findViewById(R.id.moainnnn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        rcList = currentCredit.getReckings();
+        currentCredit.resetReckings();
+        adapRecyc = new PaysCreditAdapter(rcList);
+        myPay = (TextView) V.findViewById(R.id.paybut);
+//        myDelete = (ImageView) V.findViewById(R.id.deleterbut);
         LinearLayoutManager llm = new LinearLayoutManager(context);
         tranact_recyc.setLayoutManager(llm);
-
-        tranact_recyc.setAdapter(adapRecyc);
-        if(rcList.size()==0){
-            ifHaveItem.setVisibility(View.GONE);
-        }else{
-            ifHaveItem.setVisibility(View.VISIBLE);
-
-        }
-            double total_paid=0;
-        for(ReckingCredit item:rcList){
-            total_paid+=item.getAmount();
-        }
-
-        adapRecyc.notifyDataSetChanged();
-
-        toolbarManager.setImageToSecondImage(R.drawable.ic_delete_black);
+        V.findViewById(R.id.llDebtBOrrowItemEdit).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ScheduleCreditFragment scheduleCreditFragment  = new ScheduleCreditFragment();
+                scheduleCreditFragment.setCreditObject(currentCredit);
+                paFragmentManager.displayFragment(scheduleCreditFragment);
+            }
+        });
+        isCheks = new boolean[currentCredit.getReckings().size()];
+        toolbarManager.setImageToSecondImage(R.drawable.ic_more_vert_black_48dp);
         toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
         toolbarManager.setOnSecondImageClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(currentCredit.getKey_for_include()){
-                    final AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setMessage(getString(R.string.dou_delete))
-                            .setPositiveButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialoge, int id) {
-                                    dialoge.cancel();
+                //TODO add remove and edit
+                final AlertDialog.Builder builderChouse = new AlertDialog.Builder(getActivity());
+                builderChouse.setTitle(getString(R.string.choose_type_p)).setItems(R.array.more_option_for_credit_debt, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (which == 0) {
+                            paFragmentManager.getFragmentManager().popBackStack();
+                            AddCreditFragment forEdit = new AddCreditFragment();
+                            if (fromMainWindow)
+                                forEdit.setDateFormatModes(modeOfMain, positionOfBourdMain);
+                            forEdit.shareForEdit(currentCredit);
+                            paFragmentManager.displayFragment(forEdit);
+                        } else {
+                            warningDialog.setOnYesButtonListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    if (!fromMainWindow) {
+                                        List<BoardButton> boardButtons = daoSession.getBoardButtonDao().loadAll();
+                                        for (BoardButton boardButton : boardButtons) {
+                                            if (boardButton.getCategoryId() != null)
+                                                if (boardButton.getCategoryId().equals(Long.toString(currentCredit.getMyCredit_id()))) {
+                                                    if (boardButton.getTable() == PocketAccounterGeneral.EXPENSE)
+                                                        logicManager.changeBoardButton(PocketAccounterGeneral.EXPENSE, boardButton.getPos(), null);
+                                                    else
+                                                        logicManager.changeBoardButton(PocketAccounterGeneral.INCOME, boardButton.getPos(), null);
+                                                    commonOperations.changeIconToNull(boardButton.getPos(), dataCache, boardButton.getTable());
+
+                                                }
+                                        }
+
+                                        logicManager.deleteCredit(currentCredit);
+                                        dataCache.updateAllPercents();
+                                        paFragmentManager.updateAllFragmentsOnViewPager();
+
+                                        A1.delete_item(currentPOS);
+                                    } else if (fromSearch) {
+                                        List<BoardButton> boardButtons = daoSession.getBoardButtonDao().loadAll();
+                                        for (BoardButton boardButton : boardButtons) {
+                                            if (boardButton.getCategoryId() != null)
+                                                if (boardButton.getCategoryId().equals(Long.toString(currentCredit.getMyCredit_id()))) {
+
+                                                    if (boardButton.getTable() == PocketAccounterGeneral.EXPENSE)
+                                                        logicManager.changeBoardButton(PocketAccounterGeneral.EXPENSE, boardButton.getPos(), null);
+                                                    else
+                                                        logicManager.changeBoardButton(PocketAccounterGeneral.INCOME, boardButton.getPos(), null);
+
+                                                    commonOperations.changeIconToNull(boardButton.getPos(), dataCache, boardButton.getTable());
+
+                                                }
+                                        }
+                                        dataCache.updateAllPercents();
+                                        paFragmentManager.updateAllFragmentsOnViewPager();
+                                        logicManager.deleteCredit(currentCredit);
+
+                                    } else {
+                                        if (modeOfMain == PocketAccounterGeneral.EXPENSE) {
+                                            logicManager.changeBoardButton(PocketAccounterGeneral.EXPENSE, positionOfBourdMain, null);
+                                        } else {
+                                            logicManager.changeBoardButton(PocketAccounterGeneral.INCOME, positionOfBourdMain, null);
+                                        }
+                                        commonOperations.changeIconToNull(positionOfBourdMain, dataCache, modeOfMain);
+
+                                        List<BoardButton> boardButtons = daoSession.getBoardButtonDao().loadAll();
+                                        for (BoardButton boardButton : boardButtons) {
+                                            if (boardButton.getCategoryId() != null) {
+                                                if (boardButton.getCategoryId().equals(Long.toString(currentCredit.getMyCredit_id()))) {
+
+                                                    if (boardButton.getTable() == PocketAccounterGeneral.EXPENSE) {
+                                                        logicManager.changeBoardButton(PocketAccounterGeneral.EXPENSE, boardButton.getPos(), null);
+                                                    } else {
+                                                        logicManager.changeBoardButton(PocketAccounterGeneral.INCOME, boardButton.getPos(), null);
+                                                    }
+
+                                                    commonOperations.changeIconToNull(boardButton.getPos(), dataCache, boardButton.getTable());
+
+                                                }
+                                            }
+                                        }
+                                        logicManager.deleteCredit(currentCredit);
+                                        dataCache.updateAllPercents();
+                                        paFragmentManager.updateAllFragmentsOnViewPager();
+
+                                    }
+                                    if (fromMainWindow)
+                                        dataCache.updateOneDay(dataCache.getEndDate());
+                                    if (fromMainWindow) {
+                                        getActivity().getSupportFragmentManager().popBackStack();
+                                        paFragmentManager.displayMainWindow();
+                                    } else {
+
+                                        getActivity().getSupportFragmentManager().popBackStack();
+
+                                        paFragmentManager.displayFragment(new CreditTabLay());
+                                    }
+                                    warningDialog.dismiss();
                                 }
-                            }).setNegativeButton(getString(R.string.delete_anyway), new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            if(!fromSearch)
-                            A1.delete_item(POSITIOn);
-                            getActivity().getSupportFragmentManager().popBackStack ();
-                            paFragmentManager.displayFragment(new CreditTabLay());
-                        }
-                    });
-                    builder.create().show();
-                }
-                else{
-                    final AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setMessage(getString(R.string.dou_delete_arc))
-                            .setPositiveButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialoge, int id) {
-                                    dialoge.cancel();
+                            });
+                            warningDialog.setOnNoButtonClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    warningDialog.dismiss();
                                 }
-                            }).setNegativeButton(getString(R.string.delete_anyway), new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            if(!fromSearch)
-                                A1.delete_item(POSITIOn);
-                            else
-                                logicManager.deleteCredit(currentCredit);
-                            //TODO CHALSI BOR PROSENTI YENGILAVOR Ozin eslab kor sardor
-                            dataCache.updateAllPercents();
-                            paFragmentManager.updateAllFragmentsOnViewPager();
-                            getActivity().getSupportFragmentManager().popBackStack ();
-
-                            if(fromSearch)
-                                paFragmentManager.displayMainWindow();
-                            paFragmentManager.displayFragment(new CreditTabLay());
-
-
+                            });
+                            warningDialog.setText(getString(R.string.delete_credit));
+                            warningDialog.show();
                         }
-                    });
-                    builder.create().show();
-                }
+                    }
+                });
+                builderChouse.create().show();
             }
         });
 
-        myTakedValue.setText(parseToWithoutNull(currentCredit.getValue_of_credit())+currentCredit.getValyute_currency().getAbbr());
-        myReturnValue.setText(parseToWithoutNull(currentCredit.getValue_of_credit_with_procent())+currentCredit.getValyute_currency().getAbbr());
+        tranact_recyc.setAdapter(adapRecyc);
+
+        double total_paid = 0;
+        for (ReckingCredit item : rcList) {
+            total_paid += item.getAmount();
+        }
+        creditsSchedules = new ArrayList<>();
+
+        adapRecyc.notifyDataSetChanged();
+
+        boolean prosrecenniy=false;
+        HeaderData headerData;
+        if(currentCredit.getType_loan()==CommonOperations.ANUTETNIY){
+            headerData = ScheduleCreditFragment.calculetAnutetniy(currentCredit,creditsSchedules);
+        }
+        else {
+            headerData = ScheduleCreditFragment.calculetDeferinsial(currentCredit,creditsSchedules);
+        }
+        Date from = new Date();
+        CreditsSchedule currentPeriod = null;
+
+        boolean yestDolg=false;
+        CreditsSchedule unPaidPeriod = null;
+        for (CreditsSchedule creditsSchedule:creditsSchedules){
+            if(creditsSchedule.getDate().getTimeInMillis()>from.getTime()){
+                currentPeriod = creditsSchedule;
+                break;
+            }
+            else if(!((int)((creditsSchedule.getPaymentSum() - creditsSchedule.getPayed() )*100)==0||creditsSchedule.getPaymentSum() - creditsSchedule.getPayed()<=0)&&creditsSchedule.getDate().getTimeInMillis()<from.getTime()&&!yestDolg){
+                yestDolg = true;
+                unPaidPeriod = creditsSchedule;
+            }
+        }
+        if(currentPeriod == null)
+            prosrecenniy = true;
+        //exep
+        if(yestDolg){
+            tvPeriodPaymentTitle.setText(R.string.you_have_debt);
+            tvPeriodPayment.setText(sDateFormat.format(unPaidPeriod.getDate().getTime()));
+
+        } else {
+            if(!prosrecenniy)
+                if(formater.format(currentPeriod.getPaymentSum() - currentPeriod.getPayed()).equals("0")|| currentPeriod.getPaymentSum() - currentPeriod.getPayed()<= 0){
+                    tvPeriodPaymentTitle.setText(R.string.credit_stat);
+                    tvPeriodPayment.setText(R.string.complete);
+                    tvPeriodPayment.setTextColor(ContextCompat.getColor(context,R.color.credit_och_yashil));
+                }
+                else{
+                    tvPeriodPaymentTitle.setText(R.string.period_payment);
+                    tvPeriodPayment.setText(formater.format(currentPeriod.getPaymentSum() - currentPeriod.getPayed())+currentCredit.getValyute_currency().getAbbr());
+                    tvPeriodPayment.setTextColor(ContextCompat.getColor(context,R.color.credit_yellow));
+                }
+            else {
+                tvPeriodPaymentTitle.setText(R.string.credit_stat);
+                tvPeriodPayment.setText(R.string.complete);
+                tvPeriodPayment.setTextColor(ContextCompat.getColor(context,R.color.credit_och_yashil));
+            }
+        }
+        myTakedValue.setText(formater.format(currentCredit.getValue_of_credit()) + currentCredit.getValyute_currency().getAbbr());
+        myReturnValue.setText(formater.format(headerData.getTotalLoanWithInterest()) + currentCredit.getValyute_currency().getAbbr());
+        tvBalancePer.setText(formater.format(headerData.getTotalPayedAmount())+currentCredit.getValyute_currency().getAbbr());
+        Calendar to;
+        if(!prosrecenniy)
+            to = (Calendar) currentPeriod.getDate();
+        else to = (Calendar) Calendar.getInstance();
+        long period_tip = currentCredit.getPeriod_time_tip();
+        long period_voqt = currentCredit.getPeriod_time();
+        int voqt_soni = (int) (period_voqt / period_tip);
+        String interval ;
+        interval = voqt_soni + " ";
+        if (period_tip == forMoth) {
+            interval = interval + context.getString(R.string.mont);
+        } else {
+            interval = interval + context.getString(R.string.yearr);
+        }
+
+        intervalCreditInfo.setText(interval);
+
+
+        int t[] = getDateDifferenceInDDMMYYYY(from, to.getTime());
+        if (t[0] * t[1] * t[2] < 0 && (t[0] + t[1] + t[2]) != 0) {
+            tvEndPeriodDay.setText(R.string.ends);
+            tvEndPeriodDay.setTextColor(Color.parseColor("#832e1c"));
+        } else {
+            String left_date_string = "";
+            if (t[0] != 0) {
+                if (t[0] > 1) {
+                    left_date_string += Integer.toString(t[0]) + " " + context.getString(R.string.years);
+                } else {
+                    left_date_string += Integer.toString(t[0]) + " " + context.getString(R.string.year);
+                }
+            }
+            if (t[1] != 0) {
+                if (!left_date_string.matches("")) {
+                    left_date_string += " ";
+                }
+                if (t[1] > 1) {
+                    left_date_string += Integer.toString(t[1]) + " " + context.getString(R.string.moths);
+                } else {
+                    left_date_string += Integer.toString(t[1]) + " " + context.getString(R.string.moth);
+                }
+            }
+            if (t[2] != 0) {
+                if (!left_date_string.matches("")) {
+                    left_date_string += " ";
+                }
+                if (t[2] > 1) {
+                    left_date_string += Integer.toString(t[2]) + " " + context.getString(R.string.days);
+                } else {
+                    left_date_string += Integer.toString(t[2]) + " " + context.getString(R.string.day);
+                }
+            }
+            if(!prosrecenniy){
+                tvEndPeriodDayTitle.setText(R.string.period_ends);
+                tvEndPeriodDay.setText(left_date_string);
+
+            }
+            else  {
+                tvEndPeriodDayTitle.setText(R.string.credit_end_date);
+                tvEndPeriodDay.setText(sDateFormat.format(creditsSchedules.get(creditsSchedules.size()-1).getDate().getTime()));
+            }
+        }
+
+
         int resId = context.getResources().getIdentifier(currentCredit.getIcon_ID(), "drawable", context.getPackageName());
         icon_credit.setImageResource(resId);
         dateForSimpleDate.setTime(currentCredit.getTake_time().getTimeInMillis());
-        myTakedCredTime.setText(dateFormat.format(dateForSimpleDate));
-        calculeted.setText((currentCredit.getKey_for_include())?CALCULATED:NOT_CALCULATED);
+        myTakedCredTime.setText(sDateFormat.format(dateForSimpleDate));
         myCreditName.setText(currentCredit.getCredit_name());
+        calculeted.setText((currentCredit.getKey_for_include()) ? getString(R.string.calculaed) : getString(R.string.not_calc));
+        cancel_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                delete_flag = false;
+                cancel_button.setVisibility(View.GONE);
+//                    myPay.setText(R.string.pay);
+                for (int i = 0; i < isCheks.length; i++) {
+                    isCheks[i] = false;
+                }
+                adapRecyc.notifyDataSetChanged();
+            }
+        });
+        myTotalPaid.setText(formater.format(total_paid) + currentCredit.getValyute_currency().getAbbr());
+        if (headerData.getTotalLoanWithInterest() - total_paid <= 0) {
+            myLefAmount.setText(getString(R.string.repaid));
+            toArcive = true;
+            myPay.setText(getString(R.string.archive));
+        } else
+            myLefAmount.setText(formater.format(currentCredit.getValue_of_credit_with_procent() - total_paid) + currentCredit.getValyute_currency().getAbbr());
 
-        myTotalPaid.setText(parseToWithoutNull(total_paid)+currentCredit.getValyute_currency().getAbbr());
-
-        myLefAmount.setText(getString(R.string.repaid));
-
-        String suffix="";
-        if(currentCredit.getProcent_interval()==forDay){
-            suffix=getString(R.string.per_day);
+        String suffix = "";
+        if (currentCredit.getProcent_interval() == forMoth) {
+            suffix = getString(R.string.per_month);
+        } else {
+            suffix = getString(R.string.per_year);
         }
-        else if(currentCredit.getProcent_interval()==forWeek){
-            suffix=getString(R.string.per_week);
-        }
-        else if(currentCredit.getProcent_interval()==forMoth){
-            suffix=getString(R.string.per_month);
-        }
-        else {
-            suffix=getString(R.string.per_year);
-        }
 
-        myProcent.setText(parseToWithoutNull(currentCredit.getProcent())+"%"+" "+suffix);
+        myProcent.setText(formater.format(currentCredit.getProcent()) + "%" + " " + suffix);
 
-        Calendar to= (Calendar) currentCredit.getTake_time().clone();
 
-        long period_tip=currentCredit.getPeriod_time_tip();
-        long period_voqt=currentCredit.getPeriod_time();
-        int voqt_soni= (int) (period_voqt/period_tip);
 
-        if(period_tip==forDay){
-            suffix=getString(R.string.dayy);
-            to.add(Calendar.DAY_OF_YEAR, (int) voqt_soni);
-        }
-        else if(period_tip==forWeek){
-            suffix=getString(R.string.weekk);
-            to.add(Calendar.WEEK_OF_YEAR, (int) voqt_soni);
-        }
-        else if(period_tip==forMoth){
-            suffix=getString(R.string.mont);
-            to.add(Calendar.MONTH, (int) voqt_soni);
-
-        }
-        else {
-            suffix=getString(R.string.yearr);
-            to.add(Calendar.YEAR, (int) voqt_soni);
-
-        }
-        myPeriodOfCredit.setText(Integer.toString(voqt_soni)+" "+suffix);
-
+        rlBottom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                expandablePanel.setVisibility(View.GONE);
+                expandableBut.setImageResource(R.drawable.info_open);
+                isExpandOpen = false;
+            }
+        });
         V.findViewById(R.id.infoooc).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isExpandOpen){
+                if (isExpandOpen) {
                     expandablePanel.setVisibility(View.GONE);
-                    expandableLiniya.setVisibility(View.GONE);
-                    expandableBut.setImageResource(R.drawable.infoo);
-                    isExpandOpen=false;
-                }
-                else {
+                    expandableBut.setImageResource(R.drawable.info_open);
+                    isExpandOpen = false;
+                } else {
                     expandablePanel.setVisibility(View.VISIBLE);
-                    expandableLiniya.setVisibility(View.VISIBLE);
-                    expandableBut.setImageResource(R.drawable.pasga_ochil);
-                    isExpandOpen=true;
+                    expandableBut.setImageResource(R.drawable.info_pastga);
+                    isExpandOpen = true;
                 }
             }
         });
 
-        long for_compute_interval=currentCredit.getTake_time().getTimeInMillis()+currentCredit.getPeriod_time()-System.currentTimeMillis();
 
-        Date from=new Date();
-        int t[]=getDateDifferenceInDDMMYYYY(from,to.getTime());
-        Log.d("Myday",t[0]+" "+t[1]+" "+t[2]);
-        if(t[0]*t[1]*t[2]<0&&(t[0]+t[1]+t[2])!=0){
-            myLefDate.setText(R.string.ends);
-        }
-        else {
-            String left_date_string="";
-            if(t[0]!=0){
-                if(t[0]>1){
-                    left_date_string+=Integer.toString(t[0])+" "+getString(R.string.years);
-                }
-                else{
-                    left_date_string+=Integer.toString(t[0])+" "+getString(R.string.year);
-                }
 
-            }
-            if(t[1]!=0){
-                if(!left_date_string.matches("")){
-                    left_date_string+=" ";
-                }
-                if(t[1]>1){
-                    left_date_string+=Integer.toString(t[1])+" "+getString(R.string.moths);
-                }
-                else{
-                    left_date_string+=Integer.toString(t[1])+" "+getString(R.string.moth);
-                }
-            }
-            if(t[2]!=0){
-                if(!left_date_string.matches("")){
-                    left_date_string+=" ";
-                }
-                if(t[2]>1){
-                    left_date_string+=Integer.toString(t[2])+" "+getString(R.string.days);
-                }
-                else{
-                    left_date_string+=Integer.toString(t[2])+" "+getString(R.string.day);
-                }
-            }
-            myLefDate.setText(left_date_string);
-        }
 
-        V.findViewById(R.id.pustooyy).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-            }
-        });
         return V;
     }
-    public String parseToWithoutNull(double A){
-        if(A==(int)A)
-            return Integer.toString((int)A);
+
+    public String parseToWithoutNull(double A) {
+        if (A == (int) A)
+            return Integer.toString((int) A);
         else
             return formater.format(A);
-
     }
-    public static int [] getDateDifferenceInDDMMYYYY(Date from, Date to) {
-        Calendar fromDate=Calendar.getInstance();
-        Calendar toDate=Calendar.getInstance();
+
+    public static int[] getDateDifferenceInDDMMYYYY(Date from, Date to) {
+        Calendar fromDate = Calendar.getInstance();
+        Calendar toDate = Calendar.getInstance();
         fromDate.setTime(from);
         toDate.setTime(to);
         int increment = 0;
-        int year,month,day;
+        int year, month, day;
         if (fromDate.get(Calendar.DAY_OF_MONTH) > toDate.get(Calendar.DAY_OF_MONTH)) {
-            increment =fromDate.getActualMaximum(Calendar.DAY_OF_MONTH);
+            increment = fromDate.getActualMaximum(Calendar.DAY_OF_MONTH);
         }
         if (increment != 0) {
             day = (toDate.get(Calendar.DAY_OF_MONTH) + increment) - fromDate.get(Calendar.DAY_OF_MONTH);
@@ -369,19 +576,622 @@ public class InfoCreditFragmentForArchive extends Fragment {
         }
 
         year = toDate.get(Calendar.YEAR) - (fromDate.get(Calendar.YEAR) + increment);
-        return   new int[]{year, month, day};
+        return new int[]{year, month, day};
     }
-    interface ConWithFragments{
-        void change_item(CreditDetials changed_item, int position);
+
+    public interface ConWithFragments {
+        void change_item(CreditDetials creditDetials, int position);
+
         void to_Archive(int position);
+
+        void delete_item(int position);
     }
 
     ArrayList<Account> accaunt_AC;
+    CreditsSchedule unPaidPeriod;
+    Calendar date;
+    private void openDialog(final ArrayList<CreditsSchedule> creditsSchedules) {
+        boolean hozirgi  = false;
+        unPaidPeriod = null;
+        CreditsSchedule currentPeriodi =null;
+
+        for(CreditsSchedule lastUnPaidPeriod:creditsSchedules){
+            if (lastUnPaidPeriod.getDate().getTimeInMillis()>Calendar.getInstance().getTimeInMillis()&&!hozirgi){
+                currentPeriodi = lastUnPaidPeriod;
+                hozirgi = true;
+            }
+            if((int)((lastUnPaidPeriod.getPaymentSum() - lastUnPaidPeriod.getPayed() )*100)==0||lastUnPaidPeriod.getPaymentSum() - lastUnPaidPeriod.getPayed()<=0){
+                continue;
+            }
+            else {
+                unPaidPeriod = lastUnPaidPeriod;
+                break;
+            }
+
+        }
+
+
+        final Dialog dialog = new Dialog(context);
+        final View dialogView = ((PocketAccounter) context).getLayoutInflater().inflate(R.layout.add_pay_debt_borrow_info_mod, null);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(dialogView);
+        View v = dialog.getWindow().getDecorView();
+        v.setBackgroundResource(android.R.color.transparent);
+
+        final TextView enterDate = (TextView) dialogView.findViewById(R.id.etInfoDebtBorrowDate);
+        final TextView abbrrAmount = (TextView) dialogView.findViewById(R.id.abbrrAmount);
+        final TextView periodDate = (TextView) dialogView.findViewById(R.id.periodDate);
+        final TextView shouldPayPeriod = (TextView) dialogView.findViewById(R.id.shouldPayPeriod);
+        final EditText enterPay = (EditText) dialogView.findViewById(R.id.etInfoDebtBorrowPaySumm);
+        final EditText comment = (EditText) dialogView.findViewById(R.id.etInfoDebtBorrowPayComment);
+        final Spinner accountSp = (Spinner) dialogView.findViewById(R.id.spInfoDebtBorrowAccount);
+        if(hozirgi){
+            periodDate.setText(sDateFormat.format(currentPeriodi.getDate().getTime()));
+            if(formater.format(currentPeriodi.getPaymentSum() - currentPeriodi.getPayed()).equals("0")|| currentPeriodi.getPaymentSum() - currentPeriodi.getPayed()<= 0){
+                shouldPayPeriod.setText(R.string.complete);
+                shouldPayPeriod.setTextColor(ContextCompat.getColor(context,R.color.credit_och_yashil));
+            }
+            else{
+                shouldPayPeriod.setText(formater.format(currentPeriodi.getPaymentSum() - currentPeriodi.getPayed())+currentCredit.getValyute_currency().getAbbr());
+                shouldPayPeriod.setTextColor(ContextCompat.getColor(context,R.color.credit_yellow));
+            }
+        }
+        else {
+            periodDate.setText(sDateFormat.format(unPaidPeriod.getDate().getTime()));
+            shouldPayPeriod.setText(formater.format(unPaidPeriod.getPaymentSum() - unPaidPeriod.getPayed())+currentCredit.getValyute_currency().getAbbr());
+
+        }
+        abbrrAmount.setText(currentCredit.getValyute_currency().getAbbr());
+        if (currentCredit.getKey_for_include()) {
+            accaunt_AC = (ArrayList<Account>) accountDao.queryBuilder().list();
+            String[] accaounts = new String[accaunt_AC.size()];
+            for (int i = 0; i < accaounts.length; i++) {
+                accaounts[i] = accaunt_AC.get(i).getName();
+            }
+            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
+                    context, R.layout.spiner_gravity_left, accaounts);
+            accountSp.setAdapter(arrayAdapter);
+        } else {
+            dialogView.findViewById(R.id.is_calc).setVisibility(View.GONE);
+        }
+
+        date = Calendar.getInstance();
+        if(unPaidPeriod.getDate().getTimeInMillis()<date.getTimeInMillis()){
+            date= (Calendar) unPaidPeriod.getDate().clone();
+            date.set(Calendar.DAY_OF_MONTH,-1);
+            enterDate.setText(dateFormat.format(date.getTime()));
+        }
+        else
+            enterDate.setText(dateFormat.format(date.getTime()));
+
+        ImageView cancel = (ImageView) dialogView.findViewById(R.id.ivInfoDebtBorrowCancel);
+        final TextView save = (TextView) dialogView.findViewById(R.id.ivInfoDebtBorrowSave);
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        final DatePickerDialog.OnDateSetListener getDatesetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(android.widget.DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                if (currentCredit.getTake_time().getTimeInMillis() >= (new GregorianCalendar(year, monthOfYear, dayOfMonth)).getTimeInMillis()) {
+                    enterDate.setError(context.getString(R.string.incorrect_date));
+                    enterDate.setText(dateFormat.format(currentCredit.getTake_time().getTime()));
+                } else if( unPaidPeriod.getDate().getTimeInMillis()<(new GregorianCalendar(year, monthOfYear, dayOfMonth)).getTimeInMillis()){
+                    Toast.makeText(context, "You can not jump from periods!", Toast.LENGTH_SHORT).show();
+                    Calendar calendar = (Calendar) unPaidPeriod.getDate().clone();
+                    calendar.set(Calendar.DAY_OF_MONTH,-1);
+                    enterDate.setText(dateFormat.format(calendar.getTime()));
+                }
+                else {
+                    enterDate.setText(dateFormat.format((new GregorianCalendar(year, monthOfYear, dayOfMonth)).getTime()));
+                    date.set(year, monthOfYear, dayOfMonth);}
+            }
+        };
+
+        enterDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar calendar = Calendar.getInstance();
+                if(unPaidPeriod.getDate().getTimeInMillis()<calendar.getTimeInMillis()){
+                    calendar = (Calendar) unPaidPeriod.getDate().clone();
+                    calendar.set(Calendar.DAY_OF_MONTH,-1);
+                }
+                Dialog mDialog = new DatePickerDialog(context,
+                        getDatesetListener, calendar.get(Calendar.YEAR),
+                        calendar.get(Calendar.MONTH), calendar
+                        .get(Calendar.DAY_OF_MONTH));
+                mDialog.show();
+            }
+        });
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final String amount = enterPay.getText().toString();
+
+                double total_paid = 0;
+                for (ReckingCredit item : currentCredit.getReckings())
+                    total_paid += item.getAmount();
+
+                if (!amount.matches("")) {
+                    if(currentCredit.getKey_for_include()){
+                        Account account = accaunt_AC.get(accountSp.getSelectedItemPosition());
+                        if (account.getIsLimited()) {
+                            //TODO editda tekwir ozini hisoblamaslini
+                            double limit = account.getLimite();
+                            double accounted =  logicManager.isLimitAccess(account, date);
+
+                            accounted = accounted - commonOperations.getCost(date, currentCredit.getValyute_currency(), account.getCurrency(), Double.parseDouble(amount));
+                            if (-limit > accounted) {
+                                Toast.makeText(context, R.string.limit_exceed, Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                        }}
+                    if (Double.parseDouble(amount) > currentCredit.getValue_of_credit_with_procent() - total_paid) {
+                        warningDialog.setOnYesButtonListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                String amount = enterPay.getText().toString();
+                                ReckingCredit rec = null;
+                                if (!amount.matches("") && currentCredit.getKey_for_include())
+                                    rec = new ReckingCredit(date, Double.parseDouble(amount), accaunt_AC.get(accountSp.getSelectedItemPosition()).getId(), currentCredit.getMyCredit_id(), comment.getText().toString());
+                                else
+                                    rec = new ReckingCredit(date, Double.parseDouble(amount), "", currentCredit.getMyCredit_id(), comment.getText().toString());
+                                logicManager.insertReckingCredit(rec);
+                                currentCredit.resetReckings();
+                                rcList = currentCredit.getReckings();
+                                adapRecyc.setMyList(rcList);
+                                dataCache.updateAllPercents();
+                                paFragmentManager.updateAllFragmentsOnViewPager();
+                                adapRecyc.notifyDataSetChanged();
+                                updateDate();
+                                isCheks = new boolean[rcList.size()];
+                                for (int i = 0; i < isCheks.length; i++) {
+                                    isCheks[i] = false;
+                                }
+//                                if (!fromMainWindow)
+//                                    A1.change_item(currentCredit, currentPOS);
+//                                else if (fromSearch) {
+//
+//                                }
+                                dialog.dismiss();
+                                warningDialog.dismiss();
+                            }
+                        });
+                        warningDialog.setOnNoButtonClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                warningDialog.dismiss();
+                            }
+                        });
+                        warningDialog.setText(context.getString(R.string.payment_balans) + formater.format(currentCredit.getValue_of_credit_with_procent() - total_paid) +
+                                currentCredit.getValyute_currency().getAbbr() + "." + context.getString(R.string.payment_balance2) +
+                                formater.format(Double.parseDouble(amount) - (currentCredit.getValue_of_credit_with_procent() - total_paid)) +
+                                currentCredit.getValyute_currency().getAbbr());
+                        warningDialog.show();
+                    } else {
+                        ReckingCredit rec = null;
+                        if (!amount.matches("") && currentCredit.getKey_for_include())
+                            rec = new ReckingCredit(date, Double.parseDouble(amount), accaunt_AC.get(accountSp.getSelectedItemPosition()).getId(), currentCredit.getMyCredit_id(), comment.getText().toString());
+                        else
+                            rec = new ReckingCredit(date, Double.parseDouble(amount), "", currentCredit.getMyCredit_id(), comment.getText().toString());
+                        logicManager.insertReckingCredit(rec);
+                        currentCredit.resetReckings();
+                        rcList = currentCredit.getReckings();
+                        adapRecyc.setMyList(rcList);
+                        dataCache.updateAllPercents();
+                        adapRecyc.notifyDataSetChanged();
+                        updateDate();
+                        isCheks = new boolean[rcList.size()];
+                        for (int i = 0; i < isCheks.length; i++) {
+                            isCheks[i] = false;
+                        }
+//                        if (!fromMainWindow)
+//                            A1.change_item(currentCredit, currentPOS);
+//                        else if (fromSearch) {
+//
+//                        }
+                        paFragmentManager.updateAllFragmentsOnViewPager();
+                        dialog.dismiss();
+                    }
+                }
+
+            }
+        });
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        int width = displayMetrics.widthPixels;
+        dialog.getWindow().setLayout(7 * width / 8, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        dialog.show();
+
+//
+//        final Dialog dialog = new Dialog(context);
+//        View dialogView = ((PocketAccounter) context).getLayoutInflater().inflate(R.layout.add_pay_debt_borrow_info_mod, null);
+//        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        dialog.setContentView(dialogView);
+//        View v = dialog.getWindow().getDecorView();
+//        v.setBackgroundResource(android.R.color.transparent);
+//        final TextView enterDate = (TextView) dialogView.findViewById(R.id.etInfoDebtBorrowDate);
+//        final EditText enterPay = (EditText) dialogView.findViewById(R.id.etInfoDebtBorrowPaySumm);
+//        final EditText comment = (EditText) dialogView.findViewById(R.id.etInfoDebtBorrowPayComment);
+//        final Spinner accountSp = (Spinner) dialogView.findViewById(R.id.spInfoDebtBorrowAccount);
+//        accaunt_AC = null;
+//        if (currentCredit.getKey_for_include()) {
+//            accaunt_AC = (ArrayList<Account>) accountDao.queryBuilder().list();
+//            String[] accaounts = new String[accaunt_AC.size()];
+//            for (int i = 0; i < accaounts.length; i++) {
+//                accaounts[i] = accaunt_AC.get(i).getName();
+//            }
+//            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
+//                    context, R.layout.spiner_gravity_left, accaounts);
+//
+//            accountSp.setAdapter(arrayAdapter);
+//
+//        } else {
+//            dialogView.findViewById(R.id.is_calc).setVisibility(View.GONE);
+//        }
+//        final Calendar date;
+//        if (fromMainWindow)
+//            date = dataCache.getEndDate();
+//        else date = Calendar.getInstance();
+//
+//        enterDate.setText(dateFormat.format(date.getTime()));
+//        ImageView cancel = (ImageView) dialogView.findViewById(R.id.ivInfoDebtBorrowCancel);
+//        TextView save = (TextView) dialogView.findViewById(R.id.ivInfoDebtBorrowSave);
+//
+//        cancel.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                dialog.dismiss();
+//            }
+//        });
+//        final DatePickerDialog.OnDateSetListener getDatesetListener = new DatePickerDialog.OnDateSetListener() {
+//            public void onDateSet(DatePicker arg0, int arg1, int arg2, int arg3) {
+//                enterDate.setText(dateFormat.format((new GregorianCalendar(arg1, arg2, arg3)).getTime()));
+//                date.set(arg1, arg2, arg3);
+//            }
+//        };
+//        dialogView.findViewById(R.id.dateMainLay).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Calendar calendar = Calendar.getInstance();
+//                Dialog mDialog = new DatePickerDialog(context,
+//                        getDatesetListener, calendar.get(Calendar.YEAR),
+//                        calendar.get(Calendar.MONTH), calendar
+//                        .get(Calendar.DAY_OF_MONTH));
+//                mDialog.show();
+//            }
+//        });
+//        save.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                final String amount = enterPay.getText().toString();
+//                double total_paid = 0;
+//                for (ReckingCredit item : rcList)
+//                    total_paid += item.getAmount();
+//
+//                if (!amount.matches("")) {
+//                    if (currentCredit.getKey_for_include()) {
+//                        Account account = accaunt_AC.get(accountSp.getSelectedItemPosition());
+//                        if (account.getIsLimited()) {
+//                            //TODO editda tekwir ozini hisoblamaslini
+//                            double limit = account.getLimite();
+//                            double accounted = logicManager.isLimitAccess(account, date);
+//
+//                            accounted = accounted - commonOperations.getCost(date, currentCredit.getValyute_currency(), account.getCurrency(), Double.parseDouble(amount));
+//                            if (-limit > accounted) {
+//                                Toast.makeText(context, R.string.limit_exceed, Toast.LENGTH_SHORT).show();
+//                                return;
+//                            }
+//                        }
+//                    }
+//
+//
+//                    if (Double.parseDouble(amount) > currentCredit.getValue_of_credit_with_procent() - total_paid) {
+//                        warningDialog.setOnNoButtonClickListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View v) {
+//                                warningDialog.dismiss();
+//                            }
+//                        });
+//                        warningDialog.setOnYesButtonListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View v) {
+//                                ReckingCredit rec = null;
+//                                if (!amount.matches("") && currentCredit.getKey_for_include())
+//                                    rec = new ReckingCredit(date, Double.parseDouble(amount), accaunt_AC.get(accountSp.getSelectedItemPosition()).getId(),
+//                                            currentCredit.getMyCredit_id(), comment.getText().toString());
+//                                else
+//                                    rec = new ReckingCredit(date, Double.parseDouble(amount), "",
+//                                            currentCredit.getMyCredit_id(), comment.getText().toString());
+////                                        rcList.add(rec);
+////                                        currentCredit.getReckings().addAll(rcList);
+//                                logicManager.insertReckingCredit(rec);
+//                                dataCache.updateAllPercents();
+//                                paFragmentManager.updateAllFragmentsOnViewPager();
+////                                        paFragmentManager.getCurrentFragment().update();
+//                                currentCredit.resetReckings();
+//                                rcList = currentCredit.getReckings();
+//                                updateDate();
+//                                adapRecyc.setMyList(rcList);
+//                                if (!fromMainWindow && A1 != null)
+//                                    A1.change_item(currentCredit, currentPOS);
+//                                isCheks = new boolean[rcList.size()];
+//                                for (int i = 0; i < isCheks.length; i++) {
+//                                    isCheks[i] = false;
+//                                }
+//                                dialog.dismiss();
+//                                adapRecyc.notifyDataSetChanged();
+//                                warningDialog.dismiss();
+//                            }
+//                        });
+//                        warningDialog.setText(context.getString(R.string.payment_balans) + parseToWithoutNull(currentCredit.getValue_of_credit_with_procent() - total_paid) +
+//                                currentCredit.getValyute_currency().getAbbr() + "." + context.getString(R.string.payment_balance2) +
+//                                parseToWithoutNull(Double.parseDouble(amount) - (currentCredit.getValue_of_credit_with_procent() - total_paid)) +
+//                                currentCredit.getValyute_currency().getAbbr());
+//                        warningDialog.show();
+//                    } else {
+//                        ReckingCredit rec = null;
+//                        if (!amount.matches("") && currentCredit.getKey_for_include())
+//                            rec = new ReckingCredit(date, Double.parseDouble(amount), accaunt_AC.get(accountSp.getSelectedItemPosition()).getId(), currentCredit.getMyCredit_id(), comment.getText().toString());
+//                        else
+//                            rec = new ReckingCredit(date, Double.parseDouble(amount), "", currentCredit.getMyCredit_id(), comment.getText().toString());
+////                        currentCredit.getReckings().add(rec);
+////                        rcList.add(rec);
+//                        logicManager.insertReckingCredit(rec);
+//                        currentCredit.resetReckings();
+//                        rcList = currentCredit.getReckings();
+//                        adapRecyc.setMyList(rcList);
+//                        updateDate();
+//                        dataCache.updateAllPercents();
+//                        paFragmentManager.updateAllFragmentsOnViewPager();
+//                        isCheks = new boolean[rcList.size()];
+//                        for (int i = 0; i < isCheks.length; i++) {
+//                            isCheks[i] = false;
+//                        }
+//                        if (!fromMainWindow)
+//                            A1.change_item(currentCredit, currentPOS);
+//                        else if (fromSearch) {
+//
+//                        }
+//                        adapRecyc.notifyDataSetChanged();
+//                        dialog.dismiss();
+//                    }
+//                }
+//
+//            }
+//        });
+//        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+//        int width = displayMetrics.widthPixels;
+//        dialog.getWindow().setLayout(7 * width / 8, RelativeLayout.LayoutParams.WRAP_CONTENT);
+//        dialog.show();
+    }
+
+    public void openFragment(Fragment fragment) {
+        if (fragment != null) {
+            final android.support.v4.app.FragmentTransaction ft = ((PocketAccounter) context)
+                    .getSupportFragmentManager().beginTransaction()
+                    .setTransition(android.support.v4.app.FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+//            ft.add(R.id.flMain);
+            ft.commit();
+        }
+    }
+
+    public void updateDate() {
+        double total_paid = 0;
+        for (ReckingCredit item : rcList)
+            total_paid += item.getAmount();
+        if (currentCredit.getValue_of_credit_with_procent() - total_paid <= 0) {
+            myLefAmount.setText(getString(R.string.repaid));
+            myPay.setText(getString(R.string.archive));
+            toArcive = true;
+        } else {
+            toArcive = false;
+            myLefAmount.setText(formater.format(currentCredit.getValue_of_credit_with_procent() - total_paid) + currentCredit.getValyute_currency().getAbbr());
+        }
+
+        HeaderData headerData;
+        creditsSchedules =new ArrayList<>();
+        if(currentCredit.getType_loan()==CommonOperations.ANUTETNIY){
+            headerData = ScheduleCreditFragment.calculetAnutetniy(currentCredit,creditsSchedules);
+        }
+        else {
+            headerData = ScheduleCreditFragment.calculetDeferinsial(currentCredit,creditsSchedules);
+        }
+        Date from = new Date();
+        CreditsSchedule currentPeriod = null;
+
+        boolean yestDolg=false;
+        boolean prosrecenniy=false;
+        CreditsSchedule unPaidPeriod = null;
+        for (CreditsSchedule creditsSchedule:creditsSchedules){
+            if(creditsSchedule.getDate().getTimeInMillis()>from.getTime()){
+                currentPeriod = creditsSchedule;
+                break;
+            }
+            else if(!((int)((creditsSchedule.getPaymentSum() - creditsSchedule.getPayed() )*100)==0||creditsSchedule.getPaymentSum() - creditsSchedule.getPayed()<=0)&&creditsSchedule.getDate().getTimeInMillis()<from.getTime()){
+                yestDolg = true;
+                unPaidPeriod = creditsSchedule;
+            }
+        }
+        if(currentPeriod == null)
+            prosrecenniy = true;
+        //exep
+        if(yestDolg){
+            tvPeriodPaymentTitle.setText(R.string.you_have_debt);
+            tvPeriodPayment.setText(sDateFormat.format(unPaidPeriod.getDate().getTime()));
+
+        } else {
+            if(!prosrecenniy)
+                if(formater.format(currentPeriod.getPaymentSum() - currentPeriod.getPayed()).equals("0")|| currentPeriod.getPaymentSum() - currentPeriod.getPayed()<= 0){
+                    tvPeriodPaymentTitle.setText(R.string.credit_stat);
+                    tvPeriodPayment.setText(R.string.complete);
+                    tvPeriodPayment.setTextColor(ContextCompat.getColor(context,R.color.credit_och_yashil));
+                }
+                else{
+                    tvPeriodPaymentTitle.setText(R.string.period_payment);
+                    tvPeriodPayment.setText(formater.format(currentPeriod.getPaymentSum() - currentPeriod.getPayed())+currentCredit.getValyute_currency().getAbbr());
+                    tvPeriodPayment.setTextColor(ContextCompat.getColor(context,R.color.credit_yellow));
+                }
+            else {
+                tvPeriodPaymentTitle.setText(R.string.credit_stat);
+                tvPeriodPayment.setText(R.string.complete);
+                tvPeriodPayment.setTextColor(ContextCompat.getColor(context,R.color.credit_och_yashil));
+            }
+        }
+        //exep
+        myTakedValue.setText(formater.format(currentCredit.getValue_of_credit()) + currentCredit.getValyute_currency().getAbbr());
+        myReturnValue.setText(formater.format(headerData.getTotalLoanWithInterest()) + currentCredit.getValyute_currency().getAbbr());
+        tvBalancePer.setText(formater.format(headerData.getTotalPayedAmount())+currentCredit.getValyute_currency().getAbbr());
+        Calendar to;
+        if(!prosrecenniy)
+            to = (Calendar) currentPeriod.getDate();
+        else to = (Calendar) Calendar.getInstance();
+        long period_tip = currentCredit.getPeriod_time_tip();
+        long period_voqt = currentCredit.getPeriod_time();
+        int voqt_soni = (int) (period_voqt / period_tip);
+        String interval ;
+        interval = voqt_soni + " ";
+        if (period_tip == forMoth) {
+            interval = interval + context.getString(R.string.mont);
+        } else {
+            interval = interval + context.getString(R.string.yearr);
+        }
+
+        intervalCreditInfo.setText(interval);
+
+
+        int t[] = getDateDifferenceInDDMMYYYY(from, to.getTime());
+        if (t[0] * t[1] * t[2] < 0 && (t[0] + t[1] + t[2]) != 0) {
+            tvEndPeriodDay.setText(R.string.ends);
+            tvEndPeriodDay.setTextColor(Color.parseColor("#832e1c"));
+        } else {
+            String left_date_string = "";
+            if (t[0] != 0) {
+                if (t[0] > 1) {
+                    left_date_string += Integer.toString(t[0]) + " " + context.getString(R.string.years);
+                } else {
+                    left_date_string += Integer.toString(t[0]) + " " + context.getString(R.string.year);
+                }
+            }
+            if (t[1] != 0) {
+                if (!left_date_string.matches("")) {
+                    left_date_string += " ";
+                }
+                if (t[1] > 1) {
+                    left_date_string += Integer.toString(t[1]) + " " + context.getString(R.string.moths);
+                } else {
+                    left_date_string += Integer.toString(t[1]) + " " + context.getString(R.string.moth);
+                }
+            }
+            if (t[2] != 0) {
+                if (!left_date_string.matches("")) {
+                    left_date_string += " ";
+                }
+                if (t[2] > 1) {
+                    left_date_string += Integer.toString(t[2]) + " " + context.getString(R.string.days);
+                } else {
+                    left_date_string += Integer.toString(t[2]) + " " + context.getString(R.string.day);
+                }
+            }
+            if(!prosrecenniy){
+                tvEndPeriodDayTitle.setText(R.string.period_ends);
+                tvEndPeriodDay.setText(left_date_string);
+
+            }
+            else  {
+                tvEndPeriodDayTitle.setText(R.string.credit_end_date);
+                tvEndPeriodDay.setText(sDateFormat.format(creditsSchedules.get(creditsSchedules.size()-1).getDate().getTime()));
+            }
+
+        }
+
+
+        myTotalPaid.setText(formater.format(total_paid) + currentCredit.getValyute_currency().getAbbr());
+        if (headerData.getTotalLoanWithInterest() - total_paid <= 0) {
+            myLefAmount.setText(getString(R.string.repaid));
+            toArcive = true;
+            myPay.setText(getString(R.string.archive));
+        } else
+            myLefAmount.setText(formater.format(currentCredit.getValue_of_credit_with_procent() - total_paid) + currentCredit.getValyute_currency().getAbbr());
+
+
+
+
+
+
+    }
+
+    public void delete_checked_items() {
+        boolean keyfor = false;
+        final int lenght = rcList.size() - 1;
+        for (boolean isChek : isCheks) {
+            if (isChek) {
+                keyfor = true;
+                break;
+            }
+        }
+        delete_flag = false;
+        if (keyfor) {
+            warningDialog.setOnYesButtonListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    for (int t = isCheks.length - 1; t >= 0; t--) {
+                        if (isCheks[t]) {
+                            logicManager.deleteReckingCredit(rcList.get(t));
+                            currentCredit.resetReckings();
+                            rcList = currentCredit.getReckings();
+                            adapRecyc.setMyList(rcList);
+                            adapRecyc.notifyItemRemoved(t);
+//                            if (!fromMainWindow)
+//                                A1.change_item(currentCredit, currentPOS);
+                        } else adapRecyc.notifyItemChanged(t);
+                    }
+                    isCheks = new boolean[rcList.size()];
+                    for (int i = 0; i < isCheks.length; i++) {
+                        isCheks[i] = false;
+                    }
+                    updateDate();
+                    dataCache.updateAllPercents();
+                    paFragmentManager.updateAllFragmentsOnViewPager();
+                    warningDialog.dismiss();
+                }
+            });
+            warningDialog.setOnNoButtonClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    warningDialog.dismiss();
+                }
+            });
+            warningDialog.setText(getString(R.string.accept_delete_reck));
+            warningDialog.show();
+        } else {
+            adapRecyc.notifyDataSetChanged();
+        }
+        cancel_button.setVisibility(View.GONE);
+//        myPay.setText(getString(R.string.pay));
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+
+    }
 
     private class PaysCreditAdapter extends RecyclerView.Adapter<ViewHolder> {
-        private ArrayList<ReckingCredit> list;
+        private List<ReckingCredit> list;
 
-        public PaysCreditAdapter(ArrayList<ReckingCredit> list) {
+        public PaysCreditAdapter(List<ReckingCredit> list) {
+            this.list = list;
+        }
+
+        public void setMyList(List<ReckingCredit> list) {
             this.list = list;
         }
 
@@ -389,29 +1199,42 @@ public class InfoCreditFragmentForArchive extends Fragment {
             return list.size();
         }
 
-        public void onBindViewHolder(final ViewHolder view, int position) {
-            ReckingCredit item=list.get(position);
-            view.infoDate.setText(getString(R.string.date_of_pay)+": "+dateFormat.format(item.getPayDate().getTime()));
-            view.infoSumm.setText(parseToWithoutNull(item.getAmount())+currentCredit.getValyute_currency().getAbbr());
-            if(currentCredit.getKey_for_include()){
+        public void onBindViewHolder(final ViewHolder view, final int position) {
+            ReckingCredit item = list.get(position);
+            view.infoDate.setText(dateFormat.format(item.getPayDate().getTime()));
+            view.infoSumm.setText(formater.format(item.getAmount()) + currentCredit.getValyute_currency().getAbbr());
+            if (currentCredit.getKey_for_include()) {
                 ArrayList<Account> accounts = (ArrayList<Account>) accountDao.queryBuilder().list();
                 String accs = accounts.get(0).getName();
                 for (int i = 0; i < accounts.size(); i++) {
-                    if(item.getAccountId().equals(accounts.get(i).getId())){
-                        accs=accounts.get(i).getName();
+                    if (item.getAccountId().equals(accounts.get(i).getId())) {
+                        accs = accounts.get(i).getName();
                     }
                 }
-                view.infoAccount.setText(getString(R.string.via)+": " + accs);
-            }
-            else {
+                view.infoAccount.setText(getString(R.string.via) + ": " + accs);
+            } else {
                 view.infoAccount.setVisibility(View.GONE);
             }
-            if(!item.getComment().matches(""))
-            view.comment.setText(getString(R.string.comment)+": " + item.getComment());
+            if (!item.getComment().matches(""))
+                view.comment.setText(getString(R.string.comment) + ": " + item.getComment());
             else
                 view.comment.setVisibility(View.GONE);
+            if (delete_flag) {
+                view.forDelete.setVisibility(View.VISIBLE);
+                view.forDelete.setChecked(isCheks[position]);
+                view.glav.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (view.forDelete.isChecked())
+                            view.forDelete.setChecked(false);
+                        else view.forDelete.setChecked(true);
+                        isCheks[position] = !isCheks[position];
+                    }
+                });
+            } else {
                 view.forDelete.setChecked(false);
                 view.forDelete.setVisibility(View.GONE);
+            }
         }
 
         public ViewHolder onCreateViewHolder(ViewGroup parent, int var2) {
@@ -427,6 +1250,7 @@ public class InfoCreditFragmentForArchive extends Fragment {
         public TextView comment;
         public CheckBox forDelete;
         public View glav;
+
         public ViewHolder(View view) {
             super(view);
             infoDate = (TextView) view.findViewById(R.id.date_of_trans);
@@ -434,7 +1258,7 @@ public class InfoCreditFragmentForArchive extends Fragment {
             comment = (TextView) view.findViewById(R.id.comment_trans);
             infoSumm = (TextView) view.findViewById(R.id.paid_value);
             forDelete = (CheckBox) view.findViewById(R.id.for_delete_check_box);
-            glav=view;
+            glav = view;
         }
     }
 }

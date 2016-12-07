@@ -67,32 +67,20 @@
                             android:textColor="@color/black_for_glavniy_text"
                             android:textSize="@dimen/eighteen_sp" />
                     </LinearLayout>
-                    <!--DELETE-->
-                        <TextView
-                            android:id="@+id/total_value"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignBottom="@+id/textView5"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentRight="true"
-                            android:layout_alignParentTop="true"
-                            android:gravity="bottom"
-                            android:visibility="gone"
-                            android:textColor="@color/green_light"
-                            android:textSize="@dimen/twelve_sp" />
+
 
 
                         <TextView
                             android:id="@+id/textView5"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="For this period:"
+                            android:text="@string/for_this_period"
                             android:textColor="@color/secondaryCred"
                             android:textSize="@dimen/sixteen_dp" />
 
 
                         <TextView
-                            android:id="@+id/textView6"
+                            android:id="@+id/tvForThisPeriod"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="@dimen/ten_dp"
@@ -100,158 +88,11 @@
                             android:textColor="@color/credit_yellow"
                             android:textSize="@dimen/sixteen_dp" />
 
-                    <!--DELETE-->
-                        <TextView
-                            android:id="@+id/totalpayd"
-                            android:layout_width="wrap_content"
-                            android:visibility="gone"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentRight="true"
-                            android:layout_alignParentTop="true"
-                            android:gravity="bottom"
-                            android:textColor="@color/green_light"
-                            android:textSize="@dimen/twelve_sp" />
+
 
                 </LinearLayout>
             </LinearLayout>
-            <!--DELETE-->
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/eight_dp"
-                android:visibility="gone"
-                android:layout_marginTop="@dimen/four_dp">
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="2px"
-                    android:layout_centerVertical="true"
-                    android:background="@color/green_light_forline" />
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/four_dp"
-                    android:layout_alignParentBottom="true"
-                    android:background="@color/grey_light2" />
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="1dp"
-                    android:layout_marginLeft="@dimen/sixteen_dp"
-                    android:layout_marginRight="@dimen/sixteen_dp"
-                    android:layout_marginTop="1dp"
-                    android:background="@drawable/progres_frame"
-                    android:padding="2px"
-                    android:weightSum="100">
-                    <FrameLayout
-                        android:id="@+id/zapolnit"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="35"
-                        android:background="@drawable/progres" />
-                </LinearLayout>
-            </RelativeLayout>
-            <!--DELETE-->
-            <RelativeLayout
-                android:visibility="gone"
 
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="@dimen/ten_dp"
-                android:paddingLeft="@dimen/sixteen_dp"
-                android:paddingRight="@dimen/sixteen_dp"
-                android:paddingTop="@dimen/six_dp">
-                <RelativeLayout
-                    android:id="@+id/relativeLayout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-                    <RelativeLayout
-                        android:id="@+id/rela2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/realrt1"
-                        android:layout_marginTop="@dimen/two_dp">
-                        <TextView
-                            android:id="@+id/dateay"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentLeft="true"
-                            android:layout_alignParentStart="true"
-                            android:layout_alignParentTop="true"
-                            android:text="@string/taken_date"
-                            android:textColor="@color/for_darker"
-                            android:textSize="@dimen/twelve_sp" />
-                        <TextView
-                            android:id="@+id/date_start"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentRight="true"
-                            android:layout_alignParentTop="true"
-                            android:gravity="bottom"
-                            android:textColor="@color/black_for_glavniy_text"
-                            android:textSize="@dimen/twelve_sp" />
-                    </RelativeLayout>
-
-
-                    <RelativeLayout
-                        android:id="@+id/realrt1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/three_dp">
-                        <TextView
-                            android:id="@+id/left_date"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignBottom="@+id/textView2"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentRight="true"
-                            android:layout_alignParentTop="true"
-                            android:gravity="bottom"
-                            android:textColor="@color/black_for_glavniy_text"
-                            android:textSize="@dimen/twelve_sp" />
-                        <TextView
-                            android:id="@+id/textView2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentLeft="true"
-                            android:layout_alignParentStart="true"
-                            android:layout_alignParentTop="true"
-                            android:layout_toLeftOf="@+id/left_date"
-                            android:layout_toStartOf="@+id/left_date"
-                            android:text="@string/left2"
-                            android:textColor="@color/for_darker"
-                            android:textSize="@dimen/twelve_sp" />
-                    </RelativeLayout>
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/rela2"
-                        android:layout_marginTop="@dimen/three_dp">
-                        <TextView
-                            android:id="@+id/overallpay"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignBottom="@+id/textView3"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentRight="true"
-                            android:layout_alignParentTop="true"
-                            android:gravity="bottom"
-                            android:textColor="@color/red"
-                            android:textSize="@dimen/twelve_sp" />
-                        <TextView
-                            android:id="@+id/textView3"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentLeft="true"
-                            android:layout_alignParentStart="true"
-                            android:layout_alignParentTop="true"
-                            android:layout_toLeftOf="@+id/overallpay"
-                            android:layout_toStartOf="@+id/overallpay"
-                            android:text="@string/verall_debt"
-                            android:textColor="@color/for_darker"
-                            android:textSize="@dimen/twelve_sp" />
-                    </RelativeLayout>
-                </RelativeLayout>
-            </RelativeLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:orientation="vertical"
@@ -264,6 +105,7 @@
                     android:background="#eaeaea"
                     />
                <LinearLayout
+                   android:id="@+id/wlyuzOpenOpener"
                    android:layout_width="match_parent"
                    android:layout_height="wrap_content"
                    android:background="@color/credit_white_grey"
@@ -273,10 +115,12 @@
                        android:layout_weight="1"
                        android:layout_height="wrap_content"
                        android:paddingLeft="@dimen/sixteen_dp"
+                       android:textSize="@dimen/sixteen_dp"
                        android:text="Credit Detials"
                        android:paddingTop="@dimen/sevent_dp"
                        android:paddingBottom="@dimen/sevent_dp"/>
                    <ImageView
+                       android:id="@+id/openCloseIcon"
                        android:layout_width="@dimen/twelve_sp"
                        android:layout_height="match_parent"
                        android:layout_marginRight="@dimen/sixteen_dp"
@@ -289,7 +133,226 @@
                     android:layout_height="2px"
                     android:background="#eaeaea"
                     />
+                <LinearLayout
+                    android:id="@+id/wlyuzOpen"
+                    android:layout_width="match_parent"
+                    android:visibility="gone"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:id="@+id/infoOpen"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:paddingLeft="@dimen/sixteen_dp"
+                            android:paddingTop="@dimen/five_dp"
+                            android:paddingBottom="@dimen/five_dp"
+                            android:paddingRight="@dimen/sixteen_dp"
+                            >
+
+                            <TextView
+                                android:id="@+id/textView24"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="@string/procent_of_credit"
+                                android:textColor="#838383"
+                                android:textSize="@dimen/sixteen_dp" />
+
+                            <TextView
+                                android:id="@+id/procentCredInfo"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="right"
+                                android:text="15%"
+                                android:textColor="#414141"
+                                android:textSize="@dimen/sixteen_dp" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="#fbfbfb"
+                            android:paddingLeft="@dimen/sixteen_dp"
+                            android:paddingTop="@dimen/five_dp"
+                            android:paddingBottom="@dimen/five_dp"
+                            android:paddingRight="@dimen/sixteen_dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="@string/total_credit_value"
+                                android:textColor="#838383"
+                                android:textSize="@dimen/sixteen_dp" />
+
+                            <TextView
+                                android:id="@+id/takedValueInfo"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="right"
+                                android:text="5000$"
+                                android:textColor="#414141"
+                                android:textSize="@dimen/sixteen_dp" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:paddingTop="@dimen/five_dp"
+                            android:paddingBottom="@dimen/five_dp"
+                            android:paddingLeft="@dimen/sixteen_dp"
+                            android:paddingRight="@dimen/sixteen_dp">
+
+                            <TextView
+                                android:id="@+id/textView25"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="@string/with_interest"
+                                android:textColor="#838383"
+                                android:textSize="@dimen/sixteen_dp" />
+
+                            <TextView
+                                android:id="@+id/totalReturnValueInfo"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="right"
+                                android:text="6200$"
+                                android:textColor="#414141"
+                                android:textSize="@dimen/sixteen_dp" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="#fbfbfb"
+                            android:orientation="horizontal"
+                            android:paddingLeft="@dimen/sixteen_dp"
+                            android:paddingTop="@dimen/five_dp"
+                            android:paddingBottom="@dimen/five_dp"
+                            android:paddingRight="@dimen/sixteen_dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="@string/total_payed"
+                                android:textColor="#838383"
+                                android:textSize="@dimen/sixteen_dp" />
+
+                            <TextView
+                                android:id="@+id/tvBalanceCredit"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="right"
+                                android:text="3200$"
+                                android:textColor="#414141"
+                                android:textSize="@dimen/sixteen_dp" />
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:paddingTop="@dimen/five_dp"
+                            android:paddingBottom="@dimen/five_dp"
+                            android:paddingLeft="@dimen/sixteen_dp"
+                            android:paddingRight="@dimen/sixteen_dp">
+                            <TextView
+                                android:id="@+id/tvPeriodEndLeftTitle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="@string/period_ends"
+                                android:textColor="#838383"
+                                android:textSize="@dimen/sixteen_dp" />
+
+                            <TextView
+                                android:id="@+id/tvPeriodEndLeft"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="right"
+                                android:text="15 days"
+                                android:textColor="#414141"
+                                android:textSize="@dimen/sixteen_dp" />
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="#fbfbfb"
+                            android:orientation="horizontal"
+                            android:paddingLeft="@dimen/sixteen_dp"
+                            android:paddingTop="@dimen/five_dp"
+                            android:paddingBottom="@dimen/five_dp"
+                            android:paddingRight="@dimen/sixteen_dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="@string/period_of_credit2"
+                                android:textColor="#838383"
+                                android:textSize="@dimen/sixteen_dp" />
+
+                            <TextView
+                                android:id="@+id/intervalCreditInfo"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="right"
+                                android:text="2 years"
+                                android:textColor="#414141"
+                                android:textSize="@dimen/sixteen_dp" />
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:paddingTop="@dimen/five_dp"
+                            android:paddingBottom="@dimen/five_dp"
+                            android:paddingLeft="@dimen/sixteen_dp"
+                            android:paddingRight="@dimen/sixteen_dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="@string/taked_date"
+                                android:textColor="#838383"
+                                android:textSize="@dimen/sixteen_dp" />
+
+                            <TextView
+                                android:id="@+id/date_start"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="right"
+                                android:text="15 Nov, 2016"
+                                android:textColor="#414141"
+                                android:textSize="@dimen/sixteen_dp" />
+                        </LinearLayout>
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="2px"
+                            android:background="#eaeaea"
+                            />
+                    </LinearLayout>
+                </LinearLayout>
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -297,6 +360,7 @@
                 android:layout_marginBottom="@dimen/sixteen_dp"
                 android:orientation="horizontal">
                 <LinearLayout
+                    android:id="@+id/llSchedule"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_marginLeft="@dimen/sixteen_dp"
@@ -310,9 +374,10 @@
                         android:layout_marginRight="@dimen/ten_dp"
                         android:tint="#c8c8c8"/>
                     <TextView
+                        android:id="@+id/periodEnds"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Period end after: \n15days"
+                        android:text="@string/period_end_after"
                         android:textSize="@dimen/twelve_dp"/>
                 </LinearLayout>
                 <FrameLayout
@@ -320,6 +385,7 @@
                     android:layout_height="match_parent"
                     android:background="@color/credit_liniya"/>
                 <LinearLayout
+                    android:id="@+id/pay"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_marginRight="@dimen/sixteen_dp"
@@ -333,6 +399,7 @@
                         android:layout_marginRight="@dimen/ten_dp"
                         />
                     <TextView
+                        android:id="@+id/tvPayAbout"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="Payment for \nloan"
@@ -340,29 +407,7 @@
 
                 </LinearLayout>
             </LinearLayout>
-            <!--DELETE-->
-            <RelativeLayout
-                android:id="@+id/frameLayout"
-                android:layout_width="match_parent"
-                android:visibility="gone"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/relativeLayout"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
-                android:paddingLeft="@dimen/sixteen_dp"
-                android:paddingRight="@dimen/sixteen_dp">
-                <TextView
-                    android:id="@+id/pay"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/sixteen_dp"
-                    android:background="@drawable/knopka_zeleniy"
-                    android:gravity="center"
-                    android:text="@string/pay_upper"
-                    android:textColor="@color/green_light"
-                    android:textSize="@dimen/twelve_sp" />
-            </RelativeLayout>
+
         </LinearLayout>
     </RelativeLayout>
 </LinearLayout>

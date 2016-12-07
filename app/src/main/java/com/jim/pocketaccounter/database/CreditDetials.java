@@ -25,6 +25,13 @@ import com.jim.pocketaccounter.database.DaoSession;
 @Entity(nameInDb = "CREDIT_DETAILS", active = true)
 public class CreditDetials {
     @Property
+    private double monthly_fee;
+    @Property
+    private int type_loan;
+    @Property
+    private int monthly_fee_type;
+
+    @Property
     private String credit_name;
     @Property
     private String icon_ID;
@@ -71,6 +78,7 @@ public class CreditDetials {
 
 
 
+
     @Keep
     public CreditDetials(String icon_ID, String credit_name, Calendar take_time,
                          double procent, long procent_interval, long period_time,long period_time_tip,boolean key_for_include,
@@ -95,110 +103,47 @@ public class CreditDetials {
 
 
 
-    /**
-     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
-     * Entity must attached to an entity context.
-     */
-    @Generated(hash = 1942392019)
-    public void refresh() {
-        if (myDao == null) {
-            throw new DaoException("Entity is detached from DAO context");
-        }
-        myDao.refresh(this);
+
+
+
+
+    @Generated(hash = 846024393)
+    public CreditDetials(double monthly_fee, int type_loan, int monthly_fee_type, String credit_name, String icon_ID,
+            Calendar take_time, double procent, double procent_interval, long period_time, long period_time_tip, long myCredit_id,
+            double value_of_credit, double value_of_credit_with_procent, String currencyId, boolean key_for_include,
+            boolean key_for_archive, String info) {
+        this.monthly_fee = monthly_fee;
+        this.type_loan = type_loan;
+        this.monthly_fee_type = monthly_fee_type;
+        this.credit_name = credit_name;
+        this.icon_ID = icon_ID;
+        this.take_time = take_time;
+        this.procent = procent;
+        this.procent_interval = procent_interval;
+        this.period_time = period_time;
+        this.period_time_tip = period_time_tip;
+        this.myCredit_id = myCredit_id;
+        this.value_of_credit = value_of_credit;
+        this.value_of_credit_with_procent = value_of_credit_with_procent;
+        this.currencyId = currencyId;
+        this.key_for_include = key_for_include;
+        this.key_for_archive = key_for_archive;
+        this.info = info;
     }
 
 
 
-    /**
-     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#update(Object)}.
-     * Entity must attached to an entity context.
-     */
-    @Generated(hash = 713229351)
-    public void update() {
-        if (myDao == null) {
-            throw new DaoException("Entity is detached from DAO context");
-        }
-        myDao.update(this);
+
+
+
+
+    @Generated(hash = 189858148)
+    public CreditDetials() {
     }
 
 
 
-    /**
-     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}.
-     * Entity must attached to an entity context.
-     */
-    @Generated(hash = 128553479)
-    public void delete() {
-        if (myDao == null) {
-            throw new DaoException("Entity is detached from DAO context");
-        }
-        myDao.delete(this);
-    }
 
-
-
-    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
-    @Generated(hash = 1034520580)
-    public synchronized void resetReckings() {
-        reckings = null;
-    }
-
-
-
-    /**
-     * To-many relationship, resolved on first access (and after reset).
-     * Changes to to-many relations are not persisted, make changes to the target entity.
-     */
-    @Generated(hash = 759362264)
-    public List<ReckingCredit> getReckings() {
-        if (reckings == null) {
-            final DaoSession daoSession = this.daoSession;
-            if (daoSession == null) {
-                throw new DaoException("Entity is detached from DAO context");
-            }
-            ReckingCreditDao targetDao = daoSession.getReckingCreditDao();
-            List<ReckingCredit> reckingsNew = targetDao._queryCreditDetials_Reckings(myCredit_id);
-            synchronized (this) {
-                if(reckings == null) {
-                    reckings = reckingsNew;
-                }
-            }
-        }
-        return reckings;
-    }
-
-
-
-    /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 1639843815)
-    public void setValyute_currency(Currency valyute_currency) {
-        synchronized (this) {
-            this.valyute_currency = valyute_currency;
-            currencyId = valyute_currency == null ? null : valyute_currency.getId();
-            valyute_currency__resolvedKey = currencyId;
-        }
-    }
-
-
-
-    /** To-one relationship, resolved on first access. */
-    @Generated(hash = 1945576944)
-    public Currency getValyute_currency() {
-        String __key = this.currencyId;
-        if (valyute_currency__resolvedKey == null || valyute_currency__resolvedKey != __key) {
-            final DaoSession daoSession = this.daoSession;
-            if (daoSession == null) {
-                throw new DaoException("Entity is detached from DAO context");
-            }
-            CurrencyDao targetDao = daoSession.getCurrencyDao();
-            Currency valyute_currencyNew = targetDao.load(__key);
-            synchronized (this) {
-                valyute_currency = valyute_currencyNew;
-                valyute_currency__resolvedKey = __key;
-            }
-        }
-        return valyute_currency;
-    }
 
 
 
@@ -370,6 +315,187 @@ public class CreditDetials {
 
 
 
+
+
+
+
+
+
+
+
+
+    public int getType_loan() {
+        return this.type_loan;
+    }
+
+
+
+
+
+
+    public void setType_loan(int type_loan) {
+        this.type_loan = type_loan;
+    }
+
+
+
+
+
+
+    public double getMonthly_fee() {
+        return this.monthly_fee;
+    }
+
+
+
+
+
+
+    public void setMonthly_fee(double monthly_fee) {
+        this.monthly_fee = monthly_fee;
+    }
+
+
+
+
+
+
+
+    /**
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
+     * Entity must attached to an entity context.
+     */
+    @Generated(hash = 1942392019)
+    public void refresh() {
+        if (myDao == null) {
+            throw new DaoException("Entity is detached from DAO context");
+        }
+        myDao.refresh(this);
+    }
+
+
+
+
+
+
+
+    /**
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#update(Object)}.
+     * Entity must attached to an entity context.
+     */
+    @Generated(hash = 713229351)
+    public void update() {
+        if (myDao == null) {
+            throw new DaoException("Entity is detached from DAO context");
+        }
+        myDao.update(this);
+    }
+
+
+
+
+
+
+
+    /**
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}.
+     * Entity must attached to an entity context.
+     */
+    @Generated(hash = 128553479)
+    public void delete() {
+        if (myDao == null) {
+            throw new DaoException("Entity is detached from DAO context");
+        }
+        myDao.delete(this);
+    }
+
+
+
+
+
+
+
+    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
+    @Generated(hash = 1034520580)
+    public synchronized void resetReckings() {
+        reckings = null;
+    }
+
+
+
+
+
+
+
+    /**
+     * To-many relationship, resolved on first access (and after reset).
+     * Changes to to-many relations are not persisted, make changes to the target entity.
+     */
+    @Generated(hash = 759362264)
+    public List<ReckingCredit> getReckings() {
+        if (reckings == null) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            ReckingCreditDao targetDao = daoSession.getReckingCreditDao();
+            List<ReckingCredit> reckingsNew = targetDao._queryCreditDetials_Reckings(myCredit_id);
+            synchronized (this) {
+                if(reckings == null) {
+                    reckings = reckingsNew;
+                }
+            }
+        }
+        return reckings;
+    }
+
+
+
+
+
+
+
+    /** called by internal mechanisms, do not call yourself. */
+    @Generated(hash = 1639843815)
+    public void setValyute_currency(Currency valyute_currency) {
+        synchronized (this) {
+            this.valyute_currency = valyute_currency;
+            currencyId = valyute_currency == null ? null : valyute_currency.getId();
+            valyute_currency__resolvedKey = currencyId;
+        }
+    }
+
+
+
+
+
+
+
+    /** To-one relationship, resolved on first access. */
+    @Generated(hash = 1945576944)
+    public Currency getValyute_currency() {
+        String __key = this.currencyId;
+        if (valyute_currency__resolvedKey == null || valyute_currency__resolvedKey != __key) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            CurrencyDao targetDao = daoSession.getCurrencyDao();
+            Currency valyute_currencyNew = targetDao.load(__key);
+            synchronized (this) {
+                valyute_currency = valyute_currencyNew;
+                valyute_currency__resolvedKey = __key;
+            }
+        }
+        return valyute_currency;
+    }
+
+
+
+
+
+
+
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 745291544)
     public void __setDaoSession(DaoSession daoSession) {
@@ -379,31 +505,27 @@ public class CreditDetials {
 
 
 
-    @Generated(hash = 1838735098)
-    public CreditDetials(String credit_name, String icon_ID, Calendar take_time, double procent, double procent_interval,
-            long period_time, long period_time_tip, long myCredit_id, double value_of_credit, double value_of_credit_with_procent,
-            String currencyId, boolean key_for_include, boolean key_for_archive, String info) {
-        this.credit_name = credit_name;
-        this.icon_ID = icon_ID;
-        this.take_time = take_time;
-        this.procent = procent;
-        this.procent_interval = procent_interval;
-        this.period_time = period_time;
-        this.period_time_tip = period_time_tip;
-        this.myCredit_id = myCredit_id;
-        this.value_of_credit = value_of_credit;
-        this.value_of_credit_with_procent = value_of_credit_with_procent;
-        this.currencyId = currencyId;
-        this.key_for_include = key_for_include;
-        this.key_for_archive = key_for_archive;
-        this.info = info;
+
+
+
+
+    public int getMonthly_fee_type() {
+        return this.monthly_fee_type;
     }
 
 
 
-    @Generated(hash = 189858148)
-    public CreditDetials() {
+
+
+
+
+    public void setMonthly_fee_type(int monthly_fee_type) {
+        this.monthly_fee_type = monthly_fee_type;
     }
+
+
+
+   
 
 
    

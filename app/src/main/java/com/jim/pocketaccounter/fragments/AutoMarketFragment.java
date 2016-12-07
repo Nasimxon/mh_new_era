@@ -197,17 +197,19 @@ public class AutoMarketFragment extends Fragment implements View.OnClickListener
                 public void onClick(View v) {
                     // todo marked days introduction
                     recordAdapter = null;
-                    if (view.recyclerView.getVisibility() == View.GONE || daysAdapter == null) {
+                    if (view.recyclerViewWeeks.getVisibility() == View.GONE || daysAdapter == null) {
+                        view.linlayOpertaionList.setVisibility(View.GONE);
+                        view.recyclerViewWeeks.setVisibility(View.VISIBLE);
                         view.ivCalendar.setColorFilter(Color.BLACK);
                         view.tvOperation.setTextColor(Color.BLACK);
                         view.ivClock.setColorFilter(Color.parseColor("#c8c8c8"));
                         view.nextDay.setTextColor(Color.parseColor("#c8c8c8"));
                         daysAdapter = new DaysAdapter(list.get(position));
-                        view.recyclerView.setVisibility(View.VISIBLE);
+                        view.recyclerViewWeeks.setVisibility(View.VISIBLE);
                         view.llAutoMarketItemSwitchMode.setVisibility(View.VISIBLE);
                         view.llAutoMarketItemDefaultMode.setVisibility(View.GONE);
                         view.deleteOperationItem.setVisibility(View.GONE);
-                        view.rvTitle.setText("switch days");
+                        view.rvTitle.setText("Switch days");
                         RecyclerView.LayoutManager layoutManager;
                         if (list.get(position).getType()) {
                             // todo It's numbers
@@ -216,8 +218,8 @@ public class AutoMarketFragment extends Fragment implements View.OnClickListener
                             // todo It's weeks
                             layoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL);
                         }
-                        view.recyclerView.setLayoutManager(layoutManager);
-                        view.recyclerView.setAdapter(daysAdapter);
+                        view.recyclerViewWeeks.setLayoutManager(layoutManager);
+                        view.recyclerViewWeeks.setAdapter(daysAdapter);
                     } else {
                         if (daysAdapter.posDays().isEmpty()) {
                             Toast.makeText(getContext(), "Select days", Toast.LENGTH_SHORT).show();
@@ -229,7 +231,7 @@ public class AutoMarketFragment extends Fragment implements View.OnClickListener
                             daoSession.getAutoMarketDao().insertOrReplace(list.get(position));
                             autoAdapter.notifyDataSetChanged();
                             daysAdapter = null;
-                            view.recyclerView.setVisibility(View.GONE);
+                            view.recyclerViewWeeks.setVisibility(View.GONE);
                             view.llAutoMarketItemDefaultMode.setVisibility(View.VISIBLE);
                             view.llAutoMarketItemSwitchMode.setVisibility(View.GONE);
                         }
@@ -252,11 +254,13 @@ public class AutoMarketFragment extends Fragment implements View.OnClickListener
                     }
                     daysAdapter = null;
                     if (view.llAutoMarketItemDefaultMode.getVisibility() == View.VISIBLE || recordAdapter == null) {
+                        view.linlayOpertaionList.setVisibility(View.VISIBLE);
+                        view.recyclerViewWeeks.setVisibility(View.GONE);
                         view.ivClock.setColorFilter(Color.BLACK);
                         view.nextDay.setTextColor(Color.BLACK);
                         view.ivCalendar.setColorFilter(Color.parseColor("#c8c8c8"));
                         view.tvOperation.setTextColor(Color.parseColor("#c8c8c8"));
-                        view.rvTitle.setText("operation lists");
+                        view.rvTitle.setText("Operation lists");
                         view.recyclerView.setVisibility(View.VISIBLE);
                         view.llAutoMarketItemSwitchMode.setVisibility(View.VISIBLE);
                         view.llAutoMarketItemDefaultMode.setVisibility(View.GONE);
@@ -357,6 +361,7 @@ public class AutoMarketFragment extends Fragment implements View.OnClickListener
         public LinearLayout llAutoMarketItemDefaultMode;
         public LinearLayout llAutoMarketItemSwitchMode;
         public RecyclerView recyclerView;
+        public RecyclerView recyclerViewWeeks;
         public ImageView catIcon;
         public ImageView editDelete;
         public ImageView ivCalendar;
@@ -369,7 +374,7 @@ public class AutoMarketFragment extends Fragment implements View.OnClickListener
         public TextView nextDay;
         public TextView rvTitle;
         public TextView tvOperation;
-
+        public LinearLayout linlayOpertaionList;
         public ViewHolder(View view) {
             super(view);
             catIcon = (ImageView) view.findViewById(R.id.ivItemAutoMarketCategoryIcon);
@@ -383,12 +388,14 @@ public class AutoMarketFragment extends Fragment implements View.OnClickListener
             llAutoMarketItemDays = (LinearLayout) view.findViewById(R.id.llAutoMarketOperationDays);
             llAutoMarketItemNextDays = (LinearLayout) view.findViewById(R.id.llAutoMarketNextOperationDay);
             recyclerView = (RecyclerView) view.findViewById(R.id.rvAutoMarketItemDays);
+            recyclerViewWeeks = (RecyclerView) view.findViewById(R.id.rvAutoMarketItemWeeks);
             llAutoMarketItemDefaultMode = (LinearLayout) view.findViewById(R.id.llAutoMarketItemDefaultMode);
             rvTitle = (TextView) view.findViewById(R.id.tvItemAutoMarketRvTitle);
             tvOperation = (TextView) view.findViewById(R.id.tvOperation);
             llAutoMarketItemSwitchMode = (LinearLayout) view.findViewById(R.id.llAutoMarketItemSwitchMode);
             editDelete = (ImageView) view.findViewById(R.id.ivAutoMarketItemDelete);
             deleteOperationItem = (ImageView) view.findViewById(R.id.ivItemAutoMarketOperationDelete);
+            linlayOpertaionList = (LinearLayout) view.findViewById(R.id.linlayItemAutoMarketOperationList);
         }
     }
 

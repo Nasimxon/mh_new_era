@@ -42,7 +42,7 @@
                 android:layout_toLeftOf="@+id/imageView8"
                 android:layout_toStartOf="@+id/imageView8"
                 android:text="+ 300$"
-                android:textColor="@color/green_light"
+                android:textColor="@color/credit_och_yashil"
                 android:textSize="@dimen/sixteen_dp" />
         </RelativeLayout>
         <FrameLayout
@@ -81,7 +81,7 @@
                 android:paddingTop="@dimen/eight_dp"
                 android:id="@+id/tvAddSmsParseItemIncome"
                 android:text="@string/it_is_income"
-                android:textColor="@color/green_light"
+                android:textColor="@color/credit_och_yashil"
                 android:textSize="@dimen/fourteen_dp" />
             <TextView
                 android:layout_width="0dp"
@@ -95,7 +95,7 @@
                 android:paddingTop="@dimen/eight_dp"
                 android:text="@string/it_is_expense"
                 android:id="@+id/tvAddSmsParseItemExpance"
-                android:textColor="@color/red_green_darker_monoxrom_red"
+                android:textColor="#c05656"
                 android:textSize="@dimen/fourteen_dp" />
         </LinearLayout>
     </LinearLayout>

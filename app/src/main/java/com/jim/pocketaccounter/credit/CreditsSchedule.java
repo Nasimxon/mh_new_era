@@ -1,4 +1,4 @@
-package com.jim.pocketaccounter.database;
+package com.jim.pocketaccounter.credit;
 
 import com.jim.pocketaccounter.database.convertors.CalendarConvertor;
 
@@ -12,29 +12,43 @@ import org.greenrobot.greendao.annotation.Generated;
 /**
  * Created by root on 11/25/16.
  */
-@Entity
 public class CreditsSchedule {
-    @Property
     private String id;
-    @Property
     private String parId;
-    @Convert(converter = CalendarConvertor.class, columnType = String.class)
     private Calendar date;
-    @Property
     private double paymentSum;
-    @Property
-    private double mainDebt;
-    @Property
-    private double procentAmount;
-    @Property
+    private double interest;
+    private double principal;
     private double monthlyCom;
-    @Property
-    private double leftResidue;
+    private double balance;
+    private double payed;
+    public CreditsSchedule(){}
+    public CreditsSchedule(String id, String parId, Calendar date,
+            double paymentSum, double interest, double principal,
+            double monthlyCom, double balance) {
+        this.id = id;
+        this.parId = parId;
+        this.date = date;
+        this.paymentSum = paymentSum;
+        this.interest = interest;
+        this.principal = principal;
+        this.monthlyCom = monthlyCom;
+        this.balance = balance;
+    }
+
+    public double getPayed() {
+        return payed;
+    }
+
+    public void setPayed(double payed) {
+        this.payed = payed;
+    }
+
     public double getLeftResidue() {
-        return this.leftResidue;
+        return this.balance;
     }
     public void setLeftResidue(double leftResidue) {
-        this.leftResidue = leftResidue;
+        this.balance = leftResidue;
     }
     public double getMonthlyCom() {
         return this.monthlyCom;
@@ -43,16 +57,16 @@ public class CreditsSchedule {
         this.monthlyCom = monthlyCom;
     }
     public double getProcentAmount() {
-        return this.procentAmount;
+        return this.principal;
     }
     public void setProcentAmount(double procentAmount) {
-        this.procentAmount = procentAmount;
+        this.principal = procentAmount;
     }
     public double getMainDebt() {
-        return this.mainDebt;
+        return this.interest;
     }
     public void setMainDebt(double mainDebt) {
-        this.mainDebt = mainDebt;
+        this.interest = mainDebt;
     }
     public double getPaymentSum() {
         return this.paymentSum;
@@ -78,20 +92,23 @@ public class CreditsSchedule {
     public void setId(String id) {
         this.id = id;
     }
-    @Generated(hash = 950199802)
-    public CreditsSchedule(String id, String parId, Calendar date,
-            double paymentSum, double mainDebt, double procentAmount,
-            double monthlyCom, double leftResidue) {
-        this.id = id;
-        this.parId = parId;
-        this.date = date;
-        this.paymentSum = paymentSum;
-        this.mainDebt = mainDebt;
-        this.procentAmount = procentAmount;
-        this.monthlyCom = monthlyCom;
-        this.leftResidue = leftResidue;
+    public double getBalance() {
+        return this.balance;
     }
-    @Generated(hash = 886918860)
-    public CreditsSchedule() {
+    public void setBalance(double balance) {
+        this.balance = balance;
     }
+    public double getPrincipal() {
+        return this.principal;
+    }
+    public void setPrincipal(double principal) {
+        this.principal = principal;
+    }
+    public double getInterest() {
+        return this.interest;
+    }
+    public void setInterest(double interest) {
+        this.interest = interest;
+    }
+    
 }

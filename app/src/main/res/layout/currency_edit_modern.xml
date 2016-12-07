@@ -172,10 +172,10 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/ten_dp"
+                android:layout_marginLeft="@dimen/twelve_dp"
                 android:layout_marginBottom="@dimen/five_dp"
                 android:orientation="horizontal"
-                android:layout_marginRight="@dimen/ten_dp">
+                android:layout_marginRight="@dimen/twelve_dp">
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -201,6 +201,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="2px"
                 android:layout_marginBottom="@dimen/five_dp"
+                android:layout_marginLeft="@dimen/ten_dp"
+                android:layout_marginRight="@dimen/ten_dp"
                 android:background="@color/green_light_forline"/>
 
 
@@ -208,8 +210,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/lvCurrencyEditExchange"
-                android:layout_marginLeft="@dimen/ten_dp"
-                android:layout_marginRight="@dimen/ten_dp"
+                android:layout_marginLeft="@dimen/twelve_dp"
+                android:layout_marginRight="@dimen/twelve_dp"
                 android:paddingTop="@dimen/five_dp"
                 android:clipToPadding="false"
                 android:overScrollMode="never"

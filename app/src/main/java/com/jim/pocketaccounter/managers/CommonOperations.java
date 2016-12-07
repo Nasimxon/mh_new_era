@@ -2080,4 +2080,6 @@ public class CommonOperations {
             currencyVoices.add(templateCurrencyVoice);
         }
     }
+    public static final int ANUTETNIY = 1 ;
+    public static final int DEFERINSIAL = 0;
 }

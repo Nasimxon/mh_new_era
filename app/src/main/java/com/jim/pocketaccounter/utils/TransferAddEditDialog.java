@@ -52,6 +52,8 @@ public class TransferAddEditDialog extends Dialog {
         dialogView = getLayoutInflater().inflate(R.layout.transfer_add_edit_dialog, null);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(dialogView);
+        View v = getWindow().getDecorView();
+        v.setBackgroundResource(android.R.color.transparent);
         ivClose = (ImageView) dialogView.findViewById(R.id.ivClose);
         ivClose.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,7 +79,7 @@ public class TransferAddEditDialog extends Dialog {
         } else return null;
     }
 
-    private class TransferAddEditDialogAdapter extends RecyclerView.Adapter<TransferAddEditDialog.ViewHolder> {
+    private class TransferAddEditDialogAdapter extends RecyclerView.Adapter<ViewHolder> {
         private List<AccountOperation> result;
         private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
 
@@ -137,7 +139,7 @@ public class TransferAddEditDialog extends Dialog {
             popupMenu.show();
         }
 
-        public void onBindViewHolder(final TransferAddEditDialog.ViewHolder view, final int position) {
+        public void onBindViewHolder(final ViewHolder view, final int position) {
             view.ivItemTransferAccountEditDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -146,13 +148,12 @@ public class TransferAddEditDialog extends Dialog {
             });
             String fromName = getAccountOrPurposeNameById(result.get(position).getSourceId());
             if (fromName != null)
-                view.tvItemAccountFromName.setText(getContext().getResources().getString(R.string.from) + " " + fromName);
+                view.tvItemAccountFromName.setText(fromName);
             DecimalFormat dateFormat = new DecimalFormat("0.00");
             String toName = getAccountOrPurposeNameById(result.get(position).getTargetId());
             if (toName != null)
-                view.tvItemAccountToName.setText(getContext().getResources().getString(R.string.to) + " " + toName);
-            view.tvItemAccountAmount.setText(getContext().getResources().getString(R.string.amount) + " " +
-                    dateFormat.format(result.get(position).getAmount()) + result.get(position).getCurrency().getAbbr());
+                view.tvItemAccountToName.setText(toName);
+            view.tvItemAccountAmount.setText(dateFormat.format(result.get(position).getAmount()) + result.get(position).getCurrency().getAbbr());
             view.tvItemAccountDate.setText(simpleDateFormat.format(result.get(position).getDate().getTime()));
             if (daoSession.getAccountDao().load(result.get(position).getSourceId()) != null) {
                 view.ivItemTransferAccountFrom.setImageResource(getContext().getResources().getIdentifier(
@@ -172,12 +173,13 @@ public class TransferAddEditDialog extends Dialog {
                         daoSession.getPurposeDao().load(result.get(position).getTargetId()).getIcon(),
                         "drawable", getContext().getPackageName()));
             }
-
+            if (position == result.size())
+                view.ivItemTransferAccountEditBottomLine.setVisibility(View.GONE);
         }
 
-        public TransferAddEditDialog.ViewHolder onCreateViewHolder(ViewGroup parent, int var2) {
+        public ViewHolder onCreateViewHolder(ViewGroup parent, int var2) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_transfer_account_modern, parent, false);
-            return new TransferAddEditDialog.ViewHolder(view);
+            return new ViewHolder(view);
         }
     }
 
@@ -185,6 +187,7 @@ public class TransferAddEditDialog extends Dialog {
         ImageView ivItemTransferAccountEditDelete;
         ImageView ivItemTransferAccountFrom;
         ImageView ivItemTransferAccountTo;
+        ImageView ivItemTransferAccountEditBottomLine;
         TextView tvItemAccountFromName;
         TextView tvItemAccountToName;
         TextView tvItemAccountAmount;
@@ -199,6 +202,7 @@ public class TransferAddEditDialog extends Dialog {
             tvItemAccountAmount = (TextView) view.findViewById(R.id.tvItemAccountAmount);
             tvItemAccountDate = (TextView) view.findViewById(R.id.tvItemAccountDate);
             ivItemTransferAccountEditDelete = (ImageView) view.findViewById(R.id.ivItemTransferAccountEditDelete);
+            ivItemTransferAccountEditBottomLine = (ImageView) view.findViewById(R.id.ivItemTransferAccountEditBottomLine);
         }
     }
 

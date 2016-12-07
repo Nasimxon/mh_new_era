@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:background="#fff"
+    android:id="@+id/moainnnn"
     android:layout_height="wrap_content"
     tools:context="com.jim.pocketaccounter.fragments.InfoCreditFragment"
     android:layout_gravity="center_horizontal">
@@ -297,6 +298,7 @@
                     android:paddingRight="@dimen/sixteen_dp">
 
                     <TextView
+                        android:id="@+id/tvEndPeriodDayTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -305,7 +307,7 @@
                         android:textSize="@dimen/sixteen_sp" />
 
                     <TextView
-                        android:id="@+id/tvInfoDebtBorrowTotalSumm"
+                        android:id="@+id/tvEndPeriodDay"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="right"
@@ -325,6 +327,7 @@
                     android:paddingRight="@dimen/sixteen_dp">
 
                     <TextView
+                        android:id="@+id/tvPeriodPaymentTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -333,7 +336,7 @@
                         android:textSize="@dimen/sixteen_sp" />
 
                     <TextView
-                        android:id="@+id/tvInfoDebtBorrowIsCalculate"
+                        android:id="@+id/tvPeriodPayment"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="right"
@@ -437,11 +440,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/balance"
+                        android:text="@string/total_payed"
                         android:textColor="#838383"
                         android:textSize="@dimen/sixteen_sp" />
 
                     <TextView
+                        android:id="@+id/tvBalancePer"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="right"

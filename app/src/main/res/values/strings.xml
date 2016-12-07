@@ -599,7 +599,7 @@
     <string name="years">years</string>
     <string name="days">days</string>
     <string name="ends">End</string>
-    <string name="archive">Archive</string>
+    <string name="archive">Loan to \narchive</string>
     <string name="toritus">This system of credit registration, very flexible. Credit conditions may be different, in this regard, you can customize the application to fit your requirements.</string>
     <string-array name="cat_values">
         <item>home</item>
@@ -901,7 +901,7 @@
     <string name="borrow_recking_statistics">Returned debt</string>
     <string name="debt_statistics">Borrowed</string>
     <string name="debt_recking_statistics">Returned debt</string>
-    <string name="pay">PAY</string>
+    <string name="pay">Payment for \nloan</string>
     <string name="cancel">Cancel</string>
     <string name="repaid">Completed</string>
     <string name="active">Active</string>
@@ -1086,10 +1086,10 @@
     <string name="period_of_credit">Credit term</string>
     <string name="enter_period_of_credit">Enter credit term</string>
     <string name="interval">Period</string>
-    <string name="credit_begin_date">Start of payments</string>
-    <string name="credit_return_date">End of payments</string>
+    <string name="credit_begin_date">Start</string>
+    <string name="credit_return_date">End</string>
     <string name="transactions">Transactions</string>
-    <string name="include_credit_in_balance">Consider credit in the balance</string>
+    <string name="include_credit_in_balance">Payments consider in the balance</string>
     <string name="enter_name_error">Enter name</string>
     <string name="enter_amount_error">Enter amount</string>
     <string name="enter_takendate_error">Select start date</string>
@@ -1234,7 +1234,7 @@
     <string name="to_t">To</string>
     <string name="ti_type_parsinga_sms_sobsheni_eti_type_parsinga_sms_sobshenieti_type_parsinga_sms_sobsheni">Here you can select type of SMS, which you get from your bank</string>
     <string name="sys_not_found_accanount">There is not enough count of account !</string>
-    <string name="notif_setting">Notification settings</string>
+    <string name="notif_setting">Notification settings*</string>
     <string name="detalization">Detail</string>
     <string name="notif_annual">Annual</string>
     <string name="notif_everyday">Daily</string>
@@ -1644,11 +1644,40 @@
     <string name="period_payment">Period payment</string>
     <string name="period_ends">Current period ends</string>
     <string name="taked_date">Taked date</string>
+    <string name="loan_name">Loan name</string>
+    <string name="taked_value">Taked value</string>
+    <string name="with_the_even_principal">* With the even principal payment schedule, the size of the principal payment is the same for every payment. It is computed by dividing the amount of the original loan by the number of payments</string>
+    <string name="value_percent">Value percent</string>
+    <string name="payment_period">Payment period</string>
+    <string name="have_first_contribution">Have first contribution</string>
+    <string name="value_of_contribution">value of contribution</string>
+    <string name="even_princ">Even Principal Payments</string>
+    <string name="even_total">Even Total Payments</string>
+    <string name="even_about_total">* The even total payment schedule is comprised of a decreasing interest payment and an increasing principal payment. The decrease in the size of the interest payment is matched by an increase in the size of the principal payment so that the size of the total loan payment remains constant over the life of the loan.</string>
+    <string name="about_notifications">* Notification will you remind ever this period. It can be every day , at week days and also monthdays</string>
+    <string name="percent_fee">Percent fee</string>
+    <string name="from_balance">From balance</string>
+    <string name="from_loan_amount">From loan amount</string>
+    <string name="monthly_payment">Monthly Payment</string>
+    <string name="overpayment_interest">Overpayment Interest</string>
+    <string name="bank_fees">Bank fees</string>
+    <string name="total_payed">Total payed</string>
+    <string name="period_payments">Period payments</string>
+    <string name="period_end_after">Period end after:</string>
+    <string name="complete">COMPLETE</string>
 
     <string-array name="currency_2">
         <item>руб.</item>
         <item>рубль</item>
         <item>рублей</item>
     </string-array>
-
+    <string name="history_transfers">History of Transfer</string>
+    <string name="summ_transfer">Summ transfer</string>
+    <string name="mes">messages</string>
+    <string name="mes2">message</string>
+    <string name="for_this_period">For this period:</string>
+    <string name="you_have_debt">Debt for period</string>
+    <string name="credit_stat">Credit status</string>
+    <string name="credit_repiad">Credit repiad</string>
+    <string name="credit_end_date">Credit end date</string>
 </resources>

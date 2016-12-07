@@ -925,7 +925,7 @@
     <string name="borrow_recking_statistics">Вернул долг</string>
     <string name="debt_statistics">Взял в долг</string>
     <string name="debt_recking_statistics">Возвращенный долг</string>
-    <string name="pay">Оплатить</string>
+    <string name="pay">Payment for \nloan</string>
     <string name="cancel">Отмена</string>
     <string name="repaid">Завершено</string>
     <string name="active">Активные</string>
@@ -1110,8 +1110,8 @@
     <string name="period_of_credit">Срок кредитования</string>
     <string name="enter_period_of_credit">Введите срок кредита</string>
     <string name="interval">Период</string>
-    <string name="credit_begin_date">Начало выплат</string>
-    <string name="credit_return_date">Конец выплат</string>
+    <string name="credit_begin_date">Начало</string>
+    <string name="credit_return_date">Конец</string>
     <string name="transactions">Транзакции</string>
     <string name="include_credit_in_balance">Учитывать кредит в балансе?</string>
     <string name="enter_name_error">Введите имя</string>
@@ -1257,7 +1257,7 @@
     <string name="ti_type_parsinga_sms_sobsheni_eti_type_parsinga_sms_sobshenieti_type_parsinga_sms_sobsheni">Здесь Вы можете выбрать тип СМС, которое получаете от Вашего банка</string>
     <string name="monthly_diagram">Расход и доход</string>
     <string name="sys_not_found_accanount">Должно быть не менее двух счетов !</string>
-    <string name="notif_setting">Настройка уведомления</string>
+    <string name="notif_setting">Настройка уведомления*</string>
     <string name="detalization">Детально</string>
     <string name="notif_annual">Ежегодно</string>
     <string name="notif_everyday">Ежедневно</string>
@@ -1631,5 +1631,7 @@
         <item>рубль</item>
         <item>рублей</item>
     </string-array>
+    <string name="history_transfers">История трансферов</string>
+    <string name="summ_transfer">Сумма перевода</string>
 </resources>
 

@@ -134,10 +134,10 @@ public class AddSmsParseFragment extends PABaseFragment implements LoaderManager
         spAccount.setAdapter(transferAccountAdapter);
         List<String> cursStrings = new ArrayList<>();
         for (Currency cr : daoSession.getCurrencyDao().loadAll()) {
-            cursStrings.add(cr.getAbbr());
+            cursStrings.add(cr.getAbbr()+"  ("+cr.getName()+")");
         }
         ArrayAdapter<String> cursAdapter = new ArrayAdapter<String>(getContext(),
-                R.layout.spiner_gravity_right, cursStrings);
+                R.layout.spiner_gravity_left, cursStrings);
         spCurrency.setAdapter(cursAdapter);
         int posMain = 0;
         for (int i = 0; i < cursStrings.size(); i++) {

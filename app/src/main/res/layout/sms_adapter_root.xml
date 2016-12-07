@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
-    <android.support.v7.widget.CardView
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -12,12 +12,11 @@
         android:layout_marginLeft="@dimen/eight_dp"
         android:layout_marginRight="@dimen/eight_dp"
         android:layout_marginTop="@dimen/two_dp"
-        card:cardCornerRadius="@dimen/eight_dp"
-        card:cardElevation="@dimen/five_dp"
-        card:cardMaxElevation="@dimen/ten_dp">
+        android:background="@drawable/carditem">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:paddingBottom="@dimen/twenty_dp"
             android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
@@ -84,8 +83,8 @@
                             android:layout_alignParentStart="true"
                             android:layout_alignParentTop="true"
                             android:text="@string/not_processed_degree"
-                            android:textColor="@color/for_darker"
-                            android:textSize="@dimen/twelve_sp" />
+                            android:textColor="@color/black_for_secondary_text"
+                            android:textSize="@dimen/sixteen_dp" />
                         <TextView
                             android:id="@+id/tvNotMessageReadCount"
                             android:layout_width="wrap_content"
@@ -96,175 +95,183 @@
                             android:gravity="bottom"
                             android:text="@string/no_message"
                             android:textColor="@color/red"
-                            android:textSize="@dimen/twelve_sp" />
+                            android:textSize="@dimen/sixteen_dp" />
                     </RelativeLayout>
                 </RelativeLayout>
             </LinearLayout>
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="2px"
                 android:layout_marginTop="@dimen/four_dp"
-                android:background="@color/green_light_forline" />
+                android:layout_height="2px"
+                android:background="#eaeaea"
+                />
             <LinearLayout
-                android:id="@+id/llItemInfoView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/grey_light_sms_item"
-                android:orientation="vertical"
-                android:paddingTop="@dimen/five_dp"
-                android:visibility="gone">
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/five_dp"
-                    android:paddingLeft="@dimen/sixteen_dp"
-                    android:paddingRight="@dimen/sixteen_dp">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentTop="true"
-                        android:text="@string/account_for_parsing"
-                        android:textColor="@color/for_darker"
-                        android:textSize="@dimen/twelve_sp" />
-                    <TextView
-                        android:id="@+id/tvAccount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentTop="true"
-                        android:gravity="bottom"
-                        android:text="Mobile banking"
-                        android:textColor="@color/for_darker"
-                        android:textSize="@dimen/twelve_sp" />
-                </RelativeLayout>
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/five_dp"
-                    android:paddingLeft="@dimen/sixteen_dp"
-                    android:paddingRight="@dimen/sixteen_dp">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentTop="true"
-                        android:text="@string/all_incomes"
-                        android:textColor="@color/for_darker"
-                        android:textSize="@dimen/twelve_sp" />
-                    <TextView
-                        android:id="@+id/tvAllIncomes"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentTop="true"
-                        android:gravity="bottom"
-                        android:text="300$"
-                        android:textColor="@color/for_darker"
-                        android:textSize="@dimen/twelve_sp" />
-                </RelativeLayout>
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/five_dp"
-                    android:paddingLeft="@dimen/sixteen_dp"
-                    android:paddingRight="@dimen/sixteen_dp">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentTop="true"
-                        android:text="@string/all_expense"
-                        android:textColor="@color/for_darker"
-                        android:textSize="@dimen/twelve_sp" />
-                    <TextView
-                        android:id="@+id/tvAllExpense"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentTop="true"
-                        android:gravity="bottom"
-                        android:text="1820$"
-                        android:textColor="@color/for_darker"
-                        android:textSize="@dimen/twelve_sp" />
-                </RelativeLayout>
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/five_dp"
-                    android:paddingBottom="@dimen/eight_dp"
-                    android:paddingLeft="@dimen/sixteen_dp"
-                    android:paddingRight="@dimen/sixteen_dp">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentTop="true"
-                        android:text="@string/processed"
-                        android:textColor="@color/for_darker"
-                        android:textSize="@dimen/twelve_sp" />
-                    <TextView
-                        android:id="@+id/tvProcessedCout"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentTop="true"
-                        android:gravity="bottom"
-                        android:text="1 messages"
-                        android:textColor="@color/for_darker"
-                        android:textSize="@dimen/twelve_sp" />
-                </RelativeLayout>
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="2px"
-                    android:layout_marginTop="@dimen/four_dp"
-                    android:background="@color/green_light_forline" />
-            </LinearLayout>
-            <RelativeLayout
                 android:id="@+id/rlSmsAdapterInfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/grey_light2"
-                android:paddingBottom="@dimen/ten_dp"
-                android:paddingLeft="@dimen/sixteen_dp"
-                android:paddingRight="@dimen/sixteen_dp"
-                android:paddingTop="@dimen/six_dp">
-                <RelativeLayout
-                    android:id="@+id/relativeLayout"
-                    android:layout_width="wrap_content"
+                android:background="@color/credit_white_grey"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/dateay"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true">
-                    <TextView
-                        android:id="@+id/dateay"
-                        android:layout_width="wrap_content"
+                    android:paddingLeft="@dimen/sixteen_dp"
+                    android:textSize="@dimen/sixteen_dp"
+                    android:text="@string/info_toliq"
+                    android:paddingTop="@dimen/sevent_dp"
+                    android:paddingBottom="@dimen/sevent_dp"/>
+                <ImageView
+                    android:id="@+id/ivInfoIcon"
+                    android:layout_width="@dimen/twelve_sp"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="@dimen/sixteen_dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/info_open"/>
+            </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="#eaeaea"
+                />
+            <LinearLayout
+                android:id="@+id/llItemInfoView"
+                android:layout_width="match_parent"
+                android:visibility="gone"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:id="@+id/infoOpen"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_alignBottom="@+id/ivInfoIcon"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentTop="true"
-                        android:layout_toLeftOf="@+id/ivInfoIcon"
-                        android:layout_toStartOf="@+id/ivInfoIcon"
-                        android:text="@string/info_toliq"
-                        android:textColor="@color/for_darker"
-                        android:textSize="@dimen/twelve_sp" />
-                    <ImageView
-                        android:id="@+id/ivInfoIcon"
-                        android:layout_width="@dimen/twenty_dp"
-                        android:layout_height="@dimen/twenty_dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:src="@drawable/infoo" />
-                </RelativeLayout>
-            </RelativeLayout>
+                        android:orientation="horizontal"
+                        android:paddingLeft="@dimen/sixteen_dp"
+                        android:paddingTop="@dimen/five_dp"
+                        android:paddingBottom="@dimen/five_dp"
+                        android:paddingRight="@dimen/sixteen_dp"
+                        >
+
+                        <TextView
+                            android:id="@+id/textView24"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/account_for_parsing"
+                            android:textColor="#838383"
+                            android:textSize="@dimen/sixteen_dp" />
+
+                        <TextView
+                            android:id="@+id/tvAccount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="right"
+                            android:text="15%"
+                            android:textColor="#414141"
+                            android:textSize="@dimen/sixteen_dp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#fbfbfb"
+                        android:paddingLeft="@dimen/sixteen_dp"
+                        android:paddingTop="@dimen/five_dp"
+                        android:paddingBottom="@dimen/five_dp"
+                        android:paddingRight="@dimen/sixteen_dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/all_incomes"
+                            android:textColor="#838383"
+                            android:textSize="@dimen/sixteen_dp" />
+
+                        <TextView
+                            android:id="@+id/tvAllIncomes"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="right"
+                            android:text="5000$"
+                            android:textColor="#414141"
+                            android:textSize="@dimen/sixteen_dp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingTop="@dimen/five_dp"
+                        android:paddingBottom="@dimen/five_dp"
+                        android:paddingLeft="@dimen/sixteen_dp"
+                        android:paddingRight="@dimen/sixteen_dp">
+
+                        <TextView
+                            android:id="@+id/textView25"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/all_expense"
+                            android:textColor="#838383"
+                            android:textSize="@dimen/sixteen_dp" />
+
+                        <TextView
+                            android:id="@+id/tvAllExpense"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="right"
+                            android:text="6200$"
+                            android:textColor="#414141"
+                            android:textSize="@dimen/sixteen_dp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#fbfbfb"
+                        android:orientation="horizontal"
+                        android:paddingLeft="@dimen/sixteen_dp"
+                        android:paddingTop="@dimen/five_dp"
+                        android:paddingBottom="@dimen/five_dp"
+                        android:paddingRight="@dimen/sixteen_dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/processed"
+                            android:textColor="#838383"
+                            android:textSize="@dimen/sixteen_dp" />
+
+                        <TextView
+                            android:id="@+id/tvProcessedCout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="right"
+                            android:text="3200$"
+                            android:textColor="#414141"
+                            android:textSize="@dimen/sixteen_dp" />
+
+                    </LinearLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="2px"
+                        android:background="#eaeaea"
+                        />
+                </LinearLayout>
+            </LinearLayout>
+
         </LinearLayout>
-    </android.support.v7.widget.CardView>
+    </FrameLayout>
 </LinearLayout>

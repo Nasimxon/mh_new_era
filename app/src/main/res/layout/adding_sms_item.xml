@@ -48,7 +48,7 @@
                 android:paddingBottom="@dimen/eight_dp"
                 android:paddingTop="@dimen/eight_dp"
                 android:text="@string/it_is_income"
-                android:textColor="@color/green_light"
+                android:textColor="@color/credit_och_yashil"
                 android:textSize="@dimen/fourteen_dp" />
             <TextView
                 android:id="@+id/tvAddSmsParseItemExpance"
@@ -62,7 +62,7 @@
                 android:paddingBottom="@dimen/eight_dp"
                 android:paddingTop="@dimen/eight_dp"
                 android:text="@string/it_is_expense"
-                android:textColor="@color/red_green_darker_monoxrom_red"
+                android:textColor="#c05656"
                 android:textSize="@dimen/fourteen_dp" />
         </LinearLayout>
     </LinearLayout>

@@ -14,7 +14,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#fafffd"
+                android:background="#f8f8f8"
                 android:orientation="vertical"
                 android:paddingLeft="@dimen/bitmap_size"
                 android:paddingRight="@dimen/sixteen_dp"
@@ -28,16 +28,24 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
+
                     <EditText
                         android:id="@+id/etSmsParseAddNumber"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
+                        android:layout_marginTop="@dimen/five_dp"
                         android:layout_alignParentStart="true"
                         android:layout_marginBottom="@dimen/sixteen_dp"
                         android:layout_marginRight="@dimen/ten_dp"
                         android:layout_toLeftOf="@+id/ivSmsParseGet"
+                        android:paddingRight="@dimen/ten_dp"
+                        android:paddingLeft="@dimen/ten_dp"
+                        android:paddingTop="@dimen/ten_dp"
+                        android:paddingBottom="@dimen/ten_dp"
+
                         android:hint="@string/number_or_name_of_sender"
+                        android:background="@drawable/edit_text"
                         android:textColorHint="#d1d1d1"
                         android:textSize="@dimen/sixteen_dp" />
                     <TextView
@@ -47,8 +55,6 @@
                         android:layout_alignBottom="@+id/etSmsParseAddNumber"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginBottom="@dimen/sevent_dp"
                         android:background="@drawable/days_shape_green"
                         android:gravity="center"
                         android:paddingBottom="@dimen/five_dp"
@@ -56,8 +62,9 @@
                         android:paddingRight="@dimen/twelve_dp"
                         android:paddingTop="@dimen/five_dp"
                         android:text="@string/from_sms"
-                        android:textColor="@color/green_light"
-                        android:textSize="@dimen/fourteen_dp" />
+                        android:textColor="@color/credit_och_yashil"
+                        android:textSize="@dimen/fourteen_dp"
+                        android:layout_alignTop="@+id/etSmsParseAddNumber" />
                 </RelativeLayout>
                 <RadioGroup
                     android:id="@+id/rgSmsParseAddSort"
@@ -141,7 +148,7 @@
                 android:id="@+id/rvSmsParseAdd"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#f6f6f6"
+                android:background="#f2f3f5"
                 android:paddingBottom="@dimen/five_dp"
                 android:overScrollMode="never"
                 android:paddingTop="@dimen/ten_dp">
@@ -168,15 +175,7 @@
                         android:text="@string/key_words"
                         android:textColor="@color/black_for_glavniy_text"
                         android:textSize="@dimen/eighteen_sp" />
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center">
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/one_dp"
-                            android:background="@color/green_light_forline" />
-                    </RelativeLayout>
+
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -205,7 +204,13 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:layout_alignParentRight="true"
+                            android:background="@drawable/edit_text"
+                            android:paddingRight="@dimen/five_dp"
+                            android:paddingLeft="@dimen/ten_dp"
+                            android:paddingTop="@dimen/ten_dp"
+                            android:paddingBottom="@dimen/ten_dp"
                             android:layout_below="@id/forIncome"
+                            android:layout_marginTop="@dimen/five_dp"
                             android:hint="@string/word_for_decide_income"
                             android:textSize="@dimen/fourteen_dp" />
                     </RelativeLayout>
@@ -219,6 +224,12 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:layout_alignParentRight="true"
+                            android:background="@drawable/edit_text"
+                            android:paddingRight="@dimen/five_dp"
+                            android:paddingLeft="@dimen/ten_dp"
+                            android:paddingTop="@dimen/ten_dp"
+                            android:paddingBottom="@dimen/ten_dp"
+                            android:layout_marginTop="@dimen/five_dp"
                             android:layout_below="@+id/smsParsForExpense"
                             android:hint="@string/word_for_decide_expence"
                             android:textSize="@dimen/fourteen_dp" />
@@ -231,6 +242,7 @@
                             android:layout_alignParentTop="true"
                             android:paddingTop="@dimen/two_dp"
                             android:text="@string/for_expance"
+                            android:layout_marginTop="@dimen/five_dp"
                             android:textColor="@color/black_for_glavniy_text"
                             android:textSize="@dimen/fourteen_dp" />
                     </RelativeLayout>
@@ -247,6 +259,7 @@
                             android:layout_alignParentTop="true"
                             android:layout_marginRight="@dimen/six_dp"
                             android:paddingTop="@dimen/two_dp"
+                            android:layout_marginTop="@dimen/five_dp"
                             android:text="@string/for_amount"
                             android:textColor="@color/black_for_glavniy_text"
                             android:textSize="@dimen/fourteen_dp" />
@@ -256,6 +269,12 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:layout_alignParentRight="true"
+                            android:background="@drawable/edit_text"
+                            android:paddingRight="@dimen/five_dp"
+                            android:paddingLeft="@dimen/ten_dp"
+                            android:paddingTop="@dimen/ten_dp"
+                            android:paddingBottom="@dimen/ten_dp"
+                            android:layout_marginTop="@dimen/five_dp"
                             android:layout_below="@id/forammonurt"
                             android:hint="@string/word_do_sifri"
                             android:textSize="@dimen/fourteen_dp" />
@@ -264,7 +283,8 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="@dimen/sixteen_dp"
+                    android:layout_marginTop="@dimen/twenty_dp"
+
                     android:orientation="horizontal">
                     <TextView
                         android:layout_width="wrap_content"
@@ -277,40 +297,23 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/eight_dp">
-                    <TextView
-                        android:id="@+id/procent_credit"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignBottom="@+id/spSmsParseAddAccount"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignTop="@+id/spSmsParseAddAccount"
-                        android:layout_marginRight="@dimen/six_dp"
-                        android:layout_toLeftOf="@+id/spinner_procent"
-                        android:layout_toStartOf="@+id/spinner_procent"
-                        android:elevation="0dp"
-                        android:gravity="center_vertical"
-                        android:paddingTop="@dimen/two_dp"
-                        android:text="@string/choise_account"
-                        android:textColor="@color/black_for_glavniy_text"
-                        android:textSize="@dimen/fourteen_dp" />
+                    android:background="@drawable/edit_text"
+                    android:layout_marginTop="@dimen/five_dp"
+                    android:paddingRight="@dimen/five_dp"
+                    android:paddingLeft="@dimen/ten_dp"
+                    android:paddingTop="@dimen/ten_dp"
+                    android:paddingBottom="@dimen/ten_dp"
+                    >
+
                     <Spinner
                         android:id="@+id/spSmsParseAddAccount"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:layout_toEndOf="@+id/procent_credit"
                         android:layout_toRightOf="@+id/procent_credit" />
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentBottom="true"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:gravity="center">
-                    </RelativeLayout>
+
                 </RelativeLayout>
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -324,46 +327,28 @@
                         android:text="@string/currency"
                         android:textColor="@color/black_for_glavniy_text"
                         android:textSize="@dimen/eighteen_sp" />
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center">
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/one_dp"
-                            android:background="@color/green_light_forline" />
-                    </RelativeLayout>
+
                 </LinearLayout>
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/eight_dp">
-                    <TextView
-                        android:id="@+id/textView23"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignBottom="@+id/spSmsParseAddCurrency"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignTop="@+id/spSmsParseAddCurrency"
-                        android:layout_marginRight="@dimen/six_dp"
-                        android:layout_toLeftOf="@+id/spinner_procent"
-                        android:layout_toStartOf="@+id/spinner_procent"
-                        android:elevation="0dp"
-                        android:gravity="center_vertical"
-                        android:paddingTop="@dimen/two_dp"
-                        android:text="@string/choose_currencies"
-                        android:textColor="@color/black_for_glavniy_text"
-                        android:textSize="@dimen/fourteen_dp" />
+                    android:background="@drawable/edit_text"
+                    android:layout_marginTop="@dimen/five_dp"
+                    android:paddingRight="@dimen/five_dp"
+                    android:paddingLeft="@dimen/ten_dp"
+                    android:paddingTop="@dimen/ten_dp"
+                    android:paddingBottom="@dimen/ten_dp"
+                    >
+
                     <Spinner
                         android:id="@+id/spSmsParseAddCurrency"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
-                        android:layout_marginTop="@dimen/ten_dp"
-                        android:layout_toEndOf="@+id/textView23"
-                        android:layout_toRightOf="@+id/textView23" />
+                        android:layout_toEndOf="@+id/procent_credit"
+                        android:layout_toRightOf="@+id/procent_credit" />
+
                 </RelativeLayout>
             </LinearLayout>
             <FrameLayout

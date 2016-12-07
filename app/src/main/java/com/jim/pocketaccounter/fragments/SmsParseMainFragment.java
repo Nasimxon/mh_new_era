@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -118,7 +119,16 @@ public class SmsParseMainFragment extends Fragment implements View.OnClickListen
                 if (!smsParseSuccess.getIsSuccess()) count ++;
             }
             if (count != 0) {
-                view.tvNotReadCount.setText("" + count);
+                if(count>1)
+                view.tvNotReadCount.setText( count +" "+ getString(R.string.mes));
+                else
+                    view.tvNotReadCount.setText( count+" " + getString(R.string.mes2));
+
+                view.tvNotReadCount.setTextColor(ContextCompat.getColor(getContext(),R.color.red));
+            }
+            else {
+                view.tvNotReadCount.setText( getString(R.string.no_message));
+                view.tvNotReadCount.setTextColor(ContextCompat.getColor(getContext(),R.color.black_for_secondary_text));
             }
             if (smsParseObjects.get(position).getSuccessList() != null) {
                 double incomeSumm = 0;
@@ -137,8 +147,10 @@ public class SmsParseMainFragment extends Fragment implements View.OnClickListen
                 public void onClick(View v) {
                     if (view.llInfoGone.getVisibility() == View.GONE) {
                         view.llInfoGone.setVisibility(View.VISIBLE);
+                        view.ivInfoIcon.setImageResource(R.drawable.info_pastga);
                     } else {
                         view.llInfoGone.setVisibility(View.GONE);
+                        view.ivInfoIcon.setImageResource(R.drawable.info_open);
                     }
                 }
             });
@@ -226,9 +238,10 @@ public class SmsParseMainFragment extends Fragment implements View.OnClickListen
         public TextView tvAllIncomes;
         public TextView tvAllExpense;
         public TextView tvMessagesCount;
-        public RelativeLayout info;
+        public LinearLayout info;
         public LinearLayout llInfoGone;
         public ImageView addKeys;
+        public ImageView ivInfoIcon;
 
         public ViewHolder(View view) {
             super(view);
@@ -238,9 +251,10 @@ public class SmsParseMainFragment extends Fragment implements View.OnClickListen
             tvAllExpense = (TextView) view.findViewById(R.id.tvAllExpense);
             tvAllIncomes = (TextView) view.findViewById(R.id.tvAllIncomes);
             tvMessagesCount = (TextView) view.findViewById(R.id.tvProcessedCout);
-            info = (RelativeLayout) view.findViewById(R.id.rlSmsAdapterInfo);
+            info = (LinearLayout) view.findViewById(R.id.rlSmsAdapterInfo);
             llInfoGone = (LinearLayout) view.findViewById(R.id.llItemInfoView);
             addKeys = (ImageView) view.findViewById(R.id.imageView7);
+            ivInfoIcon = (ImageView) view.findViewById(R.id.ivInfoIcon);
         }
     }
 }

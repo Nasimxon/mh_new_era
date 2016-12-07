@@ -69,7 +69,7 @@ public class AccountFragment extends PABaseListFragment {
 					final TransferAddEditDialog transferAddEditDialog = new TransferAddEditDialog(getContext());
 					int width = getResources().getDisplayMetrics().widthPixels;
 					int height = getResources().getDisplayMetrics().heightPixels;
-					transferAddEditDialog.getWindow().setLayout(9*width/10, 9*height/9);
+					transferAddEditDialog.getWindow().setLayout(12*width/13, 9*height/10);
 					transferAddEditDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
 						@Override
 						public void onDismiss(DialogInterface dialog) {

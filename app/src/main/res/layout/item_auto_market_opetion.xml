@@ -8,7 +8,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:gravity="center"
+        android:gravity="left"
         android:id="@+id/tvItemAutoMarketOperationDate"
         android:textSize="@dimen/fourteen_dp"
         android:text="20.03.2016" />
@@ -26,7 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:gravity="center"
+        android:gravity="right"
         android:textSize="@dimen/fourteen_dp"
         android:id="@+id/tvItemAutoMarketOperationIsSuccess"
         android:text="success" />

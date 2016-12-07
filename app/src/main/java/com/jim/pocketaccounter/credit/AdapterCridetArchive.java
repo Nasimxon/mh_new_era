@@ -1,24 +1,32 @@
 package com.jim.pocketaccounter.credit;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jim.pocketaccounter.PocketAccounter;
 import com.jim.pocketaccounter.PocketAccounterApplication;
 import com.jim.pocketaccounter.R;
+import com.jim.pocketaccounter.database.BoardButton;
 import com.jim.pocketaccounter.database.CreditDetials;
 import com.jim.pocketaccounter.database.CreditDetialsDao;
 import com.jim.pocketaccounter.database.DaoSession;
 import com.jim.pocketaccounter.database.ReckingCredit;
+import com.jim.pocketaccounter.fragments.InfoCreditFragment;
 import com.jim.pocketaccounter.fragments.InfoCreditFragmentForArchive;
+import com.jim.pocketaccounter.fragments.ScheduleCreditFragment;
+import com.jim.pocketaccounter.managers.CommonOperations;
 import com.jim.pocketaccounter.managers.LogicManager;
 import com.jim.pocketaccounter.managers.PAFragmentManager;
+import com.jim.pocketaccounter.utils.PocketAccounterGeneral;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -46,7 +54,7 @@ public class AdapterCridetArchive extends RecyclerView.Adapter<AdapterCridetArch
     LogicManager logicManager;
     CreditDetialsDao creditDetialsDao;
     List<CreditDetials> cardDetials;
-
+    SimpleDateFormat sDateFormat = new SimpleDateFormat("dd MMM, yyyy");
     Context context;
     long forDay = 1000L * 60L * 60L * 24L;
     long forMoth = 1000L * 60L * 60L * 24L * 30L;
@@ -82,81 +90,93 @@ public class AdapterCridetArchive extends RecyclerView.Adapter<AdapterCridetArch
     public interface GoCredFragForNotify {
         void notifyCredFrag();
     }
-
+    boolean oplaceniy=false;
+    boolean prosrecenniy = false ;
     @Override
-    public void onBindViewHolder(myViewHolder holder, final int position) {
-        final CreditDetials itemCr = cardDetials.get(position);
-        holder.credit_procent.setText(parseToWithoutNull(itemCr.getProcent()) + "%");
-        holder.total_value.setText(parseToWithoutNull(itemCr.getValue_of_credit_with_procent()) + itemCr.getValyute_currency().getAbbr());
+    public void onBindViewHolder(final  myViewHolder holder, final int position) {
 
+        final CreditDetials itemCr = cardDetials.get(position);
+        oplaceniy = false;
+        prosrecenniy = false;
+        holder.wlyuzOpenOpener.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(holder.wlyuzOpen.getVisibility() == View.GONE){
+                    holder.wlyuzOpen.setVisibility(View.VISIBLE);
+                    holder.openCloseIcon.setImageResource(R.drawable.info_pastga);
+
+                }
+                else {
+                    holder.wlyuzOpen.setVisibility(View.GONE);
+                    holder.openCloseIcon.setImageResource(R.drawable.info_open);
+                }
+            }
+        });
+        holder.credit_procent.setText(formater.format(itemCr.getProcent()) + "%");
+        holder.procentCredInfo.setText(formater.format(itemCr.getProcent()) + "%");
+        holder.takedValueInfo.setText(formater.format(itemCr.getValue_of_credit()) + itemCr.getValyute_currency().getAbbr());
+        //total amount hisob kitob
         double total_paid = 0;
         for (ReckingCredit item : itemCr.getReckings())
             total_paid += item.getAmount();
 
-        holder.total_paid.setText(parseToWithoutNull(total_paid) + itemCr.getValyute_currency().getAbbr());
         holder.nameCredit.setText(itemCr.getCredit_name());
 
         Date AAa = (new Date());
         AAa.setTime(itemCr.getTake_time().getTimeInMillis());
-        holder.taken_credit_date.setText(dateFormat.format(AAa));
+        holder.taken_credit_date.setText(sDateFormat.format(AAa));
         int resId = context.getResources().getIdentifier(itemCr.getIcon_ID(), "drawable", context.getPackageName());
         holder.iconn.setImageResource(resId);
 
-        Calendar to = (Calendar) itemCr.getTake_time().clone();
-        long period_tip = itemCr.getPeriod_time_tip();
-        long period_voqt = itemCr.getPeriod_time();
-        int voqt_soni = (int) (period_voqt / period_tip);
-
-        if (period_tip == forDay) {
-            to.add(Calendar.DAY_OF_YEAR, (int) voqt_soni);
-        } else if (period_tip == forWeek) {
-            to.add(Calendar.WEEK_OF_YEAR, (int) voqt_soni);
-        } else if (period_tip == forMoth) {
-            to.add(Calendar.MONTH, (int) voqt_soni);
-        } else {
-            to.add(Calendar.YEAR, (int) voqt_soni);
+        final ArrayList<CreditsSchedule> creditsSchedules = new ArrayList<>();
+        HeaderData headerData;
+        if(itemCr.getType_loan()== CommonOperations.ANUTETNIY){
+            headerData = ScheduleCreditFragment.calculetAnutetniy(itemCr,creditsSchedules);
+        }
+        else {
+            headerData = ScheduleCreditFragment.calculetDeferinsial(itemCr,creditsSchedules);
+        }
+        if(headerData.getTotalLoanWithInterest()<=headerData.getTotalPayedAmount()){
+            oplaceniy = true;
         }
 
         Date from = new Date();
-        int t[] = getDateDifferenceInDDMMYYYY(from, to.getTime());
-        if (t[0] * t[1] * t[2] < 0 && (t[0] + t[1] + t[2]) != 0) {
-            holder.left_date.setText(R.string.ends);
+        CreditsSchedule currentPeriod = null;
+        for (CreditsSchedule creditsSchedule:creditsSchedules){
+            if(creditsSchedule.getDate().getTimeInMillis()>from.getTime()){
+                currentPeriod = creditsSchedule;
+                break;
+            }
+        }
+        if(currentPeriod == null)
+            prosrecenniy = true;
+        holder.totalReturnValueInfo.setText(formater.format(headerData.getTotalLoanWithInterest())+itemCr.getValyute_currency().getAbbr());
+
+
+
+        long period_tip = itemCr.getPeriod_time_tip();
+        long period_voqt = itemCr.getPeriod_time();
+        int voqt_soni = (int) (period_voqt / period_tip);
+        String interval ;
+        interval = voqt_soni + " ";
+        if (period_tip == forMoth) {
+            interval = interval + context.getString(R.string.mont);
         } else {
-            String left_date_string = "";
-            if (t[0] != 0) {
-                if (t[0] > 1) {
-                    left_date_string += Integer.toString(t[0]) + " " + context.getString(R.string.years);
-                } else {
-                    left_date_string += Integer.toString(t[0]) + " " + context.getString(R.string.year);
-                }
-
-            }
-            if (t[1] != 0) {
-                if (!left_date_string.matches("")) {
-                    left_date_string += " ";
-                }
-                if (t[1] > 1) {
-                    left_date_string += Integer.toString(t[1]) + " " + context.getString(R.string.moths);
-                } else {
-                    left_date_string += Integer.toString(t[1]) + " " + context.getString(R.string.moth);
-                }
-            }
-            if (t[2] != 0) {
-                if (!left_date_string.matches("")) {
-                    left_date_string += " ";
-                }
-                if (t[2] > 1) {
-                    left_date_string += Integer.toString(t[2]) + " " + context.getString(R.string.days);
-
-                } else {
-                    left_date_string += Integer.toString(t[2]) + " " + context.getString(R.string.day);
-                }
-            }
-            holder.left_date.setText(left_date_string);
+            interval = interval + context.getString(R.string.yearr);
         }
 
-        AAa.setTime(itemCr.getMyCredit_id());
-        holder.overall_amount.setText(dateFormat.format(AAa));
+        holder.intervalCreditInfo.setText(interval);
+
+        holder.tvForThisPeriod.setText(headerData.getTotalPayedAmount()+itemCr.getValyute_currency().getAbbr());
+
+
+
+
+
+
+
+
+
         holder.glav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -174,6 +194,7 @@ public class AdapterCridetArchive extends RecyclerView.Adapter<AdapterCridetArch
                 openFragment(temp, "InfoFragment");
             }
         });
+
     }
 
     public static int[] getDateDifferenceInDDMMYYYY(Date from, Date to) {
@@ -228,24 +249,34 @@ public class AdapterCridetArchive extends RecyclerView.Adapter<AdapterCridetArch
 
     public static class myViewHolder extends RecyclerView.ViewHolder {
         TextView credit_procent;
-        TextView total_value;
-        TextView total_paid;
+        TextView procentCredInfo;
         TextView taken_credit_date;
-        TextView left_date;
-        TextView overall_amount;
+        LinearLayout wlyuzOpenOpener;
+        LinearLayout wlyuzOpen;
+
         TextView nameCredit;
+        TextView tvForThisPeriod;
+        TextView intervalCreditInfo;
+        ImageView openCloseIcon;
+
+
+        TextView takedValueInfo;
+        TextView totalReturnValueInfo;
         View glav;
         ImageView iconn;
-
         public myViewHolder(View v) {
             super(v);
             credit_procent = (TextView) v.findViewById(R.id.procent_of_credit);
-            total_value = (TextView) v.findViewById(R.id.total_value);
-            total_paid = (TextView) v.findViewById(R.id.totalpayd);
+            procentCredInfo = (TextView) v.findViewById(R.id.procentCredInfo);
             taken_credit_date = (TextView) v.findViewById(R.id.date_start);
-            left_date = (TextView) v.findViewById(R.id.left_date);
-            overall_amount = (TextView) v.findViewById(R.id.overallpay);
+            totalReturnValueInfo = (TextView) v.findViewById(R.id.totalReturnValueInfo);
+            wlyuzOpenOpener = (LinearLayout) v.findViewById(R.id.wlyuzOpenOpener);
+            wlyuzOpen = (LinearLayout) v.findViewById(R.id.wlyuzOpen);
             nameCredit = (TextView) v.findViewById(R.id.NameCr);
+            tvForThisPeriod = (TextView) v.findViewById(R.id.tvForThisPeriod);
+            takedValueInfo = (TextView) v.findViewById(R.id.takedValueInfo);
+            intervalCreditInfo = (TextView) v.findViewById(R.id.intervalCreditInfo);
+            openCloseIcon = (ImageView) v.findViewById(R.id.openCloseIcon);
             iconn = (ImageView) v.findViewById(R.id.iconaaa);
             glav = v;
         }
