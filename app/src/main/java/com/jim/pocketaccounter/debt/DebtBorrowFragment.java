@@ -198,7 +198,7 @@ public class DebtBorrowFragment extends Fragment implements View.OnClickListener
             if (position == DEBT_FRAGMENT) {
                 return getResources().getString(R.string.debts);
             }
-            return getResources().getString(R.string.archive);
+            return getResources().getString(R.string.archiveee);
         }
     }
 }

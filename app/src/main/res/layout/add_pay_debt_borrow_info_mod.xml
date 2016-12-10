@@ -53,6 +53,7 @@
                 android:layout_marginLeft="@dimen/sixteen_dp"
                 android:orientation="horizontal">
                 <TextView
+                    android:id="@+id/for_period"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -75,6 +76,7 @@
                 android:layout_marginBottom="@dimen/five_dp"
                 android:orientation="horizontal">
                 <TextView
+                    android:id="@+id/tvResidue"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/fourteen_dp"
@@ -204,6 +206,7 @@
         android:layout_height="wrap_content"
         >
         <LinearLayout
+            android:id="@+id/accountSpin"
             android:layout_width="match_parent"
 
             android:layout_height="wrap_content"

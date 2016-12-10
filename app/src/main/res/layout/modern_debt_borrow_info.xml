@@ -55,6 +55,7 @@
             </LinearLayout>
 
             <FrameLayout
+                android:id="@+id/liniyaOne"
                 android:layout_width="@dimen/one_dp"
                 android:layout_height="@dimen/fifty_dp"
                 android:layout_marginRight="@dimen/ten_dp"
@@ -86,6 +87,7 @@
             </LinearLayout>
 
             <FrameLayout
+                android:id="@+id/liniyaTwo"
                 android:layout_width="@dimen/one_dp"
                 android:layout_height="@dimen/fifty_dp"
                 android:layout_marginLeft="@dimen/ten_dp"
@@ -104,6 +106,7 @@
                 android:paddingRight="@dimen/ten_dp">
 
                 <ImageView
+                    android:id="@+id/debt_icon"
                     android:layout_width="@dimen/thirty_dp"
                     android:layout_height="@dimen/thirty_dp"
                     android:src="@drawable/debt_icon" />
@@ -330,7 +333,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/balance"
+                        android:text="Operations"
                         android:textColor="#838383"
                         android:textSize="@dimen/sixteen_sp" />
 

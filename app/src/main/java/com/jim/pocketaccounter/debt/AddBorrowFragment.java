@@ -12,6 +12,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -21,6 +22,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -31,10 +34,12 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,6 +58,7 @@ import com.jim.pocketaccounter.database.DebtBorrow;
 import com.jim.pocketaccounter.database.DebtBorrowDao;
 import com.jim.pocketaccounter.database.Person;
 import com.jim.pocketaccounter.database.Recking;
+import com.jim.pocketaccounter.fragments.AddCreditFragment;
 import com.jim.pocketaccounter.managers.CommonOperations;
 import com.jim.pocketaccounter.managers.LogicManager;
 import com.jim.pocketaccounter.managers.PAFragmentManager;
@@ -109,12 +115,15 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
     private EditText PersonDataGet;
     private EditText PersonDataRepeat;
     private EditText PersonSumm;
+    private RecyclerView rvNorify;
     private Spinner PersonValyuta;
     private Spinner PersonAccount;
     private String photoPath = "";
     private Calendar getDate;
     private Calendar returnDate;
     private SwitchCompat calculate;
+    private SwitchCompat scFirsPay;
+    private RelativeLayout rlStartSumContainer;
     private int TYPE = 0;
     private static final int REQUEST_SELECT_CONTACT = 2;
     public static int RESULT_LOAD_IMAGE = 1;
@@ -122,11 +131,14 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
     private EditText firstPay;
     private final int PERMISSION_REQUEST_CONTACT = 5;
     private int PICK_CONTACT = 10;
+    String sequence2 = "";
+    SimpleDateFormat sDateFormat = new SimpleDateFormat("dd MMM, yyyy");
     private final int PERMISSION_READ_STORAGE = 6;
     private DebtBorrow currentDebtBorrow;
+    RecyclerView.LayoutManager layoutManager;
     private Spinner spNotifMode;
+    private AddBorrowFragment.DaysAdapter daysAdapter;
     private ArrayList<String> adapter;
-    private FrameLayout btnDetalization;
     private String mode = PocketAccounterGeneral.EVERY_DAY, sequence = "";
     private BoardButton boardButton;
     public static AddBorrowFragment getInstance(int type, DebtBorrow debtBorrow) {
@@ -172,9 +184,9 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
             getDate.set(year, monthOfYear, dayOfMonth);
             if (returnDate != null && getDate.compareTo(returnDate) > 0) {
                 returnDate = getDate;
-                PersonDataRepeat.setText(dateFormat.format(returnDate.getTime()));
+                PersonDataRepeat.setText(sDateFormat.format(returnDate.getTime()));
             }
-            PersonDataGet.setText(dateFormat.format(getDate.getTime()));
+            PersonDataGet.setText(sDateFormat.format(getDate.getTime()));
         }
     };
     private DatePickerDialog.OnDateSetListener returnDatesetListener = new DatePickerDialog.OnDateSetListener() {
@@ -185,7 +197,7 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
             if (returnDate.compareTo(getDate) < 0) {
                 returnDate = getDate;
             }
-            PersonDataRepeat.setText(dateFormat.format(returnDate.getTime()));
+            PersonDataRepeat.setText(sDateFormat.format(returnDate.getTime()));
             adapter.clear();
             int countOfDays = (int) Math.ceil((returnDate.getTimeInMillis() - getDate.getTimeInMillis()) / (1000 * 60 * 60 * 24));
             if (countOfDays < 7) {
@@ -198,7 +210,7 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
                 adapter.add(getResources().getString(R.string.notif_weekly));
                 adapter.add(getResources().getString(R.string.notif_monthly));
             }
-            ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(getContext(), R.layout.spinner_single_item, adapter);
+            ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(getContext(), R.layout.spiner_gravity_left, adapter);
             spNotifMode.setAdapter(adapter1);
         }
     };
@@ -208,35 +220,37 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.add_borrow_fragment_layout_mod, container, false);
         spNotifMode = (Spinner) view.findViewById(R.id.spNotifMode);
-        btnDetalization = (FrameLayout) view.findViewById(R.id.btnDetalization);
-        btnDetalization.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openNotifSettingDialog();
-            }
-        });
+
         adapter.add(getResources().getString(R.string.notif_everyday));
         adapter.add(getResources().getString(R.string.notif_weekly));
         adapter.add(getResources().getString(R.string.notif_monthly));
-        ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(getContext(), R.layout.spinner_single_item, adapter);
+        ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(getContext(), R.layout.spiner_gravity_left, adapter);
         spNotifMode.setAdapter(adapter1);
         spNotifMode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
                     case 0:
-                        mode = PocketAccounterGeneral.EVERY_DAY;
-                        btnDetalization.setVisibility(View.GONE);
+                        rvNorify.setVisibility(View.GONE);
                         break;
                     case 1:
-                        mode = PocketAccounterGeneral.EVERY_WEEK;
-                        btnDetalization.setVisibility(View.VISIBLE);
+                        rvNorify.setVisibility(View.VISIBLE);
+                        daysAdapter = new AddBorrowFragment.DaysAdapter(0);
+                        layoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL);
+                        rvNorify.setLayoutManager(layoutManager);
+                        rvNorify.setAdapter(daysAdapter);
+
                         break;
+
                     case 2:
-                        sequence = "1";
-                        mode = PocketAccounterGeneral.EVERY_MONTH;
-                        btnDetalization.setVisibility(View.VISIBLE);
+
+                        rvNorify.setVisibility(View.VISIBLE);
+                        daysAdapter = new AddBorrowFragment.DaysAdapter(1);
+                        layoutManager = new StaggeredGridLayoutManager(7, StaggeredGridLayoutManager.VERTICAL);
+                        rvNorify.setLayoutManager(layoutManager);
+                        rvNorify.setAdapter(daysAdapter);
                         break;
+
                 }
             }
 
@@ -256,12 +270,37 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
         PersonValyuta = (Spinner) view.findViewById(R.id.spBorrowAddPopupValyuta);
         PersonAccount = (Spinner) view.findViewById(R.id.spBorrowAddPopupAccount);
         calculate = (SwitchCompat) view.findViewById(R.id.chbAddDebtBorrowCalculate);
+        scFirsPay = (SwitchCompat) view.findViewById(R.id.chbAccountStartSumEnabled);
+        rvNorify = (RecyclerView) view.findViewById(R.id.rvAddAutoMarketPerItems);
+        rlStartSumContainer = (RelativeLayout) view.findViewById(R.id.rlStartSumContainer);
         getDate = paFragmentManager.isMainReturn() ? dataCache.getEndDate() : Calendar.getInstance();
         if (TYPE == DebtBorrow.DEBT) {
             PersonSumm.setHint(getResources().getString(R.string.enter_borrow_amoount));
             ((TextView) view.findViewById(R.id.summ_zayma)).setText(R.string.amount_borrow);
         }
-
+        view.findViewById(R.id.checkInclude).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                calculate.toggle();
+            }
+        });
+        view.findViewById(R.id.checkContribution).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                scFirsPay.toggle();
+            }
+        });
+        scFirsPay.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (scFirsPay.isChecked()) {
+                    rlStartSumContainer.setVisibility(View.VISIBLE);
+                } else  {
+                    rlStartSumContainer.setVisibility(View.GONE);
+                    firstPay.setText("");
+                }
+            }
+        });
         PersonAccount.setOnItemSelectedListener(this);
         PersonValyuta.setOnItemSelectedListener(this);
         String[] accaounts = new String[accountDao.queryBuilder().list().size()];
@@ -293,7 +332,7 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
             }
         }
         PersonValyuta.setSelection(posMain);
-        PersonDataGet.setText(dateFormat.format(getDate.getTime()));
+        PersonDataGet.setText(sDateFormat.format(getDate.getTime()));
         PersonDataGet.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -407,11 +446,11 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
                 }
             calculate.setChecked(currentDebtBorrow.getCalculate());
             PersonSumm.setText(String.valueOf(currentDebtBorrow.getAmount()));
-            PersonDataGet.setText(dateFormat.format(currentDebtBorrow.getTakenDate().getTime()));
+            PersonDataGet.setText(sDateFormat.format(currentDebtBorrow.getTakenDate().getTime()));
             getDate = (Calendar) currentDebtBorrow.getTakenDate().clone();
             if (currentDebtBorrow.getReturnDate() != null) {
                 returnDate = (Calendar) currentDebtBorrow.getReturnDate().clone();
-                PersonDataRepeat.setText(dateFormat.format(currentDebtBorrow.getReturnDate().getTime()));
+                PersonDataRepeat.setText(sDateFormat.format(currentDebtBorrow.getReturnDate().getTime()));
             }
             if (!currentDebtBorrow.getPerson().getPhoto().isEmpty()) {
                 try {
@@ -421,7 +460,7 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
                 }
                 photoPath = currentDebtBorrow.getPerson().getPhoto();
             }
-            if (!currentDebtBorrow.getReckings().isEmpty() && dateFormat.format(currentDebtBorrow.getReckings().get(0).getPayDate().getTime()).matches(dateFormat.format(getDate.getTime())))
+            if (!currentDebtBorrow.getReckings().isEmpty() && sDateFormat.format(currentDebtBorrow.getReckings().get(0).getPayDate().getTime()).matches(sDateFormat.format(getDate.getTime())))
                 firstPay.setText("" + currentDebtBorrow.getReckings().get(0).getAmount());
         }
         return view;
@@ -499,8 +538,8 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
                             logicManager.insertDebtBorrow(currentDebtBorrow);
                         }
                         if (!firstPay.getText().toString().isEmpty()) {
-                            if (!currentDebtBorrow.getReckings().isEmpty() && dateFormat.format(currentDebtBorrow.getReckings().get(0)
-                                    .getPayDate().getTime()).matches(dateFormat.format(currentDebtBorrow.getTakenDate().getTime()))) {
+                            if (!currentDebtBorrow.getReckings().isEmpty() && sDateFormat.format(currentDebtBorrow.getReckings().get(0)
+                                    .getPayDate().getTime()).matches(sDateFormat.format(currentDebtBorrow.getTakenDate().getTime()))) {
                                 currentDebtBorrow.getReckings().get(0).setAmount(Double.parseDouble(firstPay.getText().toString()));
                             } else {
                                 currentDebtBorrow.getReckings().add(0, new Recking(getDate,
@@ -644,7 +683,7 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
             if (debt.getType() == DebtBorrow.DEBT) {
                 currentDebtBorrow.__setDaoSession(daoSession);
                 if (currentDebtBorrow != null && !currentDebtBorrow.getReckings().isEmpty() &&
-                        dateFormat.format(currentDebtBorrow.getTakenDate().getTime()).matches(dateFormat.format(currentDebtBorrow.getReckings().get(0).getPayDate().getTime()))) {
+                        sDateFormat.format(currentDebtBorrow.getTakenDate().getTime()).matches(dateFormat.format(currentDebtBorrow.getReckings().get(0).getPayDate().getTime()))) {
                     accounted = accounted + commonOperations.getCost(Calendar.getInstance(), debt.getCurrency(), account.getCurrency(),
                             Double.parseDouble(PersonSumm.getText().toString()) - (!firstPay.getText().toString().isEmpty() ? Double.parseDouble(firstPay.getText().toString()) : 0));
                     accounted = accounted - currentDebtBorrow.getReckings().get(0).getAmount();
@@ -654,7 +693,7 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
                 }
             } else {
                 if (currentDebtBorrow != null && !currentDebtBorrow.getReckings().isEmpty() &&
-                        dateFormat.format(currentDebtBorrow.getTakenDate().getTime()).matches(dateFormat.format(currentDebtBorrow.getReckings().get(0).getPayDate().getTime()))) {
+                        sDateFormat.format(currentDebtBorrow.getTakenDate().getTime()).matches(dateFormat.format(currentDebtBorrow.getReckings().get(0).getPayDate().getTime()))) {
                     accounted = accounted - commonOperations.getCost(Calendar.getInstance(), debt.getCurrency(), account.getCurrency(),
                             Double.parseDouble(PersonSumm.getText().toString()) - (!firstPay.getText().toString().isEmpty() ? Double.parseDouble(firstPay.getText().toString()) : 0));
                     accounted = accounted + currentDebtBorrow.getReckings().get(0).getAmount();
@@ -917,5 +956,108 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
     }
 
     public void onNothingSelected(AdapterView<?> parent) {
+    }
+    private class DaysAdapter extends RecyclerView.Adapter<AddBorrowFragment.ViewHolderDialog> {
+        private String[] days;
+        private boolean tek[];
+
+        public DaysAdapter(int type) {
+            sequence2 = "";
+            if (type == 0) {
+                days = getResources().getStringArray(R.array.week_day_auto);
+            } else {
+                days = new String[31];
+                for (int i = 0; i < days.length; i++) {
+                    days[i] = i < 9 ? "" + (i + 1) : "" + (i + 1);
+                }
+            }
+            tek = new boolean[days.length];
+//            if (currentCredit != null) {
+//                String [] dates = currentCredit.get().split(",");
+//                for (int i = 0; i < days.length; i++) {
+//                    for (String date : dates) {
+//                        if (days[i].matches(date)) {
+//                            tek[i] = true;
+//                            break;
+//                        }
+//                    }
+//                }
+//            }
+        }
+
+        public void getResult() {
+            for (int i = 0; i < tek.length; i++) {
+                if (tek[i]) {
+                    sequence2 = sequence2 + days[i] + ",";
+                }
+            }
+        }
+
+        public String posDays() {
+            String posDay = "";
+            for (int i = 0; i < tek.length; i++) {
+                if (tek[i]) {
+                    posDay +=i + ",";
+                }
+            }
+            return posDay;
+        }
+
+        @Override
+        public int getItemCount() {
+            return days.length;
+        }
+
+        public void onBindViewHolder(final AddBorrowFragment.ViewHolderDialog view, final int position) {
+            if (position % 7 == 0) {
+                view.frameLayout.setVisibility(View.GONE);
+            }
+            view.day.setText(days[position]);
+            if (tek[position])
+            {
+                view.day.setTextColor(ContextCompat.getColor(getContext(), R.color.green_just));
+                view.day.setTypeface(null, Typeface.BOLD);
+
+            }
+            else {
+                view.day.setTextColor(ContextCompat.getColor(getContext(), R.color.black_for_secondary_text));
+                view.day.setTypeface(null, Typeface.NORMAL);
+
+            }
+            view.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!tek[position]) {
+                        view.day.setTextColor(ContextCompat.getColor(getContext(), R.color.green_just));
+                        view.day.setTypeface(null, Typeface.BOLD);
+
+                    } else {
+                        view.day.setTextColor(ContextCompat.getColor(getContext(), R.color.black_for_secondary_text));
+                        view.day.setTypeface(null, Typeface.NORMAL);
+
+                    }
+                    tek[position] = !tek[position];
+                }
+            });
+        }
+
+        public AddBorrowFragment.ViewHolderDialog onCreateViewHolder(ViewGroup parent, int var2) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_dialog_month_layout, parent, false);
+            return new AddBorrowFragment.ViewHolderDialog(view);
+        }
+
+
+    }
+
+    public class ViewHolderDialog extends RecyclerView.ViewHolder {
+        public TextView day;
+        public FrameLayout frameLayout;
+        public View itemView;
+        public ViewHolderDialog(View view) {
+            super(view);
+            itemView  = view;
+            day = (TextView) view.findViewById(R.id.tvItemDay);
+            frameLayout = (FrameLayout) view.findViewById(R.id.flItemDay);
+        }
     }
 }

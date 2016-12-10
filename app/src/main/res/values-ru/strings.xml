@@ -1139,14 +1139,14 @@
     <string name="payy">Оплатить</string>
     <string name="debt_delete_meessage">Запись будет удалена из баланса.</string>
     <string name="delete">Удалить</string>
-    <string name="no_calc_in_balance">Не учитывать в балансе</string>
+    <string name="no_calc_in_balance">Не учитывается в балансе</string>
     <string name="calc_in_balance">Учитывать в балансе</string>
     <string name="delete_question">Удалить?</string>
     <string name="by">Через:</string>
     <string name="pay_daet">"Дата выплаты:  "</string>
     <string name="information">Информация</string>
     <string name="phone_number">Телефонный номер</string>
-    <string name="total_sum">Общая сумма:</string>
+    <string name="total_sum">Общая сумма</string>
     <string name="balance">Баланс</string>
     <string name="total_pay_sum">Общая сумма выплат:</string>
     <string name="pay_date">Дата оплаты</string>

@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#fff">
-    <!--tools:context="com.jim.pocketaccounter.AddCreditFragment">-->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -74,7 +73,7 @@
                             android:layout_alignParentEnd="true"
                             android:layout_alignParentRight="true"
                             android:layout_marginBottom="@dimen/two_dp"
-                            android:background="@drawable/rounded_rectangle_1">
+                            android:background="@drawable/days_shape_green">
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -83,7 +82,7 @@
                                 android:layout_marginRight="@dimen/eight_dp"
                                 android:layout_marginTop="@dimen/five_dp"
                                 android:text="@string/from_contact"
-                                android:textColor="@color/green_light"
+                                android:textColor="@color/credit_och_yashil"
                                 android:textSize="@dimen/eight_dp" />
                         </FrameLayout>
                     </RelativeLayout>
@@ -101,7 +100,9 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_marginTop="@dimen/twenty_dp"
+                        android:layout_marginTop="@dimen/ten_dp"
+                        android:paddingBottom="@dimen/ten_dp"
+                        android:paddingTop="@dimen/ten_dp"
                         android:orientation="horizontal">
                         <TextView
                             android:layout_width="wrap_content"
@@ -117,10 +118,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/edit_text"
-                        android:paddingTop="@dimen/eight_dp"
-                        android:paddingBottom="@dimen/eight_dp"
+                        android:paddingTop="@dimen/ten_dp"
+                        android:paddingBottom="@dimen/ten_dp"
                         android:paddingLeft="@dimen/ten_dp"
-                        android:paddingRight="@dimen/five_dp">
+                        android:paddingRight="@dimen/ten_dp">
                         <EditText
                             android:id="@+id/etBorrowAddPopupNumber"
                             android:layout_width="match_parent"
@@ -137,7 +138,9 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_marginTop="@dimen/twenty_dp"
+                        android:layout_marginTop="@dimen/ten_dp"
+                        android:paddingBottom="@dimen/ten_dp"
+                        android:paddingTop="@dimen/ten_dp"
                         android:orientation="horizontal">
                         <TextView
                             android:id="@+id/summ_zayma"
@@ -154,9 +157,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/edit_text"
-                        android:paddingTop="@dimen/eight_dp"
+                        android:paddingTop="@dimen/ten_dp"
+                        android:paddingBottom="@dimen/ten_dp"
                         android:paddingLeft="@dimen/ten_dp"
-                        android:paddingRight="@dimen/five_dp"
+                        android:paddingRight="@dimen/ten_dp"
                         >
                         <Spinner
                             android:id="@+id/spBorrowAddPopupValyuta"
@@ -165,28 +169,26 @@
                             android:layout_alignParentEnd="true"
                             android:layout_alignParentRight="true"
                             android:layout_centerInParent="true"
-                            android:layout_marginTop="@dimen/fourteen_dp"
                             android:textSize="@dimen/sixteen_dp"/>
                         <EditText
                             android:id="@+id/etBorrowAddPopupSumm"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentLeft="true"
-                            android:layout_alignParentStart="true"
-                            android:layout_alignParentTop="true"
-                            android:layout_toLeftOf="@+id/spBorrowAddPopupValyuta"
                             android:hint="@string/enter_debt_amoount"
                             android:background="@color/white"
                             android:inputType="numberDecimal"
                             android:maxLength="13"
                             android:text=""
                             android:textSize="@dimen/sixteen_dp"
-                            />
+                            android:layout_alignTop="@+id/spBorrowAddPopupValyuta"
+                            android:layout_alignBottom="@+id/spBorrowAddPopupValyuta" />
                     </RelativeLayout>
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_marginTop="@dimen/sixteen_dp"
+                        android:layout_marginTop="@dimen/ten_dp"
+                        android:paddingBottom="@dimen/ten_dp"
+                        android:paddingTop="@dimen/ten_dp"
                         android:orientation="horizontal">
                         <TextView
                             android:layout_width="wrap_content"
@@ -211,10 +213,10 @@
                             android:layout_marginRight="@dimen/six_dp"
                             android:layout_toLeftOf="@+id/imageView2"
                             android:background="@drawable/edit_text"
-                            android:paddingTop="@dimen/eight_dp"
-                            android:paddingBottom="@dimen/eight_dp"
+                            android:paddingTop="@dimen/ten_dp"
+                            android:paddingBottom="@dimen/ten_dp"
                             android:paddingLeft="@dimen/ten_dp"
-                            android:paddingRight="@dimen/five_dp"
+                            android:paddingRight="@dimen/ten_dp"
                             android:focusableInTouchMode="false"
                             android:hint="@string/begin_date"
                             android:textSize="@dimen/sixteen_dp"
@@ -230,25 +232,25 @@
                             android:id="@+id/etBorrowAddPopupDataRepeat"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentRight="true"
-                            android:layout_marginLeft="@dimen/six_dp"
-                            android:layout_toEndOf="@+id/imageView2"
                             android:background="@drawable/edit_text"
+                            android:paddingTop="@dimen/ten_dp"
+                            android:paddingBottom="@dimen/ten_dp"
                             android:paddingLeft="@dimen/ten_dp"
-                            android:paddingRight="@dimen/five_dp"
-                            android:paddingTop="@dimen/eight_dp"
-                            android:paddingBottom="@dimen/eight_dp"
-                            android:layout_toRightOf="@+id/imageView2"
+                            android:paddingRight="@dimen/ten_dp"
                             android:focusableInTouchMode="false"
                             android:hint="@string/end_time"
                             android:textSize="@dimen/sixteen_dp"
-                            />
+                            android:layout_alignParentBottom="true"
+                            android:layout_toRightOf="@+id/imageView2"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignParentEnd="true" />
                     </RelativeLayout>
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_marginTop="@dimen/sixteen_dp"
+                        android:layout_marginTop="@dimen/ten_dp"
+                        android:paddingBottom="@dimen/ten_dp"
+                        android:paddingTop="@dimen/ten_dp"
                         android:orientation="horizontal">
                         <TextView
                             android:layout_width="wrap_content"
@@ -266,6 +268,8 @@
                         android:layout_marginTop="@dimen/five_dp"
                         android:background="@drawable/edit_text"
                         android:paddingBottom="@dimen/eight_dp"
+                        android:layout_marginBottom="@dimen/sixteen_dp"
+
                         android:paddingTop="@dimen/eight_dp"
                         android:orientation="horizontal">
                         <Spinner
@@ -276,116 +280,119 @@
                             android:layout_weight="1"
                             android:textSize="@dimen/sixteen_dp"
                             />
-                        <FrameLayout
-                            android:id="@+id/btnDetalization"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignBottom="@+id/name_text_view"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentRight="true"
-                            android:layout_gravity="center"
-                            android:layout_marginBottom="@dimen/two_dp"
-                            android:layout_marginTop="@dimen/five_dp"
-                            android:layout_marginRight="@dimen/five_dp"
-                            android:background="@drawable/rounded_rectangle_1">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginBottom="@dimen/five_dp"
-                                android:layout_marginLeft="@dimen/eight_dp"
-                                android:layout_marginRight="@dimen/eight_dp"
-                                android:layout_marginTop="@dimen/five_dp"
-                                android:text="@string/detalization"
-                                android:textColor="@color/green_light"
-                                android:textSize="@dimen/twelve_sp" />
-                        </FrameLayout>
                     </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="@dimen/sixteen_dp"
-                        android:orientation="horizontal">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="@dimen/ten_dp"
-                            android:text="@string/transactions"
-                            android:textColor="@color/black_for_glavniy_text"
-                            android:textSize="@dimen/fourteen_dp"
-                            />
-                    </LinearLayout>
-                    <RelativeLayout
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rvAddAutoMarketPerItems"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/five_dp"
-                        android:layout_marginTop="@dimen/five_dp">
+
+                        android:layout_gravity="center"
+                        android:visibility="gone"
+                        android:layout_marginBottom="@dimen/sixteen_dp"
+                        android:padding="@dimen/two_dp"
+                  />
+                    <TextView
+                        android:id="@+id/tvAboutNotify"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/about_notifications"
+                        android:textSize="@dimen/twelve_dp"/>
+                    <RelativeLayout
+                        android:id="@+id/checkInclude"
+                        android:layout_width="match_parent"
+                        android:layout_marginBottom="@dimen/sixteen_dp"
+                        android:paddingTop="@dimen/ten_dp"
+                        android:layout_marginTop="@dimen/ten_dp"
+                        android:paddingBottom="@dimen/ten_dp"
+                        android:layout_height="wrap_content">
                         <TextView
-                            android:id="@+id/textView4"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:text="@string/include_credit_in_balance"
+                            android:layout_centerVertical="true"
+                            android:textColor="@color/black_for_glavniy_text"
+                            android:textSize="@dimen/fourteen_dp"
+                            android:layout_toLeftOf="@+id/key_for_balance"
                             android:layout_alignParentLeft="true"
                             android:layout_alignParentStart="true"
-                            android:layout_marginTop="@dimen/five_dp"
-                            android:layout_toLeftOf="@+id/chbAddDebtBorrowCalculate"
-                            android:text="@string/include_in_balance"
-                            android:textColor="@color/black_for_glavniy_text"
-                            android:textSize="@dimen/twelve_sp" />
-
+                            />
                         <android.support.v7.widget.SwitchCompat
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:layout_marginRight="@dimen/sixteen_dp"
                             android:layout_alignParentRight="true"
                             android:layout_alignParentEnd="true"
-                            android:checked="true"
                             android:id="@+id/chbAddDebtBorrowCalculate" />
-
-                        <!--<CheckBox-->
-                            <!--android:id="@+id/chbAddDebtBorrowCalculate"-->
-                            <!--android:layout_width="wrap_content"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:layout_alignBottom="@+id/textView4"-->
-                            <!--android:layout_alignParentEnd="true"-->
-                            <!--android:layout_alignParentRight="true"-->
-                            <!--android:layout_alignTop="@+id/textView4"-->
-                            <!--android:checked="true"-->
-                            <!--android:text="" />-->
                     </RelativeLayout>
                     <RelativeLayout
+                        android:id="@+id/checkContribution"
                         android:layout_width="match_parent"
+                        android:paddingTop="@dimen/ten_dp"
+                        android:paddingBottom="@dimen/ten_dp"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/have_first_contribution"
+                            android:layout_centerVertical="true"
+                            android:textColor="@color/black_for_glavniy_text"
+                            android:textSize="@dimen/fourteen_dp"
+                            android:layout_toLeftOf="@+id/chbAccountStartSumEnabled"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true"
+                            />
+                        <android.support.v7.widget.SwitchCompat
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignParentEnd="true"
+                            android:id="@+id/chbAccountStartSumEnabled" />
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:id="@+id/rlStartSumContainer"
+                        android:layout_width="match_parent"
+
                         android:layout_height="wrap_content"
                         android:background="@drawable/edit_text"
                         android:paddingTop="@dimen/eight_dp"
-                        android:paddingLeft="@dimen/five_dp"
                         android:paddingBottom="@dimen/eight_dp"
-                        >
+                        android:paddingLeft="@dimen/ten_dp"
+                        android:paddingRight="@dimen/five_dp"
+                        android:layout_marginBottom="@dimen/sixteen_dp"
+                        android:visibility="gone">
+
                         <EditText
                             android:id="@+id/etDebtBorrowFirstPay"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentLeft="true"
-                            android:layout_alignParentStart="true"
-                            android:layout_marginRight="@dimen/six_dp"
-                            android:background="@color/white"
-                            android:paddingLeft="@dimen/ten_dp"
-                            android:paddingRight="@dimen/five_dp"
-                            android:hint="@string/enter_first_transaction"
-                            android:inputType="numberDecimal"
-                            android:layout_centerVertical="true"
-                            android:maxLength="13"
-                            android:textSize="@dimen/sixteen_dp"
-                            />
-                        <Spinner
-                            android:id="@+id/spBorrowAddPopupAccount"
                             android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_alignParentEnd="true"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:ems="10"
+                            android:maxLength="25"
+                            android:hint="@string/value_of_contribution"
+                            android:textColor="@color/black_for_glavniy_text"
                             android:textSize="@dimen/sixteen_dp"
-                            android:layout_centerVertical="true"
+                            android:background="#fff"
+                            android:inputType="numberDecimal"
+                            android:layout_gravity="center_vertical"
+                            android:layout_toLeftOf="@+id/spStartMoneyCurrency"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true" />
+
+                        <Spinner
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/spBorrowAddPopupAccount"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="right"
+                            android:layout_marginLeft="@dimen/sixteen_dp"
                             android:layout_alignParentRight="true"
-                            />
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignBottom="@+id/etStartMoney"
+                            android:layout_alignParentTop="true" />
                     </RelativeLayout>
+
                 </LinearLayout>
                 <RelativeLayout
                     android:layout_width="match_parent"

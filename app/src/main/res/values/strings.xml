@@ -1115,14 +1115,14 @@
     <string name="payy">Pay</string>
     <string name="debt_delete_meessage">The entry is removed from the balance.</string>
     <string name="delete">Delete</string>
-    <string name="no_calc_in_balance">Do not be taken into account in the balance.</string>
+    <string name="no_calc_in_balance">Not consider in balance</string>
     <string name="calc_in_balance">Consider in balance</string>
     <string name="delete_question">Delete?</string>
     <string name="by">Via:</string>
     <string name="pay_daet">"Date of payment:"</string>
     <string name="information">Info</string>
     <string name="phone_number">Phone number</string>
-    <string name="total_sum">Total amount:</string>
+    <string name="total_sum">Total amount</string>
     <string name="balance">Balance</string>
     <string name="total_pay_sum">The total payment:</string>
     <string name="pay_date">Payment Date</string>
@@ -1680,4 +1680,8 @@
     <string name="credit_stat">Credit status</string>
     <string name="credit_repiad">Credit repiad</string>
     <string name="credit_end_date">Credit end date</string>
+    <string name="debtor_name">Debtor name</string>
+    <string name="borrower_name">Borrower name</string>
+    <string name="to_archive">To archive</string>
+    <string name="archiveee">ARCHIVE</string>
 </resources>

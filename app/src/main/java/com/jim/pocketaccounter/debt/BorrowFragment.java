@@ -60,9 +60,11 @@ import com.jim.pocketaccounter.utils.cache.DataCache;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -97,7 +99,8 @@ public class BorrowFragment extends Fragment {
     private RecyclerView recyclerView;
     private LinearLayoutManager mLayoutManager;
     private MyAdapter myAdapter;
-
+    DecimalFormat formater;
+    Context context;
     private DebtBorrowFragment debtBorrowFragment;
     private int TYPE = 0;
 
@@ -118,6 +121,8 @@ public class BorrowFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         TYPE = getArguments().getInt("type", 0);
+        formater = new DecimalFormat("0.00");
+        context=getContext();
         warningDialog = new WarningDialog(getContext());
     }
 
@@ -191,10 +196,37 @@ public class BorrowFragment extends Fragment {
         public int getItemCount() {
             return persons.size();
         }
+        public  int[] getDateDifferenceInDDMMYYYY(Date from, Date to) {
+            Calendar fromDate = Calendar.getInstance();
+            Calendar toDate = Calendar.getInstance();
+            fromDate.setTime(from);
+            toDate.setTime(to);
+            int increment = 0;
+            int year, month, day;
+            if (fromDate.get(Calendar.DAY_OF_MONTH) > toDate.get(Calendar.DAY_OF_MONTH)) {
+                increment = fromDate.getActualMaximum(Calendar.DAY_OF_MONTH);
+            }
+            if (increment != 0) {
+                day = (toDate.get(Calendar.DAY_OF_MONTH) + increment) - fromDate.get(Calendar.DAY_OF_MONTH);
+                increment = 1;
+            } else {
+                day = toDate.get(Calendar.DAY_OF_MONTH) - fromDate.get(Calendar.DAY_OF_MONTH);
+            }
+
+            if ((fromDate.get(Calendar.MONTH) + increment) > toDate.get(Calendar.MONTH)) {
+                month = (toDate.get(Calendar.MONTH) + 12) - (fromDate.get(Calendar.MONTH) + increment);
+                increment = 1;
+            } else {
+                month = (toDate.get(Calendar.MONTH)) - (fromDate.get(Calendar.MONTH) + increment);
+                increment = 0;
+            }
+
+            year = toDate.get(Calendar.YEAR) - (fromDate.get(Calendar.YEAR) + increment);
+            return new int[]{year, month, day};
+        }
 
         public void onBindViewHolder(final ViewHolder view, final int position) {
-            final int t = 0;
-            final DebtBorrow person = persons.get(Math.abs(t - position));
+            final DebtBorrow person = persons.get(position);
             if (person.getType() == DebtBorrow.DEBT) {
                 view.flItemDebtBorrowPay.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.red_pay_background));
                 view.tvItemDebtBorrowLeft.setTextColor(Color.parseColor("#dc4849"));
@@ -226,48 +258,50 @@ public class BorrowFragment extends Fragment {
                 }
             }
 
-            // left Date
-            Calendar currentDate = Calendar.getInstance();
-            int day = 0;
-            int mounth = 0;
-            int year = 0;
 
-            if (person.getReturnDate() != null && currentDate.compareTo(person.getReturnDate()) <= 0) {
-                if (currentDate.get(Calendar.DAY_OF_MONTH) <= person.getReturnDate().get(Calendar.DAY_OF_MONTH)) {
-                    day = person.getReturnDate().get(Calendar.DAY_OF_MONTH) - currentDate.get(Calendar.DAY_OF_MONTH);
-                    if (currentDate.get(Calendar.MONTH) <= person.getReturnDate().get(Calendar.MONTH)) {
-                        mounth = person.getReturnDate().get(Calendar.MONTH) - currentDate.get(Calendar.MONTH);
-                        if (currentDate.get(Calendar.YEAR) <= person.getReturnDate().get(Calendar.YEAR)) {
-                            year = person.getReturnDate().get(Calendar.YEAR) - currentDate.get(Calendar.YEAR);
-                        }
+            if (person.getReturnDate() == null) {
+                view.tvItemDebtBorrowLeftDate.setText(getResources().getString(R.string.no_date_selected));}
+            else {
+            int t[] = getDateDifferenceInDDMMYYYY(Calendar.getInstance().getTime(), person.getReturnDate().getTime());
+            if (t[0] * t[1] * t[2] < 0 && (t[0] + t[1] + t[2]) != 0) {
+                view.tvItemDebtBorrowLeftDate.setText(R.string.ends);
+            } else {
+                String left_date_string = "";
+                if (t[0] != 0) {
+                    if (t[0] > 1) {
+                        left_date_string += Integer.toString(t[0]) + " " + context.getString(R.string.years);
                     } else {
-                        mounth = person.getReturnDate().get(Calendar.MONTH) + 12 - currentDate.get(Calendar.MONTH);
-                        year = person.getReturnDate().get(Calendar.YEAR) - 1 - currentDate.get(Calendar.YEAR);
-                    }
-                } else {
-                    person.getReturnDate().add(Calendar.MONTH, -1);
-                    day = person.getReturnDate().get(Calendar.DAY_OF_MONTH) + person.getReturnDate()
-                            .getActualMaximum(Calendar.MONTH) - currentDate.get(Calendar.DAY_OF_MONTH);
-                    if (person.getReturnDate().get(Calendar.MONTH) >= currentDate.get(Calendar.MONTH)) {
-                        mounth = person.getReturnDate().get(Calendar.MONTH) - currentDate.get(Calendar.MONTH);
-                        if (person.getReturnDate().get(Calendar.YEAR) >= currentDate.get(Calendar.YEAR)) {
-                            year = person.getReturnDate().get(Calendar.YEAR) - currentDate.get(Calendar.YEAR);
-                        }
-                    } else {
-                        mounth = person.getReturnDate().get(Calendar.MONTH) + 12 - currentDate.get(Calendar.MONTH);
-                        if (person.getReturnDate().get(Calendar.YEAR) > currentDate.get(Calendar.YEAR)) {
-                            year = person.getReturnDate().get(Calendar.YEAR) - 1 - currentDate.get(Calendar.YEAR);
-                        }
+                        left_date_string += Integer.toString(t[0]) + " " + context.getString(R.string.year);
                     }
                 }
-            }
-            String sana = (year != 0 ? year + " " + getString(R.string.year) : "")
-                    + (mounth != 0 ? mounth + " " + getString(R.string.moth) : "")
-                    + (day != 0 ? day + " " + getString(R.string.day) : "");
-            if (person.getReturnDate() == null) {
-                view.tvItemDebtBorrowLeftDate.setText(getResources().getString(R.string.no_date_selected));
-            } else
-                view.tvItemDebtBorrowLeftDate.setText(sana);
+                if (t[1] != 0) {
+                    if (!left_date_string.matches("")) {
+                        left_date_string += " ";
+                    }
+                    if (t[1] > 1) {
+                        left_date_string += Integer.toString(t[1]) + " " + context.getString(R.string.moths);
+                    } else {
+                        left_date_string += Integer.toString(t[1]) + " " + context.getString(R.string.moth);
+                    }
+                }
+                if (t[2] != 0) {
+                    if (!left_date_string.matches("")) {
+                        left_date_string += " ";
+                    }
+                    if (t[2] > 1) {
+                        left_date_string += Integer.toString(t[2]) + " " + context.getString(R.string.days);
+                    } else {
+                        left_date_string += Integer.toString(t[2]) + " " + context.getString(R.string.day);
+                    }
+                }
+                view.tvItemDebtBorrowLeftDate.setText(left_date_string);
+            }}
+
+            // left Date
+
+
+
+
 
             view.llItemDebtBorrowCall.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -313,44 +347,76 @@ public class BorrowFragment extends Fragment {
             });
             if (TYPE == 2) {
                 view.pay.setVisibility(View.GONE);
+                view.flItemDebtBorrowPay.setVisibility(View.GONE);
             } else {
                 double total = 0;
                 for (Recking rec : person.getReckings()) {
                     total += rec.getAmount();
                 }
                 if (total >= person.getAmount()) {
-                    view.pay.setText(getString(R.string.archive));
+                    view.pay.setText(getString(R.string.to_archive));
                 } else view.pay.setText(getString(R.string.payy));
             }
 
             view.flItemDebtBorrowPay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (!view.pay.getText().toString().matches(getString(R.string.archive))) {
+                    if (!view.pay.getText().toString().matches(getString(R.string.to_archive))) {
                         final Dialog dialog = new Dialog(getActivity());
                         View dialogView = getActivity().getLayoutInflater().inflate(R.layout.add_pay_debt_borrow_info_mod, null);
                         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                         dialog.setContentView(dialogView);
-                        final EditText enterDate = (EditText) dialogView.findViewById(R.id.etInfoDebtBorrowDate);
+                        View vi = dialog.getWindow().getDecorView();
+                        vi.setBackgroundResource(android.R.color.transparent);
+
+                        final TextView enterDate = (TextView) dialogView.findViewById(R.id.etInfoDebtBorrowDate);
+                        final TextView abbrrAmount = (TextView) dialogView.findViewById(R.id.abbrrAmount);
+                        final TextView debetorName = (TextView) dialogView.findViewById(R.id.for_period);
+                        final TextView tvResidue = (TextView) dialogView.findViewById(R.id.tvResidue);
+                        final TextView periodDate = (TextView) dialogView.findViewById(R.id.periodDate);
+                        final TextView shouldPayPeriod = (TextView) dialogView.findViewById(R.id.shouldPayPeriod);
                         final EditText enterPay = (EditText) dialogView.findViewById(R.id.etInfoDebtBorrowPaySumm);
                         final EditText comment = (EditText) dialogView.findViewById(R.id.etInfoDebtBorrowPayComment);
                         final Spinner accountSp = (Spinner) dialogView.findViewById(R.id.spInfoDebtBorrowAccount);
-                        RelativeLayout relativeLayout = (RelativeLayout) dialogView.findViewById(R.id.is_calc);
+                        ImageView cancel = (ImageView) dialogView.findViewById(R.id.ivInfoDebtBorrowCancel);
+                        final TextView save = (TextView) dialogView.findViewById(R.id.ivInfoDebtBorrowSave);
+                        final LinearLayout accountSpin = (LinearLayout) dialogView.findViewById(R.id.accountSpin);
+
+                        abbrrAmount.setText(person.getCurrency().getAbbr());
+
                         if (!person.getCalculate()) {
-                            relativeLayout.setVisibility(View.GONE);
+                            accountSpin.setVisibility(View.GONE);
                         }
-                        String[] accaounts = new String[accountDao.queryBuilder().list().size()];
+
+                        final String[] accaounts = new String[accountDao.queryBuilder().list().size()];
                         for (int i = 0; i < accaounts.length; i++) {
                             accaounts[i] = accountDao.queryBuilder().list().get(i).getName();
                         }
-
+                        tvResidue.setText(getString(R.string.left)+":");
                         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
-                                getContext(), R.layout.spiner_gravity_right, accaounts);
+                                getContext(), R.layout.spiner_gravity_left, accaounts);
 
                         accountSp.setAdapter(arrayAdapter);
 
-                        ImageView cancel = (ImageView) dialogView.findViewById(R.id.ivInfoDebtBorrowCancel);
-                        ImageView save = (ImageView) dialogView.findViewById(R.id.ivInfoDebtBorrowSave);
+
+                        double v1 = person.getAmount();
+                        double totalAm = 0;
+                        for (Recking recking:person.getReckings()){
+                            totalAm +=recking.getAmount();
+                        }
+                        shouldPayPeriod.setText(formater.format(v1-totalAm)+person.getCurrency().getAbbr());
+                        if(person.getType() == DebtBorrow.DEBT){
+                            debetorName.setText(R.string.debtor_name+":");
+                            periodDate.setText(person.getPerson().getName());
+                        }
+                        else {
+                            debetorName.setText(getString(R.string.borrower_name)+":");
+                            periodDate.setText(person.getPerson().getName());
+
+                        }
+
+
+
                         final Calendar date = Calendar.getInstance();
                         enterDate.setText(dateFormat.format(date.getTime()));
                         cancel.setOnClickListener(new View.OnClickListener() {
@@ -424,7 +490,7 @@ public class BorrowFragment extends Fragment {
                                                     int procet = (int) (total / template);
 //                                                    view.frameLayout.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, procet));
                                                     if (person.getAmount() <= total) {
-                                                        view.pay.setText(getString(R.string.archive));
+                                                        view.pay.setText(getString(R.string.to_archive));
                                                     }
                                                     view.tvItemDebtBorrowLeft.setText(getResources().getString(R.string.repaid));
                                                     dialog.dismiss();
@@ -442,7 +508,7 @@ public class BorrowFragment extends Fragment {
                                                     int procet = (int) (total / template);
 //                                                    view.frameLayout.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, procet));
                                                     if (person.getAmount() <= total) {
-                                                        view.pay.setText(getString(R.string.archive));
+                                                        view.pay.setText(getString(R.string.to_archive));
                                                     }
                                                     view.tvItemDebtBorrowLeft.setText(getResources().getString(R.string.repaid));
                                                     dialog.dismiss();
@@ -477,7 +543,7 @@ public class BorrowFragment extends Fragment {
                                             int procet = (int) (total / template);
 //                                            view.frameLayout.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, procet));
                                             if (person.getAmount() <= total) {
-                                                view.pay.setText(getString(R.string.archive));
+                                                view.pay.setText(getString(R.string.to_archive));
                                             }
                                             logicManager.insertReckingDebt(recking);
                                             view.tvItemDebtBorrowLeft.setText("" + ((person.getAmount() - total) ==
@@ -498,7 +564,7 @@ public class BorrowFragment extends Fragment {
                                                     total += recking1.getAmount();
                                                 }
                                                 if (person.getAmount() <= total) {
-                                                    view.pay.setText(getString(R.string.archive));
+                                                    view.pay.setText(getString(R.string.to_archive));
                                                 }
                                                 double template = person.getAmount() / 100;
                                                 int procet = (int) (total / template);

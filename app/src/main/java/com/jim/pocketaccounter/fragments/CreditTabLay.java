@@ -219,7 +219,7 @@ public class CreditTabLay extends Fragment implements View.OnClickListener, View
             if (position == 0) {
                 return getResources().getString(R.string.active);
             }
-            return getResources().getString(R.string.archive);
+            return getResources().getString(R.string.archiveee);
         }
     }
 

@@ -2,21 +2,28 @@ package com.jim.pocketaccounter.debt;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.view.menu.MenuBuilder;
+import android.support.v7.view.menu.MenuPopupHelper;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -44,6 +51,9 @@ import com.jim.pocketaccounter.database.DaoSession;
 import com.jim.pocketaccounter.database.DebtBorrow;
 import com.jim.pocketaccounter.database.DebtBorrowDao;
 import com.jim.pocketaccounter.database.Recking;
+import com.jim.pocketaccounter.database.ReckingCredit;
+import com.jim.pocketaccounter.fragments.CategoryFragment;
+import com.jim.pocketaccounter.fragments.RootCategoryEditFragment;
 import com.jim.pocketaccounter.managers.CommonOperations;
 import com.jim.pocketaccounter.managers.LogicManager;
 import com.jim.pocketaccounter.managers.LogicManagerConstants;
@@ -57,9 +67,12 @@ import com.jim.pocketaccounter.utils.cache.DataCache;
 
 import org.greenrobot.greendao.query.Query;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -94,7 +107,9 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
     WarningDialog warningDialog;
     DebtBorrowDao debtBorrowDao;
     AccountDao accountDao;
+    SimpleDateFormat sDateFormat = new SimpleDateFormat("dd MMM, yyyy");
 
+    private Context context;
     private TextView borrowName;
     private TextView leftAmount;
     private TextView borrowLeftDate;
@@ -106,12 +121,12 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
     private android.support.v7.widget.RecyclerView recyclerView;
     private String id = "";
     private PeysAdapter peysAdapter;
-    private Spinner accountSp;
     private DebtBorrow debtBorrow;
     private ImageView deleteFrame;
     private ImageView pastgaOcil;
     private ImageView cancel_button;
     private ImageView info;
+    private ImageView debt_icon;
     private RelativeLayout infoFrame;
     //    private FrameLayout isHaveReking;
     private TextView tvInfoDebtBorrowTakeDate;
@@ -121,11 +136,13 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
     private TextView phoneNumber;
     static int TYPE = 0;
     private int posMain = 0;
+    private Spinner spinner;
 
     private RelativeLayout rlInfo;
     private LinearLayout llDebtBOrrowItemEdit;
 
     public static InfoDebtBorrowFragment getInstance(String id, int type) {
+
         InfoDebtBorrowFragment fragment = new InfoDebtBorrowFragment();
         Bundle bundle = new Bundle();
         bundle.putString("id", id);
@@ -134,7 +151,74 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
         fragment.setArguments(bundle);
         return fragment;
     }
+    private PopupMenu popupMenu;
+    private void showOperationsList(View v) {
+        popupMenu = new PopupMenu(getContext(), v);
+        popupMenu.inflate(R.menu.toolbar_popup);
+        MenuPopupHelper menuHelper = new MenuPopupHelper(getContext(), (MenuBuilder) popupMenu.getMenu(), v);
+        menuHelper.setForceShowIcon(true);
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.delete: {
+                        warningDialog.setOnNoButtonClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                warningDialog.dismiss();
+                            }
+                        });
+                        warningDialog.setOnYesButtonListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                switch (logicManager.deleteDebtBorrow(debtBorrow)) {
+                                    case LogicManagerConstants.REQUESTED_OBJECT_NOT_FOUND: {
+                                        Toast.makeText(getContext(), "No has debt", Toast.LENGTH_SHORT).show();
+                                        break;
+                                    }
+                                    case LogicManagerConstants.DELETED_SUCCESSFUL: {
+                                        if (paFragmentManager.isMainReturn()) {
+                                            paFragmentManager.displayMainWindow();
+                                        } else {
+                                            DebtBorrowFragment fragment = new DebtBorrowFragment();
+                                            Bundle bundle = new Bundle();
+                                            bundle.putInt("pos", debtBorrow.getTo_archive() ? 2 : debtBorrow.getType());
+                                            fragment.setArguments(bundle);
+                                            paFragmentManager.getFragmentManager().popBackStack();
+                                            paFragmentManager.displayFragment(new DebtBorrowFragment());
+                                        }
+                                        List<BoardButton> boardButtons = daoSession.getBoardButtonDao().loadAll();
+                                        for (BoardButton boardButton : boardButtons) {
+                                            if (boardButton.getCategoryId() != null)
+                                                if (boardButton.getCategoryId().equals(debtBorrow.getId())) {
+                                                    if (boardButton.getTable() == PocketAccounterGeneral.EXPENSE)
+                                                        logicManager.changeBoardButton(PocketAccounterGeneral.EXPENSE, boardButton.getPos(), null);
+                                                    else
+                                                        logicManager.changeBoardButton(PocketAccounterGeneral.INCOME, boardButton.getPos(), null);
+                                                    commonOperations.changeIconToNull(boardButton.getPos(), dataCache, boardButton.getTable());
+                                                }
+                                        }
 
+                                        paFragmentManager.updateAllFragmentsOnViewPager();
+                                        dataCache.updateAllPercents();
+                                        break;
+                                    }
+                                }
+                                warningDialog.dismiss();
+                            }
+                        });
+                        warningDialog.setText(debtBorrow.getCalculate() ?
+                                getResources().getString(R.string.delete_credit) : getString(R.string.delete));
+                        warningDialog.show();
+                        break;
+                    }
+
+                }
+                return false;
+            }
+        });
+        popupMenu.show();
+    }
     public void setMainItems(int pos) {
         posMain = pos;
     }
@@ -144,6 +228,7 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.modern_debt_borrow_info, container, false);
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
+        formater = new DecimalFormat("0.00");
         warningDialog = new WarningDialog(getContext());
         debtBorrowDao = daoSession.getDebtBorrowDao();
         accountDao = daoSession.getAccountDao();
@@ -153,6 +238,7 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
         borrowLeftDate = (TextView) view.findViewById(R.id.tvLeftDayDebtBorrowInfo);
         borrowPay = (LinearLayout) view.findViewById(R.id.btPayDebtBorrowInfo);
         deleteFrame = (ImageView) view.findViewById(R.id.flInfoDebtBorrowDeleted);
+        debt_icon = (ImageView) view.findViewById(R.id.debt_icon);
         pastgaOcil = (ImageView) view.findViewById(R.id.pastgaOcil);
         cancel_button = (ImageView) view.findViewById(R.id.cancel_button);
         totalPayAmount = (TextView) view.findViewById(R.id.total_summ_debt_borrow);
@@ -169,7 +255,7 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
         id = getArguments().getString("id");
         rlInfo = (RelativeLayout) view.findViewById(R.id.rlInfo);
 //        isHaveReking = (FrameLayout) view.findViewById(R.id.ifListHave);
-
+        context = getContext();
         debtBorrow = new DebtBorrow();
         if (debtBorrowDao.queryBuilder().list() != null) {
             for (DebtBorrow db : debtBorrowDao.queryBuilder().list()) {
@@ -184,8 +270,19 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
         for (int i = 0; i < isCheks.length; i++) {
             isCheks[i] = false;
         }
-        toolbarManager.setImageToSecondImage(R.drawable.ic_delete_black);
-        toolbarManager.setSpinnerVisibility(View.GONE);
+        toolbarManager.setImageToSecondImage(R.drawable.ic_more_vert_black_48dp);
+        spinner =  toolbarManager.getSpTest();
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getContext(),
+                android.R.layout.simple_list_item_1, new String[]{
+                getResources().getString(R.string.delete)});
+        spinner.setAdapter(arrayAdapter);
+
+        toolbarManager.setOnSecondImageClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showOperationsList(v);
+            }
+        });
         toolbarManager.setImageToHomeButton(R.drawable.ic_drawer);
         cancel_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -283,69 +380,25 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
 //                }
 //            });
 //        } else {
-            toolbarManager.setImageToSecondImage(R.drawable.trash);
-            toolbarManager.setOnSecondImageClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    warningDialog.setOnNoButtonClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            warningDialog.dismiss();
-                        }
-                    });
-                    warningDialog.setOnYesButtonListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            switch (logicManager.deleteDebtBorrow(debtBorrow)) {
-                                case LogicManagerConstants.REQUESTED_OBJECT_NOT_FOUND: {
-                                    Toast.makeText(getContext(), "No has debt", Toast.LENGTH_SHORT).show();
-                                    break;
-                                }
-                                case LogicManagerConstants.DELETED_SUCCESSFUL: {
-                                    if (paFragmentManager.isMainReturn()) {
-                                        paFragmentManager.displayMainWindow();
-                                    } else {
-                                        DebtBorrowFragment fragment = new DebtBorrowFragment();
-                                        Bundle bundle = new Bundle();
-                                        bundle.putInt("pos", debtBorrow.getTo_archive() ? 2 : debtBorrow.getType());
-                                        fragment.setArguments(bundle);
-                                        paFragmentManager.getFragmentManager().popBackStack();
-                                        paFragmentManager.displayFragment(new DebtBorrowFragment());
-                                    }
-                                    List<BoardButton> boardButtons = daoSession.getBoardButtonDao().loadAll();
-                                    for (BoardButton boardButton : boardButtons) {
-                                        if (boardButton.getCategoryId() != null)
-                                            if (boardButton.getCategoryId().equals(debtBorrow.getId())) {
-                                                if (boardButton.getTable() == PocketAccounterGeneral.EXPENSE)
-                                                    logicManager.changeBoardButton(PocketAccounterGeneral.EXPENSE, boardButton.getPos(), null);
-                                                else
-                                                    logicManager.changeBoardButton(PocketAccounterGeneral.INCOME, boardButton.getPos(), null);
-                                                commonOperations.changeIconToNull(boardButton.getPos(), dataCache, boardButton.getTable());
-                                            }
-                                    }
 
-                                    paFragmentManager.updateAllFragmentsOnViewPager();
-                                    dataCache.updateAllPercents();
-                                    break;
-                                }
-                            }
-                            warningDialog.dismiss();
-                        }
-                    });
-                    warningDialog.setText(debtBorrow.getCalculate() ?
-                            getResources().getString(R.string.delete_credit) : getString(R.string.delete));
-                    warningDialog.show();
-                }
-            });
 //        }
-//        phoneNumber.setText(debtBorrow.getPerson().getPhoneNumber());
-//        tvInfoDebtBorrowTakeDate.setText(dateFormat.format(debtBorrow.getTakenDate().getTime()));
-//        calculate.setText(debtBorrow.getCalculate() ?
-//                getString(R.string.calc_in_balance) :
-//                getString(R.string.no_calc_in_balance));
-        infoFrame.setVisibility(View.GONE);
-//        view.findViewById(R.id.with_wlyuzik).setVisibility(view.GONE);
+//
+        if(debtBorrow.getType() == DebtBorrow.BORROW){
+            debt_icon.setImageResource(R.drawable.debt_icon);
+            payText.setTextColor(Color.parseColor("#8cc156"));
 
+        }else {
+            debt_icon.setImageResource(R.drawable.borr);
+            payText.setTextColor(Color.parseColor("#dc4849"));
+
+        }
+        calculate.setText(debtBorrow.getCalculate() ?
+                getString(R.string.calc_in_balance) :
+                getString(R.string.no_calc_in_balance));
+        infoFrame.setVisibility(View.GONE);
+
+        tvInfoDebtBorrowTakeDate.setText(sDateFormat.format(debtBorrow.getTakenDate().getTime()));
+        phoneNumber.setText(debtBorrow.getPerson().getPhoneNumber());
         llDebtBOrrowItemEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -394,14 +447,12 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
                 if (infoFrame.getVisibility() == View.GONE) {
                     infoFrame.setVisibility(View.VISIBLE);
                     rlInfo.setVisibility(View.GONE);
-//                                                                       info.setImageResource(R.drawable.pasga_ochil);
-//                                                                       view.findViewById(R.id.with_wlyuzik).setVisibility(View.VISIBLE);
+                    pastgaOcil.setImageResource(R.drawable.info_pastga);
                 } else {
                     infoFrame.setVisibility(View.GONE);
                     rlInfo.setVisibility(View.VISIBLE);
-//                                                                       info.setImageResource(R.drawable.infoo);
-//                                                                       view.findViewById(R.id.with_wlyuzik).setVisibility(view.GONE);
-                }
+                    pastgaOcil.setImageResource(R.drawable.info_open);
+              }
             }
         });
         if (debtBorrow.getReckings().isEmpty()) {
@@ -409,39 +460,9 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
         }
 
         peysAdapter = new PeysAdapter((ArrayList<Recking>) debtBorrow.getReckings());
-        Calendar currentDate = Calendar.getInstance();
-        int day = 0;
-        int mounth = 0;
-        int year = 0;
 
-        if (debtBorrow.getReturnDate() != null && currentDate.compareTo(debtBorrow.getReturnDate()) <= 0) {
-            if (currentDate.get(Calendar.DAY_OF_MONTH) <= debtBorrow.getReturnDate().get(Calendar.DAY_OF_MONTH)) {
-                day = debtBorrow.getReturnDate().get(Calendar.DAY_OF_MONTH) - currentDate.get(Calendar.DAY_OF_MONTH);
-                if (currentDate.get(Calendar.MONTH) <= debtBorrow.getReturnDate().get(Calendar.MONTH)) {
-                    mounth = debtBorrow.getReturnDate().get(Calendar.MONTH) - currentDate.get(Calendar.MONTH);
-                    if (currentDate.get(Calendar.YEAR) <= debtBorrow.getReturnDate().get(Calendar.YEAR)) {
-                        year = debtBorrow.getReturnDate().get(Calendar.YEAR) - currentDate.get(Calendar.YEAR);
-                    }
-                } else {
-                    mounth = debtBorrow.getReturnDate().get(Calendar.MONTH) + 12 - currentDate.get(Calendar.MONTH);
-                    year = debtBorrow.getReturnDate().get(Calendar.YEAR) - 1 - currentDate.get(Calendar.YEAR);
-                }
-            } else {
-                debtBorrow.getReturnDate().add(Calendar.MONTH, -1);
-                day = debtBorrow.getReturnDate().get(Calendar.DAY_OF_MONTH) + debtBorrow.getReturnDate().getActualMaximum(Calendar.MONTH) - currentDate.get(Calendar.DAY_OF_MONTH);
-                if (debtBorrow.getReturnDate().get(Calendar.MONTH) >= currentDate.get(Calendar.MONTH)) {
-                    mounth = debtBorrow.getReturnDate().get(Calendar.MONTH) - currentDate.get(Calendar.MONTH);
-                    if (debtBorrow.getReturnDate().get(Calendar.YEAR) >= currentDate.get(Calendar.YEAR)) {
-                        year = debtBorrow.getReturnDate().get(Calendar.YEAR) - currentDate.get(Calendar.YEAR);
-                    }
-                } else {
-                    mounth = debtBorrow.getReturnDate().get(Calendar.MONTH) + 12 - currentDate.get(Calendar.MONTH);
-                    if (debtBorrow.getReturnDate().get(Calendar.YEAR) > currentDate.get(Calendar.YEAR)) {
-                        year = debtBorrow.getReturnDate().get(Calendar.YEAR) - 1 - currentDate.get(Calendar.YEAR);
-                    }
-                }
-            }
-        }
+
+
 
         final List<Recking> list = debtBorrow.getReckings();
         double total = 0;
@@ -450,7 +471,10 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
         }
         if (debtBorrow.getTo_archive()) {
 //            deleteFrame.setVisibility(View.GONE);
-            borrowPay.setVisibility(View.GONE);
+            borrowPay.setVisibility(View.INVISIBLE);
+            llDebtBOrrowItemEdit.setVisibility(View.INVISIBLE);
+
+            deleteFrame.setVisibility(View.INVISIBLE);
         }
         borrowName.setText(debtBorrow.getPerson().getName());
         String qq = ((int) (debtBorrow.getAmount() - total)) == (debtBorrow.getAmount() - total)
@@ -459,17 +483,50 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
             leftAmount.setText(getResources().getString(R.string.repaid));
         else
             leftAmount.setText(qq + debtBorrow.getCurrency().getAbbr());
-        String sana = (year != 0 ? year + " " + getString(R.string.year) : "")
-                + (mounth != 0 ? mounth + " " + getString(R.string.moth) : "")
-                + (day != 0 ? day + " " + getString(R.string.day) : "");
+
+
         if (debtBorrow.getReturnDate() == null) {
-//            borrowLeftDate.setText(getResources().getString(R.string.no_date_selected));
-        } else {
-//            borrowLeftDate.setText(sana);
-        }
+            borrowLeftDate.setText(getResources().getString(R.string.no_date_selected));}
+        else {
+            int t[] = getDateDifferenceInDDMMYYYY(Calendar.getInstance().getTime(), debtBorrow.getReturnDate().getTime());
+            if (t[0] * t[1] * t[2] < 0 && (t[0] + t[1] + t[2]) != 0) {
+                borrowLeftDate.setText(R.string.ends);
+            } else {
+                String left_date_string = "";
+                if (t[0] != 0) {
+                    if (t[0] > 1) {
+                        left_date_string += Integer.toString(t[0]) + " " + context.getString(R.string.years);
+                    } else {
+                        left_date_string += Integer.toString(t[0]) + " " + context.getString(R.string.year);
+                    }
+                }
+                if (t[1] != 0) {
+                    if (!left_date_string.matches("")) {
+                        left_date_string += " ";
+                    }
+                    if (t[1] > 1) {
+                        left_date_string += Integer.toString(t[1]) + " " + context.getString(R.string.moths);
+                    } else {
+                        left_date_string += Integer.toString(t[1]) + " " + context.getString(R.string.moth);
+                    }
+                }
+                if (t[2] != 0) {
+                    if (!left_date_string.matches("")) {
+                        left_date_string += " ";
+                    }
+                    if (t[2] > 1) {
+                        left_date_string += Integer.toString(t[2]) + " " + context.getString(R.string.days);
+                    } else {
+                        left_date_string += Integer.toString(t[2]) + " " + context.getString(R.string.day);
+                    }
+                }
+                borrowLeftDate.setText(left_date_string);
+            }}
+
+
         totalPayAmount.setText("" + (total == ((int) total) ? ("" + ((int) total)) : ("" + total)) + debtBorrow.getCurrency().getAbbr());
         if (total >= debtBorrow.getAmount()) {
-            payText.setText(getResources().getString(R.string.archive));
+            payText.setText(getResources().getString(R.string.to_archive));
 //            deleteFrame.setVisibility(View.GONE);
         }
 
@@ -607,34 +664,60 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
     }
 
     boolean tek = false;
-
+    DecimalFormat formater;
     private void openDialog() {
-        if (!payText.getText().toString().matches(getResources().getString(R.string.archive))) {
+        if (!payText.getText().toString().matches(getResources().getString(R.string.to_archive))) {
             final Dialog dialog = new Dialog(getActivity());
             View dialogView = getActivity().getLayoutInflater().inflate(R.layout.add_pay_debt_borrow_info_mod, null);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             dialog.setContentView(dialogView);
-            final EditText enterDate = (EditText) dialogView.findViewById(R.id.etInfoDebtBorrowDate);
+            View v = dialog.getWindow().getDecorView();
+            v.setBackgroundResource(android.R.color.transparent);
+
+            final TextView enterDate = (TextView) dialogView.findViewById(R.id.etInfoDebtBorrowDate);
+            final TextView abbrrAmount = (TextView) dialogView.findViewById(R.id.abbrrAmount);
+            final TextView debetorName = (TextView) dialogView.findViewById(R.id.for_period);
+            final TextView tvResidue = (TextView) dialogView.findViewById(R.id.tvResidue);
+            final TextView periodDate = (TextView) dialogView.findViewById(R.id.periodDate);
+            final TextView shouldPayPeriod = (TextView) dialogView.findViewById(R.id.shouldPayPeriod);
             final EditText enterPay = (EditText) dialogView.findViewById(R.id.etInfoDebtBorrowPaySumm);
             final EditText comment = (EditText) dialogView.findViewById(R.id.etInfoDebtBorrowPayComment);
-            accountSp = (Spinner) dialogView.findViewById(R.id.spInfoDebtBorrowAccount);
-
+            final Spinner accountSp = (Spinner) dialogView.findViewById(R.id.spInfoDebtBorrowAccount);
+            ImageView cancel = (ImageView) dialogView.findViewById(R.id.ivInfoDebtBorrowCancel);
+            final TextView save = (TextView) dialogView.findViewById(R.id.ivInfoDebtBorrowSave);
+            abbrrAmount.setText(debtBorrow.getCurrency().getAbbr());
             final String[] accaounts = new String[accountDao.queryBuilder().list().size()];
             for (int i = 0; i < accaounts.length; i++) {
                 accaounts[i] = accountDao.queryBuilder().list().get(i).getName();
             }
-
+            tvResidue.setText(getString(R.string.left)+":");
             ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
-                    getContext(), R.layout.spiner_gravity_right, accaounts);
+                    getContext(), R.layout.spiner_gravity_left, accaounts);
 
             accountSp.setAdapter(arrayAdapter);
+
+
+            double v1 = debtBorrow.getAmount();
+            double totalAm = 0;
+            for (Recking recking:debtBorrow.getReckings()){
+                totalAm +=recking.getAmount();
+            }
+            shouldPayPeriod.setText(formater.format(v1-totalAm)+debtBorrow.getCurrency().getAbbr());
+            if(debtBorrow.getType() == DebtBorrow.DEBT){
+                debetorName.setText(getString(R.string.debtor_name)+":");
+                periodDate.setText(debtBorrow.getPerson().getName());
+            }
+            else {
+                debetorName.setText(getString(R.string.borrower_name)+":");
+                periodDate.setText(debtBorrow.getPerson().getName());
+
+            }
 
             if (!debtBorrow.getCalculate()) {
                 dialogView.findViewById(R.id.is_calc).setVisibility(View.GONE);
             }
 
-            ImageView cancel = (ImageView) dialogView.findViewById(R.id.ivInfoDebtBorrowCancel);
-            ImageView save = (ImageView) dialogView.findViewById(R.id.ivInfoDebtBorrowSave);
+
             final Calendar date = Calendar.getInstance();
             enterDate.setText(dateFormat.format(date.getTime()));
             cancel.setOnClickListener(new View.OnClickListener() {
@@ -759,6 +842,34 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
     }
+    public  int[] getDateDifferenceInDDMMYYYY(Date from, Date to) {
+        Calendar fromDate = Calendar.getInstance();
+        Calendar toDate = Calendar.getInstance();
+        fromDate.setTime(from);
+        toDate.setTime(to);
+        int increment = 0;
+        int year, month, day;
+        if (fromDate.get(Calendar.DAY_OF_MONTH) > toDate.get(Calendar.DAY_OF_MONTH)) {
+            increment = fromDate.getActualMaximum(Calendar.DAY_OF_MONTH);
+        }
+        if (increment != 0) {
+            day = (toDate.get(Calendar.DAY_OF_MONTH) + increment) - fromDate.get(Calendar.DAY_OF_MONTH);
+            increment = 1;
+        } else {
+            day = toDate.get(Calendar.DAY_OF_MONTH) - fromDate.get(Calendar.DAY_OF_MONTH);
+        }
+
+        if ((fromDate.get(Calendar.MONTH) + increment) > toDate.get(Calendar.MONTH)) {
+            month = (toDate.get(Calendar.MONTH) + 12) - (fromDate.get(Calendar.MONTH) + increment);
+            increment = 1;
+        } else {
+            month = (toDate.get(Calendar.MONTH)) - (fromDate.get(Calendar.MONTH) + increment);
+            increment = 0;
+        }
+
+        year = toDate.get(Calendar.YEAR) - (fromDate.get(Calendar.YEAR) + increment);
+        return new int[]{year, month, day};
+    }
 
     private class PeysAdapter extends RecyclerView.Adapter<InfoDebtBorrowFragment.ViewHolder> {
         private ArrayList<Recking> list;
@@ -823,7 +934,7 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
         }
 
         public InfoDebtBorrowFragment.ViewHolder onCreateViewHolder(ViewGroup parent, int var2) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.modern_debt_borrow_info_item, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.payed_item, parent, false);
             return new ViewHolder(view);
         }
 
@@ -867,7 +978,7 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
             totalPayAmount.setText("" + (qoldiq == ((int) qoldiq) ? ("" + ((int) qoldiq)) : ("" + qoldiq)) + "" + debtBorrow.getCurrency().getAbbr());
 
             if (qoldiq >= debtBorrow.getAmount()) {
-                payText.setText(getResources().getString(R.string.archive));
+                payText.setText(getResources().getString(R.string.to_archive));
 //                deleteFrame.setVisibility(View.GONE);
                 leftAmount.setText(getResources().getString(R.string.repaid));
             }
