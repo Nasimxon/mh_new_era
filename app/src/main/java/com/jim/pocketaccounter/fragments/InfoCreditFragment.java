@@ -1284,17 +1284,22 @@ public class InfoCreditFragment extends Fragment {
             ReckingCredit item = list.get(position);
             view.infoDate.setText(dateFormat.format(item.getPayDate().getTime()));
             view.infoSumm.setText(formater.format(item.getAmount()) + currentCredit.getValyute_currency().getAbbr());
-            if (currentCredit.getKey_for_include()) {
-                ArrayList<Account> accounts = (ArrayList<Account>) accountDao.queryBuilder().list();
-                String accs = accounts.get(0).getName();
-                for (int i = 0; i < accounts.size(); i++) {
-                    if (item.getAccountId().equals(accounts.get(i).getId())) {
-                        accs = accounts.get(i).getName();
-                    }
-                }
-                view.infoAccount.setText(getString(R.string.via) + ": " + accs);
+            if (!item.getAccountId().equals("")) {
+              try {
+                  ArrayList<Account> accounts = (ArrayList<Account>) accountDao.queryBuilder().list();
+                  String accs = accounts.get(0).getName();
+                  for (int i = 0; i < accounts.size(); i++) {
+                      if (item.getAccountId().equals(accounts.get(i).getId())) {
+                          accs = accounts.get(i).getName();
+                      }
+                  }
+                  view.infoAccount.setText(getString(R.string.via) + ": " + accs);
+              }catch (Exception o ){
+                  view.infoAccount.setText(R.string.ne_uchitavaetsya);
+              }
+
             } else {
-                view.infoAccount.setVisibility(View.GONE);
+                view.infoAccount.setText(R.string.ne_uchitavaetsya);
             }
             if (!item.getComment().matches(""))
                 view.comment.setText(getString(R.string.comment) + ": " + item.getComment());

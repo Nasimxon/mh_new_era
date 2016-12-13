@@ -1113,7 +1113,7 @@
     <string name="credit_begin_date">Начало</string>
     <string name="credit_return_date">Конец</string>
     <string name="transactions">Транзакции</string>
-    <string name="include_credit_in_balance">Учитывать кредит в балансе?</string>
+    <string name="include_credit_in_balance">Учитывать платеж в балансе?</string>
     <string name="enter_name_error">Введите имя</string>
     <string name="enter_amount_error">Ввидите сумму</string>
     <string name="enter_takendate_error">Выберите начальную дату</string>

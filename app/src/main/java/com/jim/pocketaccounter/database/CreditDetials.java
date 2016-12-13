@@ -24,12 +24,18 @@ import com.jim.pocketaccounter.database.DaoSession;
 
 @Entity(nameInDb = "CREDIT_DETAILS", active = true)
 public class CreditDetials {
+
+   //added variables
     @Property
     private double monthly_fee;
     @Property
     private int type_loan;
     @Property
     private int monthly_fee_type;
+    @Property
+    private String accountID;
+
+
 
     @Property
     private String credit_name;
@@ -83,7 +89,7 @@ public class CreditDetials {
     public CreditDetials(String icon_ID, String credit_name, Calendar take_time,
                          double procent, long procent_interval, long period_time,long period_time_tip,boolean key_for_include,
                          double value_of_credit, Currency valyute_currency,
-                         double value_of_credit_with_procent, long myCredit_id) {
+                         double value_of_credit_with_procent, long myCredit_id,String accountID) {
         this.icon_ID=icon_ID;
         this.credit_name = credit_name;
         this.take_time = take_time;
@@ -97,24 +103,22 @@ public class CreditDetials {
         this.period_time_tip=period_time_tip;
         this.myCredit_id=myCredit_id;
         this.key_for_include=key_for_include;
+        this.accountID=accountID;
         key_for_archive=false;
 
     }
 
 
 
-
-
-
-
-    @Generated(hash = 846024393)
-    public CreditDetials(double monthly_fee, int type_loan, int monthly_fee_type, String credit_name, String icon_ID,
-            Calendar take_time, double procent, double procent_interval, long period_time, long period_time_tip, long myCredit_id,
-            double value_of_credit, double value_of_credit_with_procent, String currencyId, boolean key_for_include,
-            boolean key_for_archive, String info) {
+    @Generated(hash = 1790086791)
+    public CreditDetials(double monthly_fee, int type_loan, int monthly_fee_type, String accountID, String credit_name,
+            String icon_ID, Calendar take_time, double procent, double procent_interval, long period_time, long period_time_tip,
+            long myCredit_id, double value_of_credit, double value_of_credit_with_procent, String currencyId,
+            boolean key_for_include, boolean key_for_archive, String info) {
         this.monthly_fee = monthly_fee;
         this.type_loan = type_loan;
         this.monthly_fee_type = monthly_fee_type;
+        this.accountID = accountID;
         this.credit_name = credit_name;
         this.icon_ID = icon_ID;
         this.take_time = take_time;
@@ -133,17 +137,9 @@ public class CreditDetials {
 
 
 
-
-
-
-
     @Generated(hash = 189858148)
     public CreditDetials() {
     }
-
-
-
-
 
 
 
@@ -151,7 +147,13 @@ public class CreditDetials {
         return this.info;
     }
 
+    public String getAccountID() {
+        return accountID;
+    }
 
+    public void setAccountID(String accountID) {
+        this.accountID = accountID;
+    }
 
     public void setInfo(String info) {
         this.info = info;
@@ -315,15 +317,6 @@ public class CreditDetials {
 
 
 
-
-
-
-
-
-
-
-
-
     public int getType_loan() {
         return this.type_loan;
     }
@@ -357,7 +350,14 @@ public class CreditDetials {
 
 
 
+    public int getMonthly_fee_type() {
+        return this.monthly_fee_type;
+    }
 
+
+    public void setMonthly_fee_type(int monthly_fee_type) {
+        this.monthly_fee_type = monthly_fee_type;
+    }
 
 
 
@@ -375,10 +375,6 @@ public class CreditDetials {
 
 
 
-
-
-
-
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#update(Object)}.
      * Entity must attached to an entity context.
@@ -390,10 +386,6 @@ public class CreditDetials {
         }
         myDao.update(this);
     }
-
-
-
-
 
 
 
@@ -411,19 +403,11 @@ public class CreditDetials {
 
 
 
-
-
-
-
     /** Resets a to-many relationship, making the next get call to query for a fresh result. */
     @Generated(hash = 1034520580)
     public synchronized void resetReckings() {
         reckings = null;
     }
-
-
-
-
 
 
 
@@ -451,10 +435,6 @@ public class CreditDetials {
 
 
 
-
-
-
-
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 1639843815)
     public void setValyute_currency(Currency valyute_currency) {
@@ -464,10 +444,6 @@ public class CreditDetials {
             valyute_currency__resolvedKey = currencyId;
         }
     }
-
-
-
-
 
 
 
@@ -492,40 +468,12 @@ public class CreditDetials {
 
 
 
-
-
-
-
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 745291544)
     public void __setDaoSession(DaoSession daoSession) {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getCreditDetialsDao() : null;
     }
-
-
-
-
-
-
-
-    public int getMonthly_fee_type() {
-        return this.monthly_fee_type;
-    }
-
-
-
-
-
-
-
-    public void setMonthly_fee_type(int monthly_fee_type) {
-        this.monthly_fee_type = monthly_fee_type;
-    }
-
-
-
-   
 
 
    

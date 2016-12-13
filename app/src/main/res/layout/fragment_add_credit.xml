@@ -55,7 +55,7 @@
                         android:layout_weight="1"
                         android:background="@drawable/edit_text"
                         android:ems="10"
-                        android:maxLength="22"
+                        android:maxLength="15"
                         android:paddingBottom="@dimen/five_dp"
                         android:paddingLeft="@dimen/eight_dp"
                         android:paddingRight="@dimen/eight_dp"
@@ -121,7 +121,7 @@
                     android:ems="10"
                     android:hint="@string/taked_value"
                     android:inputType="numberDecimal"
-                    android:maxLength="25"
+                    android:maxLength="15"
                     android:textColor="@color/black_for_glavniy_text"
                     android:textSize="@dimen/sixteen_dp"
                     android:layout_alignParentTop="true"
@@ -187,7 +187,7 @@
                     android:ems="10"
                     android:hint="@string/value_percent"
                     android:inputType="numberDecimal"
-                    android:maxLength="25"
+                    android:maxLength="7"
                     android:textColor="@color/black_for_glavniy_text"
                     android:textSize="@dimen/sixteen_dp"
                     android:layout_alignParentTop="true"
@@ -251,7 +251,7 @@
                     android:ems="10"
                     android:hint="@string/payment_period"
                     android:inputType="number"
-                    android:maxLength="25"
+                    android:maxLength="6"
                     android:textColor="@color/black_for_glavniy_text"
                     android:textSize="@dimen/sixteen_dp"
                     android:layout_alignParentTop="true"
@@ -416,7 +416,7 @@
                     android:ems="10"
                     android:hint="@string/percent_fee"
                     android:inputType="numberDecimal"
-                    android:maxLength="25"
+                    android:maxLength="7"
                     android:textColor="@color/black_for_glavniy_text"
                     android:textSize="@dimen/sixteen_dp"
                     android:layout_alignParentTop="true"
@@ -588,35 +588,74 @@
                 android:textSize="@dimen/twelve_dp"/>
 
 
-                <RelativeLayout
-                    android:id="@+id/checkInclude"
+            <RelativeLayout
+                android:id="@+id/checkInclude"
+                android:layout_width="match_parent"
+                android:paddingTop="@dimen/ten_dp"
+                android:paddingBottom="@dimen/ten_dp"
+                android:layout_marginTop="@dimen/five_dp"
+                android:layout_marginBottom="@dimen/five_dp"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/add_the_loan_in_the_balance"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/sixteen_dp"
+                    android:layout_marginRight="@dimen/sixteen_dp"
+                    android:textColor="@color/black_for_glavniy_text"
+                    android:textSize="@dimen/fourteen_dp"
+                    android:layout_toLeftOf="@+id/key_for_balance"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    />
+                <android.support.v7.widget.SwitchCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/twenty_dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:id="@+id/key_for_balance" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/is_calc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                >
+                <LinearLayout
+                    android:id="@+id/accountSpin"
                     android:layout_width="match_parent"
-                    android:layout_marginBottom="@dimen/sixteen_dp"
-                    android:paddingTop="@dimen/ten_dp"
-                    android:paddingBottom="@dimen/ten_dp"
-                    android:layout_height="wrap_content">
-                    <TextView
-                        android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/edit_text"
+                    android:gravity="end"
+                    android:paddingBottom="@dimen/eight_dp"
+                    android:paddingLeft="@dimen/ten_dp"
+                    android:paddingRight="@dimen/five_dp"
+                    android:paddingTop="@dimen/eight_dp"
+                    android:layout_marginBottom="@dimen/ten_dp"
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="@dimen/sixteen_dp"
+                    android:layout_marginRight="@dimen/sixteen_dp"
+                    >
+
+                    <Spinner
+                        android:id="@+id/spInfoDebtBorrowAccount"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/include_credit_in_balance"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/sixteen_dp"
-                        android:layout_marginRight="@dimen/sixteen_dp"
-                        android:textColor="@color/black_for_glavniy_text"
-                        android:textSize="@dimen/fourteen_dp"
-                        android:layout_toLeftOf="@+id/key_for_balance"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true"
-                        />
-                    <android.support.v7.widget.SwitchCompat
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/sixteen_dp"
-                        android:layout_alignParentRight="true"
                         android:layout_alignParentEnd="true"
-                        android:id="@+id/key_for_balance" />
-                </RelativeLayout>
+                        android:layout_alignParentRight="true"
+
+                        android:layout_alignParentTop="true"
+                        android:layout_gravity="center_vertical"
+
+                        />
+
+                </LinearLayout>
+
+            </RelativeLayout>
                 <RelativeLayout
                     android:id="@+id/checkContribution"
                     android:layout_width="match_parent"
@@ -662,11 +701,11 @@
 
                     <EditText
                         android:id="@+id/for_trasaction_credit"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:ems="10"
-                        android:maxLength="25"
+                        android:maxLength="15"
                         android:hint="@string/value_of_contribution"
                         android:textColor="@color/black_for_glavniy_text"
                         android:textSize="@dimen/sixteen_dp"
@@ -677,17 +716,7 @@
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentStart="true" />
 
-                    <Spinner
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/spinner_sceta"
-                        android:layout_gravity="center_vertical"
-                        android:gravity="right"
-                        android:layout_marginLeft="@dimen/sixteen_dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignBottom="@+id/etStartMoney"
-                        android:layout_alignParentTop="true" />
+
                 </RelativeLayout>
 
             <LinearLayout

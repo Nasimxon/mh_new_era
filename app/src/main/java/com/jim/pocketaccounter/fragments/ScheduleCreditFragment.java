@@ -74,14 +74,7 @@ public class ScheduleCreditFragment extends PABaseFragment {
             });
         }
         else {
-            toolbarManager.setToolbarIconsVisibility(View.GONE,View.GONE,View.VISIBLE);
-            toolbarManager.setImageToSecondImage(R.drawable.ic_filter);
-            toolbarManager.setOnSecondImageClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                }
-            });
+            toolbarManager.setToolbarIconsVisibility(View.GONE,View.GONE,View.GONE);
         }
 
         adapterForSchedule = new AdapterForSchedule(creditsSchedule,currentCredit.getValyute_currency(),getContext());

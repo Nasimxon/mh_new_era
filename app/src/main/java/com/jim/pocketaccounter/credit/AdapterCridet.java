@@ -8,12 +8,14 @@ import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SwitchCompat;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -183,7 +185,11 @@ public class AdapterCridet extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         else {
             if(!prosrecenniy)
                 if(formater.format(currentPeriod.getPaymentSum() - currentPeriod.getPayed()).equals("0")|| currentPeriod.getPaymentSum() - currentPeriod.getPayed()<= 0){
-                    holder.tvForThisPeriodTitle.setText(context.getString(R.string.credit_stat)+":");
+                    if(headerData.getTotalLoanWithInterest()<=headerData.getTotalPayedAmount())
+                        holder.tvForThisPeriodTitle.setText(context.getString(R.string.credit_stat));
+                    else
+                        holder.tvForThisPeriodTitle.setText(context.getString(R.string.for_this_period));
+
                     holder.tvForThisPeriod.setText(R.string.complete);
                     holder.tvForThisPeriod.setTextColor(ContextCompat.getColor(context,R.color.credit_och_yashil));
                 }
@@ -515,6 +521,9 @@ public class AdapterCridet extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         final TextView shouldPayPeriod = (TextView) dialogView.findViewById(R.id.shouldPayPeriod);
         final EditText enterPay = (EditText) dialogView.findViewById(R.id.etInfoDebtBorrowPaySumm);
         final EditText comment = (EditText) dialogView.findViewById(R.id.etInfoDebtBorrowPayComment);
+        final RelativeLayout checkInclude = (RelativeLayout) dialogView.findViewById(R.id.checkInclude);
+        final RelativeLayout is_calc = (RelativeLayout) dialogView.findViewById(R.id.is_calc);
+        final SwitchCompat keyForInclude = (SwitchCompat) dialogView.findViewById(R.id.key_for_balance);
         final Spinner accountSp = (Spinner) dialogView.findViewById(R.id.spInfoDebtBorrowAccount);
         if(hozirgi){
             periodDate.setText(sDateFormat.format(currentPeriodi.getDate().getTime()));
@@ -532,19 +541,34 @@ public class AdapterCridet extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             shouldPayPeriod.setText(formater.format(unPaidPeriod.getPaymentSum() - unPaidPeriod.getPayed())+current.getValyute_currency().getAbbr());
 
         }
-        abbrrAmount.setText(current.getValyute_currency().getAbbr());
-        if (current.getKey_for_include()) {
-            accaunt_AC = (ArrayList<Account>) accountDao.queryBuilder().list();
-            String[] accaounts = new String[accaunt_AC.size()];
-            for (int i = 0; i < accaounts.length; i++) {
-                accaounts[i] = accaunt_AC.get(i).getName();
-            }
-            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
-                    context, R.layout.spiner_gravity_left, accaounts);
-            accountSp.setAdapter(arrayAdapter);
-        } else {
-            dialogView.findViewById(R.id.is_calc).setVisibility(View.GONE);
+        accaunt_AC = (ArrayList<Account>) accountDao.queryBuilder().list();
+        String[] accaounts = new String[accaunt_AC.size()];
+        for (int i = 0; i < accaounts.length; i++) {
+            accaounts[i] = accaunt_AC.get(i).getName();
         }
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
+                context, R.layout.spiner_gravity_left, accaounts);
+        accountSp.setAdapter(arrayAdapter);
+
+        keyForInclude.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(keyForInclude.isChecked()){
+
+                    is_calc.setVisibility(View.VISIBLE);
+                }
+                else {
+                    is_calc.setVisibility(View.GONE);
+                }
+            }
+        });
+        checkInclude.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                keyForInclude.toggle();
+            }
+        });
+        abbrrAmount.setText(current.getValyute_currency().getAbbr());
 
         date = Calendar.getInstance();
         if(unPaidPeriod.getDate().getTimeInMillis()<date.getTimeInMillis()){
@@ -607,7 +631,7 @@ public class AdapterCridet extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     total_paid += item.getAmount();
 
                 if (!amount.matches("")) {
-                    if(current.getKey_for_include()){
+                    if(keyForInclude.isChecked()){
                     Account account = accaunt_AC.get(accountSp.getSelectedItemPosition());
                     if (account.getIsLimited()) {
                         //TODO editda tekwir ozini hisoblamaslini
@@ -626,7 +650,7 @@ public class AdapterCridet extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             public void onClick(View v) {
                                 String amount = enterPay.getText().toString();
                                 ReckingCredit rec = null;
-                                if (!amount.matches("") && current.getKey_for_include())
+                                if (!amount.matches("") && keyForInclude.isChecked())
                                     rec = new ReckingCredit(date, Double.parseDouble(amount), accaunt_AC.get(accountSp.getSelectedItemPosition()).getId(), current.getMyCredit_id(), comment.getText().toString());
                                 else
                                     rec = new ReckingCredit(date, Double.parseDouble(amount), "", current.getMyCredit_id(), comment.getText().toString());
@@ -653,7 +677,7 @@ public class AdapterCridet extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         warningDialog.show();
                     } else {
                         ReckingCredit rec = null;
-                        if (!amount.matches("") && current.getKey_for_include())
+                        if (!amount.matches("") && keyForInclude.isChecked())
                             rec = new ReckingCredit(date, Double.parseDouble(amount), accaunt_AC.get(accountSp.getSelectedItemPosition()).getId(), current.getMyCredit_id(), comment.getText().toString());
                         else
                             rec = new ReckingCredit(date, Double.parseDouble(amount), "", current.getMyCredit_id(), comment.getText().toString());

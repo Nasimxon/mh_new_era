@@ -1089,7 +1089,7 @@
     <string name="credit_begin_date">Start</string>
     <string name="credit_return_date">End</string>
     <string name="transactions">Transactions</string>
-    <string name="include_credit_in_balance">Payments consider in the balance</string>
+    <string name="include_credit_in_balance">Payment consider in the balance</string>
     <string name="enter_name_error">Enter name</string>
     <string name="enter_amount_error">Enter amount</string>
     <string name="enter_takendate_error">Select start date</string>
@@ -1266,6 +1266,10 @@
     </string-array>
     <string-array name="more_option_for_credit_debt">
         <item>Edit</item>
+        <item>Delete</item>
+    </string-array>
+
+    <string-array name="more_option_for_credit_debt2">
         <item>Delete</item>
     </string-array>
     <string name="start_amount">Start sum</string>
@@ -1677,11 +1681,16 @@
     <string name="mes2">message</string>
     <string name="for_this_period">For this period:</string>
     <string name="you_have_debt">Debt for period</string>
-    <string name="credit_stat">Credit status</string>
+    <string name="credit_stat">Credit status:</string>
     <string name="credit_repiad">Credit repiad</string>
     <string name="credit_end_date">Credit end date</string>
     <string name="debtor_name">Debtor name</string>
     <string name="borrower_name">Borrower name</string>
     <string name="to_archive">To archive</string>
     <string name="archiveee">ARCHIVE</string>
+    <string name="not_completed">Not completed</string>
+    <string name="all_periods">All periods</string>
+    <string name="invalide_format">Invalide format</string>
+    <string name="add_the_loan_in_the_balance">Add the loan in the balance</string>
+    <string name="ne_uchitavaetsya">Не учитивается в балансе</string>
 </resources>

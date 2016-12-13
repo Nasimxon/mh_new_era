@@ -242,10 +242,10 @@ public class InfoCreditFragmentForArchive extends Fragment {
             public void onClick(View v) {
                 //TODO add remove and edit
                 final AlertDialog.Builder builderChouse = new AlertDialog.Builder(getActivity());
-                builderChouse.setTitle(getString(R.string.choose_type_p)).setItems(R.array.more_option_for_credit_debt, new DialogInterface.OnClickListener() {
+                builderChouse.setTitle(getString(R.string.choose_type_p)).setItems(R.array.more_option_for_credit_debt2, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if (which == 0) {
+                        if (which == 1) {
                             paFragmentManager.getFragmentManager().popBackStack();
                             AddCreditFragment forEdit = new AddCreditFragment();
                             if (fromMainWindow)

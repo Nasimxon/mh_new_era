@@ -264,8 +264,38 @@ public class ReportManager {
             if (cl.getName().equals(CreditDetials.class.getName())) {
                 List<CreditDetials> creditDetialsList = creditDetialsDao.loadAll();
                 for (CreditDetials creditDetials : creditDetialsList) {
-                    if (!creditDetials.getKey_for_include()) continue;
+                    if (creditDetials.getKey_for_include()) {
+                        ReportObject reportObject = new ReportObject();
+                        reportObject.setType(PocketAccounterGeneral.INCOME);
+                        reportObject.setDate(creditDetials.getTake_time());
+                        reportObject.setDescription(context.getResources().getString(R.string.credit));
+                        Account account = null;
+                        List<Account> accountList = accountDao.loadAll();
+                        for (Account acc : accountList) {
+                            if (acc.getId().equals(creditDetials.getAccountID())) {
+                                account = acc;
+                                break;
+                            }
+                        }
+                        if (account == null)
+                            throw new RuntimeException("Account not found in class: " +
+                                    getClass().getName() +
+                                    ". Method: getRecordObjects();");
+
+                        reportObject.setAccount(account);
+                        if (toMainCurrency) {
+                            reportObject.setCurrency(commonOperations.getMainCurrency());
+                            reportObject.setAmount(commonOperations.getCost(creditDetials.getTake_time(),
+                                    creditDetials.getValyute_currency(), creditDetials.getValue_of_credit()));
+                        }
+                        else {
+                            reportObject.setCurrency(creditDetials.getValyute_currency());
+                            reportObject.setAmount(creditDetials.getValue_of_credit());
+                        }
+                        result.add(reportObject);
+                    }
                     for (ReckingCredit reckingCredit : creditDetials.getReckings()) {
+                        if(reckingCredit.getAccountId().equals(""))continue;
                         Calendar calendar = reckingCredit.getPayDate();
                         if (calendar.compareTo(begin) >= 0 && calendar.compareTo(end) <= 0) {
                             ReportObject reportObject = new ReportObject();

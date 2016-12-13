@@ -155,4 +155,34 @@
         android:layout_width="match_parent"
         android:layout_height="2px"
         android:background="#e7e7e7" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/eight_dp"
+        android:layout_marginRight="@dimen/sixteen_dp"
+        android:layout_marginLeft="@dimen/sixteen_dp"
+        android:layout_marginTop="@dimen/eight_dp">
+        <CheckBox
+            android:id="@+id/chbAllPeriods"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/blue_bg_checkbox"
+            android:checked="true"
+            android:paddingLeft="@dimen/ten_dp"
+            android:text="@string/all_periods"
+            android:textColor="@color/black_for_myagkiy_glavniy" />
+        <CheckBox
+            android:id="@+id/chbNotCompleted"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/fifteen_dp"
+            android:button="@drawable/blue_bg_checkbox"
+            android:paddingLeft="@dimen/ten_dp"
+            android:text="@string/not_completed"
+            android:textColor="@color/black_for_myagkiy_glavniy" />
+    </LinearLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:background="#e7e7e7" />
 </LinearLayout>

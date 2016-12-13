@@ -98,12 +98,13 @@ public class AddCreditFragment extends Fragment {
     RelativeLayout checkContribution;
     TextView tvWhatAboutType;
     boolean onSucsessed = false;
-    Spinner spiner_forValut, spiner_procent, spinner_peiod, spiner_trasnact ,spTypeLoan ,spBankFee;
+    Spinner spiner_forValut, spiner_procent, spinner_peiod, spTypeLoan ,spBankFee;
     ImageView icona;
+    RelativeLayout is_calc;
     String[] valyutes;
     String[] valyutes_symbols;
     String[] accs;
-    ArrayList<Account> accounts;
+    Spinner accountSp;
     String selectedIcon;
     EditText etMonthFee;
     EditText nameCred, valueCred, procentCred, periodCred, firstCred, lastCred, transactionCred;
@@ -117,7 +118,7 @@ public class AddCreditFragment extends Fragment {
     List<Currency> currencies;
     CreditFragment.EventFromAdding eventLis;
     AddCreditFragment ThisFragment;
-    SwitchCompat isOpkey;
+//    SwitchCompat isOpkey;
     SwitchCompat isHaveFirstPay;
     public static final String OPENED_TAG = "Addcredit";
     public static boolean to_open_dialog = false;
@@ -126,15 +127,17 @@ public class AddCreditFragment extends Fragment {
     private String mode = PocketAccounterGeneral.EVERY_DAY, sequence = "";
     private Spinner spNotifMode;
     private ArrayList<String> adapter;
+    SwitchCompat keyForBalance;
     boolean fromMainWindow = false;
     int modeFromMain;
     RecyclerView.LayoutManager layoutManager;
     int posFromMain;
     String sequence2 = "";
     RelativeLayout relativeLayoutStart;
-    RelativeLayout checkInclude;
+//    RelativeLayout checkInclude;
     private AddCreditFragment.DaysAdapter daysAdapter;
     private RecyclerView rvDays;
+    ArrayList<Account> accaunt_AC;
     SimpleDateFormat sDateFormat = new SimpleDateFormat("dd MMM, yyyy");
     public AddCreditFragment() {
         // Required empty public constructor
@@ -180,12 +183,14 @@ public class AddCreditFragment extends Fragment {
         spiner_forValut = (Spinner) V.findViewById(R.id.spinner);
         spiner_procent = (Spinner) V.findViewById(R.id.spinner_procent);
         spinner_peiod = (Spinner) V.findViewById(R.id.spinner_period);
-        spiner_trasnact = (Spinner) V.findViewById(R.id.spinner_sceta);
         spBankFee = (Spinner) V.findViewById(R.id.spBankFee);
         spTypeLoan = (Spinner) V.findViewById(R.id.spTypeLoan);
-        isOpkey = (SwitchCompat) V.findViewById(R.id.key_for_balance);
+        accountSp = (Spinner) V.findViewById(R.id.spInfoDebtBorrowAccount);
+        keyForBalance = (SwitchCompat) V.findViewById(R.id.key_for_balance);
+//        isOpkey = (SwitchCompat) V.findViewById(R.id.key_for_balance);
         isHaveFirstPay = (SwitchCompat) V.findViewById(R.id.chbAccountStartSumEnabled);
         tvWhatAboutType = (TextView) V.findViewById(R.id.tvWhatAboutType);
+        is_calc = (RelativeLayout) V.findViewById(R.id.is_calc);
         to_open_dialog = false;
 
         nameCred = (EditText) V.findViewById(R.id.editText);
@@ -198,7 +203,7 @@ public class AddCreditFragment extends Fragment {
         transactionCred = (EditText) V.findViewById(R.id.for_trasaction_credit);
         relativeLayoutStart = (RelativeLayout) V.findViewById(R.id.rlStartSumContainer);
         rvDays = (RecyclerView) V.findViewById(R.id.rvAddAutoMarketPerItems);
-        checkInclude = (RelativeLayout) V.findViewById(R.id.checkInclude);
+//        checkInclude = (RelativeLayout) V.findViewById(R.id.checkInclude);
         checkContribution = (RelativeLayout) V.findViewById(R.id.checkContribution);
 
         spNotifMode = (Spinner) V.findViewById(R.id.spNotifModeCredit);
@@ -247,6 +252,31 @@ public class AddCreditFragment extends Fragment {
             }
         });
         spNotifMode.setAdapter(adapter1);
+        accaunt_AC = (ArrayList<Account>) accountDao.queryBuilder().list();
+        String[] accaounts = new String[accaunt_AC.size()];
+        for (int i = 0; i < accaounts.length; i++) {
+            accaounts[i] = accaunt_AC.get(i).getName();
+        }
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
+                context, R.layout.spiner_gravity_left, accaounts);
+        accountSp.setAdapter(arrayAdapter);
+        V.findViewById(R.id.checkInclude).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                keyForBalance.toggle();
+            }
+        });
+        keyForBalance.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(keyForBalance.isChecked()){
+                    is_calc.setVisibility(View.VISIBLE);
+                }
+                else{
+                    is_calc.setVisibility(View.GONE);
+                }
+            }
+        });
         spNotifMode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -473,11 +503,11 @@ public class AddCreditFragment extends Fragment {
                 mDialog.show();
             }
         });
-        checkInclude.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                isOpkey.toggle();
-            }});
+//        checkInclude.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                isOpkey.toggle();
+//            }});
         checkContribution.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -495,14 +525,14 @@ public class AddCreditFragment extends Fragment {
                 }
             }
         });
-        isOpkey.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isOpkey.isChecked()) {
-                    spiner_trasnact.setVisibility(View.VISIBLE);
-                } else spiner_trasnact.setVisibility(View.GONE);
-            }
-        });
+//        isOpkey.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if (isOpkey.isChecked()) {
+//                    spiner_trasnact.setVisibility(View.VISIBLE);
+//                } else spiner_trasnact.setVisibility(View.GONE);
+//            }
+//        });
         procentCred.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -611,11 +641,6 @@ public class AddCreditFragment extends Fragment {
             valyutes_symbols[i] = currencies.get(i).getAbbr();
         }
 
-        accounts = (ArrayList<Account>) accountDao.queryBuilder().list();
-        accs = new String[accounts.size()];
-        for (int i = 0; i < accounts.size(); i++) {
-            accs[i] = accounts.get(i).getName();
-        }
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
                 R.layout.adapter_spiner,
@@ -633,8 +658,6 @@ public class AddCreditFragment extends Fragment {
                 getString(R.string.yearr) ,  getString(R.string.mont)
         });
 
-        ArrayAdapter<String> adapter_scet = new ArrayAdapter<String>(getActivity(),
-                R.layout.spiner_gravity_right, accs);
 
         spiner_forValut.setAdapter(adapter_valyuta);
         int posMain = 0;
@@ -646,7 +669,7 @@ public class AddCreditFragment extends Fragment {
         spiner_forValut.setSelection(posMain);
         spiner_procent.setAdapter(adapter);
         spinner_peiod.setAdapter(adapter_period);
-        spiner_trasnact.setAdapter(adapter_scet);
+
 
         if (isEdit()) {
             int resId = getResources().getIdentifier(currentCredit.getIcon_ID(), "drawable", getContext().getPackageName());
@@ -680,23 +703,12 @@ public class AddCreditFragment extends Fragment {
 //            } else if (currentCredit.getPeriod_time_tip() == forDay) {
 //                spinner_peiod.setSelection(3);
 //            }
-            if (!currentCredit.getKey_for_include()) {
-                isOpkey.setChecked(false);
-                spiner_trasnact.setVisibility(View.GONE);
-            }
+//            if (!currentCredit.getKey_for_include()) {
+//                isOpkey.setChecked(false);
+//                spiner_trasnact.setVisibility(View.GONE);
+//            }
 
-            for (ReckingCredit temp : currentCredit.getReckings()) {
-                if (temp.getPayDate().getTimeInMillis() == currentCredit.getTake_time().getTimeInMillis()) {
-
-                    transactionCred.setText(parseToWithoutNull(temp.getAmount()).replace(",", "."));
-                    if (currentCredit.getKey_for_include())
-                        for (Account acca : accounts) {
-                            if (acca.getId().matches(temp.getAccountId()))
-                                spiner_trasnact.setSelection(getIndex(spiner_trasnact, acca.getName()));
-                        }
-                    break;
-                }
-            }
+//
 
             firstCred.setText(sDateFormat.format(currentCredit.getTake_time().getTime()));
 
@@ -939,10 +951,10 @@ public class AddCreditFragment extends Fragment {
                     period_tip = forMoth;
                     break;
             }
-        boolean key = true;
-        key = isOpkey.isChecked();
+        boolean key = keyForBalance.isChecked();
+//        key = isOpkey.isChecked();
         CreditDetials A1;
-        Account account = accounts.get(spiner_trasnact.getSelectedItemPosition());
+        Account account = accaunt_AC.get(accountSp.getSelectedItemPosition());
         // check limit account
         if (account.getIsLimited() && key) {
             double limit = account.getLimite();
@@ -964,51 +976,31 @@ public class AddCreditFragment extends Fragment {
             Log.d("sbb",Double.parseDouble(sb.toString())+"" );
             A1 = new CreditDetials(selectedIcon, nameCred.getText().toString(), new GregorianCalendar(argFirst[0], argFirst[1], argFirst[2]),
                     Double.parseDouble(sb.toString()), procent_inter, period_inter, period_tip, key, Double.parseDouble(valueCred.getText().toString()),
-                    currencies.get(spiner_forValut.getSelectedItemPosition()), -1, currentCredit.getMyCredit_id());
+                    currencies.get(spiner_forValut.getSelectedItemPosition()), -1, currentCredit.getMyCredit_id(),(keyForBalance.isChecked())?accaunt_AC.get(accountSp.getSelectedItemPosition()).getId():"");
 
         } else {
             A1 = new CreditDetials(selectedIcon, nameCred.getText().toString(), new GregorianCalendar(argFirst[0], argFirst[1], argFirst[2]),
                     Double.parseDouble(sb.toString()), procent_inter, period_inter, period_tip, key, Double.parseDouble(valueCred.getText().toString()),
-                    currencies.get(spiner_forValut.getSelectedItemPosition()), -1, System.currentTimeMillis());
+                    currencies.get(spiner_forValut.getSelectedItemPosition()), -1, System.currentTimeMillis(),(keyForBalance.isChecked())?accaunt_AC.get(accountSp.getSelectedItemPosition()).getId():"");
         }
+
+        if (isHaveFirstPay.isChecked()&&!transactionCred.getText().toString().equals("")) {
+            double firsPay =0;
+            try{
+                firsPay = Double.parseDouble(transactionCred.getText().toString());
+
+            }
+            catch (Exception o){
+                transactionCred.setError(getString(R.string.invalide_format));
+                return;
+            }
+           A1.setValue_of_credit(A1.getValue_of_credit()-firsPay);
+        }
+
         A1.setType_loan(spTypeLoan.getSelectedItemPosition());
         A1.setMonthly_fee(Double.parseDouble(sbMonthlyFee.toString().replace(",", ".")));
         A1.setMonthly_fee_type(spBankFee.getSelectedItemPosition());
         A1.__setDaoSession(daoSession);
-        String transactionCredString = transactionCred.getText().toString();
-        if (!transactionCredString.matches("")) {
-            ReckingCredit first_pay;
-
-            if (key && accounts.size() != 0) {
-                first_pay = new ReckingCredit((new GregorianCalendar(argFirst[0], argFirst[1], argFirst[2])), Double.parseDouble(transactionCredString), accounts.get(spiner_trasnact.getSelectedItemPosition()).getId(),
-                        A1.getMyCredit_id(), getString(R.string.this_first_comment));
-            } else {
-                first_pay = new ReckingCredit((new GregorianCalendar(argFirst[0], argFirst[1], argFirst[2])), Double.parseDouble(transactionCredString), "pustoy",
-                        A1.getMyCredit_id(), getString(R.string.this_first_comment));
-            }
-            first_pay.__setDaoSession(daoSession);
-            if (isEdit()){
-                List<ReckingCredit> tempiker = currentCredit.getReckings();
-                boolean iskeeeep = true;
-                for (ReckingCredit temp : tempiker) {
-                    if (temp.getPayDate().getTimeInMillis() == currentCredit.getTake_time().getTimeInMillis()) {
-                        first_pay.setId(temp.getId());
-
-//                        logicManager.insertReckingCredit(first_pay);
-                        iskeeeep = false;
-                        break;
-                    }
-                }
-                if (iskeeeep) {
-//                    logicManager.insertReckingCredit(first_pay);
-                }
-            }
-            else {
-//                logicManager.insertReckingCredit(first_pay);
-            }
-
-        }
-
 
         A1.setInfo(mode + ":" + sequence);
 
@@ -1097,242 +1089,6 @@ public class AddCreditFragment extends Fragment {
 
 
 
-    private void openDialog() {
-        final Dialog dialog = new Dialog(getActivity());
-        final View dialogView = getActivity().getLayoutInflater().inflate(R.layout.info_about_all, null);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(dialogView);
-
-        final TextView value = (TextView) dialogView.findViewById(R.id.textView9);
-        final TextView procent = (TextView) dialogView.findViewById(R.id.textView11);
-        final EditText solution = (EditText) dialogView.findViewById(R.id.edit_result);
-        ImageView cancel = (ImageView) dialogView.findViewById(R.id.ivInfoDebtBorrowCancel);
-        ImageView save = (ImageView) dialogView.findViewById(R.id.ivInfoDebtBorrowSave);
-        sb = new StringBuilder(procentCred.getText().toString());
-        Log.d("sbb", sb.toString());
-        int a = sb.toString().indexOf('%');
-        if (a != -1)
-            sb.deleteCharAt(a);
-        sbMonthlyFee = new StringBuilder(etMonthFee.getText().toString());
-        int ss = sbMonthlyFee.toString().indexOf('%');
-        if (ss != -1)
-            sbMonthlyFee.deleteCharAt(ss);
-
-        value.setText(valueCred.getText().toString());
-        procent.setText(procentCred.getText().toString());
-        solution.setText(parseToWithoutNull(Double.parseDouble(valueCred.getText().toString()) * (1d + Double.parseDouble(sb.toString()) / 100)));
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-        save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                long procent_inter = 1;
-                switch (spiner_procent.getSelectedItemPosition()) {
-                    case 0:
-                        procent_inter *= forYear;
-                        break;
-                    case 1:
-                        procent_inter *= forMoth;
-                        break;
-//                    case 2:
-//                        procent_inter *= forWeek;
-//                        break;
-//                    case 3:
-//                        procent_inter *= forDay;
-//                        break;
-                }
-
-                long period_inter = Long.parseLong(periodCred.getText().toString());
-                long period_tip = 0;
-                switch (spinner_peiod.getSelectedItemPosition()) {
-                    case 0:
-                        period_inter *= forYear;
-                        period_tip = forYear;
-                        break;
-                    case 1:
-                        period_inter *= forMoth;
-                        period_tip = forMoth;
-                        break;
-//                    case 2:
-//                        period_inter *= forWeek;
-//                        period_tip = forWeek;
-//                        break;
-//                    case 3:
-//                        period_inter *= forDay;
-//                        period_tip = forDay;
-//                        break;
-                }
-
-                boolean key = true;
-                key = isOpkey.isChecked();
-
-                String sloution = solution.getText().toString();
-                if (sloution.indexOf(',') != -1)
-                    sloution = sloution.substring(0, sloution.indexOf(',')) + "." + sloution.substring(sloution.indexOf(',') + 1, sloution.length());
-                CreditDetials A1;
-                Account account = accounts.get(spiner_trasnact.getSelectedItemPosition());
-
-                if (account.getIsLimited() && key) {
-                    double limit = account.getLimite();
-                    double accounted = logicManager.isLimitAccess(account, new GregorianCalendar(argFirst[0], argFirst[1], argFirst[2]));
-                    if (isEdit() && currentCredit.getKey_for_include()) {
-                        for (ReckingCredit reckingCredit : currentCredit.getReckings()) {
-                            if (currentCredit.getTake_time().getTimeInMillis() == reckingCredit.getPayDate().getTimeInMillis())
-                                accounted=+commonOperations.getCost(reckingCredit.getPayDate(), currentCredit.getValyute_currency(), reckingCredit.getAmount());
-                        }
-                    }
-                    accounted = accounted - commonOperations.getCost((new GregorianCalendar(argFirst[0], argFirst[1], argFirst[2])), currencies.get(spiner_forValut.getSelectedItemPosition()), account.getCurrency(), Double.parseDouble(transactionCred.getText().toString()));
-                    if (-limit > accounted) {
-                        Toast.makeText(context, R.string.limit_exceed, Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                }
-
-                if (isEdit()) {
-                    Log.d("sbb",Double.parseDouble(sb.toString())+"" );
-                    A1 = new CreditDetials(selectedIcon, nameCred.getText().toString(), new GregorianCalendar(argFirst[0], argFirst[1], argFirst[2]),
-                            Double.parseDouble(sb.toString()), procent_inter, period_inter, period_tip, key, Double.parseDouble(valueCred.getText().toString()),
-                            currencies.get(spiner_forValut.getSelectedItemPosition()), Double.parseDouble(sloution), currentCredit.getMyCredit_id());
-
-                } else {
-                    A1 = new CreditDetials(selectedIcon, nameCred.getText().toString(), new GregorianCalendar(argFirst[0], argFirst[1], argFirst[2]),
-                            Double.parseDouble(sb.toString()), procent_inter, period_inter, period_tip, key, Double.parseDouble(valueCred.getText().toString()),
-                            currencies.get(spiner_forValut.getSelectedItemPosition()), Double.parseDouble(sloution), System.currentTimeMillis());
-                }
-                A1.setType_loan(spTypeLoan.getSelectedItemPosition());
-                A1.setMonthly_fee(Double.parseDouble(etMonthFee.getText().toString().replace(",", ".")));
-                A1.__setDaoSession(daoSession);
-                String transactionCredString = transactionCred.getText().toString();
-                if (!transactionCredString.matches("")) {
-                    ReckingCredit first_pay;
-
-                    if (key && accounts.size() != 0) {
-                        first_pay = new ReckingCredit((new GregorianCalendar(argFirst[0], argFirst[1], argFirst[2])), Double.parseDouble(transactionCredString), accounts.get(spiner_trasnact.getSelectedItemPosition()).getId(),
-                                A1.getMyCredit_id(), getString(R.string.this_first_comment));
-                    } else {
-                        first_pay = new ReckingCredit((new GregorianCalendar(argFirst[0], argFirst[1], argFirst[2])), Double.parseDouble(transactionCredString), "pustoy",
-                                A1.getMyCredit_id(), getString(R.string.this_first_comment));
-                    }
-                    first_pay.__setDaoSession(daoSession);
-                    if (isEdit()){
-                        List<ReckingCredit> tempiker = currentCredit.getReckings();
-                        boolean iskeeeep = true;
-                        for (ReckingCredit temp : tempiker) {
-                            if (temp.getPayDate().getTimeInMillis() == currentCredit.getTake_time().getTimeInMillis()) {
-                                first_pay.setId(temp.getId());
-                                logicManager.insertReckingCredit(first_pay);
-                                iskeeeep = false;
-                                break;
-                            }
-                        }
-                        if (iskeeeep) {
-                           logicManager.insertReckingCredit(first_pay);
-                        }
-                    }
-                else {
-                        logicManager.insertReckingCredit(first_pay);
-                    }
-                }
-
-                InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(dialogView.getWindowToken(), 0);
-
-                A1.setInfo(mode + ":" + sequence);
-
-                if (isEdit()) {
-                    logicManager.insertCredit(A1);
-                    //TODO CLOSE ALL FRAGMENTS
-                } else {
-                    switch(logicManager.insertCredit(A1)) {
-                        case LogicManagerConstants.SAVED_SUCCESSFULL: {
-                            break;
-                        }
-                    }
-                }
-                dialog.dismiss();
-                if (isEdit()&&!fromMainWindow) {
-
-                    if(!daoSession.getBoardButtonDao().queryBuilder()
-                            .where(BoardButtonDao.Properties.CategoryId.eq(Long.toString(A1.getMyCredit_id())))
-                            .list().isEmpty()) {
-
-                        BitmapFactory.Options options = new BitmapFactory.Options();
-                        options.inPreferredConfig = Bitmap.Config.RGB_565;
-                        Bitmap temp = BitmapFactory.decodeResource(getResources(), getResources().getIdentifier(A1.getIcon_ID(), "drawable", context.getPackageName()), options);
-                        temp = Bitmap.createScaledBitmap(temp, (int) getResources().getDimension(R.dimen.thirty_dp), (int) getResources().getDimension(R.dimen.thirty_dp), true);
-                        dataCache.getBoardBitmapsCache().put(daoSession.getBoardButtonDao().queryBuilder()
-                                .where(BoardButtonDao.Properties.CategoryId.eq(Long.toString(A1.getMyCredit_id())))
-                                .list().get(0).getId(), temp);
-
-
-                        dataCache.updateAllPercents();
-                        paFragmentManager.updateAllFragmentsOnViewPager();
-                    }
-                    toolbarManager.setToolbarIconsVisibility(View.GONE,View.GONE,View.GONE);
-                    paFragmentManager.getFragmentManager().popBackStack();
-                    paFragmentManager.getFragmentManager().popBackStack();
-                    paFragmentManager.displayFragment(new CreditTabLay());
-
-
-                } else if (fromMainWindow) {
-                    Log.d("testttt", "fromMainWindow");
-                    if(isEdit()) {
-                        List<BoardButton> boardButtons = daoSession.getBoardButtonDao().loadAll();
-                        for (BoardButton boardButton : boardButtons) {
-                            if (boardButton.getCategoryId() != null) {
-                                if (boardButton.getCategoryId().equals(Long.toString(A1.getMyCredit_id()))) {
-
-                                    if (boardButton.getTable() == PocketAccounterGeneral.EXPENSE) {
-                                        logicManager.changeBoardButton(PocketAccounterGeneral.EXPENSE, boardButton.getPos(), Long.toString(A1.getMyCredit_id()));
-                                    } else {
-                                        logicManager.changeBoardButton(PocketAccounterGeneral.INCOME, boardButton.getPos(), Long.toString(A1.getMyCredit_id()));
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    else {
-                        if (modeFromMain == PocketAccounterGeneral.EXPENSE)
-                            logicManager.changeBoardButton(PocketAccounterGeneral.EXPENSE, posFromMain, Long.toString(A1.getMyCredit_id()));
-                        else
-                            logicManager.changeBoardButton(PocketAccounterGeneral.INCOME,posFromMain,Long.toString(A1.getMyCredit_id()));
-
-                    }
-                    BitmapFactory.Options options=new BitmapFactory.Options();
-                    options.inPreferredConfig= Bitmap.Config.RGB_565;
-                    Bitmap temp=BitmapFactory.decodeResource(getResources(),getResources().getIdentifier(A1.getIcon_ID(),"drawable",context.getPackageName()),options);
-                    temp=Bitmap.createScaledBitmap(temp,(int)getResources().getDimension(R.dimen.thirty_dp),(int)getResources().getDimension(R.dimen.thirty_dp),true);
-
-                    List<BoardButton> boardButtonss=daoSession.getBoardButtonDao().queryBuilder().where(BoardButtonDao.Properties.CategoryId.eq(Long.toString(A1.getMyCredit_id()))).build().list();
-                    if(!boardButtonss.isEmpty()){
-                        for(BoardButton boardButton:boardButtonss){
-                            dataCache.getBoardBitmapsCache().put(boardButton.getId(), temp);
-                        }
-                    }
-
-                    dataCache.updateAllPercents();
-                    paFragmentManager.updateAllFragmentsOnViewPager();
-                    toolbarManager.setToolbarIconsVisibility(View.GONE,View.GONE,View.GONE);
-                    paFragmentManager.displayMainWindow();
-                }
-                else {
-                    toolbarManager.setToolbarIconsVisibility(View.GONE,View.GONE,View.GONE);
-                    paFragmentManager.getFragmentManager().popBackStack();
-                }
-
-                onSucsessed = true;
-            }
-        });
-        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-        int width = displayMetrics.widthPixels;
-        dialog.getWindow().setLayout(7 * width / 8, RelativeLayout.LayoutParams.WRAP_CONTENT);
-        dialog.show();
-    }
 
     public void addEventLis(CreditFragment.EventFromAdding even) {
         eventLis = even;

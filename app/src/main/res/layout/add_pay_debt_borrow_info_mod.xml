@@ -204,6 +204,7 @@
         android:id="@+id/is_calc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         >
         <LinearLayout
             android:id="@+id/accountSpin"
@@ -216,6 +217,8 @@
             android:paddingTop="@dimen/five_dp"
             android:paddingBottom="@dimen/five_dp"
             android:paddingLeft="@dimen/two_dp"
+            android:layout_marginBottom="@dimen/ten_dp"
+
             android:orientation="horizontal"
             android:layout_marginRight="@dimen/twenty_dp"
             android:layout_marginLeft="@dimen/twenty_dp"
@@ -236,6 +239,7 @@
         </LinearLayout>
 
     </RelativeLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -246,12 +250,12 @@
 
             android:layout_height="wrap_content"
             android:background="@drawable/edit_text"
-            android:layout_marginTop="@dimen/twenty_dp"
             android:gravity="end"
             android:paddingRight="@dimen/ten_dp"
             android:paddingTop="@dimen/two_dp"
             android:paddingBottom="@dimen/two_dp"
             android:paddingLeft="@dimen/two_dp"
+            android:layout_marginTop="@dimen/twenty_dp"
             android:orientation="horizontal"
             android:layout_marginRight="@dimen/twenty_dp"
             android:layout_marginLeft="@dimen/twenty_dp"
@@ -275,6 +279,37 @@
 
         </LinearLayout>
 
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/checkInclude"
+        android:layout_width="match_parent"
+        android:paddingTop="@dimen/ten_dp"
+        android:paddingBottom="@dimen/ten_dp"
+        android:layout_marginTop="@dimen/five_dp"
+        android:layout_marginBottom="@dimen/five_dp"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/include_credit_in_balance"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/twentyfive_dp"
+            android:layout_marginRight="@dimen/sixteen_dp"
+            android:textColor="@color/black_for_glavniy_text"
+            android:textSize="@dimen/fourteen_dp"
+            android:layout_toLeftOf="@+id/key_for_balance"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            />
+        <android.support.v7.widget.SwitchCompat
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/twenty_dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:id="@+id/key_for_balance" />
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
