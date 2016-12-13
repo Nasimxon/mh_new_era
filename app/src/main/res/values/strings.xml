@@ -1688,6 +1688,7 @@
     <string name="borrower_name">Borrower name</string>
     <string name="to_archive">To archive</string>
     <string name="archiveee">ARCHIVE</string>
+    <string name="wrong_input_type">Wrong input type</string>
     <string name="not_completed">Not completed</string>
     <string name="all_periods">All periods</string>
     <string name="invalide_format">Invalide format</string>

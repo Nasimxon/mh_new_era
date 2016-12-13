@@ -117,6 +117,13 @@ public class PurposeEditFragment extends Fragment implements OnClickListener, On
         toolbarManager.setOnSecondImageClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                try {
+                    Double.parseDouble(amountPurpose.getText().toString());
+                    amountPurpose.setError(null);
+                } catch (Exception e) {
+                    amountPurpose.setError(getString(R.string.wrong_input_type));
+                    return;
+                }
                 if (amountPurpose.getText().toString().isEmpty()) {
                     amountPurpose.setError(getResources().getString(R.string.enter_amount));
                 } else if (purposeName.getText().toString().isEmpty()) {

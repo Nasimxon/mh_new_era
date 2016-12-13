@@ -320,11 +320,25 @@ public class CurrencyEditFragment extends PABaseInfoFragment implements OnClickL
         ivCurrencyEditDialogOk.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (etExchange.getText().toString().matches("") || Double.parseDouble(etExchange.getText().toString()) == 0) {
+                try {
+                    Double.parseDouble(etExchange.getText().toString());
+                    etExchange.setError(null);
+                } catch (Exception e) {
+                    etExchange.setError(getString(R.string.wrong_input_type));
+                    return;
+                }
+                if (etExchange.getText().toString().matches("")) {
                     etExchange.setError(getString(R.string.incorrect_value));
                     return;
                 }
-                if(etHowMuch.getText().toString().matches("") || Double.parseDouble(etHowMuch.getText().toString()) == 0){
+                try {
+                    Double.parseDouble(etHowMuch.getText().toString());
+                    etHowMuch.setError(null);
+                } catch (Exception e) {
+                    etHowMuch.setError(getString(R.string.wrong_input_type));
+                    return;
+                }
+                if(etHowMuch.getText().toString().matches("")){
                     etHowMuch.setError(getString(R.string.incorrect_value));
                     return;
                 }

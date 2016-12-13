@@ -41,14 +41,12 @@
                     android:id="@+id/currentCurrencyidic"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="1P = "
                     android:textSize="@dimen/twenty_dp"
                     />
                 <TextView
                     android:id="@+id/currentRateBig"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0.0084$"
                     android:textColor="@color/black_for_myagkiy_glavniy"
                     android:textSize="@dimen/fourty_dp"/>
             </LinearLayout>
@@ -140,13 +138,14 @@
                     android:layout_width="wrap_content"
                     android:layout_margin="@dimen/one_dp"
                     android:background="#00ffffff"
+                    android:maxLength="15"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/fourteen_dp"
                     android:inputType="numberDecimal"
                     android:textColor="@color/black_for_myagkiy_glavniy"
                     android:paddingLeft="@dimen/ten_dp"
-                    android:text="123"/>
+                    />
                 <FrameLayout
                     android:layout_width="2px"
                     android:layout_height="match_parent"
@@ -189,12 +188,11 @@
                     android:layout_margin="@dimen/one_dp"
                     android:layout_weight="1"
                     android:background="#00ffffff"
-                    android:maxLength="100"
+                    android:maxLength="15"
                     android:inputType="numberDecimal"
                     android:paddingBottom="@dimen/five_dp"
                     android:paddingLeft="@dimen/ten_dp"
                     android:paddingTop="@dimen/five_dp"
-                    android:text="1"
                     android:textColor="@color/black_for_myagkiy_glavniy" />
 
                 <FrameLayout

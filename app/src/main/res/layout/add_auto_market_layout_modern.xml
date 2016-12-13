@@ -104,7 +104,7 @@
                     android:layout_alignParentStart="true"
                     android:layout_gravity="center_vertical"
                     android:layout_toLeftOf="@+id/spStartMoneyCurrency"
-                    android:maxLength="13"
+                    android:maxLength="15"
                     android:layout_weight="1"
                     android:background="#fff"
                     android:ems="10"

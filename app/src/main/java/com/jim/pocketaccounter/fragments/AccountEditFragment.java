@@ -202,11 +202,26 @@ public class AccountEditFragment extends PABaseInfoFragment implements OnClickLi
                 } else
                     account = this.account;
                 account.setName(etAccountEditName.getText().toString());
-                if (!etStartMoney.getText().toString().matches("") && Double.parseDouble(etStartMoney.getText().toString()) != 0)
+                try {
+                    Double.parseDouble(etStartMoney.getText().toString());
+                    etStartMoney.setError(null);
+                } catch (Exception e) {
+                    etStartMoney.setError(getString(R.string.wrong_input_type));
+                    return;
+                }
+                if (!etStartMoney.getText().toString().matches(""))
                     account.setAmount(Double.parseDouble(etStartMoney.getText().toString()));
                 else
                     account.setAmount(0);
+
                 if (chbAccountEnabledLimit.isChecked()) {
+                    try {
+                        Double.parseDouble(etStartLimit.getText().toString());
+                    } catch (Exception e) {
+                        etStartLimit.setError(getString(R.string.wrong_input_type));
+                        return;
+                    }
+
                     if (etStartLimit.getText().toString().equals("")) {
                         etStartLimit.setError(getResources().getString(R.string.enter_amount_error));
                         return;

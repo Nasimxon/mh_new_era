@@ -170,6 +170,13 @@ public class AddAutoMarketFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 daysAdapter.getResult();
+                try {
+                    Double.parseDouble(amount.getText().toString());
+                    amount.setError(null);
+                } catch (Exception e) {
+                    amount.setError(getString(R.string.wrong_input_type));
+                    return;
+                }
                 if (amount.getText().toString().isEmpty()) {
                     amount.setError(getResources().getString(R.string.enter_amount_error));
                 } else if (sequence.isEmpty()) {

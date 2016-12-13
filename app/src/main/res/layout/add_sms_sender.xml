@@ -41,9 +41,9 @@
                         android:layout_toLeftOf="@+id/ivSmsParseGet"
                         android:paddingRight="@dimen/ten_dp"
                         android:paddingLeft="@dimen/ten_dp"
+                        android:maxLength="22"
                         android:paddingTop="@dimen/ten_dp"
                         android:paddingBottom="@dimen/ten_dp"
-
                         android:hint="@string/number_or_name_of_sender"
                         android:background="@drawable/edit_text"
                         android:textColorHint="#d1d1d1"

@@ -45,21 +45,23 @@
                         android:text="@string/name_of_category"
                         android:textColor="@color/toolbar_text_color"
                         android:textSize="@dimen/sixteen_dp" />
+
                     <EditText
                         android:id="@+id/etAccountEditName"
                         android:layout_width="match_parent"
-                        android:layout_marginRight="@dimen/sixteen_dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/sixteen_dp"
                         android:layout_weight="1"
+                        android:background="@drawable/edit_text"
                         android:ems="10"
                         android:maxLength="22"
-                        android:textColor="@color/toolbar_text_color"
-                        android:background="@drawable/edit_text"
-                        android:textSize="@dimen/sixteen_dp"
-                        android:paddingTop="@dimen/five_dp"
                         android:paddingBottom="@dimen/five_dp"
                         android:paddingLeft="@dimen/eight_dp"
-                        android:paddingRight="@dimen/eight_dp">
+                        android:paddingRight="@dimen/eight_dp"
+                        android:paddingTop="@dimen/five_dp"
+                        android:textColor="@color/toolbar_text_color"
+                        android:textSize="@dimen/sixteen_dp">
+
                         <requestFocus />
                     </EditText>
 
@@ -119,7 +121,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
-                    android:maxLength="25"
+                    android:maxLength="15"
                     android:hint="@string/start_money"
                     android:textColor="@color/black_for_glavniy_text"
                     android:textSize="@dimen/sixteen_dp"
@@ -200,7 +202,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
-                    android:maxLength="25"
+                    android:maxLength="15"
                     android:background="#fff"
                     android:hint="@string/limit_sum"
                     android:textColor="@color/black_for_glavniy_text"
