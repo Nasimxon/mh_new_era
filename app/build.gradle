@@ -87,7 +87,9 @@ dependencies {
     provided 'org.glassfish:javax.annotation:10.0-b28'
     compile 'com.github.castorflex.verticalviewpager:library:19.0.1'
     compile 'com.github.developer-shivam:WaveView:1.0'
-
+    compile 'com.github.huweijian5:YearPicker:1.0.1'
+    compile 'com.lantouzi.wheelview:library:1.1.2'
+    compile 'com.github.lecho:hellocharts-android:v1.5.8'
 }
 apply plugin: 'com.google.gms.google-services'
 

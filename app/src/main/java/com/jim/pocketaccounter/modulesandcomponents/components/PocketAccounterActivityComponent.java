@@ -40,8 +40,12 @@ import com.jim.pocketaccounter.fragments.ReportByCategory;
 import com.jim.pocketaccounter.fragments.ReportByCategoryExpansesFragment;
 import com.jim.pocketaccounter.fragments.ReportByCategoryIncomesFragment;
 import com.jim.pocketaccounter.fragments.ReportByCategoryRootCategoryFragment;
+import com.jim.pocketaccounter.fragments.ReportByIncomeAndExpense;
 import com.jim.pocketaccounter.fragments.ReportByIncomeExpanseBarFragment;
 import com.jim.pocketaccounter.fragments.ReportByIncomeExpanseTableFragment;
+import com.jim.pocketaccounter.fragments.ReportByIncomeExpenseDaily;
+import com.jim.pocketaccounter.fragments.ReportByIncomeExpenseMonthlyFragment;
+import com.jim.pocketaccounter.fragments.ReportByCategoryFragment;
 import com.jim.pocketaccounter.fragments.ReportFragment;
 import com.jim.pocketaccounter.fragments.RootCategoryEditFragment;
 import com.jim.pocketaccounter.fragments.SMSParseInfoFragment;
@@ -66,6 +70,7 @@ import com.jim.pocketaccounter.utils.record.BaseBoardView;
 import com.jim.pocketaccounter.utils.record.RecordExpanseView;
 import com.jim.pocketaccounter.utils.record.RecordIncomesView;
 import com.jim.pocketaccounter.utils.reportviews.CategorySliding;
+import com.jim.pocketaccounter.utils.reportviews.MonthPickSliderView;
 
 import dagger.Component;
 
@@ -139,7 +144,12 @@ public interface PocketAccounterActivityComponent {
     void inject(MainPageLockView mainPageLockView);
     void inject(VoiceRecognizerFragment voiceRecognizerFragment);
     void inject(PurchaseImplementation purchaseImplementation);
-    void inject(ReportFragment reportFragment);
+    void inject(ReportByCategoryFragment reportFragment);
     void inject(ReportByCategoryRootCategoryFragment reportByCategoryRootCategoryFragment);
     void inject(CategorySliding categorySliding);
+    void inject(ReportByIncomeAndExpense reportByIncomeAndExpense);
+    void inject(ReportByIncomeExpenseDaily reportByIncomeExpenseDaily);
+    void inject(MonthPickSliderView monthPickSliderView);
+    void inject(ReportByIncomeExpenseMonthlyFragment reportByIncomeExpenseMonthlyFragment);
+    void inject(ReportFragment reportFragment);
 }

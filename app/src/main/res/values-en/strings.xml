@@ -1626,6 +1626,22 @@
     <string name="select_icons_sb">Select subcategory icon</string>
     <string name="subcategory_empty">Subcategory name is empty</string>
     <string name="to_purpose">Перевод в копилку</string>
+    <string name="reached_max_value">Достигнуто максимальное значение</string>
+    <string name="reached_min_value">Достигнуто минимальное значение</string>
+    <string-array name="month_abbrs">
+        <item>Янв.</item>
+        <item>Фев.</item>
+        <item>Мар.</item>
+        <item>Апр.</item>
+        <item>Май</item>
+        <item>Июнь</item>
+        <item>Июль</item>
+        <item>Авг.</item>
+        <item>Сен.</item>
+        <item>Окт.</item>
+        <item>Ноя.</item>
+        <item>Дек.</item>
+    </string-array>
     <string name="history_transfers">History of Transfers</string>
     <string name="summ_transfer">Summ transfer</string>
 </resources>

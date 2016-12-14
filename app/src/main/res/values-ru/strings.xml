@@ -1625,11 +1625,28 @@
     <string name="select_icons_sb">Select subcategory icon</string>
     <string name="subcategory_empty">Subcategory name is empty</string>
     <string name="to_purpose">Перевод в копилку</string>
+    <string name="reached_max_value">Достигнуто максимальное значение</string>
+    <string name="reached_min_value">Достигнуто минимальное значение</string>
 
     <string-array name="currency_2">
         <item>руб.</item>
         <item>рубль</item>
         <item>рублей</item>
+    </string-array>
+
+    <string-array name="month_abbrs">
+        <item>Янв.</item>
+        <item>Фев.</item>
+        <item>Мар.</item>
+        <item>Апр.</item>
+        <item>Май</item>
+        <item>Июнь</item>
+        <item>Июль</item>
+        <item>Авг.</item>
+        <item>Сен.</item>
+        <item>Окт.</item>
+        <item>Ноя.</item>
+        <item>Дек.</item>
     </string-array>
     <string name="history_transfers">История трансферов</string>
     <string name="summ_transfer">Сумма перевода</string>

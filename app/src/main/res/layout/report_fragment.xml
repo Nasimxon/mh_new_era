@@ -1,22 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#fcfcfc">
-    <com.jim.pocketaccounter.utils.reportviews.CategorySliding
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/two_hundred"
-        android:id="@+id/csReportByCategory"
-        android:layout_marginTop="@dimen/ten_dp"/>
-    <android.support.v7.widget.RecyclerView
+    android:layout_height="match_parent">
+    <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/rvReportByCategorySubcatPercents"
-        android:layout_below="@+id/csReportByCategory"/>
-    <android.support.v7.widget.RecyclerView
+        android:text="Report by category"
+        android:id="@+id/btnReportByCategory"/>
+    <Button
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/rvReportByCategorySubcatDetails"
-        android:layout_below="@+id/rvReportByCategorySubcatPercents"/>
-</RelativeLayout>
+        android:layout_height="wrap_content"
+        android:text="Report by incomes and expense (daily, table)"
+        android:id="@+id/btnReportByIncomeAndExpenseTable"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Report by incomes and expenses (daily, graphic)"
+        android:id="@+id/btnReportByIncomeAndExpenseGraphic"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Report by income expense (monthly)"
+        android:id="@+id/btnReportByIncomeAndExpenseMonthly"/>
+</LinearLayout>

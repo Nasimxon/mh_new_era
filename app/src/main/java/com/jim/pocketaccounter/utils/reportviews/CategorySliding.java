@@ -23,6 +23,7 @@ import com.jim.pocketaccounter.fragments.ReportByCategoryRootCategoryFragment;
 import org.apache.commons.lang3.RandomUtils;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,8 +34,10 @@ public class CategorySliding extends LinearLayout {
     private CategorySlidingInterface listener;
     private ViewPager vpCategorySlider;
     private List<String> allCategories;
-    private int position = 0;
+    private int position = 0, lastPosition = 0;
     private Map<String, Map<String, Integer>> allColors;
+    private CategoryAdapter adapter;
+    private Calendar begin, end;
     @Inject DaoSession daoSession;
     public CategorySliding(Context context) {
         super(context);
@@ -58,7 +61,8 @@ public class CategorySliding extends LinearLayout {
         ((PocketAccounter) context).component((PocketAccounterApplication) context.getApplicationContext()).inject(this);
         vpCategorySlider = (ViewPager) findViewById(R.id.vpCategorySlider);
         initDataForViewPager();
-        vpCategorySlider.setAdapter(new CategoryAdapter(((PocketAccounter)getContext()).getSupportFragmentManager()));
+        adapter = new CategoryAdapter(((PocketAccounter)context).getSupportFragmentManager());
+        vpCategorySlider.setAdapter(adapter);
         vpCategorySlider.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -72,15 +76,28 @@ public class CategorySliding extends LinearLayout {
 
             @Override
             public void onPageScrollStateChanged(int state) {
-                if (state == ViewPager.SCROLL_STATE_IDLE) {
+                if (state == ViewPager.SCROLL_STATE_IDLE && lastPosition != position) {
                     if (listener != null) {
                         listener.onSlide(allCategories.get(position), allColors.get(allCategories.get(position)), position);
                     }
+                    lastPosition = position;
                 }
             }
         });
         vpCategorySlider.setCurrentItem(0);
         generateAllColors();
+    }
+
+    public void setInterval(Calendar begin, Calendar end) {
+        this.begin = (Calendar) begin.clone();
+        this.end = (Calendar) end.clone();
+        init(getContext());
+        if (vpCategorySlider != null) {
+            vpCategorySlider.setCurrentItem(position);
+            if (listener != null) {
+                listener.onSlide(allCategories.get(position), allColors.get(allCategories.get(position)), position);
+            }
+        }
     }
 
     private void generateAllColors() {
@@ -114,14 +131,8 @@ public class CategorySliding extends LinearLayout {
         if (allCategories == null) {
             allCategories = new ArrayList<>();
             List<RootCategory> categories = daoSession.loadAll(RootCategory.class);
-            List<CreditDetials> credits = daoSession.loadAll(CreditDetials.class);
-            List<DebtBorrow> debtBorrows = daoSession.loadAll(DebtBorrow.class);
             for (RootCategory category : categories)
                 allCategories.add(category.getId());
-//            for (CreditDetials creditDetials : credits)
-//                allCategories.add(Long.toString(creditDetials.getMyCredit_id()));
-//            for (DebtBorrow debtBorrow : debtBorrows)
-//                allCategories.add(debtBorrow.getId());
         }
     }
 
@@ -136,6 +147,7 @@ public class CategorySliding extends LinearLayout {
         public Fragment getItem(int position) {
             String id = allCategories.get(position);
             ReportByCategoryRootCategoryFragment fragment = new ReportByCategoryRootCategoryFragment(id, allColors.get(id));
+            fragment.setInterval(begin, end);
             return fragment;
         }
         @Override

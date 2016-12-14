@@ -13,19 +13,17 @@ import android.widget.TextView;
 import com.jim.pocketaccounter.PocketAccounter;
 import com.jim.pocketaccounter.PocketAccounterApplication;
 import com.jim.pocketaccounter.R;
-import com.jim.pocketaccounter.database.CreditDetials;
 import com.jim.pocketaccounter.database.DaoSession;
-import com.jim.pocketaccounter.database.DebtBorrow;
 import com.jim.pocketaccounter.database.FinanceRecord;
 import com.jim.pocketaccounter.database.FinanceRecordDao;
-import com.jim.pocketaccounter.database.Recking;
-import com.jim.pocketaccounter.database.ReckingCredit;
 import com.jim.pocketaccounter.database.RootCategory;
+import com.jim.pocketaccounter.database.SubCategory;
 import com.jim.pocketaccounter.managers.CommonOperations;
 import com.jim.pocketaccounter.utils.reportviews.PieData;
 import com.jim.pocketaccounter.utils.reportviews.ReportPieView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -38,6 +36,7 @@ public class ReportByCategoryRootCategoryFragment extends Fragment {
     private List<PieData> catDatas; // data for rootcategory viewpager adapter
     private TextView tvReportByCategoryRootCatSum, tvReportByCategoryRootCatName;
     private Map<String, Integer> colors;
+    private Calendar begin, end;
     @Inject DaoSession daoSession;
     @Inject CommonOperations commonOperations;
 
@@ -59,70 +58,73 @@ public class ReportByCategoryRootCategoryFragment extends Fragment {
         return rootView;
     }
 
+    public void setInterval(Calendar begin, Calendar end) {
+        this.begin = begin == null ? null : (Calendar) begin.clone();
+        this.end = end == null ? null : (Calendar) end.clone();
+    }
     public Map<String, Integer> getColors() { return colors; }
 
     void init() {
-        if (id != null || !id.isEmpty()) {
+        if ((id != null || !id.isEmpty()) && daoSession != null) {
             catDatas = new ArrayList<>();
-            double total = 0.0d;
             RootCategory category = daoSession.load(RootCategory.class, id);
             if (category != null) {
                 tvReportByCategoryRootCatName.setText(category.getName());
             }
-            List<FinanceRecord> records = daoSession
+            double total = 0.0d;
+            List<FinanceRecord> tempRecords = daoSession
                     .queryBuilder(FinanceRecord.class)
                     .where(FinanceRecordDao.Properties.CategoryId.eq(id))
                     .list();
+            List<FinanceRecord> records = new ArrayList<>();
+            if (begin != null && end != null) {
+                for (FinanceRecord record : tempRecords) {
+                    if (record.getDate().compareTo(begin) >= 0 &&
+                            record.getDate().compareTo(end) <= 0 ) {
+                        records.add(record);
+                    }
+                }
+
+            } else {
+                records.addAll(tempRecords);
+            }
             if (!records.isEmpty()) {
+                double nullAmount = 0.0d;
+                boolean nullSubcatFound = false;
                 for (FinanceRecord record : records) {
-                    String subcatId = record.getSubCategory() == null ? "null" : record.getSubCategoryId();
+                    if (record.getSubCategory() == null) {
+                        nullSubcatFound = true;
+                        nullAmount += commonOperations.getCost(record);
+                    }
+                }
+                if (nullSubcatFound) {
                     PieData data = new PieData();
-                    data.setColor(colors.get(subcatId));
-                    total += commonOperations.getCost(record);
-                    data.setAmount(commonOperations.getCost(record));
+                    data.setColor(colors.get("null"));
+                    data.setAmount(nullAmount);
                     catDatas.add(data);
+                }
+                List<SubCategory> subCategories = category.getSubCategories();
+                if (subCategories != null) {
+                    for (SubCategory subCategory : subCategories) {
+                        boolean subcategoryFound = false;
+                        double subcatAmount = 0.0d;
+                        for (FinanceRecord record : records) {
+                            if (record.getSubCategory() != null && record.getSubCategoryId().equals(subCategory.getId())) {
+                                subcategoryFound = true;
+                                subcatAmount += commonOperations.getCost(record);
+                            }
+                            if (subcategoryFound) {
+                                PieData data = new PieData();
+                                data.setColor(colors.get(subCategory.getId()));
+                                data.setAmount(subcatAmount);
+                                catDatas.add(data);
+                            }
+                            total += commonOperations.getCost(record);
+                        }
+                    }
                 }
                 tvReportByCategoryRootCatSum.setText(getResources().getString(R.string.balance) + ": " + total);
-                return;
             }
-            try {
-                CreditDetials credit = daoSession.load(CreditDetials.class, Long.parseLong(id));
-                if (credit != null) {
-                    for (ReckingCredit recking : credit.getReckings()) {
-                        PieData data = new PieData();
-                        data.setColor(colors.get(id));
-                        total += commonOperations.getCost(recking.getPayDate(),
-                                credit.getValyute_currency(),
-                                recking.getAmount());
-                        data.setAmount(commonOperations.getCost(recking.getPayDate(),
-                                credit.getValyute_currency(),
-                                recking.getAmount()));
-
-                        catDatas.add(data);
-                    }
-                    tvReportByCategoryRootCatName.setText(credit.getCredit_name());
-                    tvReportByCategoryRootCatSum.setText(getResources().getString(R.string.balance) + ": " + total);
-                    return;
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            DebtBorrow debtBorrow = daoSession.load(DebtBorrow.class, id);
-            if (debtBorrow != null) {
-                for (Recking recking : debtBorrow.getReckings()) {
-                    PieData data = new PieData();
-                    data.setColor(colors.get(id));
-                    total += commonOperations.getCost(recking.getPayDate(),
-                            debtBorrow.getCurrency(),
-                            recking.getAmount());
-                    data.setAmount(commonOperations.getCost(recking.getPayDate(),
-                            debtBorrow.getCurrency(),
-                            recking.getAmount()));
-                    catDatas.add(data);
-                }
-                tvReportByCategoryRootCatName.setText(debtBorrow.getPerson().getName());
-            }
-            tvReportByCategoryRootCatSum.setText(getResources().getString(R.string.balance) + ": " + total);
         }
     }
 
@@ -137,22 +139,11 @@ public class ReportByCategoryRootCategoryFragment extends Fragment {
         if (centerBitmap != null) rpvReport.setCenterBitmap(centerBitmap);
     }
     private Bitmap getCenterBitmap(String selectedId) {
-        if (selectedId != null && !selectedId.isEmpty()) {
+        if (selectedId != null && !selectedId.isEmpty() && daoSession != null) {
             RootCategory category = daoSession.load(RootCategory.class, selectedId);
             if (category != null) {
                 String icon = category.getIcon();
                 int resId = getResources().getIdentifier(icon, "drawable", getContext().getPackageName());
-                return BitmapFactory.decodeResource(getResources(), resId);
-            }
-            CreditDetials creditDetials = daoSession.load(CreditDetials.class, selectedId);
-            if (creditDetials != null) {
-                String icon = creditDetials.getIcon_ID();
-                int resId = getResources().getIdentifier(icon, "drawable", getContext().getPackageName());
-                return BitmapFactory.decodeResource(getResources(), resId);
-            }
-            DebtBorrow debtBorrow = daoSession.load(DebtBorrow.class, selectedId);
-            if (debtBorrow != null) {
-                int resId = getResources().getIdentifier("no_category", "drawable", getContext().getPackageName());
                 return BitmapFactory.decodeResource(getResources(), resId);
             }
         }

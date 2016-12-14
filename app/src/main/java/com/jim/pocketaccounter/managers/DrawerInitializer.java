@@ -34,6 +34,7 @@ import com.jim.pocketaccounter.fragments.CategoryFragment;
 import com.jim.pocketaccounter.fragments.CreditTabLay;
 import com.jim.pocketaccounter.fragments.CurrencyFragment;
 import com.jim.pocketaccounter.fragments.PurposeFragment;
+import com.jim.pocketaccounter.fragments.ReportByIncomeExpenseMonthlyFragment;
 import com.jim.pocketaccounter.fragments.ReportFragment;
 import com.jim.pocketaccounter.fragments.SmsParseMainFragment;
 import com.jim.pocketaccounter.syncbase.SignInGoogleMoneyHold;
@@ -489,10 +490,7 @@ public class DrawerInitializer {
     }
 
     public void onStopSuniy(){
-
-
         try {
-
             if (imagetask != null)
                 imagetask.cancel(true);
             if (imagetask != null) {
@@ -500,7 +498,7 @@ public class DrawerInitializer {
                 imagetask = null;
             }
         } catch (Exception o) {
-
+            o.printStackTrace();
         }
     }
 }

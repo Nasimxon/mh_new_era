@@ -46,7 +46,6 @@ public class FilterDialog extends Dialog implements AdapterView.OnItemSelectedLi
     private SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
     private FilterSelectable filterSelectable = null;
     private SharedPreferences sharedPreferences;
-
     public FilterDialog(Context context) {
         super(context);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);

@@ -1669,6 +1669,8 @@
     <string name="period_payments">Period payments</string>
     <string name="period_end_after">Period end after:</string>
     <string name="complete">COMPLETE</string>
+    <string name="reached_max_value">Достигнуто максимальное значение</string>
+    <string name="reached_min_value">Достигнуто минимальное значение</string>
 
     <string-array name="currency_2">
         <item>руб.</item>
@@ -1695,4 +1697,20 @@
     <string name="add_the_loan_in_the_balance">Add the loan in the balance</string>
     <string name="ne_uchitavaetsya">Не учитивается в балансе</string>
     <string name="ammount_of_debt_include_the_balance">Ammount of debt include the balance</string>
+
+    <string-array name="month_abbrs">
+        <item>Янв.</item>
+        <item>Фев.</item>
+        <item>Мар.</item>
+        <item>Апр.</item>
+        <item>Май</item>
+        <item>Июнь</item>
+        <item>Июль</item>
+        <item>Авг.</item>
+        <item>Сен.</item>
+        <item>Окт.</item>
+        <item>Ноя.</item>
+        <item>Дек.</item>
+    </string-array>
+
 </resources>

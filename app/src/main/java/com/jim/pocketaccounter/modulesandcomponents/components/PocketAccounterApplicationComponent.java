@@ -11,23 +11,23 @@ import com.jim.pocketaccounter.database.TemplateVoice;
 import com.jim.pocketaccounter.finance.CurrencyChooseAdapter;
 import com.jim.pocketaccounter.finance.TransferAccountAdapter;
 import com.jim.pocketaccounter.fragments.ManualEnterFragment;
-import com.jim.pocketaccounter.fragments.VoiceRecognizerFragment;
+import com.jim.pocketaccounter.fragments.ReportByIncomExpenseMonthDetailedByDaysFragment;
 import com.jim.pocketaccounter.managers.CommonOperations;
 import com.jim.pocketaccounter.managers.LogicManager;
 import com.jim.pocketaccounter.managers.PAFragmentManager;
 import com.jim.pocketaccounter.managers.ReportManager;
+import com.jim.pocketaccounter.modulesandcomponents.modules.PocketAccounterApplicationModule;
 import com.jim.pocketaccounter.report.IncomeExpanseDataRow;
 import com.jim.pocketaccounter.syncbase.SyncBase;
 import com.jim.pocketaccounter.utils.SmsService;
 import com.jim.pocketaccounter.utils.SubcatAdapterCircles;
 import com.jim.pocketaccounter.utils.SubcatItemChecker;
-import com.jim.pocketaccounter.utils.billing.PurchaseImplementation;
 import com.jim.pocketaccounter.utils.cache.DataCache;
-import com.jim.pocketaccounter.modulesandcomponents.modules.PocketAccounterApplicationModule;
 import com.jim.pocketaccounter.utils.catselector.DrawingSelectorView;
 import com.jim.pocketaccounter.utils.record.BalanceStripe;
 import com.jim.pocketaccounter.utils.record.RecordButtonExpanse;
 import com.jim.pocketaccounter.utils.record.RecordButtonIncome;
+import com.jim.pocketaccounter.utils.reportfilter.CircleReportFilterView;
 import com.jim.pocketaccounter.widget.WidgetProvider;
 
 import java.text.SimpleDateFormat;
@@ -78,4 +78,6 @@ public interface PocketAccounterApplicationComponent {
     void inject(SubcatItemChecker subcatItemChecker);
     void inject(SubcatAdapterCircles subcatAdapterCircles);
     void inject(ManualEnterFragment manualEnterFragment);
+    void inject(CircleReportFilterView circleReportFilterView);
+    void inject(ReportByIncomExpenseMonthDetailedByDaysFragment reportByIncomExpenseMonthDetailedByDaysFragment);
 }

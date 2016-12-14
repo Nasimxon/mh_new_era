@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    android:background="#fff">
+    <com.jim.pocketaccounter.utils.reportviews.MonthPickSliderView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/two_hundred"
+        android:id="@+id/mpReportByIncomeExpense"/>
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/rvReportByIncomeExpenseDays"
+        android:layout_below="@+id/mpReportByIncomeExpense"/>
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/rvReportByIncomeExpenseDetail"
+        android:layout_below="@+id/rvReportByIncomeExpenseDays"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/rvReportByIncomeExpenseDays"
+        android:id="@+id/tvReportByIncomeExpenseNoDataToShow"
+        android:visibility="gone"/>
+</RelativeLayout>

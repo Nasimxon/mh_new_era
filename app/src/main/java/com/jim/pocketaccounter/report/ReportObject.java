@@ -5,10 +5,6 @@ import com.jim.pocketaccounter.database.Currency;
 
 import java.util.Calendar;
 
-/**
- * Created by DEV on 01.09.2016.
- */
-
 public class ReportObject {
     private int type;
     private String description;

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/fifty_dp"
+    android:layout_height="@dimen/fifty_dp">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/twelve_dp"
+        android:text="11"
+        android:layout_margin="@dimen/five_dp"
+        android:id="@+id/tvDayItemDate"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Fri"
+        android:layout_alignParentRight="true"
+        android:id="@+id/tvDayItemWeekday"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/five_dp"
+        android:textSize="@dimen/twelve_dp" />
+</RelativeLayout>

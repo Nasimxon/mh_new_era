@@ -24,6 +24,7 @@ public class SubcatReportView extends View {
                 frameDuration = 5L;
     private boolean disabled = true;
     private float marginBetweenMainAndInnerCircles;
+    private boolean animate = false;
     public SubcatReportView(Context context) {
         super(context);
         init();
@@ -114,10 +115,13 @@ public class SubcatReportView extends View {
         this.noDataText = noDataText;
     }
     public void animateView() {
+        if (subcatData != null && subcatData.getPercent() == 0.0f || animate)
+            return;
         new Thread(new Runnable() {
             @Override
             public void run() {
                 elapsed = 0L;
+                animate = true;
                 while (elapsed <= total) {
                     try {
                         Thread.sleep(interim);
@@ -130,6 +134,7 @@ public class SubcatReportView extends View {
                     }
                 }
                 elapsed = total;
+                animate = false;
             }
         }).start();
     }

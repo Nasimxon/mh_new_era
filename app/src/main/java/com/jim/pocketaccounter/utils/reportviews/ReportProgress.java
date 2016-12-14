@@ -22,6 +22,7 @@ public class ReportProgress extends RelativeLayout {
     private String unit = "$", title = "";
     private ValueAnimator animator;
     private int duration = 500;
+    private float minValue = 0.0f;
     public ReportProgress(Context context) {
         super(context);
         init(context);
@@ -46,6 +47,7 @@ public class ReportProgress extends RelativeLayout {
         llRepByCatBg = (LinearLayout) findViewById(R.id.llRepByCatBg);
         tvReportAmount = (TextView) findViewById(R.id.tvReportAmount);
         tvTitle = (TextView) findViewById(R.id.tvTitle);
+        minValue = getResources().getDimension(R.dimen.two_dp);
     }
     public float getMaxValue() { return maxValue; }
     public void setMaxValue(float maxValue) { this.maxValue = maxValue; }
@@ -62,7 +64,7 @@ public class ReportProgress extends RelativeLayout {
                 LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) llRepByCatPercent.getLayoutParams();
                 float ratio = value/maxValue;
                 if (value == 0.0f)
-                    lp.width = (int) getResources().getDimension(R.dimen.two_dp);
+                    lp.width = (int) minValue;
                 else
                     lp.width = (int) (ratio * maxWidth);
             }
