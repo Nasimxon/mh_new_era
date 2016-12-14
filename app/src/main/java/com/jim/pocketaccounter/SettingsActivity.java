@@ -104,7 +104,7 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         ((PocketAccounterApplication) this.getApplicationContext()).component().inject(this);
-
+        setTheme(R.style.BlueTheme);
         mySync = new SyncBase(storageRef, this, PocketAccounterGeneral.CURRENT_DB_NAME);
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.layout.settings);

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvSettingsPreferenceTitle"
+        android:textColor="#414141"
+        android:textSize="@dimen/sixteen_dp"
+        android:text="Title"
+        android:layout_marginLeft="@dimen/sixteen_dp"
+        android:layout_marginBottom="@dimen/ten_dp"
+        android:layout_marginTop="@dimen/ten_dp"
+        android:layout_marginRight="@dimen/ten_dp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#FF0000"
+        android:id="@+id/tvSettingsPreferenceSubtitle"
+        android:textSize="@dimen/twelve_dp"
+        android:text="Subitle"
+        android:layout_marginLeft="@dimen/twenty_dp"
+        android:layout_marginBottom="@dimen/ten_dp"
+        android:layout_marginRight="@dimen/ten_dp"/>
+</LinearLayout>
