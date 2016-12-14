@@ -1694,4 +1694,5 @@
     <string name="invalide_format">Invalide format</string>
     <string name="add_the_loan_in_the_balance">Add the loan in the balance</string>
     <string name="ne_uchitavaetsya">Не учитивается в балансе</string>
+    <string name="ammount_of_debt_include_the_balance">Ammount of debt include the balance</string>
 </resources>

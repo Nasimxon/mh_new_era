@@ -122,13 +122,11 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
     private Calendar getDate;
     private Calendar returnDate;
     private SwitchCompat calculate;
-    private SwitchCompat scFirsPay;
-    private RelativeLayout rlStartSumContainer;
+    private RelativeLayout isCalcRelativeLayout;
     private int TYPE = 0;
     private static final int REQUEST_SELECT_CONTACT = 2;
     public static int RESULT_LOAD_IMAGE = 1;
     private ImageView ivToolbarMostRight;
-    private EditText firstPay;
     private final int PERMISSION_REQUEST_CONTACT = 5;
     private int PICK_CONTACT = 10;
     String sequence2 = "";
@@ -266,13 +264,11 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
         PersonDataGet = (EditText) view.findViewById(R.id.etBorrowAddPopupDataGet);
         PersonDataRepeat = (EditText) view.findViewById(R.id.etBorrowAddPopupDataRepeat);
         PersonSumm = (EditText) view.findViewById(R.id.etBorrowAddPopupSumm);
-        firstPay = (EditText) view.findViewById(R.id.etDebtBorrowFirstPay);
         PersonValyuta = (Spinner) view.findViewById(R.id.spBorrowAddPopupValyuta);
-        PersonAccount = (Spinner) view.findViewById(R.id.spBorrowAddPopupAccount);
+        PersonAccount = (Spinner) view.findViewById(R.id.spInfoDebtBorrowAccount);
         calculate = (SwitchCompat) view.findViewById(R.id.chbAddDebtBorrowCalculate);
-        scFirsPay = (SwitchCompat) view.findViewById(R.id.chbAccountStartSumEnabled);
         rvNorify = (RecyclerView) view.findViewById(R.id.rvAddAutoMarketPerItems);
-        rlStartSumContainer = (RelativeLayout) view.findViewById(R.id.rlStartSumContainer);
+        isCalcRelativeLayout = (RelativeLayout) view.findViewById(R.id.is_calc);
         getDate = paFragmentManager.isMainReturn() ? dataCache.getEndDate() : Calendar.getInstance();
         if (TYPE == DebtBorrow.DEBT) {
             PersonSumm.setHint(getResources().getString(R.string.enter_borrow_amoount));
@@ -284,23 +280,7 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
                 calculate.toggle();
             }
         });
-        view.findViewById(R.id.checkContribution).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                scFirsPay.toggle();
-            }
-        });
-        scFirsPay.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (scFirsPay.isChecked()) {
-                    rlStartSumContainer.setVisibility(View.VISIBLE);
-                } else  {
-                    rlStartSumContainer.setVisibility(View.GONE);
-                    firstPay.setText("");
-                }
-            }
-        });
+
         PersonAccount.setOnItemSelectedListener(this);
         PersonValyuta.setOnItemSelectedListener(this);
         String[] accaounts = new String[accountDao.queryBuilder().list().size()];
@@ -313,13 +293,13 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
         }
 
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
-                getContext(), R.layout.spiner_gravity_right, accaounts);
+                getContext(), R.layout.spiner_gravity_left, accaounts);
 
         ArrayAdapter<String> arrayValyuAdapter = new ArrayAdapter<>(
                 getContext(), R.layout.spiner_gravity_right, valyuts);
 
         arrayAdapter.setDropDownViewResource(
-                R.layout.spinner_single_item);
+                R.layout.spiner_gravity_left);
         PersonAccount.setAdapter(arrayAdapter);
 
         arrayValyuAdapter.setDropDownViewResource(
@@ -368,13 +348,13 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
         toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
         toolbarManager.setSpinnerVisibility(View.GONE);
 
-        calculate.setOnClickListener(new View.OnClickListener() {
+        calculate.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View view) {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (calculate.isChecked()) {
-                    PersonAccount.setVisibility(View.VISIBLE);
+                    isCalcRelativeLayout.setVisibility(View.VISIBLE);
                 } else {
-                    PersonAccount.setVisibility(View.GONE);
+                    isCalcRelativeLayout.setVisibility(View.GONE);
                 }
             }
         });
@@ -460,8 +440,7 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
                 }
                 photoPath = currentDebtBorrow.getPerson().getPhoto();
             }
-            if (!currentDebtBorrow.getReckings().isEmpty() && sDateFormat.format(currentDebtBorrow.getReckings().get(0).getPayDate().getTime()).matches(sDateFormat.format(getDate.getTime())))
-                firstPay.setText("" + currentDebtBorrow.getReckings().get(0).getAmount());
+
         }
         return view;
     }
@@ -537,16 +516,7 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
                             logicManager.insertPerson(currentDebtBorrow.getPerson());
                             logicManager.insertDebtBorrow(currentDebtBorrow);
                         }
-                        if (!firstPay.getText().toString().isEmpty()) {
-                            if (!currentDebtBorrow.getReckings().isEmpty() && sDateFormat.format(currentDebtBorrow.getReckings().get(0)
-                                    .getPayDate().getTime()).matches(sDateFormat.format(currentDebtBorrow.getTakenDate().getTime()))) {
-                                currentDebtBorrow.getReckings().get(0).setAmount(Double.parseDouble(firstPay.getText().toString()));
-                            } else {
-                                currentDebtBorrow.getReckings().add(0, new Recking(getDate,
-                                        Double.parseDouble(firstPay.getText().toString()), currentDebtBorrow.getId(),
-                                        account.getId(), ""));
-                            }
-                        }
+
                         Bundle bundle = new Bundle();
                         bundle.putInt("pos", currentDebtBorrow.getType());
                         fragment.setArguments(bundle);
@@ -568,13 +538,7 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
                         } else {
                             logicManager.insertDebtBorrow(currentDebtBorrow);
                         }
-                        if (!firstPay.getText().toString().isEmpty()) {
-                            Recking recking = new Recking(getDate,
-                                    Double.parseDouble(firstPay.getText().toString()), currentDebtBorrow.getId(),
-                                    currentDebtBorrow.getAccount().getId(), "");
-                            logicManager.insertReckingDebt(recking);
-                            reckings.add(recking);
-                        }
+
                         currentDebtBorrow.setInfo(mode + ":" + sequence);
                         list.add(0, currentDebtBorrow);
                         Bundle bundle = new Bundle();
@@ -680,28 +644,6 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
         if (account != null && (account.getIsLimited() || account.getNoneMinusAccount())) {
             double limit = account.getLimite();
             double accounted = logicManager.isLimitAccess(account, getDate);
-            if (debt.getType() == DebtBorrow.DEBT) {
-                currentDebtBorrow.__setDaoSession(daoSession);
-                if (currentDebtBorrow != null && !currentDebtBorrow.getReckings().isEmpty() &&
-                        sDateFormat.format(currentDebtBorrow.getTakenDate().getTime()).matches(dateFormat.format(currentDebtBorrow.getReckings().get(0).getPayDate().getTime()))) {
-                    accounted = accounted + commonOperations.getCost(Calendar.getInstance(), debt.getCurrency(), account.getCurrency(),
-                            Double.parseDouble(PersonSumm.getText().toString()) - (!firstPay.getText().toString().isEmpty() ? Double.parseDouble(firstPay.getText().toString()) : 0));
-                    accounted = accounted - currentDebtBorrow.getReckings().get(0).getAmount();
-                } else {
-                    accounted = accounted + commonOperations.getCost(Calendar.getInstance(), debt.getCurrency(), account.getCurrency(),
-                            Double.parseDouble(PersonSumm.getText().toString()) - (!firstPay.getText().toString().isEmpty() ? Double.parseDouble(firstPay.getText().toString()) : 0));
-                }
-            } else {
-                if (currentDebtBorrow != null && !currentDebtBorrow.getReckings().isEmpty() &&
-                        sDateFormat.format(currentDebtBorrow.getTakenDate().getTime()).matches(dateFormat.format(currentDebtBorrow.getReckings().get(0).getPayDate().getTime()))) {
-                    accounted = accounted - commonOperations.getCost(Calendar.getInstance(), debt.getCurrency(), account.getCurrency(),
-                            Double.parseDouble(PersonSumm.getText().toString()) - (!firstPay.getText().toString().isEmpty() ? Double.parseDouble(firstPay.getText().toString()) : 0));
-                    accounted = accounted + currentDebtBorrow.getReckings().get(0).getAmount();
-                } else {
-                    accounted = accounted - commonOperations.getCost(Calendar.getInstance(), debt.getCurrency(), account.getCurrency(),
-                            Double.parseDouble(PersonSumm.getText().toString()) - (!firstPay.getText().toString().isEmpty() ? Double.parseDouble(firstPay.getText().toString()) : 0));
-                }
-            }
 
             if (account.getNoneMinusAccount()) {
                 if (accounted < 0) {

@@ -54,6 +54,7 @@ public class Recking {
         this.payDate = payDate;
         this.amount = amount;
         this.debtBorrowsId = id;
+        this.accountId = "";
         this.comment = comment;
         this.id = UUID.randomUUID().toString();
     }

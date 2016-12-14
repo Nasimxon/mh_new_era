@@ -20,6 +20,7 @@ import android.support.v7.view.menu.MenuPopupHelper;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SwitchCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -31,6 +32,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -682,6 +684,9 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
             final TextView shouldPayPeriod = (TextView) dialogView.findViewById(R.id.shouldPayPeriod);
             final EditText enterPay = (EditText) dialogView.findViewById(R.id.etInfoDebtBorrowPaySumm);
             final EditText comment = (EditText) dialogView.findViewById(R.id.etInfoDebtBorrowPayComment);
+            final RelativeLayout checkInclude = (RelativeLayout) dialogView.findViewById(R.id.checkInclude);
+            final RelativeLayout is_calc = (RelativeLayout) dialogView.findViewById(R.id.is_calc);
+            final SwitchCompat keyForInclude = (SwitchCompat) dialogView.findViewById(R.id.key_for_balance);
             final Spinner accountSp = (Spinner) dialogView.findViewById(R.id.spInfoDebtBorrowAccount);
             ImageView cancel = (ImageView) dialogView.findViewById(R.id.ivInfoDebtBorrowCancel);
             final TextView save = (TextView) dialogView.findViewById(R.id.ivInfoDebtBorrowSave);
@@ -695,7 +700,24 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
                     getContext(), R.layout.spiner_gravity_left, accaounts);
 
             accountSp.setAdapter(arrayAdapter);
+            keyForInclude.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if(keyForInclude.isChecked()){
 
+                        is_calc.setVisibility(View.VISIBLE);
+                    }
+                    else {
+                        is_calc.setVisibility(View.GONE);
+                    }
+                }
+            });
+            checkInclude.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    keyForInclude.toggle();
+                }
+            });
 
             double v1 = debtBorrow.getAmount();
             double totalAm = 0;
@@ -754,10 +776,10 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
                     tek = true;
                     int len = debtBorrow.getCurrency().getAbbr().length();
                     if (!enterPay.getText().toString().isEmpty() && Double.parseDouble(enterPay.getText().toString()) != 0) {
-                        if (debtBorrow.getCalculate() && isMumkin(debtBorrow, accountDao.queryBuilder().list().
+                        if (keyForInclude.isChecked() && isMumkin(debtBorrow, accountDao.queryBuilder().list().
                                 get(accountSp.getSelectedItemPosition()).getId(), Double.parseDouble(enterPay.getText().toString())))
                             tek = true;
-                        if (!debtBorrow.getCalculate()) tek = true;
+                        if (!keyForInclude.isChecked()) tek = true;
 
                         if (Double.parseDouble(leftAmount.getText().toString().substring(0, leftAmount.getText().toString().length() - len))
                                 - Double.parseDouble(enterPay.getText().toString()) < 0) {
@@ -771,8 +793,13 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
                                 @Override
                                 public void onClick(View v) {
                                     if (tek) {
+                                        if(keyForInclude.isChecked())
                                         peysAdapter.setDataChanged(date, Double.parseDouble(enterPay.getText().toString()),
-                                                "" + accountSp.getSelectedItem(), comment.getText().toString());
+                                                accountDao.queryBuilder().list().
+                                                        get(accountSp.getSelectedItemPosition()).getId(), comment.getText().toString());
+                                        else
+                                        peysAdapter.setDataChanged(date, Double.parseDouble(enterPay.getText().toString()),"", comment.getText().toString());
+
                                     }
                                     warningDialog.dismiss();
                                     dialog.dismiss();
@@ -785,8 +812,13 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
                             }
                         } else {
                             if (tek) {
+                                if(keyForInclude.isChecked())
                                 peysAdapter.setDataChanged(date, Double.parseDouble(enterPay.getText().toString()),
-                                        "" + accountSp.getSelectedItem(), comment.getText().toString());
+                                        accountDao.queryBuilder().list().
+                                                get(accountSp.getSelectedItemPosition()).getId(), comment.getText().toString());
+                                else
+                                    peysAdapter.setDataChanged(date, Double.parseDouble(enterPay.getText().toString()),"", comment.getText().toString());
+
                                 warningDialog.dismiss();
                                 dialog.dismiss();
                             }
@@ -887,8 +919,8 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
             view.infoSumm.setText((list.get(position).getAmount() == ((int) list.get(position).getAmount())
                     ? ("" + ((int) list.get(position).getAmount())) : ("" + list.get(position).getAmount()))
                     + "" + debtBorrow.getCurrency().getAbbr());
-            if (!debtBorrow.getCalculate()) {
-                view.infoAccount.setVisibility(View.GONE);
+            if (list.get(position).getAccountId().equals("")) {
+                view.infoAccount.setText(R.string.ne_uchitavaetsya);
             } else {
                 for (Account account : accountDao.queryBuilder().list()) {
                     if (account.getId().matches(list.get(position).getAccountId())) {
@@ -958,12 +990,7 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
         }
 
         public void setDataChanged(Calendar clDate, double value, String accountId, String comment) {
-            for (Account account : accountDao.queryBuilder().list()) {
-                if (account.getName().matches(accountId)) {
-                    accountId = account.getId();
-                    break;
-                }
-            }
+
             Recking recking = new Recking(clDate, value, debtBorrow.getId(), accountId, comment);
             debtBorrow.getReckings().add(0, recking);
             logicManager.insertReckingDebt(recking);

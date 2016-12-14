@@ -14,6 +14,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SwitchCompat;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -705,6 +707,10 @@ public class InfoCreditFragment extends Fragment {
         final TextView shouldPayPeriod = (TextView) dialogView.findViewById(R.id.shouldPayPeriod);
         final EditText enterPay = (EditText) dialogView.findViewById(R.id.etInfoDebtBorrowPaySumm);
         final EditText comment = (EditText) dialogView.findViewById(R.id.etInfoDebtBorrowPayComment);
+        final RelativeLayout checkInclude = (RelativeLayout) dialogView.findViewById(R.id.checkInclude);
+        final RelativeLayout is_calc = (RelativeLayout) dialogView.findViewById(R.id.is_calc);
+        final SwitchCompat keyForInclude = (SwitchCompat) dialogView.findViewById(R.id.key_for_balance);
+
         final Spinner accountSp = (Spinner) dialogView.findViewById(R.id.spInfoDebtBorrowAccount);
         if(hozirgi){
             periodDate.setText(sDateFormat.format(currentPeriodi.getDate().getTime()));
@@ -723,19 +729,33 @@ public class InfoCreditFragment extends Fragment {
 
         }
         abbrrAmount.setText(currentCredit.getValyute_currency().getAbbr());
-        if (currentCredit.getKey_for_include()) {
-            accaunt_AC = (ArrayList<Account>) accountDao.queryBuilder().list();
-            String[] accaounts = new String[accaunt_AC.size()];
-            for (int i = 0; i < accaounts.length; i++) {
-                accaounts[i] = accaunt_AC.get(i).getName();
-            }
-            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
-                    context, R.layout.spiner_gravity_left, accaounts);
-            accountSp.setAdapter(arrayAdapter);
-        } else {
-            dialogView.findViewById(R.id.is_calc).setVisibility(View.GONE);
+        accaunt_AC = (ArrayList<Account>) accountDao.queryBuilder().list();
+        String[] accaounts = new String[accaunt_AC.size()];
+        for (int i = 0; i < accaounts.length; i++) {
+            accaounts[i] = accaunt_AC.get(i).getName();
         }
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
+                context, R.layout.spiner_gravity_left, accaounts);
+        accountSp.setAdapter(arrayAdapter);
 
+        keyForInclude.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(keyForInclude.isChecked()){
+
+                    is_calc.setVisibility(View.VISIBLE);
+                }
+                else {
+                    is_calc.setVisibility(View.GONE);
+                }
+            }
+        });
+        checkInclude.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                keyForInclude.toggle();
+            }
+        });
         date = Calendar.getInstance();
         if(unPaidPeriod.getDate().getTimeInMillis()<date.getTimeInMillis()){
             date= (Calendar) unPaidPeriod.getDate().clone();
@@ -816,7 +836,7 @@ public class InfoCreditFragment extends Fragment {
                             public void onClick(View v) {
                                 String amount = enterPay.getText().toString();
                                 ReckingCredit rec = null;
-                                if (!amount.matches("") && currentCredit.getKey_for_include())
+                                if (!amount.matches("") && keyForInclude.isChecked())
                                     rec = new ReckingCredit(date, Double.parseDouble(amount), accaunt_AC.get(accountSp.getSelectedItemPosition()).getId(), currentCredit.getMyCredit_id(), comment.getText().toString());
                                 else
                                     rec = new ReckingCredit(date, Double.parseDouble(amount), "", currentCredit.getMyCredit_id(), comment.getText().toString());
@@ -854,7 +874,7 @@ public class InfoCreditFragment extends Fragment {
                         warningDialog.show();
                     } else {
                         ReckingCredit rec = null;
-                        if (!amount.matches("") && currentCredit.getKey_for_include())
+                        if (!amount.matches("") && keyForInclude.isChecked())
                             rec = new ReckingCredit(date, Double.parseDouble(amount), accaunt_AC.get(accountSp.getSelectedItemPosition()).getId(), currentCredit.getMyCredit_id(), comment.getText().toString());
                         else
                             rec = new ReckingCredit(date, Double.parseDouble(amount), "", currentCredit.getMyCredit_id(), comment.getText().toString());
@@ -886,167 +906,6 @@ public class InfoCreditFragment extends Fragment {
         dialog.getWindow().setLayout(7 * width / 8, RelativeLayout.LayoutParams.WRAP_CONTENT);
         dialog.show();
 
-//
-//        final Dialog dialog = new Dialog(context);
-//        View dialogView = ((PocketAccounter) context).getLayoutInflater().inflate(R.layout.add_pay_debt_borrow_info_mod, null);
-//        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        dialog.setContentView(dialogView);
-//        View v = dialog.getWindow().getDecorView();
-//        v.setBackgroundResource(android.R.color.transparent);
-//        final TextView enterDate = (TextView) dialogView.findViewById(R.id.etInfoDebtBorrowDate);
-//        final EditText enterPay = (EditText) dialogView.findViewById(R.id.etInfoDebtBorrowPaySumm);
-//        final EditText comment = (EditText) dialogView.findViewById(R.id.etInfoDebtBorrowPayComment);
-//        final Spinner accountSp = (Spinner) dialogView.findViewById(R.id.spInfoDebtBorrowAccount);
-//        accaunt_AC = null;
-//        if (currentCredit.getKey_for_include()) {
-//            accaunt_AC = (ArrayList<Account>) accountDao.queryBuilder().list();
-//            String[] accaounts = new String[accaunt_AC.size()];
-//            for (int i = 0; i < accaounts.length; i++) {
-//                accaounts[i] = accaunt_AC.get(i).getName();
-//            }
-//            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
-//                    context, R.layout.spiner_gravity_left, accaounts);
-//
-//            accountSp.setAdapter(arrayAdapter);
-//
-//        } else {
-//            dialogView.findViewById(R.id.is_calc).setVisibility(View.GONE);
-//        }
-//        final Calendar date;
-//        if (fromMainWindow)
-//            date = dataCache.getEndDate();
-//        else date = Calendar.getInstance();
-//
-//        enterDate.setText(dateFormat.format(date.getTime()));
-//        ImageView cancel = (ImageView) dialogView.findViewById(R.id.ivInfoDebtBorrowCancel);
-//        TextView save = (TextView) dialogView.findViewById(R.id.ivInfoDebtBorrowSave);
-//
-//        cancel.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                dialog.dismiss();
-//            }
-//        });
-//        final DatePickerDialog.OnDateSetListener getDatesetListener = new DatePickerDialog.OnDateSetListener() {
-//            public void onDateSet(DatePicker arg0, int arg1, int arg2, int arg3) {
-//                enterDate.setText(dateFormat.format((new GregorianCalendar(arg1, arg2, arg3)).getTime()));
-//                date.set(arg1, arg2, arg3);
-//            }
-//        };
-//        dialogView.findViewById(R.id.dateMainLay).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Calendar calendar = Calendar.getInstance();
-//                Dialog mDialog = new DatePickerDialog(context,
-//                        getDatesetListener, calendar.get(Calendar.YEAR),
-//                        calendar.get(Calendar.MONTH), calendar
-//                        .get(Calendar.DAY_OF_MONTH));
-//                mDialog.show();
-//            }
-//        });
-//        save.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                final String amount = enterPay.getText().toString();
-//                double total_paid = 0;
-//                for (ReckingCredit item : rcList)
-//                    total_paid += item.getAmount();
-//
-//                if (!amount.matches("")) {
-//                    if (currentCredit.getKey_for_include()) {
-//                        Account account = accaunt_AC.get(accountSp.getSelectedItemPosition());
-//                        if (account.getIsLimited()) {
-//                            //TODO editda tekwir ozini hisoblamaslini
-//                            double limit = account.getLimite();
-//                            double accounted = logicManager.isLimitAccess(account, date);
-//
-//                            accounted = accounted - commonOperations.getCost(date, currentCredit.getValyute_currency(), account.getCurrency(), Double.parseDouble(amount));
-//                            if (-limit > accounted) {
-//                                Toast.makeText(context, R.string.limit_exceed, Toast.LENGTH_SHORT).show();
-//                                return;
-//                            }
-//                        }
-//                    }
-//
-//
-//                    if (Double.parseDouble(amount) > currentCredit.getValue_of_credit_with_procent() - total_paid) {
-//                        warningDialog.setOnNoButtonClickListener(new View.OnClickListener() {
-//                            @Override
-//                            public void onClick(View v) {
-//                                warningDialog.dismiss();
-//                            }
-//                        });
-//                        warningDialog.setOnYesButtonListener(new View.OnClickListener() {
-//                            @Override
-//                            public void onClick(View v) {
-//                                ReckingCredit rec = null;
-//                                if (!amount.matches("") && currentCredit.getKey_for_include())
-//                                    rec = new ReckingCredit(date, Double.parseDouble(amount), accaunt_AC.get(accountSp.getSelectedItemPosition()).getId(),
-//                                            currentCredit.getMyCredit_id(), comment.getText().toString());
-//                                else
-//                                    rec = new ReckingCredit(date, Double.parseDouble(amount), "",
-//                                            currentCredit.getMyCredit_id(), comment.getText().toString());
-////                                        rcList.add(rec);
-////                                        currentCredit.getReckings().addAll(rcList);
-//                                logicManager.insertReckingCredit(rec);
-//                                dataCache.updateAllPercents();
-//                                paFragmentManager.updateAllFragmentsOnViewPager();
-////                                        paFragmentManager.getCurrentFragment().update();
-//                                currentCredit.resetReckings();
-//                                rcList = currentCredit.getReckings();
-//                                updateDate();
-//                                adapRecyc.setMyList(rcList);
-//                                if (!fromMainWindow && A1 != null)
-//                                    A1.change_item(currentCredit, currentPOS);
-//                                isCheks = new boolean[rcList.size()];
-//                                for (int i = 0; i < isCheks.length; i++) {
-//                                    isCheks[i] = false;
-//                                }
-//                                dialog.dismiss();
-//                                adapRecyc.notifyDataSetChanged();
-//                                warningDialog.dismiss();
-//                            }
-//                        });
-//                        warningDialog.setText(context.getString(R.string.payment_balans) + parseToWithoutNull(currentCredit.getValue_of_credit_with_procent() - total_paid) +
-//                                currentCredit.getValyute_currency().getAbbr() + "." + context.getString(R.string.payment_balance2) +
-//                                parseToWithoutNull(Double.parseDouble(amount) - (currentCredit.getValue_of_credit_with_procent() - total_paid)) +
-//                                currentCredit.getValyute_currency().getAbbr());
-//                        warningDialog.show();
-//                    } else {
-//                        ReckingCredit rec = null;
-//                        if (!amount.matches("") && currentCredit.getKey_for_include())
-//                            rec = new ReckingCredit(date, Double.parseDouble(amount), accaunt_AC.get(accountSp.getSelectedItemPosition()).getId(), currentCredit.getMyCredit_id(), comment.getText().toString());
-//                        else
-//                            rec = new ReckingCredit(date, Double.parseDouble(amount), "", currentCredit.getMyCredit_id(), comment.getText().toString());
-////                        currentCredit.getReckings().add(rec);
-////                        rcList.add(rec);
-//                        logicManager.insertReckingCredit(rec);
-//                        currentCredit.resetReckings();
-//                        rcList = currentCredit.getReckings();
-//                        adapRecyc.setMyList(rcList);
-//                        updateDate();
-//                        dataCache.updateAllPercents();
-//                        paFragmentManager.updateAllFragmentsOnViewPager();
-//                        isCheks = new boolean[rcList.size()];
-//                        for (int i = 0; i < isCheks.length; i++) {
-//                            isCheks[i] = false;
-//                        }
-//                        if (!fromMainWindow)
-//                            A1.change_item(currentCredit, currentPOS);
-//                        else if (fromSearch) {
-//
-//                        }
-//                        adapRecyc.notifyDataSetChanged();
-//                        dialog.dismiss();
-//                    }
-//                }
-//
-//            }
-//        });
-//        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
-//        int width = displayMetrics.widthPixels;
-//        dialog.getWindow().setLayout(7 * width / 8, RelativeLayout.LayoutParams.WRAP_CONTENT);
-//        dialog.show();
     }
 
     public void openFragment(Fragment fragment) {

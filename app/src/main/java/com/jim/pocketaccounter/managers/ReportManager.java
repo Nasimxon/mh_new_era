@@ -198,7 +198,7 @@ public class ReportManager {
             if (cl.getName().equals(DebtBorrow.class.getName())) {
                 List<DebtBorrow> debtBorrowList = debtBorrowDao.loadAll();
                 for (DebtBorrow debtBorrow : debtBorrowList) {
-                    if (!debtBorrow.getCalculate()) continue;
+
                     if (debtBorrow.getTakenDate().compareTo(begin) >= 0 &&
                             debtBorrow.getTakenDate().compareTo(end) <= 0) {
                         ReportObject reportObject = new ReportObject();
@@ -223,7 +223,8 @@ public class ReportManager {
                         result.add(reportObject);
                     }
                     for (Recking recking : debtBorrow.getReckings()) {
-                        Calendar calendar = recking.getPayDate();
+                        if(recking.getAccountId().equals("")) continue;
+                         Calendar calendar = recking.getPayDate();
 
                         if (calendar.compareTo(begin) >= 0 && calendar.compareTo(end) <= 0) {
                             ReportObject reportObject = new ReportObject();
