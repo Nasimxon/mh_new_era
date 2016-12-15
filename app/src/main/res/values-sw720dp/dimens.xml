@@ -115,4 +115,5 @@
     <dimen name="hundred_eity_five_dp">370dp</dimen>
     <dimen name="hundred_eity_dp">360dp</dimen>
     <dimen name="hundred_thiry_five_dp">270dp</dimen>
+    <dimen name="hundred_and_ninety_dp">380dp</dimen>
 </resources>

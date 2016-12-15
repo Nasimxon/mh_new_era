@@ -6,17 +6,13 @@
     android:background="#fcfcfc">
     <com.jim.pocketaccounter.utils.reportviews.CategorySliding
         android:layout_width="match_parent"
-        android:layout_height="@dimen/two_hundred"
-        android:id="@+id/csReportByCategory"
-        android:layout_marginTop="@dimen/ten_dp"/>
-    <android.support.v7.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/rvReportByCategorySubcatPercents"
-        android:layout_below="@+id/csReportByCategory"/>
-    <android.support.v7.widget.RecyclerView
-        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/rvReportByCategorySubcatDetails"
-        android:layout_below="@+id/rvReportByCategorySubcatPercents"/>
+        android:id="@+id/csReportByCategory"
+        android:layout_marginTop="@dimen/ten_dp"
+        android:layout_above="@+id/rvReportByCategorySubcatPercents"/>
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/hundred_and_ninety_dp"
+        android:id="@+id/rvReportByCategorySubcatPercents"
+        android:layout_alignParentBottom="true"/>
 </RelativeLayout>

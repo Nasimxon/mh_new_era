@@ -1,22 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginLeft="@dimen/ten_dp"
-    android:layout_marginRight="@dimen/ten_dp">
+    android:layout_marginRight="@dimen/ten_dp"
+    android:orientation="horizontal">
     <com.jim.pocketaccounter.utils.reportviews.SubcatReportView
-        android:layout_width="@dimen/sixty_dp"
-        android:layout_height="@dimen/sixty_dp"
+        android:layout_width="@dimen/eighty_dp"
+        android:layout_height="@dimen/eighty_dp"
         android:id="@+id/srvReportByCategory"
         android:layout_centerHorizontal="true"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvReportSubcatPercentsName"
-        android:layout_marginTop="@dimen/five_dp"
-        android:layout_centerHorizontal="true"
-        android:textSize="@dimen/ten_dp"
-        android:textColor="#414141"
-        android:text="Subcategory name"
-        android:layout_below="@+id/srvReportByCategory"/>
-</RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="@dimen/twentyfive_dp"
+                android:layout_height="@dimen/twentyfive_dp"
+                android:id="@+id/ivReportByCategorySubcat"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvReportSubcatPercentsName"
+                android:layout_marginTop="@dimen/five_dp"
+                android:textSize="@dimen/fourteen_dp"
+                android:textColor="#414141"
+                android:text="Subcategory name"
+                android:layout_gravity="center_vertical"/>
+        </LinearLayout>
+        <com.jim.pocketaccounter.utils.reportviews.LineChartView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:id="@+id/lchvReportByCategoryItem"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvReportByCategoryInterval"
+            android:textSize="@dimen/ten_dp"
+            android:textColor="#414141"
+            android:text="subcat"/>
+    </LinearLayout>
+
+</LinearLayout>
