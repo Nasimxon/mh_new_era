@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -19,9 +20,11 @@ import com.jim.pocketaccounter.database.CreditDetials;
 import com.jim.pocketaccounter.database.DaoSession;
 import com.jim.pocketaccounter.database.DebtBorrow;
 import com.jim.pocketaccounter.database.FinanceRecord;
+import com.jim.pocketaccounter.managers.CommonOperations;
 import com.jim.pocketaccounter.managers.ReportManager;
 import com.jim.pocketaccounter.managers.ToolbarManager;
 import com.jim.pocketaccounter.report.ReportObject;
+import com.jim.pocketaccounter.utils.CircleImageView;
 import com.jim.pocketaccounter.utils.GetterAttributColors;
 import com.jim.pocketaccounter.utils.PocketAccounterGeneral;
 import com.jim.pocketaccounter.utils.reportviews.MonthPickSliderView;
@@ -41,6 +44,8 @@ public class ReportByIncomeExpenseDaily extends Fragment {
     private final int INCOME = 0, EXPENSE = 1, BALANCE = 2;
     private int mode = EXPENSE;
     private int month, year;
+    private CircleImageView ivDailyIncomeRect, ivDailyExpenseRect, ivDailyProfitRect;
+
     private List<DayData> adapterList;
     @Inject DaoSession daoSession;
     @Inject ReportManager reportManager;
@@ -57,6 +62,12 @@ public class ReportByIncomeExpenseDaily extends Fragment {
         rvReportByIncomeExpenseDetail = (RecyclerView) rootView.findViewById(R.id.rvReportByIncomeExpenseDetail);
         rvReportByIncomeExpenseDetail.setLayoutManager(new LinearLayoutManager(getContext()));
         mpReportByIncomeExpense = (MonthPickSliderView) rootView.findViewById(R.id.mpReportByIncomeExpense);
+        ivDailyIncomeRect = (CircleImageView) rootView.findViewById(R.id.ivDailyIncomeRect);
+        ivDailyIncomeRect.setImageResource(R.color.diagram_green);
+        ivDailyExpenseRect = (CircleImageView) rootView.findViewById(R.id.ivDailyExpenseRect);
+        ivDailyExpenseRect.setImageResource(R.color.diagram_red);
+        ivDailyProfitRect = (CircleImageView) rootView.findViewById(R.id.ivDailyProfitRect);
+        ivDailyProfitRect.setImageResource(R.color.diagram_yellow);
         mpReportByIncomeExpense.setCurrentItem(mpReportByIncomeExpense.getItemsSize() - 1);
         mpReportByIncomeExpense.setListener(new MonthPickSliderView.MonthDetailedByDaysSelectedListener() {
             @Override
@@ -279,19 +290,27 @@ public class ReportByIncomeExpenseDaily extends Fragment {
                     view.rbieodvReportByIncomeExpenseDayItem.setLeftValue(result.get(position).getLeftExpense());
                     view.rbieodvReportByIncomeExpenseDayItem.setRightValue(result.get(position).getRightExpense());
                     view.rbieodvReportByIncomeExpenseDayItem.setIncreasePercent((int) result.get(position).getExpensePercent());
+                    view.rbieodvReportByIncomeExpenseDayItem.setBackgroundColor(ContextCompat.getColor(getContext(),R.color.diagram_red_mutniy));
+                    view.rbieodvReportByIncomeExpenseDayItem.setTrapezeColor(ContextCompat.getColor(getContext(),R.color.diagram_red));
+
                     break;
                 case INCOME:
                     view.rbieodvReportByIncomeExpenseDayItem.setLeftValue(result.get(position).getLeftIncome());
                     view.rbieodvReportByIncomeExpenseDayItem.setRightValue(result.get(position).getRightIncome());
                     view.rbieodvReportByIncomeExpenseDayItem.setIncreasePercent((int) result.get(position).getIncomePercent());
+                    view.rbieodvReportByIncomeExpenseDayItem.setBackgroundColor(ContextCompat.getColor(getContext(),R.color.diagram_green_mutniy));
+                    view.rbieodvReportByIncomeExpenseDayItem.setTrapezeColor(ContextCompat.getColor(getContext(),R.color.diagram_green));
                     break;
                 case BALANCE:
                     view.rbieodvReportByIncomeExpenseDayItem.setLeftValue(result.get(position).getLeftProfit());
                     view.rbieodvReportByIncomeExpenseDayItem.setRightValue(result.get(position).getRightProfit());
                     view.rbieodvReportByIncomeExpenseDayItem.setIncreasePercent((int) result.get(position).getProfitPercent());
+                    view.rbieodvReportByIncomeExpenseDayItem.setBackgroundColor(ContextCompat.getColor(getContext(),R.color.diagram_yellow_mutniy));
+                    view.rbieodvReportByIncomeExpenseDayItem.setTrapezeColor(ContextCompat.getColor(getContext(),R.color.diagram_yellow));
+
                     break;
             }
-            view.rbieodvReportByIncomeExpenseDayItem.setBackgroundColor(GetterAttributColors.fetchHeadAccedentColor(getContext()));
+
             if (result.get(position).isSelected())
                 view.ivDailySelected.setVisibility(View.VISIBLE);
             else

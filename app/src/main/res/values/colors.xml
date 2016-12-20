@@ -86,4 +86,11 @@
     <item name="credit_white_grey" type="color">#fbfbfb</item>
     <item name="credit_liniya" type="color">#eaeaea</item>
     <item name="credit_och_yashil" type="color">#8cc156</item>
+    <item name="diagram_green" type="color">#b78be134</item>
+    <item name="diagram_green_mutniy" type="color">#bacca8</item>
+    <item name="diagram_red" type="color">#b7ff794e</item>
+    <item name="diagram_red_mutniy" type="color">#e7c2b7</item>
+    <item name="diagram_yellow" type="color">#b7ffc52f</item>
+    <item name="diagram_yellow_mutniy" type="color">#cec09d</item>
+    <item name="diagram_text_color" type="color">#b7838383</item>
 </resources>

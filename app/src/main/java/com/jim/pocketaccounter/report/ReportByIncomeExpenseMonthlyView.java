@@ -32,7 +32,20 @@ public class ReportByIncomeExpenseMonthlyView extends View {
     private int NOT_STARTED = 0, STARTED = 1, FINISHED = 2;
     private int shapeAnimation = NOT_STARTED;
     private List<ItemShape> items;
-    private int[] colors;
+    private int[] colors = {
+            Color.parseColor("#0d3c55"),
+            Color.parseColor("#0f5b78"),
+            Color.parseColor("#117899"),
+            Color.parseColor("#1395ba"),
+            Color.parseColor("#5ca793"),
+            Color.parseColor("#a2b86c"),
+            Color.parseColor("#ebc844"),
+            Color.parseColor("#ecaa38"),
+            Color.parseColor("#ef8b2c"),
+            Color.parseColor("#f16c20"),
+            Color.parseColor("#d94e1f"),
+            Color.parseColor("#c02e1d")
+    };
     private int selectedPos = -1;
     private float touchMargin = 0.0f;
     private float touchX, touchY;
@@ -95,7 +108,7 @@ public class ReportByIncomeExpenseMonthlyView extends View {
         paint.setAntiAlias(true);
         if (shapeAnimation == FINISHED && selectedPos != -1) {
             PointF pointF = items.get(selectedPos).getCircleCenter();
-            int color = adjustAlpha(colors[selectedPos], 0.2f);
+            int color = adjustAlpha(colors[selectedPos], 0.1f);
             paint.setColor(color);
             canvas.drawCircle(pointF.x, pointF.y, clickRatio * clickFullRadius, paint);
         }
@@ -219,9 +232,7 @@ public class ReportByIncomeExpenseMonthlyView extends View {
 
     public void setDatas(List<ReportByIncomeExpenseMonthlyData> datas) {
         this.datas = datas;
-        colors = new int[datas.size()];
-        for (int i = 0; i < datas.size(); i++)
-            colors[i] = generateColor();
+
     }
 
     class ItemShape {
