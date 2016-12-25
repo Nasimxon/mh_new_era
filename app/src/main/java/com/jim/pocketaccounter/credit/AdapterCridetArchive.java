@@ -29,6 +29,8 @@ import com.jim.pocketaccounter.managers.PAFragmentManager;
 import com.jim.pocketaccounter.utils.PocketAccounterGeneral;
 
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -52,10 +54,14 @@ public class AdapterCridetArchive extends RecyclerView.Adapter<AdapterCridetArch
     DaoSession daoSession;
     @Inject
     LogicManager logicManager;
+    @Inject
+    DecimalFormat formatter;
     CreditDetialsDao creditDetialsDao;
     List<CreditDetials> cardDetials;
     SimpleDateFormat sDateFormat = new SimpleDateFormat("dd MMM, yyyy");
     Context context;
+    DecimalFormat decimalFormat;
+    NumberFormat numberFormat;
     long forDay = 1000L * 60L * 60L * 24L;
     long forMoth = 1000L * 60L * 60L * 24L * 30L;
     long forYear = 1000L * 60L * 60L * 24L * 365L;
@@ -72,6 +78,13 @@ public class AdapterCridetArchive extends RecyclerView.Adapter<AdapterCridetArch
         cardDetials = creditDetialsDao.queryBuilder().where(CreditDetialsDao.Properties.Key_for_archive.eq(true)).orderDesc(CreditDetialsDao.Properties.MyCredit_id).build().list();
         this.context = This;
         formater = new DecimalFormat("0.##");
+        numberFormat = NumberFormat.getNumberInstance();
+        numberFormat.setMinimumFractionDigits(2);
+        numberFormat.setMaximumFractionDigits(2);
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+        symbols.setGroupingSeparator(' ');
+        decimalFormat = (DecimalFormat) numberFormat;
+        decimalFormat.setDecimalFormatSymbols(symbols);
     }
      public  void updateBase(){
         cardDetials = creditDetialsDao.queryBuilder().where(CreditDetialsDao.Properties.Key_for_archive.eq(true)).orderDesc(CreditDetialsDao.Properties.MyCredit_id).build().list();
@@ -114,7 +127,7 @@ public class AdapterCridetArchive extends RecyclerView.Adapter<AdapterCridetArch
         });
         holder.credit_procent.setText(formater.format(itemCr.getProcent()) + "%");
         holder.procentCredInfo.setText(formater.format(itemCr.getProcent()) + "%");
-        holder.takedValueInfo.setText(formater.format(itemCr.getValue_of_credit()) + itemCr.getValyute_currency().getAbbr());
+        holder.takedValueInfo.setText(formatter.format(itemCr.getValue_of_credit()) + itemCr.getValyute_currency().getAbbr());
         //total amount hisob kitob
         double total_paid = 0;
         for (ReckingCredit item : itemCr.getReckings())
@@ -150,7 +163,7 @@ public class AdapterCridetArchive extends RecyclerView.Adapter<AdapterCridetArch
         }
         if(currentPeriod == null)
             prosrecenniy = true;
-        holder.totalReturnValueInfo.setText(formater.format(headerData.getTotalLoanWithInterest())+itemCr.getValyute_currency().getAbbr());
+        holder.totalReturnValueInfo.setText(formatter.format(headerData.getTotalLoanWithInterest())+itemCr.getValyute_currency().getAbbr());
 
 
 
@@ -167,7 +180,7 @@ public class AdapterCridetArchive extends RecyclerView.Adapter<AdapterCridetArch
 
         holder.intervalCreditInfo.setText(interval);
 
-        holder.tvForThisPeriod.setText(headerData.getTotalPayedAmount()+itemCr.getValyute_currency().getAbbr());
+        holder.tvForThisPeriod.setText(decimalFormat.format(headerData.getTotalPayedAmount())+itemCr.getValyute_currency().getAbbr());
 
 
 

@@ -60,6 +60,8 @@ import com.jim.pocketaccounter.utils.WarningDialog;
 import com.jim.pocketaccounter.utils.cache.DataCache;
 
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -134,6 +136,8 @@ public class InfoCreditFragmentForArchive extends Fragment {
     boolean isExpandOpen = false;
     private Context context;
     DecimalFormat formater;
+    DecimalFormat decimalFormat;
+    NumberFormat numberFormat;
     TextView myPay;
     //    ImageView myDelete;
     boolean fromMainWindow = false;
@@ -178,6 +182,13 @@ public class InfoCreditFragmentForArchive extends Fragment {
         reckingCreditDao = daoSession.getReckingCreditDao();
         accountDao = daoSession.getAccountDao();
         formater = new DecimalFormat("0.00");
+        numberFormat = NumberFormat.getNumberInstance();
+        numberFormat.setMinimumFractionDigits(2);
+        numberFormat.setMaximumFractionDigits(2);
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+        symbols.setGroupingSeparator(' ');
+        decimalFormat = (DecimalFormat) numberFormat;
+        decimalFormat.setDecimalFormatSymbols(symbols);
         context = getActivity();
         warningDialog = new WarningDialog(context);
 
@@ -401,7 +412,7 @@ public class InfoCreditFragmentForArchive extends Fragment {
                 }
                 else{
                     tvPeriodPaymentTitle.setText(R.string.period_payment);
-                    tvPeriodPayment.setText(formater.format(currentPeriod.getPaymentSum() - currentPeriod.getPayed())+currentCredit.getValyute_currency().getAbbr());
+                    tvPeriodPayment.setText(decimalFormat.format(currentPeriod.getPaymentSum() - currentPeriod.getPayed())+currentCredit.getValyute_currency().getAbbr());
                     tvPeriodPayment.setTextColor(ContextCompat.getColor(context,R.color.credit_yellow));
                 }
             else {
@@ -410,9 +421,9 @@ public class InfoCreditFragmentForArchive extends Fragment {
                 tvPeriodPayment.setTextColor(ContextCompat.getColor(context,R.color.credit_och_yashil));
             }
         }
-        myTakedValue.setText(formater.format(currentCredit.getValue_of_credit()) + currentCredit.getValyute_currency().getAbbr());
-        myReturnValue.setText(formater.format(headerData.getTotalLoanWithInterest()) + currentCredit.getValyute_currency().getAbbr());
-        tvBalancePer.setText(formater.format(headerData.getTotalPayedAmount())+currentCredit.getValyute_currency().getAbbr());
+        myTakedValue.setText(decimalFormat.format(currentCredit.getValue_of_credit()) + currentCredit.getValyute_currency().getAbbr());
+        myReturnValue.setText(decimalFormat.format(headerData.getTotalLoanWithInterest()) + currentCredit.getValyute_currency().getAbbr());
+        tvBalancePer.setText(decimalFormat.format(headerData.getTotalPayedAmount())+currentCredit.getValyute_currency().getAbbr());
         Calendar to;
         if(!prosrecenniy)
             to = (Calendar) currentPeriod.getDate();
@@ -494,13 +505,13 @@ public class InfoCreditFragmentForArchive extends Fragment {
                 adapRecyc.notifyDataSetChanged();
             }
         });
-        myTotalPaid.setText(formater.format(total_paid) + currentCredit.getValyute_currency().getAbbr());
+        myTotalPaid.setText(decimalFormat.format(total_paid) + currentCredit.getValyute_currency().getAbbr());
         if (headerData.getTotalLoanWithInterest() - total_paid <= 0) {
             myLefAmount.setText(getString(R.string.repaid));
             toArcive = true;
             myPay.setText(getString(R.string.archive));
         } else
-            myLefAmount.setText(formater.format(currentCredit.getValue_of_credit_with_procent() - total_paid) + currentCredit.getValyute_currency().getAbbr());
+            myLefAmount.setText(decimalFormat.format(currentCredit.getValue_of_credit_with_procent() - total_paid) + currentCredit.getValyute_currency().getAbbr());
 
         String suffix = "";
         if (currentCredit.getProcent_interval() == forMoth) {
@@ -632,13 +643,13 @@ public class InfoCreditFragmentForArchive extends Fragment {
                 shouldPayPeriod.setTextColor(ContextCompat.getColor(context,R.color.credit_och_yashil));
             }
             else{
-                shouldPayPeriod.setText(formater.format(currentPeriodi.getPaymentSum() - currentPeriodi.getPayed())+currentCredit.getValyute_currency().getAbbr());
+                shouldPayPeriod.setText(decimalFormat.format(currentPeriodi.getPaymentSum() - currentPeriodi.getPayed())+currentCredit.getValyute_currency().getAbbr());
                 shouldPayPeriod.setTextColor(ContextCompat.getColor(context,R.color.credit_yellow));
             }
         }
         else {
             periodDate.setText(sDateFormat.format(unPaidPeriod.getDate().getTime()));
-            shouldPayPeriod.setText(formater.format(unPaidPeriod.getPaymentSum() - unPaidPeriod.getPayed())+currentCredit.getValyute_currency().getAbbr());
+            shouldPayPeriod.setText(decimalFormat.format(unPaidPeriod.getPaymentSum() - unPaidPeriod.getPayed())+currentCredit.getValyute_currency().getAbbr());
 
         }
         abbrrAmount.setText(currentCredit.getValyute_currency().getAbbr());
@@ -1202,7 +1213,7 @@ public class InfoCreditFragmentForArchive extends Fragment {
         public void onBindViewHolder(final ViewHolder view, final int position) {
             ReckingCredit item = list.get(position);
             view.infoDate.setText(dateFormat.format(item.getPayDate().getTime()));
-            view.infoSumm.setText(formater.format(item.getAmount()) + currentCredit.getValyute_currency().getAbbr());
+            view.infoSumm.setText(decimalFormat.format(item.getAmount()) + currentCredit.getValyute_currency().getAbbr());
             if (currentCredit.getKey_for_include()) {
                 ArrayList<Account> accounts = (ArrayList<Account>) accountDao.queryBuilder().list();
                 String accs = accounts.get(0).getName();

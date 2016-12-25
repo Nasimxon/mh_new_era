@@ -16,6 +16,8 @@ import com.jim.pocketaccounter.database.Currency;
 import com.jim.pocketaccounter.managers.CommonOperations;
 
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
@@ -27,6 +29,7 @@ public class AdapterForSchedule extends RecyclerView.Adapter<RecyclerView.ViewHo
     ArrayList<Object> creditsSchedules;
     SimpleDateFormat sDateFormat = new SimpleDateFormat("dd MMM, yyyy");
     DecimalFormat decimalFormat = new DecimalFormat("0.00");
+    DecimalFormat formatter;
     Currency currency;
     Context context;
     boolean allPeriods = true;
@@ -67,6 +70,13 @@ public class AdapterForSchedule extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holdeer, int position) {
+        NumberFormat numberFormat = NumberFormat.getNumberInstance();
+        numberFormat.setMaximumFractionDigits(2);
+        numberFormat.setMinimumFractionDigits(2);
+        formatter = (DecimalFormat) numberFormat;
+        DecimalFormatSymbols symbols = formatter.getDecimalFormatSymbols();
+        symbols.setGroupingSeparator(' ');
+        formatter.setDecimalFormatSymbols(symbols);
         if (holdeer instanceof AdapterCridet.Fornull) {
             return;
         }
@@ -74,20 +84,20 @@ public class AdapterForSchedule extends RecyclerView.Adapter<RecyclerView.ViewHo
             final HeaderViewHolder headHolder = (HeaderViewHolder) holdeer;
             HeaderData hdData = (HeaderData) creditsSchedules.get(position);
             if(hdData.getCreditType()== CommonOperations.DEFERINSIAL){
-                headHolder.tvMothlyPayment.setText(decimalFormat.format(hdData.getMothlyPayment1())+currency.getAbbr()+"-"+decimalFormat.format(hdData.getMothlyPayment2())+currency.getAbbr());
+                headHolder.tvMothlyPayment.setText(formatter.format(hdData.getMothlyPayment1())+currency.getAbbr()+"-"+formatter.format(hdData.getMothlyPayment2())+currency.getAbbr());
             }
             else if(hdData.getCreditType()== CommonOperations.ANUTETNIY){
                 if(decimalFormat.format(hdData.getMothlyPayment1()).equals(decimalFormat.format(hdData.getMothlyPayment2())))
-                headHolder.tvMothlyPayment.setText(decimalFormat.format(hdData.getMothlyPayment1())+currency.getAbbr());
+                headHolder.tvMothlyPayment.setText(formatter.format(hdData.getMothlyPayment1())+currency.getAbbr());
                 else
-                    headHolder.tvMothlyPayment.setText(decimalFormat.format(hdData.getMothlyPayment1())+currency.getAbbr()+"-"+decimalFormat.format(hdData.getMothlyPayment2())+currency.getAbbr());
+                    headHolder.tvMothlyPayment.setText(formatter.format(hdData.getMothlyPayment1())+currency.getAbbr()+"-"+formatter.format(hdData.getMothlyPayment2())+currency.getAbbr());
 
             }
             headHolder.rvPeriodCount.setText(Integer.toString(creditsSchedules.size()-1));
-            headHolder.tvBankFee.setText(decimalFormat.format(hdData.getBankFee())+currency.getAbbr());
-            headHolder.tvOverPayemtInterest.setText(decimalFormat.format(hdData.getOverpaymentInterest())+currency.getAbbr());
-            headHolder.tvTotalPayed.setText(decimalFormat.format(hdData.getTotalPayedAmount())+currency.getAbbr());
-            headHolder.tvTotalWithInterest.setText(decimalFormat.format(hdData.getTotalLoanWithInterest())+currency.getAbbr());
+            headHolder.tvBankFee.setText(formatter.format(hdData.getBankFee())+currency.getAbbr());
+            headHolder.tvOverPayemtInterest.setText(formatter.format(hdData.getOverpaymentInterest())+currency.getAbbr());
+            headHolder.tvTotalPayed.setText(formatter.format(hdData.getTotalPayedAmount())+currency.getAbbr());
+            headHolder.tvTotalWithInterest.setText(formatter.format(hdData.getTotalLoanWithInterest())+currency.getAbbr());
             if(allPeriods){
                 headHolder.chbAllPeriods.setChecked(true);
                 headHolder.chbNotCompleted.setChecked(false);
@@ -142,16 +152,16 @@ public class AdapterForSchedule extends RecyclerView.Adapter<RecyclerView.ViewHo
                 holder.tvTitleSum.setTextColor(ContextCompat.getColor(context,R.color.credit_och_yashil));
             }
             else{
-            holder.tvTitleSum.setText(decimalFormat.format(crSchedule.getPaymentSum() - crSchedule.getPayed())+currency.getAbbr());
+            holder.tvTitleSum.setText(formatter.format(crSchedule.getPaymentSum() - crSchedule.getPayed())+currency.getAbbr());
             holder.tvTitleSum.setTextColor(ContextCompat.getColor(context,R.color.credit_yellow));
             }
 
-            holder.tvPrincipal.setText(decimalFormat.format(crSchedule.getPrincipal())+currency.getAbbr());
-            holder.tvInterest.setText(decimalFormat.format(crSchedule.getInterest())+currency.getAbbr());
-            holder.tvMonthlyFee.setText(decimalFormat.format(crSchedule.getMonthlyCom())+currency.getAbbr());
-            holder.tvPaymentSum.setText(decimalFormat.format(crSchedule.getPaymentSum())+currency.getAbbr());
-            holder.tvPeriodPayed.setText(decimalFormat.format(crSchedule.getPayed())+currency.getAbbr());
-            holder.tvBalance.setText(decimalFormat.format(crSchedule.getBalance())+currency.getAbbr());}
+            holder.tvPrincipal.setText(formatter.format(crSchedule.getPrincipal())+currency.getAbbr());
+            holder.tvInterest.setText(formatter.format(crSchedule.getInterest())+currency.getAbbr());
+            holder.tvMonthlyFee.setText(formatter.format(crSchedule.getMonthlyCom())+currency.getAbbr());
+            holder.tvPaymentSum.setText(formatter.format(crSchedule.getPaymentSum())+currency.getAbbr());
+            holder.tvPeriodPayed.setText(formatter.format(crSchedule.getPayed())+currency.getAbbr());
+            holder.tvBalance.setText(formatter.format(crSchedule.getBalance())+currency.getAbbr());}
     }
 
     @Override

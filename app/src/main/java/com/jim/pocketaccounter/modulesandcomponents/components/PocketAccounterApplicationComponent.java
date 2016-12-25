@@ -30,6 +30,7 @@ import com.jim.pocketaccounter.utils.record.RecordButtonIncome;
 import com.jim.pocketaccounter.utils.reportfilter.CircleReportFilterView;
 import com.jim.pocketaccounter.widget.WidgetProvider;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
@@ -54,6 +55,7 @@ public interface PocketAccounterApplicationComponent {
     List<TemplateVoice> getVoices();
     List<TemplateAccount> getTemplateAccounts();
     List<TemplateCurrencyVoice> getCurrencyVoices();
+    public DecimalFormat getFormatter();
     @Named(value = "begin") Calendar getBegin();
     @Named(value = "end") Calendar getEnd();
     @Named(value = "common_formatter") SimpleDateFormat getCommonFormatter();

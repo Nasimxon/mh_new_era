@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <declare-styleable name="NiceSpinner">
+
+    <attr name="arrowTint" format="color"/>
+
+    <attr name="hideArrow" format="boolean"/>
+
+    <attr name="backgroundSelector" format="integer"/>
+
+    <attr name="textTint" format="color"/>
+
+    </declare-styleable>
+
+
+
     <attr name="headColor" format="color" />
     <attr name="headAccedent" format="color" />
     <attr name="customStatusBarColor" format="color" />

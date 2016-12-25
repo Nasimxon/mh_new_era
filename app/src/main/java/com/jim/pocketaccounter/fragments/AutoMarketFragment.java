@@ -40,6 +40,7 @@ import com.jim.pocketaccounter.managers.ToolbarManager;
 import com.jim.pocketaccounter.utils.PocketAccounterGeneral;
 import com.jim.pocketaccounter.utils.WarningDialog;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -61,6 +62,8 @@ public class AutoMarketFragment extends Fragment implements View.OnClickListener
     PAFragmentManager paFragmentManager;
     @Inject
     ToolbarManager toolbarManager;
+    @Inject
+    DecimalFormat formatter;
     private RecyclerView recyclerView;
     private FloatingActionButton floatingActionButton;
     private AutoMarketDao autoMarketDao;
@@ -186,10 +189,10 @@ public class AutoMarketFragment extends Fragment implements View.OnClickListener
             }
             if (list.get(position).getAmount() == (int) list.get(position).getAmount()) {
                 view.amount.setText("" + (list.get(position).getRootCategory().getType() == PocketAccounterGeneral.EXPENSE ? "-" : "+")
-                        + ((int) list.get(position).getAmount()) + list.get(position).getCurrency().getAbbr());
+                        +  " " +(formatter.format((int) list.get(position).getAmount())) + list.get(position).getCurrency().getAbbr());
             } else {
                 view.amount.setText("" + (list.get(position).getRootCategory().getType() == PocketAccounterGeneral.EXPENSE ? "-" : "+")
-                        + list.get(position).getAmount() + list.get(position).getCurrency().getAbbr());
+                        +  " " + formatter.format(list.get(position).getAmount()) + list.get(position).getCurrency().getAbbr());
             }
             view.account.setText(list.get(position).getAccount().getName());
             view.llAutoMarketItemDays.setOnClickListener(new View.OnClickListener() {
@@ -579,11 +582,11 @@ public class AutoMarketFragment extends Fragment implements View.OnClickListener
                             autoAdapter.checkCalculateLeftDayForWeeks(autoMarket.getPosDays().split(",")));
                 }
                 view.tvDate.setText(simpleDate.format(nextOperation.getTime()));
-                view.tvAmount.setText("" + autoMarket.getAmount() + autoMarket.getCurrency().getAbbr());
+                view.tvAmount.setText("" + formatter.format(autoMarket.getAmount()) + autoMarket.getCurrency().getAbbr());
                 view.tvIsSuccess.setText("Waiting");
             } else {
                 view.tvDate.setText(simpleDate.format(financeRecordList.get(position - 1).getDate().getTime()));
-                view.tvAmount.setText("" + financeRecordList.get(position - 1).getAmount()
+                view.tvAmount.setText("" + formatter.format(financeRecordList.get(position - 1).getAmount())
                         + financeRecordList.get(position - 1).getCurrency().getAbbr());
                 view.tvIsSuccess.setText("Success");
                 if (mode) {

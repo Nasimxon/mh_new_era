@@ -49,6 +49,8 @@ import javax.inject.Named;
 
 @SuppressLint({"InflateParams", "ValidFragment"})
 public class AccountInfoFragment extends PABaseInfoFragment {
+	@Inject
+	DecimalFormat formatter;
 	private Account account;
 	private RecyclerView rvAccountDetailsInfo;
 	private TextView firstPay;
@@ -115,7 +117,7 @@ public class AccountInfoFragment extends PABaseInfoFragment {
 			firstPay.setText(getResources().getString(R.string.start_amount) + " " + 0 );
 		}
 		else {
-			firstPay.setText(getResources().getString(R.string.start_amount) + " " +account.getAmount() + " "+account.getStartMoneyCurrency().getAbbr());
+			firstPay.setText(getResources().getString(R.string.start_amount) + " " + formatter.format(account.getAmount()) + " "+account.getStartMoneyCurrency().getAbbr());
 		}
 		if (account.getNoneMinusAccount()) {
 			canbeNegative.setText(getResources().getString(R.string.none_minusable_account)); ;
@@ -272,7 +274,7 @@ public class AccountInfoFragment extends PABaseInfoFragment {
 			else
 				total -= commonOperations.getCost(reportObject.getDate(), reportObject.getCurrency(), reportObject.getAccount().getAmount());
 		}
-		totalAmount.setText(getResources().getString(R.string.total) + " " + format.format(total) + commonOperations.getMainCurrency().getAbbr());
+		totalAmount.setText(getResources().getString(R.string.total) + " " + formatter.format(total) + commonOperations.getMainCurrency().getAbbr());
 		rvAccountDetailsInfo.setAdapter(accountOperationsAdapter);
 	}
 
@@ -296,11 +298,11 @@ public class AccountInfoFragment extends PABaseInfoFragment {
 			view.tvAccountInfoName.setText(result.get(position).getDescription());
 			String amount = "";
 			if (result.get(position).getType() == PocketAccounterGeneral.INCOME) {
-				amount += "+"+result.get(position).getAmount() + result.get(position).getCurrency().getAbbr();
+				amount += "+"+formatter.format(result.get(position).getAmount()) + result.get(position).getCurrency().getAbbr();
 				view.tvAccountInfoAmount.setTextColor(ContextCompat.getColor(getContext(), R.color.green_just));
 			}
 			else {
-				amount += "-"+result.get(position).getAmount() + result.get(position).getCurrency().getAbbr();
+				amount += "-"+formatter.format(result.get(position).getAmount()) + result.get(position).getCurrency().getAbbr();
 				view.tvAccountInfoAmount.setTextColor(ContextCompat.getColor(getContext(), R.color.red));
 			}
 			Log.d("nnn", " " + amount.matches("\\s?[0-9]*[.,]?[0]?\\s?"));

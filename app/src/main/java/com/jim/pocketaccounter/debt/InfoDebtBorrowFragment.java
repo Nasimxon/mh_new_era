@@ -70,6 +70,9 @@ import com.jim.pocketaccounter.utils.cache.DataCache;
 import org.greenrobot.greendao.query.Query;
 
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -106,9 +109,13 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
     DaoSession daoSession;
     @Inject
     DataCache dataCache;
+    @Inject
+    DecimalFormat formatter;
     WarningDialog warningDialog;
     DebtBorrowDao debtBorrowDao;
     AccountDao accountDao;
+    DecimalFormat decimalFormat;
+    NumberFormat numberFormat;
     SimpleDateFormat sDateFormat = new SimpleDateFormat("dd MMM, yyyy");
 
     private Context context;
@@ -139,9 +146,9 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
     static int TYPE = 0;
     private int posMain = 0;
     private Spinner spinner;
-
     private RelativeLayout rlInfo;
     private LinearLayout llDebtBOrrowItemEdit;
+
 
     public static InfoDebtBorrowFragment getInstance(String id, int type) {
 
@@ -234,6 +241,13 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
         warningDialog = new WarningDialog(getContext());
         debtBorrowDao = daoSession.getDebtBorrowDao();
         accountDao = daoSession.getAccountDao();
+        numberFormat = NumberFormat.getNumberInstance();
+        numberFormat.setMinimumFractionDigits(2);
+        numberFormat.setMaximumFractionDigits(2);
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+        symbols.setGroupingSeparator(' ');
+        decimalFormat = (DecimalFormat) numberFormat;
+        decimalFormat.setDecimalFormatSymbols(symbols);
         borrowName = (TextView) view.findViewById(R.id.name_of_borrow);
         llDebtBOrrowItemEdit = (LinearLayout) view.findViewById(R.id.llDebtBOrrowItemEdit);
         leftAmount = (TextView) view.findViewById(R.id.tvAmountDebtBorrowInfo);
@@ -479,12 +493,13 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
             deleteFrame.setVisibility(View.INVISIBLE);
         }
         borrowName.setText(debtBorrow.getPerson().getName());
-        String qq = ((int) (debtBorrow.getAmount() - total)) == (debtBorrow.getAmount() - total)
-                ? "" + ((int) (debtBorrow.getAmount() - total)) : "" + (debtBorrow.getAmount() - total);
+//        String qq = ((int) (debtBorrow.getAmount() - total)) == (debtBorrow.getAmount() - total)
+//                ? "" + ((int) (debtBorrow.getAmount() - total)) : "" + (debtBorrow.getAmount() - total);
+        double amount = debtBorrow.getAmount() - total;
         if (total >= debtBorrow.getAmount())
             leftAmount.setText(getResources().getString(R.string.repaid));
         else
-            leftAmount.setText(qq + debtBorrow.getCurrency().getAbbr());
+            leftAmount.setText(formatter.format(amount) + debtBorrow.getCurrency().getAbbr());
 
 
         if (debtBorrow.getReturnDate() == null) {
@@ -526,7 +541,7 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
             }}
 
 
-        totalPayAmount.setText("" + (total == ((int) total) ? ("" + ((int) total)) : ("" + total)) + debtBorrow.getCurrency().getAbbr());
+        totalPayAmount.setText("" + formatter.format(total) + debtBorrow.getCurrency().getAbbr());
         if (total >= debtBorrow.getAmount()) {
             payText.setText(getResources().getString(R.string.to_archive));
 //            deleteFrame.setVisibility(View.GONE);
@@ -541,9 +556,7 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
         } else {
             circleImageView.setImageResource(R.drawable.no_photo);
         }
-        tvTotalsummInfo.setText("" + (debtBorrow.getAmount() == ((int) debtBorrow.getAmount())
-                ? ("" + (int) debtBorrow.getAmount()) : ("" + debtBorrow.getAmount())) + debtBorrow.getCurrency().
-                getAbbr());
+        tvTotalsummInfo.setText("" + formatter.format(debtBorrow.getAmount()) + debtBorrow.getCurrency().getAbbr());
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setAdapter(peysAdapter);
@@ -724,7 +737,8 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
             for (Recking recking:debtBorrow.getReckings()){
                 totalAm +=recking.getAmount();
             }
-            shouldPayPeriod.setText(formater.format(v1-totalAm)+debtBorrow.getCurrency().getAbbr());
+            final double lAmount = debtBorrow.getAmount() - totalAm;
+            shouldPayPeriod.setText(decimalFormat.format(v1-totalAm)+debtBorrow.getCurrency().getAbbr());
             if(debtBorrow.getType() == DebtBorrow.DEBT){
                 debetorName.setText(getString(R.string.debtor_name)+":");
                 periodDate.setText(debtBorrow.getPerson().getName());
@@ -781,8 +795,7 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
                             tek = true;
                         if (!keyForInclude.isChecked()) tek = true;
 
-                        if (Double.parseDouble(leftAmount.getText().toString().substring(0, leftAmount.getText().toString().length() - len))
-                                - Double.parseDouble(enterPay.getText().toString()) < 0) {
+                        if (lAmount - Double.parseDouble(enterPay.getText().toString()) < 0) {
                             warningDialog.setOnNoButtonClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -916,9 +929,7 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
 
         public void onBindViewHolder(final InfoDebtBorrowFragment.ViewHolder view, final int position) {
             view.infoDate.setText(dateFormat.format(list.get(position).getPayDate().getTime()));
-            view.infoSumm.setText((list.get(position).getAmount() == ((int) list.get(position).getAmount())
-                    ? ("" + ((int) list.get(position).getAmount())) : ("" + list.get(position).getAmount()))
-                    + "" + debtBorrow.getCurrency().getAbbr());
+            view.infoSumm.setText("" + formatter.format(list.get(position).getAmount())+ "" + debtBorrow.getCurrency().getAbbr());
             if (list.get(position).getAccountId().equals("")) {
                 view.infoAccount.setText(R.string.ne_uchitavaetsya);
             } else {
@@ -977,11 +988,11 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
             for (Recking rc : list) {
                 total += rc.getAmount();
             }
-            totalPayAmount.setText((total == ((int) total) ? ("" + ((int) total)) :
-                    ("" + total)) + debtBorrow.getCurrency().getAbbr());
-            String qq = ((int) (debtBorrow.getAmount() - total)) == (debtBorrow.getAmount() - total)
-                    ? "" + ((int) (debtBorrow.getAmount() - total)) : "" + (debtBorrow.getAmount() - total);
-            leftAmount.setText(qq + "" + debtBorrow.getCurrency().getAbbr());
+            totalPayAmount.setText(total + debtBorrow.getCurrency().getAbbr());
+//            String qq = ((int) (debtBorrow.getAmount() - total)) == (debtBorrow.getAmount() - total)
+//                    ? "" + ((int) (debtBorrow.getAmount() - total)) : "" + (debtBorrow.getAmount() - total);
+            double amount = debtBorrow.getAmount() - total;
+            leftAmount.setText(formatter.format(amount) + "" + debtBorrow.getCurrency().getAbbr());
             if (debtBorrow.getReckings().isEmpty()) {
 //                isHaveReking.setVisibility(View.GONE);
             }
@@ -998,11 +1009,11 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
             for (int i = 0; i < list.size(); i++) {
                 qoldiq += list.get(i).getAmount();
             }
-            String qq = ((int) (debtBorrow.getAmount() - qoldiq)) == (debtBorrow.getAmount() - qoldiq)
-                    ? ("" + ((int) (debtBorrow.getAmount() - qoldiq))) : ("" + (debtBorrow.getAmount() - qoldiq));
-
-            leftAmount.setText(qq + "" + debtBorrow.getCurrency().getAbbr());
-            totalPayAmount.setText("" + (qoldiq == ((int) qoldiq) ? ("" + ((int) qoldiq)) : ("" + qoldiq)) + "" + debtBorrow.getCurrency().getAbbr());
+//            String qq = ((int) (debtBorrow.getAmount() - qoldiq)) == (debtBorrow.getAmount() - qoldiq)
+//                    ? ("" + ((int) (debtBorrow.getAmount() - qoldiq))) : ("" + (debtBorrow.getAmount() - qoldiq));
+            double amount = debtBorrow.getAmount() - qoldiq;
+            leftAmount.setText(formatter.format(amount) + "" + debtBorrow.getCurrency().getAbbr());
+            totalPayAmount.setText("" + formatter.format(qoldiq) + "" + debtBorrow.getCurrency().getAbbr());
 
             if (qoldiq >= debtBorrow.getAmount()) {
                 payText.setText(getResources().getString(R.string.to_archive));

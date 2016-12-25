@@ -80,6 +80,8 @@ public class PurposeInfoFragment extends Fragment implements View.OnClickListene
     TransferDialog transferDialog;
     @Inject
     CommonOperations commonOperations;
+    @Inject
+    DecimalFormat formatter;
     private MyAdapter myAdapter;
     private Purpose purpose;
     private ImageView iconPurpose;
@@ -238,7 +240,7 @@ public class PurposeInfoFragment extends Fragment implements View.OnClickListene
         String topText = getString(R.string.saved_money) + " " + format.format(paid) + abbr;
         String bottomText;
         if(!(leftAmmountdb <0))
-            bottomText = getString(R.string.left_acomuleted) + " " + format.format(leftAmmountdb) + abbr;
+            bottomText = getString(R.string.left_acomuleted) + " " + formatter.format(leftAmmountdb) + abbr;
         else
             bottomText = getString(R.string.left_acomuleted) + " " + 0 + abbr;
 
@@ -343,7 +345,7 @@ public class PurposeInfoFragment extends Fragment implements View.OnClickListene
                 }
             }
             amountPurpose.setText("" + (purpose.getPurpose() - qoldiq) + purpose.getCurrency().getAbbr());
-            Allcashes.setText(parseToWithoutNull(qoldiq)+purpose.getCurrency().getAbbr());
+            Allcashes.setText(formatter.format(qoldiq)+purpose.getCurrency().getAbbr());
             tek = new boolean[purposes.size()];
         }
 
@@ -428,7 +430,7 @@ public class PurposeInfoFragment extends Fragment implements View.OnClickListene
                 color = ContextCompat.getColor(getContext(), R.color.green_just);
             }
             view.amount.setTextColor(color);
-            view.amount.setText(sign + purposes.get(position).getAmount() + purposes.get(position).getCurrency().getAbbr());
+            view.amount.setText(sign + formatter.format(purposes.get(position).getAmount()) + purposes.get(position).getCurrency().getAbbr());
             view.checkBox.setVisibility(View.GONE);
             view.accountName.setText(name);
             view.itemView.setOnClickListener(null);

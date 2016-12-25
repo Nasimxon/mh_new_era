@@ -23,6 +23,9 @@ import com.jim.pocketaccounter.utils.cache.DataCache;
 
 import org.greenrobot.greendao.database.Database;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -47,7 +50,7 @@ public class PocketAccounterApplicationModule {
     private List<TemplateVoice> voices;
     private List<TemplateAccount> accountVoice;
     private List<TemplateCurrencyVoice> currencyVoices;
-
+    private DecimalFormat formatter;
     public PocketAccounterApplicationModule(PocketAccounterApplication pocketAccounterApplication) {
         this.pocketAccounterApplication = pocketAccounterApplication;
         DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(pocketAccounterApplication, PocketAccounterGeneral.CURRENT_DB_NAME);
@@ -61,6 +64,20 @@ public class PocketAccounterApplicationModule {
     @Provides
     public PocketAccounterApplication getPocketAccounterApplication() {
         return pocketAccounterApplication;
+    }
+
+    @Provides
+    public DecimalFormat getFormatter() {
+        if (formatter == null)
+        {
+            NumberFormat numberFormat = NumberFormat.getNumberInstance();
+            numberFormat.setMaximumFractionDigits(2);
+            formatter = (DecimalFormat) numberFormat;
+            DecimalFormatSymbols symbols = formatter.getDecimalFormatSymbols();
+            symbols.setGroupingSeparator(' ');
+            formatter.setDecimalFormatSymbols(symbols);
+        }
+        return formatter;
     }
 
     @Provides

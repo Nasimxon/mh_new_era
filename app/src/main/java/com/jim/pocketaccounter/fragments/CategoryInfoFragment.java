@@ -42,8 +42,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.inject.Inject;
+
 @SuppressLint({"InflateParams", "ValidFragment"})
 public class CategoryInfoFragment extends PABaseInfoFragment {
+    @Inject
+    DecimalFormat formatter;
     private WarningDialog warningDialog;
     private RootCategory rootCategory;
     private RecyclerView rvCategoryInfoOperations, rvCatInfoSubcats;
@@ -272,10 +276,10 @@ public class CategoryInfoFragment extends PABaseInfoFragment {
             view.tvAccountInfoName.setText(text);
             String amount = "";
             if (result.get(position).getCategory().getType() == PocketAccounterGeneral.INCOME) {
-                amount += "+" + result.get(position).getAmount() + result.get(position).getCurrency().getAbbr();
+                amount += "+" + formatter.format(result.get(position).getAmount()) + result.get(position).getCurrency().getAbbr();
                 view.tvAccountInfoAmount.setTextColor(ContextCompat.getColor(getContext(), R.color.green_just));
             } else {
-                amount += "-" + result.get(position).getAmount() + result.get(position).getCurrency().getAbbr();
+                amount += "-" + formatter.format(result.get(position).getAmount()) + result.get(position).getCurrency().getAbbr();
                 view.tvAccountInfoAmount.setTextColor(ContextCompat.getColor(getContext(), R.color.red));
             }
             view.tvAccountInfoAmount.setText(amount);

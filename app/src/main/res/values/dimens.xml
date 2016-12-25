@@ -115,4 +115,6 @@
     <dimen name="hundred_eity_dp">180dp</dimen>
     <dimen name="hundred_thiry_five_dp">135dp</dimen>
     <dimen name="two_hundred">200dp</dimen>
+    <dimen name="three_grid_unit">24dp</dimen>
+    <dimen name="one_and_a_half_grid_unit">12dp</dimen>
 </resources>

@@ -47,6 +47,8 @@ import com.jim.pocketaccounter.utils.WarningDialog;
 import com.jim.pocketaccounter.utils.cache.DataCache;
 
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -72,6 +74,8 @@ public class AdapterCridet extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     LogicManager logicManager;
     @Inject
     DataCache dataCache;
+    @Inject
+    DecimalFormat formatter;
     WarningDialog warningDialog;
     CreditDetialsDao creditDetialsDao;
     AccountDao accountDao;
@@ -85,6 +89,8 @@ public class AdapterCridet extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     Context context;
     ArrayList<Account> accaunt_AC;
     DecimalFormat formater;
+    DecimalFormat periodFormat;
+    NumberFormat numberFormat;
     long forDay = 1000L * 60L * 60L * 24L;
     long forMoth = 1000L * 60L * 60L * 24L * 30L;
     long forYear = 1000L * 60L * 60L * 24L * 365L;
@@ -98,6 +104,13 @@ public class AdapterCridet extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         warningDialog = new WarningDialog(This);
         creditDetialsDao = daoSession.getCreditDetialsDao();
         accountDao = daoSession.getAccountDao();
+        numberFormat = NumberFormat.getNumberInstance();
+        numberFormat.setMinimumFractionDigits(2);
+        numberFormat.setMaximumFractionDigits(2);
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+        symbols.setGroupingSeparator(' ');
+        periodFormat = (DecimalFormat) numberFormat;
+        periodFormat.setDecimalFormatSymbols(symbols);;
         this.cardDetials=creditDetialsDao.queryBuilder()
                 .where(CreditDetialsDao.Properties.Key_for_archive.eq(false)).orderDesc(CreditDetialsDao.Properties.MyCredit_id).build().list();
         this.context = This;
@@ -132,7 +145,7 @@ public class AdapterCridet extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         DecimalFormat decimalFormat = new DecimalFormat("0.##");
         holder.credit_procent.setText(decimalFormat.format(itemCr.getProcent()) + "%");
         holder.procentCredInfo.setText(decimalFormat.format(itemCr.getProcent()) + "%");
-        holder.takedValueInfo.setText(formater.format(itemCr.getValue_of_credit()) + itemCr.getValyute_currency().getAbbr());
+        holder.takedValueInfo.setText(formatter.format(itemCr.getValue_of_credit()) + itemCr.getValyute_currency().getAbbr());
         //total amount hisob kitob
         double total_paid = 0;
         for (ReckingCredit item : itemCr.getReckings())
@@ -195,7 +208,7 @@ public class AdapterCridet extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 }
                 else{
                     holder.tvForThisPeriodTitle.setText(R.string.for_this_period);
-                    holder.tvForThisPeriod.setText(formater.format(currentPeriod.getPaymentSum() - currentPeriod.getPayed())+itemCr.getValyute_currency().getAbbr());
+                    holder.tvForThisPeriod.setText(periodFormat.format(currentPeriod.getPaymentSum() - currentPeriod.getPayed())+itemCr.getValyute_currency().getAbbr());
                     holder.tvForThisPeriod.setTextColor(ContextCompat.getColor(context,R.color.credit_yellow));
                 }
             else {
@@ -206,8 +219,8 @@ public class AdapterCridet extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         }
 
-        holder.totalReturnValueInfo.setText(formater.format(headerData.getTotalLoanWithInterest())+itemCr.getValyute_currency().getAbbr());
-        holder.tvBalanceCredit.setText(formater.format(headerData.getTotalPayedAmount())+itemCr.getValyute_currency().getAbbr());
+        holder.totalReturnValueInfo.setText(formatter.format(headerData.getTotalLoanWithInterest())+itemCr.getValyute_currency().getAbbr());
+        holder.tvBalanceCredit.setText(formatter.format(headerData.getTotalPayedAmount())+itemCr.getValyute_currency().getAbbr());
         Calendar to;
         if(!prosrecenniy)
         to = (Calendar) currentPeriod.getDate();
@@ -532,7 +545,7 @@ public class AdapterCridet extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 shouldPayPeriod.setTextColor(ContextCompat.getColor(context,R.color.credit_och_yashil));
             }
             else{
-                shouldPayPeriod.setText(formater.format(currentPeriodi.getPaymentSum() - currentPeriodi.getPayed())+current.getValyute_currency().getAbbr());
+                shouldPayPeriod.setText(periodFormat.format(currentPeriodi.getPaymentSum() - currentPeriodi.getPayed())+current.getValyute_currency().getAbbr());
                 shouldPayPeriod.setTextColor(ContextCompat.getColor(context,R.color.credit_yellow));
             }
         }

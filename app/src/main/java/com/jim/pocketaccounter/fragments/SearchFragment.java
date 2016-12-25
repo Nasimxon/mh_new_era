@@ -85,6 +85,8 @@ public class SearchFragment extends Fragment {
     PAFragmentManager paFragmentManager;
     @Inject
     ToolbarManager toolbarManager;
+    @Inject
+    DecimalFormat formatter;
     TextView textViewSearch;
     List<SearchResultConten> searchItemsToSend;
     List<SearchResultConten> searchItemsToSendForUse;
@@ -334,7 +336,7 @@ public class SearchFragment extends Fragment {
                             continue;
                         }
 
-                if (formater.format(temp.getdAmount()).toLowerCase().contains(searchSt.toLowerCase())) {
+                if (formatter.format(temp.getdAmount()).toLowerCase().contains(searchSt.toLowerCase())) {
                     searchItemsToSendForUse.add(temp);
                     continue;
                 }
@@ -367,7 +369,7 @@ public class SearchFragment extends Fragment {
         List<SearchResultConten> searchItems;
         Context context;
         String seq;
-        private final String COLOR_SEQ = "#e2e2e2";
+        private final String COLOR_SEQ = "#D8EAC6";
 
         public void setDataList(List<SearchResultConten> searchItems, Context context, String seq) {
             this.searchItems = searchItems;
@@ -377,7 +379,7 @@ public class SearchFragment extends Fragment {
 
         @Override
         public SearchItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.search_item, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_search_layout, parent, false);
             SearchItemViewHolder vh = new SearchItemViewHolder(view);
             return vh;
         }
@@ -416,19 +418,19 @@ public class SearchFragment extends Fragment {
                 comonOperation.ColorSubSeq(dateformarter.format(item.getMyDate().getTime()), seq, COLOR_SEQ, holder.date);
 
             /*Set name of item*/
-            comonOperation.ColorSubSeq(item.getStNameOfItem(), seq, "#e2e2e2", holder.name);
+            comonOperation.ColorSubSeq(item.getStNameOfItem(), seq, "#D8EAC6", holder.name);
 
             /*Set item amount*/
             if (item.getdAmount() == 0) {
-                comonOperation.ColorSubSeq(formater.format(item.getdAmount()) + item.getCurrency().getAbbr(), seq, COLOR_SEQ, holder.ammount);
+                comonOperation.ColorSubSeq(formatter.format(item.getdAmount()) + item.getCurrency().getAbbr(), seq, COLOR_SEQ, holder.ammount);
 
             }
             if (item.getdAmount() > 0) {
                 holder.ammount.setTextColor(Color.parseColor("#028929"));
-                comonOperation.ColorSubSeq("+" + formater.format(item.getdAmount()) + item.getCurrency().getAbbr(), seq, COLOR_SEQ, holder.ammount);
+                comonOperation.ColorSubSeq("+" + formatter.format(item.getdAmount()) + item.getCurrency().getAbbr(), seq, COLOR_SEQ, holder.ammount);
             } else {
                 holder.ammount.setTextColor(Color.parseColor("#b82101"));
-                comonOperation.ColorSubSeq(formater.format(item.getdAmount()) + item.getCurrency().getAbbr(), seq, COLOR_SEQ, holder.ammount);
+                comonOperation.ColorSubSeq(formatter.format(item.getdAmount()) + item.getCurrency().getAbbr(), seq, COLOR_SEQ, holder.ammount);
 
             }
             /*Set type*/
@@ -439,14 +441,14 @@ public class SearchFragment extends Fragment {
                 if (item.getComment().length() != 0) {
                     comonOperation.ColorSubSeq(item.getComment(), seq, COLOR_SEQ, holder.comment);
                     holder.relativeLayout.setVisibility(View.VISIBLE);
-                    holder.forgoneLine.setVisibility(View.VISIBLE);
+//                    holder.forgoneLine.setVisibility(View.VISIBLE);
                 } else {
                     holder.relativeLayout.setVisibility(View.GONE);
-                    holder.forgoneLine.setVisibility(View.GONE);
+//                    holder.forgoneLine.setVisibility(View.GONE);
                 }
             } else {
                 holder.relativeLayout.setVisibility(View.GONE);
-                holder.forgoneLine.setVisibility(View.GONE);
+//                holder.forgoneLine.setVisibility(View.GONE);
             }
 
             /*Set Onclick Listner*/
@@ -638,11 +640,11 @@ public class SearchFragment extends Fragment {
             TextView type;
             TextView date;
             TextView comment;
-            FrameLayout forgoneLine;
-            RelativeLayout relativeLayout;
+//            FrameLayout forgoneLine;
+            LinearLayout relativeLayout;
             LinearLayout mainItemView;
             TextView accountName;
-            RelativeLayout ifNotHaveAccount;
+            LinearLayout ifNotHaveAccount;
 
             SearchItemViewHolder(View itemView) {
                 super(itemView);
@@ -653,10 +655,10 @@ public class SearchFragment extends Fragment {
                 date = (TextView) itemView.findViewById(R.id.dateToSearch);
                 comment = (TextView) itemView.findViewById(R.id.tvComment);
                 accountName = (TextView) itemView.findViewById(R.id.accountName);
-                forgoneLine = (FrameLayout) itemView.findViewById(R.id.for_gone_a);
+//                forgoneLine = (FrameLayout) itemView.findViewById(R.id.for_gone_a);
                 mainItemView = (LinearLayout) itemView.findViewById(R.id.mainview);
-                relativeLayout = (RelativeLayout) itemView.findViewById(R.id.visibleIfCommentHave);
-                ifNotHaveAccount = (RelativeLayout) itemView.findViewById(R.id.relativeLayout6);
+                relativeLayout = (LinearLayout) itemView.findViewById(R.id.visibleIfCommentHave);
+                ifNotHaveAccount = (LinearLayout) itemView.findViewById(R.id.relativeLayout6);
             }
         }
     }

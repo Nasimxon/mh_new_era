@@ -33,8 +33,12 @@ import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
+
 @SuppressLint("InflateParams")
 public class AccountFragment extends PABaseListFragment {
+	@Inject
+	DecimalFormat formatter;
 	private FloatingActionButton fabAccountAdd;
     private RecyclerView recyclerView;
 	boolean isReportOpen = false;
@@ -163,9 +167,9 @@ public class AccountFragment extends PABaseListFragment {
 				view.withGone.setVisibility(View.GONE);
 				for (Currency currency : map.keySet()) {
 					String abbr = currency.getAbbr();
-					inc += map.get(currency).get(0) + abbr + "\n";
-					exp += map.get(currency).get(1) + abbr + "\n";
-					bal += map.get(currency).get(2) + abbr + "\n";
+					inc += formatter.format(map.get(currency).get(0)) + abbr + "\n";
+					exp += formatter.format(map.get(currency).get(1)) + abbr + "\n";
+					bal += formatter.format(map.get(currency).get(2)) + abbr + "\n";
 				}
 				if(inc.length()!=0&&exp.length()!=0&&bal.length()!=0) {
 					view.tvAccountIncome.setText(inc.substring(0, inc.length() - 1));

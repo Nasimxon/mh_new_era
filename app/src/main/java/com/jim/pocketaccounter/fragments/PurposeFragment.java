@@ -57,6 +57,7 @@ public class PurposeFragment extends Fragment{
     @Inject ReportManager reportManager;
     @Inject @Named(value = "display_formatter") SimpleDateFormat dateFormat;
     @Inject CommonOperations commonOperations;
+    @Inject DecimalFormat formatter;
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -178,13 +179,13 @@ public class PurposeFragment extends Fragment{
             double leftAmmountdb = lefAmmount(item);
             double allAmmount = item.getPurpose();
             double paid = allAmmount - leftAmmountdb;
-            view.tvTotalAmount.setText(getResources().getString(R.string.purpose_ammount) + " "+parseToWithoutNull(allAmmount) + commonOperations.getMainCurrency().getAbbr());
+            view.tvTotalAmount.setText(getResources().getString(R.string.purpose_ammount) + " "+formatter.format(allAmmount) + commonOperations.getMainCurrency().getAbbr());
             DecimalFormat format = new DecimalFormat("0.##");
             String abbr = commonOperations.getMainCurrency().getAbbr();
-            String topText = getString(R.string.saved_money) + " " + format.format(paid) + abbr;
+            String topText = getString(R.string.saved_money) + " " + formatter.format(paid) + abbr;
             String bottomText;
             if(!(leftAmmountdb <0))
-             bottomText = getString(R.string.left_acomuleted) + " " + format.format(leftAmmountdb) + abbr;
+             bottomText = getString(R.string.left_acomuleted) + " " + formatter.format(leftAmmountdb) + abbr;
             else
              bottomText = getString(R.string.left_acomuleted) + " " + 0 + abbr;
 

@@ -94,6 +94,8 @@ public class BorrowFragment extends Fragment {
     DaoSession daoSession;
     @Inject
     DataCache dataCache;
+    @Inject
+    DecimalFormat formatter;
     WarningDialog warningDialog;
     DebtBorrowDao debtBorrowDao;
     AccountDao accountDao;
@@ -331,11 +333,11 @@ public class BorrowFragment extends Fragment {
                 }
             });
 
-            String ss = (person.getAmount() - qq) == (int) (person.getAmount() - qq) ? "" + (int) (person.getAmount() - qq) : "" + (person.getAmount() - qq);
+//            String ss = (person.getAmount() - qq) == (int) (person.getAmount() - qq) ? "" + (int) (person.getAmount() - qq) : "" + (person.getAmount() - qq);
             if (person.getTo_archive() || qq >= person.getAmount()) {
                 view.tvItemDebtBorrowLeft.setText(getResources().getString(R.string.repaid));
             } else
-                view.tvItemDebtBorrowLeft.setText(ss + person.getCurrency().getAbbr());
+                view.tvItemDebtBorrowLeft.setText(formatter.format(person.getAmount() - qq) + person.getCurrency().getAbbr());
 
             view.itemView.setOnClickListener(new View.OnClickListener() {
                 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -422,7 +424,8 @@ public class BorrowFragment extends Fragment {
                         for (Recking recking:person.getReckings()){
                             totalAm +=recking.getAmount();
                         }
-                        shouldPayPeriod.setText(formater.format(v1-totalAm)+person.getCurrency().getAbbr());
+                        final double leftAmount = person.getAmount() - totalAm;
+                        shouldPayPeriod.setText(formatter.format(v1-totalAm)+person.getCurrency().getAbbr());
                         if(person.getType() == DebtBorrow.DEBT){
                             debetorName.setText(R.string.debtor_name+":");
                             periodDate.setText(person.getPerson().getName());
@@ -482,8 +485,7 @@ public class BorrowFragment extends Fragment {
                                 boolean tek = false;
                                 if (!enterPay.getText().toString().isEmpty()) {
                                     int len = person.getCurrency().getAbbr().length();
-                                    if (Double.parseDouble(view.tvItemDebtBorrowLeft.getText().toString().substring(0, view.tvItemDebtBorrowLeft.getText().toString().length() - len))
-                                            - Double.parseDouble(enterPay.getText().toString()) < 0) {
+                                    if (leftAmount - Double.parseDouble(enterPay.getText().toString()) < 0) {
                                         if (keyForInclude.isChecked() && isMumkin(person, ac, Double.parseDouble(enterPay.getText().toString())))
                                             tek = true;
                                         if (!keyForInclude.isChecked()) tek = true;
@@ -555,10 +557,7 @@ public class BorrowFragment extends Fragment {
                                                 view.pay.setText(getString(R.string.to_archive));
                                             }
                                             logicManager.insertReckingDebt(recking);
-                                            view.tvItemDebtBorrowLeft.setText("" + ((person.getAmount() - total) ==
-                                                    ((int) (person.getAmount() - total)) ?
-                                                    ("" + (int) (person.getAmount() - total)) :
-                                                    ("" + (person.getAmount() - total))) + person.getCurrency().getAbbr());
+                                            view.tvItemDebtBorrowLeft.setText("" + formatter.format(person.getAmount() - total)  + person.getCurrency().getAbbr());
                                             paFragmentManager.updateAllFragmentsOnViewPager();
                                             dataCache.updateAllPercents();
                                             dialog.dismiss();
@@ -577,10 +576,7 @@ public class BorrowFragment extends Fragment {
                                                 }
 
                                                 logicManager.insertReckingDebt(recking);
-                                                view.tvItemDebtBorrowLeft.setText("" + ((person.getAmount() - total) ==
-                                                        ((int) (person.getAmount() - total)) ?
-                                                        ("" + (int) (person.getAmount() - total)) :
-                                                        ("" + (person.getAmount() - total))) + person.getCurrency().getAbbr());
+                                                view.tvItemDebtBorrowLeft.setText("" + formatter.format(person.getAmount() - total) + person.getCurrency().getAbbr());
                                                 paFragmentManager.updateAllFragmentsOnViewPager();
                                                 dataCache.updateAllPercents();
                                                 dialog.dismiss();

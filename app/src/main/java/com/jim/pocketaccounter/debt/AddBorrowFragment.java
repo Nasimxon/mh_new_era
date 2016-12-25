@@ -446,10 +446,17 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
     }
 
     private void saveAndExit() {
+        try {
+            Double.parseDouble(PersonSumm.getText().toString());
+            PersonSumm.setError(null);
+        } catch (Exception e) {
+            PersonSumm.setError(getString(R.string.invalide_format));
+            return;
+        }
         if (PersonName.getText().toString().equals("")) {
             PersonName.setError(getString(R.string.enter_name_error));
         } else {
-            if (PersonSumm.getText().toString().equals("") || Double.parseDouble(PersonSumm.getText().toString()) == 0) {
+            if (PersonSumm.getText().toString().equals("")) {
                 PersonSumm.setError(getString(R.string.enter_amount_error));
             } else {
                 if (PersonDataGet.getText().toString().matches("")) {

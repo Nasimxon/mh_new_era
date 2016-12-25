@@ -352,6 +352,12 @@ public class AddCreditFragment extends Fragment {
                         }
                     } catch (Exception o) {
                     }
+                    try {
+                        Double.parseDouble(valueCred.getText().toString());
+                    } catch (Exception e) {
+                        valueCred.setError(getString(R.string.wrong_input_type));
+                        return;
+                    }
                 }
                 if (procentCred.getText().toString().equals("")) {
                     procentCred.setError(getString(R.string.procent_should_not_empty));

@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mainview"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/five_dp"
+    android:layout_marginLeft="@dimen/ten_dp"
+    android:layout_marginRight="@dimen/ten_dp"
+    android:layout_marginTop="@dimen/five_dp"
+    android:background="@drawable/carditem"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:layout_marginTop="@dimen/fifteen_dp"
+        android:background="#f2f3f5" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#fbfbfb"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/ten_dp"
+        android:paddingTop="@dimen/ten_dp">
+
+        <ImageView
+            android:id="@+id/ivRecordDetail"
+            android:layout_width="@dimen/fourtyfive_dp"
+            android:layout_height="@dimen/fourtyfive_dp"
+            android:layout_marginLeft="@dimen/twenty_dp"
+            android:layout_marginRight="@dimen/twenty_dp"
+            android:src="@drawable/icons_79" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/fifteen_dp"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvRecordDetailCategoryName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="iMac for me"
+                    android:textColor="#3a3a3a"
+                    android:textSize="@dimen/sixteen_dp" />
+
+                <TextView
+                    android:id="@+id/tvRecordDetailCategoryAmount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="+ 5 000$"
+                    android:textColor="#8cc156"
+                    android:textSize="@dimen/sixteen_dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Type:"
+                    android:textColor="#3a3a3a"
+                    android:textSize="@dimen/sixteen_dp" />
+
+                <TextView
+                    android:id="@+id/type_search_item"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Credit"
+                    android:textColor="#3a3a3a"
+                    android:textSize="@dimen/sixteen_dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <FrameLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:layout_marginBottom="@dimen/five_dp"
+        android:background="#f2f3f5" />
+
+
+    <LinearLayout
+        android:id="@+id/relativeLayout6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/twenty_dp"
+        android:layout_marginRight="@dimen/fifteen_dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Account:"
+            android:textColor="#3a3a3a"
+            android:textSize="@dimen/sixteen_dp" />
+
+        <TextView
+            android:id="@+id/accountName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Visa bank"
+            android:textColor="#3a3a3a"
+            android:textSize="@dimen/sixteen_dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/fifteen_dp"
+        android:layout_marginLeft="@dimen/twenty_dp"
+        android:layout_marginRight="@dimen/fifteen_dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Date:"
+            android:textColor="#3a3a3a"
+            android:textSize="@dimen/sixteen_dp" />
+
+        <TextView
+            android:id="@+id/dateToSearch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="14 Nov, 2016"
+            android:textColor="#3a3a3a"
+            android:textSize="@dimen/sixteen_dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/visibleIfCommentHave"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/twenty_dp"
+        android:layout_marginLeft="@dimen/twenty_dp"
+        android:layout_marginRight="@dimen/fifteen_dp"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Comment:"
+            android:textColor="#a6a6a6"
+            android:textSize="@dimen/fourteen_dp" />
+
+        <TextView
+            android:id="@+id/tvComment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor"
+            android:textColor="#a6a6a6"
+            android:textSize="@dimen/fourteen_dp" />
+
+    </LinearLayout>
+
+
+</LinearLayout>
