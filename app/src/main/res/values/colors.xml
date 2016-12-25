@@ -86,6 +86,4 @@
     <item name="credit_white_grey" type="color">#fbfbfb</item>
     <item name="credit_liniya" type="color">#eaeaea</item>
     <item name="credit_och_yashil" type="color">#8cc156</item>
-    <item name="videleniya_search" type="color">#8cc156</item>
-    <color name="light_gray">#fff5f5f5</color>
 </resources>

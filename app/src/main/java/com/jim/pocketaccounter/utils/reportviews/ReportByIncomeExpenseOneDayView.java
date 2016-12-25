@@ -139,7 +139,8 @@ public class ReportByIncomeExpenseOneDayView extends View {
     }
 
     public void setTrapezeColor(int trapezeColor) {
-        this.trapezeColor = adjustAlpha(trapezeColor, 0.2f);;
+//        this.trapezeColor = adjustAlpha(trapezeColor, 0.2f);;
+        this.trapezeColor = trapezeColor;
         invalidate();
     }
 

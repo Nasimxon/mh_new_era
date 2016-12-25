@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import com.jim.pocketaccounter.database.FinanceRecord;
 import com.jim.pocketaccounter.managers.CommonOperations;
 import com.jim.pocketaccounter.managers.ReportManager;
 import com.jim.pocketaccounter.report.ReportObject;
+import com.jim.pocketaccounter.utils.CircleImageView;
 import com.jim.pocketaccounter.utils.PocketAccounterGeneral;
 import org.apache.commons.lang3.RandomUtils;
 
@@ -44,12 +46,11 @@ public class ReportByIncomExpenseMonthDetailedByDaysFragment extends Fragment {
     private Calendar calendar;
     private int pointsRadius = 0, lineThickness = 0;
     private static final int INCOME = 0, EXPENSE = 1, BALANCE = 2;
-    private SimpleDateFormat format = new SimpleDateFormat("LLLLLL, yyyy");
+    private SimpleDateFormat format = new SimpleDateFormat("MMM, yyyy");
     private TextView tvReportByIncomeExpenseDate;
-    private int incomeColor = Color.GREEN,
-                expenseColor = Color.RED,
-                profitColor = Color.YELLOW;
-    private ImageView ivDailyIncomeRect, ivDailyExpenseRect, ivDailyProfitRect;
+    private int incomeColor,
+                expenseColor,
+                profitColor;
     @Inject ReportManager reportManager;
     public ReportByIncomExpenseMonthDetailedByDaysFragment(int month, int year) {
         this.month = month;
@@ -69,6 +70,9 @@ public class ReportByIncomExpenseMonthDetailedByDaysFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ((PocketAccounterApplication) getContext().getApplicationContext()).component().inject(this);
         View rootView = inflater.inflate(R.layout.report_by_income_expense_month_detail_by_days_fragment, container, false);
+        incomeColor = ContextCompat.getColor(getContext(),R.color.diagram_green);
+        expenseColor = ContextCompat.getColor(getContext(),R.color.diagram_red);
+        profitColor = ContextCompat.getColor(getContext(),R.color.diagram_yellow);
         pointsRadius = (int) getResources().getDimension(R.dimen.one_dp);
         lineThickness = (int) getResources().getDimension(R.dimen.one_dp);
         tvReportByIncomeExpenseDate = (TextView) rootView.findViewById(R.id.tvReportByIncomeExpenseDate);
@@ -78,12 +82,7 @@ public class ReportByIncomExpenseMonthDetailedByDaysFragment extends Fragment {
         lchvReportByIncomeExpenseMonthDetailedByDays.setZoomEnabled(false);
         lchvReportByIncomeExpenseMonthDetailedByDays.setViewportCalculationEnabled(true);
         lchvReportByIncomeExpenseMonthDetailedByDays.setValueSelectionEnabled(true);
-        ivDailyProfitRect = (ImageView) rootView.findViewById(R.id.ivDailyIncomeRect);
-        ivDailyProfitRect.setBackgroundColor(incomeColor);
-        ivDailyProfitRect = (ImageView) rootView.findViewById(R.id.ivDailyExpenseRect);
-        ivDailyProfitRect.setBackgroundColor(expenseColor);
-        ivDailyProfitRect = (ImageView) rootView.findViewById(R.id.ivDailyProfitRect);
-        ivDailyProfitRect.setBackgroundColor(profitColor);
+
         setViewport();
         return rootView;
     }
