@@ -168,6 +168,7 @@ public class RecordDetailFragment extends Fragment implements OnClickListener {
             int resId = context.getResources().getIdentifier(result.get(position).getCategory().getIcon(), "drawable", context.getPackageName());
             holder.ivRecordDetail.setImageResource(resId);
             holder.tvRecordDetailCategoryName.setText(result.get(position).getCategory().getName());
+            holder.tvAccountName.setText(result.get(position).getAccount().getName());
             DecimalFormat decimalFormat = new DecimalFormat("0.00");
             String sign = "";
 
@@ -210,25 +211,22 @@ public class RecordDetailFragment extends Fragment implements OnClickListener {
             holder.rvTickets.setAdapter(myTickedAdapter);
 
             if (result.get(position).getCategory().getType() == PocketAccounterGeneral.EXPENSE) {
-                holder.tvRecordDetailCategoryAmount.setTextColor(ContextCompat.getColor(context, R.color.red));
+                holder.tvRecordDetailCategoryAmount.setTextColor(ContextCompat.getColor(context, R.color.record_red));
                 sign = "-";
             }
             else {
-                holder.tvRecordDetailCategoryAmount.setTextColor(ContextCompat.getColor(context, R.color.green_just));
+                holder.tvRecordDetailCategoryAmount.setTextColor(ContextCompat.getColor(context, R.color.record_green));
                 sign = "+";
             }
             holder.tvRecordDetailCategoryAmount.setText(sign + decimalFormat.format(result.get(position).getAmount())+result.get(position).getCurrency().getAbbr());
             boolean subCatIsNull = (result.get(position).getSubCategory() == null);
-            if (subCatIsNull) {
+            if (!subCatIsNull) {
                // holder.llSubCategories.setVisibility(View.GONE);
-                holder.tvRecordDetailSubCategory.setVisibility(View.GONE);
+//                resId = context.getResources().getIdentifier(result.get(position).getSubCategory().getIcon(), "drawable", context.getPackageName());
+                holder.tvRecordDetailCategoryName.setText(result.get(position).getCategory().getName() + ", " + result.get(position).getSubCategory().getName());
 
             }
-            else {
-                resId = context.getResources().getIdentifier(result.get(position).getSubCategory().getIcon(), "drawable", context.getPackageName());
-                holder.tvRecordDetailSubCategory.setVisibility(View.VISIBLE);
-                holder.tvRecordDetailSubCategory.setText(result.get(position).getSubCategory().getName());
-            }
+
             if (mode == PocketAccounterGeneral.NORMAL_MODE) {
                 holder.chbRecordDetail.setVisibility(View.GONE);
                 holder.ivRecordDetail.setVisibility(View.VISIBLE);
@@ -266,7 +264,7 @@ public class RecordDetailFragment extends Fragment implements OnClickListener {
         }
         @Override
         public DetailViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.record_detail_list_item_modern, parent, false);
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_record_details, parent, false);
             DetailViewHolder viewHolder = new DetailViewHolder(v);
             return viewHolder;
         }
@@ -275,10 +273,11 @@ public class RecordDetailFragment extends Fragment implements OnClickListener {
             public ImageView ivRecordDetail;
             public TextView tvRecordDetailCategoryName;
             public TextView tvRecordDetailCategoryAmount;
-            public TextView tvRecordDetailSubCategory;
+//            public TextView tvRecordDetailSubCategory;
+            public TextView tvAccountName;
             public TextView tvRecordComment;
             public CheckBox chbRecordDetail;
-            public RelativeLayout rlVisibleWhenHaveComment;
+            public LinearLayout rlVisibleWhenHaveComment;
             public LinearLayout rlVisibleWhenHaveTickets;
             public RecyclerView rvTickets;
             public View root;
@@ -289,10 +288,11 @@ public class RecordDetailFragment extends Fragment implements OnClickListener {
                 tvRecordComment = (TextView) view.findViewById(R.id.tvComment);
                 rvTickets = (RecyclerView) view.findViewById(R.id.rvTickets);
                 tvRecordDetailCategoryAmount = (TextView) view.findViewById(R.id.tvRecordDetailCategoryAmount);
-                tvRecordDetailSubCategory = (TextView) view.findViewById(R.id.tvRecordDetailSubCategory);
+//                tvRecordDetailSubCategory = (TextView) view.findViewById(R.id.tvRecordDetailSubCategory);
                 chbRecordDetail = (CheckBox) view.findViewById(R.id.chbRecordFragmentDetail);
-                rlVisibleWhenHaveComment = (RelativeLayout) view.findViewById(R.id.visibleIfCommentHave);
+                rlVisibleWhenHaveComment = (LinearLayout) view.findViewById(R.id.visibleIfCommentHave);
                 rlVisibleWhenHaveTickets = (LinearLayout) view.findViewById(R.id.visibleIfTicketHave);
+                tvAccountName = (TextView) view.findViewById(R.id.accountName);
                 root = view;
             }
         }

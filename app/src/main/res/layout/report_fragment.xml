@@ -1,26 +1,250 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <Button
+    android:layout_height="match_parent"
+    android:background="#f2f3f5"
+    android:orientation="vertical">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/btnReportByCategory"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Report by category"
-        android:id="@+id/btnReportByCategory"/>
-    <Button
+        android:layout_height="0dp"
+        android:layout_marginLeft="@dimen/ten_dp"
+        android:layout_marginRight="@dimen/ten_dp"
+        android:layout_marginTop="@dimen/ten_dp"
+        android:layout_weight="1"
+        android:background="@drawable/carditem"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/five_dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#fff"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/fifteen_dp"
+            android:paddingTop="@dimen/fifteen_dp">
+
+            <ImageView
+                android:layout_width="@dimen/eighty_dp"
+                android:layout_height="@dimen/eighty_dp"
+                android:layout_marginLeft="@dimen/twenty_dp"
+                android:layout_marginRight="@dimen/twenty_dp"
+                android:src="@drawable/icon1" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/fifteen_dp"
+                android:orientation="vertical">
+
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/categories_report"
+                    android:textColor="#3a3a3a"
+                    android:textSize="@dimen/sixteen_dp" />
+
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/info_categories_report"
+                    android:textColor="#a2a2a2"
+                    android:textSize="@dimen/fourteen_dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/btnReportByIncomeAndExpenseGraphic"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Report by incomes and expense (daily, table)"
-        android:id="@+id/btnReportByIncomeAndExpenseTable"/>
-    <Button
+        android:layout_height="0dp"
+        android:layout_marginLeft="@dimen/ten_dp"
+        android:layout_marginRight="@dimen/ten_dp"
+        android:layout_marginTop="@dimen/five_dp"
+        android:layout_weight="1"
+        android:background="@drawable/carditem"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/five_dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#fff"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/fifteen_dp"
+            android:paddingTop="@dimen/fifteen_dp">
+
+            <ImageView
+
+                android:layout_width="@dimen/eighty_dp"
+                android:layout_height="@dimen/eighty_dp"
+                android:layout_marginLeft="@dimen/twenty_dp"
+                android:layout_marginRight="@dimen/twenty_dp"
+                android:src="@drawable/icon2" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/fifteen_dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/daily_operations_report"
+                    android:textColor="#3a3a3a"
+                    android:textSize="@dimen/sixteen_dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/info_daily_operations_report"
+                    android:textColor="#a2a2a2"
+                    android:textSize="@dimen/fourteen_dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/btnReportByIncomeAndExpenseTable"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Report by incomes and expenses (daily, graphic)"
-        android:id="@+id/btnReportByIncomeAndExpenseGraphic"/>
-    <Button
+        android:layout_height="0dp"
+        android:layout_marginLeft="@dimen/ten_dp"
+        android:layout_marginRight="@dimen/ten_dp"
+        android:layout_marginTop="@dimen/five_dp"
+        android:layout_weight="1"
+        android:background="@drawable/carditem"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/five_dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#fff"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/fifteen_dp"
+            android:paddingTop="@dimen/fifteen_dp">
+
+            <ImageView
+
+                android:layout_width="@dimen/eighty_dp"
+                android:layout_height="@dimen/eighty_dp"
+                android:layout_marginLeft="@dimen/twenty_dp"
+                android:layout_marginRight="@dimen/twenty_dp"
+                android:src="@drawable/icon3" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/fifteen_dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/financial_transactions_report"
+                    android:textColor="#3a3a3a"
+                    android:textSize="@dimen/sixteen_dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/info_financial_transactions_report"
+                    android:textColor="#a2a2a2"
+                    android:textSize="@dimen/fourteen_dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/btnReportByIncomeAndExpenseMonthly"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Report by income expense (monthly)"
-        android:id="@+id/btnReportByIncomeAndExpenseMonthly"/>
+        android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/ten_dp"
+        android:layout_marginLeft="@dimen/ten_dp"
+        android:layout_marginRight="@dimen/ten_dp"
+        android:layout_marginTop="@dimen/five_dp"
+        android:layout_weight="1"
+        android:background="@drawable/carditem"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/five_dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#fff"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/fifteen_dp"
+            android:paddingTop="@dimen/fifteen_dp">
+
+            <ImageView
+
+                android:layout_width="@dimen/eighty_dp"
+                android:layout_height="@dimen/eighty_dp"
+                android:layout_marginLeft="@dimen/twenty_dp"
+                android:layout_marginRight="@dimen/twenty_dp"
+                android:src="@drawable/icon4" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/fifteen_dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/monthly_state_report"
+                    android:textColor="#3a3a3a"
+                    android:textSize="@dimen/sixteen_dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/info_monthly_state_report"
+                    android:textColor="#a2a2a2"
+                    android:textSize="@dimen/fourteen_dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <!--<Button-->
+    <!--android:id="@+id/btnReportByCategory"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="Report by category" />-->
+
+    <!--<Button-->
+    <!--android:id="@+id/btnReportByIncomeAndExpenseTable"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="Report by incomes and expense (daily, table)" />-->
+
+    <!--<Button-->
+    <!--android:id="@+id/btnReportByIncomeAndExpenseTable"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="Report by incomes and expenses (daily, graphic)" />-->
+
+    <!--<Button-->
+    <!--android:id="@+id/btnReportByIncomeAndExpenseMonthly"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="Report by income expense (monthly)" />-->
+
 </LinearLayout>

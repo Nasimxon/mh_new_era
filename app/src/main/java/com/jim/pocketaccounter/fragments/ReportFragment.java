@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 import com.jim.pocketaccounter.PocketAccounter;
 import com.jim.pocketaccounter.PocketAccounterApplication;
@@ -16,33 +17,33 @@ import javax.inject.Inject;
 
 public class ReportFragment extends Fragment {
     @Inject PAFragmentManager paFragmentManager;
-    private Button btnReportByCategory, btnReportByIncomeAndExpenseTable,
+    private LinearLayout btnReportByCategory, btnReportByIncomeAndExpenseTable,
             btnReportByIncomeAndExpenseGraphic, btnReportByIncomeAndExpenseMonthly;
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.report_fragment, container, false);
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
-        btnReportByCategory = (Button) rootView.findViewById(R.id.btnReportByCategory);
+        btnReportByCategory = (LinearLayout) rootView.findViewById(R.id.btnReportByCategory);
         btnReportByCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 paFragmentManager.displayFragment(new ReportByCategoryFragment());
             }
         });
-        btnReportByIncomeAndExpenseTable = (Button) rootView.findViewById(R.id.btnReportByIncomeAndExpenseTable);
+        btnReportByIncomeAndExpenseTable = (LinearLayout) rootView.findViewById(R.id.btnReportByIncomeAndExpenseTable);
         btnReportByIncomeAndExpenseTable.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
             }
         });
-        btnReportByIncomeAndExpenseGraphic = (Button) rootView.findViewById(R.id.btnReportByIncomeAndExpenseGraphic);
+        btnReportByIncomeAndExpenseGraphic = (LinearLayout) rootView.findViewById(R.id.btnReportByIncomeAndExpenseGraphic);
         btnReportByIncomeAndExpenseGraphic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 paFragmentManager.displayFragment(new ReportByIncomeExpenseDaily());
             }
         });
-        btnReportByIncomeAndExpenseMonthly = (Button) rootView.findViewById(R.id.btnReportByIncomeAndExpenseMonthly);
+        btnReportByIncomeAndExpenseMonthly = (LinearLayout) rootView.findViewById(R.id.btnReportByIncomeAndExpenseMonthly);
         btnReportByIncomeAndExpenseMonthly.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

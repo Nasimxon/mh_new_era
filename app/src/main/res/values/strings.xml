@@ -1697,6 +1697,14 @@
     <string name="add_the_loan_in_the_balance">Add the loan in the balance</string>
     <string name="ne_uchitavaetsya">Не учитивается в балансе</string>
     <string name="ammount_of_debt_include_the_balance">Ammount of debt include the balance</string>
+    <string name="categories_report">Categories</string>
+    <string name="info_categories_report">Category and subcategory details for custom period with graphics and percents</string>
+    <string name="daily_operations_report">Daily operations</string>
+    <string name="info_daily_operations_report">Graphics for monthly state and daily state for income, expense and balance</string>
+    <string name="financial_transactions_report">Financial transactions</string>
+    <string name="info_financial_transactions_report">Table income and expense daily state for custom interval with details</string>
+    <string name="monthly_state_report">Monthly state</string>
+    <string name="info_monthly_state_report">Graphic monthly states for income or expense and overall information for every month</string>
 
     <string-array name="month_abbrs">
         <item>Янв.</item>
