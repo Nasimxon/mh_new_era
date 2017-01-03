@@ -20,6 +20,7 @@ import com.jim.pocketaccounter.database.DaoMaster;
 import com.jim.pocketaccounter.database.DaoSession;
 import com.jim.pocketaccounter.database.DatabaseMigration;
 import com.jim.pocketaccounter.database.RootCategory;
+import com.jim.pocketaccounter.database.SubCategory;
 import com.jim.pocketaccounter.utils.PocketAccounterGeneral;
 
 import org.greenrobot.greendao.database.Database;
@@ -314,6 +315,55 @@ public class SettingsWidget extends AppCompatActivity {
                 delete_button_4.setVisibility(View.VISIBLE);
                 change_button_4.setVisibility(View.VISIBLE);
                 imageView_button_4.setOnClickListener(null);
+            }
+
+            for (SubCategory subTemp:temp.getSubCategories()) {
+
+                if(!butID_1.matches(WidgetKeys.BUTTON_DISABLED)&&subTemp.getId().matches(butID_1)){
+                    //ustanovka ikonki
+                    imageView_button_1.setImageResource(R.drawable.shape_for_widget_black);
+                    int resId = getResources().getIdentifier(subTemp.getIcon(), "drawable", getPackageName());
+                    imageView_button_1.setImageResource(resId);
+                    category_name_1.setText(subTemp.getName());
+                    delete_button_1.setVisibility(View.VISIBLE);
+                    change_button_1.setVisibility(View.VISIBLE);
+                    imageView_button_1.setOnClickListener(null);
+                }
+
+                if(!butID_2.matches(WidgetKeys.BUTTON_DISABLED)&&subTemp.getId().matches(butID_2)){
+                    //ustanovka ikonki
+                    imageView_button_2.setImageResource(R.drawable.shape_for_widget_black);
+                    int resId = getResources().getIdentifier(subTemp.getIcon(), "drawable", getPackageName());
+                    imageView_button_2.setImageResource(resId);
+                    category_name_2.setText(subTemp.getName());
+                    delete_button_2.setVisibility(View.VISIBLE);
+                    change_button_2.setVisibility(View.VISIBLE);
+                    imageView_button_2.setOnClickListener(null);
+                }
+
+                if(!butID_3.matches(WidgetKeys.BUTTON_DISABLED)&&subTemp.getId().matches(butID_3)){
+                    //ustanovka ikonki
+                    imageView_button_3.setImageResource(R.drawable.shape_for_widget_black);
+                    int resId = getResources().getIdentifier(subTemp.getIcon(), "drawable", getPackageName());
+                    imageView_button_3.setImageResource(resId);
+                    category_name_3.setText(subTemp.getName());
+                    delete_button_3.setVisibility(View.VISIBLE);
+                    change_button_3.setVisibility(View.VISIBLE);
+                    imageView_button_3.setOnClickListener(null);
+                }
+
+                if(!butID_4.matches(WidgetKeys.BUTTON_DISABLED)&&subTemp.getId().matches(butID_4)){
+                    //ustanovka ikonki
+                    imageView_button_4.setImageResource(R.drawable.shape_for_widget_black);
+                    int resId = getResources().getIdentifier(subTemp.getIcon(), "drawable", getPackageName());
+                    imageView_button_4.setImageResource(resId);
+                    category_name_4.setText(subTemp.getName());
+                    delete_button_4.setVisibility(View.VISIBLE);
+                    change_button_4.setVisibility(View.VISIBLE);
+                    imageView_button_4.setOnClickListener(null);
+                }
+
+
             }
         }
         db.close();

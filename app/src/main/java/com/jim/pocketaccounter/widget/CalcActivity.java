@@ -145,7 +145,6 @@ public class CalcActivity extends AppCompatActivity implements View.OnClickListe
     DaoSession daoSession;
     Database db;
     public static String KEY_FOR_INSTALAZING = "key_for_init";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -165,12 +164,19 @@ public class CalcActivity extends AppCompatActivity implements View.OnClickListe
         category = new RootCategory();
         String catId = getIntent().getStringExtra(WidgetKeys.KEY_FOR_INTENT_ID);
         WIDGET_ID = getIntent().getIntExtra(WidgetKeys.ACTION_WIDGET_RECEIVER_CHANGE_DIAGRAM_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
-        for (int i = 0; i < daoSession.getRootCategoryDao().loadAll().size(); i++) {
-            if (daoSession.getRootCategoryDao().loadAll().get(i).getId().matches(catId)) {
-                category = daoSession.getRootCategoryDao().loadAll().get(i);
+        for (RootCategory rootCategory:daoSession.getRootCategoryDao().loadAll()) {
+            if(rootCategory.getId().equals(catId)){
+                category = rootCategory;
+                break;
+            }
+            for(SubCategory subCategoryTemp : rootCategory.getSubCategories())
+            if (subCategoryTemp.getId().equals(catId)) {
+                category = rootCategory;
+                subCategory = subCategoryTemp;
                 break;
             }
         }
+
 
 
         buttonClick = AnimationUtils.loadAnimation(CalcActivity.this, R.anim.button_click);
@@ -233,7 +239,14 @@ public class CalcActivity extends AppCompatActivity implements View.OnClickListe
             int resId = getResources().getIdentifier(category.getIcon(), "drawable", getApplication().getPackageName());
 
             ivRecordEditCategory.setImageResource(resId);
+
+            if (subCategory != null) {
+                int res = getResources().getIdentifier(subCategory.getIcon(), "drawable", getApplication().getPackageName());
+                ivRecordEditSubCategory.setImageResource(res);
+            }
+            else  ivRecordEditSubCategory.setImageResource(R.drawable.category_not_selected);
         }
+
 
         if (myTickets == null)
             myTickets = new ArrayList<>();

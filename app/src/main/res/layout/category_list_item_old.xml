@@ -2,34 +2,39 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal" 
+    android:orientation="horizontal"
+    android:background="@drawable/carditem"
+    android:layout_margin="@dimen/five_dp"
     android:descendantFocusability="blocksDescendants">
-    <CheckBox
-        android:id="@+id/chbAccountListItem"
-        android:layout_width="wrap_content"
+
+    <LinearLayout
+        android:id="@+id/llCategoryItems"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
         android:layout_marginLeft="@dimen/sixteen_dp"
-        android:layout_marginRight="@dimen/five_dp"
-        android:button="@drawable/checkbox"
-        android:visibility="gone" />
-    <ImageView
-        android:id="@+id/ivAccountListIcon"
-        android:layout_width="@dimen/fourty_dp"
-        android:layout_height="@dimen/fourty_dp"
-        android:layout_marginBottom="@dimen/fifteen_dp"
-        android:layout_marginLeft="@dimen/sixteen_dp"
-        android:layout_marginTop="@dimen/fifteen_dp" />
-    <TextView
-        android:id="@+id/tvAccountListName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginBottom="@dimen/fifteen_dp"
-        android:layout_marginLeft="@dimen/fifteen_dp"
-        android:layout_marginRight="@dimen/sixteen_sp"
-        android:layout_marginTop="@dimen/fifteen_dp"
-        android:text="TextView"
-        android:textColor="@color/toolbar_text_color"
-        android:textSize="@dimen/sixteen_sp" />
+        android:layout_marginRight="@dimen/sixteen_dp"
+        android:layout_marginBottom="@dimen/twelve_dp"
+        android:layout_marginTop="@dimen/twenty_dp"
+        android:orientation="vertical">
+        <ImageView
+            android:id="@+id/ivAccountListIcon"
+            android:layout_width="@dimen/sixty_dp"
+            android:layout_height="@dimen/sixty_dp"
+            android:layout_marginBottom="@dimen/five_dp"
+            android:layout_gravity="center"/>
+        <TextView
+            android:id="@+id/tvAccountListName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/ten_dp"
+            android:layout_marginLeft="@dimen/ten_dp"
+            android:layout_marginRight="@dimen/ten_dp"
+            android:text="TextView"
+            android:gravity="center"
+            android:textColor="@color/toolbar_text_color"
+            android:textSize="@dimen/fourteen_dp" />
+    </LinearLayout>
+
+
 </LinearLayout>

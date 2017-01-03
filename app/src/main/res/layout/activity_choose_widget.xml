@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/white">
+    android:background="#f2f3f5">
 
     <LinearLayout
         android:id="@+id/llCategoryCheckboxes"
@@ -24,6 +24,7 @@
             android:button="@drawable/blue_bg_checkbox"
             android:checked="true"
             android:paddingLeft="@dimen/ten_dp"
+            android:visibility="visible"
             android:text="@string/income"
             android:textColor="@color/toolbar_text_color"
             android:textSize="@dimen/twelve_sp" />
@@ -38,20 +39,37 @@
             android:button="@drawable/blue_bg_checkbox"
             android:checked="true"
             android:paddingLeft="@dimen/ten_dp"
+            android:visibility="visible"
             android:text="@string/expanse"
             android:textColor="@color/toolbar_text_color"
             android:textSize="@dimen/twelve_sp" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/ten_dp"
+            android:layout_marginLeft="@dimen/sixteen_dp"
+            android:layout_marginRight="@dimen/ten_dp"
+            android:layout_marginTop="@dimen/ten_dp"
+            android:text="@string/sub_cat"
+            android:visibility="gone"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/tvSubcategory"
+            android:textSize="@dimen/twelve_sp"/>
+
     </LinearLayout>
 
-    <ListView
-        android:id="@+id/lvAccounts"
+    <android.support.v7.widget.RecyclerView
+        android:paddingTop="@dimen/eight_dp"
+        android:clipToPadding="false"
+        android:id="@+id/rvAccounts"
+        android:overScrollMode="never"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/llCategoryCheckboxes"
         android:layout_weight="1" >
 
-    </ListView>
+    </android.support.v7.widget.RecyclerView>
 
 
 </RelativeLayout>
