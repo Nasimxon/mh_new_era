@@ -31,6 +31,7 @@ public class PocketAccounterGeneral {
 	public static final String INFO_VISIBILITY = "INFO_VISIBILITY", VERTICAL_SELECTED_PAGE = "MAIN_SELECTED_PAGE";
 	public static final String HEAD_COLOR = "HEAD_COLOR", HELPER_COLOR = "HELPER_COLOR";
 	public static final String BASE64RSA = BuildConfig.base64rsa;
+	public static final String CHOOSEN_THEME_NAME_KEY = "CHOOSEN_THEME_NAME_KEY";
 	public class MoneyHolderSkus {
 		public static final String SMS_PARSING_SKU = BuildConfig.sms_parsing_sku;
 		public static final String ZERO_PAGE_SKU = BuildConfig.zero_page_sku;
@@ -66,6 +67,11 @@ public class PocketAccounterGeneral {
 			public static final String IS_AVAILABLE_CHANGING_OF_CREDIT_KEY = BuildConfig.IS_AVAILABLE_CHANGING_OF_CREDIT_KEY;
 			public static final String IS_AVAILABLE_CHANGING_OF_FUNCTION = BuildConfig.IS_AVAILABLE_CHANGING_OF_FUNCTION;
 			public static final String IS_AVAILABLE_CHANGING_OF_PAGE = BuildConfig.IS_AVAILABLE_CHANGING_OF_PAGE;
+			public static final String BLUE_THEME = BuildConfig.BLUE_THEME;
+			public static final String FIOLA_THEME = BuildConfig.FIOLA_THEME;
+			public static final String YELLOW_THEME = BuildConfig.YELLOW_THEME;
+
+
 		}
 	}
 }

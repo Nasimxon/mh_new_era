@@ -16,10 +16,12 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.jim.pocketaccounter.BuildConfig;
 import com.jim.pocketaccounter.PocketAccounter;
 import com.jim.pocketaccounter.PocketAccounterApplication;
 import com.jim.pocketaccounter.R;
 import com.jim.pocketaccounter.managers.CommonOperations;
+import com.jim.pocketaccounter.managers.FinansiaFirebaseAnalytics;
 import com.jim.pocketaccounter.managers.PAFragmentManager;
 import com.jim.pocketaccounter.managers.ReportManager;
 import com.jim.pocketaccounter.managers.ToolbarManager;
@@ -66,8 +68,8 @@ public class MainPageFragment extends Fragment {
     @Inject @Named(value = "begin") Calendar begin;
     @Inject @Named(value = "end") Calendar end;
     @Inject SharedPreferences preferences;
+    @Inject FinansiaFirebaseAnalytics analytics;
     private boolean infosVisibility;
-
     public MainPageFragment(Context context, Calendar day) {
         this.day = (Calendar) day.clone();
         this.pocketAccounter = (PocketAccounter) context;
@@ -113,6 +115,8 @@ public class MainPageFragment extends Fragment {
             }
         });
         initialize();
+        String fragmentName = getClass().getName();
+        analytics.sendText("User listed: " + fragmentName + " " + simpleDateFormat.format(day.getTime()));
         return rootView;
     }
 
@@ -120,8 +124,7 @@ public class MainPageFragment extends Fragment {
         String key = "";
         switch (position) {
             case 0:
-                key = PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.ZERO_PAGE_COUNT_KEY;
-                break;
+                return true;
             case 1:
                 key = PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.FIRST_PAGE_COUNT_KEY;
                 break;
@@ -257,6 +260,8 @@ public class MainPageFragment extends Fragment {
             expenseView.hideText();
             incomeView.hideText();
         }
+        incomeView.invalidate();
+        expenseView.invalidate();
     }
     public void refreshCurrencyChanges() {
         commonOperations.refreshCurrency();
@@ -297,9 +302,6 @@ public class MainPageFragment extends Fragment {
     public void toggleVisibilityForInfos() {
         boolean isAccess = true;
         switch (expenseView.getCurrentPage()) {
-                case 0:
-                    isAccess = preferences.getBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.ZERO_PAGE_COUNT_KEY, false);
-                    break;
                 case 1:
                     isAccess = preferences.getBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.FIRST_PAGE_COUNT_KEY, false);
                     break;

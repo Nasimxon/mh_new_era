@@ -50,6 +50,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -59,33 +60,18 @@ import javax.inject.Named;
  */
 @SuppressLint("ValidFragment")
 public class PurposeInfoFragment extends Fragment implements View.OnClickListener {
-    @Inject
-    ToolbarManager toolbarManager;
-    @Inject
-    OperationsListDialog operationsListDialog;
-    @Inject
-    PAFragmentManager paFragmentManager;
-    @Inject
-    LogicManager logicManager;
-    @Inject
-    ReportManager reportManager;
-    @Inject
-    @Named(value = "display_formatter")
-    SimpleDateFormat dateFormat;
-    @Inject
-    DaoSession daoSession;
-    @Inject
-    FilterDialog filterDialog;
-    @Inject
-    TransferDialog transferDialog;
-    @Inject
-    CommonOperations commonOperations;
-    @Inject
-    DecimalFormat formatter;
+    @Inject ToolbarManager toolbarManager;
+    @Inject OperationsListDialog operationsListDialog;
+    @Inject PAFragmentManager paFragmentManager;
+    @Inject LogicManager logicManager;
+    @Inject ReportManager reportManager;
+    @Inject DaoSession daoSession;
+    @Inject FilterDialog filterDialog;
+    @Inject TransferDialog transferDialog;
+    @Inject CommonOperations commonOperations;
     private MyAdapter myAdapter;
     private Purpose purpose;
     private ImageView iconPurpose;
-//    private ImageView deleteOpertions;
     private ImageView filterOpertions;
     private TextView namePurpose;
     private TextView amountPurpose;
@@ -95,11 +81,11 @@ public class PurposeInfoFragment extends Fragment implements View.OnClickListene
     private TextView Allcashes;
     private RecyclerView recyclerView;
     private boolean MODE = false;
-    private double qoldiq;
     private RelativeLayout forGoneLeftDate;
     private Calendar beginDate;
     private Calendar endDate;
     private PercentView pvPercent;
+    private DecimalFormat format = new DecimalFormat("0.##");
     public PurposeInfoFragment(Purpose purpose) {
         this.purpose = purpose;
         if (purpose == null) {
@@ -122,6 +108,12 @@ public class PurposeInfoFragment extends Fragment implements View.OnClickListene
         myLefDate = (TextView) rooView.findViewById(R.id.leftdate);
         Allcashes = (TextView) rooView.findViewById(R.id.totaly);
         pvPercent = (PercentView) rooView.findViewById(R.id.pvPercent);
+        pvPercent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pvPercent.animatePercent(0, 1200);
+            }
+        });
         pvPercent.setPercetStripeVisibility(false);
         toolbarManager.setImageToSecondImage(R.drawable.ic_more_vert_black_48dp);
         toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
@@ -158,12 +150,11 @@ public class PurposeInfoFragment extends Fragment implements View.OnClickListene
                 operationsListDialog.show();
             }
         });
-        double qoldiq = 0;
-        for (AccountOperation accountOperation: reportManager.getAccountOpertions(purpose)) {
-            qoldiq += accountOperation.getAmount();
-        }
-        Allcashes.setText(parseToWithoutNull(qoldiq)+purpose.getCurrency().getAbbr());
-
+        iconPurpose = (ImageView) rooView.findViewById(R.id.ivPurposeinfoIcon);
+        namePurpose = (TextView) rooView.findViewById(R.id.tvPurposeInfoName);
+        amountPurpose = (TextView) rooView.findViewById(R.id.tvPurposeInfoLeftAmount);
+        recyclerView = (RecyclerView) rooView.findViewById(R.id.rvPurposeInfo);
+        calculateTotal();
         // ------- LEFT DATE MODUL -------
 
         if(purpose.getBegin()!=null&&purpose.getEnd()!=null){
@@ -230,51 +221,32 @@ public class PurposeInfoFragment extends Fragment implements View.OnClickListene
         recyclerView.setLayoutManager(layoutManager);
         myAdapter = new MyAdapter();
         recyclerView.setAdapter(myAdapter);
-
-        double leftAmmountdb = lefAmmount(purpose);
-        double allAmmount = purpose.getPurpose();
-        double paid = allAmmount - leftAmmountdb;
-
-        DecimalFormat format = new DecimalFormat("0.##");
-        String abbr = commonOperations.getMainCurrency().getAbbr();
-        String topText = getString(R.string.saved_money) + " " + format.format(paid) + abbr;
-        String bottomText;
-        if(!(leftAmmountdb <0))
-            bottomText = getString(R.string.left_acomuleted) + " " + formatter.format(leftAmmountdb) + abbr;
-        else
-            bottomText = getString(R.string.left_acomuleted) + " " + 0 + abbr;
-
-        pvPercent.setPercent((((int) (100*paid/allAmmount))<100)?((int)(100*paid/allAmmount)):((int)100));
-        amountPurpose.setText(bottomText);
-        pvPercent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pvPercent.animatePercent(0, 1200);
-            }
-        });
-        pvPercent.animatePercent(0, 1200);
-
         return rooView;
     }
-    public void updateAllInfo(){
 
-    }
-
-    public Double lefAmmount(Purpose purpose){
-        double qoldiq = 0;
-
-        for (AccountOperation accountOperation: reportManager.getAccountOpertions(purpose)) {
-            qoldiq += accountOperation.getAmount();
+    private void calculateTotal() {
+        double total = 0;
+        List<AccountOperation> operationList = reportManager.getAccountOpertions(purpose);
+        for (AccountOperation accountOperation : operationList) {
+            total += commonOperations.getCost(Calendar.getInstance(), accountOperation.getCurrency(), purpose.getCurrency(), accountOperation.getAmount());
         }
+        double leftAmount = purpose.getPurpose() - total;
+        if (Allcashes != null)
+            Allcashes.setText(format.format(total)+purpose.getCurrency().getAbbr());
+        if (amountPurpose != null)
+            amountPurpose.setText(format.format(leftAmount) + purpose.getCurrency().getAbbr());
+        DecimalFormat format = new DecimalFormat("0.##");
+        String abbr = commonOperations.getMainCurrency().getAbbr();
+        String bottomText;
+        if(leftAmount > 0)
+            bottomText = getString(R.string.left_acomuleted) + " " + format.format(leftAmount) + abbr;
+        else
+            bottomText = getString(R.string.left_acomuleted) + " " + 0 + abbr;
+        pvPercent.setPercent((((int) (100*total/purpose.getPurpose()))<100)?(int)(100*total/purpose.getPurpose()):100);
+        amountPurpose.setText(bottomText);
+        pvPercent.animatePercent(0, 1200);
+    }
 
-        return purpose.getPurpose() - qoldiq;
-    }
-    public String parseToWithoutNull(double A) {
-        if (A == (int) A) {
-            return Integer.toString((int) A);
-        } else
-            return dateFormat.format(A);
-    }
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -301,7 +273,7 @@ public class PurposeInfoFragment extends Fragment implements View.OnClickListene
             //TODO Nasimxon pul otkazilgandan kiyin adapter bilan total sumni yam yangilavoriw kere
             case R.id.tvPurposeInfoToCash: {
                 transferDialog.show();
-                transferDialog.setAccountOrPurpose(purpose.getId(), true);
+                transferDialog.setAccountOrPurpose(purpose.getId(), false);
                 transferDialog.setOnTransferDialogSaveListener(new TransferDialog.OnTransferDialogSaveListener() {
                     @Override
                     public void OnTransferDialogSave() {
@@ -314,7 +286,7 @@ public class PurposeInfoFragment extends Fragment implements View.OnClickListene
             }
             case R.id.tvPurposeInfoReplanish: {
                 transferDialog.show();
-                transferDialog.setAccountOrPurpose(purpose.getId(), false);
+                transferDialog.setAccountOrPurpose(purpose.getId(), true);
                 transferDialog.setOnTransferDialogSaveListener(new TransferDialog.OnTransferDialogSaveListener() {
                     @Override
                     public void OnTransferDialogSave() {
@@ -336,16 +308,7 @@ public class PurposeInfoFragment extends Fragment implements View.OnClickListene
         public MyAdapter() {
             allPurposes = (ArrayList<AccountOperation>) reportManager.getAccountOpertions(purpose);
             purposes = (ArrayList<AccountOperation>) allPurposes.clone();
-            double qoldiq = 0;
-            for (AccountOperation accountOperation: reportManager.getAccountOpertions(purpose)) {
-                if (accountOperation.getTargetId().equals(purpose.getId())) {
-                    qoldiq += accountOperation.getAmount();
-                } else {
-                    qoldiq -= accountOperation.getAmount();
-                }
-            }
-            amountPurpose.setText("" + (purpose.getPurpose() - qoldiq) + purpose.getCurrency().getAbbr());
-            Allcashes.setText(formatter.format(qoldiq)+purpose.getCurrency().getAbbr());
+            calculateTotal();
             tek = new boolean[purposes.size()];
         }
 
@@ -363,9 +326,6 @@ public class PurposeInfoFragment extends Fragment implements View.OnClickListene
             purposes = (ArrayList<AccountOperation>) allPurposes.clone();
             tek = new boolean[purposes.size()];
             refreshFilterPurpose();
-
-//            ReckingDao reckingDao = daoSession.getReckingDao();
-//            Query<Recking> reckingQuery = reckingDao.queryBuilder().join(Account.class, ReckingDao.Properties.AccountId)
         }
 
         public void refreshFilterPurpose() {
@@ -380,16 +340,7 @@ public class PurposeInfoFragment extends Fragment implements View.OnClickListene
                     }
                 }
             }
-            double qoldiq = 0;
-            for (AccountOperation accountOperation: reportManager.getAccountOpertions(purpose)) {
-                if (accountOperation.getTargetId().equals(purpose.getId())) {
-                    qoldiq += accountOperation.getAmount();
-                } else {
-                    qoldiq -= accountOperation.getAmount();
-                }
-            }
-            amountPurpose.setText("" + (purpose.getPurpose() - qoldiq) + purpose.getCurrency().getAbbr());
-            Allcashes.setText(parseToWithoutNull(qoldiq)+purpose.getCurrency().getAbbr());
+            calculateTotal();
         }
 
         public void onBindViewHolder(final ViewHolder view, final int position) {
@@ -430,7 +381,7 @@ public class PurposeInfoFragment extends Fragment implements View.OnClickListene
                 color = ContextCompat.getColor(getContext(), R.color.green_just);
             }
             view.amount.setTextColor(color);
-            view.amount.setText(sign + formatter.format(purposes.get(position).getAmount()) + purposes.get(position).getCurrency().getAbbr());
+            view.amount.setText(sign + purposes.get(position).getAmount() + purposes.get(position).getCurrency().getAbbr());
             view.checkBox.setVisibility(View.GONE);
             view.accountName.setText(name);
             view.itemView.setOnClickListener(null);

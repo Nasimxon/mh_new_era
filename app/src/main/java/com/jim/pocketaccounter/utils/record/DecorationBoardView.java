@@ -5,9 +5,14 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.LightingColorFilter;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PointF;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.RectF;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
@@ -19,7 +24,10 @@ import com.jim.pocketaccounter.database.CreditDetials;
 import com.jim.pocketaccounter.database.CreditDetialsDao;
 import com.jim.pocketaccounter.database.RootCategory;
 import com.jim.pocketaccounter.database.RootCategoryDao;
+import com.jim.pocketaccounter.utils.GetterAttributColors;
 import com.jim.pocketaccounter.utils.PocketAccounterGeneral;
+
+import org.apache.commons.lang3.RandomUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,15 +47,14 @@ public class DecorationBoardView extends BaseBoardView {
     protected int alpha = 0xFF, fullAlpha = 0xFF; //alpha control fields
     private int frames = 20, elapsed = 0; //frames and elapsed time
     private long interim = 8; //sleep
-
     private int position = 0;
     private boolean longPressed = false, drawIcons = true;
     private int active, not_active, indicatorFrame;
     private String debtBorrowIcon = "icons_30";
-
     private List<BoardButton> boardButtons;
     private List<RootCategory> categories;
     private List<CreditDetials> credits;
+    private boolean drawIndicator = true;
     public DecorationBoardView(Context context, int table) {
         super(context, table);
         this.context = context;
@@ -207,8 +214,13 @@ public class DecorationBoardView extends BaseBoardView {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         drawButtons(canvas);
-        if (setCount > 1)
+        if (setCount > 1 && drawIndicator)
             drawIndicator(canvas);
+    }
+
+    public void setDrawIndicator(boolean drawIndicator) {
+        this.drawIndicator = drawIndicator;
+        invalidate();
     }
 
     private void drawButtons(Canvas canvas) {
@@ -303,12 +315,31 @@ public class DecorationBoardView extends BaseBoardView {
             canvas.drawBitmap(white, button.getContainer().left, button.getContainer().top, whitePaint);
             canvas.drawBitmap(gradient, button.getContainer().centerX() - gradient.getWidth() / 2,
                     button.getContainer().centerY() - gradient.getHeight() / 2, shadowsPaint);
+//            int color = Color.RED;
+//            if (button.getPosition()%4 == 0)
+//                color = Color.parseColor("#C02F1E");
+//            if (button.getPosition()%4 == 1)
+//                color = Color.parseColor("#D84E1F");
+//            if (button.getPosition()%4 == 2)
+//                color = Color.parseColor("#F16C21");
+//            if (button.getPosition()%4 == 3)
+//                color = Color.parseColor("#EF8B2D");
+//            ColorFilter filter = new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN);
+//            Paint bitmapPaint = new Paint();
+//            bitmapPaint.setAntiAlias(true);
+//            bitmapPaint.setColorFilter(filter);
             canvas.drawBitmap(icon, button.getContainer().centerX() - icon.getWidth() / 2,
                     button.getContainer().centerY() - icon.getHeight() / 2, shadowsPaint);
         }
     }
 
-    protected void hideIcons(Canvas canvas) {
+    private int generateColor() {
+        return Color.rgb(RandomUtils.nextInt(0, 192),
+                RandomUtils.nextInt(0, 192),
+                RandomUtils.nextInt(0, 192));
+    }
+
+    protected void hideIcons() {
         drawIcons = true;
         new Thread(new Runnable() {
             @Override

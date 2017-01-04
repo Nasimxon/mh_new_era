@@ -43,6 +43,7 @@ import com.jim.pocketaccounter.database.TemplateAccount;
 import com.jim.pocketaccounter.database.TemplateCurrencyVoice;
 import com.jim.pocketaccounter.database.TemplateVoice;
 import com.jim.pocketaccounter.managers.CommonOperations;
+import com.jim.pocketaccounter.managers.FinansiaFirebaseAnalytics;
 import com.jim.pocketaccounter.managers.PAFragmentManager;
 import com.jim.pocketaccounter.managers.ReportManager;
 import com.jim.pocketaccounter.utils.PocketAccounterGeneral;
@@ -113,22 +114,15 @@ public class VoiceRecognizerFragment extends Fragment {
     //auto save voice
     private TextView autoSave;
     //switching between modes
-    @Inject
-    DaoSession daoSession;
-    @Inject
-    PAFragmentManager paFragmentManager;
-    @Inject
-    List<TemplateVoice> voices;
-    @Inject
-    List<TemplateAccount> templateAccountVoices;
-    @Inject
-    DataCache dataCache;
-    @Inject
-    ReportManager reportManager;
-    @Inject
-    CommonOperations commonOperations;
-    @Inject
-    List<TemplateCurrencyVoice> templateCurrencyVoices;
+    @Inject DaoSession daoSession;
+    @Inject PAFragmentManager paFragmentManager;
+    @Inject List<TemplateVoice> voices;
+    @Inject List<TemplateAccount> templateAccountVoices;
+    @Inject DataCache dataCache;
+    @Inject ReportManager reportManager;
+    @Inject CommonOperations commonOperations;
+    @Inject List<TemplateCurrencyVoice> templateCurrencyVoices;
+    @Inject FinansiaFirebaseAnalytics analytics;
     private String[] curString;
     private String[] accString;
     private CountDownTimer timer;
@@ -253,6 +247,8 @@ public class VoiceRecognizerFragment extends Fragment {
         });
         visibilityGoneLR();
         refreshMode(false);
+        String fragmentName = getClass().getName();
+        analytics.sendText("User entered: " + fragmentName);
         return rootView;
     }
 

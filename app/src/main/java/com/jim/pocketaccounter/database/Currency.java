@@ -60,7 +60,7 @@ public class Currency {
 			for (CurrencyCostState currencyCostState : costStateList) {
 				String formattedUserCalendar = simpleDateFormat.format(userCalendar.getCalendar().getTime());
 				String formattedStateDay = simpleDateFormat.format(currencyCostState.getDay().getTime());
-				if (formattedUserCalendar.equals(formattedStateDay)) {
+				if (formattedUserCalendar.equals(formattedStateDay) && currencyCostState.getMainCurrency().getMain()) {
 					double cost = 1.0;
 					for (CurrencyWithAmount withAmount : currencyCostState.getCurrencyWithAmountList()) {
 						if (withAmount.getCurrencyId().equals(getId())) {
@@ -70,7 +70,6 @@ public class Currency {
 					}
 					CurrencyCost currencyCost = new CurrencyCost(cost, userCalendar.getCalendar());
 					costs.add(currencyCost);
-					break;
 				}
 			}
 		}

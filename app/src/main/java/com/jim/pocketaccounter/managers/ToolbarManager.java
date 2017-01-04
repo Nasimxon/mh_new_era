@@ -46,9 +46,24 @@ public class ToolbarManager {
     private View.OnClickListener listener;
     public void setTitle(String title){
         tvToolbarTitle.setText(title);
+        toolbar.setTitle(null);
+        toolbar.setSubtitle(null);
     }
     public void setSubtitle(String title) {
-        tvToolbarSubtitle.setText(title);
+        toolbar.setTitle(null);
+        toolbar.setSubtitle(null);
+        if (title == null || title.equals("")) {
+            tvToolbarSubtitle.setVisibility(View.GONE);
+            ivSubtitle.setVisibility(View.GONE);
+        }
+        else {
+            ivSubtitle.setVisibility(View.VISIBLE);
+            tvToolbarSubtitle.setVisibility(View.VISIBLE);
+            tvToolbarSubtitle.setText(title);
+        }
+    }
+    public void setBackgroundColor(int color) {
+        toolbar.setBackgroundColor(color);
     }
     public void setSubtitleIconVisibility(int visibility) {
         ivSubtitle.setVisibility(visibility);

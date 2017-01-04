@@ -57,52 +57,6 @@ public class CurrencyFragment extends PABaseListFragment implements OnClickListe
 		fabCurrencyAdd = (FloatingActionButton) rootView.findViewById(R.id.fabCurrencyAdd);
 		fabCurrencyAdd.setOnClickListener(this);
 		lvCurrency = (RecyclerView) rootView.findViewById(R.id.lvCurrency);
-//		fabCurrencyAdd.attachToListView(lvCurrency, new ScrollDirectionListener() {
-//			@Override
-//			public void onScrollUp() {
-//				if (mode == PocketAccounterGeneral.EDIT_MODE) return;
-//				if (fabCurrencyAdd.getVisibility() == View.GONE) return;
-//				Animation down = AnimationUtils.loadAnimation(getContext(), R.anim.fab_down);
-//				synchronized (down) {
-//					down.setAnimationListener(new AnimationListener() {
-//						@Override
-//						public void onAnimationStart(Animation animation) {
-//							fabCurrencyAdd.setClickable(false);
-//							fabCurrencyAdd.setVisibility(View.GONE);
-//						}
-//						@Override
-//						public void onAnimationEnd(Animation animation) {
-//						}
-//						@Override
-//						public void onAnimationRepeat(Animation animation) {
-//						}
-//					});
-//					fabCurrencyAdd.startAnimation(down);
-//				}
-//			}
-//			@Override
-//			public void onScrollDown() {
-//				if (mode == PocketAccounterGeneral.EDIT_MODE) return;
-//				if (fabCurrencyAdd.getVisibility() == View.VISIBLE) return;
-//				Animation up = AnimationUtils.loadAnimation(getActivity(), R.anim.fab_up);
-//				synchronized (up) {
-//					up.setAnimationListener(new AnimationListener() {
-//						@Override
-//						public void onAnimationStart(Animation animation) {
-//							fabCurrencyAdd.setVisibility(View.VISIBLE);
-//							fabCurrencyAdd.setClickable(true);
-//						}
-//						@Override
-//						public void onAnimationEnd(Animation animation) {
-//						}
-//						@Override
-//						public void onAnimationRepeat(Animation animation) {
-//						}
-//					});
-//					fabCurrencyAdd.startAnimation(up);
-//				}
-//			}
-//		});
 		refreshList();
 		return rootView;
 	}

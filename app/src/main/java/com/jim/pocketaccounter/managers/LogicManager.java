@@ -1,6 +1,7 @@
 package com.jim.pocketaccounter.managers;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.jim.pocketaccounter.PocketAccounterApplication;
@@ -16,6 +17,7 @@ import com.jim.pocketaccounter.database.BoardButtonDao;
 import com.jim.pocketaccounter.database.CreditDetials;
 import com.jim.pocketaccounter.database.CreditDetialsDao;
 import com.jim.pocketaccounter.database.Currency;
+import com.jim.pocketaccounter.database.CurrencyCost;
 import com.jim.pocketaccounter.database.CurrencyCostState;
 import com.jim.pocketaccounter.database.CurrencyCostStateDao;
 import com.jim.pocketaccounter.database.CurrencyDao;
@@ -51,6 +53,7 @@ import org.greenrobot.greendao.query.Query;
 import org.greenrobot.greendao.query.QueryBuilder;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
@@ -115,23 +118,24 @@ public class LogicManager {
             return LogicManagerConstants.MUST_BE_AT_LEAST_ONE_OBJECT;
         for (Currency currency : currencies) {
             for (FinanceRecord record : recordDao.loadAll()) {
-                if (record.getCurrency().getId().matches(currency.getId())) {
+                if (record.getCurrency().getId().equals(currency.getId())) {
                     recordDao.delete(record);
                 }
             }
             for (DebtBorrow debtBorrow : debtBorrowDao.loadAll()) {
-                if (debtBorrow.getCurrency().getId().matches(currency.getId()))
+                if (debtBorrow.getCurrency().getId().equals(currency.getId()))
                     debtBorrowDao.delete(debtBorrow);
             }
             for (CreditDetials creditDetials : creditDetialsDao.loadAll()) {
-                if (creditDetials.getValyute_currency().getId().matches(currency.getId()))
+                if (creditDetials.getValyute_currency().getId().equals(currency.getId()))
                     creditDetialsDao.delete(creditDetials);
             }
             for (SmsParseObject smsParseObject : smsParseObjectDao.loadAll()) {
-                if (smsParseObject.getCurrency().getId().matches(currency.getId()))
+                if (smsParseObject.getCurrency().getId().equals(currency.getId()))
                     smsParseObjectDao.delete(smsParseObject);
             }
-            for (CurrencyCostState currencyCostState : currencyCostStateDao.loadAll()) {
+            List<CurrencyCostState> states = currencyCostStateDao.loadAll();
+            for (CurrencyCostState currencyCostState : states) {
                 boolean found = currencyCostState.getMainCurrency().getId().equals(currency.getId());
                 if (found) {
                     for (CurrencyWithAmount withAmount : currencyCostState.getCurrencyWithAmountList())
@@ -142,31 +146,17 @@ public class LogicManager {
                     for (CurrencyWithAmount withAmount : currencyCostState.getCurrencyWithAmountList()) {
                         if (withAmount.getCurrencyId().equals(currency.getId())) {
                             daoSession.getCurrencyWithAmountDao().delete(withAmount);
-                            currencyCostState.resetCurrencyWithAmountList();
                         }
                     }
-                }
-            }
-            if (currency.getMain())
-                setMainCurrency(null);
-            SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
-            List<UserEnteredCalendars> userEnteredCalendarses = currency.getUserEnteredCalendarses();
-            for (UserEnteredCalendars enteredCalendars : userEnteredCalendarses) {
-                QueryBuilder<UserEnteredCalendars> query = daoSession.queryBuilder(UserEnteredCalendars.class)
-                        .where(UserEnteredCalendarsDao.Properties.Calendar.eq(format.format(enteredCalendars.getCalendar().getTime())),
-                                UserEnteredCalendarsDao.Properties.CurrencyId.notEq(currency.getId()));
-                if (query.list().isEmpty()) {
-                    daoSession
-                            .queryBuilder(CurrencyCostState.class)
-                            .where(CurrencyCostStateDao.Properties.Day.eq(format.format(enteredCalendars.getCalendar().getTime())))
-                            .buildDelete()
-                            .executeDeleteWithoutDetachingEntities();
+                            currencyCostState.resetCurrencyWithAmountList();
                 }
             }
             for (UserEnteredCalendars userEnteredCalendars : currency.getUserEnteredCalendarses())
                 daoSession.getUserEnteredCalendarsDao().delete(userEnteredCalendars);
             currencyDao.delete(currency);
         }
+        defineMainCurrency();
+        commonOperations.refreshCurrency();
         return LogicManagerConstants.DELETED_SUCCESSFUL;
     }
 
@@ -184,28 +174,42 @@ public class LogicManager {
         if (allAccounts.size() < 2 || allAccounts.size() == accounts.size())
             return LogicManagerConstants.MUST_BE_AT_LEAST_ONE_OBJECT;
         for (Account account : accounts) {
-            for (FinanceRecord record : recordDao.loadAll()) {
+            List<FinanceRecord> records = recordDao.loadAll();
+            for (FinanceRecord record : records) {
                 if (record.getAccount().getId().matches(account.getId())) {
                     recordDao.delete(record);
                 }
             }
-            for (DebtBorrow debtBorrow : debtBorrowDao.loadAll()) {
+            List<DebtBorrow> debtBorrows = debtBorrowDao.loadAll();
+            for (DebtBorrow debtBorrow : debtBorrows) {
                 if (debtBorrow.getAccount().getId().matches(account.getId()))
                     debtBorrowDao.delete(debtBorrow);
             }
-            for (CreditDetials creditDetials : creditDetialsDao.loadAll()) {
+            List<CreditDetials> creditDetialses = creditDetialsDao.loadAll();
+            for (CreditDetials creditDetials : creditDetialses) {
                 for (ReckingCredit reckingCredit : creditDetials.getReckings())
                     if (reckingCredit.getAccountId().matches(account.getId()))
                         reckingCreditDao.delete(reckingCredit);
             }
-            for (SmsParseObject smsParseObject : smsParseObjectDao.loadAll()) {
+            List<SmsParseObject> smsParseObjects = smsParseObjectDao.loadAll();
+            for (SmsParseObject smsParseObject : smsParseObjects) {
                 if (smsParseObject.getAccount().getId().matches(account.getId()))
                     smsParseObjectDao.delete(smsParseObject);
+            }
+            List<AccountOperation> accountOperations = accountOperationDao.loadAll();
+            for (AccountOperation accountOperation : accountOperations) {
+                if (accountOperation.getSourceId().equals(account.getId()) ||
+                        accountOperation.getTargetId().equals(account.getId())) {
+                    daoSession.delete(accountOperation);
+                }
             }
             accountDao.delete(account);
         }
         return LogicManagerConstants.DELETED_SUCCESSFUL;
     }
+
+
+
 
     public void generateCurrencyCosts(Calendar day, double amount, Currency adding) {
         final int EARLIEST = 0, MIDDLE = 1, LATEST = 2; // position of adding currency
@@ -230,6 +234,7 @@ public class LogicManager {
             else
                 position = MIDDLE;
         }
+
         //after defining position, we consider all options of position of currency
         CurrencyCostState supplyState = null;
         switch (position) { //finding anchor state and generate day currency costs
@@ -249,9 +254,6 @@ public class LogicManager {
                 break;
         }
         generateCostForTheDay((Calendar) day.clone(), amount, adding, supplyState);
-        if (position != LATEST)
-            generateCostsForRestDays((Calendar) day.clone(), amount, adding);
-        Log.d("sss", "test");
     }
 
     private void generateCostForTheDay(Calendar day, double amount, Currency adding, CurrencyCostState supply) { //generating costs using supplying data
@@ -449,9 +451,18 @@ public class LogicManager {
         return LogicManagerConstants.SAVED_SUCCESSFULL;
     }
 
+    private void defineMainCurrency() {
+        List<Currency> mainCurrencyList = daoSession.queryBuilder(Currency.class).where(CurrencyDao.Properties.IsMain.eq(true)).list();
+        if (mainCurrencyList.isEmpty()) {
+            Currency currency = daoSession.getCurrencyDao().loadAll().get(0);
+            currency.setMain(true);
+            daoSession.insertOrReplace(currency);
+        }
+    }
+
     public void setMainCurrency(Currency currency) {
         if (currency != null && currency.getMain()) return;
-        List<Currency> currencies = currencyDao.loadAll();
+        List<Currency> currencies = daoSession.getCurrencyDao().loadAll();
         if (currency == null) {
             int pos = 0;
             for (int i = 0; i < currencies.size(); i++) {
@@ -461,12 +472,10 @@ public class LogicManager {
                 }
             }
             currencies.get(pos).setMain(false);
-            if (pos == currencies.size() - 1) {
+            if (pos == currencies.size() - 1)
                 currencies.get(0).setMain(true);
-
-            } else {
+            else
                 currencies.get(pos + 1).setMain(true);
-            }
         } else {
             int oldMainPos = 0;
             int currMainPos = 0;
@@ -481,7 +490,7 @@ public class LogicManager {
             currencies.get(oldMainPos).setMain(false);
             currencies.get(currMainPos).setMain(true);
         }
-        currencyDao.insertOrReplaceInTx(currencies);
+        daoSession.getCurrencyDao().insertOrReplaceInTx(currencies);
         daoSession.getCurrencyDao().detachAll();
     }
 
@@ -640,6 +649,13 @@ public class LogicManager {
     }
 
     public int deletePurpose(Purpose purpose) {
+        List<AccountOperation> accountOperations = daoSession.loadAll(AccountOperation.class);
+        for (AccountOperation accountOperation : accountOperations) {
+            if (accountOperation.getSourceId().equals(purpose.getId()) ||
+                    accountOperation.getTargetId().equals(purpose.getId())) {
+                daoSession.delete(accountOperation);
+            }
+        }
         Query<Purpose> query = purposeDao
                 .queryBuilder()
                 .where(PurposeDao.Properties.Id.eq(purpose.getId()))
@@ -793,9 +809,9 @@ public class LogicManager {
                         if (recking.getAccountId().matches(account.getId())) {
 
                             if (debtBorrow.getType() == DebtBorrow.BORROW) {
-                                accounted = accounted + commonOperations.getCost(cal, debtBorrow.getCurrency(), recking.getAmount());
+                                accounted += commonOperations.getCost(cal, debtBorrow.getCurrency(), recking.getAmount());
                             } else {
-                                accounted = accounted - commonOperations.getCost(cal, debtBorrow.getCurrency(), recking.getAmount());
+                                accounted -= commonOperations.getCost(cal, debtBorrow.getCurrency(), recking.getAmount());
                             }
                         }
                     }
@@ -806,7 +822,7 @@ public class LogicManager {
             if (creditDetials.getKey_for_include()) {
                 for (ReckingCredit reckingCredit : creditDetials.getReckings()) {
                     if (reckingCredit.getAccountId().matches(account.getId())) {
-                        accounted = accounted - commonOperations.getCost(reckingCredit.getPayDate(), creditDetials.getValyute_currency(), reckingCredit.getAmount());
+                        accounted -= commonOperations.getCost(reckingCredit.getPayDate(), creditDetials.getValyute_currency(), reckingCredit.getAmount());
                     }
                 }
             }

@@ -67,8 +67,7 @@ public class CurrencyChooseFragment extends PABaseInfoFragment {
             currencies.add(currency);
         }
         CurrencyChooseAdapter adapter = new CurrencyChooseAdapter(getActivity(), currencies, chbs);
-        RecyclerView.LayoutManager layoutManager= new GridLayoutManager(getContext(), 3);
-        gvCurrencyChoose.setLayoutManager(layoutManager);
+        gvCurrencyChoose.setLayoutManager(new GridLayoutManager(getContext(), 3));
         gvCurrencyChoose.setAdapter(adapter);
         toolbarManager.setOnSecondImageClickListener(new OnClickListener() {
             @Override
@@ -90,6 +89,7 @@ public class CurrencyChooseFragment extends PABaseInfoFragment {
                         checkedCurrencies.add(currencies.get(i));
                     }
                 }
+
                 boolean isCurrencyListChanged = false; // checking for the some of an old currency is not checked
                 final List<Currency> dbCurrencies = daoSession.getCurrencyDao().loadAll();
                 for (Currency currency : dbCurrencies) {
@@ -105,30 +105,17 @@ public class CurrencyChooseFragment extends PABaseInfoFragment {
                         break;
                     }
                 }
+
                 if (isCurrencyListChanged) { // if has not checked some of an old currencies
                     dialog.setText(getResources().getString(R.string.currency_exchange_warning));
                     dialog.setOnYesButtonListener(new OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            for (Currency currency : dbCurrencies) {
-                                boolean found = false;
-                                for (Currency curr : checkedCurrencies) {
-                                    if (curr.getId().equals(currency.getId())) {
-                                        found = true;
-                                        break;
-                                    }
-                                }
-                                if (!found) {
-                                    List<Currency> currencies = new ArrayList<>();
-                                    currencies.add(currency);
-                                    logicManager.deleteCurrency(currencies);
-                                }
-                            }
+                            List<Currency> dbCurrs = daoSession.getCurrencyDao().loadAll();
                             for (Currency currency : checkedCurrencies) {
                                 boolean found = false;
-                                List<Currency> dbCurrs = daoSession.getCurrencyDao().loadAll();
                                 for (Currency curr : dbCurrs) {
-                                    if (currency.getId().matches(curr.getId())) {
+                                    if (currency.getId().equals(curr.getId())) {
                                         found = true;
                                         break;
                                     }
@@ -149,6 +136,20 @@ public class CurrencyChooseFragment extends PABaseInfoFragment {
                                     logicManager.generateCurrencyCosts(Calendar.getInstance(), Double.parseDouble(costs[pos]), currency);
                                 }
                             }
+                            daoSession.getCurrencyDao().detachAll();
+                            List<Currency> currencies = new ArrayList<>();
+                            for (Currency currency : dbCurrencies) {
+                                boolean found = false;
+                                for (Currency curr : checkedCurrencies) {
+                                    if (curr.getId().equals(currency.getId())) {
+                                        found = true;
+                                        break;
+                                    }
+                                }
+                                if (!found)
+                                    currencies.add(currency);
+                            }
+                            logicManager.deleteCurrency(currencies);
                             dialog.dismiss();
                             paFragmentManager.getFragmentManager().popBackStack();
                             paFragmentManager.displayFragment(new CurrencyFragment());

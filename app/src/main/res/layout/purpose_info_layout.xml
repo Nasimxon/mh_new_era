@@ -271,31 +271,25 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:orientation="horizontal"
-                android:layout_marginBottom="@dimen/five_dp"
-                >
-                <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black_for_myagkiy_glavniy"
-                android:text="@string/total"
-                android:textSize="@dimen/twelve_dp"
-                android:layout_marginRight="@dimen/ten_dp"
-
-                android:id="@+id/tvCategoryInfoTotal"/>
+                android:layout_marginBottom="@dimen/five_dp">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text=""
+                    android:textColor="@color/black_for_myagkiy_glavniy"
+                    android:text="@string/total"
+                    android:textSize="@dimen/twelve_dp"
+                    android:layout_marginRight="@dimen/ten_dp"
+                    android:id="@+id/tvCategoryInfoTotal"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:textColor="#62b033"
                     android:textSize="@dimen/twelve_dp"
                     android:layout_marginRight="@dimen/ten_dp"
                     android:layout_marginBottom="@dimen/five_dp"
-
                     android:id="@+id/totaly" />
             </LinearLayout>
-
         </LinearLayout>
-
     </RelativeLayout>
     <FrameLayout
         android:layout_width="match_parent"

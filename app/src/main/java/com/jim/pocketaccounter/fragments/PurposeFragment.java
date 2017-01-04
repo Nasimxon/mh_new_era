@@ -57,7 +57,6 @@ public class PurposeFragment extends Fragment{
     @Inject ReportManager reportManager;
     @Inject @Named(value = "display_formatter") SimpleDateFormat dateFormat;
     @Inject CommonOperations commonOperations;
-    @Inject DecimalFormat formatter;
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -152,7 +151,7 @@ public class PurposeFragment extends Fragment{
                 @Override
                 public void onClick(View v) {
                     transferDialog.show();
-                    transferDialog.setAccountOrPurpose(item.getId(), true);
+                    transferDialog.setAccountOrPurpose(item.getId(), false);
                     transferDialog.setOnTransferDialogSaveListener(new TransferDialog.OnTransferDialogSaveListener() {
                         @Override
                         public void OnTransferDialogSave() {
@@ -166,7 +165,7 @@ public class PurposeFragment extends Fragment{
                 @Override
                 public void onClick(View v) {
                     transferDialog.show();
-                    transferDialog.setAccountOrPurpose(item.getId(), false);
+                    transferDialog.setAccountOrPurpose(item.getId(), true);
                     transferDialog.setOnTransferDialogSaveListener(new TransferDialog.OnTransferDialogSaveListener() {
                         @Override
                         public void OnTransferDialogSave() {
@@ -179,17 +178,16 @@ public class PurposeFragment extends Fragment{
             double leftAmmountdb = lefAmmount(item);
             double allAmmount = item.getPurpose();
             double paid = allAmmount - leftAmmountdb;
-            view.tvTotalAmount.setText(getResources().getString(R.string.purpose_ammount) + " "+formatter.format(allAmmount) + commonOperations.getMainCurrency().getAbbr());
+            view.tvTotalAmount.setText(getResources().getString(R.string.purpose_ammount) + " "+parseToWithoutNull(allAmmount) + commonOperations.getMainCurrency().getAbbr());
             DecimalFormat format = new DecimalFormat("0.##");
             String abbr = commonOperations.getMainCurrency().getAbbr();
-            String topText = getString(R.string.saved_money) + " " + formatter.format(paid) + abbr;
+            String topText = getString(R.string.saved_money) + " " + format.format(paid) + abbr;
             String bottomText;
-            if(!(leftAmmountdb <0))
-             bottomText = getString(R.string.left_acomuleted) + " " + formatter.format(leftAmmountdb) + abbr;
+            if(leftAmmountdb >= 0)
+                bottomText = getString(R.string.left_acomuleted) + " " + format.format(leftAmmountdb) + abbr;
             else
-             bottomText = getString(R.string.left_acomuleted) + " " + 0 + abbr;
-
-            view.pvPercent.setPercent((((int) (100*paid/allAmmount))<100)?((int)(100*paid/allAmmount)):((int)100));
+                bottomText = getString(R.string.left_acomuleted) + " " + 0 + abbr;
+            view.pvPercent.setPercent((((int) (100*paid/allAmmount))<100)?((int)(100*paid/allAmmount)):100);
             view.pvPercent.setTopText(topText);
             view.pvPercent.setBottomText(bottomText);
             view.pvPercent.setOnClickListener(new View.OnClickListener() {
@@ -200,44 +198,6 @@ public class PurposeFragment extends Fragment{
             });
             view.pvPercent.animatePercent(0, 1200);
             view.pvPercent.setBowArrowVisibility(false);
-//            if (item.getBegin() != null && item.getEnd() != null) {
-//                view.leftdateGone.setVisibility(View.VISIBLE);
-//                int t[] = InfoCreditFragment.getDateDifferenceInDDMMYYYY(item.getBegin().getTime(), item.getEnd().getTime());
-//                if (t[0] * t[1] * t[2] < 0 && (t[0] + t[1] + t[2]) != 0) {
-//                    view.tvLeftDate.setText(R.string.ends);
-//                    view.tvLeftDate.setTextColor(Color.parseColor("#832e1c"));
-//                } else {
-//                    String left_date_string = "";
-//                    if (t[0] != 0) {
-//                               left_date_string += commonOperations.generateYearString(t[0]);
-//                    }
-//                    if (t[1] != 0) {
-//                        if (!left_date_string.matches("")) {
-//                            left_date_string += " ";
-//                        }
-//                        if (t[1] > 1) {
-//                            left_date_string += Integer.toString(t[1]) + " " + getString(R.string.moths);
-//                        } else {
-//                            left_date_string += Integer.toString(t[1]) + " " + getString(R.string.moth);
-//                        }
-//                    }
-//                    if (t[2] != 0) {
-//                        if (!left_date_string.matches("")) {
-//                            left_date_string += " ";
-//                        }
-//                        if (t[2] > 1) {
-//                            left_date_string += Integer.toString(t[2]) + " " + getString(R.string.days);
-//                        } else {
-//                            left_date_string += Integer.toString(t[2]) + " " + getString(R.string.day);
-//                        }
-//                    }
-//                    if(!left_date_string.equals(""))
-//                    view.tvLeftDate.setText(left_date_string);
-//                    else view.tvLeftDate.setText(R.string.ends);
-//                }
-//            } else {
-//                view.leftdateGone.setVisibility(View.GONE);
-//            }
         }
 
         public PurposeFragment.ViewHolder onCreateViewHolder(ViewGroup parent, int var2) {

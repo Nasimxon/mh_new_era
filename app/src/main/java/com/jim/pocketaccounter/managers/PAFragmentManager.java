@@ -148,15 +148,22 @@ public class PAFragmentManager {
             lvpMain = manualEnterFragment.getLvpMain();
         else
             lvpMain = new ViewPager(activity);
-        MainPageFragment leftPage = (MainPageFragment) fragmentManager.findFragmentByTag("android:switcher:"+ lvpMain+":"+(lvpMain.getCurrentItem()-1));
-        if (leftPage != null)
-            leftPage.initialize();
-        MainPageFragment rightPage = (MainPageFragment) fragmentManager.findFragmentByTag("android:switcher:"+ lvpMain+":"+(lvpMain.getCurrentItem()+1));
-        if (rightPage != null)
-            rightPage.initialize();
-        MainPageFragment centerPage = (MainPageFragment) fragmentManager.findFragmentByTag("android:switcher:"+ lvpMain+":"+lvpMain.getCurrentItem());
-        if (centerPage != null)
-            centerPage.initialize();
+        for (int i = 0; i < fragmentManager.getFragments().size(); i++) {
+            if (fragmentManager.getFragments().get(i).getClass().getName().equals(MainPageFragment.class.getName())) {
+                MainPageFragment page = (MainPageFragment) fragmentManager.getFragments().get(i);
+                if (page != null)
+                    page.initialize();
+            }
+        }
+//        MainPageFragment leftPage = (MainPageFragment) fragmentManager.findFragmentByTag("android:switcher:"+ R.id.lvpMain+":"+(lvpMain.getCurrentItem()-1));
+//        if (leftPage != null)
+//            leftPage.initialize();
+//        MainPageFragment rightPage = (MainPageFragment) fragmentManager.findFragmentByTag("android:switcher:"+ R.id.lvpMain+":"+(lvpMain.getCurrentItem()+1));
+//        if (rightPage != null)
+//            rightPage.initialize();
+//        MainPageFragment centerPage = (MainPageFragment) fragmentManager.findFragmentByTag("android:switcher:"+ R.id.lvpMain+":"+lvpMain.getCurrentItem());
+//        if (centerPage != null)
+//            centerPage.initialize();
         if (fragmentManager.getBackStackEntryCount() > 0)
             fragmentManager.popBackStack();
     }

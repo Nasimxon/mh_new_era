@@ -16,12 +16,15 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.jim.pocketaccounter.credit.notificat.NotificationManagerCredit;
 import com.jim.pocketaccounter.database.DaoSession;
 import com.jim.pocketaccounter.debt.PocketClassess;
+import com.jim.pocketaccounter.fragments.ChangeColorOfStyleFragment;
 import com.jim.pocketaccounter.fragments.RecordEditFragment;
 import com.jim.pocketaccounter.intropage.IntroIndicator;
 import com.jim.pocketaccounter.managers.CommonOperations;
@@ -71,7 +74,7 @@ public class PocketAccounter extends AppCompatActivity {
     @Inject SharedPreferences sharedPreferences;
     @Inject PurchaseImplementation purchaseImplementation;
     PocketAccounterActivityComponent component;
-
+    Button button_1;
     public PocketAccounterActivityComponent component(PocketAccounterApplication application) {
         if (component == null) {
             component = DaggerPocketAccounterActivityComponent
@@ -89,6 +92,13 @@ public class PocketAccounter extends AppCompatActivity {
         setTheme(R.style.BlueTheme);
         setContentView(R.layout.pocket_accounter);
         component((PocketAccounterApplication) getApplication()).inject(this);
+        button_1 = (Button) findViewById(R.id.button_1);
+        button_1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                paFragmentManager.displayFragment(new ChangeColorOfStyleFragment());
+            }
+        });
         String lang = preferences.getString("language", getResources().getString(R.string.language_default));
         if (lang.matches(getResources().getString(R.string.language_default)))
             setLocale(Locale.getDefault().getLanguage());
@@ -144,7 +154,6 @@ public class PocketAccounter extends AppCompatActivity {
                 public void onPasswordRight() {
                     pwPassword.setVisibility(View.GONE);
                 }
-
                 @Override
                 public void onExit() {
                     finish();

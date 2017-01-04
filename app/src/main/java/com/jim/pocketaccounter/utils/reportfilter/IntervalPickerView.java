@@ -144,7 +144,8 @@ public class IntervalPickerView extends LinearLayout {
 
     public void setListener(IntervalPickListener listener) {
         this.listener = listener;
-        Log.d("sss", "setListener: ");
+        if (this.listener != null)
+            listener.onIntervalPick(begin, end);
     }
 
     public interface IntervalPickListener {

@@ -1644,4 +1644,23 @@
     </string-array>
     <string name="history_transfers">History of Transfers</string>
     <string name="summ_transfer">Summ transfer</string>
+    <string name="january">JAN</string>
+    <string name="february">FEB</string>
+    <string name="march">MAR</string>
+    <string name="april">APR</string>
+    <string name="may">MAY</string>
+    <string name="june">JUN</string>
+    <string name="july">JUL</string>
+    <string name="august">AUG</string>
+    <string name="september">SEP</string>
+    <string name="october">OCT</string>
+    <string name="november">NOV</string>
+    <string name="december">DEC</string>
+    <string name="max_income_in_the_month">"Maximum income in the month: "</string>
+    <string name="average_income">"Average income: "</string>
+    <string name="min_income_in_the_month">"Minimum average in the month: "</string>
+    <string name="average_expense">"Average expense: "</string>
+    <string name="max_expense_in_the_month">"Maximum expense in the month: "</string>
+    <string name="min_expense_in_the_month">"Minimum income in the month: "</string>
+    <string name="report_by_income_expense_table">Report by income and expense</string>
 </resources>

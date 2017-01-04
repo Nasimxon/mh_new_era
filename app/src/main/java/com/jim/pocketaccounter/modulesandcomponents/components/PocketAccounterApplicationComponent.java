@@ -23,11 +23,14 @@ import com.jim.pocketaccounter.utils.SmsService;
 import com.jim.pocketaccounter.utils.SubcatAdapterCircles;
 import com.jim.pocketaccounter.utils.SubcatItemChecker;
 import com.jim.pocketaccounter.utils.cache.DataCache;
+import com.jim.pocketaccounter.utils.calculator.CategoryAndSubcategoryChooserView;
 import com.jim.pocketaccounter.utils.catselector.DrawingSelectorView;
 import com.jim.pocketaccounter.utils.record.BalanceStripe;
 import com.jim.pocketaccounter.utils.record.RecordButtonExpanse;
 import com.jim.pocketaccounter.utils.record.RecordButtonIncome;
 import com.jim.pocketaccounter.utils.reportfilter.CircleReportFilterView;
+import com.jim.pocketaccounter.utils.reportviews.OneYearWithMonthsFragment;
+import com.jim.pocketaccounter.utils.reportviews.ReportSelectingYearWithMonthsView;
 import com.jim.pocketaccounter.widget.WidgetProvider;
 
 import java.text.DecimalFormat;
@@ -79,7 +82,8 @@ public interface PocketAccounterApplicationComponent {
     void inject(DrawingSelectorView drawingSelectorView);
     void inject(SubcatItemChecker subcatItemChecker);
     void inject(SubcatAdapterCircles subcatAdapterCircles);
-    void inject(ManualEnterFragment manualEnterFragment);
     void inject(CircleReportFilterView circleReportFilterView);
     void inject(ReportByIncomExpenseMonthDetailedByDaysFragment reportByIncomExpenseMonthDetailedByDaysFragment);
+    void inject(CategoryAndSubcategoryChooserView categoryAndSubcategoryChooserView);
+    void inject(OneYearWithMonthsFragment oneYearWithMonthsFragment);
 }

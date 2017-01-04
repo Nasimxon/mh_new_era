@@ -194,12 +194,6 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
         toolbarManager.setSubtitle("");
         toolbarManager.setSpinnerVisibility(View.VISIBLE);
         toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
-        toolbarManager.setOnSecondImageClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
         toolbarManager.setOnHomeButtonClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {

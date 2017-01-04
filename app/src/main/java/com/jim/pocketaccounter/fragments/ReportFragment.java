@@ -33,7 +33,7 @@ public class ReportFragment extends Fragment {
         btnReportByIncomeAndExpenseTable.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                paFragmentManager.displayFragment(new ReportByIncomeExpenseDailyTableFragment());
             }
         });
         btnReportByIncomeAndExpenseGraphic = (LinearLayout) rootView.findViewById(R.id.btnReportByIncomeAndExpenseGraphic);

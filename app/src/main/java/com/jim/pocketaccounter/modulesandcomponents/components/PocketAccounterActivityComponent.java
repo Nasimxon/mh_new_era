@@ -20,6 +20,7 @@ import com.jim.pocketaccounter.fragments.AddSmsParseFragment;
 import com.jim.pocketaccounter.fragments.AutoMarketFragment;
 import com.jim.pocketaccounter.fragments.CategoryFragment;
 import com.jim.pocketaccounter.fragments.CategoryInfoFragment;
+import com.jim.pocketaccounter.fragments.ChangeColorOfStyleFragment;
 import com.jim.pocketaccounter.fragments.CreditArchiveFragment;
 import com.jim.pocketaccounter.fragments.CreditFragment;
 import com.jim.pocketaccounter.fragments.CreditTabLay;
@@ -29,6 +30,7 @@ import com.jim.pocketaccounter.fragments.CurrencyFragment;
 import com.jim.pocketaccounter.fragments.InfoCreditFragment;
 import com.jim.pocketaccounter.fragments.InfoCreditFragmentForArchive;
 import com.jim.pocketaccounter.fragments.MainPageFragment;
+import com.jim.pocketaccounter.fragments.ManualEnterFragment;
 import com.jim.pocketaccounter.fragments.PABaseFragment;
 import com.jim.pocketaccounter.fragments.PurposeEditFragment;
 import com.jim.pocketaccounter.fragments.PurposeFragment;
@@ -44,6 +46,7 @@ import com.jim.pocketaccounter.fragments.ReportByIncomeAndExpense;
 import com.jim.pocketaccounter.fragments.ReportByIncomeExpanseBarFragment;
 import com.jim.pocketaccounter.fragments.ReportByIncomeExpanseTableFragment;
 import com.jim.pocketaccounter.fragments.ReportByIncomeExpenseDaily;
+import com.jim.pocketaccounter.fragments.ReportByIncomeExpenseDailyTableFragment;
 import com.jim.pocketaccounter.fragments.ReportByIncomeExpenseMonthlyFragment;
 import com.jim.pocketaccounter.fragments.ReportByCategoryFragment;
 import com.jim.pocketaccounter.fragments.ReportFragment;
@@ -71,6 +74,7 @@ import com.jim.pocketaccounter.utils.record.RecordExpanseView;
 import com.jim.pocketaccounter.utils.record.RecordIncomesView;
 import com.jim.pocketaccounter.utils.reportviews.CategorySliding;
 import com.jim.pocketaccounter.utils.reportviews.MonthPickSliderView;
+import com.jim.pocketaccounter.utils.reportviews.ReportSelectingYearWithMonthsView;
 
 import dagger.Component;
 
@@ -152,4 +156,8 @@ public interface PocketAccounterActivityComponent {
     void inject(MonthPickSliderView monthPickSliderView);
     void inject(ReportByIncomeExpenseMonthlyFragment reportByIncomeExpenseMonthlyFragment);
     void inject(ReportFragment reportFragment);
+    void inject(ChangeColorOfStyleFragment changeColorOfStyleFragment);
+    void inject(ReportSelectingYearWithMonthsView reportSelectingYearWithMonthsView);
+    void inject(ReportByIncomeExpenseDailyTableFragment reportByIncomeExpenseDailyTableFragment);
+    void inject(ManualEnterFragment manualEnterFragment);
 }

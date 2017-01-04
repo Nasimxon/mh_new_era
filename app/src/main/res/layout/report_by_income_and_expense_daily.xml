@@ -67,7 +67,7 @@
                     android:text="@string/income"
                     android:textSize="@dimen/fourteen_dp"
                     android:layout_marginLeft="@dimen/four_dp"
-                    android:textColor="@color/diagram_text_color"
+                    android:textColor="#414141"
                     android:layout_gravity="center_vertical"/>
             </LinearLayout>
             <LinearLayout
@@ -86,7 +86,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/profit"
                     android:textSize="@dimen/fourteen_dp"
-                    android:textColor="@color/diagram_text_color"
+                    android:textColor="#414141"
                     android:layout_marginLeft="@dimen/four_dp"
                     android:layout_gravity="center_vertical"/>
             </LinearLayout>

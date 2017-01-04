@@ -4,17 +4,14 @@ package com.jim.pocketaccounter.modulesandcomponents.modules;
 
 import android.content.Context;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 
 import com.jim.pocketaccounter.PocketAccounter;
-import com.jim.pocketaccounter.database.TemplateVoice;
-import com.jim.pocketaccounter.managers.CommonOperations;
 import com.jim.pocketaccounter.managers.DrawerInitializer;
+import com.jim.pocketaccounter.managers.FinansiaFirebaseAnalytics;
 import com.jim.pocketaccounter.managers.LogicManager;
 import com.jim.pocketaccounter.managers.PAFragmentManager;
 import com.jim.pocketaccounter.managers.SettingsManager;
 import com.jim.pocketaccounter.managers.ToolbarManager;
-import com.jim.pocketaccounter.utils.CashDialog;
 import com.jim.pocketaccounter.utils.DatePicker;
 import com.jim.pocketaccounter.utils.FilterDialog;
 import com.jim.pocketaccounter.utils.IconChooseDialog;
@@ -23,12 +20,6 @@ import com.jim.pocketaccounter.utils.SubCatAddEditDialog;
 import com.jim.pocketaccounter.utils.TransferDialog;
 import com.jim.pocketaccounter.utils.WarningDialog;
 import com.jim.pocketaccounter.utils.billing.PurchaseImplementation;
-
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.inject.Named;
 
 import dagger.Module;
 import dagger.Provides;
@@ -45,7 +36,7 @@ public class PocketAccounterActivityModule {
     private Toolbar toolbar;
     private LogicManager logicManager;
     private PurchaseImplementation purchaseImplementation;
-
+    private FinansiaFirebaseAnalytics finansiaFiregbaseAnalytics;
     public PocketAccounterActivityModule(PocketAccounter pocketAccounter, Toolbar toolbar) {
         this.pocketAccounter = pocketAccounter;
         paFragmentManager = new PAFragmentManager(pocketAccounter);
@@ -53,6 +44,7 @@ public class PocketAccounterActivityModule {
         toolbarManager = new ToolbarManager(pocketAccounter, toolbar);
         drawerInitializer = new DrawerInitializer(this.pocketAccounter, paFragmentManager);
         logicManager = new LogicManager(pocketAccounter);
+        finansiaFiregbaseAnalytics = new FinansiaFirebaseAnalytics(pocketAccounter);
     }
 
     @Provides
@@ -125,6 +117,13 @@ public class PocketAccounterActivityModule {
         if (purchaseImplementation == null)
             purchaseImplementation = new PurchaseImplementation(pocketAccounter, paFragmentManager);
         return purchaseImplementation;
+
+    }
+    @Provides
+    public FinansiaFirebaseAnalytics getFinansiaFiregbaseAnalytics() {
+        if (finansiaFiregbaseAnalytics == null)
+            finansiaFiregbaseAnalytics = new FinansiaFirebaseAnalytics(pocketAccounter);
+        return finansiaFiregbaseAnalytics;
 
     }
 }

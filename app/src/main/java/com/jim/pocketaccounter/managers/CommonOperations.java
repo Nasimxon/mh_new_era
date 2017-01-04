@@ -114,8 +114,10 @@ public class CommonOperations {
         if (mainCurrency == null) {
             List<Currency> currencies = currencyDao.loadAll();
             for (Currency currency : currencies) {
-                if (currency.getIsMain())
+                if (currency.getIsMain()) {
                     mainCurrency = currency;
+                    break;
+                }
             }
         }
         return mainCurrency;
@@ -174,29 +176,33 @@ public class CommonOperations {
         if (fromCurrency.getId().equals(toCurrency.getId())) return amount;
         double fromKoeff = 1.0;
         double toKoeff = 1.0;
-        long fromDiff = date.getTimeInMillis() - fromCurrency.getCosts().get(0).getDay().getTimeInMillis();
-        long toDiff = date.getTimeInMillis() - toCurrency.getCosts().get(0).getDay().getTimeInMillis();
-        if (fromDiff < 0) {
-            fromKoeff = fromCurrency.getCosts().get(0).getCost();
+        if (!fromCurrency.getMain()) {
+            long fromDiff = date.getTimeInMillis() - fromCurrency.getCosts().get(0).getDay().getTimeInMillis();
+            if (fromDiff < 0) {
+                fromKoeff = fromCurrency.getCosts().get(0).getCost();
+            }
+            int pos = 0;
+            while (fromDiff >= 0 && pos < fromCurrency.getCosts().size()) {
+                fromDiff = date.getTimeInMillis() - fromCurrency.getCosts().get(pos).getDay().getTimeInMillis();
+                if (fromDiff >= 0)
+                    fromKoeff = fromCurrency.getCosts().get(pos).getCost();
+                pos++;
+            }
         }
-        if (toDiff < 0) {
-            toKoeff = toCurrency.getCosts().get(0).getCost();
+        if (!toCurrency.getMain()) {
+            long toDiff = date.getTimeInMillis() - toCurrency.getCosts().get(0).getDay().getTimeInMillis();
+            if (toDiff < 0) {
+                toKoeff = toCurrency.getCosts().get(0).getCost();
+            }
+            int pos = 0;
+            while (toDiff >= 0 && pos < toCurrency.getCosts().size()) {
+                toDiff = date.getTimeInMillis() - toCurrency.getCosts().get(pos).getDay().getTimeInMillis();
+                if (toDiff >= 0)
+                    toKoeff = toCurrency.getCosts().get(pos).getCost();
+                pos++;
+            }
         }
-        int pos = 0;
-        while (fromDiff >= 0 && pos < fromCurrency.getCosts().size()) {
-            fromDiff = date.getTimeInMillis() - fromCurrency.getCosts().get(pos).getDay().getTimeInMillis();
-            if (fromDiff >= 0)
-                fromKoeff = fromCurrency.getCosts().get(pos).getCost();
-            pos++;
-        }
-        pos = 0;
-        while (toDiff >= 0 && pos < toCurrency.getCosts().size()) {
-            toDiff = date.getTimeInMillis() - toCurrency.getCosts().get(pos).getDay().getTimeInMillis();
-            if (toDiff >= 0)
-                toKoeff = toCurrency.getCosts().get(pos).getCost();
-            pos++;
-        }
-        amount = toKoeff * amount / fromKoeff;
+        amount = fromKoeff * amount / toKoeff;
         return amount;
     }
 

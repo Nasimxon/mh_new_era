@@ -113,4 +113,5 @@
     <dimen name="hundred_eity_dp">180dp</dimen>
     <dimen name="hundred_thiry_five_dp">135dp</dimen>
     <dimen name="hundred_and_ninety_dp">190dp</dimen>
+    <dimen name="sixty_seven_dp">67dp</dimen>
 </resources>

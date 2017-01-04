@@ -106,7 +106,7 @@ public class TransferAddEditDialog extends Dialog {
                             warningDialog.setOnYesButtonListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    daoSession.getAccountOperationDao().delete(result.get(0));
+                                    daoSession.getAccountOperationDao().delete(result.get(position));
                                     refreshList();
                                     warningDialog.dismiss();
                                 }
@@ -159,7 +159,7 @@ public class TransferAddEditDialog extends Dialog {
                 view.ivItemTransferAccountFrom.setImageResource(getContext().getResources().getIdentifier(
                         daoSession.getAccountDao().load(result.get(position).getSourceId()).getIcon(),
                         "drawable", getContext().getPackageName()));
-            } else {
+            } else if (daoSession.getPersonDao().load(result.get(position).getSourceId()) != null){
                 view.ivItemTransferAccountFrom.setImageResource(getContext().getResources().getIdentifier(
                         daoSession.getPurposeDao().load(result.get(position).getSourceId()).getIcon(),
                         "drawable", getContext().getPackageName()));
@@ -168,7 +168,7 @@ public class TransferAddEditDialog extends Dialog {
                 view.ivItemTransferAccountTo.setImageResource(getContext().getResources().getIdentifier(
                         daoSession.getAccountDao().load(result.get(position).getTargetId()).getIcon(),
                         "drawable", getContext().getPackageName()));
-            } else {
+            } else if (daoSession.getPurposeDao().load(result.get(position).getTargetId()) != null){
                 view.ivItemTransferAccountTo.setImageResource(getContext().getResources().getIdentifier(
                         daoSession.getPurposeDao().load(result.get(position).getTargetId()).getIcon(),
                         "drawable", getContext().getPackageName()));

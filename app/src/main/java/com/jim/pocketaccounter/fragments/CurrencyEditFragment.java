@@ -88,10 +88,7 @@ public class CurrencyEditFragment extends PABaseInfoFragment implements OnClickL
                 });
             }
         });
-//        ivExCurrencyDelete = (ImageView) rootView.findViewById(R.id.ivExCurrencyDelete);
-//        ivExCurrencyDelete.setOnClickListener(this);
         lvCurrencyEditExchange = (RecyclerView) rootView.findViewById(R.id.lvCurrencyEditExchange);
-//        lvCurrencyEditExchange.setOnItemClickListener(this);
         tvAbrValyuti = (TextView) rootView.findViewById(R.id.tvAbrValyuti);
         textColorMain = (TextView) rootView.findViewById(R.id.textColorMain);
         tvNameValyute = (TextView) rootView.findViewById(R.id.tvNameValyute);

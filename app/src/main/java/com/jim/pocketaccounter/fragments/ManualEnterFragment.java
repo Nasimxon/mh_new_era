@@ -12,8 +12,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.jim.pocketaccounter.PocketAccounter;
 import com.jim.pocketaccounter.PocketAccounterApplication;
 import com.jim.pocketaccounter.R;
+import com.jim.pocketaccounter.managers.FinansiaFirebaseAnalytics;
 import com.jim.pocketaccounter.utils.cache.DataCache;
 
 import java.util.Calendar;
@@ -25,16 +28,17 @@ public class ManualEnterFragment extends Fragment {
     private ViewPager lvpMain;
     private int lastPos = 5000, idleLast = 5000;
     private Boolean direction = null;
-    private MainPageFragment nextPage;
-    @Inject
-    DataCache dataCache;
+    @Inject DataCache dataCache;
+    @Inject FinansiaFirebaseAnalytics analytics;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.manual_enter_fragment, container, false);
-        ((PocketAccounterApplication) getContext().getApplicationContext()).component().inject(this);
+        ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
         lvpMain = (ViewPager) rootView.findViewById(R.id.lvpMain);
         initialize();
+        String fragmentName = getClass().getName();
+        analytics.sendText("User entered: " + fragmentName);
         return rootView;
     }
 
@@ -81,7 +85,6 @@ public class ManualEnterFragment extends Fragment {
                     page.update();
                     dataCache.setEndDate(page.getDay());
                     dataCache.updatePercentsWhenSwiping();
-
                 }
                 lastPos = position;
                 Log.d("sss", "page selected "+position);
@@ -115,7 +118,6 @@ public class ManualEnterFragment extends Fragment {
             Calendar end = Calendar.getInstance();
             end.add(Calendar.DAY_OF_MONTH, position - 5000);
             Fragment fragment = new MainPageFragment(getContext(), end);
-            nextPage = (MainPageFragment) fragment;
             return fragment;
         }
         @Override

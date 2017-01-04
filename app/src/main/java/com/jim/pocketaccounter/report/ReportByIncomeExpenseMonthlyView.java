@@ -8,6 +8,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PointF;
 import android.graphics.RectF;
+import android.os.Vibrator;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,11 +18,15 @@ import com.jim.pocketaccounter.R;
 import org.apache.commons.lang3.RandomUtils;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 public class ReportByIncomeExpenseMonthlyView extends View {
 
-    private List<ReportByIncomeExpenseMonthlyData> datas;
+    private Map<Integer, Float> datas;
     private float side = 0.0f;
     private float sideMargin = 0.0f;
     private float clickFullRadius = 0.0f;
@@ -45,12 +50,14 @@ public class ReportByIncomeExpenseMonthlyView extends View {
             Color.parseColor("#f16c20"),
             Color.parseColor("#d94e1f"),
             Color.parseColor("#c02e1d")
-    };
-    private int selectedPos = -1;
+            };
+    private int selectedPos = 0, lastPosition = 0;
     private float touchMargin = 0.0f;
     private float touchX, touchY;
     private OnMonthlyItemSelectedListener listener;
     private int selectingTriangleColor = Color.WHITE;
+    private float topMargin = 0.0f;
+    private boolean active = true;
     public ReportByIncomeExpenseMonthlyView(Context context) {
         super(context);
         init();
@@ -74,9 +81,10 @@ public class ReportByIncomeExpenseMonthlyView extends View {
 
     private void init() {
         sideMargin = getResources().getDimension(R.dimen.ten_dp);
-        minValueHeight = getResources().getDimension(R.dimen.five_dp);
+        minValueHeight = getResources().getDimension(R.dimen.ten_dp);
         items = new ArrayList<>();
         touchMargin = getResources().getDimension(R.dimen.five_dp);
+        topMargin = getResources().getDimension(R.dimen.thirty_dp);
         setClickable(true);
     }
 
@@ -91,12 +99,33 @@ public class ReportByIncomeExpenseMonthlyView extends View {
         PointF beginPoint = new PointF();
         beginPoint.x = sideMargin;
         beginPoint.y = getHeight() - minValueHeight;
-        float drawingSpaceHeight = beginPoint.y;
+        float drawingSpaceHeight = beginPoint.y - topMargin;
+        Paint paint = new Paint();
+        paint.setAntiAlias(true);
         items.clear();
+        if (!active) {
+            for (int i = 0; i < 12; i++) {
+                RectF container = new RectF();
+                float left = beginPoint.x + i*side;
+                float top = beginPoint.y;
+                float right = beginPoint.x + (i+1)*side;
+                float bottom = getHeight();
+                container.set(left, top, right, bottom);
+                ItemShape shape = new ItemShape();
+                shape.setContainer(container);
+                items.add(shape);
+            }
+            for (int i = 0; i < items.size(); i++) {
+                paint.setColor(colors[i]);
+                canvas.drawRect(items.get(i).getContainer(), paint);
+                canvas.drawCircle(items.get(i).getCircleCenter().x, items.get(i).getCircleCenter().y, items.get(i).getContainer().width() / 2, paint);
+            }
+            return;
+        }
         for (int i = 0; i < datas.size(); i++) {
             RectF container = new RectF();
             float left = beginPoint.x + i*side;
-            float top = beginPoint.y - drawingSpaceHeight*shapeRatio*(datas.get(i).getValue()/maxValue);
+            float top = beginPoint.y - drawingSpaceHeight*shapeRatio*(datas.get(i)/maxValue);
             float right = beginPoint.x + (i+1)*side;
             float bottom = getHeight();
             container.set(left, top, right, bottom);
@@ -104,8 +133,6 @@ public class ReportByIncomeExpenseMonthlyView extends View {
             shape.setContainer(container);
             items.add(shape);
         }
-        Paint paint = new Paint();
-        paint.setAntiAlias(true);
         if (shapeAnimation == FINISHED && selectedPos != -1) {
             PointF pointF = items.get(selectedPos).getCircleCenter();
             int color = adjustAlpha(colors[selectedPos], 0.1f);
@@ -126,7 +153,6 @@ public class ReportByIncomeExpenseMonthlyView extends View {
                 triangle.close();
                 canvas.drawPath(triangle, paint);
             }
-
         }
     }
 
@@ -154,26 +180,17 @@ public class ReportByIncomeExpenseMonthlyView extends View {
                 }
                 elapsedShape = totalShape;
                 shapeAnimation = FINISHED;
-                animateClick(selectedPos);
             }
         }).start();
-    }
-
-    private int generateColor() {
-        return Color.rgb(RandomUtils.nextInt(0, 192),
-                        RandomUtils.nextInt(0, 192),
-                        RandomUtils.nextInt(0, 192));
     }
 
     private void selectMonth(int month) {
         selectedPos = month;
     }
 
-    private void setPercent(int percent) {
-
-    }
-
     public void animateClick(int selectedItem) {
+        Vibrator v = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
+        v.vibrate(5);
         selectedPos = selectedItem;
         new Thread(new Runnable() {
             @Override
@@ -208,17 +225,18 @@ public class ReportByIncomeExpenseMonthlyView extends View {
                 if (distance < touchMargin) {
                     for (int i = 0; i < items.size(); i++) {
                         if (items.get(i).contains(touchX, touchY)) {
-                            animateClick(i);
-                            if (listener != null && datas != null)
-                                listener.onMonthlyItemSelected(datas.get(i).getMonth(), datas.get(i).getYear());
-                            touchX = 0.0f;
-                            touchY = 0.0f;
+                            selectedPos = i;
+                            if (listener != null && lastPosition != selectedPos) {
+                                animateClick(selectedPos);
+                                listener.onMonthlyItemSelected(selectedPos);
+                            }
+                            lastPosition = selectedPos;
+                            break;
                         }
                     }
                 }
                 break;
         }
-
         return super.onTouchEvent(event);
     }
 
@@ -230,9 +248,23 @@ public class ReportByIncomeExpenseMonthlyView extends View {
         return Color.argb(alpha, red, green, blue);
     }
 
-    public void setDatas(List<ReportByIncomeExpenseMonthlyData> datas) {
+    public void setDatas(Map<Integer, Float> datas) {
         this.datas = datas;
+        float tempValue = 0.0f;
+        for (Integer pos : this.datas.keySet()) {
+            if (tempValue < this.datas.get(pos))
+                tempValue = this.datas.get(pos);
+        }
+        maxValue = tempValue == 0.0f ? 100.f : tempValue;
+        invalidate();
+    }
 
+    public void active(boolean active) {
+        this.active = active;
+        if (active)
+            animateShapes();
+        else
+            invalidate();
     }
 
     class ItemShape {
@@ -260,12 +292,10 @@ public class ReportByIncomeExpenseMonthlyView extends View {
             return false;
         }
     }
-
     public void setListener(OnMonthlyItemSelectedListener listener) {
         this.listener = listener;
     }
-
     public interface OnMonthlyItemSelectedListener {
-        public void onMonthlyItemSelected(int month, int year);
+        public void onMonthlyItemSelected(int position);
     }
 }

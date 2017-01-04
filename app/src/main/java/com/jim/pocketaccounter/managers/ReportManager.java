@@ -810,18 +810,11 @@ public class ReportManager {
     }
 
     public List<ReportObject> getIncomes(Calendar begin, Calendar end) {
-//        if (incomes != null)
-//            return incomes;
-//        else {
         getIncomeExpanceDates(begin, end);
         return incomes;
-//        }
     }
 
     public List<ReportObject> getExpances(Calendar begin, Calendar end) {
-//        if (expances != null)
-//            return expances;
-//        else {
         getIncomeExpanceDates(begin, end);
         return expances;
 //        }

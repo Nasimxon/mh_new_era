@@ -31,6 +31,7 @@ import com.jim.pocketaccounter.debt.DebtBorrowFragment;
 import com.jim.pocketaccounter.fragments.AccountFragment;
 import com.jim.pocketaccounter.fragments.AutoMarketFragment;
 import com.jim.pocketaccounter.fragments.CategoryFragment;
+import com.jim.pocketaccounter.fragments.ChangeColorOfStyleFragment;
 import com.jim.pocketaccounter.fragments.CreditTabLay;
 import com.jim.pocketaccounter.fragments.CurrencyFragment;
 import com.jim.pocketaccounter.fragments.PurposeFragment;
@@ -327,8 +328,8 @@ public class DrawerInitializer {
                                 fragmentManager.displayFragment(new SmsParseMainFragment());
                                 break;
                             case 9:
-                                fragmentManager.displayFragment(new ReportFragment());
-                                //report
+//                                fragmentManager.displayFragment(new ReportFragment());
+                                fragmentManager.displayFragment(new ChangeColorOfStyleFragment());
                                 break;
                             case 10:
                                 Intent zssettings = new Intent(pocketAccounter, SettingsActivity.class);

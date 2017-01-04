@@ -46,8 +46,6 @@ public class PurchaseImplementation {
         });
     }
 
-
-
     public IabHelper getHelper() { return mHelper; }
 
     // Listener that's called when we finish querying the items and subscriptions we own
@@ -58,6 +56,77 @@ public class PurchaseImplementation {
                 Log.d("sss", "Failed to query inventory: " + result);
                 return;
             }
+            preferences
+                    .edit()
+                    .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.FIRST_PAGE_COUNT_KEY,
+                            inventory.getPurchase(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.FIRST_PAGE_COUNT_KEY) != null)
+                    .commit();
+            preferences
+                    .edit()
+                    .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.SECOND_PAGE_COUNT_KEY,
+                            inventory.getPurchase(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.SECOND_PAGE_COUNT_KEY) != null)
+                    .commit();
+            preferences
+                    .edit()
+                    .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.THIRD_PAGE_COUNT_KEY,
+                            inventory.getPurchase(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.THIRD_PAGE_COUNT_KEY) != null)
+                    .commit();
+            preferences
+                    .edit()
+                    .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.FOURTH_PAGE_COUNT_KEY,
+                            inventory.getPurchase(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.FOURTH_PAGE_COUNT_KEY) != null)
+                    .commit();
+            preferences
+                    .edit()
+                    .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.FIFTH_PAGE_COUNT_KEY,
+                            inventory.getPurchase(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.FIFTH_PAGE_COUNT_KEY) != null)
+                    .commit();
+            preferences
+                    .edit()
+                    .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.SIXTH_PAGE_COUNT_KEY,
+                            inventory.getPurchase(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.SIXTH_PAGE_COUNT_KEY) != null)
+                    .commit();
+            preferences
+                    .edit()
+                    .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.SEVENTH_PAGE_COUNT_KEY,
+                            inventory.getPurchase(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.SEVENTH_PAGE_COUNT_KEY) != null)
+                    .commit();
+            preferences
+                    .edit()
+                    .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.EIGHTH_PAGE_COUNT_KEY,
+                            inventory.getPurchase(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.EIGHTH_PAGE_COUNT_KEY) != null)
+                    .commit();
+            preferences
+                    .edit()
+                    .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.NINTH_PAGE_COUNT_KEY,
+                            inventory.getPurchase(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.NINTH_PAGE_COUNT_KEY) != null)
+                    .commit();
+            preferences
+                    .edit()
+                    .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_CATEGORY_ON_MAIN_BOARD_SKU,
+                            inventory.getPurchase(PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_CATEGORY_ON_MAIN_BOARD_SKU) != null)
+                    .commit();
+            preferences
+                    .edit()
+                    .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_FUNCTION_ON_MAIN_BOARD_SKU,
+                            inventory.getPurchase(PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_FUNCTION_ON_MAIN_BOARD_SKU) != null)
+                    .commit();
+            preferences
+                    .edit()
+                    .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_PAGE_ON_MAIN_BOARD_SKU,
+                            inventory.getPurchase(PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_PAGE_ON_MAIN_BOARD_SKU) != null)
+                    .commit();
+            preferences
+                    .edit()
+                    .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_DEBT_BORROW_ON_MAIN_BOARD_SKU,
+                            inventory.getPurchase(PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_DEBT_BORROW_ON_MAIN_BOARD_SKU) != null)
+                    .commit();
+            preferences
+                    .edit()
+                    .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_CREDIT_ON_MAIN_BOARD_SKU,
+                            inventory.getPurchase(PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_CREDIT_ON_MAIN_BOARD_SKU) != null)
+                    .commit();
+
 //            Purchase categoryChange = inventory.getPurchase(PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_CATEGORY_ON_MAIN_BOARD_SKU);
 //            isCategoryChangeAvailable = (categoryChange != null && verifyDeveloperPayload(categoryChange));
 //            Purchase creditChange = inventory.getPurchase(PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_CREDIT_ON_MAIN_BOARD_SKU);
@@ -90,13 +159,6 @@ public class PurchaseImplementation {
             }
             boolean pageBought = false;
             switch (purchase.getSku()) {
-                case PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.ZERO_PAGE_COUNT_KEY:
-                    pageBought = true;
-                    preferences
-                            .edit()
-                            .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.ZERO_PAGE_COUNT_KEY, true)
-                            .commit();
-                    break;
                 case PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.FIRST_PAGE_COUNT_KEY:
                     pageBought = true;
                     preferences
@@ -160,21 +222,50 @@ public class PurchaseImplementation {
                             .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.NINTH_PAGE_COUNT_KEY, true)
                             .commit();
                     break;
+                case PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_CATEGORY_ON_MAIN_BOARD_SKU:
+                    preferences
+                            .edit()
+                            .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_CATEGORY_ON_MAIN_BOARD_SKU, true)
+                            .commit();
+                    break;
+                case PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_CREDIT_ON_MAIN_BOARD_SKU:
+                    preferences
+                            .edit()
+                            .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_CREDIT_ON_MAIN_BOARD_SKU, true)
+                            .commit();
+                    break;
+                case PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_DEBT_BORROW_ON_MAIN_BOARD_SKU:
+                    preferences
+                            .edit()
+                            .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_DEBT_BORROW_ON_MAIN_BOARD_SKU, true)
+                            .commit();
+                    break;
+                case PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_PAGE_ON_MAIN_BOARD_SKU:
+                    preferences
+                            .edit()
+                            .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_PAGE_ON_MAIN_BOARD_SKU, true)
+                            .commit();
+                    break;
+                case PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_FUNCTION_ON_MAIN_BOARD_SKU:
+                    preferences
+                            .edit()
+                            .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_FUNCTION_ON_MAIN_BOARD_SKU, true)
+                            .commit();
+                    break;
+
+                case PocketAccounterGeneral.MoneyHolderSkus.SMS_PARSING_SKU:
+                    try {
+                        mHelper.consumeAsync(purchase, mConsumeFinishedListener);
+                    } catch (IabHelper.IabAsyncInProgressException e) {
+                        Log.d("sss", "Error consuming gas. Another async operation in progress.");
+                        return;
+                    }
+                    break;
+
             }
             if (pageBought)
                 paFragmentManager.updateAllFragmentsPageChanges();
 
-
-            if (purchase.getSku().equals(PocketAccounterGeneral.MoneyHolderSkus.SMS_PARSING_SKU)) {
-                try {
-
-                    mHelper.consumeAsync(purchase, mConsumeFinishedListener);
-                } catch (IabHelper.IabAsyncInProgressException e) {
-                    Log.d("sss", "Error consuming gas. Another async operation in progress.");
-                    return;
-                }
-
-            }
         }
     };
 

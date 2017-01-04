@@ -1627,13 +1627,11 @@
     <string name="to_purpose">Перевод в копилку</string>
     <string name="reached_max_value">Достигнуто максимальное значение</string>
     <string name="reached_min_value">Достигнуто минимальное значение</string>
-
     <string-array name="currency_2">
         <item>руб.</item>
         <item>рубль</item>
         <item>рублей</item>
     </string-array>
-
     <string-array name="month_abbrs">
         <item>Янв.</item>
         <item>Фев.</item>
@@ -1650,5 +1648,26 @@
     </string-array>
     <string name="history_transfers">История трансферов</string>
     <string name="summ_transfer">Сумма перевода</string>
+    <string name="january">ЯНВ</string>
+    <string name="february">ФЕВ</string>
+    <string name="march">МАР</string>
+    <string name="april">АПР</string>
+    <string name="may">МАЙ</string>
+    <string name="june">ИЮН</string>
+    <string name="july">ИЮЛ</string>
+    <string name="august">АВГ</string>
+    <string name="september">СЕН</string>
+    <string name="october">ОКТ</string>
+    <string name="november">НОЯ</string>
+    <string name="december">ДЕК</string>
+    <string name="max_income_in_the_month">"Maximum income in the month: "</string>
+    <string name="average_income">"Average income: "</string>
+    <string name="min_income_in_the_month">"Minimum average in the month: "</string>
+    <string name="average_expense">"Average expense: "</string>
+    <string name="max_expense_in_the_month">"Maximum expense in the month: "</string>
+    <string name="min_expense_in_the_month">"Minimum income in the month: "</string>
+    <string name="report_by_income_expense_table">Report by income and expense</string>
+
+
 </resources>
 
