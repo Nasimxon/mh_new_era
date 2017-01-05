@@ -1059,7 +1059,7 @@
     <string name="report_income_expanse_aver_income">Средний доход:</string>
     <string name="report_income_expanse_aver_expanse">Средний расход:</string>
     <string name="report_income_expanse_aver_profit">Средняя прибыль:</string>
-    <string name="please_sign">Пожалуйста, авторизируйтесь</string>
+    <string name="please_sign">Авторизируйтесь</string>
     <string name="and_sync_your_data">для синхронизизации данных</string>
     <string name="introAppInfo">Приложение максимально подробно и удобно контролирует Ваши ежедневные доходы и расходы. Для тех, кто хотел бы бережно сохранять свой бюджет. Мы рады Вам помочь!</string>
     <string name="quickInfo">Иконки быстрого доступа, помогут Вам сэкономить Ваше время. Просто нажмите на нужную категорию и введите Ваши расходы или доходы, а остальное приложение сделает за Вас!</string>

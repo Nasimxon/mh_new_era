@@ -453,6 +453,11 @@ public class DrawerInitializer {
         public void onBindViewHolder(final ViewHolder holder, final int position) {
             if(holderOld==null){
                 holderOld = holder;
+                holder.tvTitle.setTextColor(GetterAttributColors.fetchHeadAccedentColor(pocketAccounter));
+                holder.ivIcon.setColorFilter(GetterAttributColors.fetchHeadAccedentColor(pocketAccounter));
+                holder.llMenuItems.setBackgroundColor(pocketAccounter.getResources().getColor(R.color.credit_white_grey));
+                holder.flStroke.setBackgroundColor(GetterAttributColors.fetchHeadAccedentColor(pocketAccounter));
+                holder.flStroke.setVisibility(View.VISIBLE);
             }
             holder.ivIcon.setImageResource(result.get(position).getIconId());
             holder.tvTitle.setText(result.get(position).getTitleName());

@@ -24,17 +24,19 @@
 				<com.jim.pocketaccounter.utils.CircleImageView
 					android:id="@+id/userphoto"
 					android:layout_marginLeft="@dimen/fifteen_dp"
-					android:layout_marginRight="@dimen/five_dp"
-					android:layout_width="@dimen/fifty_dp"
-					android:layout_height="@dimen/fifty_dp"
+					android:layout_width="@dimen/fourtyseven_dp"
+					android:layout_height="@dimen/fourtyseven_dp"
 					android:layout_gravity="center_vertical"
 					android:src="@drawable/ic_photo"
 					/>
 
 			<LinearLayout
-				android:layout_width="wrap_content"
+				android:layout_width="0dp"
 				android:layout_height="wrap_content"
-				android:layout_marginTop="@dimen/five_dp"
+				android:layout_marginTop="@dimen/ten_dp"
+				android:layout_weight="1"
+				android:paddingRight="@dimen/fifteen_dp"
+				android:layout_marginBottom="@dimen/ten_dp"
 				android:layout_gravity="center_vertical"
 				android:orientation="vertical">
 				<TextView
@@ -43,12 +45,11 @@
 					android:layout_height="wrap_content"
 					android:text="@string/please_sign"
 					android:textColor="#414141"
-					android:textSize="@dimen/sixteen_dp"
+					android:textSize="@dimen/fourteen_dp"
 					android:textStyle="bold"
 					android:gravity="center"
 					android:layout_gravity="center_horizontal"
-					android:layout_marginLeft="@dimen/ten_dp"
-					android:layout_marginRight="@dimen/ten_dp"/>
+					/>
 				<TextView
 					android:id="@+id/tvGoogleMail"
 					android:layout_width="wrap_content"
@@ -57,18 +58,17 @@
 					android:text="@string/and_sync_your_data"
 					android:layout_gravity="center_horizontal"
 					android:textColor="#a7a7a7"
-					android:textSize="@dimen/fourteen_dp"
+					android:textSize="@dimen/twelve_dp"
 					android:gravity="center"
-					android:layout_marginBottom="@dimen/ten_dp"
-					android:layout_marginLeft="@dimen/ten_dp"
-					android:layout_marginRight="@dimen/ten_dp"/>
+					/>
 			</LinearLayout>
 
 			<Button
 				android:layout_width="@dimen/thirty_dp"
 				android:layout_height="@dimen/thirty_dp"
 				android:id="@+id/btnFirebaseLogin"
-				android:layout_marginLeft="@dimen/thirty_dp"
+				android:layout_marginLeft="@dimen/twenty_dp"
+                android:layout_marginRight="@dimen/five_dp"
 				android:layout_gravity="center_vertical"
 				android:background="@drawable/ic_login_symbol"/>
 		</LinearLayout>
@@ -80,7 +80,7 @@
 			android:layout_height="match_parent"
 			android:layout_below="@+id/rlDrawerHeader"
 			android:scrollbars="none"
-			android:background="#ffffff">
+			android:background="@color/white">
 		</android.support.v7.widget.RecyclerView>
 
 	</RelativeLayout>

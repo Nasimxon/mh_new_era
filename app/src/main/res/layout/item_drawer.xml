@@ -14,9 +14,9 @@
 
         <FrameLayout
             android:id="@+id/flStroke"
-            android:layout_width="15px"
+            android:layout_width="10px"
             android:layout_height="match_parent"
-            android:layout_marginRight="@dimen/thirtyfive_dp"
+            android:layout_marginRight="@dimen/thirty_dp"
             android:visibility="invisible" />
 
         <LinearLayout
@@ -24,7 +24,6 @@
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/ten_dp"
             android:paddingBottom="@dimen/ten_dp"
-            android:layout_marginRight="@dimen/fifteen_dp"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -48,7 +47,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginLeft="@dimen/thirty_dp"
+                android:layout_marginLeft="@dimen/twentyfive_dp"
                 android:layout_weight="1"
                 android:text="Accounts"
                 android:textColor="#7e7e7e"
