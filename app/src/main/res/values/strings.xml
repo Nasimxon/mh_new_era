@@ -1741,4 +1741,10 @@
     <string name="max_expense_in_the_month">"Maximum expense in the month: "</string>
     <string name="min_expense_in_the_month">"Minimum income in the month: "</string>
     <string name="report_by_income_expense_table">Report by income and expense</string>
+    <string name="za_period">За период:</string>
+    <string name="not_data">Нет операции</string>
+    <string name="do_interval">До</string>
+    <string name="c_interval">C</string>
+    <string name="total_expense">Total expense</string>
+    <string name="total_income">Total income</string>
 </resources>

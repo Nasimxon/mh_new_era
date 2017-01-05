@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.jim.pocketaccounter.PocketAccounter;
 import com.jim.pocketaccounter.PocketAccounterApplication;
@@ -47,7 +48,8 @@ public class ReportByIncomeExpenseDailyTableFragment extends Fragment {
         toolbarManager.setSpinnerVisibility(View.GONE);
         toolbarManager.setSubtitleIconVisibility(View.GONE);
         toolbarManager.setSubtitle(null);
-        toolbarManager.setTitle(getString(R.string.report_by_income_expense_table));
+        toolbarManager.setImageToSecondImage(R.drawable.ic_filter);
+//        toolbarManager.setTitle(getString(R.string.report_by_income_expense_table));
         toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
         tvReportDailyTable = (TableView) rootView.findViewById(R.id.tvReportDailyTable);
         dialog = new IntervalPickDialog(getContext());
@@ -69,6 +71,7 @@ public class ReportByIncomeExpenseDailyTableFragment extends Fragment {
         toolbarManager.setOnSecondImageClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                dialog.getWindow().setLayout(9 * getContext().getResources().getDisplayMetrics().widthPixels / 10, RelativeLayout.LayoutParams.WRAP_CONTENT);
                 dialog.show();
             }
         });

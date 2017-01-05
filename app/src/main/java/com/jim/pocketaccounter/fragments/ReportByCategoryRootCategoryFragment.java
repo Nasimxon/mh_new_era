@@ -19,6 +19,7 @@ import com.jim.pocketaccounter.database.FinanceRecordDao;
 import com.jim.pocketaccounter.database.RootCategory;
 import com.jim.pocketaccounter.database.SubCategory;
 import com.jim.pocketaccounter.managers.CommonOperations;
+import com.jim.pocketaccounter.utils.PocketAccounterGeneral;
 import com.jim.pocketaccounter.utils.reportviews.PieData;
 import com.jim.pocketaccounter.utils.reportviews.ReportPieView;
 
@@ -67,7 +68,7 @@ public class ReportByCategoryRootCategoryFragment extends Fragment {
     void init() {
         if ((id != null || !id.isEmpty()) && daoSession != null) {
             catDatas = new ArrayList<>();
-            RootCategory category = daoSession.load(RootCategory.class, id);
+            final RootCategory category = daoSession.load(RootCategory.class, id);
             if (category != null) {
                 tvReportByCategoryRootCatName.setText(category.getName());
             }
@@ -123,7 +124,11 @@ public class ReportByCategoryRootCategoryFragment extends Fragment {
                         }
                     }
                 }
-                tvReportByCategoryRootCatSum.setText(getResources().getString(R.string.balance) + ": " + total);
+                if (category.getType() == PocketAccounterGeneral.EXPENSE)
+                tvReportByCategoryRootCatSum.setText(getString(R.string.total_expense) + ": " + total +commonOperations.getMainCurrency().getAbbr());
+                if (category.getType() == PocketAccounterGeneral.INCOME)
+                    tvReportByCategoryRootCatSum.setText(getString(R.string.total_income) + ": " + total+commonOperations.getMainCurrency().getAbbr());
+
             }
         }
     }
