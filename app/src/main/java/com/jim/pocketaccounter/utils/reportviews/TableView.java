@@ -3,6 +3,7 @@ package com.jim.pocketaccounter.utils.reportviews;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
+import android.support.v4.graphics.ColorUtils;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
@@ -144,7 +145,8 @@ public class TableView extends RelativeLayout {
                 view.ivFirstArrow.setVisibility(View.GONE);
                 view.ivSecondArrow.setVisibility(View.GONE);
                 view.ivThirdArrow.setVisibility(View.GONE);
-                int color = GetterAttributColors.fetchHeadColor(getContext());
+
+                int color = ColorUtils.setAlphaComponent(GetterAttributColors.fetchHeadColor(getContext()),50);
                 view.rlFirstContainer.setBackgroundColor(color);
                 view.rlSecondContainer.setBackgroundColor(color);
                 view.rlThirdContainer.setBackgroundColor(color);
@@ -169,9 +171,9 @@ public class TableView extends RelativeLayout {
                 view.ivSecondArrow.setVisibility(View.GONE);
                 view.ivThirdArrow.setVisibility(View.GONE);
                 if (position%2 == 0) {
-                    view.rlFirstContainer.setBackgroundColor(Color.parseColor("#F9F9F9"));
-                    view.rlSecondContainer.setBackgroundColor(Color.parseColor("#F9F9F9"));
-                    view.rlThirdContainer.setBackgroundColor(Color.parseColor("#F9F9F9"));
+                    view.rlFirstContainer.setBackgroundColor(Color.parseColor("#fcfcfc"));
+                    view.rlSecondContainer.setBackgroundColor(Color.parseColor("#fcfcfc"));
+                    view.rlThirdContainer.setBackgroundColor(Color.parseColor("#fcfcfc"));
                 } else {
                     view.rlFirstContainer.setBackgroundColor(Color.WHITE);
                     view.rlSecondContainer.setBackgroundColor(Color.WHITE);

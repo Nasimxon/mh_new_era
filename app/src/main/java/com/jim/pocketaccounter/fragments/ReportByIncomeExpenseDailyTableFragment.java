@@ -42,6 +42,7 @@ public class ReportByIncomeExpenseDailyTableFragment extends Fragment {
     @Inject ToolbarManager toolbarManager;
     @Inject ReportManager reportManager;
     @Inject CommonOperations commonOperations;
+    SimpleDateFormat sDateFormat = new SimpleDateFormat("dd MMM, yyyy");
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ((PocketAccounter) getContext()).component((PocketAccounterApplication)getContext().getApplicationContext()).inject(this);
         final View rootView = inflater.inflate(R.layout.report_by_income_expense_daily_table_fragment, container, false);
@@ -59,7 +60,7 @@ public class ReportByIncomeExpenseDailyTableFragment extends Fragment {
                 b = (Calendar) begin.clone();
                 e = (Calendar) end.clone();
                 initDatas(begin, end);
-
+                toolbarManager.setSubtitle(getString(R.string.c_interval)+": "+sDateFormat.format(begin.getTime())+" > "+getString(R.string.do_interval)+": "+sDateFormat.format(end.getTime()));
                 dialog.dismiss();
             }
 
