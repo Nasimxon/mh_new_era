@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:id="@+id/llMenuItems"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        >
+
+        <FrameLayout
+            android:id="@+id/flStroke"
+            android:layout_width="15px"
+            android:layout_height="match_parent"
+            android:layout_marginRight="@dimen/thirtyfive_dp"
+            android:visibility="invisible" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/ten_dp"
+            android:paddingBottom="@dimen/ten_dp"
+            android:layout_marginRight="@dimen/fifteen_dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/ivTitleIcon"
+                    android:layout_width="@dimen/twentyseven_dp"
+                    android:layout_height="@dimen/twentyseven_dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_accounts" />
+
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/tvTitleName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/thirty_dp"
+                android:layout_weight="1"
+                android:text="Accounts"
+                android:textColor="#7e7e7e"
+                android:textSize="@dimen/sixteen_dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

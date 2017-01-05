@@ -95,4 +95,6 @@
     <item name="diagram_text_color" type="color">#b7838383</item>
     <item name="record_green" type="color">#8dc56c</item>
     <item name="record_red" type="color">#d15a52</item>
+    <item name="menu_item_color" type="color">#666666</item>
+
 </resources>

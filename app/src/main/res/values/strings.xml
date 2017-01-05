@@ -12,31 +12,33 @@
     <string-array name="drawer_menus">
         <item>Home</item>
         <item>Currency</item>
-        <item>Category</item>
-        <item>Account</item>
+        <item>Categories</item>
+        <item>Accounts</item>
         <item>Purpose</item>
-        <item>Auto</item>
-        <item>Credit</item>
-        <item>Debt</item>
-        <item>Sms Parsing</item>
-        <item>Report</item>
+        <item>Auto operations</item>
+        <item>Loans</item>
+        <item>Sms parsing</item>
+        <item>Debt and borrow</item>
+        <item>Reports</item>
+        <item>Themes</item>
         <item>Settings</item>
         <item>Rate app</item>
         <item>Share app</item>
         <item>Feedback</item>
     </string-array>
     <string-array name="drawer_menu_icons">
-        <item>icons_1</item>
-        <item>icons_2</item>
-        <item>icons_3</item>
-        <item>icons_4</item>
-        <item>icons_5</item>
-        <item>icons_6</item>
-        <item>icons_7</item>
-        <item>icons_8</item>
-        <item>icons_9</item>
-        <item>icons_10</item>
-        <item>icons_11</item>
+        <item>ic_home</item>
+        <item>ic_currency</item>
+        <item>ic_categories</item>
+        <item>ic_accounts</item>
+        <item>ic_purpose</item>
+        <item>ic_auto</item>
+        <item>ic_loans</item>
+        <item>ic_debt</item>
+        <item>ic_sms</item>
+        <item>ic_report</item>
+        <item>ic_themes</item>
+        <item>ic_settings</item>
         <item>icons_12</item>
         <item>icons_13</item>
         <item>icons_14</item>
@@ -1035,7 +1037,7 @@
     <string name="report_income_expanse_aver_expanse">Average expense:</string>
     <string name="report_income_expanse_aver_profit">Average profit:</string>
     <string name="please_sign">Please sign in</string>
-    <string name="and_sync_your_data">and sync your data</string>
+    <string name="and_sync_your_data">for sync data</string>
     <string name="introAppInfo">App much detail and conveniently control your daily income and expenses. For those who would like to save your budget carefully. We are happy to assist you!!</string>
     <string name="quickInfo">Quick Access Icons will help you to save your time. Just click on the desired category, and enter your expenses or income, and the rest of the app will do for you!</string>
     <string name="clear_desgn">Simple, but at the same time user-friendly interface. Our goal in the design of the application is not brilliance and convenience. We have tried to do everything so that the interface was clear to all, without exception. </string>

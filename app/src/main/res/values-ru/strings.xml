@@ -51,19 +51,20 @@
     </string-array>
     <string-array name="drawer_menus">
         <item>Главная</item>
-        <item>Валюта</item>
-        <item>Категория</item>
+        <item>Валюты</item>
+        <item>Категории</item>
         <item>Счет</item>
-        <item>Цель</item>
+        <item>Целы</item>
         <item>Автооперации</item>
-        <item>Кредит</item>
-        <item>Долг</item>
+        <item>Кредиты</item>
+        <item>Долгы</item>
         <item>Смс парсинг</item>
-        <item>Отчет</item>
+        <item>Отчеты</item>
+        <item>Темы</item>
         <item>Настройки</item>
         <item>Оценить приложения</item>
         <item>Поделиться</item>
-        <item>Отправить писмо</item>
+        <item>Обратная свзяь</item>
     </string-array>
 
     <string-array name="base_currencies">
@@ -1059,7 +1060,7 @@
     <string name="report_income_expanse_aver_expanse">Средний расход:</string>
     <string name="report_income_expanse_aver_profit">Средняя прибыль:</string>
     <string name="please_sign">Пожалуйста, авторизируйтесь</string>
-    <string name="and_sync_your_data">и синхронизируйте ваши данные</string>
+    <string name="and_sync_your_data">для синхронизизации данных</string>
     <string name="introAppInfo">Приложение максимально подробно и удобно контролирует Ваши ежедневные доходы и расходы. Для тех, кто хотел бы бережно сохранять свой бюджет. Мы рады Вам помочь!</string>
     <string name="quickInfo">Иконки быстрого доступа, помогут Вам сэкономить Ваше время. Просто нажмите на нужную категорию и введите Ваши расходы или доходы, а остальное приложение сделает за Вас!</string>
     <string name="clear_desgn">Простой, но в тоже время интуитивно понятный интерфейс. Наша цель в дизайне приложения не красочность, а удобство. Мы постарались сделать все, чтобы интерфейс был понятным для всех без исключения. </string>

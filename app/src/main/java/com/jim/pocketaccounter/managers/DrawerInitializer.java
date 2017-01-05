@@ -2,6 +2,7 @@ package com.jim.pocketaccounter.managers;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,15 +10,22 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Handler;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.SparseBooleanArray;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.ListView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -35,12 +43,12 @@ import com.jim.pocketaccounter.fragments.ChangeColorOfStyleFragment;
 import com.jim.pocketaccounter.fragments.CreditTabLay;
 import com.jim.pocketaccounter.fragments.CurrencyFragment;
 import com.jim.pocketaccounter.fragments.PurposeFragment;
-import com.jim.pocketaccounter.fragments.ReportByIncomeExpenseMonthlyFragment;
 import com.jim.pocketaccounter.fragments.ReportFragment;
 import com.jim.pocketaccounter.fragments.SmsParseMainFragment;
 import com.jim.pocketaccounter.syncbase.SignInGoogleMoneyHold;
 import com.jim.pocketaccounter.syncbase.SyncBase;
 import com.jim.pocketaccounter.utils.CircleImageView;
+import com.jim.pocketaccounter.utils.GetterAttributColors;
 import com.jim.pocketaccounter.utils.PocketAccounterGeneral;
 import com.jim.pocketaccounter.utils.navdrawer.LeftMenuAdapter;
 import com.jim.pocketaccounter.utils.navdrawer.LeftMenuItem;
@@ -62,7 +70,7 @@ import static android.app.Activity.RESULT_OK;
 public class DrawerInitializer {
     private PocketAccounter pocketAccounter;
     private LeftSideDrawer drawer;
-    private ListView lvLeftMenu;
+    private RecyclerView rvLeftMenu;
     private PAFragmentManager fragmentManager;
     TextView userName, userEmail;
     com.jim.pocketaccounter.utils.CircleImageView userAvatar;
@@ -71,6 +79,7 @@ public class DrawerInitializer {
     boolean downloadnycCanRest = true;
     Uri imageUri;
     ImageView fabIconFrame;
+
     public static final int key_for_restat = 10101;
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReferenceFromUrl("gs://pocket-accounter.appspot.com");
@@ -82,7 +91,9 @@ public class DrawerInitializer {
         this.fragmentManager = fragmentManager;
         drawer = new LeftSideDrawer(pocketAccounter);
         drawer.setLeftBehindContentView(R.layout.activity_behind_left_simple);
-        lvLeftMenu = (ListView) pocketAccounter.findViewById(R.id.lvLeftMenu);
+        rvLeftMenu = (RecyclerView) pocketAccounter.findViewById(R.id.rvLeftMenu);
+        rvLeftMenu.setLayoutManager(new LinearLayoutManager(pocketAccounter));
+        rvLeftMenu.setHasFixedSize(true);
         fillNavigationDrawer();
     }
 
@@ -277,96 +288,15 @@ public class DrawerInitializer {
                 }
             }
         });
-        List<LeftMenuItem> items = new ArrayList<>();
+        ArrayList<LeftMenuItem> items = new ArrayList<>();
         for (int i = 0; i < drawerMenus.length; i++) {
             int resId = pocketAccounter.getResources().getIdentifier(drawerMenuIcons[i], "drawable", pocketAccounter.getPackageName());
             LeftMenuItem leftMenuItem = new LeftMenuItem(drawerMenus[i], resId);
             items.add(leftMenuItem);
         }
-        LeftMenuAdapter adapter = new LeftMenuAdapter(pocketAccounter, items);
-        lvLeftMenu.setAdapter(adapter);
-        lvLeftMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+        LeftMenuAdapter adapter = new LeftMenuAdapter(items);
+        rvLeftMenu.setAdapter(adapter);
 
-                if (fragmentManager.getFragmentManager().getBackStackEntryCount() == 0 && position == 0) {
-                    pocketAccounter.findViewById(R.id.change).setVisibility(View.VISIBLE);
-                } else {
-                    pocketAccounter.findViewById(R.id.change).setVisibility(View.GONE);
-                }
-                drawer.closeLeftSide();
-                drawer.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        pocketAccounter.findViewById(R.id.mainWhite).setVisibility(View.VISIBLE);
-                        switch (position) {
-                            case 0:
-                                fragmentManager.displayMainWindow();
-                                break;
-                            case 1:
-                                fragmentManager.displayFragment(new CurrencyFragment());
-                                break;
-                            case 2:
-                                fragmentManager.displayFragment(new CategoryFragment());
-                                break;
-                            case 3:
-                                fragmentManager.displayFragment(new AccountFragment());
-                                break;
-                            case 4:
-                                fragmentManager.displayFragment(new PurposeFragment());
-                                break;
-                            case 5:
-                                fragmentManager.displayFragment(new AutoMarketFragment());
-                                break;
-                            case 6:
-                                fragmentManager.displayFragment(new CreditTabLay());
-                                break;
-                            case 7:
-                                fragmentManager.displayFragment(new DebtBorrowFragment());
-                                break;
-                            case 8:
-                                fragmentManager.displayFragment(new SmsParseMainFragment());
-                                break;
-                            case 9:
-//                                fragmentManager.displayFragment(new ReportFragment());
-                                fragmentManager.displayFragment(new ChangeColorOfStyleFragment());
-                                break;
-                            case 10:
-                                Intent zssettings = new Intent(pocketAccounter, SettingsActivity.class);
-                                PocketAccounter.openActivity=true;
-                                for (int i = 0; i < fragmentManager.getFragmentManager().getBackStackEntryCount(); i++) {
-                                    fragmentManager.getFragmentManager().popBackStack();
-                                }
-                                pocketAccounter.startActivityForResult(zssettings, key_for_restat);
-                                break;
-                            case 11:
-                                pocketAccounter.findViewById(R.id.change).setVisibility(View.VISIBLE);
-                                Intent rate_app_web = new Intent(Intent.ACTION_VIEW);
-                                PocketAccounter.openActivity=true;
-                                rate_app_web.setData(Uri.parse(pocketAccounter.getResources().getString(R.string.rate_app_web)));
-                                pocketAccounter.startActivity(rate_app_web);
-                                break;
-                            case 12:
-                                pocketAccounter.findViewById(R.id.change).setVisibility(View.VISIBLE);
-                                Intent Email = new Intent(Intent.ACTION_SEND);
-                                PocketAccounter.openActivity=true;
-                                Email.setType("text/email");
-                                Email.putExtra(Intent.EXTRA_SUBJECT, pocketAccounter.getString(R.string.share_app));
-                                Email.putExtra(Intent.EXTRA_TEXT, pocketAccounter.getString(R.string.share_app_text));
-                                pocketAccounter.startActivity(Intent.createChooser(Email, pocketAccounter.getString(R.string.share_app)));
-                                break;
-                            case 13:
-                                pocketAccounter.findViewById(R.id.change).setVisibility(View.VISIBLE);
-                                openGmail(pocketAccounter, new String[]{pocketAccounter.getString(R.string.to_email)},
-                                        pocketAccounter.getString(R.string.feedback_subject),
-                                        pocketAccounter.getString(R.string.feedback_content));
-                                break;
-                        }
-
-                    }
-                }, 170);
-            }
-        });
     }
     public void onActivResultForDrawerCalls(int requestCode, int resultCode, Intent data){
         if (requestCode == SignInGoogleMoneyHold.RC_SIGN_IN) {
@@ -378,7 +308,7 @@ public class DrawerInitializer {
                 drawer.close();
             }
             if (FirebaseAuth.getInstance().getCurrentUser() == null) {
-                userAvatar.setImageResource(R.drawable.no_photo);
+                userAvatar.setImageResource(R.drawable.ic_photo);
                 userName.setText(R.string.please_sign);
                 userEmail.setText(R.string.and_sync_your_data);
                 fabIconFrame.setBackgroundResource(R.drawable.cloud_sign_in);
@@ -502,4 +432,153 @@ public class DrawerInitializer {
             o.printStackTrace();
         }
     }
+
+    public class LeftMenuAdapter extends RecyclerView.Adapter<LeftMenuAdapter.ViewHolder>{
+
+        ArrayList<LeftMenuItem> result;
+
+        public LeftMenuAdapter(ArrayList<LeftMenuItem> items) {
+            this.result = items;
+
+        }
+
+        @Override
+        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_drawer, parent, false);
+            LeftMenuAdapter.ViewHolder viewHolder = new ViewHolder(view);
+            return viewHolder;
+        }
+        ViewHolder holderOld;
+        @Override
+        public void onBindViewHolder(final ViewHolder holder, final int position) {
+            if(holderOld==null){
+                holderOld = holder;
+            }
+            holder.ivIcon.setImageResource(result.get(position).getIconId());
+            holder.tvTitle.setText(result.get(position).getTitleName());
+            holder.llMenuItems.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (fragmentManager.getFragmentManager().getBackStackEntryCount() == 0 && position == 0) {
+                        pocketAccounter.findViewById(R.id.change).setVisibility(View.VISIBLE);
+                    } else {
+                        pocketAccounter.findViewById(R.id.change).setVisibility(View.GONE);
+                    }
+
+                    holderOld.tvTitle.setTextColor(pocketAccounter.getResources().getColor(R.color.menu_item_color));
+                    holderOld.ivIcon.setColorFilter(pocketAccounter.getResources().getColor(R.color.menu_item_color));
+                    holderOld.llMenuItems.setBackgroundColor(pocketAccounter.getResources().getColor(R.color.white));
+                    holder.flStroke.setBackgroundColor(pocketAccounter.getResources().getColor(R.color.white));
+                    holderOld.flStroke.setVisibility(View.INVISIBLE);
+
+                    holder.tvTitle.setTextColor(GetterAttributColors.fetchHeadAccedentColor(pocketAccounter));
+                    holder.ivIcon.setColorFilter(GetterAttributColors.fetchHeadAccedentColor(pocketAccounter));
+                    holder.llMenuItems.setBackgroundColor(pocketAccounter.getResources().getColor(R.color.credit_white_grey));
+                    holder.flStroke.setBackgroundColor(GetterAttributColors.fetchHeadAccedentColor(pocketAccounter));
+                    holder.flStroke.setVisibility(View.VISIBLE);
+
+                    holderOld = holder;
+
+                    drawer.closeLeftSide();
+                    drawer.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            pocketAccounter.findViewById(R.id.mainWhite).setVisibility(View.VISIBLE);
+                            switch (position) {
+                                case 0:
+                                    fragmentManager.displayMainWindow();
+                                    break;
+                                case 1:
+                                    fragmentManager.displayFragment(new CurrencyFragment());
+                                    break;
+                                case 2:
+                                    fragmentManager.displayFragment(new CategoryFragment());
+                                    break;
+                                case 3:
+                                    fragmentManager.displayFragment(new AccountFragment());
+                                    break;
+                                case 4:
+                                    fragmentManager.displayFragment(new PurposeFragment());
+                                    break;
+                                case 5:
+                                    fragmentManager.displayFragment(new AutoMarketFragment());
+                                    break;
+                                case 6:
+                                    fragmentManager.displayFragment(new CreditTabLay());
+                                    break;
+                                case 7:
+                                    fragmentManager.displayFragment(new DebtBorrowFragment());
+                                    break;
+                                case 8:
+                                    fragmentManager.displayFragment(new SmsParseMainFragment());
+                                    break;
+                                case 9:
+                                    fragmentManager.displayFragment(new ReportFragment());
+                                    break;
+                                case 10:
+                                    fragmentManager.displayFragment(new ChangeColorOfStyleFragment());
+                                    break;
+                                case 11:
+                                    Intent zssettings = new Intent(pocketAccounter, SettingsActivity.class);
+                                    PocketAccounter.openActivity=true;
+                                    for (int i = 0; i < fragmentManager.getFragmentManager().getBackStackEntryCount(); i++) {
+                                        fragmentManager.getFragmentManager().popBackStack();
+                                    }
+                                    pocketAccounter.startActivityForResult(zssettings, key_for_restat);
+                                    break;
+                                case 12:
+                                    pocketAccounter.findViewById(R.id.change).setVisibility(View.VISIBLE);
+                                    Intent rate_app_web = new Intent(Intent.ACTION_VIEW);
+                                    PocketAccounter.openActivity=true;
+                                    rate_app_web.setData(Uri.parse(pocketAccounter.getResources().getString(R.string.rate_app_web)));
+                                    pocketAccounter.startActivity(rate_app_web);
+                                    break;
+                                case 13:
+                                    pocketAccounter.findViewById(R.id.change).setVisibility(View.VISIBLE);
+                                    Intent Email = new Intent(Intent.ACTION_SEND);
+                                    PocketAccounter.openActivity=true;
+                                    Email.setType("text/email");
+                                    Email.putExtra(Intent.EXTRA_SUBJECT, pocketAccounter.getString(R.string.share_app));
+                                    Email.putExtra(Intent.EXTRA_TEXT, pocketAccounter.getString(R.string.share_app_text));
+                                    pocketAccounter.startActivity(Intent.createChooser(Email, pocketAccounter.getString(R.string.share_app)));
+                                    break;
+                                case 14:
+                                    pocketAccounter.findViewById(R.id.change).setVisibility(View.VISIBLE);
+                                    openGmail(pocketAccounter, new String[]{pocketAccounter.getString(R.string.to_email)},
+                                            pocketAccounter.getString(R.string.feedback_subject),
+                                            pocketAccounter.getString(R.string.feedback_content));
+                                    break;
+                            }
+
+                        }
+                    }, 170);
+                }
+            });
+
+        }
+
+        @Override
+        public int getItemCount() {
+            return result.size();
+        }
+        public class ViewHolder extends RecyclerView.ViewHolder {
+            ImageView ivIcon;
+            TextView tvTitle;
+            LinearLayout llMenuItems;
+            FrameLayout flStroke;
+            public ViewHolder(View view) {
+                super(view);
+                ivIcon = (ImageView) view.findViewById(R.id.ivTitleIcon);
+                tvTitle = (TextView) view.findViewById(R.id.tvTitleName);
+                llMenuItems = (LinearLayout) view.findViewById(R.id.llMenuItems);
+                flStroke = (FrameLayout) view.findViewById(R.id.flStroke);
+            }
+
+
+        }
+
+
+    }
+
+
 }
