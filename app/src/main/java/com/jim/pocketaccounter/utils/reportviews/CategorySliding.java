@@ -117,13 +117,21 @@ public class CategorySliding extends LinearLayout {
 
     private Map<String, Integer> initColors(int position) {
         Map<String, Integer> colors = new HashMap<>();
-        colors.put("null", generateColor());
+        colors.put("null", colorsCode[0]);
         RootCategory category = daoSession.load(RootCategory.class, allCategories.get(position));
-        if (category.getSubCategories() != null) {
+        if (category.getSubCategories() != null &&category.getSubCategories().size()!=0) {
+            double dlinaShaga = 11 / category.getSubCategories().size() ;
+            double polushag = dlinaShaga/2;
+
             for (int i = 0; i < category.getSubCategories().size(); i++) {
-                colors.put(category.getSubCategories().get(i).getId(), generateColor());
+
+                colors.put(category.getSubCategories().get(i).getId(), colorsCode[(int)Math.round(polushag+(dlinaShaga*i))]);
+
             }
+
         }
+
+
         return colors;
     }
 
@@ -156,7 +164,23 @@ public class CategorySliding extends LinearLayout {
         }
     }
     //----------------- util methods ----------------------
+    int colorCount = 0;
+    private int[] colorsCode = {
+            Color.parseColor("#0d3c55"),
+            Color.parseColor("#0f5b78"),
+            Color.parseColor("#117899"),
+            Color.parseColor("#1395ba"),
+            Color.parseColor("#5ca793"),
+            Color.parseColor("#a2b86c"),
+            Color.parseColor("#ebc844"),
+            Color.parseColor("#ecaa38"),
+            Color.parseColor("#ef8b2c"),
+            Color.parseColor("#f16c20"),
+            Color.parseColor("#d94e1f"),
+            Color.parseColor("#c02e1d")
+    };
     private int generateColor() {
+
         return Color.rgb(RandomUtils.nextInt(0, 192),
                          RandomUtils.nextInt(0, 192),
                          RandomUtils.nextInt(0, 192)

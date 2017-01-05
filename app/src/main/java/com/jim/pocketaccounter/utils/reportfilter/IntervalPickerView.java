@@ -54,11 +54,11 @@ public class IntervalPickerView extends LinearLayout {
         wpIntervalPickerFrom = (WheelView) findViewById(R.id.wpIntervalPickerFrom);
         wpIntervalPickerTo = (WheelView) findViewById(R.id.wpIntervalPickerTo);
         crfvFilterCenterCirlce = (CircleReportFilterView) findViewById(R.id.crfvFilterCenterCirlce);
-        crfvFilterCenterCirlce.setListener(new CircleReportFilterView.IntervlCircleTickListener() {
+      crfvFilterCenterCirlce.setListener(new CircleReportFilterView.IntervlCircleTickListener() {
             @Override
             public void onIntervalCircleTick(Calendar begin, Calendar end, boolean dayPickMode) {
-                tvIntervalPickerFrom.setText(format.format(begin.getTime()));
-                tvIntervalPickerTo.setText(format.format(end.getTime()));
+                tvIntervalPickerFrom.setText(getContext().getString(R.string.c_interval)+": "+format.format(begin.getTime()));
+                tvIntervalPickerTo.setText(getContext().getString(R.string.do_interval)+": "+format.format(end.getTime()));
                 if (IntervalPickerView.this.begin.compareTo(begin) != 0) {
                     int begMax = begin.getActualMaximum(Calendar.DAY_OF_MONTH);
                     fromDays = new ArrayList<>();
@@ -83,18 +83,20 @@ public class IntervalPickerView extends LinearLayout {
                 IntervalPickerView.this.begin = (Calendar) begin.clone();
                 IntervalPickerView.this.end = (Calendar) end.clone();
                 Vibrator v = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
-                v.vibrate(5);
+                v.vibrate(20);
             }
         });
         begin = (Calendar) crfvFilterCenterCirlce.getBegin().clone();
         end = (Calendar) crfvFilterCenterCirlce.getEnd().clone();
-        tvIntervalPickerFrom.setText(format.format(begin.getTime()));
-        tvIntervalPickerTo.setText(format.format(end.getTime()));
+        tvIntervalPickerFrom.setText(getContext().getString(R.string.c_interval)+": "+format.format(begin.getTime()));
+        tvIntervalPickerTo.setText(getContext().getString(R.string.do_interval)+": "+format.format(end.getTime()));
+
         final int begMax = begin.getActualMaximum(Calendar.DAY_OF_MONTH);
         fromDays = new ArrayList<>();
         for (int i = 0; i < begMax; i++)
             fromDays.add(String.valueOf(i+1));
         wpIntervalPickerFrom.setItems(fromDays);
+        wpIntervalPickerFrom.selectIndex(0);
         wpIntervalPickerFrom.setOnWheelItemSelectedListener(new WheelView.OnWheelItemSelectedListener() {
             @Override
             public void onWheelItemChanged(WheelView wheelView, int position) {
@@ -106,11 +108,13 @@ public class IntervalPickerView extends LinearLayout {
                 crfvFilterCenterCirlce.setDay(position, CircleReportFilterView.BEGIN);
             }
         });
+
         int endMax = end.getActualMaximum(Calendar.DAY_OF_MONTH);
         toDays = new ArrayList<>();
         for (int i = 0; i < endMax; i++)
             toDays.add(String.valueOf(i+1));
         wpIntervalPickerTo.setItems(toDays);
+        wpIntervalPickerTo .selectIndex(0);
         wpIntervalPickerTo.setOnWheelItemSelectedListener(new WheelView.OnWheelItemSelectedListener() {
             @Override
             public void onWheelItemChanged(WheelView wheelView, int position) {

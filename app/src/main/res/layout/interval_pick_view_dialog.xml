@@ -3,9 +3,10 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff">
+    android:background="@drawable/dialog_shape"
+    >
     <com.jim.pocketaccounter.utils.reportfilter.IntervalPickerView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/ipvDialog"/>
 </LinearLayout>

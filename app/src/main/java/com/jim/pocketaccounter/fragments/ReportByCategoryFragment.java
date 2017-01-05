@@ -13,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jim.pocketaccounter.PocketAccounter;
@@ -67,18 +69,26 @@ public class ReportByCategoryFragment extends Fragment {
     private List<SubcatDetailedData> subcatDetailDatas;
     private IntervalPickDialog dialog;
     private Calendar begin, end;
+    private LinearLayout llPickDate;
+    private TextView tvBeginDate;
+    private TextView tvEndDate;
+    SimpleDateFormat sDateFormat = new SimpleDateFormat("dd MMM, yyyy");
     private DecimalFormat decimalFormat = new DecimalFormat("0.##");
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.report_by_category_fragment, container, false);
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
-        toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
-        toolbarManager.setImageToSecondImage(R.drawable.ic_filter);
-        toolbarManager.setOnSecondImageClickListener(new View.OnClickListener() {
+        toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
+
+        llPickDate = (LinearLayout) rootView.findViewById(R.id.llPickDate);
+        llPickDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                dialog.getWindow().setLayout(9 * getContext().getResources().getDisplayMetrics().widthPixels / 10, RelativeLayout.LayoutParams.WRAP_CONTENT);
                 dialog.show();
             }
         });
+        tvBeginDate = (TextView) rootView.findViewById(R.id.tvBeginDate);
+        tvEndDate = (TextView) rootView.findViewById(R.id.tvEndDate);
         rvReportByCategorySubcatPercents = (RecyclerView) rootView.findViewById(R.id.rvReportByCategorySubcatPercents);
         rvReportByCategorySubcatPercents.setLayoutManager(new GridLayoutManager(getContext(), 2, GridLayoutManager.HORIZONTAL, false));
         csReportByCategory = (CategorySliding) rootView.findViewById(R.id.csReportByCategory);
@@ -97,6 +107,8 @@ public class ReportByCategoryFragment extends Fragment {
                 ReportByCategoryFragment.this.begin = (Calendar) begin.clone();
                 ReportByCategoryFragment.this.end = (Calendar) end.clone();
                 csReportByCategory.setInterval(begin, end);
+                tvBeginDate.setText(getString(R.string.c_interval)+": "+sDateFormat.format(begin.getTime()));
+                tvEndDate.setText(getString(R.string.do_interval)+": "+sDateFormat.format(end.getTime()));
                 dialog.dismiss();
             }
 
@@ -163,6 +175,9 @@ public class ReportByCategoryFragment extends Fragment {
                 else {
                     begin.add(Calendar.MONTH, -1);
                 }
+                tvBeginDate.setText(getString(R.string.c_interval)+':'+sDateFormat.format(begin.getTime()));
+                tvEndDate.setText(getString(R.string.do_interval)+':'+sDateFormat.format(end.getTime()));
+
                 beg = (Calendar) begin.clone();
             }
 
@@ -278,7 +293,7 @@ public class ReportByCategoryFragment extends Fragment {
                 double total = 0.0d;
                 for (Double amount : result.get(position).getAmounts())
                     total += amount;
-                view.tvReportByCategoryInterval.setText(decimalFormat.format(total));
+                view.tvReportByCategoryInterval.setText(decimalFormat.format(total)+commonOperations.getMainCurrency().getAbbr());
                 view.lchvReportByCategoryItem.setData(result.get(position).getAmounts());
             }
         }

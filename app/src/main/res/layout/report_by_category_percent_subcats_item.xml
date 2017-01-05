@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:layout_marginLeft="@dimen/ten_dp"
-    android:layout_marginRight="@dimen/ten_dp"
+    android:layout_marginBottom="@dimen/ten_dp"
+    android:background="@drawable/carditem"
+    android:paddingTop="@dimen/ten_dp"
+    android:paddingBottom="@dimen/ten_dp"
+    android:paddingRight="@dimen/sixteen_dp"
+    android:paddingLeft="@dimen/ten_dp"
     android:orientation="horizontal">
     <com.jim.pocketaccounter.utils.reportviews.SubcatReportView
         android:layout_width="@dimen/eighty_dp"
         android:layout_height="@dimen/eighty_dp"
+        android:padding="@dimen/ten_dp"
+        android:layout_gravity="center"
+        android:layout_marginRight="@dimen/ten_dp"
         android:id="@+id/srvReportByCategory"
         android:layout_centerHorizontal="true"/>
     <LinearLayout
@@ -16,7 +24,8 @@
         android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/five_dp">
             <ImageView
                 android:layout_width="@dimen/twentyfive_dp"
                 android:layout_height="@dimen/twentyfive_dp"
@@ -24,8 +33,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:minWidth="130dp"
+                android:layout_marginLeft="@dimen/ten_dp"
                 android:id="@+id/tvReportSubcatPercentsName"
-                android:layout_marginTop="@dimen/five_dp"
                 android:textSize="@dimen/fourteen_dp"
                 android:textColor="#414141"
                 android:text="Subcategory name"
@@ -35,14 +46,30 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:layout_marginTop="@dimen/ten_dp"
             android:id="@+id/lchvReportByCategoryItem"/>
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/tvReportByCategoryInterval"
-            android:textSize="@dimen/ten_dp"
-            android:textColor="#414141"
-            android:text="subcat"/>
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/fourteen_dp"
+                android:textColor="#414141"
+                android:text="@string/za_period"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:layout_marginRight="@dimen/ten_dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvReportByCategoryInterval"
+                android:textSize="@dimen/fourteen_dp"
+                android:layout_marginTop="@dimen/ten_dp"
+
+                android:textColor="#414141"
+                android:text="subcat"/>
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

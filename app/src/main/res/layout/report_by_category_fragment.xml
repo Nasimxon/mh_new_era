@@ -1,18 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fcfcfc">
-    <com.jim.pocketaccounter.utils.reportviews.CategorySliding
+    android:background="#ffffff">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <com.jim.pocketaccounter.utils.reportviews.CategorySliding
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/one_hundred_eighty_one_dp"
+            android:id="@+id/csReportByCategory"
+            android:layout_marginTop="@dimen/ten_dp"
+            android:layout_above="@+id/shlyuzik"/>
+        <LinearLayout
+            android:id="@+id/llPickDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:paddingTop="@dimen/eight_dp"
+            android:paddingBottom="@dimen/eight_dp"
+            android:paddingRight="@dimen/sixteen_dp"
+            android:paddingLeft="@dimen/sixteen_dp"
+            android:layout_marginBottom="@dimen/sixteen_dp"
+            android:layout_marginTop="@dimen/ten_dp"
+            android:background="@drawable/date_picker_shape"
+            >
+            <TextView
+                android:id="@+id/tvBeginDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="C: 25 Nov, 2016"
+                android:textColor="@color/black_for_myagkiy_glavniy"
+                android:textSize="@dimen/fourteen_dp"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingTop="@dimen/two_dp"
+                android:paddingBottom="@dimen/two_dp"
+                android:src="@drawable/arrow_right"
+                android:layout_marginLeft="@dimen/ten_dp"
+                android:layout_marginRight="@dimen/ten_dp"/>
+            <TextView
+                android:id="@+id/tvEndDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black_for_myagkiy_glavniy"
+                android:text="До: 25 Nov, 2016"
+                android:textSize="@dimen/fourteen_dp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/rlInfo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/csReportByCategory"
-        android:layout_marginTop="@dimen/ten_dp"
-        android:layout_above="@+id/rvReportByCategorySubcatPercents"/>
-    <android.support.v7.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/hundred_and_ninety_dp"
-        android:id="@+id/rvReportByCategorySubcatPercents"
-        android:layout_alignParentBottom="true"/>
-</RelativeLayout>
+        android:orientation="vertical"
+        android:background="#f2f3f5">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/six_dp"
+            android:background="@drawable/catinfo_shadow"
+            />
+        <android.support.v7.widget.RecyclerView
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/rvReportByCategorySubcatPercents"
+            android:paddingTop="@dimen/ten_dp"
+            android:clipToPadding="false"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+
+    </LinearLayout>
+
+</LinearLayout>
