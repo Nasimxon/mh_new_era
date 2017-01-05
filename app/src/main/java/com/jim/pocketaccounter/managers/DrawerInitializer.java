@@ -79,7 +79,7 @@ public class DrawerInitializer {
     boolean downloadnycCanRest = true;
     Uri imageUri;
     ImageView fabIconFrame;
-
+    LeftMenuAdapter adapter;
     public static final int key_for_restat = 10101;
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReferenceFromUrl("gs://pocket-accounter.appspot.com");
@@ -294,7 +294,7 @@ public class DrawerInitializer {
             LeftMenuItem leftMenuItem = new LeftMenuItem(drawerMenus[i], resId);
             items.add(leftMenuItem);
         }
-        LeftMenuAdapter adapter = new LeftMenuAdapter(items);
+         adapter = new LeftMenuAdapter(items);
         rvLeftMenu.setAdapter(adapter);
 
     }
@@ -432,6 +432,11 @@ public class DrawerInitializer {
             o.printStackTrace();
         }
     }
+    public void inits(){
+        oldPosition =0;
+        adapter.notifyDataSetChanged();
+    }
+    int oldPosition=0;
 
     public class LeftMenuAdapter extends RecyclerView.Adapter<LeftMenuAdapter.ViewHolder>{
 
@@ -448,16 +453,23 @@ public class DrawerInitializer {
             LeftMenuAdapter.ViewHolder viewHolder = new ViewHolder(view);
             return viewHolder;
         }
-        ViewHolder holderOld;
         @Override
         public void onBindViewHolder(final ViewHolder holder, final int position) {
-            if(holderOld==null){
-                holderOld = holder;
+
+            if(position==oldPosition){
                 holder.tvTitle.setTextColor(GetterAttributColors.fetchHeadAccedentColor(pocketAccounter));
                 holder.ivIcon.setColorFilter(GetterAttributColors.fetchHeadAccedentColor(pocketAccounter));
                 holder.llMenuItems.setBackgroundColor(pocketAccounter.getResources().getColor(R.color.credit_white_grey));
                 holder.flStroke.setBackgroundColor(GetterAttributColors.fetchHeadAccedentColor(pocketAccounter));
                 holder.flStroke.setVisibility(View.VISIBLE);
+            }
+            else {
+                holder.tvTitle.setTextColor(pocketAccounter.getResources().getColor(R.color.menu_item_color));
+                holder.ivIcon.setColorFilter(pocketAccounter.getResources().getColor(R.color.menu_item_color));
+                holder.llMenuItems.setBackgroundColor(pocketAccounter.getResources().getColor(R.color.white));
+                holder.flStroke.setBackgroundColor(pocketAccounter.getResources().getColor(R.color.white));
+                holder.flStroke.setVisibility(View.INVISIBLE);
+
             }
             holder.ivIcon.setImageResource(result.get(position).getIconId());
             holder.tvTitle.setText(result.get(position).getTitleName());
@@ -469,22 +481,10 @@ public class DrawerInitializer {
                     } else {
                         pocketAccounter.findViewById(R.id.change).setVisibility(View.GONE);
                     }
-
-                    holderOld.tvTitle.setTextColor(pocketAccounter.getResources().getColor(R.color.menu_item_color));
-                    holderOld.ivIcon.setColorFilter(pocketAccounter.getResources().getColor(R.color.menu_item_color));
-                    holderOld.llMenuItems.setBackgroundColor(pocketAccounter.getResources().getColor(R.color.white));
-                    holder.flStroke.setBackgroundColor(pocketAccounter.getResources().getColor(R.color.white));
-                    holderOld.flStroke.setVisibility(View.INVISIBLE);
-
-                    holder.tvTitle.setTextColor(GetterAttributColors.fetchHeadAccedentColor(pocketAccounter));
-                    holder.ivIcon.setColorFilter(GetterAttributColors.fetchHeadAccedentColor(pocketAccounter));
-                    holder.llMenuItems.setBackgroundColor(pocketAccounter.getResources().getColor(R.color.credit_white_grey));
-                    holder.flStroke.setBackgroundColor(GetterAttributColors.fetchHeadAccedentColor(pocketAccounter));
-                    holder.flStroke.setVisibility(View.VISIBLE);
-
-                    holderOld = holder;
+                    oldPosition = position;
 
                     drawer.closeLeftSide();
+                    notifyDataSetChanged();
                     drawer.postDelayed(new Runnable() {
                         @Override
                         public void run() {

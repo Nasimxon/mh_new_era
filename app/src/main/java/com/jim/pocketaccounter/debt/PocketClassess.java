@@ -9,6 +9,7 @@ import com.jim.pocketaccounter.fragments.AddSmsParseFragment;
 import com.jim.pocketaccounter.fragments.AutoMarketFragment;
 import com.jim.pocketaccounter.fragments.CategoryFragment;
 import com.jim.pocketaccounter.fragments.CategoryInfoFragment;
+import com.jim.pocketaccounter.fragments.ChangeColorOfStyleFragment;
 import com.jim.pocketaccounter.fragments.CreditTabLay;
 import com.jim.pocketaccounter.fragments.CurrencyChooseFragment;
 import com.jim.pocketaccounter.fragments.CurrencyEditFragment;
@@ -22,9 +23,15 @@ import com.jim.pocketaccounter.fragments.RecordDetailFragment;
 import com.jim.pocketaccounter.fragments.RecordEditFragment;
 import com.jim.pocketaccounter.fragments.ReportByAccountFragment;
 import com.jim.pocketaccounter.fragments.ReportByCategory;
+import com.jim.pocketaccounter.fragments.ReportByCategoryFragment;
 import com.jim.pocketaccounter.fragments.ReportByIncomeExpanseBarFragment;
+import com.jim.pocketaccounter.fragments.ReportByIncomeExpenseDaily;
+import com.jim.pocketaccounter.fragments.ReportByIncomeExpenseDailyTableFragment;
+import com.jim.pocketaccounter.fragments.ReportByIncomeExpenseMonthlyFragment;
+import com.jim.pocketaccounter.fragments.ReportFragment;
 import com.jim.pocketaccounter.fragments.RootCategoryEditFragment;
 import com.jim.pocketaccounter.fragments.SMSParseInfoFragment;
+import com.jim.pocketaccounter.fragments.ScheduleCreditFragment;
 import com.jim.pocketaccounter.fragments.SearchFragment;
 import com.jim.pocketaccounter.fragments.SmsParseMainFragment;
 import com.jim.pocketaccounter.fragments.TableBarFragment;
@@ -63,6 +70,7 @@ public interface PocketClassess {
     String INFO_CREDIT_ARCHIVE= InfoCreditFragmentForArchive.class.getName();
     String ADD_CREDIT = AddCreditFragment.class.getName();
 
+
     // Debt - Borrow
     String DEBTBORROW_FRAG = DebtBorrowFragment.class.getName();
     String ADD_DEBTBORROW = AddBorrowFragment.class.getName();
@@ -75,8 +83,12 @@ public interface PocketClassess {
 
     // Report by Account
     String REPORT_ACCOUNT = ReportByAccountFragment.class.getName();
-    String REPORT_CATEGORY = ReportByCategory.class.getName();
+    String REPORT_CATEGORY = ReportByCategoryFragment.class.getName();
     String REPORT_BY_INCOME_EXPANCE = TableBarFragment.class.getName();
+    String REPORT = ReportFragment.class.getName();
+    String REPORT_DAILY_TABLE = ReportByIncomeExpenseDailyTableFragment.class.getName();
+    String REPORT_DAILY = ReportByIncomeExpenseDaily.class.getName();
+    String REPORT_MONTHLY = ReportByIncomeExpenseMonthlyFragment.class.getName();
 
     // Sms Parsing
     String SMS_PARSE_FRAGMENT = SmsParseMainFragment.class.getName();
@@ -85,4 +97,6 @@ public interface PocketClassess {
 
     // Searching
     String SEARCH_FRAGMENT = SearchFragment.class.getName();
+    // Themes
+    String THEMES = ChangeColorOfStyleFragment.class.getName();
 }

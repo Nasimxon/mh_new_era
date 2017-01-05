@@ -274,7 +274,7 @@ public class PocketAccounter extends AppCompatActivity {
                             getClass().getName().equals(PocketClassess.SEARCH_FRAGMENT)) {
                 toolbarManager.closeSearchTools();
             } else
-                paFragmentManager.remoteBackPress();
+                paFragmentManager.remoteBackPress(drawerInitializer);
         } else {
             final WarningDialog warningDialog = new WarningDialog(this);
             warningDialog.setMyTitle(getResources().getString(R.string.warning));
