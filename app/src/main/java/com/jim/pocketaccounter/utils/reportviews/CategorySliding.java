@@ -66,19 +66,26 @@ public class CategorySliding extends LinearLayout {
         vpCategorySlider.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                if (listener != null) {
+                    listener.onSlide(allCategories.get(position), allColors.get(allCategories.get(position)), position, true);
+                }
 
             }
 
             @Override
             public void onPageSelected(int position) {
                 CategorySliding.this.position = position;
+                if (listener != null) {
+                    listener.onSlide(allCategories.get(position), allColors.get(allCategories.get(position)), position, true);
+                }
+
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
                 if (state == ViewPager.SCROLL_STATE_IDLE && lastPosition != position) {
                     if (listener != null) {
-                        listener.onSlide(allCategories.get(position), allColors.get(allCategories.get(position)), position);
+                        listener.onSlide(allCategories.get(position), allColors.get(allCategories.get(position)), position, false);
                     }
                     lastPosition = position;
                 }
@@ -95,7 +102,7 @@ public class CategorySliding extends LinearLayout {
         if (vpCategorySlider != null) {
             vpCategorySlider.setCurrentItem(position);
             if (listener != null) {
-                listener.onSlide(allCategories.get(position), allColors.get(allCategories.get(position)), position);
+                listener.onSlide(allCategories.get(position), allColors.get(allCategories.get(position)), position, false);
             }
         }
     }
@@ -111,7 +118,7 @@ public class CategorySliding extends LinearLayout {
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         if (listener != null) {
-            listener.onSlide(allCategories.get(position), allColors.get(allCategories.get(position)), position);
+            listener.onSlide(allCategories.get(position), allColors.get(allCategories.get(position)), position, false);
         }
     }
 
@@ -122,16 +129,10 @@ public class CategorySliding extends LinearLayout {
         if (category.getSubCategories() != null &&category.getSubCategories().size()!=0) {
             double dlinaShaga = 11 / category.getSubCategories().size() ;
             double polushag = dlinaShaga/2;
-
             for (int i = 0; i < category.getSubCategories().size(); i++) {
-
                 colors.put(category.getSubCategories().get(i).getId(), colorsCode[(int)Math.round(polushag+(dlinaShaga*i))]);
-
             }
-
         }
-
-
         return colors;
     }
 
@@ -179,11 +180,4 @@ public class CategorySliding extends LinearLayout {
             Color.parseColor("#d94e1f"),
             Color.parseColor("#c02e1d")
     };
-    private int generateColor() {
-
-        return Color.rgb(RandomUtils.nextInt(0, 192),
-                         RandomUtils.nextInt(0, 192),
-                         RandomUtils.nextInt(0, 192)
-        );
-    }
 }

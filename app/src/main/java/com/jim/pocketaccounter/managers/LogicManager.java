@@ -210,7 +210,6 @@ public class LogicManager {
 
 
 
-
     public void generateCurrencyCosts(Calendar day, double amount, Currency adding) {
         final int EARLIEST = 0, MIDDLE = 1, LATEST = 2; // position of adding currency
         //defining the position
@@ -254,6 +253,12 @@ public class LogicManager {
                 break;
         }
         generateCostForTheDay((Calendar) day.clone(), amount, adding, supplyState);
+        if (position != LATEST)
+            generateCostsForRestDays((Calendar) day.clone(), amount, adding);
+        daoSession.getCurrencyDao().detachAll();
+        daoSession.getCurrencyCostStateDao().detachAll();
+        daoSession.getCurrencyWithAmountDao().detachAll();
+        daoSession.getUserEnteredCalendarsDao().detachAll();
     }
 
     private void generateCostForTheDay(Calendar day, double amount, Currency adding, CurrencyCostState supply) { //generating costs using supplying data

@@ -17,14 +17,8 @@ import java.text.DecimalFormat;
 public class SubcatReportView extends View {
     private SubcatData subcatData;
     private String noDataText = "no data";
-    private float thicknes = 0.0f;
-    private Long total = 400L,
-                elapsed = 400L,
-                interim = 10L,
-                frameDuration = 5L;
-    private boolean disabled = true;
+    private float thickness = 0.0f;
     private float marginBetweenMainAndInnerCircles;
-    private boolean animate = false;
     public SubcatReportView(Context context) {
         super(context);
         init();
@@ -43,14 +37,13 @@ public class SubcatReportView extends View {
         init();
     }
     private void init() {
-        thicknes = getResources().getDimension(R.dimen.five_dp);
+        thickness = getResources().getDimension(R.dimen.six_dp);
         marginBetweenMainAndInnerCircles = getResources().getDimension(R.dimen.three_dp);
     }
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         if (subcatData != null) {
-            float timeRatio = (float) elapsed / (float) total;
             Paint paint = new Paint();
             paint.setAntiAlias(true);
 
@@ -68,17 +61,15 @@ public class SubcatReportView extends View {
             right = left + side;
             bottom = top + side;
             RectF outerContainer = new RectF(left, top, right, bottom);
-            if (!disabled) {
-                paint.setColor(subcatData.getColor());
-                float angle = 3.6f * subcatData.getPercent();
-                canvas.drawArc(outerContainer, 270.0f, timeRatio * angle, true, paint);
-            }
+            paint.setColor(subcatData.getColor());
+            float angle = 3.6f * subcatData.getPercent();
+            canvas.drawArc(outerContainer, 270.0f, angle, true, paint);
             paint.setColor(Color.WHITE);
             RectF innerContainer = new RectF(
-                    outerContainer.left + thicknes,
-                    outerContainer.top + thicknes,
-                    outerContainer.right - thicknes,
-                    outerContainer.bottom - thicknes
+                    outerContainer.left + thickness,
+                    outerContainer.top + thickness,
+                    outerContainer.right - thickness,
+                    outerContainer.bottom - thickness
             );
             canvas.drawArc(innerContainer, 270.0f, 360.0f, true, paint);
             Paint innerCirclePaint = new Paint();
@@ -97,15 +88,14 @@ public class SubcatReportView extends View {
             textPaint.setTextSize(textSize);
             textPaint.setColor(subcatData.getColor());
             DecimalFormat format = new DecimalFormat("0.##");
-            double temp = (disabled ? 0.0 : timeRatio * subcatData.getPercent());
-            String percent = format.format(temp) + "%";
+            String percent = format.format(subcatData.getPercent()) + "%";
             Rect textContainer = new Rect();
             textPaint.getTextBounds(percent, 0, percent.length(), textContainer);
             canvas.drawText(percent, (getWidth() - textContainer.width())/2, (getHeight() + textContainer.height())/2, textPaint);
         }
     }
-    public void setThicknes(float thicknes) {
-        this.thicknes = thicknes;
+    public void setThickness(float thickness) {
+        this.thickness = thickness;
     }
     public void setData(SubcatData subcatData){
         this.subcatData = subcatData;
@@ -113,37 +103,5 @@ public class SubcatReportView extends View {
     }
     public void setTextNoDataShow(String noDataText) {
         this.noDataText = noDataText;
-    }
-    public void animateView() {
-        if (subcatData != null && subcatData.getPercent() == 0.0f || animate)
-            return;
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                elapsed = 0L;
-                animate = true;
-                while (elapsed <= total) {
-                    try {
-                        Thread.sleep(interim);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    finally {
-                        postInvalidate();
-                        elapsed += frameDuration;
-                    }
-                }
-                elapsed = total;
-                animate = false;
-            }
-        }).start();
-    }
-    public void setDisabled(boolean disabled, boolean invalidate) {
-        this.disabled = disabled;
-        if (invalidate)
-            invalidate();
-    }
-    public boolean getDisabled() {
-        return disabled;
     }
 }

@@ -1,5 +1,6 @@
 package com.jim.pocketaccounter.utils.reportviews;
 
+import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -23,10 +24,6 @@ public class ReportPieView extends View {
     private Bitmap bitmap;
     private List<ArcShapeWithRotationAngle> arcs;
     static final int BABY = 0, NORMAL = 1, ALONE = 2;
-    private Long total = 200L,
-                    elapsed = 200L,
-                    interim = 10L,
-                    frameDuration = 2L;
     private float tenDp = 0.0f;
     private float thickness = 3.0f;
     private float bitmapMargin = 0.0f;
@@ -71,12 +68,8 @@ public class ReportPieView extends View {
 
     private void drawWhenNoDatas(Canvas canvas) {
         float side = getWidth() >= getHeight() ? getHeight() : getWidth();
-
-        float timeRatio = (float) elapsed/ (float) total;
         Paint paint = new Paint();
         paint.setAntiAlias(true);
-        float angle = timeRatio * 360.0f;
-
         float left, top, right, bottom;
         if (getWidth() > getHeight()) {
             left = (getWidth() - side) / 2;
@@ -91,7 +84,7 @@ public class ReportPieView extends View {
         }
         paint.setColor(Color.parseColor("#f2f3f5"));
         RectF rectF = new RectF(left, top, right, bottom);
-        canvas.drawArc(rectF, 0f, angle, true, paint);
+        canvas.drawArc(rectF, 0.0f, 360.0f, true, paint);
         paint.setColor(bgColor);
 
         if (getWidth() >= getHeight()) {
@@ -106,7 +99,7 @@ public class ReportPieView extends View {
             bottom = top + side - 2*thickness;
         }
         rectF = new RectF(left, top, right, bottom);
-        canvas.drawArc(rectF, 0, 360.0f*timeRatio, true, paint);
+        canvas.drawArc(rectF, 0, 360.0f, true, paint);
         bitmap = Bitmap.createScaledBitmap(bitmap, (int) (side/2), (int) (side/2), false);
         Paint bitmapPaint2 = new Paint();
         bitmapPaint2.setAntiAlias(true);
@@ -116,17 +109,6 @@ public class ReportPieView extends View {
         bitmapPaint.setAntiAlias(true);
         canvas.drawBitmap(bitmap, getWidth()/2 - bitmap.getWidth()/2,
                 getHeight()/2 - bitmap.getHeight()/2, bitmapPaint);
-//        Paint textPaint = new Paint();
-//        textPaint.setAntiAlias(true);
-//        textPaint.setColor(Color.parseColor("#414141"));
-//        Rect textBounds = new Rect();
-////        textPaint.setTextSize(noDataTextSize);
-////        textPaint.getTextBounds(noDataText, 0, noDataText.length(), textBounds);
-////        canvas.drawText(noDataText, getWidth()/2 - textBounds.width()/2,
-////                getHeight()/2 + bitmap.getHeight()/2 + 2*tenDp, textPaint);
-
-
-
     }
 
     public void setCenterBitmap(Bitmap bitmap) {
@@ -139,17 +121,11 @@ public class ReportPieView extends View {
         invalidate();
     }
 
-//    public void setNoDataText(String noDataText) {
-//        this.noDataText = noDataText;
-//        invalidate();
-//    }
-
     private void drawPie(Canvas canvas) {
         float side = getWidth() >= getHeight() ? getHeight() : getWidth();
-        float timeRatio = (float) elapsed/ (float) total;
         Paint paint = new Paint();
         paint.setAntiAlias(true);
-        float angle = timeRatio * 360.0f;
+        float angle = 360.0f;
         for (int i = 0; i < arcs.size(); i++) {
             paint.setColor(datas.get(i).getColor());
             ArcShapeWithRotationAngle arc = arcs.get(i);
@@ -200,7 +176,7 @@ public class ReportPieView extends View {
             bottom = top + side - 2*thickness;
         }
         RectF rectF = new RectF(left, top, right, bottom);
-        canvas.drawArc(rectF, 0, 360.0f*timeRatio, true, paint);
+        canvas.drawArc(rectF, 0, 360.0f, true, paint);
         bitmap = Bitmap.createScaledBitmap(bitmap, (int) (side/2), (int) (side/2), false);
         Paint bitmapPaint = new Paint();
         bitmapPaint.setAntiAlias(true);
@@ -326,26 +302,5 @@ public class ReportPieView extends View {
             arcShapeWithRotationAngle.setType(BABY);
         else
             arcShapeWithRotationAngle.setType(NORMAL);
-    }
-
-    public void animatePie() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                elapsed = 0L;
-                while (elapsed <= total) {
-                    try {
-                        Thread.sleep(interim);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    finally {
-                        postInvalidate();
-                        elapsed += frameDuration;
-                    }
-                }
-                elapsed = total;
-            }
-        }).start();
     }
 }

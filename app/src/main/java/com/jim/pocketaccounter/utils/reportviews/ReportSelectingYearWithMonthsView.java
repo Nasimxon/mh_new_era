@@ -162,6 +162,8 @@ public class ReportSelectingYearWithMonthsView extends LinearLayout {
                 break;
             }
         }
+        position = selection;
+        lastPosition = selection;
         vpReportSelectingYearWithMonths.setCurrentItem(selection);
         calendar.set(Calendar.YEAR, ((OneYearWithMonthsFragment)fragments.get(fragments.size()-1)).getYear());
         calendar.set(Calendar.MONTH, ((OneYearWithMonthsFragment)fragments.get(fragments.size()-1)).getMonth());
@@ -172,6 +174,7 @@ public class ReportSelectingYearWithMonthsView extends LinearLayout {
 
             @Override
             public void onPageSelected(int position) {
+                Log.d("sss", "onPageSelected: " + position);
                 if (ReportSelectingYearWithMonthsView.this.position == -1) {
                     OneYearWithMonthsFragment fragment = (OneYearWithMonthsFragment) adapter.getItem(position);
                     if (fragment != null) {

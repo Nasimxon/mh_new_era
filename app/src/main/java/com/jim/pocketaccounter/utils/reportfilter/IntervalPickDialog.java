@@ -35,4 +35,7 @@ public class IntervalPickDialog extends Dialog {
         if (ipvDialog != null)
             ipvDialog.setListener(listener);
     }
+    public void saveState() {
+        ipvDialog.saveState();
+    }
 }

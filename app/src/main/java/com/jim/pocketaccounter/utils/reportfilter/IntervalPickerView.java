@@ -54,7 +54,7 @@ public class IntervalPickerView extends LinearLayout {
         wpIntervalPickerFrom = (WheelView) findViewById(R.id.wpIntervalPickerFrom);
         wpIntervalPickerTo = (WheelView) findViewById(R.id.wpIntervalPickerTo);
         crfvFilterCenterCirlce = (CircleReportFilterView) findViewById(R.id.crfvFilterCenterCirlce);
-      crfvFilterCenterCirlce.setListener(new CircleReportFilterView.IntervlCircleTickListener() {
+        crfvFilterCenterCirlce.setListener(new CircleReportFilterView.IntervlCircleTickListener() {
             @Override
             public void onIntervalCircleTick(Calendar begin, Calendar end, boolean dayPickMode) {
                 tvIntervalPickerFrom.setText(getContext().getString(R.string.c_interval)+": "+format.format(begin.getTime()));
@@ -150,6 +150,10 @@ public class IntervalPickerView extends LinearLayout {
         this.listener = listener;
         if (this.listener != null)
             listener.onIntervalPick(begin, end);
+    }
+
+    public void saveState() {
+        crfvFilterCenterCirlce.saveState();
     }
 
     public interface IntervalPickListener {
