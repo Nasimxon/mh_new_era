@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -92,6 +93,8 @@ public class InfoCreditFragmentForArchive extends Fragment {
     LogicManager logicManager;
     @Inject
     LogicManager financeManager;
+    @Inject
+    SharedPreferences sPref;
 
     WarningDialog warningDialog;
     SimpleDateFormat sDateFormat = new SimpleDateFormat("dd MMM, yyyy");
@@ -154,7 +157,7 @@ public class InfoCreditFragmentForArchive extends Fragment {
         formater=new DecimalFormat("0.##");
         fromSearch=true;
     }
-    public void setConteent(CreditDetials temp,int position, AdapterCridetArchive.ListnerDel A1){
+    public void setConteent(CreditDetials temp, int position, AdapterCridetArchive.ListnerDel A1){
         currentCredit=temp;
         this.A1=A1;
         formater=new DecimalFormat("0.##");
@@ -191,6 +194,10 @@ public class InfoCreditFragmentForArchive extends Fragment {
         decimalFormat.setDecimalFormatSymbols(symbols);
         context = getActivity();
         warningDialog = new WarningDialog(context);
+        if (currentCredit != null)
+        {
+            sPref.edit().putLong("CREDIT_ID", currentCredit.getMyCredit_id()).commit();
+        }
 
     }
 
@@ -240,6 +247,8 @@ public class InfoCreditFragmentForArchive extends Fragment {
         V.findViewById(R.id.llDebtBOrrowItemEdit).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SharedPreferences.Editor editor = sPref.edit();
+                editor.putInt("FRAG_ID", 2).commit();
                 ScheduleCreditFragment scheduleCreditFragment  = new ScheduleCreditFragment();
                 scheduleCreditFragment.setCreditObject(currentCredit);
                 paFragmentManager.displayFragment(scheduleCreditFragment);

@@ -11,6 +11,8 @@ import android.view.View;
 import com.jim.pocketaccounter.PocketAccounter;
 import com.jim.pocketaccounter.PocketAccounterApplication;
 import com.jim.pocketaccounter.R;
+import com.jim.pocketaccounter.database.CreditDetials;
+import com.jim.pocketaccounter.database.DaoSession;
 import com.jim.pocketaccounter.debt.DebtBorrowFragment;
 import com.jim.pocketaccounter.debt.PocketClassess;
 import com.jim.pocketaccounter.fragments.AccountFragment;
@@ -19,6 +21,7 @@ import com.jim.pocketaccounter.fragments.CategoryFragment;
 import com.jim.pocketaccounter.fragments.CreditTabLay;
 import com.jim.pocketaccounter.fragments.CurrencyFragment;
 import com.jim.pocketaccounter.fragments.InfoCreditFragment;
+import com.jim.pocketaccounter.fragments.InfoCreditFragmentForArchive;
 import com.jim.pocketaccounter.fragments.MainPageFragment;
 import com.jim.pocketaccounter.fragments.ManualEnterFragment;
 import com.jim.pocketaccounter.fragments.PurposeFragment;
@@ -59,6 +62,8 @@ public class PAFragmentManager {
     @Inject DataCache dataCache;
     @Inject @Named(value = "end") Calendar end;
     @Inject SharedPreferences preferences;
+    @Inject
+    DaoSession daoSession;
     private VerticalViewPagerAdapter adapter;
     public PAFragmentManager(PocketAccounter activity) {
         this.activity = activity;
@@ -271,6 +276,27 @@ public class PAFragmentManager {
                 displayFragment(new RecordDetailFragment(dataCache.getEndDate()));
             } else if (fragName.equals(PocketClassess.ADD_SMS_PARSE_FRAGMENT) || fragName.equals(PocketClassess.INFO_SMS_PARSE_FRAGMENT)) {
                 displayFragment(new SmsParseMainFragment());
+            } else if (fragName.equals(PocketClassess.CREDIT_SCHEDULE)) {
+                if(preferences.getInt("FRAG_ID",0) == 1) {
+                    InfoCreditFragment infoCreditFragment = new InfoCreditFragment();
+                    long credit_id = preferences.getLong("CREDIT_ID", 0);
+                    if(credit_id != 0){
+                        CreditDetials creditDetials = daoSession.getCreditDetialsDao().load(credit_id);
+                        infoCreditFragment.setConteent(creditDetials,0,null);
+                        displayFragment(infoCreditFragment);
+                    }
+                    else displayMainWindow();
+                }
+                else if (preferences.getInt("FRAG_ID",0) == 2){
+                    InfoCreditFragmentForArchive infoCreditFragmentForArchive = new InfoCreditFragmentForArchive();
+                     long credit_id = preferences.getLong("CREDIT_ID", 0);
+                     if(credit_id != 0){
+                         CreditDetials creditDetials = daoSession.getCreditDetialsDao().load(credit_id);
+                         infoCreditFragmentForArchive.setConteent(creditDetials,0,null);
+                         displayFragment(infoCreditFragmentForArchive);
+                     }
+                      else displayMainWindow();
+                }
             }
         }
     }

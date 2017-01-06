@@ -69,6 +69,7 @@ public interface PocketClassess {
     String INFO_CREDIT= InfoCreditFragment.class.getName();
     String INFO_CREDIT_ARCHIVE= InfoCreditFragmentForArchive.class.getName();
     String ADD_CREDIT = AddCreditFragment.class.getName();
+    String CREDIT_SCHEDULE = ScheduleCreditFragment.class.getName();
 
 
     // Debt - Borrow

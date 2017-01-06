@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -93,6 +94,8 @@ public class InfoCreditFragment extends Fragment {
     LogicManager logicManager;
     @Inject
     LogicManager financeManager;
+    @Inject
+    SharedPreferences sPref;
 
     WarningDialog warningDialog;
     SimpleDateFormat sDateFormat = new SimpleDateFormat("dd MMM, yyyy");
@@ -187,7 +190,10 @@ public class InfoCreditFragment extends Fragment {
         decimalFormat.setDecimalFormatSymbols(symbols);
         context = getActivity();
         warningDialog = new WarningDialog(context);
-
+        if (currentCredit != null)
+        {
+            sPref.edit().putLong("CREDIT_ID", currentCredit.getMyCredit_id()).commit();
+        }
     }
 
 
@@ -236,6 +242,8 @@ public class InfoCreditFragment extends Fragment {
         V.findViewById(R.id.llDebtBOrrowItemEdit).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SharedPreferences.Editor editor = sPref.edit();
+                editor.putInt("FRAG_ID", 1).commit();
                 ScheduleCreditFragment scheduleCreditFragment  = new ScheduleCreditFragment();
                 scheduleCreditFragment.setCreditObject(currentCredit);
                 paFragmentManager.displayFragment(scheduleCreditFragment);
@@ -265,20 +273,6 @@ public class InfoCreditFragment extends Fragment {
                                 public void onClick(View v) {
                                     if (!fromMainWindow) {
                                         List<BoardButton> boardButtons = daoSession.getBoardButtonDao().loadAll();
-                                        for (BoardButton boardButton : boardButtons) {
-                                            if (boardButton.getCategoryId() != null)
-                                                if (boardButton.getCategoryId().equals(Long.toString(currentCredit.getMyCredit_id()))) {
-                                                    if (boardButton.getTable() == PocketAccounterGeneral.EXPENSE)
-                                                        logicManager.changeBoardButton(PocketAccounterGeneral.EXPENSE, boardButton.getPos(), null);
-                                                    else
-                                                        logicManager.changeBoardButton(PocketAccounterGeneral.INCOME, boardButton.getPos(), null);
-                                                    commonOperations.changeIconToNull(boardButton.getPos(), dataCache, boardButton.getTable());
-
-                                                }
-                                        }
-
-                                        logicManager.deleteCredit(currentCredit);
-                                        dataCache.updateAllPercents();
                                         paFragmentManager.updateAllFragmentsOnViewPager();
 
                                         A1.delete_item(currentPOS);
