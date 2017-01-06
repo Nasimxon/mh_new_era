@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/sixteen_dp"
+    android:background="#fafafa"
     tools:context="com.jim.pocketaccounter.widget.SettingsWidget">
     <ScrollView
         android:layout_width="match_parent"
@@ -17,68 +18,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/widget_settings"
-                android:textColor="@color/black_for_glavniy_text"
+                android:textColor="@color/black_for_myagkiy_glavniy"
                 android:textSize="@dimen/twentysix_sp" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@id/setsetste"
-                android:layout_marginTop="@dimen/twenty_dp"
                 android:orientation="vertical">
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                   android:layout_marginTop="@dimen/five_dp"
                     android:orientation="horizontal">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="@dimen/ten_dp"
-                        android:text="@string/main_diagramm"
-                        android:textColor="@color/black_for_glavniy_text"
-                        android:textSize="@dimen/eighteen_sp"
-                        android:textStyle="bold" />
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center">
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="2px"
-                            android:background="#dfdfdf" />
-                    </RelativeLayout>
-                </LinearLayout>
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/ten_dp">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/period_of_diagramm"
-                        android:textColor="@color/black_for_glavniy_text"
-                        android:textSize="@dimen/eighteen_sp" />
-                    <Spinner
-                        android:id="@+id/perid_diagram"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginTop="@dimen/two_dp" />
-                </RelativeLayout>
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/sixteen_dp"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="@dimen/ten_dp"
-                        android:text="@string/category"
-                        android:textColor="@color/black_for_glavniy_text"
-                        android:textSize="@dimen/eighteen_sp"
-                        android:textStyle="bold" />
+
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -106,17 +59,17 @@
                             android:id="@+id/first_but_icon"
                             android:layout_width="@dimen/seventy_dp"
                             android:layout_height="@dimen/seventy_dp"
-                            android:background="@drawable/shape_for_widget_black"
+                            android:tint="@color/black_for_myagkiy_glavniy"
                             android:scaleType="centerInside"
                             android:src="@drawable/icons_3" />
                         <TextView
                             android:id="@+id/category_name_1"
                             android:layout_width="wrap_content"
                             android:layout_height="@dimen/seventy_dp"
-                            android:layout_marginLeft="@dimen/ten_dp"
+                            android:layout_marginLeft="@dimen/fifteen_dp"
                             android:gravity="center"
-                            android:text=""
-                            android:textColor="@color/black_for_glavniy_text"
+                            android:text="Choose category"
+                            android:textColor="@color/black_for_myagkiy_glavniy"
                             android:textSize="@dimen/eighteen_sp" />
                     </LinearLayout>
                     <LinearLayout
@@ -134,6 +87,7 @@
                             android:layout_height="match_parent"
                             android:layout_marginRight="@dimen/five_dp"
                             android:scaleType="centerInside"
+                            android:tint="@color/black_for_myagkiy_glavniy"
                             android:src="@drawable/ic_delete_black_24dp" />
                         <ImageView
                             android:id="@+id/change_ed_but1"
@@ -141,6 +95,7 @@
                             android:layout_height="match_parent"
                             android:layout_marginRight="@dimen/five_dp"
                             android:scaleType="centerInside"
+                            android:tint="@color/black_for_myagkiy_glavniy"
                             android:src="@drawable/ic_settings_black_24dp" />
                     </LinearLayout>
                 </RelativeLayout>
@@ -161,17 +116,17 @@
                             android:id="@+id/second_but_icon"
                             android:layout_width="@dimen/seventy_dp"
                             android:layout_height="@dimen/seventy_dp"
-                            android:background="@drawable/shape_for_widget_black"
+                            android:tint="@color/black_for_myagkiy_glavniy"
                             android:scaleType="centerInside"
                             android:src="@drawable/icons_3" />
                         <TextView
                             android:id="@+id/category_name_2"
                             android:layout_width="wrap_content"
                             android:layout_height="@dimen/seventy_dp"
-                            android:layout_marginLeft="@dimen/ten_dp"
+                            android:layout_marginLeft="@dimen/fifteen_dp"
                             android:gravity="center"
-                            android:text="Category1"
-                            android:textColor="@color/black_for_glavniy_text"
+                            android:text="Choose category"
+                            android:textColor="@color/black_for_myagkiy_glavniy"
                             android:textSize="@dimen/eighteen_sp" />
                     </LinearLayout>
                     <LinearLayout
@@ -189,6 +144,7 @@
                             android:layout_height="match_parent"
                             android:layout_marginRight="@dimen/five_dp"
                             android:scaleType="centerInside"
+                            android:tint="@color/black_for_myagkiy_glavniy"
                             android:src="@drawable/ic_delete_black_24dp" />
                         <ImageView
                             android:id="@+id/change_ed_but2"
@@ -196,6 +152,7 @@
                             android:layout_height="match_parent"
                             android:layout_marginRight="@dimen/five_dp"
                             android:scaleType="centerInside"
+                            android:tint="@color/black_for_myagkiy_glavniy"
                             android:src="@drawable/ic_settings_black_24dp" />
                     </LinearLayout>
                 </RelativeLayout>
@@ -216,17 +173,18 @@
                             android:id="@+id/thirt_but_icon"
                             android:layout_width="@dimen/seventy_dp"
                             android:layout_height="@dimen/seventy_dp"
-                            android:background="@drawable/shape_for_widget_black"
+                                                       android:tint="@color/black_for_myagkiy_glavniy"
                             android:scaleType="centerInside"
                             android:src="@drawable/icons_3" />
+
                         <TextView
                             android:id="@+id/category_name_3"
                             android:layout_width="wrap_content"
                             android:layout_height="@dimen/seventy_dp"
-                            android:layout_marginLeft="@dimen/ten_dp"
+                            android:layout_marginLeft="@dimen/fifteen_dp"
                             android:gravity="center"
-                            android:text="Category1"
-                            android:textColor="@color/black_for_glavniy_text"
+                            android:text="Choose category"
+                            android:textColor="@color/black_for_myagkiy_glavniy"
                             android:textSize="@dimen/eighteen_sp" />
                     </LinearLayout>
                     <LinearLayout
@@ -244,6 +202,7 @@
                             android:layout_height="match_parent"
                             android:layout_marginRight="@dimen/five_dp"
                             android:scaleType="centerInside"
+                            android:tint="@color/black_for_myagkiy_glavniy"
                             android:src="@drawable/ic_delete_black_24dp" />
                         <ImageView
                             android:id="@+id/change_ed_but3"
@@ -251,6 +210,7 @@
                             android:layout_height="match_parent"
                             android:layout_marginRight="@dimen/five_dp"
                             android:scaleType="centerInside"
+                            android:tint="@color/black_for_myagkiy_glavniy"
                             android:src="@drawable/ic_settings_black_24dp" />
                     </LinearLayout>
                 </RelativeLayout>
@@ -271,17 +231,17 @@
                             android:id="@+id/four_but_icon"
                             android:layout_width="@dimen/seventy_dp"
                             android:layout_height="@dimen/seventy_dp"
-                            android:background="@drawable/shape_for_widget_black"
+                            android:tint="@color/black_for_myagkiy_glavniy"
                             android:scaleType="centerInside"
                             android:src="@drawable/icons_3" />
                         <TextView
                             android:id="@+id/category_name_4"
                             android:layout_width="wrap_content"
                             android:layout_height="@dimen/seventy_dp"
-                            android:layout_marginLeft="@dimen/ten_dp"
+                            android:layout_marginLeft="@dimen/fifteen_dp"
                             android:gravity="center"
-                            android:text="Category1"
-                            android:textColor="@color/black_for_glavniy_text"
+                            android:text="Choose category"
+                            android:textColor="@color/black_for_myagkiy_glavniy"
                             android:textSize="@dimen/eighteen_sp" />
                     </LinearLayout>
                     <LinearLayout
@@ -299,6 +259,7 @@
                             android:layout_height="match_parent"
                             android:layout_marginRight="@dimen/five_dp"
                             android:scaleType="centerInside"
+                            android:tint="@color/black_for_myagkiy_glavniy"
                             android:src="@drawable/ic_delete_black_24dp" />
                         <ImageView
                             android:id="@+id/change_ed_but4"
@@ -306,6 +267,7 @@
                             android:layout_height="match_parent"
                             android:layout_marginRight="@dimen/five_dp"
                             android:scaleType="centerInside"
+                            android:tint="@color/black_for_myagkiy_glavniy"
                             android:src="@drawable/ic_settings_black_24dp" />
                     </LinearLayout>
                 </RelativeLayout>

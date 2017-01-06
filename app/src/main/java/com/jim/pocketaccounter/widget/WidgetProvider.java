@@ -110,7 +110,7 @@ public class WidgetProvider extends AppWidgetProvider {
         butID_4 = sPref.getString(WidgetKeys.BUTTON_4_ID, WidgetKeys.BUTTON_DISABLED);
 
 
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.app_widget);
+        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_app);
         Log.d(WidgetKeys.TAG, "UPDATE");
 
 
@@ -121,9 +121,12 @@ public class WidgetProvider extends AppWidgetProvider {
 
                 if (!butID_1.matches(WidgetKeys.BUTTON_DISABLED) && temp.getId().matches(butID_1)) {
                     //ustanovka ikonki
-                    views.setImageViewResource(R.id.button_1_ramka, R.drawable.shape_for_widget_black);
+//                    views.setImageViewResource(R.id.button_1_ramka, R.drawable.shape_for_widget_black);
                     int resId = context.getResources().getIdentifier(temp.getIcon(), "drawable", context.getPackageName());
                     views.setImageViewResource(R.id.button_1_icon, resId);
+                    String tvName = temp.getName();
+                    views.setViewVisibility(R.id.tvButtonName_1, View.VISIBLE);
+                    views.setTextViewText(R.id.tvButtonName_1, tvName);
                     //ustanovka onclika
                     Intent button1 = new Intent(context, CalcActivity.class);
                     button1.putExtra(WidgetKeys.KEY_FOR_INTENT_ID, temp.getId());
@@ -136,9 +139,12 @@ public class WidgetProvider extends AppWidgetProvider {
 
                 if (!butID_2.matches(WidgetKeys.BUTTON_DISABLED) && temp.getId().matches(butID_2)) {
                     //ustanovka ikonki
-                    views.setImageViewResource(R.id.button_2_ramka, R.drawable.shape_for_widget_black);
+//                    views.setImageViewResource(R.id.button_2_ramka, R.drawable.shape_for_widget_black);
                     int resId = context.getResources().getIdentifier(temp.getIcon(), "drawable", context.getPackageName());
                     views.setImageViewResource(R.id.button_2_icon, resId);
+                    String tvName = temp.getName();
+                    views.setViewVisibility(R.id.tvButtonName_2, View.VISIBLE);
+                    views.setTextViewText(R.id.tvButtonName_2, tvName);
                     //ustanovka onclika
                     Intent button2 = new Intent(context, CalcActivity.class);
                     button2.putExtra(WidgetKeys.KEY_FOR_INTENT_ID, temp.getId());
@@ -152,9 +158,12 @@ public class WidgetProvider extends AppWidgetProvider {
 
                 if (!butID_3.matches(WidgetKeys.BUTTON_DISABLED) && temp.getId().matches(butID_3)) {
                     //ustanovka ikonki
-                    views.setImageViewResource(R.id.button_3_ramka, R.drawable.shape_for_widget_black);
+//                    views.setImageViewResource(R.id.button_3_ramka, R.drawable.shape_for_widget_black);
                     int resId = context.getResources().getIdentifier(temp.getIcon(), "drawable", context.getPackageName());
                     views.setImageViewResource(R.id.button_3_icon, resId);
+                    String tvName = temp.getName();
+                    views.setViewVisibility(R.id.tvButtonName_3, View.VISIBLE);
+                    views.setTextViewText(R.id.tvButtonName_3, tvName);
                     //ustanovka onclika
                     Intent button3 = new Intent(context, CalcActivity.class);
                     button3.putExtra(WidgetKeys.KEY_FOR_INTENT_ID, temp.getId());
@@ -167,9 +176,12 @@ public class WidgetProvider extends AppWidgetProvider {
 
                 if (!butID_4.matches(WidgetKeys.BUTTON_DISABLED) && temp.getId().matches(butID_4)) {
                     //ustanovka ikonki
-                    views.setImageViewResource(R.id.button_4_ramka, R.drawable.shape_for_widget_black);
+//                    views.setImageViewResource(R.id.button_4_ramka, R.drawable.shape_for_widget_black);
                     int resId = context.getResources().getIdentifier(temp.getIcon(), "drawable", context.getPackageName());
                     views.setImageViewResource(R.id.button_4_icon, resId);
+                    String tvName = temp.getName();
+                    views.setViewVisibility(R.id.tvButtonName_4, View.VISIBLE);
+                    views.setTextViewText(R.id.tvButtonName_4, tvName);
                     //ustanovka onclika
                     Intent button4 = new Intent(context, CalcActivity.class);
                     button4.putExtra(WidgetKeys.KEY_FOR_INTENT_ID, temp.getId());
@@ -184,9 +196,12 @@ public class WidgetProvider extends AppWidgetProvider {
 
                     if (!butID_1.matches(WidgetKeys.BUTTON_DISABLED) && subTemp.getId().matches(butID_1)) {
                         //ustanovka ikonki
-                        views.setImageViewResource(R.id.button_1_ramka, R.drawable.shape_for_widget_black);
+//                        views.setImageViewResource(R.id.button_1_ramka, R.drawable.shape_for_widget_black);
                         int resId = context.getResources().getIdentifier(subTemp.getIcon(), "drawable", context.getPackageName());
                         views.setImageViewResource(R.id.button_1_icon, resId);
+                        String tvName = subTemp.getName();
+                        views.setViewVisibility(R.id.tvButtonName_1, View.VISIBLE);
+                        views.setTextViewText(R.id.tvButtonName_1, tvName);
                         //ustanovka onclika
                         Intent button1 = new Intent(context, CalcActivity.class);
                         button1.putExtra(WidgetKeys.KEY_FOR_INTENT_ID, subTemp.getId());
@@ -199,9 +214,12 @@ public class WidgetProvider extends AppWidgetProvider {
 
                     if (!butID_2.matches(WidgetKeys.BUTTON_DISABLED) && subTemp.getId().matches(butID_2)) {
                         //ustanovka ikonki
-                        views.setImageViewResource(R.id.button_2_ramka, R.drawable.shape_for_widget_black);
+//                        views.setImageViewResource(R.id.button_2_ramka, R.drawable.shape_for_widget_black);
                         int resId = context.getResources().getIdentifier(subTemp.getIcon(), "drawable", context.getPackageName());
                         views.setImageViewResource(R.id.button_2_icon, resId);
+                        String tvName = subTemp.getName();
+                        views.setViewVisibility(R.id.tvButtonName_2, View.VISIBLE);
+                        views.setTextViewText(R.id.tvButtonName_2, tvName);
                         //ustanovka onclika
                         Intent button2 = new Intent(context, CalcActivity.class);
                         button2.putExtra(WidgetKeys.KEY_FOR_INTENT_ID, subTemp.getId());
@@ -215,9 +233,12 @@ public class WidgetProvider extends AppWidgetProvider {
 
                     if (!butID_3.matches(WidgetKeys.BUTTON_DISABLED) && subTemp.getId().matches(butID_3)) {
                         //ustanovka ikonki
-                        views.setImageViewResource(R.id.button_3_ramka, R.drawable.shape_for_widget_black);
+//                        views.setImageViewResource(R.id.button_3_ramka, R.drawable.shape_for_widget_black);
                         int resId = context.getResources().getIdentifier(subTemp.getIcon(), "drawable", context.getPackageName());
                         views.setImageViewResource(R.id.button_3_icon, resId);
+                        String tvName = subTemp.getName();
+                        views.setViewVisibility(R.id.tvButtonName_3, View.VISIBLE);
+                        views.setTextViewText(R.id.tvButtonName_3, tvName);
                         //ustanovka onclika
                         Intent button3 = new Intent(context, CalcActivity.class);
                         button3.putExtra(WidgetKeys.KEY_FOR_INTENT_ID, subTemp.getId());
@@ -230,9 +251,12 @@ public class WidgetProvider extends AppWidgetProvider {
 
                     if (!butID_4.matches(WidgetKeys.BUTTON_DISABLED) && subTemp.getId().matches(butID_4)) {
                         //ustanovka ikonki
-                        views.setImageViewResource(R.id.button_4_ramka, R.drawable.shape_for_widget_black);
+//                        views.setImageViewResource(R.id.button_4_ramka, R.drawable.shape_for_widget_black);
                         int resId = context.getResources().getIdentifier(subTemp.getIcon(), "drawable", context.getPackageName());
                         views.setImageViewResource(R.id.button_4_icon, resId);
+                        String tvName = subTemp.getName();
+                        views.setViewVisibility(R.id.tvButtonName_4, View.VISIBLE);
+                        views.setTextViewText(R.id.tvButtonName_4, tvName);
                         //ustanovka onclika
                         Intent button4 = new Intent(context, CalcActivity.class);
                         button4.putExtra(WidgetKeys.KEY_FOR_INTENT_ID, subTemp.getId());
@@ -248,9 +272,9 @@ public class WidgetProvider extends AppWidgetProvider {
 
 
         if (butID_1.matches(WidgetKeys.BUTTON_DISABLED)) {
-            views.setImageViewResource(R.id.button_1_ramka, R.drawable.shape_for_widget);
+//            views.setImageViewResource(R.id.button_1_ramka, R.drawable.shape_for_widget);
             views.setImageViewResource(R.id.button_1_icon, R.drawable.ic_add_widget);
-
+            views.setViewVisibility(R.id.tvButtonName_1, View.GONE);
             Intent button4 = new Intent(context, ChooseWidget.class);
             button4.putExtra(WidgetKeys.KEY_FOR_INTENT, WidgetKeys.BUTTON_1_ID);
             button4.putExtra(WidgetKeys.ACTION_WIDGET_RECEIVER_CHANGE_DIAGRAM_ID, widgetID);
@@ -260,8 +284,9 @@ public class WidgetProvider extends AppWidgetProvider {
 
         }
         if (butID_2.matches(WidgetKeys.BUTTON_DISABLED)) {
-            views.setImageViewResource(R.id.button_2_ramka, R.drawable.shape_for_widget);
+//            views.setImageViewResource(R.id.button_2_ramka, R.drawable.shape_for_widget);
             views.setImageViewResource(R.id.button_2_icon, R.drawable.ic_add_widget);
+            views.setViewVisibility(R.id.tvButtonName_2, View.GONE);
             Intent button4 = new Intent(context, ChooseWidget.class);
             button4.putExtra(WidgetKeys.KEY_FOR_INTENT, WidgetKeys.BUTTON_2_ID);
             button4.putExtra(WidgetKeys.ACTION_WIDGET_RECEIVER_CHANGE_DIAGRAM_ID, widgetID);
@@ -270,8 +295,9 @@ public class WidgetProvider extends AppWidgetProvider {
             views.setOnClickPendingIntent(R.id.button_2, pendingIntent_button4);
         }
         if (butID_3.matches(WidgetKeys.BUTTON_DISABLED)) {
-            views.setImageViewResource(R.id.button_3_ramka, R.drawable.shape_for_widget);
+//            views.setImageViewResource(R.id.button_3_ramka, R.drawable.shape_for_widget);
             views.setImageViewResource(R.id.button_3_icon, R.drawable.ic_add_widget);
+            views.setViewVisibility(R.id.tvButtonName_3, View.GONE);
             Intent button4 = new Intent(context, ChooseWidget.class);
             button4.putExtra(WidgetKeys.KEY_FOR_INTENT, WidgetKeys.BUTTON_3_ID);
             button4.putExtra(WidgetKeys.ACTION_WIDGET_RECEIVER_CHANGE_DIAGRAM_ID, widgetID);
@@ -280,8 +306,9 @@ public class WidgetProvider extends AppWidgetProvider {
             views.setOnClickPendingIntent(R.id.button_3, pendingIntent_button4);
         }
         if (butID_4.matches(WidgetKeys.BUTTON_DISABLED)) {
-            views.setImageViewResource(R.id.button_4_ramka, R.drawable.shape_for_widget);
+//            views.setImageViewResource(R.id.button_4_ramka, R.drawable.shape_for_widget);
             views.setImageViewResource(R.id.button_4_icon, R.drawable.ic_add_widget);
+            views.setViewVisibility(R.id.tvButtonName_4, View.GONE);
             Intent button4 = new Intent(context, ChooseWidget.class);
             button4.putExtra(WidgetKeys.KEY_FOR_INTENT, WidgetKeys.BUTTON_4_ID);
             button4.putExtra(WidgetKeys.ACTION_WIDGET_RECEIVER_CHANGE_DIAGRAM_ID, widgetID);
@@ -309,9 +336,9 @@ public class WidgetProvider extends AppWidgetProvider {
         views.setOnClickPendingIntent(R.id.settings_widget, actionPendingIntent_s);
 
         if(PreferenceManager.getDefaultSharedPreferences(context).getBoolean("securewidget",false)){
-            views.setViewVisibility(R.id.forgone, View.GONE);
+//            views.setViewVisibility(R.id.forgone, View.GONE);
             views.setViewVisibility(R.id.forgone1, View.GONE);
-            views.setViewVisibility(R.id.forgone2, View.GONE);
+//            views.setViewVisibility(R.id.forgone2, View.GONE);
             views.setViewVisibility(R.id.todayis, View.VISIBLE);
             SimpleDateFormat foramat=new SimpleDateFormat("dd.MM.yyyy");
             views.setTextViewText(R.id.todayis,foramat.format(new Date()
@@ -325,9 +352,9 @@ public class WidgetProvider extends AppWidgetProvider {
         }
 
         else {
-            views.setViewVisibility(R.id.forgone, View.VISIBLE);
+//            views.setViewVisibility(R.id.forgone, View.VISIBLE);
             views.setViewVisibility(R.id.forgone1, View.VISIBLE);
-            views.setViewVisibility(R.id.forgone2, View.VISIBLE);
+//            views.setViewVisibility(R.id.forgone2, View.VISIBLE);
             views.setTextViewText(R.id.todayis,"");
             views.setViewVisibility(R.id.todayis, View.GONE);
 
@@ -340,16 +367,16 @@ public class WidgetProvider extends AppWidgetProvider {
             if(getMainCurrency(daoSession)!=null) {
                 views.setTextViewText(R.id.balance_widget, parseToWithoutNull(resultMap.get(PocketAccounterGeneral.BALANCE)) + getMainCurrency(daoSession).getAbbr());
                 //rasxodni berisiz
-                views.setTextViewText(R.id.expence_widget, parseToWithoutNull(resultMap.get(PocketAccounterGeneral.EXPENSES)) + getMainCurrency(daoSession).getAbbr());
+//                views.setTextViewText(R.id.expence_widget, parseToWithoutNull(resultMap.get(PocketAccounterGeneral.EXPENSES)) + getMainCurrency(daoSession).getAbbr());
                 //doxoddi berisiz
-                views.setTextViewText(R.id.income_widget, parseToWithoutNull(resultMap.get(PocketAccounterGeneral.INCOMES)) + getMainCurrency(daoSession).getAbbr());
+//                views.setTextViewText(R.id.income_widget, parseToWithoutNull(resultMap.get(PocketAccounterGeneral.INCOMES)) + getMainCurrency(daoSession).getAbbr());
             }
             else {
                 views.setTextViewText(R.id.balance_widget, parseToWithoutNull(resultMap.get(PocketAccounterGeneral.BALANCE)) + "$");
                 //rasxodni berisiz
-                views.setTextViewText(R.id.expence_widget, parseToWithoutNull(resultMap.get(PocketAccounterGeneral.EXPENSES)) + "$");
+//                views.setTextViewText(R.id.expence_widget, parseToWithoutNull(resultMap.get(PocketAccounterGeneral.EXPENSES)) + "$");
                 //doxoddi berisiz
-                views.setTextViewText(R.id.income_widget, parseToWithoutNull(resultMap.get(PocketAccounterGeneral.INCOMES)) + "$");
+//                views.setTextViewText(R.id.income_widget, parseToWithoutNull(resultMap.get(PocketAccounterGeneral.INCOMES)) + "$");
             }
         }
 

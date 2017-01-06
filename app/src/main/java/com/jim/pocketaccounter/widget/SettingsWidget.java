@@ -100,49 +100,49 @@ public class SettingsWidget extends AppCompatActivity {
         category_name_3=(TextView) findViewById(R.id.category_name_3);
         category_name_4=(TextView) findViewById(R.id.category_name_4);
 
-        diagram_period=(Spinner) findViewById(R.id.perid_diagram);
+//        diagram_period=(Spinner) findViewById(R.id.perid_diagram);
 
 
-        ArrayAdapter<String> period_adap = new ArrayAdapter<String>(this,
-                R.layout.adapter_spiner, new String[] {
-                getString(R.string.mont),getString(R.string.weekk)
-        });
-        diagram_period.setAdapter(period_adap);
-        int a=sPref.getInt(WidgetKeys.SETTINGS_WIDGET_PERIOD_TYPE,0);
-        switch (a){
-            case 111 :
-                diagram_period.setSelection(0);
-                break;
-            case 100 :
-                diagram_period.setSelection(1);
-                break;
-
-        }
-        diagram_period.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(position==0)
-                    edit.putInt(WidgetKeys.SETTINGS_WIDGET_PERIOD_TYPE,WidgetKeys.SETTINGS_WIDGET_PERIOD_TYPE_MONTH).commit();
-                else if(position==1)
-                    edit.putInt(WidgetKeys.SETTINGS_WIDGET_PERIOD_TYPE,WidgetKeys.SETTINGS_WIDGET_PERIOD_TYPE_WEEK).commit();
-
-               if(AppWidgetManager.INVALID_APPWIDGET_ID!=mAppWidgetId){
-                   (new Thread(new Runnable() {
-                       @Override
-                       public void run() {
-                           WidgetProvider.updateWidget(getApplicationContext(), AppWidgetManager.getInstance(getApplicationContext()),
-                                   mAppWidgetId);
-                       }
-                   })).start();
-               }
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+//        ArrayAdapter<String> period_adap = new ArrayAdapter<String>(this,
+//                R.layout.adapter_spiner, new String[] {
+//                getString(R.string.mont),getString(R.string.weekk)
+//        });
+//        diagram_period.setAdapter(period_adap);
+//        int a=sPref.getInt(WidgetKeys.SETTINGS_WIDGET_PERIOD_TYPE,0);
+//        switch (a){
+//            case 111 :
+//                diagram_period.setSelection(0);
+//                break;
+//            case 100 :
+//                diagram_period.setSelection(1);
+//                break;
+//
+//        }
+//        diagram_period.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                if(position==0)
+//                    edit.putInt(WidgetKeys.SETTINGS_WIDGET_PERIOD_TYPE,WidgetKeys.SETTINGS_WIDGET_PERIOD_TYPE_MONTH).commit();
+//                else if(position==1)
+//                    edit.putInt(WidgetKeys.SETTINGS_WIDGET_PERIOD_TYPE,WidgetKeys.SETTINGS_WIDGET_PERIOD_TYPE_WEEK).commit();
+//
+//               if(AppWidgetManager.INVALID_APPWIDGET_ID!=mAppWidgetId){
+//                   (new Thread(new Runnable() {
+//                       @Override
+//                       public void run() {
+//                           WidgetProvider.updateWidget(getApplicationContext(), AppWidgetManager.getInstance(getApplicationContext()),
+//                                   mAppWidgetId);
+//                       }
+//                   })).start();
+//               }
+//
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//
+//            }
+//        });
 
 
         RefreshList();
@@ -275,7 +275,7 @@ public class SettingsWidget extends AppCompatActivity {
 
             if(!butID_1.matches(WidgetKeys.BUTTON_DISABLED)&&temp.getId().matches(butID_1)){
                 //ustanovka ikonki
-                imageView_button_1.setImageResource(R.drawable.shape_for_widget_black);
+//                imageView_button_1.setImageResource(R.drawable.shape_for_widget_black);
                 int resId = getResources().getIdentifier(temp.getIcon(), "drawable", getPackageName());
                 imageView_button_1.setImageResource(resId);
                 category_name_1.setText(temp.getName());
@@ -286,7 +286,7 @@ public class SettingsWidget extends AppCompatActivity {
 
             if(!butID_2.matches(WidgetKeys.BUTTON_DISABLED)&&temp.getId().matches(butID_2)){
                 //ustanovka ikonki
-                imageView_button_2.setImageResource(R.drawable.shape_for_widget_black);
+//                imageView_button_2.setImageResource(R.drawable.shape_for_widget_black);
                 int resId = getResources().getIdentifier(temp.getIcon(), "drawable", getPackageName());
                 imageView_button_2.setImageResource(resId);
                 category_name_2.setText(temp.getName());
@@ -297,7 +297,7 @@ public class SettingsWidget extends AppCompatActivity {
 
             if(!butID_3.matches(WidgetKeys.BUTTON_DISABLED)&&temp.getId().matches(butID_3)){
                 //ustanovka ikonki
-                imageView_button_3.setImageResource(R.drawable.shape_for_widget_black);
+//                imageView_button_3.setImageResource(R.drawable.shape_for_widget_black);
                 int resId = getResources().getIdentifier(temp.getIcon(), "drawable", getPackageName());
                 imageView_button_3.setImageResource(resId);
                 category_name_3.setText(temp.getName());
@@ -308,7 +308,7 @@ public class SettingsWidget extends AppCompatActivity {
 
             if(!butID_4.matches(WidgetKeys.BUTTON_DISABLED)&&temp.getId().matches(butID_4)){
                 //ustanovka ikonki
-                imageView_button_4.setImageResource(R.drawable.shape_for_widget_black);
+//                imageView_button_4.setImageResource(R.drawable.shape_for_widget_black);
                 int resId = getResources().getIdentifier(temp.getIcon(), "drawable", getPackageName());
                 imageView_button_4.setImageResource(resId);
                 category_name_4.setText(temp.getName());
@@ -321,7 +321,7 @@ public class SettingsWidget extends AppCompatActivity {
 
                 if(!butID_1.matches(WidgetKeys.BUTTON_DISABLED)&&subTemp.getId().matches(butID_1)){
                     //ustanovka ikonki
-                    imageView_button_1.setImageResource(R.drawable.shape_for_widget_black);
+//                    imageView_button_1.setImageResource(R.drawable.shape_for_widget_black);
                     int resId = getResources().getIdentifier(subTemp.getIcon(), "drawable", getPackageName());
                     imageView_button_1.setImageResource(resId);
                     category_name_1.setText(subTemp.getName());
@@ -332,7 +332,7 @@ public class SettingsWidget extends AppCompatActivity {
 
                 if(!butID_2.matches(WidgetKeys.BUTTON_DISABLED)&&subTemp.getId().matches(butID_2)){
                     //ustanovka ikonki
-                    imageView_button_2.setImageResource(R.drawable.shape_for_widget_black);
+//                    imageView_button_2.setImageResource(R.drawable.shape_for_widget_black);
                     int resId = getResources().getIdentifier(subTemp.getIcon(), "drawable", getPackageName());
                     imageView_button_2.setImageResource(resId);
                     category_name_2.setText(subTemp.getName());
@@ -343,7 +343,7 @@ public class SettingsWidget extends AppCompatActivity {
 
                 if(!butID_3.matches(WidgetKeys.BUTTON_DISABLED)&&subTemp.getId().matches(butID_3)){
                     //ustanovka ikonki
-                    imageView_button_3.setImageResource(R.drawable.shape_for_widget_black);
+//                    imageView_button_3.setImageResource(R.drawable.shape_for_widget_black);
                     int resId = getResources().getIdentifier(subTemp.getIcon(), "drawable", getPackageName());
                     imageView_button_3.setImageResource(resId);
                     category_name_3.setText(subTemp.getName());
@@ -354,7 +354,7 @@ public class SettingsWidget extends AppCompatActivity {
 
                 if(!butID_4.matches(WidgetKeys.BUTTON_DISABLED)&&subTemp.getId().matches(butID_4)){
                     //ustanovka ikonki
-                    imageView_button_4.setImageResource(R.drawable.shape_for_widget_black);
+//                    imageView_button_4.setImageResource(R.drawable.shape_for_widget_black);
                     int resId = getResources().getIdentifier(subTemp.getIcon(), "drawable", getPackageName());
                     imageView_button_4.setImageResource(resId);
                     category_name_4.setText(subTemp.getName());
@@ -369,6 +369,7 @@ public class SettingsWidget extends AppCompatActivity {
         db.close();
 
         if(butID_1.matches(WidgetKeys.BUTTON_DISABLED)){
+            imageView_button_1.setImageResource(R.drawable.shape_for_widget_black);
             imageView_button_1.setImageResource(R.drawable.ic_add_black_24dp);
             category_name_1.setText(R.string.ch_cat);
             delete_button_1.setVisibility(View.GONE);
@@ -385,6 +386,7 @@ public class SettingsWidget extends AppCompatActivity {
             });
         }
         if(butID_2.matches(WidgetKeys.BUTTON_DISABLED)){
+            imageView_button_2.setImageResource(R.drawable.shape_for_widget_black);
             imageView_button_2.setImageResource(R.drawable.ic_add_black_24dp);
             category_name_2.setText(R.string.ch_cat);
             delete_button_2.setVisibility(View.GONE);
@@ -401,7 +403,7 @@ public class SettingsWidget extends AppCompatActivity {
             });
         }
         if(butID_3.matches(WidgetKeys.BUTTON_DISABLED)){
-
+            imageView_button_3.setImageResource(R.drawable.shape_for_widget_black);
             imageView_button_3.setImageResource(R.drawable.ic_add_black_24dp);
             category_name_3.setText(R.string.ch_cat);
             delete_button_3.setVisibility(View.GONE);
@@ -419,6 +421,7 @@ public class SettingsWidget extends AppCompatActivity {
 
         }
         if(butID_4.matches(WidgetKeys.BUTTON_DISABLED)){
+            imageView_button_4.setImageResource(R.drawable.shape_for_widget_black);
             imageView_button_4.setImageResource(R.drawable.ic_add_black_24dp);
             category_name_4.setText(R.string.ch_cat);
             delete_button_4.setVisibility(View.GONE);
