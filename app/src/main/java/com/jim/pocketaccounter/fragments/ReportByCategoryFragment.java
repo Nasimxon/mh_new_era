@@ -74,6 +74,7 @@ public class ReportByCategoryFragment extends Fragment {
     private TextView tvEndDate;
     SimpleDateFormat sDateFormat = new SimpleDateFormat("dd MMM, yyyy");
     private DecimalFormat decimalFormat = new DecimalFormat("0.##");
+    private ValueAnimator animator;
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.report_by_category_fragment, container, false);
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
@@ -94,10 +95,16 @@ public class ReportByCategoryFragment extends Fragment {
         csReportByCategory = (CategorySliding) rootView.findViewById(R.id.csReportByCategory);
         csReportByCategory.setListener(new CategorySlidingInterface() {
             @Override
-            public void onSlide(String id, Map<String, Integer> colorSet, int position) {
-                if (subcatDatas != null) subcatDatas = null;
-                prepareSubcatData(id, colorSet);
-                replaceSubcats(id, colorSet);
+            public void onSlide(String id, Map<String, Integer> colorSet, int position, boolean isActive) {
+                if (!isActive) {
+                    if (subcatDatas != null) subcatDatas = null;
+                    prepareSubcatData(id, colorSet);
+                    replaceSubcats(id, colorSet);
+                } else {
+                    if (animator != null && (animator.isStarted() || animator.isRunning())) {
+                        animator.cancel();
+                    }
+                }
             }
         });
         dialog = new IntervalPickDialog(getContext());
@@ -135,14 +142,14 @@ public class ReportByCategoryFragment extends Fragment {
             subcatDatas.add(data);
             List<SubCategory> subCategories = category.getSubCategories();
             for (int i = 0; i < subCategories.size(); i++) {
-                data = new SubcatData();
-                data.setPercent(0.0f);
-                data.setId(subCategories.get(i).getId());
-                data.setColor(colors.get(subCategories.get(i).getId()));
-                data.setText(subCategories.get(i).getName());
-                data.setIcon(subCategories.get(i).getIcon());
-                data.setAmounts(new ArrayList<Double>());
-                subcatDatas.add(data);
+                SubcatData newData = new SubcatData();
+                newData.setPercent(0.0f);
+                newData.setId(subCategories.get(i).getId());
+                newData.setColor(colors.get(subCategories.get(i).getId()));
+                newData.setText(subCategories.get(i).getName());
+                newData.setIcon(subCategories.get(i).getIcon());
+                newData.setAmounts(new ArrayList<Double>());
+                subcatDatas.add(newData);
             }
             List<FinanceRecord> tempRecords = daoSession
                     .queryBuilder(FinanceRecord.class)
@@ -177,7 +184,6 @@ public class ReportByCategoryFragment extends Fragment {
                 }
                 tvBeginDate.setText(getString(R.string.c_interval)+':'+sDateFormat.format(begin.getTime()));
                 tvEndDate.setText(getString(R.string.do_interval)+':'+sDateFormat.format(end.getTime()));
-
                 beg = (Calendar) begin.clone();
             }
 
@@ -238,7 +244,7 @@ public class ReportByCategoryFragment extends Fragment {
     }
 
     private void replaceSubcats(final String id, final Map<String, Integer> colors) {
-        ValueAnimator animator = ValueAnimator.ofFloat(1.0f, 0.0f);
+        animator = ValueAnimator.ofFloat(1.0f, 0.0f);
         animator.setDuration(200);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -286,7 +292,6 @@ public class ReportByCategoryFragment extends Fragment {
         public void onBindViewHolder(final ReportByCategoryFragment.ViewHolder view, final int position) {
             if (result.get(position) != null) {
                 view.srvReportByCategory.setData(result.get(position));
-                view.srvReportByCategory.animateView();
                 view.tvReportSubcatPercentsName.setText(result.get(position).getText());
                 view.ivReportByCategorySubcat.setImageResource(getResources()
                         .getIdentifier(result.get(position).getIcon(), "drawable", getContext().getPackageName()));

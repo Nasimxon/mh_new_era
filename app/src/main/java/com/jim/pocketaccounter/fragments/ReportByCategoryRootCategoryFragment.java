@@ -55,7 +55,6 @@ public class ReportByCategoryRootCategoryFragment extends Fragment {
         init();
         visualize();
         rpvReport.setDisabled(false, false);
-        rpvReport.animatePie();
         return rootView;
     }
 
@@ -85,47 +84,43 @@ public class ReportByCategoryRootCategoryFragment extends Fragment {
                         records.add(record);
                     }
                 }
-
             } else {
                 records.addAll(tempRecords);
             }
             if (!records.isEmpty()) {
                 double nullAmount = 0.0d;
-                boolean nullSubcatFound = false;
                 for (FinanceRecord record : records) {
                     if (record.getSubCategory() == null) {
-                        nullSubcatFound = true;
                         nullAmount += commonOperations.getCost(record);
                     }
                 }
-                if (nullSubcatFound) {
-                    PieData data = new PieData();
-                    data.setColor(colors.get("null"));
-                    data.setAmount(nullAmount);
-                    catDatas.add(data);
-                }
+                PieData data = new PieData();
+                data.setColor(colors.get("null"));
+                data.setAmount(nullAmount);
+                catDatas.add(data);
                 List<SubCategory> subCategories = category.getSubCategories();
                 if (subCategories != null) {
                     for (SubCategory subCategory : subCategories) {
-                        boolean subcategoryFound = false;
                         double subcatAmount = 0.0d;
                         for (FinanceRecord record : records) {
                             if (record.getSubCategory() != null && record.getSubCategoryId().equals(subCategory.getId())) {
-                                subcategoryFound = true;
                                 subcatAmount += commonOperations.getCost(record);
                             }
-                            if (subcategoryFound) {
-                                PieData data = new PieData();
-                                data.setColor(colors.get(subCategory.getId()));
-                                data.setAmount(subcatAmount);
-                                catDatas.add(data);
-                            }
-                            total += commonOperations.getCost(record);
+
+                        }
+                        if (subcatAmount != 0) {
+                            PieData newData = new PieData();
+                            newData.setColor(colors.get(subCategory.getId()));
+                            newData.setAmount(subcatAmount);
+                            catDatas.add(newData);
                         }
                     }
                 }
+                for (FinanceRecord record : records) {
+                    total += commonOperations.getCost(record);
+                }
                 if (category.getType() == PocketAccounterGeneral.EXPENSE)
-                tvReportByCategoryRootCatSum.setText(getString(R.string.total_expense) + ": " + total +commonOperations.getMainCurrency().getAbbr());
+                    tvReportByCategoryRootCatSum.setText(getString(R.string.total_expense) + ": " + total +commonOperations.getMainCurrency().getAbbr());
                 if (category.getType() == PocketAccounterGeneral.INCOME)
                     tvReportByCategoryRootCatSum.setText(getString(R.string.total_income) + ": " + total+commonOperations.getMainCurrency().getAbbr());
 
