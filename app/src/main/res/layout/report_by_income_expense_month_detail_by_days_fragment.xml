@@ -1,28 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <TextView
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvReportByIncomeExpenseDate"
-        android:textSize="@dimen/fourteen_dp"
-        android:gravity="right"
-        android:layout_marginRight="@dimen/sixteen_dp"
-        android:layout_marginLeft="@dimen/sixteen_dp"
-        android:textColor="#7da3a3a3"
-        android:layout_marginTop="@dimen/ten_dp"
-        />
-    <lecho.lib.hellocharts.view.LineChartView
+        android:layout_height="match_parent"
+        android:src="@drawable/grid"
+        android:scaleType="centerCrop"/>
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginBottom="@dimen/ten_dp"
-        android:id="@+id/lchvReportByIncomeExpenseMonthDetailedByDays"
-        android:layout_marginLeft="@dimen/five_dp"
-        android:layout_marginRight="@dimen/five_dp"
-         />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/five_dp"
+            android:layout_marginRight="@dimen/eighteen_sp"
+            android:layout_marginLeft="@dimen/eighteen_sp"
+
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:id="@+id/tvReportByIncomeExpenseDate"
+                android:textSize="@dimen/fourteen_dp"
+                android:gravity="left|center_vertical"
+                android:textColor="@color/black_for_secondary_text"
+                />
+            <com.jim.pocketaccounter.utils.CircleImageView
+                android:layout_width="@dimen/fourteen_dp"
+                android:layout_height="@dimen/fourteen_dp"
+                android:layout_marginTop="@dimen/three_dp"
+                android:src="@color/diagram_red"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/expanse"
+                android:textSize="@dimen/twelve_dp"
+                android:layout_marginLeft="@dimen/ten_dp"
+                android:textColor="@color/black_for_secondary_text"/>
+            <com.jim.pocketaccounter.utils.CircleImageView
+                android:layout_width="@dimen/fourteen_dp"
+                android:layout_height="@dimen/fourteen_dp"
+                android:layout_marginTop="@dimen/three_dp"
+                android:layout_marginLeft="@dimen/twenty_dp"
+                android:src="@color/diagram_green"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/twelve_dp"
+                android:text="@string/income"
+                android:layout_marginLeft="@dimen/ten_dp"
+                android:textColor="@color/black_for_secondary_text"/>
+
+        </LinearLayout>
+        <lecho.lib.hellocharts.view.LineChartView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginBottom="@dimen/ten_dp"
+            android:layout_marginTop="@dimen/five_dp"
+            android:id="@+id/lchvReportByIncomeExpenseMonthDetailedByDays"
+            android:layout_marginLeft="@dimen/five_dp"
+            android:layout_marginRight="@dimen/five_dp"
+            />
+
+    </LinearLayout>
 
 
-</LinearLayout>
+</RelativeLayout>

@@ -25,7 +25,7 @@ public class ReportByIncomeExpenseOneDayView extends View {
     private int day = 1, dayOfWeek = Calendar.MONDAY;
     private int increasePercent = 0;
     private int trapezeColor = adjustAlpha(Color.BLACK, 0.2f),
-            centerTextColor = Color.WHITE,
+            centerTextColor = Color.parseColor("#cbcbcb"),
             percentPositiveColor = Color.GREEN,
             percentNegativeColor = Color.RED,
             percentNeutralColor = Color.GRAY;
@@ -253,8 +253,9 @@ public class ReportByIncomeExpenseOneDayView extends View {
         else if (increasePercent < 0) paint.setColor(adjustAlpha(percentNegativeColor, 0.5f));
         else paint.setColor(adjustAlpha(percentNeutralColor, 0.5f));
         canvas.drawPath(percentContainer, paint);
-        paint.setColor(centerTextColor);
+        paint.setColor(Color.WHITE);
         canvas.drawText(percent, percentTextPoint.x, percentTextPoint.y, paint);
+        paint.setColor(centerTextColor);
         paint.setTextSize(percentTextSize);
         Rect weekdayTextBounds = new Rect();
         paint.getTextBounds(weekDay, 0, weekDay.length(), weekdayTextBounds);

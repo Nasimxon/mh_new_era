@@ -224,16 +224,16 @@ public class ReportByIncomExpenseMonthDetailedByDaysFragment extends Fragment {
         expenseLine.setPointRadius(pointsRadius);
         expenseLine.setStrokeWidth(lineThickness);
         lines.add(expenseLine);
-        Line balanceLine = new Line(balanceValues);
-        balanceLine.setColor(profitColor);
-        balanceLine.setCubic(true);
-        balanceLine.setHasLabels(false);
-        balanceLine.setHasLines(true);
-        balanceLine.setHasPoints(false);
-        balanceLine.setPointRadius(pointsRadius);
-        balanceLine.setStrokeWidth(lineThickness);
-
-        lines.add(balanceLine);
+//        Line balanceLine = new Line(balanceValues);
+//        balanceLine.setColor(profitColor);
+//        balanceLine.setCubic(true);
+//        balanceLine.setHasLabels(false);
+//        balanceLine.setHasLines(true);
+//        balanceLine.setHasPoints(false);
+//        balanceLine.setPointRadius(pointsRadius);
+//        balanceLine.setStrokeWidth(lineThickness);
+//
+//        lines.add(balanceLine);
         LineChartData lineChartData = new LineChartData(lines);
         return lineChartData;
     }

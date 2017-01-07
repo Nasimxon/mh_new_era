@@ -11,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jim.pocketaccounter.PocketAccounter;
@@ -44,9 +46,11 @@ public class ReportByIncomeExpenseDaily extends Fragment {
     private final int INCOME = 0, EXPENSE = 1, BALANCE = 2;
     private int mode = EXPENSE;
     private int month, year;
-    private CircleImageView ivDailyIncomeRect, ivDailyExpenseRect, ivDailyProfitRect;
-
+    private int activeColor = Color.parseColor("#414141"), notActiveColor = Color.parseColor("#9c9c9c");
+    private ImageView ivReportExpense, ivReportIncome;
+    private RelativeLayout expenseButton,incomeButton;
     private List<DayData> adapterList;
+    private TextView tvReportIncome, tvReportExpense;
     @Inject DaoSession daoSession;
     @Inject ReportManager reportManager;
     @Inject ToolbarManager toolbarManager;
@@ -57,17 +61,19 @@ public class ReportByIncomeExpenseDaily extends Fragment {
         View rootView = inflater.inflate(R.layout.report_by_income_and_expense_daily, container, false);
         toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
         toolbarManager.setSpinnerVisibility(View.GONE);
+        ivReportExpense = (ImageView) rootView.findViewById(R.id.ivReportExpense);
+        ivReportIncome = (ImageView) rootView.findViewById(R.id.ivReportIncome);
+
+        expenseButton = (RelativeLayout) rootView.findViewById(R.id.expenseButton);
+        incomeButton = (RelativeLayout) rootView.findViewById(R.id.incomeButton);
+        tvReportIncome = (TextView) rootView.findViewById(R.id.tvReportIncome);
+        tvReportExpense = (TextView) rootView.findViewById(R.id.tvReportExpense);
         rvReportByIncomeExpenseDays = (RecyclerView) rootView.findViewById(R.id.rvReportByIncomeExpenseDays);
         rvReportByIncomeExpenseDays.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         rvReportByIncomeExpenseDetail = (RecyclerView) rootView.findViewById(R.id.rvReportByIncomeExpenseDetail);
         rvReportByIncomeExpenseDetail.setLayoutManager(new LinearLayoutManager(getContext()));
         mpReportByIncomeExpense = (MonthPickSliderView) rootView.findViewById(R.id.mpReportByIncomeExpense);
-        ivDailyIncomeRect = (CircleImageView) rootView.findViewById(R.id.ivDailyIncomeRect);
-        ivDailyIncomeRect.setImageResource(R.color.diagram_green);
-        ivDailyExpenseRect = (CircleImageView) rootView.findViewById(R.id.ivDailyExpenseRect);
-        ivDailyExpenseRect.setImageResource(R.color.diagram_red);
-        ivDailyProfitRect = (CircleImageView) rootView.findViewById(R.id.ivDailyProfitRect);
-        ivDailyProfitRect.setImageResource(R.color.diagram_yellow);
+
         mpReportByIncomeExpense.setCurrentItem(mpReportByIncomeExpense.getItemsSize() - 1);
         mpReportByIncomeExpense.setListener(new MonthPickSliderView.MonthDetailedByDaysSelectedListener() {
             @Override
@@ -79,12 +85,50 @@ public class ReportByIncomeExpenseDaily extends Fragment {
                 rvReportByIncomeExpenseDays.setAdapter(daysAdapter);
             }
         });
+
         Calendar cal = Calendar.getInstance();
         month = cal.get(Calendar.MONTH);
         year = cal.get(Calendar.YEAR);
         adapterList = generateDatas(month, year);
         daysAdapter = new DaysAdapter(adapterList);
         rvReportByIncomeExpenseDays.setAdapter(daysAdapter);
+
+        tvReportIncome.setTextColor(notActiveColor);
+        tvReportExpense.setTextColor(activeColor);
+        ivReportIncome.setRotation(0.0f);
+        ivReportExpense.setRotation(180.0f);
+        expenseButton.setBackgroundColor(Color.parseColor("#F1F1F1"));
+        incomeButton.setBackgroundColor(Color.parseColor("#00000000"));
+        mode = EXPENSE;
+        expenseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tvReportIncome.setTextColor(notActiveColor);
+                tvReportExpense.setTextColor(activeColor);
+                ivReportIncome.setRotation(0.0f);
+                ivReportExpense.setRotation(180.0f);
+                expenseButton.setBackgroundColor(Color.parseColor("#F1F1F1"));
+                incomeButton.setBackgroundColor(Color.parseColor("#00000000"));
+                mode = EXPENSE;
+                daysAdapter.notifyDataSetChanged();
+            }
+        });
+        incomeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                tvReportIncome.setTextColor(activeColor);
+                tvReportExpense.setTextColor(notActiveColor);
+                ivReportIncome.setRotation(180.0f);
+                ivReportExpense.setRotation(0.0f);
+                incomeButton.setBackgroundColor(Color.parseColor("#F1F1F1"));
+                expenseButton.setBackgroundColor(Color.parseColor("#00000000"));
+
+                mode = INCOME;
+                daysAdapter.notifyDataSetChanged();
+            }
+        });
+
         return rootView;
     }
 
@@ -247,12 +291,13 @@ public class ReportByIncomeExpenseDaily extends Fragment {
         public void onBindViewHolder(final ReportByIncomeExpenseDaily.DetailViewHolder view, final int position) {
             view.tvReportIncomeExpenseDetailName.setText(result.get(position).getDescription());
             String sign = "";
+
             if (result.get(position).getType() == PocketAccounterGeneral.INCOME) {
-                view.tvReportIncomeExpenseDetailAmount.setTextColor(Color.GREEN);
+                view.tvReportIncomeExpenseDetailAmount.setTextColor(Color.parseColor("#8cc156"));
                 sign = "+";
             }
             else {
-                view.tvReportIncomeExpenseDetailAmount.setTextColor(Color.RED);
+                view.tvReportIncomeExpenseDetailAmount.setTextColor(Color.parseColor("#dc4849"));
                 sign = "-";
             }
             view.tvReportIncomeExpenseDetailAmount.setText(sign + result.get(position).getAmount() + result.get(position).getCurrency().getAbbr());
@@ -265,15 +310,19 @@ public class ReportByIncomeExpenseDaily extends Fragment {
 
     public class DetailViewHolder extends RecyclerView.ViewHolder {
         TextView tvReportIncomeExpenseDetailName, tvReportIncomeExpenseDetailAmount;
+        LinearLayout forLine;
         public DetailViewHolder(View view) {
             super(view);
             tvReportIncomeExpenseDetailName = (TextView) view.findViewById(R.id.tvReportIncomeExpenseDetailName);
             tvReportIncomeExpenseDetailAmount = (TextView) view.findViewById(R.id.tvReportIncomeExpenseDetailAmount);
+            forLine = (LinearLayout) view.findViewById(R.id.forLine);
         }
     }
 
     private class DaysAdapter extends RecyclerView.Adapter<ReportByIncomeExpenseDaily.ViewHolder> {
         private List<DayData> result;
+        boolean keyForAnim =true;
+        int typeChange = 0;
         public DaysAdapter(List<DayData> result) {
             this.result = result;
         }
@@ -287,14 +336,25 @@ public class ReportByIncomeExpenseDaily extends Fragment {
             view.rbieodvReportByIncomeExpenseDayItem.setDayOfWeek(result.get(position).getDayOfWeek());
             switch (mode) {
                 case EXPENSE:
+                    if(typeChange==1){
+                        keyForAnim = false;
+                    }else {
+                        keyForAnim = true;
+                    }
+                    typeChange = 1;
                     view.rbieodvReportByIncomeExpenseDayItem.setLeftValue(result.get(position).getLeftExpense());
                     view.rbieodvReportByIncomeExpenseDayItem.setRightValue(result.get(position).getRightExpense());
                     view.rbieodvReportByIncomeExpenseDayItem.setIncreasePercent((int) result.get(position).getExpensePercent());
                     view.rbieodvReportByIncomeExpenseDayItem.setBackgroundColor(ContextCompat.getColor(getContext(),R.color.diagram_red_mutniy));
                     view.rbieodvReportByIncomeExpenseDayItem.setTrapezeColor(ContextCompat.getColor(getContext(),R.color.diagram_red));
-
                     break;
                 case INCOME:
+                    if(typeChange==2){
+                        keyForAnim = false;
+                    }else {
+                        keyForAnim = true;
+                    }
+                    typeChange = 2;
                     view.rbieodvReportByIncomeExpenseDayItem.setLeftValue(result.get(position).getLeftIncome());
                     view.rbieodvReportByIncomeExpenseDayItem.setRightValue(result.get(position).getRightIncome());
                     view.rbieodvReportByIncomeExpenseDayItem.setIncreasePercent((int) result.get(position).getIncomePercent());
@@ -302,12 +362,17 @@ public class ReportByIncomeExpenseDaily extends Fragment {
                     view.rbieodvReportByIncomeExpenseDayItem.setTrapezeColor(ContextCompat.getColor(getContext(),R.color.diagram_green));
                     break;
                 case BALANCE:
+                    if(typeChange==3){
+                        keyForAnim = false;
+                    }else {
+                        keyForAnim = true;
+                    }
+                    typeChange = 3;
                     view.rbieodvReportByIncomeExpenseDayItem.setLeftValue(result.get(position).getLeftProfit());
                     view.rbieodvReportByIncomeExpenseDayItem.setRightValue(result.get(position).getRightProfit());
                     view.rbieodvReportByIncomeExpenseDayItem.setIncreasePercent((int) result.get(position).getProfitPercent());
                     view.rbieodvReportByIncomeExpenseDayItem.setBackgroundColor(ContextCompat.getColor(getContext(),R.color.diagram_yellow_mutniy));
                     view.rbieodvReportByIncomeExpenseDayItem.setTrapezeColor(ContextCompat.getColor(getContext(),R.color.diagram_yellow));
-
                     break;
             }
 
@@ -320,10 +385,12 @@ public class ReportByIncomeExpenseDaily extends Fragment {
                 public void onClick(View view) {
                     for (int i = 0; i < result.size(); i++)
                         result.get(i).setSelected(i == position);
+                    keyForAnim =false;
                     generateDataForDetailList(position + 1);
                     notifyDataSetChanged();
                 }
             });
+            if (keyForAnim)
             view.rbieodvReportByIncomeExpenseDayItem.animateDayView();
         }
         public ReportByIncomeExpenseDaily.ViewHolder onCreateViewHolder(ViewGroup parent, int var2) {

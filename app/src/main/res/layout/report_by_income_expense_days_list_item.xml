@@ -8,10 +8,17 @@
         android:id="@+id/rbieodvReportByIncomeExpenseDayItem"
         android:layout_centerInParent="true"/>
     <ImageView
-        android:layout_width="@dimen/fifteen_dp"
+        android:layout_width="@dimen/ten_dp"
         android:layout_height="@dimen/five_dp"
         android:id="@+id/ivDailySelected"
-        android:background="#FFFFFF"
+        android:scaleType="fitXY"
+        android:tint="#fafafa"
+        android:src="@drawable/rectangle_bottom"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"/>
+    <ImageView
+        android:layout_width="2px"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:background="#09000000"/>
 </RelativeLayout>

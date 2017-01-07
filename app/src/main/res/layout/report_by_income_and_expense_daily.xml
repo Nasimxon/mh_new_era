@@ -4,15 +4,31 @@
     android:layout_height="match_parent"
     android:clickable="true"
     android:background="#fff">
-    <com.jim.pocketaccounter.utils.reportviews.MonthPickSliderView
+    <RelativeLayout
+        android:id="@+id/rlHead"
+        android:visibility="visible"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/hunder_and_fourty_dp"
-        android:id="@+id/mpReportByIncomeExpense"/>
+        android:layout_height="@dimen/hundred_and_twenty_dp">
+
+        <com.jim.pocketaccounter.utils.reportviews.MonthPickSliderView
+
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/hundred_and_twenty_dp"
+            android:id="@+id/mpReportByIncomeExpense"/>
+    </RelativeLayout>
+
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/rvReportByIncomeExpenseDays"
+        android:layout_below="@+id/llPoyas"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/llPoyas"
-        android:layout_below="@+id/mpReportByIncomeExpense"
+
+        android:layout_below="@+id/rlHead"
         android:orientation="vertical">
         <FrameLayout
             android:layout_width="match_parent"
@@ -23,97 +39,100 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingTop="@dimen/eight_dp"
-            android:paddingBottom="@dimen/eight_dp"
-            android:background="#fafafa"
-            android:paddingLeft="@dimen/sixteen_dp"
-            android:paddingRight="@dimen/sixteen_dp"
-            android:id="@+id/linearLayout2">
+            android:layout_below="@+id/ivStripe"
+            android:id="@+id/llRadioGroupStripe"
+            android:visibility="visible"
+            android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginRight="@dimen/ten_dp"
-                >
-                <com.jim.pocketaccounter.utils.CircleImageView
-                    android:layout_width="@dimen/fourteen_dp"
-                    android:layout_height="@dimen/fourteen_dp"
-                    android:id="@+id/ivDailyExpenseRect"
-                    android:layout_gravity="center_vertical"/>
+                android:id="@+id/expenseButton"
+                android:layout_weight="1">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/thirtyfive_dp"
+                    android:id="@+id/ivReportExpense"
+                    android:src="@drawable/report_income_expense_buttons_shadow"
+                    android:scaleType="fitXY"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/expanse"
-                    android:textColor="@color/black_for_myagkiy_glavniy"
-                    android:textSize="@dimen/fourteen_dp"
-                    android:layout_marginLeft="@dimen/four_dp"
-                    android:layout_gravity="center_vertical"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="wrap_content"
+                    android:layout_marginTop="@dimen/five_dp"
+                    android:layout_marginBottom="@dimen/five_dp"
+                    android:id="@+id/tvReportExpense"
+                    android:layout_centerInParent="true"/>
+            </RelativeLayout>
+            <ImageView
+                android:layout_width="@dimen/one_dp"
+                android:layout_height="match_parent"
+                android:background="#dddddd"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/ten_dp"
-                android:orientation="horizontal">
-                <com.jim.pocketaccounter.utils.CircleImageView
-                    android:layout_width="@dimen/fourteen_dp"
-                    android:layout_height="@dimen/fourteen_dp"
-                    android:id="@+id/ivDailyIncomeRect"
-                    android:layout_gravity="center_vertical"/>
+                android:id="@+id/incomeButton"
+                android:layout_weight="1">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/thirtyfive_dp"
+                    android:id="@+id/ivReportIncome"
+                    android:src="@drawable/report_income_expense_buttons_shadow"
+                    android:scaleType="fitXY"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/income"
-                    android:textSize="@dimen/fourteen_dp"
-                    android:layout_marginLeft="@dimen/four_dp"
-                    android:textColor="#414141"
-                    android:layout_gravity="center_vertical"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginRight="@dimen/ten_dp"
-                >
-                <com.jim.pocketaccounter.utils.CircleImageView
-                    android:layout_width="@dimen/fourteen_dp"
-                    android:layout_height="@dimen/fourteen_dp"
-                    android:id="@+id/ivDailyProfitRect"
-                    android:layout_gravity="center_vertical"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/profit"
-                    android:textSize="@dimen/fourteen_dp"
-                    android:textColor="#414141"
-                    android:layout_marginLeft="@dimen/four_dp"
-                    android:layout_gravity="center_vertical"/>
-            </LinearLayout>
-
+                    android:layout_marginTop="@dimen/five_dp"
+                    android:layout_marginBottom="@dimen/five_dp"
+                    android:id="@+id/tvReportIncome"
+                    android:layout_centerInParent="true"/>
+            </RelativeLayout>
         </LinearLayout>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/one_dp"
+            android:background="#dddddd"
+            android:id="@+id/ivBottomStripe"/>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/llTempID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@+id/rvReportByIncomeExpenseDays"
+        android:background="#fafafa"
+        >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginRight="@dimen/sixteen_dp"
+            android:layout_marginLeft="@dimen/sixteen_dp"
+            android:layout_below="@+id/rvReportByIncomeExpenseDays"
+            android:id="@+id/tvReportByIncomeExpenseNoDataToShow"
+            android:text="Лист расходов"
+            android:layout_marginTop="@dimen/five_dp"
+            android:layout_marginBottom="@dimen/five_dp"
+            android:textSize="@dimen/sixteen_dp"
+            android:textColor="@color/black_for_myagkiy_glavniy"
+            />
         <FrameLayout
+            android:id="@+id/lineee"
             android:layout_width="match_parent"
             android:layout_height="2px"
             android:background="#e8e8e8"
             />
     </LinearLayout>
     <android.support.v7.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/ten_dp"
-        android:id="@+id/rvReportByIncomeExpenseDays"
-        android:layout_below="@+id/llPoyas"/>
 
-    <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingTop="@dimen/five_dp"
+        android:clipToPadding="false"
+        android:layout_below="@+id/llTempID"
         android:id="@+id/rvReportByIncomeExpenseDetail"
-        android:layout_below="@+id/rvReportByIncomeExpenseDays"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/rvReportByIncomeExpenseDays"
-        android:id="@+id/tvReportByIncomeExpenseNoDataToShow"
-        android:visibility="gone"/>
+
+      />
+
 </RelativeLayout>

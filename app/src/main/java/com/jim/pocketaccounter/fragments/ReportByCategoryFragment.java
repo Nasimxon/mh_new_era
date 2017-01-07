@@ -46,6 +46,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -260,6 +261,15 @@ public class ReportByCategoryFragment extends Fragment {
             public void onAnimationEnd(Animator animator) {
                 rvReportByCategorySubcatPercents.setAlpha(0.0f);
                 prepareSubcatData(id, colors);
+                Collections.sort(subcatDatas, new Comparator<SubcatData>() {
+                    @Override
+                    public int compare(SubcatData subcatData, SubcatData t1) {
+                        if(subcatData.getPercent() - t1.getPercent()<0)  return -1;
+                        else if(subcatData.getPercent() - t1.getPercent()>0)   return 1;
+                        return 0;
+                    }
+                });
+                Collections.reverse(subcatDatas);
                 rvReportByCategorySubcatPercents.setAdapter(new PercentSubcategoryAdapter(subcatDatas));
                 ValueAnimator anim = ValueAnimator.ofFloat(0.0f, 1.0f);
                 anim.setDuration(200);
