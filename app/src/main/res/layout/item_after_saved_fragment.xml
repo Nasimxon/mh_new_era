@@ -2,41 +2,63 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/fourty_dp"
-    android:orientation="horizontal"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
     android:paddingTop="@dimen/ten_dp"
     >
 
-    <ImageView
-        android:layout_width="@dimen/thirty_dp"
-        android:layout_height="@dimen/thirty_dp"
-        android:id="@+id/ivItemAfterSavedIcon"
-        android:gravity="left"
-        android:layout_gravity="left"
-        android:layout_weight="1"
-        android:src="@drawable/icons_4"
-        />
-
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tvItemAfterSavedCatName"
-        android:text="Home water"
-        android:textSize="@dimen/fiveteen_dp"
-        android:layout_weight="1"
-        android:layout_gravity="left"
-        android:gravity="left"
-        />
+        android:orientation="horizontal">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvItemAfterSavedAmount"
-        android:text="126 $"
-        android:textSize="@dimen/fiveteen_dp"
-        android:gravity="right"
-        android:layout_gravity="right"
-        android:layout_weight="1"
-        />
+        <ImageView
+            android:layout_width="@dimen/thirty_dp"
+            android:layout_height="@dimen/thirty_dp"
+            android:id="@+id/ivItemAfterSavedIcon"
+            android:src="@drawable/icons_4"
+            />
+
+        <LinearLayout
+            android:layout_marginLeft="@dimen/fifteen_dp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_marginTop="@dimen/five_dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvItemAfterSavedCatName"
+                    android:text="Home water"
+                    android:textSize="@dimen/sixteen_dp"
+                    android:layout_weight="1"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvItemAfterSavedAmount"
+                    android:text="126 $"
+                    android:textSize="@dimen/sixteen_dp"
+                    />
+            </LinearLayout>
+
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/one_dp"
+                android:layout_marginTop="@dimen/five_dp"
+                android:background="#dbdbdb" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </LinearLayout>

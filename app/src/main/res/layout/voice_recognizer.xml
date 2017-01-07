@@ -34,7 +34,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:text="1000$"
-                        android:textColor="@color/green_just"
+                        android:textColor="@color/record_green"
                         android:textSize="@dimen/fourteen_dp" />
                     <TextView
                         android:layout_width="wrap_content"
@@ -44,12 +44,12 @@
                         android:textColor="#414141"
                         android:textSize="@dimen/fourteen_dp" />
                 </LinearLayout>
-                <ImageView
+                <FrameLayout
                     android:layout_width="2px"
                     android:layout_height="match_parent"
-                    android:layout_marginBottom="@dimen/four_dp"
-                    android:layout_marginTop="@dimen/four_dp"
-                    android:background="#dbdbdb" />
+                    android:layout_marginBottom="@dimen/five_dp"
+                    android:layout_marginTop="@dimen/five_dp"
+                    android:background="#1A000000" />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -73,12 +73,12 @@
                         android:textColor="#414141"
                         android:textSize="@dimen/fourteen_dp" />
                 </LinearLayout>
-                <ImageView
+                <FrameLayout
                     android:layout_width="2px"
                     android:layout_height="match_parent"
-                    android:layout_marginBottom="@dimen/four_dp"
-                    android:layout_marginTop="@dimen/four_dp"
-                    android:background="#dbdbdb" />
+                    android:layout_marginBottom="@dimen/five_dp"
+                    android:layout_marginTop="@dimen/five_dp"
+                    android:background="#1A000000" />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -92,7 +92,7 @@
                         android:layout_gravity="center"
                         android:text="1000$"
                         android:id="@+id/tvNotSpeechModeExpense"
-                        android:textColor="@color/red"
+                        android:textColor="@color/record_red"
                         android:textSize="@dimen/fourteen_dp" />
                     <TextView
                         android:layout_width="wrap_content"
@@ -107,11 +107,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/one_dp"
                 android:layout_below="@+id/balanceStripe"
-                android:background="#dbdbdb" />
+                android:background="#1A000000" />
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rvNotSpeechModeRecordsList"
-                android:layout_width="@dimen/two_hundred_eight_dp"
-                android:layout_height="@dimen/two_hundred_fifty_dp"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/two_hundred_sixty_four_dp"
+                android:layout_marginLeft="@dimen/twenty_dp"
+                android:layout_marginRight="@dimen/twenty_dp"
                 android:padding="@dimen/sixteen_dp"
                 android:layout_centerInParent="true"
                 android:layout_below="@+id/balanceStripe" />
@@ -120,7 +122,8 @@
         <RelativeLayout
             android:id="@+id/llSpeechMode"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:visibility="visible">
             <TextView
                 android:id="@+id/tvSpeechModeAdjective"
                 android:layout_width="match_parent"
@@ -128,13 +131,13 @@
                 android:background="#ffffff"
                 android:gravity="center"
                 android:padding="@dimen/ten_dp"
-                android:text="EXPENSE"
+                android:text="Daily expense"
                 android:textSize="@dimen/twenty_dp" />
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="2px"
                 android:layout_below="@+id/tvSpeechModeAdjective"
-                android:background="#dbdbdb" />
+                android:background="#1A000000" />
             <LinearLayout
                 android:id="@+id/speechCategory"
                 android:layout_width="match_parent"
@@ -145,34 +148,49 @@
                     android:layout_width="@dimen/sixty_dp"
                     android:layout_height="@dimen/one_dp"
                     android:layout_gravity="center_vertical"
-                    android:background="#dbdbdb" />
+                    android:background="#1A000000" />
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/fifty_dp"
                     android:layout_marginLeft="@dimen/ten_dp"
                     android:layout_marginRight="@dimen/ten_dp"
                     android:layout_weight="1"
                     android:background="@drawable/speech_mode_items_bg"
-                    android:padding="@dimen/five_dp">
+                   >
                     <TextView
                         android:id="@+id/tvSpeechModeCategory"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
+                        android:layout_marginLeft="@dimen/ten_dp"
+                        android:layout_marginRight="@dimen/ten_dp"
                         android:gravity="center"
-                        android:textSize="@dimen/sixteen_sp"
-                        android:text="Category, SubCategory" />
+                        android:textSize="@dimen/eightteen_dp"
+                        android:text="Category SubCategory" />
+
+                    <ImageView
+                        android:layout_width="@dimen/one_dp"
+                        android:layout_height="@dimen/twenty_dp"
+                        android:layout_marginRight="@dimen/ten_dp"
+                        android:layout_gravity="center_vertical"
+                        android:background="#1A000000" />
                     <ImageView
                         android:id="@+id/ivSpeechModeCategoryIcon"
-                        android:layout_width="@dimen/twenty_dp"
-                        android:layout_height="@dimen/twenty_dp" />
+                        android:layout_width="@dimen/thirty_dp"
+                        android:layout_height="@dimen/thirty_dp"
+                        android:layout_marginRight="@dimen/ten_dp"
+                        android:layout_gravity="center_vertical"
+                        />
+
                 </LinearLayout>
                 <ImageView
                     android:layout_width="@dimen/sixty_dp"
                     android:layout_height="@dimen/one_dp"
                     android:layout_gravity="center_vertical"
-                    android:background="#dbdbdb" />
+                    android:background="#1A000000" />
+
+
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/speechAmount"
@@ -180,38 +198,44 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/speechCategory"
                 android:layout_marginTop="@dimen/ten_dp">
+
                 <ImageView
+                    android:id="@+id/imageView11"
                     android:layout_width="@dimen/sixty_dp"
                     android:layout_height="@dimen/one_dp"
                     android:layout_gravity="center_vertical"
-                    android:background="#dbdbdb" />
+                    android:background="#1A000000" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/fifty_dp"
                     android:layout_marginLeft="@dimen/ten_dp"
                     android:layout_marginRight="@dimen/ten_dp"
                     android:layout_weight="1"
                     android:background="@drawable/speech_mode_items_bg"
-                    android:padding="@dimen/five_dp">
+                    >
                     <TextView
                         android:id="@+id/tvSpeechAmount"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/twenty_dp"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center_horizontal"
                         android:layout_weight="1"
-                        android:gravity="center"
-                        android:textSize="@dimen/sixteen_sp"
+                        android:textSize="@dimen/eightteen_dp"
                         android:text="2000" />
                     <Spinner
                         android:id="@+id/spSpeechCurrency"
                         android:layout_width="wrap_content"
+                        android:layout_marginRight="@dimen/fifteen_dp"
+                        android:layout_gravity="center_vertical"
                         android:layout_height="wrap_content" />
                 </LinearLayout>
                 <ImageView
                     android:layout_width="@dimen/sixty_dp"
                     android:layout_height="@dimen/one_dp"
                     android:layout_gravity="center_vertical"
-                    android:background="#dbdbdb" />
+                    android:background="#1A000000" />
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/speechAccount"
@@ -223,28 +247,30 @@
                     android:layout_width="@dimen/sixty_dp"
                     android:layout_height="@dimen/one_dp"
                     android:layout_gravity="center_vertical"
-                    android:background="#dbdbdb" />
+                    android:background="#1A000000" />
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/fifty_dp"
                     android:layout_marginLeft="@dimen/ten_dp"
                     android:layout_marginRight="@dimen/ten_dp"
                     android:layout_weight="1"
                     android:background="@drawable/speech_mode_items_bg"
                     android:gravity="center"
-                    android:padding="@dimen/five_dp">
+                    >
                     <Spinner
                         android:id="@+id/spSpeechAccount"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/fifteen_dp"
+                        android:layout_marginLeft="@dimen/ten_dp"
                         android:layout_gravity="center"
-                        android:gravity="center" />
+                        android:gravity="left" />
                 </LinearLayout>
                 <ImageView
                     android:layout_width="@dimen/sixty_dp"
                     android:layout_height="@dimen/one_dp"
                     android:layout_gravity="center_vertical"
-                    android:background="#dbdbdb" />
+                    android:background="#1A000000" />
             </LinearLayout>
             <ImageView
                 android:id="@+id/speechNonImportantStripe"
@@ -253,7 +279,7 @@
                 android:layout_below="@+id/speechAccount"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/twenty_dp"
-                android:background="#dbdbdb" />
+                android:background="#1A000000" />
             <TextView
                 android:id="@+id/tvSpeechModeEnteredText"
                 android:layout_width="match_parent"
@@ -294,7 +320,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/one_dp"
             android:layout_alignParentBottom="true"
-            android:background="#dbdbdb" />
+            android:background="#1A000000" />
     </RelativeLayout>
     <RelativeLayout
         android:id="@+id/bottomAnchor"
@@ -320,6 +346,7 @@
             android:layout_centerVertical="true"
             android:background="@drawable/left_voice"
             android:visibility="visible">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -327,11 +354,13 @@
                 android:gravity="center"
                 android:orientation="vertical"
                 android:padding="@dimen/ten_dp">
+
                 <ImageView
                     android:layout_width="@dimen/thirty_dp"
                     android:layout_height="@dimen/thirty_dp"
                     android:layout_gravity="center"
                     android:src="@drawable/ic_close_black_24dp" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

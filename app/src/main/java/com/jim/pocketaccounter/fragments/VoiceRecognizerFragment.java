@@ -154,14 +154,14 @@ public class VoiceRecognizerFragment extends Fragment {
             curString[i] = daoSession.getCurrencyDao().loadAll().get(i).getAbbr();
         }
         ArrayAdapter<String> curAdapter = new ArrayAdapter<>(getContext(),
-                android.R.layout.simple_list_item_1, curString);
+                R.layout.spinner_item, curString);
         spSpeechCurrency.setAdapter(curAdapter);
         accString = new String[daoSession.getAccountDao().loadAll().size()];
         for (int i = 0; i < accString.length; i++) {
             accString[i] = daoSession.getAccountDao().loadAll().get(i).getName();
         }
         final ArrayAdapter<String> accAdapter = new ArrayAdapter<>(getContext(),
-                android.R.layout.simple_list_item_1, accString);
+                R.layout.spinner_item, accString);
         spSpeechAccount.setAdapter(accAdapter);
         rlCenterButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -888,18 +888,34 @@ public class VoiceRecognizerFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(MyViewHolder holder, int position) {
-            holder.itemAmount.setText("" + financeRecords.get(position).getAmount() +
-                    financeRecords.get(position).getCurrency().getAbbr());
+
             if (financeRecords.get(position).getSubCategory() != null) {
                 holder.itemCatName.setText(financeRecords.get(position).getCategory().getName()
                         + " " + financeRecords.get(position).getSubCategory().getName());
                 holder.itemIcon.setImageResource(getResources().getIdentifier(financeRecords.get(position)
                         .getSubCategory().getIcon(), "drawable", getContext().getPackageName()));
+                holder.itemAmount.setText("-" + "" +financeRecords.get(position).getAmount() +
+                        financeRecords.get(position).getCurrency().getAbbr());
+                holder.itemAmount.setTextColor(getResources().getColor(R.color.record_red));
             } else {
+
                 holder.itemCatName.setText(financeRecords.get(position).getCategory().getName());
                 holder.itemIcon.setImageResource(getResources().getIdentifier(financeRecords.get(position)
                         .getCategory().getIcon(), "drawable", getContext().getPackageName()));
             }
+            if(financeRecords.get(position).getCategory().getType() == 0)
+            {
+                holder.itemAmount.setTextColor(getResources().getColor(R.color.record_green));
+                holder.itemAmount.setText("+" + "" +financeRecords.get(position).getAmount() +
+                        financeRecords.get(position).getCurrency().getAbbr());
+            }
+            else if (financeRecords.get(position).getCategory().getType() == 1)
+            {
+                holder.itemAmount.setText("-" + "" +financeRecords.get(position).getAmount() +
+                        financeRecords.get(position).getCurrency().getAbbr());
+                holder.itemAmount.setTextColor(getResources().getColor(R.color.record_red));
+            }
+
         }
 
         @Override
