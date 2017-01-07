@@ -185,8 +185,8 @@ public class CurrencyEditFragment extends PABaseInfoFragment implements OnClickL
                 imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 if (isCheckedMain) {
                     logicManager.setMainCurrency(currency);
-                    paFragmentManager.updateCurrencyChanges();
                 }
+                paFragmentManager.updateCurrencyChanges();
                 paFragmentManager.displayFragment(new CurrencyFragment());
                 break;
         }

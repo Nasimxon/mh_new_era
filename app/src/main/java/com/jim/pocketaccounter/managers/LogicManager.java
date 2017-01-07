@@ -497,6 +497,7 @@ public class LogicManager {
         }
         daoSession.getCurrencyDao().insertOrReplaceInTx(currencies);
         daoSession.getCurrencyDao().detachAll();
+        commonOperations.refreshCurrency();
     }
 
     //currency costs

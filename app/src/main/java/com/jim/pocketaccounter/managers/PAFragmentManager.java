@@ -62,8 +62,7 @@ public class PAFragmentManager {
     @Inject DataCache dataCache;
     @Inject @Named(value = "end") Calendar end;
     @Inject SharedPreferences preferences;
-    @Inject
-    DaoSession daoSession;
+    @Inject DaoSession daoSession;
     private VerticalViewPagerAdapter adapter;
     public PAFragmentManager(PocketAccounter activity) {
         this.activity = activity;
@@ -137,22 +136,31 @@ public class PAFragmentManager {
         int size = fragmentManager.getFragments().size();
         for (int i = 0; i < size; i++) {
             Fragment fragment = fragmentManager.getFragments().get(i);
-            if (fragment != null && fragment.getClass().getName().equals(MainPageFragment.class.getName())) {
-                ((MainPageFragment) fragment).refreshCurrencyChanges();
+            if (fragment != null && fragment.getClass().getName().equals(ManualEnterFragment.class.getName())) {
+                ((ManualEnterFragment) fragment).refreshCurrencyChanges();
+                break;
             }
         }
     }
+
+    public void setPage(int page) {
+        ManualEnterFragment fragment = null;
+        for (int i = 0; i < fragmentManager.getFragments().size(); i++) {
+            if (fragmentManager.getFragments() != null && fragmentManager.getFragments().get(i).getClass().getName().equals(ManualEnterFragment.class.getName())) {
+                fragment = (ManualEnterFragment) fragmentManager.getFragments().get(i);
+                break;
+            }
+        }
+        if (fragment != null) {
+            fragment.setCurrentPage(page);
+        }
+    }
+
     public void displayMainWindow() {
         activity.treatToolbar();
         PRESSED = false;
         activity.findViewById(R.id.mainWhite).setVisibility(View.GONE);
         activity.findViewById(R.id.change).setVisibility(View.VISIBLE);
-        ManualEnterFragment manualEnterFragment = (ManualEnterFragment) adapter.getItem(1);
-        ViewPager lvpMain = null;
-        if (manualEnterFragment.getLvpMain() != null)
-            lvpMain = manualEnterFragment.getLvpMain();
-        else
-            lvpMain = new ViewPager(activity);
         for (int i = 0; i < fragmentManager.getFragments().size(); i++) {
             if (fragmentManager.getFragments().get(i) != null && fragmentManager.getFragments().get(i).getClass().getName().equals(MainPageFragment.class.getName())) {
                 MainPageFragment page = (MainPageFragment) fragmentManager.getFragments().get(i);

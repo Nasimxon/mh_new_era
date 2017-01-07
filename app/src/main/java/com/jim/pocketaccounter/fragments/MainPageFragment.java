@@ -264,7 +264,8 @@ public class MainPageFragment extends Fragment {
         expenseView.invalidate();
     }
     public void refreshCurrencyChanges() {
-        commonOperations.refreshCurrency();
+        if (balanceStripe != null)
+            balanceStripe.refreshCurrencies();
     }
     public void update() {
         if (checkAccessForPage(expenseView.getCurrentPage())) {

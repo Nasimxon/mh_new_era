@@ -73,6 +73,9 @@ public class BalanceStripe extends LinearLayout {
         paddingIskustvenno.setVisibility(VISIBLE);
     }
     public void showNotImportantPart() { llNotImportant.setVisibility(VISIBLE); paddingIskustvenno.setVisibility(GONE); }
+    public void refreshCurrencies() {
+        commonOperations.refreshCurrency();
+    }
     public void calculateBalance() {
         String mode = preferences.getString("balance_solve", "0");
         end.setTimeInMillis(day.getTimeInMillis());

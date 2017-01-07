@@ -236,10 +236,10 @@ public class PocketAccounter extends AppCompatActivity {
                         long countOfDays = 0;
                         if (end.compareTo(Calendar.getInstance()) >= 0) {
                             countOfDays = commonOperations.betweenDays(Calendar.getInstance(), end) - 1;
-                            paFragmentManager.getLvpMain().setCurrentItem(5000 + (int) countOfDays, false);
+                            paFragmentManager.setPage(5000 + (int) countOfDays);
                         } else {
                             countOfDays = commonOperations.betweenDays(end, Calendar.getInstance()) - 1;
-                            paFragmentManager.getLvpMain().setCurrentItem(5000 - (int) countOfDays, false);
+                            paFragmentManager.setPage(5000 - (int) countOfDays);
                         }
                         if (paFragmentManager.getCurrentFragment() != null)
                             paFragmentManager.getCurrentFragment().update();

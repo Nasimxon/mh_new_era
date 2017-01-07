@@ -109,6 +109,18 @@ public class ManualEnterFragment extends Fragment {
             }
         });
     }
+
+    public void refreshCurrencyChanges() {
+        int size  = getFragmentManager().getFragments().size();
+        for (int i = 0; i < size; i++) {
+            if (getFragmentManager().getFragments().get(i).getClass().getName().equals(MainPageFragment.class.getName())) {
+                MainPageFragment fragment = (MainPageFragment) getFragmentManager().getFragments().get(i);
+                if (fragment != null)
+                    fragment.refreshCurrencyChanges();
+            }
+        }
+    }
+
     class LVPAdapter extends FragmentPagerAdapter {
         public LVPAdapter(FragmentManager fm) {
             super(fm);
@@ -128,6 +140,10 @@ public class ManualEnterFragment extends Fragment {
         public int getItemPosition(Object object) {
             return POSITION_NONE;
         }
+    }
+    public void setCurrentPage(int page) {
+        if (lvpMain != null)
+            lvpMain.setCurrentItem(page, false);
     }
     public ViewPager getLvpMain() {
         return lvpMain;
