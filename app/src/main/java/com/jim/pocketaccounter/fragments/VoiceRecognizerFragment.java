@@ -777,7 +777,7 @@ public class VoiceRecognizerFragment extends Fragment {
                 timer = new CountDownTimer(6000, 1000) {
                     @Override
                     public void onTick(long l) {
-                        autoSave.setText("sec " + Math.floor(l / 1000));
+                        autoSave.setText("sec " + Math.floor(l/1000));
                     }
 
                     @Override
@@ -789,75 +789,6 @@ public class VoiceRecognizerFragment extends Fragment {
                 }.start();
             }
         }
-//        if (myTask != null) {
-//            myTask.cancel(true);
-//            myTask = null;
-//        }
-//        myTask = new MyTask(newLetter);
-//        myTask.execute();
-
-//        accountThread.start();
-//        categoryId = idTemp;
-//        String amountRegex = "[([^0-9]*)\\s*([0-9]+[.,]?[0-9]*)]*\\s([$]*)([0-9]+[.,]?[0-9]*).*";
-//        Pattern pattern = Pattern.compile(amountRegex);
-//        Matcher matcher = pattern.matcher(newLetter);
-//        if (matcher.matches()) {
-//            summ = Double.parseDouble(matcher.group(matcher.groupCount()));
-//        }
-//        tvSpeechAmount.setText("" + summ);
-//        if (!categoryId.isEmpty()) {
-//            if (daoSession.getRootCategoryDao().load(categoryId) != null) {
-//                RootCategory rootCategory = daoSession.getRootCategoryDao().load(categoryId);
-//                if (rootCategory.getType() == PocketAccounterGeneral.INCOME)
-//                    tvSpeechModeAdjective.setText(getResources().getString(R.string.income));
-//                else tvSpeechModeAdjective.setText(getResources().getString(R.string.expanse));
-//                tvSpeechModeCategory.setText(rootCategory.getName());
-//            } else if (daoSession.getSubCategoryDao().load(categoryId) != null) {
-//                SubCategory subCategory = daoSession.getSubCategoryDao().load(categoryId);
-//                if (daoSession.getRootCategoryDao().load(subCategory.getParentId()).getType() == PocketAccounterGeneral.INCOME)
-//                    tvSpeechModeAdjective.setText(getResources().getString(R.string.income));
-//                else tvSpeechModeAdjective.setText(getResources().getString(R.string.expanse));
-//                tvSpeechModeCategory.setText(daoSession.getRootCategoryDao().load
-//                        (subCategory.getParentId()).getName() + ", " + subCategory.getName());
-//            }
-//            if (!accountId.isEmpty()) {
-//                Account account = daoSession.getAccountDao().load(accountId);
-//                for (int i = 0; i < accString.length; i++) {
-//                    if (account.getName().toLowerCase().equals(accString[i])) {
-//                        spSpeechAccount.setSelection(i);
-//                        break;
-//                    }
-//                }
-//            }
-//            if (!currencyId.isEmpty()) {
-//                Currency currency = daoSession.getCurrencyDao().load(currencyId);
-//                for (int i = 0; i < curString.length; i++) {
-//                    if (currency.getAbbr().equals(curString[i])) {
-//                        spSpeechCurrency.setSelection(i);
-//                        break;
-//                    }
-//                }
-//            }
-//            leftSaving = 5;
-//            if (timer != null) {
-//                timer.cancel();
-//                timer = null;
-//            }
-//            autoSave.setVisibility(View.VISIBLE);
-//            timer = new CountDownTimer(6000, 1000) {
-//                @Override
-//                public void onTick(long l) {
-//                    autoSave.setText("sec " + Math.ceil(l / 1000));
-//                }
-//
-//                @Override
-//                public void onFinish() {
-//                    autoSave.setVisibility(View.GONE);
-//                    autoSave.setText("");
-//                    savingVoice();
-//                }
-//            }.start();
-//        }
     }
 
     private void setPriority(TemplateVoice voice, String newLine) {

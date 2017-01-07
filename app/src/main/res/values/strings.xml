@@ -1674,11 +1674,22 @@
     <string name="reached_max_value">Достигнуто максимальное значение</string>
     <string name="reached_min_value">Достигнуто минимальное значение</string>
 
+    <string-array name="currency_1">
+        <item>доллар</item>
+        <item>долларов</item>
+        <item>долларов сша</item>
+        <item>доллар сша</item>
+        <item>зелени</item>
+    </string-array>
+
     <string-array name="currency_2">
         <item>руб.</item>
         <item>рубль</item>
         <item>рублей</item>
     </string-array>
+
+
+
     <string name="history_transfers">History of Transfer</string>
     <string name="summ_transfer">Summ transfer</string>
     <string name="mes">messages</string>

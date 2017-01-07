@@ -255,7 +255,6 @@ public class ChangeColorOfStyleFragment extends Fragment {
     class AdjustColors {
         private int color, statusbarColor;
         private String themeName;
-        int[] attrs = {R.attr.headColor, R.attr.customStatusBarColor};
         private boolean isAvailable = false;
         public int getColor() { return color; }
         public void setThemeName(String themeName) {

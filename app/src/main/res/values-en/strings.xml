@@ -1665,4 +1665,19 @@
     <string name="min_expense_in_the_month">"Minimum income in the month: "</string>
     <string name="report_by_income_expense_table">Report by income and expense</string>
     <string name="must_restart">Для установки темы понадобится перезапуск программы!</string>
+
+    <string-array name="currency_1">
+        <item>доллар</item>
+        <item>долларов</item>
+        <item>долларов сша</item>
+        <item>доллар сша</item>
+        <item>зелени</item>
+    </string-array>
+
+    <string-array name="currency_2">
+        <item>руб.</item>
+        <item>рубль</item>
+        <item>рублей</item>
+    </string-array>
+
 </resources>
