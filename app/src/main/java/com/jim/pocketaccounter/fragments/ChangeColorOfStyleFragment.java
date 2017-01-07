@@ -1,11 +1,13 @@
 package com.jim.pocketaccounter.fragments;
 
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -14,6 +16,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -25,6 +29,7 @@ import com.jim.pocketaccounter.PocketAccounterApplication;
 import com.jim.pocketaccounter.R;
 import com.jim.pocketaccounter.managers.ToolbarManager;
 import com.jim.pocketaccounter.utils.PocketAccounterGeneral;
+import com.jim.pocketaccounter.utils.WarningDialog;
 import com.jim.pocketaccounter.utils.billing.PurchaseImplementation;
 import com.jim.pocketaccounter.utils.record.BoardView;
 
@@ -71,9 +76,49 @@ public class ChangeColorOfStyleFragment extends Fragment {
         layout.setClickable(true);
         rlColorChangeFragment.addView(layout);
         generateColorDatas();
+        String themeName = preferences.getString(PocketAccounterGeneral.CHOOSEN_THEME_NAME_KEY, PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.BLUE_THEME);
+        for (int i = 0; i < colorDatas.size(); i++) {
+            if (colorDatas.get(i).getThemeName().equals(themeName)) {
+                selectedColorPos = i;
+                boardView.setBackgroundColor(colorDatas.get(i).getColor());
+                toolbarManager.setBackgroundColor(colorDatas.get(i).getColor());
+                break;
+            }
+        }
         rvColorChangeFragment.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         rvColorChangeFragment.setAdapter(new ColorChangeListAdapter(colorDatas));
         defineMode();
+        llBuyColorButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (colorDatas.get(selectedColorPos).isAvailable()) {
+                    final WarningDialog warningDialog = new WarningDialog(getContext());
+                    warningDialog.setMyTitle(getString(R.string.warning));
+                    warningDialog.setText(getString(R.string.must_restart));
+                    warningDialog.setOnYesButtonListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            warningDialog.dismiss();
+                            preferences
+                                    .edit()
+                                    .putString(PocketAccounterGeneral.CHOOSEN_THEME_NAME_KEY, colorDatas.get(selectedColorPos).getThemeName());
+                            ((PocketAccounter)getContext()).finish();
+                        }
+                    });
+                    warningDialog.setOnNoButtonClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            warningDialog.dismiss();
+                        }
+                    });
+                    int width = getResources().getDisplayMetrics().widthPixels;
+                    warningDialog.getWindow().setLayout(8 * width / 10, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    warningDialog.show();
+                } else {
+                    purchaseImplementation.buyTheme(colorDatas.get(selectedColorPos).getThemeName());
+                }
+            }
+        });
         return rootView;
     }
 
@@ -144,7 +189,14 @@ public class ChangeColorOfStyleFragment extends Fragment {
                     boardView.setBackgroundColor(result.get(position).getColor());
                     toolbarManager.setBackgroundColor(result.get(position).getColor());
                     choosenThemeName = result.get(position).getThemeName();
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        Window window = ((PocketAccounter)getContext()).getWindow();
+                        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+                        window.setStatusBarColor(result.get(position).getStatusbarColor());
+                    }
                     defineMode();
+                    selectedColorPos = position;
                     notifyDataSetChanged();
                 }
             });
@@ -183,17 +235,38 @@ public class ChangeColorOfStyleFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        String themeName = preferences.getString(PocketAccounterGeneral.CHOOSEN_THEME_NAME_KEY, PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.BLUE_THEME);
+        int id = getResources().getIdentifier(themeName, "style", getContext().getPackageName());
+        TypedArray ta = getContext().obtainStyledAttributes(id, new int[] {R.attr.headColor, R.attr.customStatusBarColor});
+        int color = ta.getColor(0, Color.BLACK);
+        int statusbarColor = ta.getColor(1, Color.BLACK);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = ((PocketAccounter)getContext()).getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.setStatusBarColor(statusbarColor);
+        }
+        toolbarManager.setBackgroundColor(color);
+    }
+
     class AdjustColors {
-        private int color;
+        private int color, statusbarColor;
         private String themeName;
-        int[] attrs = {R.attr.headColor};
+        int[] attrs = {R.attr.headColor, R.attr.customStatusBarColor};
         private boolean isAvailable = false;
         public int getColor() { return color; }
         public void setThemeName(String themeName) {
             this.themeName = themeName;
             int id = getResources().getIdentifier(themeName, "style", getContext().getPackageName());
-            TypedArray ta = getContext().obtainStyledAttributes(id, attrs);
-            color = ta.getColor(0, Color.BLACK);
+            TypedArray ta1 = getContext().obtainStyledAttributes(id, new int[] {R.attr.headColor});
+            color = ta1.getColor(0, Color.BLACK);
+            ta1.recycle();
+            TypedArray ta2 = getContext().obtainStyledAttributes(id, new int[] {R.attr.customStatusBarColor});
+            statusbarColor = ta2.getColor(0, Color.BLACK);
+            ta2.recycle();
             boolean defaultAvailable = themeName.equals(BuildConfig.BLUE_THEME);
             isAvailable = preferences.getBoolean(themeName, defaultAvailable);
         }
@@ -202,6 +275,9 @@ public class ChangeColorOfStyleFragment extends Fragment {
         }
         public String getThemeName() {
             return themeName;
+        }
+        public int getStatusbarColor() {
+            return statusbarColor;
         }
     }
 }

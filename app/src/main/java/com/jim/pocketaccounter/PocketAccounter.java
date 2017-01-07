@@ -35,6 +35,7 @@ import com.jim.pocketaccounter.managers.ToolbarManager;
 import com.jim.pocketaccounter.modulesandcomponents.components.DaggerPocketAccounterActivityComponent;
 import com.jim.pocketaccounter.modulesandcomponents.components.PocketAccounterActivityComponent;
 import com.jim.pocketaccounter.modulesandcomponents.modules.PocketAccounterActivityModule;
+import com.jim.pocketaccounter.utils.PocketAccounterGeneral;
 import com.jim.pocketaccounter.utils.WarningDialog;
 import com.jim.pocketaccounter.utils.billing.PurchaseImplementation;
 import com.jim.pocketaccounter.utils.cache.DataCache;
@@ -89,7 +90,10 @@ public class PocketAccounter extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(null);
-        setTheme(R.style.BlueTheme);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String themeName = prefs.getString(PocketAccounterGeneral.CHOOSEN_THEME_NAME_KEY, PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.BLUE_THEME);
+        int themeId = getResources().getIdentifier(themeName, "style", getPackageName());
+        setTheme(themeId);
         setContentView(R.layout.pocket_accounter);
         component((PocketAccounterApplication) getApplication()).inject(this);
         button_1 = (Button) findViewById(R.id.button_1);

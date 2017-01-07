@@ -252,7 +252,6 @@ public class PurchaseImplementation {
                             .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_FUNCTION_ON_MAIN_BOARD_SKU, true)
                             .commit();
                     break;
-
                 case PocketAccounterGeneral.MoneyHolderSkus.SMS_PARSING_SKU:
                     try {
                         mHelper.consumeAsync(purchase, mConsumeFinishedListener);
@@ -261,7 +260,18 @@ public class PurchaseImplementation {
                         return;
                     }
                     break;
-
+                case PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.YELLOW_THEME:
+                    preferences
+                            .edit()
+                            .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.YELLOW_THEME, true)
+                            .commit();
+                    break;
+                case PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.FIOLA_THEME:
+                    preferences
+                            .edit()
+                            .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.FIOLA_THEME, true)
+                            .commit();
+                    break;
             }
             if (pageBought)
                 paFragmentManager.updateAllFragmentsPageChanges();
@@ -384,6 +394,18 @@ public class PurchaseImplementation {
         try {
             mHelper.launchPurchaseFlow(((PocketAccounter) context),
                     PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_DEBT_BORROW_ON_MAIN_BOARD_SKU, RC_REQUEST,
+                    mPurchaseFinishedListener,
+                    payload);
+        } catch (IabHelper.IabAsyncInProgressException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void buyTheme(String themeName) {
+        String payload = "";
+        try {
+            mHelper.launchPurchaseFlow(((PocketAccounter) context),
+                    themeName, RC_REQUEST,
                     mPurchaseFinishedListener,
                     payload);
         } catch (IabHelper.IabAsyncInProgressException e) {

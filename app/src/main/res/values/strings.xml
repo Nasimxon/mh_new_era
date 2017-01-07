@@ -1747,4 +1747,5 @@
     <string name="c_interval">C</string>
     <string name="total_expense">Total expense</string>
     <string name="total_income">Total income</string>
+    <string name="must_restart">Для установки темы понадобится перезапуск программы!</string>
 </resources>

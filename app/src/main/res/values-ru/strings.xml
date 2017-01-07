@@ -1670,6 +1670,7 @@
     <string name="report_by_income_expense_table">Report by income and expense</string>
     <string name="total_expense">Общая расход</string>
     <string name="total_income">Общая прибыль</string>
+    <string name="must_restart">Для установки темы понадобится перезапуск программы!</string>
 
 </resources>
 
