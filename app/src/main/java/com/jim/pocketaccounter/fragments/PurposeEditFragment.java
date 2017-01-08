@@ -108,8 +108,9 @@ public class PurposeEditFragment extends Fragment implements OnClickListener, On
         for (Currency c : currencyDao.queryBuilder().list()) {
             curList.add(c.getAbbr());
         }
+        if (purpose != null)
+            choosenIcon = purpose.getIcon();
         simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
-
         beginDate.setText(simpleDateFormat.format(begCalendar.getTime()));
         // ------------ Toolbar setting ----------
         toolbarManager.setImageToSecondImage(R.drawable.check_sign);
@@ -117,9 +118,12 @@ public class PurposeEditFragment extends Fragment implements OnClickListener, On
         toolbarManager.setOnSecondImageClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (amountPurpose.getText().toString().isEmpty()) {
+                    amountPurpose.setError(getString(R.string.wrong_input_type));
+                    return;
+                }
                 try {
                     Double.parseDouble(amountPurpose.getText().toString());
-                    amountPurpose.setError(null);
                 } catch (Exception e) {
                     amountPurpose.setError(getString(R.string.wrong_input_type));
                     return;
@@ -129,10 +133,11 @@ public class PurposeEditFragment extends Fragment implements OnClickListener, On
                 } else if (purposeName.getText().toString().isEmpty()) {
                     amountPurpose.setError(null);
                     purposeName.setError(getResources().getString(R.string.enter_name_error));
-                } else if(choosenIcon.equals("add_icon")){
-//                    iconPurpose.animate().tra
-                        Toast.makeText(getContext(),getString(R.string.choise_photo),Toast.LENGTH_SHORT).show();
-                        return;
+                    return;
+                }
+                if(choosenIcon.equals("add_icon")){
+                    Toast.makeText(getContext(),getString(R.string.choise_photo),Toast.LENGTH_SHORT).show();
+                    return;
                 }
 
                 else {
@@ -152,6 +157,7 @@ public class PurposeEditFragment extends Fragment implements OnClickListener, On
                     for (Currency temp : curListTemp) {
                         if (curList.get(curPurpose.getSelectedItemPosition()).equals(temp.getAbbr())) {
                             currencyy = temp;
+                            break;
                         }
                     }
                     if (currencyy == null)
@@ -217,9 +223,6 @@ public class PurposeEditFragment extends Fragment implements OnClickListener, On
                 View dialogView = getActivity().getLayoutInflater().inflate(R.layout.purpose_dialog_layout, null);
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog.setContentView(dialogView);
-                final EditText editText = (EditText) dialogView.findViewById(R.id.etDialogPurpose);
-                final EditText editTextSecond = (EditText) dialogView.findViewById(R.id.etDialogPurposeSecond);
-                final TextView textView = (TextView) dialogView.findViewById(R.id.tvDialogPurposeTitle);
                 if (begCalendar != null && !keyb) {
                     forDateSyncFirst();
                 } else if (endCalendar != null && !keyb) {
@@ -245,20 +248,6 @@ public class PurposeEditFragment extends Fragment implements OnClickListener, On
                         keyb = false;
                         forCustomPeriod = false;
                         endDate.setOnClickListener(null);
-
-//                        textView.setText("Enter count week");
-//                        editText.setHint("Enter week");
-//                        editTextSecond.setVisibility(View.GONE);
-//                        final ImageView save = (ImageView) dialogView.findViewById(R.id.ivDialogPurposeSave);
-//                        save.setOnClickListener(new OnClickListener() {
-//                            @Override
-//                            public void onClick(View v) {
-//                                endCalendar.add(Calendar.WEEK_OF_YEAR, Integer.parseInt(editText.getText().toString()));
-//                                beginDate.setText(dateFormat.format(begCalendar.getTime()));
-//                                endDate.setText(dateFormat.format(endCalendar.getTime()));
-//                            }
-//                        });
-//                        dialog.show();
                         break;
                     }
                     case 2: {
@@ -267,20 +256,6 @@ public class PurposeEditFragment extends Fragment implements OnClickListener, On
                         keyb = false;
                         forCustomPeriod = false;
                         endDate.setOnClickListener(null);
-
-//                        textView.setText("Enter count month");
-//                        editText.setHint("Enter month");
-//                        editTextSecond.setVisibility(View.GONE);
-//                        final ImageView save = (ImageView) dialogView.findViewById(R.id.ivDialogPurposeSave);
-//                        save.setOnClickListener(new OnClickListener() {
-//                            @Override
-//                            public void onClick(View v) {
-//                                endCalendar.add(Calendar.WEEK_OF_MONTH, Integer.parseInt(editText.getText().toString()));
-//                                beginDate.setText(dateFormat.format(begCalendar.getTime()));
-//                                endDate.setText(dateFormat.format(endCalendar.getTime()));
-//                            }
-//                        });
-//                        dialog.show();
                         break;
                     }
                     case 3: {
@@ -289,21 +264,6 @@ public class PurposeEditFragment extends Fragment implements OnClickListener, On
                         keyb = false;
                         forCustomPeriod = false;
                         endDate.setOnClickListener(null);
-
-//
-//                        textView.setText("Enter count year");
-//                        editText.setHint("Enter year");
-//                        final ImageView save = (ImageView) dialogView.findViewById(R.id.ivDialogPurposeSave);
-//                        editTextSecond.setVisibility(View.GONE);
-//                        save.setOnClickListener(new OnClickListener() {
-//                            @Override
-//                            public void onClick(View v) {
-//                                endCalendar.add(Calendar.YEAR, Integer.parseInt(editText.getText().toString()));
-//                                beginDate.setText(dateFormat.format(begCalendar.getTime()));
-//                                endDate.setText(dateFormat.format(endCalendar.getTime()));
-//                            }
-//                        });
-//                        dialog.show();
                         break;
                     }
                     case 4: {
@@ -324,48 +284,6 @@ public class PurposeEditFragment extends Fragment implements OnClickListener, On
                                 mDialog.show();
                             }
                         });
-//
-//                        textView.setText("Enter between date");
-//                        editTextSecond.setVisibility(View.VISIBLE);
-//                        editText.setHint("Enter start");
-//                        editTextSecond.setHint("Enter end");
-//                        editText.setOnTouchListener(new View.OnTouchListener() {
-//                            @Override
-//                            public boolean onTouch(View v, MotionEvent event) {
-//                                datePicker.setOnDatePickListener(new OnDatePickListener() {
-//                                    @Override
-//                                    public void OnDatePick(Calendar pickedDate) {
-//                                        begCalendar = pickedDate;
-//                                        editText.setText(dateFormat.format(begCalendar.getTime()));
-//                                    }
-//                                });
-//                                datePicker.show();
-//                                return true;
-//                            }
-//                        });
-//                        editTextSecond.setOnTouchListener(new View.OnTouchListener() {
-//                            @Override
-//                            public boolean onTouch(View v, MotionEvent event) {
-//                                datePicker.setOnDatePickListener(new OnDatePickListener() {
-//                                    @Override
-//                                    public void OnDatePick(Calendar pickedDate) {
-//                                        endCalendar = pickedDate;
-//                                        editTextSecond.setText(dateFormat.format(endCalendar.getTime()));
-//                                    }
-//                                });
-//                                datePicker.show();
-//                                return true;
-//                            }
-//                        });
-//                        final ImageView save = (ImageView) dialogView.findViewById(R.id.ivDialogPurposeSave);
-//                        save.setOnClickListener(new OnClickListener() {
-//                            @Override
-//                            public void onClick(View v) {
-//                                beginDate.setText(dateFormat.format(begCalendar.getTime()));
-//                                endDate.setText(dateFormat.format(endCalendar.getTime()));
-//                            }
-//                        });
-//                        dialog.show();
                         break;
                     }
                 }
@@ -435,8 +353,6 @@ public class PurposeEditFragment extends Fragment implements OnClickListener, On
                             case 1:
                                 //week
                                 begCalendar.add(Calendar.WEEK_OF_YEAR, -period_long);
-
-
                                 break;
                             case 2:
                                 //year

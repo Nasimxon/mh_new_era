@@ -178,7 +178,7 @@ public class PurposeFragment extends Fragment{
             double leftAmmountdb = lefAmmount(item);
             double allAmmount = item.getPurpose();
             double paid = allAmmount - leftAmmountdb;
-            view.tvTotalAmount.setText(getResources().getString(R.string.purpose_ammount) + " "+parseToWithoutNull(allAmmount) + commonOperations.getMainCurrency().getAbbr());
+            view.tvTotalAmount.setText(getResources().getString(R.string.purpose_ammount) + " "+parseToWithoutNull(allAmmount) + result.get(position).getCurrency().getAbbr());
             DecimalFormat format = new DecimalFormat("0.##");
             String abbr = commonOperations.getMainCurrency().getAbbr();
             String topText = getString(R.string.saved_money) + " " + format.format(paid) + abbr;

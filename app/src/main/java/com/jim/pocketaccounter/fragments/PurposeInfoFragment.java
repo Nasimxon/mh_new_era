@@ -228,7 +228,10 @@ public class PurposeInfoFragment extends Fragment implements View.OnClickListene
         double total = 0;
         List<AccountOperation> operationList = reportManager.getAccountOpertions(purpose);
         for (AccountOperation accountOperation : operationList) {
-            total += commonOperations.getCost(Calendar.getInstance(), accountOperation.getCurrency(), purpose.getCurrency(), accountOperation.getAmount());
+            if (accountOperation.getSourceId().equals(purpose.getId()))
+                total -= commonOperations.getCost(Calendar.getInstance(), accountOperation.getCurrency(), purpose.getCurrency(), accountOperation.getAmount());
+            else if (accountOperation.getTargetId().equals(purpose.getId()))
+                total += commonOperations.getCost(Calendar.getInstance(), accountOperation.getCurrency(), purpose.getCurrency(), accountOperation.getAmount());
         }
         double leftAmount = purpose.getPurpose() - total;
         if (Allcashes != null)

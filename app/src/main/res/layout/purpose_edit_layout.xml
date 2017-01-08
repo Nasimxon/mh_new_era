@@ -119,36 +119,25 @@
                     android:paddingRight="@dimen/five_dp"
                     android:paddingTop="@dimen/eight_dp"
                     android:visibility="visible">
-
                     <EditText
                         android:id="@+id/etPurposeTotal"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true"
                         android:layout_gravity="center_vertical"
-                        android:layout_toLeftOf="@+id/spStartMoneyCurrency"
-
-                        android:layout_weight="1"
+                        android:layout_toLeftOf="@+id/spPurposeCurrency"
                         android:background="#fff"
-                        android:ems="10"
                         android:hint="@string/enter_the_amount"
                         android:inputType="numberDecimal"
                         android:maxLength="25"
                         android:textColor="@color/black_for_glavniy_text"
                         android:textSize="@dimen/sixteen_dp" />
-
                     <Spinner
                         android:id="@+id/spPurposeCurrency"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignBottom="@+id/etStartMoney"
-                        android:layout_alignParentEnd="true"
+                        android:layout_height="match_parent"
                         android:layout_alignParentRight="true"
-                        android:layout_alignParentTop="true"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="@dimen/sixteen_dp"
-                        android:gravity="right" />
+                        android:layout_marginLeft="@dimen/ten_dp"/>
                 </RelativeLayout>
 
                 <RelativeLayout
