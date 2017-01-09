@@ -1665,6 +1665,8 @@
     <string name="min_expense_in_the_month">"Minimum income in the month: "</string>
     <string name="report_by_income_expense_table">Report by income and expense</string>
     <string name="must_restart">Для установки темы понадобится перезапуск программы!</string>
+    <string name="daily_operations">Daily operations</string>
+    <string name="category_subcategory">Category SubCategory</string>
 
     <string-array name="currency_1">
         <item>доллар</item>

@@ -19,33 +19,17 @@
                 android:layout_height="wrap_content"
                 android:text="@string/widget_settings"
                 android:textColor="@color/black_for_myagkiy_glavniy"
-                android:textSize="@dimen/twentysix_sp" />
+                android:textSize="@dimen/twenty_dp" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@id/setsetste"
                 android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                   android:layout_marginTop="@dimen/five_dp"
-                    android:orientation="horizontal">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center">
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="2px"
-                            android:background="#dfdfdf" />
-                    </RelativeLayout>
-                </LinearLayout>
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/twelve_dp">
+                    android:layout_marginTop="@dimen/twentyfive_dp">
                     <LinearLayout
                         android:id="@+id/linearLayout4"
                         android:layout_width="wrap_content"
@@ -57,15 +41,15 @@
                         android:weightSum="1">
                         <ImageView
                             android:id="@+id/first_but_icon"
-                            android:layout_width="@dimen/seventy_dp"
-                            android:layout_height="@dimen/seventy_dp"
+                            android:layout_width="@dimen/fourty_dp"
+                            android:layout_height="@dimen/fourty_dp"
                             android:tint="@color/black_for_myagkiy_glavniy"
                             android:scaleType="centerInside"
                             android:src="@drawable/icons_3" />
                         <TextView
                             android:id="@+id/category_name_1"
                             android:layout_width="wrap_content"
-                            android:layout_height="@dimen/seventy_dp"
+                            android:layout_height="@dimen/fourty_dp"
                             android:layout_marginLeft="@dimen/fifteen_dp"
                             android:gravity="center"
                             android:text="Choose category"
@@ -81,14 +65,16 @@
                         android:layout_alignParentRight="true"
                         android:layout_alignParentTop="true"
                         android:orientation="horizontal">
+
                         <ImageView
                             android:id="@+id/delete_but1"
                             android:layout_width="@dimen/thirty_dp"
                             android:layout_height="match_parent"
                             android:layout_marginRight="@dimen/five_dp"
                             android:scaleType="centerInside"
-                            android:tint="@color/black_for_myagkiy_glavniy"
-                            android:src="@drawable/ic_delete_black_24dp" />
+                            android:src="@drawable/ic_delete_black_24dp"
+                            android:tint="@color/black_for_myagkiy_glavniy" />
+
                         <ImageView
                             android:id="@+id/change_ed_but1"
                             android:layout_width="@dimen/thirty_dp"
@@ -96,9 +82,25 @@
                             android:layout_marginRight="@dimen/five_dp"
                             android:scaleType="centerInside"
                             android:tint="@color/black_for_myagkiy_glavniy"
-                            android:src="@drawable/ic_settings_black_24dp" />
+                            android:src="@drawable/ic_mode_edit_black_24dp" />
                     </LinearLayout>
                 </RelativeLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/five_dp"
+                    android:orientation="horizontal">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center">
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="2px"
+                            android:background="#dfdfdf" />
+                    </RelativeLayout>
+                </LinearLayout>
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -114,15 +116,15 @@
                         android:weightSum="1">
                         <ImageView
                             android:id="@+id/second_but_icon"
-                            android:layout_width="@dimen/seventy_dp"
-                            android:layout_height="@dimen/seventy_dp"
+                            android:layout_width="@dimen/fourty_dp"
+                            android:layout_height="@dimen/fourty_dp"
                             android:tint="@color/black_for_myagkiy_glavniy"
                             android:scaleType="centerInside"
                             android:src="@drawable/icons_3" />
                         <TextView
                             android:id="@+id/category_name_2"
                             android:layout_width="wrap_content"
-                            android:layout_height="@dimen/seventy_dp"
+                            android:layout_height="@dimen/fourty_dp"
                             android:layout_marginLeft="@dimen/fifteen_dp"
                             android:gravity="center"
                             android:text="Choose category"
@@ -153,9 +155,25 @@
                             android:layout_marginRight="@dimen/five_dp"
                             android:scaleType="centerInside"
                             android:tint="@color/black_for_myagkiy_glavniy"
-                            android:src="@drawable/ic_settings_black_24dp" />
+                            android:src="@drawable/ic_mode_edit_black_24dp" />
                     </LinearLayout>
                 </RelativeLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/five_dp"
+                    android:orientation="horizontal">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center">
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="2px"
+                            android:background="#dfdfdf" />
+                    </RelativeLayout>
+                </LinearLayout>
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -171,8 +189,8 @@
                         android:weightSum="1">
                         <ImageView
                             android:id="@+id/thirt_but_icon"
-                            android:layout_width="@dimen/seventy_dp"
-                            android:layout_height="@dimen/seventy_dp"
+                            android:layout_width="@dimen/fourty_dp"
+                            android:layout_height="@dimen/fourty_dp"
                                                        android:tint="@color/black_for_myagkiy_glavniy"
                             android:scaleType="centerInside"
                             android:src="@drawable/icons_3" />
@@ -180,7 +198,7 @@
                         <TextView
                             android:id="@+id/category_name_3"
                             android:layout_width="wrap_content"
-                            android:layout_height="@dimen/seventy_dp"
+                            android:layout_height="@dimen/fourty_dp"
                             android:layout_marginLeft="@dimen/fifteen_dp"
                             android:gravity="center"
                             android:text="Choose category"
@@ -211,9 +229,25 @@
                             android:layout_marginRight="@dimen/five_dp"
                             android:scaleType="centerInside"
                             android:tint="@color/black_for_myagkiy_glavniy"
-                            android:src="@drawable/ic_settings_black_24dp" />
+                            android:src="@drawable/ic_mode_edit_black_24dp" />
                     </LinearLayout>
                 </RelativeLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/five_dp"
+                    android:orientation="horizontal">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center">
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="2px"
+                            android:background="#dfdfdf" />
+                    </RelativeLayout>
+                </LinearLayout>
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -229,15 +263,15 @@
                         android:weightSum="1">
                         <ImageView
                             android:id="@+id/four_but_icon"
-                            android:layout_width="@dimen/seventy_dp"
-                            android:layout_height="@dimen/seventy_dp"
+                            android:layout_width="@dimen/fourty_dp"
+                            android:layout_height="@dimen/fourty_dp"
                             android:tint="@color/black_for_myagkiy_glavniy"
                             android:scaleType="centerInside"
                             android:src="@drawable/icons_3" />
                         <TextView
                             android:id="@+id/category_name_4"
                             android:layout_width="wrap_content"
-                            android:layout_height="@dimen/seventy_dp"
+                            android:layout_height="@dimen/fourty_dp"
                             android:layout_marginLeft="@dimen/fifteen_dp"
                             android:gravity="center"
                             android:text="Choose category"
@@ -268,9 +302,25 @@
                             android:layout_marginRight="@dimen/five_dp"
                             android:scaleType="centerInside"
                             android:tint="@color/black_for_myagkiy_glavniy"
-                            android:src="@drawable/ic_settings_black_24dp" />
+                            android:src="@drawable/ic_mode_edit_black_24dp" />
                     </LinearLayout>
                 </RelativeLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/five_dp"
+                    android:orientation="horizontal">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center">
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="2px"
+                            android:background="#dfdfdf" />
+                    </RelativeLayout>
+                </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
     </ScrollView>

@@ -336,13 +336,9 @@ public class WidgetProvider extends AppWidgetProvider {
         views.setOnClickPendingIntent(R.id.settings_widget, actionPendingIntent_s);
 
         if(PreferenceManager.getDefaultSharedPreferences(context).getBoolean("securewidget",false)){
-//            views.setViewVisibility(R.id.forgone, View.GONE);
-            views.setViewVisibility(R.id.forgone1, View.GONE);
-//            views.setViewVisibility(R.id.forgone2, View.GONE);
-            views.setViewVisibility(R.id.todayis, View.VISIBLE);
-            SimpleDateFormat foramat=new SimpleDateFormat("dd.MM.yyyy");
-            views.setTextViewText(R.id.todayis,foramat.format(new Date()
-            ));
+            SimpleDateFormat foramat=new SimpleDateFormat("dd MMM yyyy");
+            views.setTextViewText(R.id.balance_widget,foramat.format(new Date()));
+            views.setTextViewText(R.id.tvTitleWidget, "Finansia");
 
             Bitmap bitmap = makeDiagram(context,daoSession);
             views.setImageViewBitmap(R.id.diagramma_widget, bitmap);
@@ -352,13 +348,25 @@ public class WidgetProvider extends AppWidgetProvider {
         }
 
         else {
-//            views.setViewVisibility(R.id.forgone, View.VISIBLE);
-            views.setViewVisibility(R.id.forgone1, View.VISIBLE);
-//            views.setViewVisibility(R.id.forgone2, View.VISIBLE);
-            views.setTextViewText(R.id.todayis,"");
-            views.setViewVisibility(R.id.todayis, View.GONE);
-
-
+            views.setTextViewText(R.id.tvTitleWidget, "Balance");
+            Map<String, Double> resultMap = calculateBalance(new GregorianCalendar(2016,0,0),Calendar.getInstance(),context,daoSession);
+            if(resultMap!=null){
+                //balanceni berisiz
+                if(getMainCurrency(daoSession)!=null) {
+                    views.setTextViewText(R.id.balance_widget, parseToWithoutNull(resultMap.get(PocketAccounterGeneral.BALANCE)) + getMainCurrency(daoSession).getAbbr());
+                    //rasxodni berisiz
+//                views.setTextViewText(R.id.expence_widget, parseToWithoutNull(resultMap.get(PocketAccounterGeneral.EXPENSES)) + getMainCurrency(daoSession).getAbbr());
+                    //doxoddi berisiz
+//                views.setTextViewText(R.id.income_widget, parseToWithoutNull(resultMap.get(PocketAccounterGeneral.INCOMES)) + getMainCurrency(daoSession).getAbbr());
+                }
+                else {
+                    views.setTextViewText(R.id.balance_widget, parseToWithoutNull(resultMap.get(PocketAccounterGeneral.BALANCE)) + "$");
+                    //rasxodni berisiz
+//                views.setTextViewText(R.id.expence_widget, parseToWithoutNull(resultMap.get(PocketAccounterGeneral.EXPENSES)) + "$");
+                    //doxoddi berisiz
+//                views.setTextViewText(R.id.income_widget, parseToWithoutNull(resultMap.get(PocketAccounterGeneral.INCOMES)) + "$");
+                }
+            }
         }
 
         Map<String, Double> resultMap = calculateBalance(new GregorianCalendar(2016,0,0),Calendar.getInstance(),context,daoSession);

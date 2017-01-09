@@ -4,16 +4,14 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/four_dp"
     android:background="#00000000"
     android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/forgone1"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/five_dp"
-        android:layout_marginTop="@dimen/five_dp"
         android:background="@drawable/rounded_rect"
         android:gravity="center"
         android:orientation="horizontal"
@@ -25,16 +23,7 @@
             android:layout_weight="1">
 
             <TextView
-                android:id="@+id/todayis"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/twenty_dp"
-                android:gravity="center"
-                android:textColor="@android:color/white"
-                android:textSize="16dp"
-                android:visibility="gone" />
-
-            <TextView
+                android:id="@+id/tvTitleWidget"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/twenty_dp"
@@ -75,19 +64,19 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/five_dp"
-            android:paddingRight="@dimen/five_dp"
             android:layout_marginLeft="@dimen/ten_dp"
             android:layout_marginRight="@dimen/ten_dp"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/five_dp"
+            android:paddingRight="@dimen/five_dp">
 
             <ImageView
                 android:id="@+id/settings_widget"
                 android:layout_width="15dp"
                 android:layout_height="15dp"
-                android:scaleType="centerInside"
                 android:layout_gravity="center_horizontal"
+                android:scaleType="centerInside"
                 android:src="@drawable/ic_settings"
                 android:tint="@color/white" />
 
@@ -98,8 +87,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/five_dp"
-        android:layout_marginTop="@dimen/five_dp"
         android:background="@drawable/rounded_rect"
         android:orientation="horizontal">
 
@@ -108,8 +95,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/ten_dp"
-            android:layout_marginTop="@dimen/ten_dp"
             android:layout_marginLeft="@dimen/five_dp"
+            android:layout_marginTop="@dimen/ten_dp"
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical">
@@ -117,8 +104,10 @@
             <ImageView
                 android:id="@+id/button_1_icon"
                 android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginBottom="@dimen/five_dp"
+                android:layout_height="0dp"
+                android:layout_marginBottom="@dimen/three_dp"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
                 android:scaleType="centerInside"
                 android:src="@drawable/icons_1"
                 android:tint="@color/white" />
@@ -127,11 +116,11 @@
                 android:id="@+id/tvButtonName_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Card"
-                android:maxLines="1"
                 android:ellipsize="end"
+                android:maxLines="1"
+                android:text="Card"
                 android:textColor="@android:color/white"
-                android:textSize="14dp" />
+                android:textSize="12dp" />
 
         </LinearLayout>
 
@@ -140,6 +129,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginBottom="@dimen/five_dp"
+            android:layout_marginTop="@dimen/five_dp"
             android:orientation="horizontal">
 
             <FrameLayout
@@ -170,8 +160,11 @@
             <ImageView
                 android:id="@+id/button_2_icon"
                 android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginBottom="@dimen/five_dp"
+                android:layout_height="0dp"
+                android:layout_marginBottom="@dimen/three_dp"
+                android:layout_weight="1"
+
+                android:adjustViewBounds="true"
                 android:scaleType="centerInside"
                 android:src="@drawable/icons_2"
                 android:tint="@color/white" />
@@ -180,11 +173,11 @@
                 android:id="@+id/tvButtonName_2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Card"
-                android:maxLines="1"
                 android:ellipsize="end"
+                android:maxLines="1"
+                android:text="Card"
                 android:textColor="@android:color/white"
-                android:textSize="14dp" />
+                android:textSize="12dp" />
 
         </LinearLayout>
 
@@ -193,6 +186,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginBottom="@dimen/five_dp"
+            android:layout_marginTop="@dimen/five_dp"
             android:orientation="horizontal">
 
             <FrameLayout
@@ -206,7 +200,6 @@
                 android:layout_height="30dp"
                 android:layout_gravity="center_vertical"
                 android:background="#33000000" />
-
 
         </LinearLayout>
 
@@ -224,8 +217,11 @@
             <ImageView
                 android:id="@+id/button_3_icon"
                 android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginBottom="@dimen/five_dp"
+                android:layout_height="0dp"
+                android:layout_marginBottom="@dimen/three_dp"
+                android:layout_weight="1"
+
+                android:adjustViewBounds="true"
                 android:scaleType="centerInside"
                 android:src="@drawable/icons_3"
                 android:tint="@color/white" />
@@ -234,11 +230,11 @@
                 android:id="@+id/tvButtonName_3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Card"
-                android:maxLines="1"
                 android:ellipsize="end"
+                android:maxLines="1"
+                android:text="Card"
                 android:textColor="@android:color/white"
-                android:textSize="14dp" />
+                android:textSize="12dp" />
 
         </LinearLayout>
 
@@ -247,6 +243,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginBottom="@dimen/five_dp"
+            android:layout_marginTop="@dimen/five_dp"
             android:orientation="horizontal">
 
             <FrameLayout
@@ -277,8 +274,11 @@
             <ImageView
                 android:id="@+id/button_4_icon"
                 android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginBottom="@dimen/five_dp"
+                android:layout_height="0dp"
+                android:layout_marginBottom="@dimen/three_dp"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+
                 android:scaleType="centerInside"
                 android:src="@drawable/icons_4"
                 android:tint="@color/white" />
@@ -287,11 +287,11 @@
                 android:id="@+id/tvButtonName_4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Card"
-                android:maxLines="1"
                 android:ellipsize="end"
+                android:maxLines="1"
+                android:text="Card"
                 android:textColor="@android:color/white"
-                android:textSize="14dp" />
+                android:textSize="12dp" />
 
         </LinearLayout>
 

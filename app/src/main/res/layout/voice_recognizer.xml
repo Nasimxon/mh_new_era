@@ -131,7 +131,7 @@
                 android:background="#ffffff"
                 android:gravity="center"
                 android:padding="@dimen/ten_dp"
-                android:text="Daily expense"
+                android:text="@string/daily_operations"
                 android:textSize="@dimen/twenty_dp" />
             <ImageView
                 android:layout_width="match_parent"
@@ -167,7 +167,7 @@
                         android:layout_marginRight="@dimen/ten_dp"
                         android:gravity="center"
                         android:textSize="@dimen/eightteen_dp"
-                        android:text="Category SubCategory" />
+                        android:text="@string/category_subcategory" />
 
                     <ImageView
                         android:layout_width="@dimen/one_dp"
@@ -223,7 +223,7 @@
                         android:gravity="center_horizontal"
                         android:layout_weight="1"
                         android:textSize="@dimen/eightteen_dp"
-                        android:text="2000" />
+                        android:text="0.0" />
                     <Spinner
                         android:id="@+id/spSpeechCurrency"
                         android:layout_width="wrap_content"

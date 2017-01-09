@@ -42,7 +42,7 @@
         android:orientation="horizontal"
         android:paddingTop="@dimen/three_dp">
         <TextView
-            android:id="@+id/todayis"
+            android:id="@+id/today"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"

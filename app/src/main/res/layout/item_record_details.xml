@@ -39,7 +39,7 @@
         </LinearLayout>
 
         <FrameLayout
-            android:layout_width="4px"
+            android:layout_width="2px"
             android:layout_height="match_parent"
             android:background="#f2f3f5" />
 
