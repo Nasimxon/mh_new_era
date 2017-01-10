@@ -1,9 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <ListView
-        android:id="@+id/lvCategoryChoose"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:background="@drawable/dialog_shape"
+android:orientation="vertical">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_marginBottom="@dimen/five_dp"
+    android:layout_marginTop="@dimen/ten_dp"
+    android:layout_marginRight="@dimen/ten_dp">
+    <TextView
+        android:id="@+id/title"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:textSize="@dimen/sixteen_dp"
+        android:layout_marginLeft="@dimen/sixteen_dp"
+        android:textColor="@color/black_for_myagkiy_glavniy"
+        android:text="@string/choise_category" />
+    <ImageView
+        android:id="@+id/ivInfoDebtBorrowCancel"
+        android:layout_width="@dimen/twenty_dp"
+        android:layout_height="@dimen/twenty_dp"
+        android:layout_gravity="center_vertical"
+        android:padding="2dp"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/ten_dp"
+        android:src="@drawable/cancel_sign"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+</RelativeLayout>
+    <LinearLayout
+        android:id="@+id/llToolBars"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="@dimen/sixteen_dp"
+        android:layout_marginRight="@dimen/sixteen_dp">
+        <TextView
+            android:id="@+id/tvAllView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="All"
+            android:paddingTop="@dimen/five_dp"
+            android:paddingRight="@dimen/twenty_dp"
+            android:textSize="@dimen/sixteen_dp"
+            android:textColor="@color/black_for_myagkiy_glavniy"
+            />
+        <TextView
+            android:id="@+id/tvExpenseView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingRight="@dimen/twenty_dp"
+
+            android:paddingTop="@dimen/five_dp"
+            android:text="@string/expanse"
+            android:textSize="@dimen/sixteen_dp"
+            android:textColor="@color/black_for_secondary_text"
+            />
+        <TextView
+            android:id="@+id/tvIncomeView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            android:paddingTop="@dimen/five_dp"
+            android:layout_weight="1"
+            android:layout_marginRight="@dimen/sixteen_dp"
+            android:text="@string/income"
+            android:textSize="@dimen/sixteen_dp"
+            android:textColor="@color/black_for_secondary_text"
+            />
+    </LinearLayout>
+    <View
+        android:layout_marginTop="@dimen/sevent_dp"
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:background="#e3e3e3"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="#f2f3f5"
+        android:layout_weight="1">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/lvCategoryChoose"
+            android:paddingTop="@dimen/ten_dp"
+            android:paddingRight="@dimen/ten_dp"
+            android:paddingLeft="@dimen/three_dp"
+            android:clipToPadding="false"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/three_dp"
+            android:background="@drawable/shadow_diag"/>
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:background="#e3e3e3"/>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/twenty_dp"/>
 </LinearLayout>

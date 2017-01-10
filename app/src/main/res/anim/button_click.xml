@@ -5,24 +5,24 @@
         android:fromYScale="1.0"
         android:toXScale="0.95"
         android:toYScale="0.95"
-        android:duration="75"
+        android:duration="20"
         android:pivotX="50%"
         android:pivotY="50%"/>
     <alpha
         android:fromAlpha="1.0"
         android:toAlpha="0.7"
-        android:duration="75"/>
+        android:duration="20"/>
     <scale
         android:startOffset="75"
         android:fromXScale="0.95"
         android:fromYScale="0.95"
         android:toXScale="1.0"
         android:toYScale="1.0"
-        android:duration="75"
+        android:duration="50"
         android:pivotX="50%"
         android:pivotY="50%"/>
     <alpha
-        android:startOffset="75"
+        android:startOffset="50"
         android:fromAlpha="0.7"
         android:toAlpha="1.0"
         android:duration="75"/>

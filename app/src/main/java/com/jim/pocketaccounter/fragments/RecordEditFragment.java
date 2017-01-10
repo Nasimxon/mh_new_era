@@ -24,6 +24,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.ActionBarOverlayLayout;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
@@ -56,6 +57,8 @@ import com.jim.pocketaccounter.database.Currency;
 import com.jim.pocketaccounter.database.DaoSession;
 import com.jim.pocketaccounter.database.FinanceRecord;
 import com.jim.pocketaccounter.database.RootCategoryDao;
+import com.jim.pocketaccounter.finance.AccountChoiseDialogAdapter;
+import com.jim.pocketaccounter.finance.ChoiseCategoryDialoogItemAdapter;
 import com.jim.pocketaccounter.finance.RecordAccountAdapter;
 import com.jim.pocketaccounter.finance.RecordCategoryAdapter;
 import com.jim.pocketaccounter.finance.RecordSubCategoryAdapter;
@@ -67,6 +70,7 @@ import com.jim.pocketaccounter.managers.LogicManager;
 import com.jim.pocketaccounter.managers.PAFragmentManager;
 import com.jim.pocketaccounter.managers.ToolbarManager;
 import com.jim.pocketaccounter.photocalc.PhotoAdapter;
+import com.jim.pocketaccounter.utils.GetterAttributColors;
 import com.jim.pocketaccounter.utils.OnSubcategorySavingListener;
 import com.jim.pocketaccounter.utils.PocketAccounterGeneral;
 import com.jim.pocketaccounter.utils.SubCatAddEditDialog;
@@ -112,6 +116,7 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
     private Currency currency;
     private Account account;
     private Calendar date;
+    private ImageView choosePhoto;
     private int parent;
     private int[] numericButtons = {R.id.rlZero, R.id.rlOne, R.id.rlTwo, R.id.rlThree, R.id.rlFour, R.id.rlFive, R.id.rlSix, R.id.rlSeven, R.id.rlEight, R.id.rlNine};
     private int[] operatorButtons = {R.id.rlPlusSign, R.id.rlMinusSign, R.id.rlMultipleSign, R.id.rlDivideSign};
@@ -122,11 +127,20 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
     private DecimalFormat decimalFormat = null;
     private RelativeLayout rlCategory, rlSubCategory;
     private Animation buttonClick;
+    private TextView tvAccountName;
     private TextView comment;
+    private TextView tvRecordEditCategoryName;
+    private TextView tvRecordEditSubCategoryName;
     private EditText comment_add;
     private String commentBackRoll;
+    private ImageView ivBackspaceSign;
+    private ImageView ivCommentButton;
     private String oraliqComment = "";
+    private ImageView ivClear;
+    private ImageView ivAccountIcon;
+    private RelativeLayout rvAccountChoise;
     boolean keykeboard = false;
+    boolean keyForDesideOpenSubCategoryDialog = false;
     private boolean keyForDeleteAllPhotos = true;
     static final int REQUEST_IMAGE_CAPTURE = 112;
     private String uid_code;
@@ -171,12 +185,12 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
         void startActivityFromFragmentForResult(Intent intent);
     }
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         setRetainInstance(true);
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
         if (parent == PocketAccounterGeneral.MAIN)
             paFragmentManager.setMainReturn(true);
-        mainView = inflater.inflate(R.layout.record_edit_modern, container, false);
+        mainView = inflater.inflate(R.layout.record_edit, container, false);
 //        this.date = dataCache.getEndDate();
         if (cameCategory != null) {
 
@@ -192,7 +206,7 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
         toolbarManager.setImageToHomeButton(R.drawable.ic_back_button);
         toolbarManager.setTitle("");
         toolbarManager.setSubtitle("");
-        toolbarManager.setSpinnerVisibility(View.VISIBLE);
+        toolbarManager.setSpinnerVisibility(View.INVISIBLE);
         toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
         toolbarManager.setOnHomeButtonClickListener(new OnClickListener() {
             @Override
@@ -218,39 +232,75 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
                 }
             }
         });
+        ivAccountIcon = (ImageView) mainView.findViewById(R.id.ivAccountIcon);
+        tvAccountName = (TextView) mainView.findViewById(R.id.tvAccountName);
+        rvAccountChoise = (RelativeLayout) mainView.findViewById(R.id.rvAccountChoise);
 
-        spToolbar = toolbarManager.getSpinner();
         final List<Account> accountList = daoSession.getAccountDao().loadAll();
-        RecordAccountAdapter accountAdapter = new RecordAccountAdapter(getContext(), accountList);
-        spToolbar.setAdapter(accountAdapter);
-        spToolbar.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-               if(view!=null){
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("editor_sp", ((TextView) view.findViewById(R.id.tvAccountListName)).getText().toString());
-                try {
-                    editor.commit();
-                } catch (Exception o) {
-                    editor.apply();
-                }
-                account = accountList.get(position);}
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
-        });
-        int pos = 0;
-        for (Account temp : accountList) {
-            if (temp.getName().matches(sharedPreferences.getString("editor_sp", ""))) {
-                try {
-                    spToolbar.setSelection(pos);
-                } catch (Exception o) {
-                    o.printStackTrace();
-                }
-            }
-            pos++;
-        }
+        account = accountList.get(0);
+        int resId2 = getResources().getIdentifier(account.getIcon(), "drawable", getContext().getPackageName());
+        ivAccountIcon.setImageResource(resId2);
+        tvAccountName.setText(account.getName());
 
+
+        rvAccountChoise.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                final Dialog dialog = new Dialog(getActivity());
+                View dialogView = getActivity().getLayoutInflater().inflate(R.layout.category_choose_list, null);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setContentView(dialogView);
+                View v = dialog.getWindow().getDecorView();
+                v.setBackgroundResource(android.R.color.transparent);
+                final ArrayList<Object> subCategories = new ArrayList<>();
+                subCategories.add(category);
+                for (int i = 0; i < category.getSubCategories().size(); i++)
+                    subCategories.add(category.getSubCategories().get(i));
+                subCategories.add(null);
+                dialogView.findViewById(R.id.llToolBars).setVisibility(View.GONE);
+
+                TextView title = (TextView) dialogView.findViewById(R.id.title);
+                title.setText(R.string.choise_account_f);
+                RecyclerView rvCategoryChoose = (RecyclerView) dialogView.findViewById(R.id.lvCategoryChoose);
+                AccountChoiseDialogAdapter adapter = new AccountChoiseDialogAdapter(accountList, getContext(), new AccountChoiseDialogAdapter.OnItemSelectListner() {
+                    @Override
+                    public void onItemSelect(Account fromDialog) {
+                        int resId = getResources().getIdentifier(fromDialog.getIcon(), "drawable", getContext().getPackageName());
+                        ivAccountIcon.setImageResource(resId);
+                        tvAccountName.setText(fromDialog.getName());
+                        account = fromDialog;
+                        dialog.dismiss();
+                    }
+                });
+                dialogView.findViewById(R.id.ivInfoDebtBorrowCancel).setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
+                rvCategoryChoose.setLayoutManager(new LinearLayoutManager(getContext()));
+                rvCategoryChoose.setHasFixedSize(true);
+                rvCategoryChoose.setAdapter(adapter);
+                DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
+                int width = displayMetrics.widthPixels;
+                int hieght = displayMetrics.heightPixels;
+                dialog.getWindow().setLayout(9 * width / 10, (int) (8.2*hieght/10));
+                dialog.show();
+
+
+
+
+
+
+
+
+            }
+        });
+
+        ivClear = (ImageView) mainView.findViewById(R.id.ivClear);
+        ivBackspaceSign = (ImageView) mainView.findViewById(R.id.ivBackspaceSign);
+        choosePhoto = (ImageView) mainView.findViewById(R.id.choose_photo);
         spRecordEdit = (Spinner) mainView.findViewById(R.id.spRecordEdit);
         final List<Currency> currencyList = daoSession.getCurrencyDao().loadAll();
         final String[] currencies = new String[currencyList.size()];
@@ -275,6 +325,7 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
             }
         });
         comment = (TextView) mainView.findViewById(R.id.textView18);
+        ivCommentButton = (ImageView) mainView.findViewById(R.id.comment_opener);
         comment_add = (EditText) mainView.findViewById(R.id.comment_add);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         uid_code = "record_" + UUID.randomUUID().toString();
@@ -283,6 +334,8 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
         ivRecordEditCategory = (ImageView) mainView.findViewById(R.id.ivRecordEditCategory);
         ivRecordEditSubCategory = (ImageView) mainView.findViewById(R.id.ivRecordEditSubCategory);
         tvRecordEditDisplay = (TextView) mainView.findViewById(R.id.tvRecordEditDisplay);
+        tvRecordEditCategoryName = (TextView) mainView.findViewById(R.id.tvRecordEditCategoryName);
+        tvRecordEditSubCategoryName = (TextView) mainView.findViewById(R.id.tvRecordEditSubCategoryName);
         rlCategory = (RelativeLayout) mainView.findViewById(R.id.rlCategory);
         rlCategory.setOnClickListener(this);
         rlSubCategory = (RelativeLayout) mainView.findViewById(R.id.rlSubcategory);
@@ -295,19 +348,25 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
         DecimalFormat decimalFormat = new DecimalFormat("0.00", otherSymbols);
         if (category != null) {
             ivRecordEditSubCategory.setImageResource(R.drawable.category_not_selected);
+            tvRecordEditSubCategoryName.setText(R.string.no_category_name);
             int resId = getResources().getIdentifier(category.getIcon(), "drawable", getContext().getPackageName());
-
+            tvRecordEditCategoryName.setText(category.getName());
             ivRecordEditCategory.setImageResource(resId);
         }
         if (record != null) {
             fromEdit = true;
             int resId = getResources().getIdentifier(record.getCategory().getIcon(), "drawable", getContext().getPackageName());
             ivRecordEditCategory.setImageResource(resId);
+            tvRecordEditCategoryName.setText(record.getCategory().getName());
             if (record.getSubCategory() != null) {
                 resId = getResources().getIdentifier(record.getSubCategory().getIcon(), "drawable", getContext().getPackageName());
                 ivRecordEditSubCategory.setImageResource(resId);
-            } else
+                tvRecordEditSubCategoryName.setText(record.getSubCategory().getName());
+            } else{
                 ivRecordEditSubCategory.setImageResource(R.drawable.category_not_selected);
+                tvRecordEditSubCategoryName.setText(R.string.no_category_name);
+
+            }
             tvRecordEditDisplay.setText(decimalFormat.format(record.getAmount()));
 
             for (int i = 0; i < currencyList.size(); i++) {
@@ -316,12 +375,7 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
                     break;
                 }
             }
-            for (int i = 0; i < accountList.size(); i++) {
-                if (accountList.get(i).getId().matches(record.getAccount().getId())) {
-                    spToolbar.setSelection(i);
-                    break;
-                }
-            }
+
             myTickets = (ArrayList<PhotoDetails>) record.getAllTickets()/*.clone()*/;
             myTicketsFromBackRoll = (ArrayList<PhotoDetails>) myTickets.clone();
             if (record.getComment() != null && !record.getComment().matches("")) {
@@ -455,9 +509,17 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
                 }
             }
         });
-        view.findViewById(R.id.choose_photo).setOnClickListener(new OnClickListener() {
+        choosePhoto.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                choosePhoto.setColorFilter(GetterAttributColors.fetchHeadColor(getContext()));
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        choosePhoto.setColorFilter(ContextCompat.getColor(getContext(),R.color.seriy_calc));
+                    }
+                },100);
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setTitle(getString(R.string.choesetypeing))
                         .setItems(R.array.adding_ticket_type, new DialogInterface.OnClickListener() {
@@ -508,10 +570,46 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
                 builder.create().show();
             }
         });
-        view.findViewById(R.id.rlBackspaceSign).setOnClickListener(new OnClickListener() {
+        ivClear.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ivClear.setColorFilter(GetterAttributColors.fetchHeadColor(getContext()));
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                       ivClear.setColorFilter(ContextCompat.getColor(getContext(),R.color.seriy_calc));
+                    }
+                },100);
+                tvRecordEditDisplay.setText("0");
+                lastNumeric = false;
+                stateError = false;
+                lastDot = false;
+                lastOperator = false;
+            }
+        });
+        ivBackspaceSign.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                tvRecordEditDisplay.setText("0");
+                lastNumeric = false;
+                stateError = false;
+                lastDot = false;
+                lastOperator = false;
+                return false;
+            }
+        });
+        ivBackspaceSign.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                v.startAnimation(buttonClick);
+                ivBackspaceSign.setColorFilter(GetterAttributColors.fetchHeadColor(getContext()));
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        ivBackspaceSign.setColorFilter(ContextCompat.getColor(getContext(),R.color.seriy_calc));
+                    }
+                },100);
                 String dispText = tvRecordEditDisplay.getText().toString();
                 char lastChar = dispText.charAt(dispText.length() - 1);
                 char[] opers = {'+', '-', '*', '/'};
@@ -534,9 +632,17 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
             }
         });
 
-        comment.setOnClickListener(new OnClickListener() {
+        ivCommentButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                ivCommentButton.setColorFilter(GetterAttributColors.fetchHeadColor(getContext()));
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        ivCommentButton.setColorFilter(ContextCompat.getColor(getContext(),R.color.seriy_calc));
+                    }
+                },100);
                 LinearLayout linbutview = (LinearLayout) view.findViewById(R.id.numbersbut);
                 TransitionManager.beginDelayedTransition(linbutview);
                 linbutview.setVisibility(View.GONE);
@@ -592,7 +698,7 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
                         if (!oraliqComment.matches("")) {
                             comment.setText(oraliqComment);
                         } else {
-                            comment.setText(getString(R.string.add_comment));
+                            comment.setText(getString(R.string.with_out_comment));
                         }
                         headermain.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) commonOperations.convertDpToPixel((getResources().getDimension(R.dimen.hundred_fivety_four) / getResources().getDisplayMetrics().density))));
                     } else {
@@ -623,7 +729,7 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
                             comment_add.setText(oraliqComment);
                         } else {
                             comment_add.setText("");
-                            comment.setText(getString(R.string.add_comment));
+                            comment.setText(getString(R.string.with_out_comment));
                         }
                         headermain.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) commonOperations.convertDpToPixel((getResources().getDimension(R.dimen.hundred_fivety_four) / getResources().getDisplayMetrics().density))));
                     }
@@ -688,7 +794,7 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
                         comment_add.setText(oraliqComment);
                     } else {
                         comment_add.setText("");
-                        comment.setText(getString(R.string.add_comment));
+                        comment.setText(getString(R.string.with_out_comment));
                     }
 
                     headermain.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) commonOperations.convertDpToPixel((getResources().getDimension(R.dimen.hundred_fivety_four) / getResources().getDisplayMetrics().density))));
@@ -753,7 +859,7 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
                         comment_add.setText(oraliqComment);
                     } else {
                         comment_add.setText("");
-                        comment.setText(getString(R.string.add_comment));
+                        comment.setText(getString(R.string.with_out_comment));
                     }
                     headermain.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) commonOperations.convertDpToPixel((getResources().getDimension(R.dimen.hundred_fivety_four) / getResources().getDisplayMetrics().density))));
                 }
@@ -765,7 +871,7 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
             public void onGlobalLayout() {
                 int heightDiff = view.getRootView().getHeight() - view.getHeight();
                 if (heightDiff > commonOperations.convertDpToPixel(200)) {
-                    if (keykeboard != true) {
+                    if (!keykeboard) {
                         keykeboard = true;
                         final Handler handler = new Handler();
                         handler.postDelayed(new Runnable() {
@@ -790,19 +896,21 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
                 } else {
                     if (keykeboard) {
                         keykeboard = false;
-                        if (keyforback) {
+
+                        if (keyforback||keyForDesideOpenSubCategoryDialog) {
                             final Handler handler = new Handler();
                             handler.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    AutoTransition cus = new AutoTransition();
-                                    cus.setDuration(300);
-                                    cus.setStartDelay(0);
-                                    LinearLayout linbutview = (LinearLayout) view.findViewById(R.id.numbersbut);
-                                    TransitionManager.beginDelayedTransition(linbutview, cus);
-                                    TransitionManager.beginDelayedTransition(myListPhoto);
-                                    myListPhoto.setVisibility(View.VISIBLE);
-                                    linbutview.setVisibility(View.VISIBLE);
+//                                    AutoTransition cus = new AutoTransition();
+//                                    cus.setDuration(300);
+//                                    cus.setStartDelay(0);
+//                                    LinearLayout linbutview = (LinearLayout) view.findViewById(R.id.numbersbut);
+//                                    TransitionManager.beginDelayedTransition(linbutview, cus);
+//                                    TransitionManager.beginDelayedTransition(myListPhoto);
+//                                    myListPhoto.setVisibility(View.VISIBLE);
+//                                    linbutview.setVisibility(View.VISIBLE);
+                                    closeLayout();
 
                                 }
                             }, 200);
@@ -843,7 +951,7 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
                         if (!oraliqComment.matches("")) {
                             comment.setText(oraliqComment);
                         } else {
-                            comment.setText(getString(R.string.add_comment));
+                            comment.setText(getString(R.string.with_out_comment));
                         }
                         headermain.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) commonOperations.convertDpToPixel((getResources().getDimension(R.dimen.hundred_fivety_four) / getResources().getDisplayMetrics().density))));
                     } else {
@@ -872,7 +980,7 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
                         if (!oraliqComment.matches("")) {
                             comment.setText(oraliqComment);
                         } else {
-                            comment.setText(getString(R.string.add_comment));
+                            comment.setText(getString(R.string.with_out_comment));
                         }
                         headermain.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) commonOperations.convertDpToPixel((getResources().getDimension(R.dimen.hundred_fivety_four) / getResources().getDisplayMetrics().density))));
                     }
@@ -935,7 +1043,7 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
                     if (!oraliqComment.matches("")) {
                         comment.setText(oraliqComment);
                     } else {
-                        comment.setText(getString(R.string.add_comment));
+                        comment.setText(getString(R.string.with_out_comment));
                     }
 
                     headermain.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) commonOperations.convertDpToPixel((getResources().getDimension(R.dimen.hundred_fivety_four) / getResources().getDisplayMetrics().density))));
@@ -998,26 +1106,15 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
                     if (!oraliqComment.matches("")) {
                         comment.setText(oraliqComment);
                     } else {
-                        comment.setText(getString(R.string.add_comment));
+                        comment.setText(getString(R.string.with_out_comment));
                     }
                     headermain.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) commonOperations.convertDpToPixel((getResources().getDimension(R.dimen.hundred_fivety_four) / getResources().getDisplayMetrics().density))));
                 }
             }
         });
 
-        view.findViewById(R.id.rlBackspaceSign).setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                v.startAnimation(buttonClick);
-                tvRecordEditDisplay.setText("0");
-                lastNumeric = false;
-                stateError = false;
-                lastDot = false;
-                lastOperator = false;
-                return true;
-            }
-        });
-        view.findViewById(R.id.imOK).setOnClickListener(new OnClickListener() {
+
+        view.findViewById(R.id.imOKBut).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(final View v) {
                 keyForDeleteAllPhotos = false;
@@ -1263,7 +1360,8 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
             }
         }
     }
-
+    List<RootCategory> categoryList;
+    ChoiseCategoryDialoogItemAdapter choiseCategoryDialoogItemAdapter;
     @Override
     public void onClick(View view) {
         view.startAnimation(buttonClick);
@@ -1273,34 +1371,121 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
                 View dialogView = getActivity().getLayoutInflater().inflate(R.layout.category_choose_list, null);
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog.setContentView(dialogView);
-                ListView lvCategoryChoose = (ListView) dialogView.findViewById(R.id.lvCategoryChoose);
-                String expanse = getResources().getString(R.string.expanse);
-                String income = getResources().getString(R.string.income);
-                String[] items = new String[2];
-                items[0] = expanse;
-                items[1] = income;
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, items);
-                lvCategoryChoose.setAdapter(adapter);
-                lvCategoryChoose.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                View v = dialog.getWindow().getDecorView();
+                v.setBackgroundResource(android.R.color.transparent);
+                 categoryList = daoSession.getRootCategoryDao().loadAll();
+                final TextView tvAllView = (TextView)  dialogView.findViewById(R.id.tvAllView);
+                final TextView tvExpenseView = (TextView)  dialogView.findViewById(R.id.tvExpenseView);
+                final TextView tvIncomeView = (TextView)  dialogView.findViewById(R.id.tvIncomeView);
+                RecyclerView rvCategoryChoose = (RecyclerView) dialogView.findViewById(R.id.lvCategoryChoose);
+                ArrayList<Object> tempForCastToObject = new ArrayList<>();
+                for(int t=0;t<categoryList.size();t++){
+                    tempForCastToObject.add(categoryList.get(t));
+                }
+
+                choiseCategoryDialoogItemAdapter = new ChoiseCategoryDialoogItemAdapter(tempForCastToObject, getContext(), new ChoiseCategoryDialoogItemAdapter.OnItemSelected() {
                     @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        ArrayList<RootCategory> categories = new ArrayList<>();
-                        List<RootCategory> categoryList = daoSession.getRootCategoryDao().loadAll();
-                        if (position == 0) {
-                            for (int i = 0; i < categoryList.size(); i++) {
-                                if (categoryList.get(i).getType() == PocketAccounterGeneral.EXPENSE)
-                                    categories.add(categoryList.get(i));
+                    public void itemPressed(String itemID) {
+                        boolean keyBroker = false;
+                        for(RootCategory rootCategory:categoryList){
+                            if(rootCategory.getId().equals(itemID)){
+                                category = rootCategory;
+                                ivRecordEditSubCategory.setImageResource(R.drawable.category_not_selected);
+                                tvRecordEditSubCategoryName.setText(R.string.no_category_name);
+                                int resId = getResources().getIdentifier(category.getIcon(), "drawable", getContext().getPackageName());
+                                tvRecordEditCategoryName.setText(category.getName());
+                                ivRecordEditCategory.setImageResource(resId);
+
+                                break;
                             }
-                        } else {
-                            for (int i = 0; i < categoryList.size(); i++) {
-                                if (categoryList.get(i).getType() == PocketAccounterGeneral.INCOME)
-                                    categories.add(categoryList.get(i));
+                            for(SubCategory subCategoryTemp:rootCategory.getSubCategories()){
+                                if(subCategoryTemp.getId().equals(itemID)){
+                                    category = rootCategory;
+                                    subCategory = subCategoryTemp;
+                                    int resId = getResources().getIdentifier(subCategory.getIcon(), "drawable", getContext().getPackageName());
+                                    ivRecordEditSubCategory.setImageResource(resId);
+                                    tvRecordEditSubCategoryName.setText(subCategory.getName());
+                                    int resId2 = getResources().getIdentifier(category.getIcon(), "drawable", getContext().getPackageName());
+                                    tvRecordEditCategoryName.setText(category.getName());
+                                    ivRecordEditCategory.setImageResource(resId2);
+                                    keyBroker=true;
+                                    break;
+                                }
                             }
+                            if(keyBroker)
+                                break;
                         }
                         dialog.dismiss();
-                        openCategoryDialog(categories);
+
                     }
                 });
+                tvAllView.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        tvAllView.setTextColor(ContextCompat.getColor(getContext(),R.color.black_for_myagkiy_glavniy));
+                        tvExpenseView.setTextColor(ContextCompat.getColor(getContext(),R.color.black_for_secondary_text));
+                        tvIncomeView.setTextColor(ContextCompat.getColor(getContext(),R.color.black_for_secondary_text));
+
+                        categoryList.clear();
+                        categoryList = daoSession.getRootCategoryDao().loadAll();
+                        choiseCategoryDialoogItemAdapter.setListForRefresh(categoryList);
+                        choiseCategoryDialoogItemAdapter.toBackedToCategory(false);
+                        choiseCategoryDialoogItemAdapter.notifyDataSetChanged();
+
+
+
+                    }
+                });
+                tvExpenseView.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        tvAllView.setTextColor(ContextCompat.getColor(getContext(),R.color.black_for_secondary_text));
+                        tvExpenseView.setTextColor(ContextCompat.getColor(getContext(),R.color.black_for_myagkiy_glavniy));
+                        tvIncomeView.setTextColor(ContextCompat.getColor(getContext(),R.color.black_for_secondary_text));
+
+                        categoryList.clear();
+                        for (RootCategory rootCategory:daoSession.getRootCategoryDao().loadAll()){
+                            if(rootCategory.getType() == PocketAccounterGeneral.EXPENSE)
+                            categoryList.add(rootCategory);
+                        }
+                        choiseCategoryDialoogItemAdapter.setListForRefresh(categoryList);
+
+                        choiseCategoryDialoogItemAdapter.toBackedToCategory(false);
+                        choiseCategoryDialoogItemAdapter.notifyDataSetChanged();
+
+                    }
+                });
+                tvIncomeView.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        tvAllView.setTextColor(ContextCompat.getColor(getContext(),R.color.black_for_secondary_text));
+                        tvExpenseView.setTextColor(ContextCompat.getColor(getContext(),R.color.black_for_secondary_text));
+                        tvIncomeView.setTextColor(ContextCompat.getColor(getContext(),R.color.black_for_myagkiy_glavniy));
+
+                        categoryList.clear();
+                        for (RootCategory rootCategory:daoSession.getRootCategoryDao().loadAll()){
+                            if(rootCategory.getType() == PocketAccounterGeneral.INCOME)
+                                categoryList.add(rootCategory);
+                        }
+                        choiseCategoryDialoogItemAdapter.setListForRefresh(categoryList);
+                        choiseCategoryDialoogItemAdapter.toBackedToCategory(false);
+                        choiseCategoryDialoogItemAdapter.notifyDataSetChanged();
+
+                    }
+                });
+                dialogView.findViewById(R.id.ivInfoDebtBorrowCancel).setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
+                rvCategoryChoose.setLayoutManager(new GridLayoutManager(getContext(),3));
+                rvCategoryChoose.setHasFixedSize(true);
+                rvCategoryChoose.setAdapter(choiseCategoryDialoogItemAdapter);
+                DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
+                int width = displayMetrics.widthPixels;
+                int hieght = displayMetrics.heightPixels;
+                dialog.getWindow().setLayout(9 * width / 10, (int) (8.2*hieght/10));
                 dialog.show();
                 break;
             case R.id.rlSubcategory:
@@ -1389,52 +1574,50 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
         }
     }
 
-    private void openCategoryDialog(final ArrayList<RootCategory> categories) {
-        final Dialog dialog = new Dialog(getActivity());
-        View dialogView = getActivity().getLayoutInflater().inflate(R.layout.category_choose_list, null);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(dialogView);
-        ListView lvCategoryChoose = (ListView) dialogView.findViewById(R.id.lvCategoryChoose);
-        RecordCategoryAdapter adapter = new RecordCategoryAdapter(getContext(), categories);
-        lvCategoryChoose.setAdapter(adapter);
-        lvCategoryChoose.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                int resId = getResources().getIdentifier(categories.get(position).getIcon(), "drawable", getContext().getPackageName());
-                ivRecordEditCategory.setImageResource(resId);
-                ivRecordEditSubCategory.setImageResource(R.drawable.category_not_selected);
-                category = categories.get(position);
-                dialog.dismiss();
-            }
-        });
-        DisplayMetrics dm = getResources().getDisplayMetrics();
-        int width = dm.widthPixels;
-        dialog.getWindow().setLayout(8 * width / 9, ActionBarOverlayLayout.LayoutParams.MATCH_PARENT);
-        dialog.show();
-    }
+
 
     private void openSubCategoryDialog() {
+
+
+
         final Dialog dialog = new Dialog(getActivity());
         View dialogView = getActivity().getLayoutInflater().inflate(R.layout.category_choose_list, null);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(dialogView);
-        ListView lvCategoryChoose = (ListView) dialogView.findViewById(R.id.lvCategoryChoose);
-        final ArrayList<SubCategory> subCategories = new ArrayList<SubCategory>();
-        SubCategory noSubCategory = new SubCategory();
-        noSubCategory.setIcon("category_not_selected");
-        noSubCategory.setName(getResources().getString(R.string.no_category_name));
-        noSubCategory.setId(getResources().getString(R.string.no_category));
-        subCategories.add(noSubCategory);
+        View v = dialog.getWindow().getDecorView();
+        v.setBackgroundResource(android.R.color.transparent);
+        final ArrayList<Object> subCategories = new ArrayList<Object>();
+        subCategories.add(category);
         for (int i = 0; i < category.getSubCategories().size(); i++)
             subCategories.add(category.getSubCategories().get(i));
         subCategories.add(null);
-        RecordSubCategoryAdapter adapter = new RecordSubCategoryAdapter(getContext(), subCategories);
-        lvCategoryChoose.setAdapter(adapter);
-        lvCategoryChoose.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        dialogView.findViewById(R.id.llToolBars).setVisibility(View.GONE);
+
+         TextView title = (TextView) dialogView.findViewById(R.id.title);
+        title.setText(R.string.choise_subcategory);
+         RecyclerView rvCategoryChoose = (RecyclerView) dialogView.findViewById(R.id.lvCategoryChoose);
+        choiseCategoryDialoogItemAdapter = new ChoiseCategoryDialoogItemAdapter(subCategories, getContext(), new ChoiseCategoryDialoogItemAdapter.OnItemSelected() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (subCategories.get(position) == null) {
+            public void itemPressed(String itemID) {
+
+                boolean keyBroker = false;
+                if (itemID.equals("")){
+                    keyForDesideOpenSubCategoryDialog = true;
                     subCatAddEditDialog.setRootCategory(category.getId());
+                    subCatAddEditDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialogInterface) {
+                            final Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                      closeLayout();
+                                }
+                            }, 200);
+
+                            keyForDesideOpenSubCategoryDialog = false;
+                        }
+                    });
                     subCatAddEditDialog.setSubCat(null, new OnSubcategorySavingListener() {
                         @Override
                         public void onSubcategorySaving(SubCategory subCategory) {
@@ -1442,26 +1625,69 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
                             subCategoryList.add(subCategory);
                             logicManager.insertSubCategory(subCategoryList);
                             category.getSubCategories().add(subCategory);
+                            keyForDesideOpenSubCategoryDialog = false;
                             subCatAddEditDialog.dismiss();
+
                             openSubCategoryDialog();
                         }
                     });
                     subCatAddEditDialog.show();
-                } else if (subCategories.get(position).getId().matches(getResources().getString(R.string.no_category)))
-                    subCategory = null;
-                else
-                    subCategory = subCategories.get(position);
-                if (subCategories.get(position) != null) {
-                    int resId = getResources().getIdentifier(subCategories.get(position).getIcon(), "drawable", getContext().getPackageName());
-                    ivRecordEditSubCategory.setImageResource(resId);
                 }
+                categoryList = daoSession.getRootCategoryDao().loadAll();
+                for(RootCategory rootCategory:categoryList){
+                    if(rootCategory.getId().equals(itemID)){
+                        category = rootCategory;
+                        ivRecordEditSubCategory.setImageResource(R.drawable.category_not_selected);
+                        tvRecordEditSubCategoryName.setText(R.string.no_category_name);
+                        int resId = getResources().getIdentifier(category.getIcon(), "drawable", getContext().getPackageName());
+                        tvRecordEditCategoryName.setText(category.getName());
+                        ivRecordEditCategory.setImageResource(resId);
+
+                        break;
+                    }
+                    for(SubCategory subCategoryTemp:rootCategory.getSubCategories()){
+                        if(subCategoryTemp.getId().equals(itemID)){
+                            category = rootCategory;
+                            subCategory = subCategoryTemp;
+                            int resId = getResources().getIdentifier(subCategory.getIcon(), "drawable", getContext().getPackageName());
+                            ivRecordEditSubCategory.setImageResource(resId);
+                            tvRecordEditSubCategoryName.setText(subCategory.getName());
+                            int resId2 = getResources().getIdentifier(category.getIcon(), "drawable", getContext().getPackageName());
+                            tvRecordEditCategoryName.setText(category.getName());
+                            ivRecordEditCategory.setImageResource(resId2);
+                            keyBroker=true;
+                            break;
+                        }
+                    }
+                    if(keyBroker)
+                        break;
+
+
+
+                }
+                dialog.dismiss();
+
+            }
+        });
+        choiseCategoryDialoogItemAdapter.toBackedToCategory(true);
+
+        dialogView.findViewById(R.id.ivInfoDebtBorrowCancel).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 dialog.dismiss();
             }
         });
-        DisplayMetrics dm = getResources().getDisplayMetrics();
-        int width = dm.widthPixels;
-        dialog.getWindow().setLayout(8 * width / 9, ActionBarOverlayLayout.LayoutParams.MATCH_PARENT);
+        rvCategoryChoose.setLayoutManager(new GridLayoutManager(getContext(),3));
+        rvCategoryChoose.setHasFixedSize(true);
+        rvCategoryChoose.setAdapter(choiseCategoryDialoogItemAdapter);
+        DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
+        int width = displayMetrics.widthPixels;
+        int hieght = displayMetrics.heightPixels;
+        dialog.getWindow().setLayout(9 * width / 10, (int) (8.2*hieght/10));
         dialog.show();
+
+
+
     }
 
     @Override
@@ -1537,7 +1763,7 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
                 if (!oraliqComment.matches("")) {
                     comment.setText(oraliqComment);
                 } else {
-                    comment.setText(getString(R.string.add_comment));
+                    comment.setText(getString(R.string.with_out_comment));
                 }
                 headermain.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) commonOperations.convertDpToPixel((getResources().getDimension(R.dimen.hundred_fivety_four) / getResources().getDisplayMetrics().density))));
             } else {
@@ -1566,7 +1792,7 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
                 if (!oraliqComment.matches("")) {
                     comment.setText(oraliqComment);
                 } else {
-                    comment.setText(getString(R.string.add_comment));
+                    comment.setText(getString(R.string.with_out_comment));
                 }
                 headermain.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) commonOperations.convertDpToPixel((getResources().getDimension(R.dimen.hundred_fivety_four) / getResources().getDisplayMetrics().density))));
             }
@@ -1629,7 +1855,7 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
                 if (!oraliqComment.matches("")) {
                     comment.setText(oraliqComment);
                 } else {
-                    comment.setText(getString(R.string.add_comment));
+                    comment.setText(getString(R.string.with_out_comment));
                 }
 
                 headermain.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) commonOperations.convertDpToPixel((getResources().getDimension(R.dimen.hundred_fivety_four) / getResources().getDisplayMetrics().density))));
@@ -1690,7 +1916,7 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
                 if (!oraliqComment.matches("")) {
                     comment.setText(oraliqComment);
                 } else {
-                    comment.setText(getString(R.string.add_comment));
+                    comment.setText(getString(R.string.with_out_comment));
                 }
                 headermain.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) commonOperations.convertDpToPixel((getResources().getDimension(R.dimen.hundred_fivety_four) / getResources().getDisplayMetrics().density))));
             }
