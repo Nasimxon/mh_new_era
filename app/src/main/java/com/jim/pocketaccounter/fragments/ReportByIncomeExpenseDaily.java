@@ -22,6 +22,7 @@ import com.jim.pocketaccounter.database.CreditDetials;
 import com.jim.pocketaccounter.database.DaoSession;
 import com.jim.pocketaccounter.database.DebtBorrow;
 import com.jim.pocketaccounter.database.FinanceRecord;
+import com.jim.pocketaccounter.database.SmsParseSuccess;
 import com.jim.pocketaccounter.managers.CommonOperations;
 import com.jim.pocketaccounter.managers.ReportManager;
 import com.jim.pocketaccounter.managers.ToolbarManager;
@@ -155,7 +156,8 @@ public class ReportByIncomeExpenseDaily extends Fragment {
         List<ReportObject> objects = reportManager.getReportObjects(true, begin, end,
                 FinanceRecord.class,
                 CreditDetials.class,
-                DebtBorrow.class
+                DebtBorrow.class,
+                SmsParseSuccess.class
         );
         int beforeMonthLastDay = begin.getActualMaximum(Calendar.DAY_OF_MONTH);
         int beforeMonth = begin.get(Calendar.MONTH);
@@ -276,7 +278,7 @@ public class ReportByIncomeExpenseDaily extends Fragment {
         e.set(Calendar.MINUTE, 59);
         e.set(Calendar.SECOND, 59);
         e.set(Calendar.MILLISECOND, 59);
-        List<ReportObject> reportObjects = reportManager.getReportObjects(false, b, e, FinanceRecord.class, CreditDetials.class, DebtBorrow.class);
+        List<ReportObject> reportObjects = reportManager.getReportObjects(false, b, e, FinanceRecord.class, CreditDetials.class, DebtBorrow.class, SmsParseSuccess.class);
         rvReportByIncomeExpenseDetail.setAdapter(new DetailAdapter(reportObjects));
      }
 

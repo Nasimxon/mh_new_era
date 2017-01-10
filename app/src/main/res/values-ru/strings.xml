@@ -1682,6 +1682,7 @@
     <string name="must_restart">Для установки темы понадобится перезапуск программы!</string>
     <string name="daily_operations">Ежедневные операции</string>
     <string name="category_subcategory">Категория Субкатегория</string>
+    <string name="processed_sms">Processed sms:</string>
 
 </resources>
 

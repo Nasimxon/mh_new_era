@@ -20,6 +20,7 @@ import com.jim.pocketaccounter.R;
 import com.jim.pocketaccounter.database.CreditDetials;
 import com.jim.pocketaccounter.database.DebtBorrow;
 import com.jim.pocketaccounter.database.FinanceRecord;
+import com.jim.pocketaccounter.database.SmsParseSuccess;
 import com.jim.pocketaccounter.managers.CommonOperations;
 import com.jim.pocketaccounter.managers.ReportManager;
 import com.jim.pocketaccounter.report.ReportByIncomeExpenseMonthlyData;
@@ -207,7 +208,8 @@ public class ReportByIncomeExpenseMonthlyFragment extends Fragment {
         end.set(Calendar.MILLISECOND, 59);
         List<ReportObject> objects = reportManager.getReportObjects(true, begin, end, FinanceRecord.class,
                                                                                         DebtBorrow.class,
-                                                                                        CreditDetials.class);
+                                                                                        CreditDetials.class,
+                                                                                        SmsParseSuccess.class);
         switch (mode) {
             case PocketAccounterGeneral.INCOME:
                 Calendar temp = (Calendar) begin.clone();

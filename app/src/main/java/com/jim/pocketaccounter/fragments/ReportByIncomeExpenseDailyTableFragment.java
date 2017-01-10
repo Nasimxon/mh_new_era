@@ -14,6 +14,7 @@ import com.jim.pocketaccounter.R;
 import com.jim.pocketaccounter.database.CreditDetials;
 import com.jim.pocketaccounter.database.DebtBorrow;
 import com.jim.pocketaccounter.database.FinanceRecord;
+import com.jim.pocketaccounter.database.SmsParseSuccess;
 import com.jim.pocketaccounter.managers.CommonOperations;
 import com.jim.pocketaccounter.managers.ReportManager;
 import com.jim.pocketaccounter.managers.ToolbarManager;
@@ -107,7 +108,8 @@ public class ReportByIncomeExpenseDailyTableFragment extends Fragment {
         List<ReportObject> objects = reportManager.getReportObjects(true, begin, end,
                                                             FinanceRecord.class,
                                                             DebtBorrow.class,
-                                                            CreditDetials.class);
+                                                            CreditDetials.class,
+                                                            SmsParseSuccess.class);
 
 
 

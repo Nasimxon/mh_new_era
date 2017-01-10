@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteException;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.net.Uri;
@@ -31,6 +32,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -54,11 +56,14 @@ import com.jim.pocketaccounter.managers.ToolbarManager;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -69,7 +74,7 @@ import javax.inject.Inject;
  */
 
 @SuppressLint("ValidFragment")
-public class AddSmsParseFragment extends PABaseFragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class AddSmsParseFragment extends PABaseFragment{
     private EditText etNumber;
     private TextView ivSms;
     private RadioGroup rgSortSms;
@@ -83,7 +88,7 @@ public class AddSmsParseFragment extends PABaseFragment implements LoaderManager
 
     private Dialog dialog;
     private MyAdapter myAdapter;
-
+    private TextView tvIncome, tvExpense;
     private final int ALL_SMS = 0;
     private final int INCOME_SMS = 1;
     private final int EXPANCE_SMS = 2;
@@ -92,11 +97,22 @@ public class AddSmsParseFragment extends PABaseFragment implements LoaderManager
     private SmsParseObject oldObject;
     private List<TemplateSms> templateSmsList;
     final int REQUEST_CODE_ASK_PERMISSIONS = 123;
-
     int txSize;
-
+    private final String SMS_URI_INBOX = "content://sms/inbox";
+    private final String SMS_URI_ALL = "content://sms/";
+    private List<Sms> forChoose, all, choosenSms;
+    private List<String> incomeKeys, expenseKeys, amountKeys;
+    private RadioButton rbnSmsParseAddAll, rbnSmsParseAddIncome, rbnSmsParseAddExpance;
+    private List<TemplateSms> templates;
+    private List<TextView> tvList;
+    private List<String> splittedBody;
     public AddSmsParseFragment(SmsParseObject object) {
         this.oldObject = object;
+        incomeKeys = new ArrayList<>();
+        expenseKeys = new ArrayList<>();
+        amountKeys = new ArrayList<>();
+        templates = new ArrayList<>();
+        choosenSms = new ArrayList<>();
     }
 
     @Override
@@ -118,6 +134,9 @@ public class AddSmsParseFragment extends PABaseFragment implements LoaderManager
         etNumber = (EditText) rootView.findViewById(R.id.etSmsParseAddNumber);
         ivSms = (TextView) rootView.findViewById(R.id.ivSmsParseGet);
         rgSortSms = (RadioGroup) rootView.findViewById(R.id.rgSmsParseAddSort);
+        rbnSmsParseAddAll = (RadioButton) rgSortSms.findViewById(R.id.rbnSmsParseAddAll);
+        rbnSmsParseAddIncome = (RadioButton) rgSortSms.findViewById(R.id.rbnSmsParseAddIncome);
+        rbnSmsParseAddExpance = (RadioButton) rgSortSms.findViewById(R.id.rbnSmsParseAddExpance);
         rvSmsList = (RecyclerView) rootView.findViewById(R.id.rvSmsParseAdd);
         etIncome = (EditText) rootView.findViewById(R.id.etSmsParseAddIncome);
         etExpance = (EditText) rootView.findViewById(R.id.etSmsParseAddExpance);
@@ -126,14 +145,18 @@ public class AddSmsParseFragment extends PABaseFragment implements LoaderManager
         spCurrency = (Spinner) rootView.findViewById(R.id.spSmsParseAddCurrency);
         tvSmsCount = (TextView) rootView.findViewById(R.id.tvAddSmsParseCount);
         tvSmsCount.setText("0");
+        tvIncome = (TextView) rootView.findViewById(R.id.forIncome);
+        tvExpense = (TextView) rootView.findViewById(R.id.smsParsForExpense);
+        initSms();
         final List<String> accStrings = new ArrayList<>();
         for (Account ac : daoSession.getAccountDao().loadAll()) {
             accStrings.add(ac.getId());
         }
         final TransferAccountAdapter transferAccountAdapter = new TransferAccountAdapter(getContext(), accStrings);
         spAccount.setAdapter(transferAccountAdapter);
-        List<String> cursStrings = new ArrayList<>();
-        for (Currency cr : daoSession.getCurrencyDao().loadAll()) {
+        final List<String> cursStrings = new ArrayList<>();
+        List<Currency> currencies = daoSession.getCurrencyDao().loadAll();
+        for (Currency cr : currencies) {
             cursStrings.add(cr.getAbbr()+"  ("+cr.getName()+")");
         }
         ArrayAdapter<String> cursAdapter = new ArrayAdapter<String>(getContext(),
@@ -146,7 +169,7 @@ public class AddSmsParseFragment extends PABaseFragment implements LoaderManager
             }
         }
         spCurrency.setSelection(posMain);
-        myAdapter = new MyAdapter(ALL_SMS, null);
+        myAdapter = new MyAdapter(null);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext()) {
             @Override
             public boolean canScrollVertically() {
@@ -180,88 +203,104 @@ public class AddSmsParseFragment extends PABaseFragment implements LoaderManager
                 } else {
                     if (etNumber.getText().toString().isEmpty()) {
                         etNumber.setError(getString(R.string.enter_contact_error));
-                    } else if (etIncome.getText().toString().isEmpty() &&
-                            etExpance.getText().toString().isEmpty() || etAmount.getText().toString().isEmpty()) {
-                        etIncome.setError(getString(R.string.income_keyword_error));
-                        if (etExpance.getText().toString().isEmpty())
-                            etExpance.setError(getString(R.string.expense_keyword_error));
-                        if (etAmount.getText().toString().isEmpty()) {
-                            etExpance.setError(getString(R.string.amount_keyword_error));
-                        }
-                    } else {
-                        String[] incomes = etIncome.getText().toString().split(",");
-                        String[] expanses = etExpance.getText().toString().split(",");
-                        String[] amounts = etAmount.getText().toString().split(",");
-                        boolean change = false;
-                        for (String income : incomes) {
-                            boolean found = false;
-                            for (String adapter : myAdapter.getIncomeKeys()) {
-                                if (income.equals(adapter)) {
-                                    found = true;
-                                    break;
-                                }
-                            }
-                            if (!found) {
-                                change = true;
-                                break;
-                            }
-                        }
-                        if (change) {
-                            templateSmsList.addAll(commonOperations.generateSmsTemplateList(null, 0, 0, myAdapter.getIncomeKeys(),
-                                    myAdapter.getExpanceKeys(), myAdapter.getAmountKeys()));
-                        }
-                        change = false;
-                        for (String expense : expanses) {
-                            boolean found = false;
-                            for (String adapter : myAdapter.getExpanceKeys()) {
-                                if (expense.equals(adapter)) {
-                                    found = true;
-                                    break;
-                                }
-                            }
-                            if (!found) {
-                                change = true;
-                                break;
-                            }
-                        }
-                        if (change) {
-                            templateSmsList.addAll(commonOperations.generateSmsTemplateList(null, 0, 0, myAdapter.getIncomeKeys(),
-                                    myAdapter.getExpanceKeys(), myAdapter.getAmountKeys()));
-                        }
-                        change = false;
-                        for (String amount : amounts) {
-                            boolean found = false;
-                            for (String adapter : myAdapter.getAmountKeys()) {
-                                if (amount.equals(adapter)) {
-                                    found = true;
-                                    break;
-                                }
-                            }
-                            if (!found) {
-                                change = true;
-                                break;
-                            }
-                        }
-                        if (change) {
-                            templateSmsList.addAll(commonOperations.generateSmsTemplateList(null, 0, 0, myAdapter.getIncomeKeys(),
-                                    myAdapter.getExpanceKeys(), myAdapter.getAmountKeys()));
-                        }
-
-                        SmsParseObject smsParseObject = new SmsParseObject();
-                        if (templateSmsList != null) {
-                            for (TemplateSms templateSms : templateSmsList)
-                                templateSms.setParseObjectId(smsParseObject.getId());
-                        }
-                        smsParseObject.setCurrency(daoSession.getCurrencyDao().queryBuilder()
-                                .where(CurrencyDao.Properties.Abbr.eq("" + spCurrency.getSelectedItem())).list().get(0));
-                        smsParseObject.setAccount(daoSession.getAccountDao().queryBuilder()
-                                .where(AccountDao.Properties.Id.eq(accStrings.get(spAccount.getSelectedItemPosition()))).list().get(0));
-                        smsParseObject.setNumber(etNumber.getText().toString());
-                        daoSession.getTemplateSmsDao().insertInTx(templateSmsList);
-                        daoSession.getSmsParseObjectDao().insertOrReplace(smsParseObject);
-                        paFragmentManager.getFragmentManager().popBackStack();
-                        paFragmentManager.displayFragment(new SmsParseMainFragment());
+                        return;
                     }
+
+
+                    if (rbnSmsParseAddAll.isChecked() ) {
+                        if (etExpance.getText().toString().isEmpty()) {
+                            etExpance.setError(getString(R.string.expense_keyword_error));
+                            return;
+                        }
+                        else if (etIncome.getText().toString().isEmpty()) {
+                            etIncome.setError(getString(R.string.income_keyword_error));
+                            return;
+                        }
+                    }
+                    else if (rbnSmsParseAddIncome.isChecked() && etIncome.getText().toString().isEmpty()) {
+                        etIncome.setError(getString(R.string.income_keyword_error));
+                        return;
+                    }
+                    else if (rbnSmsParseAddExpance.isChecked() && etExpance.getText().toString().isEmpty()) {
+                        etExpance.setError(getString(R.string.expense_keyword_error));
+                        return;
+                    }
+                    if (etAmount.getText().toString().isEmpty()) {
+                        etNumber.setError(getString(R.string.amount_keyword_error));
+                        return;
+                    }
+                    String[] incomes = etIncome.getText().toString().split(",");
+                    String[] expanses = etExpance.getText().toString().split(",");
+                    String[] amounts = etAmount.getText().toString().split(",");
+                    boolean change = false;
+                    for (String income : incomes) {
+                        boolean found = false;
+                        for (String adapter : incomeKeys) {
+                            if (income.equals(adapter)) {
+                                found = true;
+                                break;
+                            }
+                        }
+                        if (!found) {
+                            change = true;
+                            break;
+                        }
+                    }
+                    if (change) {
+                        templateSmsList.addAll(commonOperations.generateSmsTemplateList(null, 0, 0, incomeKeys,
+                                expenseKeys, amountKeys));
+                    }
+                    change = false;
+                    for (String expense : expanses) {
+                        boolean found = false;
+                        for (String adapter : expenseKeys) {
+                            if (expense.equals(adapter)) {
+                                found = true;
+                                break;
+                            }
+                        }
+                        if (!found) {
+                            change = true;
+                            break;
+                        }
+                    }
+                    if (change) {
+                        templateSmsList.addAll(commonOperations.generateSmsTemplateList(null, 0, 0, incomeKeys,
+                                expenseKeys, amountKeys));
+                    }
+                    change = false;
+                    for (String amount : amounts) {
+                        boolean found = false;
+                        for (String adapter : amountKeys) {
+                            if (amount.equals(adapter)) {
+                                found = true;
+                                break;
+                            }
+                        }
+                        if (!found) {
+                            change = true;
+                            break;
+                        }
+                    }
+                    if (change) {
+                        templateSmsList.addAll(commonOperations.generateSmsTemplateList(null, 0, 0, incomeKeys,
+                                expenseKeys, amountKeys));
+                    }
+
+                    SmsParseObject smsParseObject = new SmsParseObject();
+                    if (templateSmsList != null) {
+                        for (TemplateSms templateSms : templateSmsList)
+                            templateSms.setParseObjectId(smsParseObject.getId());
+                    }
+                    smsParseObject.setCurrency(daoSession.loadAll(Currency.class).get(spCurrency.getSelectedItemPosition()));
+                    smsParseObject.setAccount(daoSession.getAccountDao().queryBuilder()
+                            .where(AccountDao.Properties.Id.eq(accStrings.get(spAccount.getSelectedItemPosition()))).list().get(0));
+                    smsParseObject.setNumber(etNumber.getText().toString());
+                    daoSession.getTemplateSmsDao().insertInTx(templateSmsList);
+                    daoSession.getSmsParseObjectDao().insertOrReplace(smsParseObject);
+                    paFragmentManager.getFragmentManager().popBackStack();
+                    paFragmentManager.displayFragment(new SmsParseMainFragment());
+
                 }
             }
         });
@@ -269,16 +308,24 @@ public class AddSmsParseFragment extends PABaseFragment implements LoaderManager
         rgSortSms.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if (myAdapter.getTypeSort() != (checkedId == R.id.rbnSmsParseAddExpance ? EXPANCE_SMS
-                        : checkedId == R.id.rbnSmsParseAddIncome ? INCOME_SMS : ALL_SMS)) {
-                    if (checkedId == R.id.rbnSmsParseAddExpance) {
-                        myAdapter.setType(EXPANCE_SMS);
-                    } else if (checkedId == R.id.rbnSmsParseAddIncome) {
-                        myAdapter.setType(INCOME_SMS);
-                    } else {
-                        myAdapter.setType(ALL_SMS);
-                    }
+                if (checkedId == R.id.rbnSmsParseAddExpance) {
+                    etIncome.setVisibility(View.GONE);
+                    tvIncome.setVisibility(View.GONE);
+                    etExpance.setVisibility(View.VISIBLE);
+                    tvExpense.setVisibility(View.VISIBLE);
+                } else if (checkedId == R.id.rbnSmsParseAddIncome) {
+                    etIncome.setVisibility(View.VISIBLE);
+                    tvIncome.setVisibility(View.VISIBLE);
+                    etExpance.setVisibility(View.GONE);
+                    tvExpense.setVisibility(View.GONE);
+                } else {
+                    etIncome.setVisibility(View.VISIBLE);
+                    etExpance.setVisibility(View.VISIBLE);
+                    tvIncome.setVisibility(View.VISIBLE);
+                    tvExpense.setVisibility(View.VISIBLE);
                 }
+                if (adapter != null)
+                    adapter.notifyDataSetChanged();
             }
         });
         etNumber.addTextChangedListener(new TextWatcher() {
@@ -295,13 +342,13 @@ public class AddSmsParseFragment extends PABaseFragment implements LoaderManager
                             REQUEST_CODE_ASK_PERMISSIONS);
                 } else {
                     List<Sms> smsList = new ArrayList<>();
-                    getAllSms();
+                    initSms();
                     for (Sms sms : lstSms) {
                         if (sms != null && sms.getNumber().equals(s.toString())) {
                             smsList.add(sms);
                         }
                     }
-                    myAdapter = new MyAdapter(myAdapter.getTypeSort(), smsList);
+                    myAdapter = new MyAdapter(smsList);
                     rvSmsList.setAdapter(myAdapter);
                 }
             }
@@ -326,10 +373,12 @@ public class AddSmsParseFragment extends PABaseFragment implements LoaderManager
                             new String[]{Manifest.permission.READ_SMS},
                             REQUEST_CODE_ASK_PERMISSIONS);
                 } else {
-                    MyNumberAdapter myAdapter = new MyNumberAdapter();
+                    if (all == null || forChoose == null)
+                        initSms();
+                    MyNumberAdapter myAdapter = new MyNumberAdapter(forChoose);
                     recyclerView.setAdapter(myAdapter);
                     int width = getResources().getDisplayMetrics().widthPixels;
-                    dialog.getWindow().setLayout(8 * width / 10, LinearLayoutCompat.LayoutParams.WRAP_CONTENT);
+                    dialog.getWindow().setLayout(8 * width / 9, LinearLayoutCompat.LayoutParams.WRAP_CONTENT);
                     dialog.show();
                 }
             }
@@ -337,7 +386,7 @@ public class AddSmsParseFragment extends PABaseFragment implements LoaderManager
         if (oldObject != null) {
             etNumber.setText(oldObject.getNumber());
             etNumber.setEnabled(false);
-            myAdapter.oldTemplateChange();
+            myAdapter.refreshList();
             for (int i = 0; i < cursStrings.size(); i++) {
                 if (cursStrings.get(i).equals(oldObject.getCurrency().getAbbr())) {
                     spCurrency.setSelection(i);
@@ -358,15 +407,65 @@ public class AddSmsParseFragment extends PABaseFragment implements LoaderManager
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == REQUEST_CODE_ASK_PERMISSIONS) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                getAllSms();
+                initSms();
             }
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-    public void getAllSms() {
-        if (lstSms.isEmpty())
-            getLoaderManager().initLoader(URL_LOADER, null, this);
+
+
+
+    public void initSms() {
+        forChoose = new ArrayList<>();
+        all = new ArrayList<>();
+        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+        Calendar calendar = Calendar.getInstance();
+        try {
+            Uri uri = Uri.parse(SMS_URI_INBOX);
+            String[] projection = new String[] { "_id", "address", "person", "body", "date", "type" };
+            Cursor cur = getContext().getContentResolver().query(uri, projection, null /*"address='123456789'"*/, null, "date desc");
+            if (cur.moveToFirst()) {
+                int index_Address = cur.getColumnIndex("address");
+                int index_Person = cur.getColumnIndex("person");
+                int index_Body = cur.getColumnIndex("body");
+                int index_Date = cur.getColumnIndex("date");
+                int index_Type = cur.getColumnIndex("type");
+                do {
+                    String strAddress = cur.getString(index_Address);
+                    int intPerson = cur.getInt(index_Person);
+                    String strbody = cur.getString(index_Body);
+                    long longDate = cur.getLong(index_Date);
+                    int int_Type = cur.getInt(index_Type);
+
+                    Sms sms = new Sms();
+                    sms.setNumber(strAddress);
+                    calendar.setTimeInMillis(longDate);
+                    sms.setDate(format.format(calendar.getTime()));
+                    sms.setId(UUID.randomUUID().toString());
+                    sms.setBody(strbody);
+
+                    boolean found = false;
+                    for (Sms s : forChoose) {
+                        if (s.getNumber().equals(strAddress)) {
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found)
+                        forChoose.add(sms);
+                    all.add(sms);
+                } while (cur.moveToNext());
+
+                if (!cur.isClosed()) {
+                    cur.close();
+                    cur = null;
+                }
+            } // end if
+        }
+        catch (SQLiteException ex) {
+            Log.d("SQLiteException", ex.getMessage());
+        }
     }
 
     private static final int URL_LOADER = 0;
@@ -374,223 +473,183 @@ public class AddSmsParseFragment extends PABaseFragment implements LoaderManager
     private static final String[] mProjection = new String[]{"_id", "address", "body", "date", "type"};
     private List<Sms> lstSms = new ArrayList<>();
 
-    @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        switch (id) {
-            case URL_LOADER:
-                // Returns a new CursorLoader
-                return new CursorLoader(
-                        getActivity(),   // Parent activity context
-                        message,        // Table to query
-                        mProjection,     // Projection to return
-                        null,            // No selection clause
-                        null,            // No selection arguments
-                        null             // Default sort order
-                );
-            default:
-                // An invalid id was passed in
-                return null;
-        }
-    }
 
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        if (data.isClosed()) {
-//            data.
-        }
-        int count = data.getCount();
-        Sms objSms;
-
-        if (data.moveToFirst()) {
-            for (int i = 0; i < count; i++) {
-                objSms = new Sms();
-                objSms.setId(data.getString(data.getColumnIndexOrThrow("_id")));
-                objSms.setNumber(data.getString(data.getColumnIndexOrThrow("address")));
-                objSms.setBody(data.getString(data.getColumnIndexOrThrow("body")));
-                objSms.setDate(data.getString(data.getColumnIndexOrThrow("date")));
-                if (data.getString(data.getColumnIndexOrThrow("type")).contains("1")) {
-                    objSms.setFolderName("sent");
-                    lstSms.add(objSms);
-                }
-            }
-            data.moveToNext();
-        }
-        data.close();
-        getActivity().getSupportLoaderManager().destroyLoader(URL_LOADER);
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-
-    }
 
     class Sms {
         private String body;
         private String number;
         private String id;
-        private String folderName;
         private String date;
-
         public String getBody() {
             return body;
         }
-
         public void setBody(String body) {
             this.body = body;
         }
-
         public String getDate() {
             return date;
         }
-
         public void setDate(String date) {
             this.date = date;
         }
-
         public String getNumber() {
             return number;
         }
-
         public void setNumber(String number) {
             this.number = number;
         }
-
         public String getId() {
             return id;
         }
-
         public void setId(String id) {
             this.id = id;
-        }
-
-        public String getFolderName() {
-            return folderName;
-        }
-
-        public void setFolderName(String folderName) {
-            this.folderName = folderName;
         }
     }
 
     private List<String> smsBodyParse(String body) {
-        List<String> words = new ArrayList<>();
         String[] strings = body.split(" ");
-
-        for (String s : strings) {
-            if (s.split(" ").length == 1 && s.split("\n").length == 1) {
-                words.add(s);
-            } else {
-                if (s.split(" ").length == 1) {
-                    for (String s1 : s.split("\n")) {
-                        words.add(s1);
-                    }
-                } else {
-                    for (String s1 : s.split(" ")) {
-                        words.add(s1);
-                    }
-                }
-            }
-        }
-        for (int i = words.size() - 1; i >= 0; i--) {
-            String regex = "[a-zA-Z:;_][0-9]?[0-9][.,@#*]([1][0-2][0]?[0-9])[0-9]{2,4}";
+        List<String> temp = Arrays.asList(strings);
+        for (String s : temp) s.replace("\n", "");
+        List<String> words = new ArrayList<>();
+        for (int i = temp.size() - 1; i >= 0; i--) {
+            boolean added = false;
+            String regex = "([a-zA-Z])+([/^*~&%@!+()$#-\\/'\\{`\\];\\[:]+)([0-9]+[.,]?[0-9]*)?";
             Pattern pattern = Pattern.compile(regex);
-            Matcher matcher = pattern.matcher(words.get(i));
-            if (!matcher.matches()) {
-                regex = "(\\s*[^0-9]*)([0-9]+[.,]?[0-9]*)([^0-9]*)";
+            Matcher matcher = pattern.matcher(temp.get(i));
+            if (matcher.matches()) {
+                words.add(matcher.group(3));
+                words.add(matcher.group(2));
+                words.add(matcher.group(1));
+                added = true;
+            }
+            if (!added) {
+                regex = "([0-9]+[.,]?[0-9]*)?([/^*~&%@!+()$#-\\/'\\{`\\];\\[:]+)";
                 pattern = Pattern.compile(regex);
-                matcher = pattern.matcher(words.get(i));
-                matcher.matches();
+                matcher = pattern.matcher(temp.get(i));
                 if (matcher.matches()) {
-                    words.remove(i);
-                    if (!matcher.group(3).isEmpty())
-                        words.add(i, matcher.group(3));
-                    if (!matcher.group(2).isEmpty())
-                        words.add(i, matcher.group(2));
-                    if (!matcher.group(1).isEmpty())
-                        words.add(i, matcher.group(1));
+                    words.add(matcher.group(2));
+                    words.add(matcher.group(1));
+                    added = true;
                 }
             }
-        }
-        for (int i = words.size() - 1; i > 0; i--) {
-            String regex = "([0-9]+[.,]?[0-9]*\\s*)*";
-            Pattern pattern = Pattern.compile(regex);
-            Matcher matcher = pattern.matcher(words.get(i));
-            if (matcher.matches() && pattern.matcher(words.get(i - 1)).matches()) {
-                words.set(i - 1, words.get(i - 1) + " " + words.get(i));
-                words.remove(i);
+            if (!added) {
+                regex = "([/^*~&%@!+()$#-\\/'\\{`\\];\\[:]+)([0-9]+[.,]?[0-9]*)?";
+                pattern = Pattern.compile(regex);
+                matcher = pattern.matcher(temp.get(i));
+                if (matcher.matches()) {
+                    words.add(matcher.group(2));
+                    words.add(matcher.group(1));
+                    added = true;
+                }
             }
+            if (!added) {
+                regex = "([0-9]+[.,]?[0-9]*)?([a-zA-Z])+([/^*~&%@!+()$#-\\/'\\{`\\];\\[:]+)";
+                pattern = Pattern.compile(regex);
+                matcher = pattern.matcher(temp.get(i));
+                if (matcher.matches()) {
+                    words.add(matcher.group(3));
+                    words.add(matcher.group(2));
+                    words.add(matcher.group(1));
+                    added = true;
+                }
+            }
+            if (!added) {
+                regex = "([/^*~&%@!+()$#-\\/'\\{`\\];\\[:]+)([0-9]+[.,]?[0-9]*)?([/^*~&%@!+()$#-\\/'\\{`\\];\\[:]+)";
+                pattern = Pattern.compile(regex);
+                matcher = pattern.matcher(temp.get(i));
+                if (matcher.matches()) {
+                    words.add(matcher.group(3));
+                    words.add(matcher.group(2));
+                    words.add(matcher.group(1));
+                    added = true;
+                }
+            }
+            if (!added) {
+                regex = "([a-zA-Z])+([/^*~&%@!+()$#-\\/'\\{`\\];\\[:]+)([0-9]+[.,]?[0-9]*)?([/^*~&%@!+()$#-\\/'\\{`\\];\\[:]+)";
+                pattern = Pattern.compile(regex);
+                matcher = pattern.matcher(temp.get(i));
+                if (matcher.matches()) {
+                    words.add(matcher.group(4));
+                    words.add(matcher.group(3));
+                    words.add(matcher.group(2));
+                    words.add(matcher.group(1));
+                    added = true;
+                }
+            }
+            if (!added) {
+                regex = "([a-zA-Z])+([/^*~&%@!+()$#-\\/'\\{`\\];\\[:]+)([0-9]+[.,]?[0-9]*)?([a-zA-Z])+";
+                pattern = Pattern.compile(regex);
+                matcher = pattern.matcher(temp.get(i));
+                if (matcher.matches()) {
+                    words.add(matcher.group(4));
+                    words.add(matcher.group(3));
+                    words.add(matcher.group(2));
+                    words.add(matcher.group(1));
+                    added = true;
+                }
+            }
+            if (!added) {
+                regex = "([a-zA-Z])+([/^*~&%@!+()$#-\\/'\\{`\\];\\[:]+)([0-9]+[.,]?[0-9]*)?([a-zA-Z])+([/^*~&%@!+()$#-\\/'\\{`\\];\\[:]+)";
+                pattern = Pattern.compile(regex);
+                matcher = pattern.matcher(temp.get(i));
+                if (matcher.matches()) {
+                    words.add(matcher.group(5));
+                    words.add(matcher.group(4));
+                    words.add(matcher.group(3));
+                    words.add(matcher.group(2));
+                    words.add(matcher.group(1));
+                    added = true;
+                }
+            }
+            if (!added) {
+                regex = "([a-zA-Z])+([/^*~&%@!+()$#-\\/'\\{`\\];\\[:]+)([0-9]+[.,]?[0-9]*)?([/^*~&%@!+()$#-\\/'\\{`\\];\\[:]+)([a-zA-Z])+";
+                pattern = Pattern.compile(regex);
+                matcher = pattern.matcher(temp.get(i));
+                if (matcher.matches()) {
+                    words.add(matcher.group(5));
+                    words.add(matcher.group(4));
+                    words.add(matcher.group(3));
+                    words.add(matcher.group(2));
+                    words.add(matcher.group(1));
+                    added = true;
+                }
+            }
+            if (!added)
+                words.add(temp.get(i));
         }
+        Collections.reverse(words);
         return words;
     }
 
     private class MyAdapter extends RecyclerView.Adapter<AddSmsParseFragment.ViewHolder> implements View.OnClickListener {
-        private int typeSort;
-        private List<Sms> list;
-        private List<String> strings;
-        private List<TextView> tvList;
-        private List<String> incomeKeys;
-        private List<String> expanceKeys;
-        private List<String> amountKeys;
-        private List<String> amountKeyOld;
-
-        public MyAdapter(int typeSort, List<Sms> list) {
-            this.typeSort = typeSort;
-            this.list = list;
-            if (list != null)
-                tvSmsCount.setText("" + list.size());
-            incomeKeys = new ArrayList<>();
-            expanceKeys = new ArrayList<>();
-            amountKeys = new ArrayList<>();
-            templateSmsList = new ArrayList<>();
-            amountKeyOld = new ArrayList<>();
+        private List<Sms> result;
+        public MyAdapter(List<Sms> objects) {
+            this.result = objects;
+            String[] incomeK = etIncome.getText().toString().split(",");
+            for (String key : incomeK)
+                incomeKeys.add(key);
+            String[] expenseK = etExpance.getText().toString().split(",");
+            for (String key : expenseK)
+                expenseKeys.add(key);
+            String[] amountK = etAmount.getText().toString().split(",");
+            for (String key : amountK)
+                amountKeys.add(key);
         }
 
-        public void oldTemplateChange() {
-            if (oldObject.getTemplates() != null) {
-                for (int i = list.size() - 1; i >= 0; i--) {
-                    for (TemplateSms templateSms : oldObject.getTemplates()) {
-                        if (list.get(i).getBody().matches(templateSms.getRegex())) {
-                            list.remove(i);
-                        }
-                    }
-                }
-            }
+        public void refreshList() {
+            this.result = choosenSms;
             notifyDataSetChanged();
-            templateSmsList.addAll(oldObject.getTemplates());
-            tvSmsCount.setText("" + list.size());
-        }
-
-        public int getTypeSort() {
-            return typeSort;
-        }
-
-        public void setType(int typeSms) {
-            this.typeSort = typeSms;
-            notifyDataSetChanged();
-        }
-
-        public List<String> getIncomeKeys() {
-            return incomeKeys;
-        }
-
-        public List<String> getExpanceKeys() {
-            return expanceKeys;
-        }
-
-        public List<String> getAmountKeys() {
-            return amountKeys;
         }
 
         public int getItemCount() {
-            return list == null ? 0 : list.size();
+            return result.size();
         }
-
         public void onBindViewHolder(final AddSmsParseFragment.ViewHolder view, final int position) {
-            view.body.setText(list.get(position).getBody());
-            if (typeSort == ALL_SMS) {
+            view.body.setText(result.get(position).getBody());
+            if (rbnSmsParseAddAll.isChecked()) {
                 view.income.setVisibility(View.VISIBLE);
                 view.expance.setVisibility(View.VISIBLE);
-            } else if (typeSort == INCOME_SMS) {
+            } else if (rbnSmsParseAddIncome.isChecked()) {
                 view.income.setVisibility(View.VISIBLE);
                 view.expance.setVisibility(View.GONE);
             } else {
@@ -610,7 +669,6 @@ public class AddSmsParseFragment extends PABaseFragment implements LoaderManager
                 }
             });
         }
-
         private int measureListText(List<String> list) {
             Paint paint = new Paint();
             Rect rect = new Rect();
@@ -650,38 +708,33 @@ public class AddSmsParseFragment extends PABaseFragment implements LoaderManager
             amountkey = (TextView) dialogView.findViewById(R.id.amountKey);
             parsingkey = (TextView) dialogView.findViewById(R.id.parsingKey);
             final LinearLayout linearLayout = (LinearLayout) dialogView.findViewById(R.id.llDialogSmsParseAdd);
-
-            int eni = (int) ((8 * getResources().getDisplayMetrics().widthPixels / 10
-                    - 2 * commonOperations.convertDpToPixel(40)) / getResources().getDisplayMetrics().density);
-
-            strings = smsBodyParse(list.get(position).getBody());
+            int eni = (int) ((8 * getResources().getDisplayMetrics().widthPixels/10
+                    - 2 * commonOperations.convertDpToPixel(40))/getResources().getDisplayMetrics().density);
+            splittedBody = smsBodyParse(choosenSms.get(position).getBody());
             tvList = new ArrayList<>();
-
             Map<Integer, List<String>> map = new TreeMap<>();
-
-            for (int i = strings.size() - 1; i >= 0; i--) {
-                if (strings.get(i).isEmpty()) {
-                    strings.remove(i);
+            for (int i = splittedBody.size() - 1; i >= 0; i--) {
+                if (splittedBody.get(i) == null || splittedBody.get(i).isEmpty()) {
+                    splittedBody.remove(i);
                 } else
-                    strings.set(i, strings.get(i) + " ");
+                    splittedBody.set(i, splittedBody.get(i) + " ");
             }
-
             List<String> tempList = new ArrayList<>();
             int length;
             int row = 1;
-            for (int i = 0; i < strings.size(); i++) {
+            for (int i = 0; i < splittedBody.size(); i++) {
                 List<String> temp = new ArrayList<>();
                 temp.addAll(tempList);
-                temp.add(strings.get(i));
+                temp.add(splittedBody.get(i));
                 length = measureListText(temp);
                 if (eni > length) {
-                    tempList.add(strings.get(i));
+                    tempList.add(splittedBody.get(i));
                 } else {
                     map.put(row++, tempList);
                     tempList = new ArrayList<>();
-                    tempList.add(strings.get(i));
+                    tempList.add(splittedBody.get(i));
                 }
-                if (i == strings.size() - 1 && !tempList.isEmpty()) {
+                if (i == splittedBody.size() - 1 && !tempList.isEmpty()) {
                     map.put(row++, tempList);
                 }
             }
@@ -723,47 +776,47 @@ public class AddSmsParseFragment extends PABaseFragment implements LoaderManager
                     } else if (posIncExp == -1) {
                         Toast.makeText(getContext(), "Choose " + (type ? "income " : "expance " + "key"), Toast.LENGTH_SHORT).show();
                     } else {
-                        for (int i = 0; i < strings.size(); i++) {
-                            strings.set(i, strings.get(i).trim());
+                        for (int i = 0; i < splittedBody.size(); i++) {
+                            splittedBody.set(i, splittedBody.get(i).trim());
                         }
                         if (type)
-                            incomeKeys.add(strings.get(posIncExp));
+                            incomeKeys.add(splittedBody.get(posIncExp));
                         else
-                            expanceKeys.add(strings.get(posIncExp));
-                        amountKeys.add(strings.get(posAmount));
+                            expenseKeys.add(splittedBody.get(posIncExp));
+                        amountKeys.add(splittedBody.get(posAmount));
                         if (posAmount != 0) {
-                            amountKeyOld.add(strings.get(posAmount - 1));
+                            amountKeys.add(splittedBody.get(posAmount - 1));
                         } else {
-                            amountKeyOld.add(strings.get(position + 1));
+                            amountKeys.add(splittedBody.get(position + 1));
                         }
-                        templateSmsList = commonOperations.generateSmsTemplateList(strings, posIncExp, posAmount, incomeKeys, expanceKeys, new ArrayList<String>());
-                        for (int i = list.size() - 1; i >= 0; i--) {
+                        templateSmsList = commonOperations.generateSmsTemplateList(splittedBody, posIncExp, posAmount, incomeKeys, expenseKeys, new ArrayList<String>());
+                        for (int i = choosenSms.size() - 1; i >= 0; i--) {
                             for (TemplateSms templateSms : templateSmsList) {
-                                if (list.get(i).getBody().matches(templateSms.getRegex())) {
-                                    list.remove(i);
+                                if (choosenSms.get(i).getBody().matches(templateSms.getRegex())) {
+                                    choosenSms.remove(i);
                                     break;
                                 }
                             }
                         }
+                        adapter.refreshList();
                         String incs = "";
                         for (String s : incomeKeys) {
                             incs += s + ", ";
                         }
                         String exps = "";
-                        for (String expanceKey : expanceKeys) {
+                        for (String expanceKey : expenseKeys) {
                             exps += expanceKey + ", ";
                         }
                         String ams = "";
-                        for (String amountKey : amountKeyOld) {
+                        for (String amountKey : amountKeys) {
                             ams += amountKey + ", ";
                         }
                         if (!incomeKeys.isEmpty())
                             etIncome.setText(incs.substring(0, incs.length() - 1));
-                        if (!expanceKeys.isEmpty())
+                        if (!expenseKeys.isEmpty())
                             etExpance.setText(exps.substring(0, exps.length() - 1));
                         etAmount.setText(ams.substring(0, ams.length() - 1));
-                        notifyDataSetChanged();
-                        tvSmsCount.setText("" + list.size());
+                        tvSmsCount.setText("" + choosenSms.size());
                     }
                     dialog.dismiss();
                 }
@@ -778,8 +831,8 @@ public class AddSmsParseFragment extends PABaseFragment implements LoaderManager
             if (v.getTag() != null) {
                 String regex = "([0-9]+[.,]?[0-9]*\\s*)+";
                 Pattern pattern = Pattern.compile(regex);
-                Matcher matcher = pattern.matcher(strings.get((Integer) v.getTag() - 1));
-                if (!matcher.matches() && !strings.get((int) v.getTag() - 1).matches("\\s?[0-9]+\\s?")) {
+                Matcher matcher = pattern.matcher(splittedBody.get((Integer) v.getTag() - 1));
+                if (!matcher.matches() && !splittedBody.get((int) v.getTag() - 1).matches("\\s?[0-9]+\\s?")) {
                     if (posIncExp != -1) {
                         parsingkey.setText(getResources().getString(R.string.select_word));
                         tvList.get(posIncExp).setBackgroundResource(R.drawable.select_grey);
@@ -800,11 +853,24 @@ public class AddSmsParseFragment extends PABaseFragment implements LoaderManager
         }
     }
 
+
+    private MyAdapter adapter;
+    private void refreshProcessingSmsList(String number) {
+        if (all == null)
+            initSms();
+        choosenSms = new ArrayList<>();
+        for (Sms sms : all) {
+            if (sms.getNumber().equals(number))
+                choosenSms.add(sms);
+        }
+        adapter = new MyAdapter(choosenSms);
+        rvSmsList.setAdapter(adapter);
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView body;
         public TextView income;
         public TextView expance;
-
         public ViewHolder(View view) {
             super(view);
             body = (TextView) view.findViewById(R.id.tvAddSmsParseItemBody);
@@ -814,32 +880,25 @@ public class AddSmsParseFragment extends PABaseFragment implements LoaderManager
     }
 
     private class MyNumberAdapter extends RecyclerView.Adapter<AddSmsParseFragment.ViewHolderNumber> {
-        private List<Sms> smsList;
-
-        public MyNumberAdapter() {
-            getAllSms();
-            smsList = lstSms;
+        private List<Sms> result;
+        public MyNumberAdapter(List<Sms> result) {
+            this.result = result;
         }
-
         public int getItemCount() {
-            return smsList.size();
+            return result.size();
         }
-
         public void onBindViewHolder(final ViewHolderNumber view, final int position) {
-            view.number.setText(smsList.get(position).getNumber());
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
-            Date date = new Date();
-            date.setTime(Long.parseLong(smsList.get(position).getDate()));
-            view.date.setText(simpleDateFormat.format(date.getTime()));
+            view.number.setText(result.get(position).getNumber());
+            view.date.setText(result.get(position).getDate());
             view.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    etNumber.setText(smsList.get(position).getNumber());
+                    etNumber.setText(result.get(position).getNumber());
+                    refreshProcessingSmsList(result.get(position).getNumber());
                     dialog.dismiss();
                 }
             });
         }
-
         public AddSmsParseFragment.ViewHolderNumber onCreateViewHolder(ViewGroup parent, int var2) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_dialog_sms_parsing, parent, false);
             return new AddSmsParseFragment.ViewHolderNumber(view);

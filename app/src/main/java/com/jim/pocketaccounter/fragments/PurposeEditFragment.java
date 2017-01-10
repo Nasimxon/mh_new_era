@@ -357,7 +357,6 @@ public class PurposeEditFragment extends Fragment implements OnClickListener, On
                             case 2:
                                 //year
                                 begCalendar.add(Calendar.MONTH, -period_long);
-
                                 break;
                             case 3:
                                 //year
