@@ -698,23 +698,43 @@
                     android:layout_marginRight="@dimen/sixteen_dp"
                     android:layout_marginBottom="@dimen/sixteen_dp"
                     android:visibility="gone">
-
-                    <EditText
-                        android:id="@+id/for_trasaction_credit"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:ems="10"
-                        android:maxLength="15"
-                        android:hint="@string/value_of_contribution"
-                        android:textColor="@color/black_for_glavniy_text"
-                        android:textSize="@dimen/sixteen_dp"
-                        android:background="#fff"
-                        android:inputType="numberDecimal"
-                        android:layout_gravity="center_vertical"
-                        android:layout_toLeftOf="@+id/spStartMoneyCurrency"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true" />
+                        android:orientation="horizontal">
+                        <EditText
+                            android:id="@+id/for_trasaction_credit"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:ems="10"
+                            android:maxLength="15"
+                            android:hint="@string/value_of_contribution"
+                            android:textColor="@color/black_for_glavniy_text"
+                            android:textSize="@dimen/sixteen_dp"
+                            android:background="#fff"
+                            android:inputType="numberDecimal"
+                            android:layout_gravity="center_vertical"
+                            android:layout_toLeftOf="@+id/spStartMoneyCurrency"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true" />
+                        <View
+                            android:layout_width="2px"
+                            android:layout_height="match_parent"
+                            android:background="@color/seriy_calc"
+                            android:layout_marginTop="@dimen/three_dp"
+                            android:layout_marginBottom="@dimen/three_dp"/>
+                        <TextView
+                            android:id="@+id/firsContributionCurrency"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="$"
+                            android:layout_marginLeft="@dimen/ten_dp"
+                            android:layout_marginRight="@dimen/sixteen_dp"
+                            android:textSize="@dimen/sixteen_dp"
+                            android:textColor="@color/black_for_glavniy_text"/>
+                    </LinearLayout>
+
 
 
                 </RelativeLayout>

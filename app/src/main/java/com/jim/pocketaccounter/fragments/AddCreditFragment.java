@@ -100,12 +100,13 @@ public class AddCreditFragment extends Fragment {
     boolean onSucsessed = false;
     Spinner spiner_forValut, spiner_procent, spinner_peiod, spTypeLoan ,spBankFee;
     ImageView icona;
+    TextView firsContributionCurrency;
     RelativeLayout is_calc;
     String[] valyutes;
-    String[] valyutes_symbols;
     String[] accs;
     Spinner accountSp;
     String selectedIcon;
+    DecimalFormat formater = new DecimalFormat("0.##");
     EditText etMonthFee;
     EditText nameCred, valueCred, procentCred, periodCred, firstCred, lastCred, transactionCred;
     Context context;
@@ -190,6 +191,7 @@ public class AddCreditFragment extends Fragment {
 //        isOpkey = (SwitchCompat) V.findViewById(R.id.key_for_balance);
         isHaveFirstPay = (SwitchCompat) V.findViewById(R.id.chbAccountStartSumEnabled);
         tvWhatAboutType = (TextView) V.findViewById(R.id.tvWhatAboutType);
+        firsContributionCurrency = (TextView) V.findViewById(R.id.firsContributionCurrency);
         is_calc = (RelativeLayout) V.findViewById(R.id.is_calc);
         to_open_dialog = false;
 
@@ -639,14 +641,11 @@ public class AddCreditFragment extends Fragment {
 
         currencies = currencyDao.loadAll();
         valyutes = new String[currencies.size()];
-        valyutes_symbols = new String[currencies.size()];
 
         for (int i = 0; i < valyutes.length; i++) {
             valyutes[i] = currencies.get(i).getAbbr();
         }
-        for (int i = 0; i < valyutes.length; i++) {
-            valyutes_symbols[i] = currencies.get(i).getAbbr();
-        }
+
 
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
@@ -677,15 +676,26 @@ public class AddCreditFragment extends Fragment {
         spiner_procent.setAdapter(adapter);
         spinner_peiod.setAdapter(adapter_period);
 
+        spiner_forValut.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                firsContributionCurrency.setText(valyutes[i]);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
         if (isEdit()) {
             int resId = getResources().getIdentifier(currentCredit.getIcon_ID(), "drawable", getContext().getPackageName());
             selectedIcon=currentCredit.getIcon_ID();
             icona.setImageResource(resId);
             nameCred.setText(currentCredit.getCredit_name());
-            valueCred.setText(parseToWithoutNull(currentCredit.getValue_of_credit()));
-            procentCred.setText(parseToWithoutNull(currentCredit.getProcent()) + "%");
-            etMonthFee.setText(parseToWithoutNull(currentCredit.getMonthly_fee()) + "%");
+            valueCred.setText(formater.format(currentCredit.getValue_of_credit()+currentCredit.getPervonacalniy()));
+            procentCred.setText(formater.format(currentCredit.getProcent()) + "%");
+            etMonthFee.setText(formater.format(currentCredit.getMonthly_fee()) + "%");
             spTypeLoan.setSelection(currentCredit.getType_loan());
             spiner_forValut.setSelection(getIndex(spiner_forValut, currentCredit.getValyute_currency().getAbbr()));
 
@@ -693,11 +703,24 @@ public class AddCreditFragment extends Fragment {
                 spiner_procent.setSelection(1);
             } else if (currentCredit.getProcent_interval() == forYear) {
                 spiner_procent.setSelection(0);}
-//            else if (currentCredit.getProcent_interval() == forWeek) {
-//                spiner_procent.setSelection(2);
-//            } else if (currentCredit.getProcent_interval() == forDay) {
-//                spiner_procent.setSelection(3);
-//            }
+
+            if(currentCredit.getPervonacalniy()!=0){
+                isHaveFirstPay.toggle();
+                transactionCred.setText(formater.format(currentCredit.getPervonacalniy()));
+            }
+            if(currentCredit.getKey_for_include()){
+                Account account = accountDao.load(currentCredit.getAccountID());
+                if(account!=null){
+                    for (int i=0;i<accaunt_AC.size();i++){
+                        if(accaunt_AC.get(i).getId().equals(account.getId())){
+                            keyForBalance.toggle();
+                            accountSp.setSelection(i);
+                            break;
+                        }
+                    }
+                }
+            }
+
             periodCred.setText(Long.toString(currentCredit.getPeriod_time() / currentCredit.getPeriod_time_tip()));
 
             if (currentCredit.getPeriod_time_tip() == forMoth) {
@@ -705,17 +728,7 @@ public class AddCreditFragment extends Fragment {
             } else if (currentCredit.getPeriod_time_tip() == forYear) {
                 spinner_peiod.setSelection(0);
             }
-//            else if (currentCredit.getPeriod_time_tip() == forWeek) {
-//                spinner_peiod.setSelection(2);
-//            } else if (currentCredit.getPeriod_time_tip() == forDay) {
-//                spinner_peiod.setSelection(3);
-//            }
-//            if (!currentCredit.getKey_for_include()) {
-//                isOpkey.setChecked(false);
-//                spiner_trasnact.setVisibility(View.GONE);
-//            }
 
-//
 
             firstCred.setText(sDateFormat.format(currentCredit.getTake_time().getTime()));
 
@@ -1001,6 +1014,7 @@ public class AddCreditFragment extends Fragment {
                 transactionCred.setError(getString(R.string.invalide_format));
                 return;
             }
+            A1.setPervonacalniy(firsPay);
            A1.setValue_of_credit(A1.getValue_of_credit()-firsPay);
         }
 

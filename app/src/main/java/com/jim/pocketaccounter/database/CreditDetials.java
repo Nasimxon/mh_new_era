@@ -34,7 +34,8 @@ public class CreditDetials {
     private int monthly_fee_type;
     @Property
     private String accountID;
-
+    @Property
+    private double pervonacalniy = 0;
 
 
     @Property
@@ -81,9 +82,16 @@ public class CreditDetials {
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
+    /** Used for active entity operations. */
 
 
+    public double getPervonacalniy() {
+        return pervonacalniy;
+    }
 
+    public void setPervonacalniy(double pervonacalniy) {
+        this.pervonacalniy = pervonacalniy;
+    }
 
     @Keep
     public CreditDetials(String icon_ID, String credit_name, Calendar take_time,
@@ -110,15 +118,16 @@ public class CreditDetials {
 
 
 
-    @Generated(hash = 1790086791)
-    public CreditDetials(double monthly_fee, int type_loan, int monthly_fee_type, String accountID, String credit_name,
-            String icon_ID, Calendar take_time, double procent, double procent_interval, long period_time, long period_time_tip,
-            long myCredit_id, double value_of_credit, double value_of_credit_with_procent, String currencyId,
+    @Generated(hash = 1872484294)
+    public CreditDetials(double monthly_fee, int type_loan, int monthly_fee_type, String accountID, double pervonacalniy,
+            String credit_name, String icon_ID, Calendar take_time, double procent, double procent_interval, long period_time,
+            long period_time_tip, long myCredit_id, double value_of_credit, double value_of_credit_with_procent, String currencyId,
             boolean key_for_include, boolean key_for_archive, String info) {
         this.monthly_fee = monthly_fee;
         this.type_loan = type_loan;
         this.monthly_fee_type = monthly_fee_type;
         this.accountID = accountID;
+        this.pervonacalniy = pervonacalniy;
         this.credit_name = credit_name;
         this.icon_ID = icon_ID;
         this.take_time = take_time;
@@ -134,8 +143,6 @@ public class CreditDetials {
         this.key_for_archive = key_for_archive;
         this.info = info;
     }
-
-
 
     @Generated(hash = 189858148)
     public CreditDetials() {
@@ -359,8 +366,6 @@ public class CreditDetials {
         this.monthly_fee_type = monthly_fee_type;
     }
 
-
-
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
      * Entity must attached to an entity context.
@@ -372,8 +377,6 @@ public class CreditDetials {
         }
         myDao.refresh(this);
     }
-
-
 
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#update(Object)}.
@@ -387,8 +390,6 @@ public class CreditDetials {
         myDao.update(this);
     }
 
-
-
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}.
      * Entity must attached to an entity context.
@@ -401,15 +402,11 @@ public class CreditDetials {
         myDao.delete(this);
     }
 
-
-
     /** Resets a to-many relationship, making the next get call to query for a fresh result. */
     @Generated(hash = 1034520580)
     public synchronized void resetReckings() {
         reckings = null;
     }
-
-
 
     /**
      * To-many relationship, resolved on first access (and after reset).
@@ -433,8 +430,6 @@ public class CreditDetials {
         return reckings;
     }
 
-
-
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 1639843815)
     public void setValyute_currency(Currency valyute_currency) {
@@ -444,8 +439,6 @@ public class CreditDetials {
             valyute_currency__resolvedKey = currencyId;
         }
     }
-
-
 
     /** To-one relationship, resolved on first access. */
     @Generated(hash = 1945576944)
@@ -466,8 +459,6 @@ public class CreditDetials {
         return valyute_currency;
     }
 
-
-
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 745291544)
     public void __setDaoSession(DaoSession daoSession) {
@@ -475,6 +466,9 @@ public class CreditDetials {
         myDao = daoSession != null ? daoSession.getCreditDetialsDao() : null;
     }
 
+
+
+   
 
    
 }

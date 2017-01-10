@@ -170,6 +170,26 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
+                    case R.id.edit:
+                               AddBorrowFragment addBorrowFragment = AddBorrowFragment.getInstance(TYPE, debtBorrow);
+
+                                if (!daoSession.getBoardButtonDao().queryBuilder()
+                                        .where(BoardButtonDao.Properties.CategoryId.eq(debtBorrow.getId()))
+                                        .list().isEmpty()) {
+                                    BoardButton boardButton = daoSession.getBoardButtonDao().queryBuilder()
+                                            .where(BoardButtonDao.Properties.CategoryId.eq(debtBorrow.getId()))
+                                            .list().get(0);
+                                    addBorrowFragment.setMainView(boardButton);
+                                }
+
+                                int count = paFragmentManager.getFragmentManager().getBackStackEntryCount();
+                                while (count > 0) {
+                                    paFragmentManager.getFragmentManager().popBackStack();
+                                    count--;
+                                }
+                                operationsListDialog.dismiss();
+                                paFragmentManager.displayFragment(addBorrowFragment);
+                        break;
                     case R.id.delete: {
                         warningDialog.setOnNoButtonClickListener(new View.OnClickListener() {
                             @Override
