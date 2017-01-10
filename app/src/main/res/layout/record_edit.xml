@@ -7,486 +7,889 @@
     android:clickable="true">
 
     <RelativeLayout
+        android:id="@+id/headermain"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1" >
+        android:layout_height="@dimen/hundred_sixty_dp">
+        <FrameLayout
+            android:id="@+id/header_pasi"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/fifty_dp"
+            android:background="#fff"
+            android:layout_alignParentBottom="true">
+            <LinearLayout
+                android:id="@+id/addphotopanel"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/five_dp"
+                android:visibility="visible"
+                android:orientation="horizontal">
 
-        <ImageView
-            android:id="@+id/imageView1"
+                    <ImageView
+                        android:id="@+id/choose_photo"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/three_dp"
+                        android:paddingBottom="@dimen/five_dp"
+                        android:paddingTop="@dimen/five_dp"
+                        android:layout_marginBottom="@dimen/three_dp"
+                        android:tint="@color/seriy_calc"
+                        android:src="@drawable/ic_photo_camera_black_24dp"/>
+                    <View
+                        android:layout_width="2px"
+                        android:layout_height="match_parent"
+                        android:background="#f0f0f0"
+                        android:layout_marginTop="@dimen/twelve_dp"
+                        android:layout_marginBottom="@dimen/twelve_dp"
+                        />
+
+
+
+
+
+
+                    <ImageView
+                        android:id="@+id/comment_opener"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/three_dp"
+                        android:paddingBottom="@dimen/five_dp"
+                        android:paddingTop="@dimen/five_dp"
+                        android:layout_marginBottom="@dimen/three_dp"
+                        android:tint="@color/seriy_calc"
+                        android:src="@drawable/comment"/>
+                <View
+                    android:layout_width="2px"
+                    android:layout_height="match_parent"
+                    android:background="#f0f0f0"
+                    android:layout_marginTop="@dimen/twelve_dp"
+                    android:layout_marginBottom="@dimen/twelve_dp"
+                    />
+                <ImageView
+                    android:id="@+id/ivClear"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/three_dp"
+                    android:paddingBottom="@dimen/nine_dp"
+                    android:paddingTop="@dimen/nine_dp"
+                    android:layout_marginBottom="@dimen/three_dp"
+                    android:tint="@color/seriy_calc"
+                    android:src="@drawable/clearc"/>
+                <View
+                    android:layout_width="2px"
+                    android:layout_height="match_parent"
+                    android:background="#f0f0f0"
+                    android:layout_marginTop="@dimen/twelve_dp"
+                    android:layout_marginBottom="@dimen/twelve_dp"
+                    />
+                <ImageView
+                    android:id="@+id/ivBackspaceSign"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/three_dp"
+                    android:paddingBottom="@dimen/sevent_dp"
+                    android:paddingTop="@dimen/sevent_dp"
+                    android:layout_marginBottom="@dimen/three_dp"
+                    android:tint="@color/seriy_calc"
+                    android:src="@drawable/ic_backspace_black_48dp"/>
+
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/savepanel"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/savesecbut"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="@string/cancelb"
+                    android:textSize="@dimen/sixteen_sp"
+                    android:gravity="center"
+                    android:textColor="@color/seriy_calc">
+                </TextView>
+
+                <ImageView
+                    android:layout_width="2px"
+                    android:layout_height="match_parent"
+                    android:background="@color/seriy_calc_line"
+                    />
+                <TextView
+                    android:id="@+id/addcomment"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/sixteen_sp"
+                    android:text="@string/ok_b"
+                    android:gravity="center"
+                    android:textColor="@color/black_for_glavniy_text"
+                    />
+            </LinearLayout>
+        </FrameLayout>
+
+        <RelativeLayout
+            android:id="@+id/header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_marginBottom="@dimen/ten_dp"
-            android:layout_marginLeft="@dimen/sixteen_dp"
-            android:layout_marginRight="@dimen/sixteen_dp"
-            android:layout_marginTop="@dimen/ten_dp"
-            android:src="@drawable/record_edit_display_bg" />
+            android:layout_alignParentTop="true"
+            android:layout_above="@+id/header_pasi">
 
-        <TextView
-            android:id="@+id/tvRecordEditDisplay"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/twentyfive_dp"
-            android:text="0"
-            android:layout_alignParentRight="true"
-            android:textSize="@dimen/twentyfour_sp"
-            android:layout_toRightOf="@+id/spRecordEdit"
-            android:gravity="right"/>
-        <Spinner
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/spRecordEdit"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/thirty_dp"/>
+
+            <TextView
+                android:id="@+id/tvRecordEditDisplay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black_for_glavniy_text"
+                android:layout_marginTop="@dimen/twenty_dp"
+                android:text="0"
+                android:textSize="@dimen/thirty_dp"
+                android:gravity="right"
+                android:layout_marginLeft="@dimen/sixteen_dp"
+                android:layout_toLeftOf="@+id/spRecordEdit"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                />
+
+
+
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/spRecordEdit"
+
+                android:layout_marginRight="@dimen/ten_dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="@dimen/fifteen_dp"
+                />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_calc"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/fourty_dp"
+                android:layout_below="@+id/tvRecordEditDisplay"
+                android:layout_marginLeft="@dimen/twentyfive_dp"
+                android:layout_toLeftOf="@+id/textView18"
+                android:layout_toStartOf="@+id/textView18" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/with_out_comment"
+                android:maxWidth="@dimen/two_hundred"
+                android:gravity="right|center_vertical"
+                android:textSize="@dimen/twelve_dp"
+                android:layout_marginLeft="@dimen/sixteen_dp"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:layout_marginRight="@dimen/sixteen_dp"
+                android:visibility="visible"
+                android:textColor="@color/seriy_calc"
+                android:paddingBottom="@dimen/ten_dp"
+                android:layout_below="@+id/tvRecordEditDisplay"
+                android:id="@+id/textView18"
+                android:layout_alignRight="@+id/spRecordEdit"
+                android:layout_alignEnd="@+id/spRecordEdit" />
+            <TextView
+                android:id="@+id/commenee"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:visibility="gone"
+                android:layout_below="@+id/tvRecordEditDisplay"
+                android:textColor="@color/black_for_secondary_text"
+                android:layout_marginRight="@dimen/sixteen_dp"
+                android:layout_marginTop="@dimen/five_dp"
+                android:layout_marginLeft="@dimen/sixteen_dp"
+                android:textSize="@dimen/twelve_dp"
+                android:text="@string/commenti"/>
+            <ScrollView
+                android:id="@+id/scroleditext"
+                android:layout_width="match_parent"
+                android:visibility="gone"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/commenee"
+                android:layout_marginBottom="@dimen/twenty_dp"
+                android:layout_marginTop="@dimen/five_dp"
+                >
+                <EditText
+                    android:id="@+id/comment_add"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/empty"
+                    android:gravity="right"
+                    android:layout_marginLeft="@dimen/sixteen_dp"
+                    android:layout_marginRight="@dimen/sixteen_dp"/>
+
+            </ScrollView>
+
+        </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:visibility="visible"
+            android:background="@color/seriy_calc_line"
+            android:layout_below="@id/header"
+            android:id="@+id/imageView5" />
+        <View
+            android:id="@+id/pasdigi"
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:visibility="visible"
+            android:background="#eeeeee"
+            android:layout_alignParentBottom="true"
+            />
+
     </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/sixteen_dp"
-        android:layout_marginLeft="@dimen/sixteen_dp"
-        android:layout_marginRight="@dimen/sixteen_dp"
-        android:orientation="vertical" >
+        android:layout_height="match_parent"
+        android:visibility="visible"
+        android:id="@+id/numbersbut"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-
-            <RelativeLayout
-                android:id="@+id/rlCategory"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" >
-                <ImageView
-                    android:id="@+id/ivsss1"
-                    android:layout_width="@dimen/seventy_dp"
-                    android:layout_height="@dimen/seventy_dp"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/record_edit_button" />
-                <ImageView
-                    android:id="@+id/ivRecordEditCategory"
-                    android:layout_width="@dimen/twentyfour_dp"
-                    android:layout_height="@dimen/twentyfour_dp"
-                    android:layout_centerInParent="true"/>
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/rlSubcategory"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" >
-                <ImageView
-                    android:id="@+id/ivssss1"
-                    android:layout_width="@dimen/seventy_dp"
-                    android:layout_height="@dimen/seventy_dp"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/record_edit_button" />
-                <ImageView
-                    android:id="@+id/ivRecordEditSubCategory"
-                    android:layout_width="@dimen/twentyfour_dp"
-                    android:layout_height="@dimen/twentyfour_dp"
-                    android:layout_centerInParent="true"/>
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/rlCancelSign"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-
-                <ImageView
-                    android:id="@+id/ImageView09"
-                    android:layout_width="@dimen/seventy_dp"
-                    android:layout_height="@dimen/seventy_dp"
-                    android:layout_alignParentLeft="false"
-                    android:layout_alignParentTop="false"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/record_edit_button" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:text="C"
-                    android:textSize="@dimen/twentytwo_sp" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/rlBackspaceSign"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" >
-
-                <ImageView
-                    android:id="@+id/ImageView05"
-                    android:layout_width="@dimen/seventy_dp"
-                    android:layout_height="@dimen/seventy_dp"
-                    android:layout_alignParentLeft="false"
-                    android:layout_alignParentTop="false"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/record_edit_button" />
-                <ImageView
-                    android:layout_width="@dimen/twentyfour_dp"
-                    android:layout_height="@dimen/twentyfour_dp"
-                    android:layout_alignParentLeft="false"
-                    android:layout_alignParentTop="false"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/ic_back_button" />
-            </RelativeLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/ten_dp"
-            android:orientation="horizontal" >
-
-            <RelativeLayout
-                android:id="@+id/rlSeven"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" >
-
-                <ImageView
-                    android:id="@+id/ivCurrencyEditDialogCancel"
-                    android:layout_width="@dimen/seventy_dp"
-                    android:layout_height="@dimen/seventy_dp"
-                    android:layout_centerInParent="true"
-                    android:layout_marginTop="@dimen/ten_dp"
-                    android:src="@drawable/record_edit_button" />
-
-                <TextView
-                    android:id="@+id/tvSeven"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:text="7"
-                    android:textSize="@dimen/twentytwo_sp" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/rlEight"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1" >
-
-                <ImageView
-                    android:id="@+id/ImageView01"
-                    android:layout_width="@dimen/seventy_dp"
-                    android:layout_height="@dimen/seventy_dp"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/record_edit_button" />
-
-                <TextView
-                    android:id="@+id/tvEight"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:text="8"
-                    android:textSize="@dimen/twentytwo_sp" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/rlNine"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1" >
-                <ImageView
-                    android:id="@+id/ImageView02"
-                    android:layout_width="@dimen/seventy_dp"
-                    android:layout_height="@dimen/seventy_dp"
-                    android:layout_alignParentLeft="false"
-                    android:layout_alignParentTop="false"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/record_edit_button" />
-                <TextView
-                    android:id="@+id/tvNine"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:text="9"
-                    android:textSize="@dimen/twentytwo_sp" />
-            </RelativeLayout>
+            android:layout_height="@dimen/fourtyfive_dp"
+            android:orientation="horizontal"
+            >
             <RelativeLayout
                 android:id="@+id/rlDivideSign"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
+                android:layout_width="0dp"
+                android:background="@drawable/opeation_frame"
+
+                android:layout_height="match_parent"
                 android:layout_weight="1">
                 <ImageView
-                    android:id="@+id/ImageView03"
-                    android:layout_width="@dimen/seventy_dp"
-                    android:layout_height="@dimen/seventy_dp"
-                    android:layout_alignParentLeft="false"
-                    android:layout_alignParentTop="false"
+                    android:layout_width="@dimen/eighteen_sp"
+                    android:layout_height="@dimen/seventeen_dp"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/record_edit_button" />
-                <TextView
-                    android:id="@+id/tvDivide"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:text="/"
-                    android:textSize="@dimen/twentytwo_sp" />
+                    android:tint="#fff"
+                    android:src="@drawable/deleniya"/>
+
             </RelativeLayout>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/ten_dp" >
-            <RelativeLayout
-                android:id="@+id/rlFour"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" >
-                <ImageView
-                    android:id="@+id/ImageView07"
-                    android:layout_width="@dimen/seventy_dp"
-                    android:layout_height="@dimen/seventy_dp"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/record_edit_button" />
-                <TextView
-                    android:id="@+id/tvFour"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:text="4"
-                    android:textSize="@dimen/twentytwo_sp" />
-            </RelativeLayout>
-            <RelativeLayout
-                android:id="@+id/rlFive"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" >
-                <ImageView
-                    android:id="@+id/ImageView06"
-                    android:layout_width="@dimen/seventy_dp"
-                    android:layout_height="@dimen/seventy_dp"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/record_edit_button" />
-                <TextView
-                    android:id="@+id/tvFive"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:text="5"
-                    android:textSize="@dimen/twentytwo_sp" />
-            </RelativeLayout>
-            <RelativeLayout
-                android:id="@+id/rlSix"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" >
-                <ImageView
-                    android:id="@+id/rl"
-                    android:layout_width="@dimen/seventy_dp"
-                    android:layout_height="@dimen/seventy_dp"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/record_edit_button" />
-                <TextView
-                    android:id="@+id/tvSix"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:text="6"
-                    android:textSize="@dimen/twentytwo_sp" />
-            </RelativeLayout>
+            <View
+                android:layout_width="2px"
+                android:layout_height="match_parent"
+                android:visibility="visible"
+                android:background="@color/seriy_calc_line"
+                />
             <RelativeLayout
                 android:id="@+id/rlMultipleSign"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/opeation_frame"
                 android:layout_weight="1">
                 <ImageView
-                    android:id="@+id/ivvvv"
-                    android:layout_width="@dimen/seventy_dp"
-                    android:layout_height="@dimen/seventy_dp"
+                    android:layout_width="@dimen/fifteen_dp"
+                    android:layout_height="@dimen/fifteen_dp"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/record_edit_button" />
-                <TextView
-                    android:id="@+id/tvMultiple"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:text="x"
-                    android:textSize="@dimen/twentytwo_sp" />
-            </RelativeLayout>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/ten_dp" >
-            <RelativeLayout
-                android:id="@+id/rlOne"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" >
+                    android:tint="#fff"
+                    android:src="@drawable/umnojeniya"/>
 
-                <ImageView
-                    android:id="@+id/iv4"
-                    android:layout_width="@dimen/seventy_dp"
-                    android:layout_height="@dimen/seventy_dp"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/record_edit_button" />
-                <TextView
-                    android:id="@+id/tvOne"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:text="1"
-                    android:textSize="@dimen/twentytwo_sp" />
             </RelativeLayout>
-            <RelativeLayout
-                android:id="@+id/rlTwo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" >
-                <ImageView
-                    android:id="@+id/iv3"
-                    android:layout_width="@dimen/seventy_dp"
-                    android:layout_height="@dimen/seventy_dp"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/record_edit_button" />
-                <TextView
-                    android:id="@+id/tvTwo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:text="2"
-                    android:textSize="@dimen/twentytwo_sp" />
-            </RelativeLayout>
-            <RelativeLayout
-                android:id="@+id/rlThree"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" >
-                <ImageView
-                    android:id="@+id/iv2"
-                    android:layout_width="@dimen/seventy_dp"
-                    android:layout_height="@dimen/seventy_dp"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/record_edit_button" />
-
-                <TextView
-                    android:id="@+id/tvThree"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:text="3"
-                    android:textSize="@dimen/twentytwo_sp" />
-            </RelativeLayout>
+            <View
+                android:layout_width="2px"
+                android:layout_height="match_parent"
+                android:visibility="visible"
+                android:background="@color/seriy_calc_line"
+                />
             <RelativeLayout
                 android:id="@+id/rlMinusSign"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/opeation_frame"
                 android:layout_weight="1">
                 <ImageView
-                    android:id="@+id/iv1"
-                    android:layout_width="@dimen/seventy_dp"
-                    android:layout_height="@dimen/seventy_dp"
+                    android:layout_width="@dimen/fifteen_dp"
+                    android:layout_height="@dimen/fifteen_dp"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/record_edit_button" />
-                <TextView
-                    android:id="@+id/tvMinus"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:text="-"
-                    android:textSize="@dimen/twentytwo_sp" />
+                    android:tint="#fff"
+                    android:src="@drawable/minus"/>
+
             </RelativeLayout>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/ten_dp" >
-            <RelativeLayout
-                android:id="@+id/rlDot"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" >
-                <ImageView
-                    android:id="@+id/kjgg"
-                    android:layout_width="@dimen/seventy_dp"
-                    android:layout_height="@dimen/seventy_dp"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/record_edit_button" />
-                <TextView
-                    android:id="@+id/tvDot"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:text="."
-                    android:textSize="@dimen/twentytwo_sp" />
-            </RelativeLayout>
-            <RelativeLayout
-                android:id="@+id/rlZero"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" >
-                <ImageView
-                    android:id="@+id/ImageView15"
-                    android:layout_width="@dimen/seventy_dp"
-                    android:layout_height="@dimen/seventy_dp"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/record_edit_button" />
-                <TextView
-                    android:id="@+id/tvZero"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:text="0"
-                    android:textSize="@dimen/twentytwo_sp" />
-            </RelativeLayout>
-            <RelativeLayout
-                android:id="@+id/rlEqualSign"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-                <ImageView
-                    android:id="@+id/kkhl"
-                    android:layout_width="@dimen/seventy_dp"
-                    android:layout_height="@dimen/seventy_dp"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/record_edit_button" />
-                <TextView
-                    android:id="@+id/tvEqual"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:text="="
-                    android:textSize="@dimen/twentytwo_sp" />
-            </RelativeLayout>
+            <View
+                android:layout_width="2px"
+                android:layout_height="match_parent"
+                android:visibility="visible"
+                android:background="@color/seriy_calc_line"
+                />
             <RelativeLayout
                 android:id="@+id/rlPlusSign"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/opeation_frame"
                 android:layout_weight="1">
                 <ImageView
-                    android:id="@+id/rhlk"
-                    android:layout_width="@dimen/seventy_dp"
-                    android:layout_height="@dimen/seventy_dp"
+                    android:layout_width="@dimen/fifteen_dp"
+                    android:layout_height="@dimen/fifteen_dp"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/record_edit_button" />
-                <TextView
-                    android:id="@+id/tvPlus"
+                    android:tint="#fff"
+                    android:src="@drawable/plus"/>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:visibility="visible"
+            android:background="@color/seriy_calc_line"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+            <RelativeLayout
+                android:id="@+id/rlSeven"
+                android:layout_width="0dp"
+                android:background="@drawable/opeation_frame_white"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:text="+"
-                    android:textSize="@dimen/twentytwo_sp" />
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="7"
+                        android:layout_gravity="center_horizontal"
+                        android:textSize="@dimen/thirty_dp"
+                        android:textColor="@color/black_for_myagkiy_glavniy"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="seven"
+                        android:textSize="@dimen/fourteen_dp"
+                        android:textColor="@color/seriy_calc"
+                        />
+                </LinearLayout>
             </RelativeLayout>
+            <View
+                android:layout_width="2px"
+                android:layout_height="match_parent"
+                android:background="@color/seriy_calc_line"/>
+            <RelativeLayout
+                android:id="@+id/rlEight"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/opeation_frame_white"
+                android:layout_weight="1">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="8"
+                        android:layout_gravity="center_horizontal"
+                        android:textSize="@dimen/thirty_dp"
+                        android:textColor="@color/black_for_myagkiy_glavniy"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="eight"
+                        android:textSize="@dimen/fourteen_dp"
+                        android:textColor="@color/seriy_calc"
+                        />
+                </LinearLayout>
+            </RelativeLayout>
+            <View
+                android:layout_width="2px"
+                android:layout_height="match_parent"
+                android:background="@color/seriy_calc_line"/>
+            <RelativeLayout
+                android:id="@+id/rlNine"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/opeation_frame_white"
+                android:layout_weight="1">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="9"
+                        android:layout_gravity="center_horizontal"
+                        android:textSize="@dimen/thirty_dp"
+                        android:textColor="@color/black_for_myagkiy_glavniy"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="nine"
+                        android:textSize="@dimen/fourteen_dp"
+                        android:textColor="@color/seriy_calc"
+                        />
+                </LinearLayout>
+            </RelativeLayout>
+            <View
+                android:layout_width="2px"
+                android:layout_height="match_parent"
+                android:background="@color/seriy_calc_line"/>
+            <RelativeLayout
+                android:id="@+id/rvAccountChoise"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/opeation_frame_white"
+                android:layout_weight="1">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:id="@+id/ivAccountIcon"
+                        android:layout_width="@dimen/twentyfive_dp"
+                        android:layout_height="@dimen/twentyfive_dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="@dimen/sevent_dp"
+                        android:layout_marginTop="@dimen/nine_dp"
+                        android:src="@drawable/icons_7"
+                        />
+                        <TextView
+
+                            android:id="@+id/tvAccountName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="eightsadasdsdasdasasdasdasdasd"
+                            android:maxWidth="@dimen/sixty_seven_dp"
+                            android:maxLines="1"
+                            android:ellipsize="end"
+                            android:textSize="@dimen/fourteen_dp"
+                            android:textColor="@color/seriy_calc"
+                        />
+                </LinearLayout>
+            </RelativeLayout>
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:background="@color/seriy_calc_line"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+            <RelativeLayout
+                android:id="@+id/rlFour"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/opeation_frame_white"
+                android:layout_weight="1">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="4"
+                        android:layout_gravity="center_horizontal"
+                        android:textSize="@dimen/thirty_dp"
+                        android:textColor="@color/black_for_myagkiy_glavniy"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="four"
+                        android:textSize="@dimen/fourteen_dp"
+                        android:textColor="@color/seriy_calc"
+                        />
+                </LinearLayout>
+            </RelativeLayout>
+            <View
+                android:layout_width="2px"
+                android:layout_height="match_parent"
+                android:background="@color/seriy_calc_line"/>
+            <RelativeLayout
+                android:id="@+id/rlFive"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/opeation_frame_white"
+                android:layout_weight="1">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="5"
+                        android:layout_gravity="center_horizontal"
+                        android:textSize="@dimen/thirty_dp"
+                        android:textColor="@color/black_for_myagkiy_glavniy"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="five"
+                        android:textSize="@dimen/fourteen_dp"
+                        android:textColor="@color/seriy_calc"
+                        />
+                </LinearLayout>
+            </RelativeLayout>
+            <View
+                android:layout_width="2px"
+                android:layout_height="match_parent"
+                android:background="@color/seriy_calc_line"/>
+            <RelativeLayout
+                android:id="@+id/rlSix"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/opeation_frame_white"
+                android:layout_weight="1">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="6"
+                        android:layout_gravity="center_horizontal"
+                        android:textSize="@dimen/thirty_dp"
+                        android:textColor="@color/black_for_myagkiy_glavniy"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="six"
+                        android:textSize="@dimen/fourteen_dp"
+                        android:textColor="@color/seriy_calc"
+                        />
+                </LinearLayout>
+            </RelativeLayout>
+            <View
+                android:layout_width="2px"
+                android:layout_height="match_parent"
+                android:background="@color/seriy_calc_line"/>
+            <RelativeLayout
+                android:id="@+id/rlCategory"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/opeation_frame_white"
+
+                android:layout_weight="1">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:id="@+id/ivRecordEditCategory"
+                        android:layout_width="@dimen/twentyfive_dp"
+                        android:layout_height="@dimen/twentyfive_dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="@dimen/sevent_dp"
+                        android:layout_marginTop="@dimen/nine_dp"
+                        android:src="@drawable/icons_7"
+                        />
+                    <TextView
+                        android:id="@+id/tvRecordEditCategoryName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="eight"
+                        android:maxWidth="@dimen/sixty_seven_dp"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:textSize="@dimen/fourteen_dp"
+                        android:textColor="@color/seriy_calc"
+                        />
+                </LinearLayout>
+            </RelativeLayout>
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:background="@color/seriy_calc_line"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+            <RelativeLayout
+                android:id="@+id/rlOne"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/opeation_frame_white"
+                android:layout_weight="1">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1"
+                        android:layout_gravity="center_horizontal"
+                        android:textSize="@dimen/thirty_dp"
+                        android:textColor="@color/black_for_myagkiy_glavniy"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="one"
+                        android:textSize="@dimen/fourteen_dp"
+                        android:textColor="@color/seriy_calc"
+                        />
+                </LinearLayout>
+            </RelativeLayout>
+            <View
+                android:layout_width="2px"
+                android:layout_height="match_parent"
+                android:background="@color/seriy_calc_line"/>
+            <RelativeLayout
+                android:id="@+id/rlTwo"
+                android:layout_width="0dp"
+                android:background="@drawable/opeation_frame_white"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2"
+                        android:layout_gravity="center_horizontal"
+                        android:textSize="@dimen/thirty_dp"
+                        android:textColor="@color/black_for_myagkiy_glavniy"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="two"
+                        android:textSize="@dimen/fourteen_dp"
+                        android:textColor="@color/seriy_calc"
+                        />
+                </LinearLayout>
+            </RelativeLayout>
+            <View
+                android:layout_width="2px"
+                android:layout_height="match_parent"
+                android:background="@color/seriy_calc_line"/>
+            <RelativeLayout
+                android:id="@+id/rlThree"
+                android:background="@drawable/opeation_frame_white"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="3"
+                        android:layout_gravity="center_horizontal"
+                        android:textSize="@dimen/thirty_dp"
+                        android:textColor="@color/black_for_myagkiy_glavniy"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="three"
+                        android:textSize="@dimen/fourteen_dp"
+                        android:textColor="@color/seriy_calc"
+                        />
+                </LinearLayout>
+            </RelativeLayout>
+            <View
+                android:layout_width="2px"
+                android:layout_height="match_parent"
+                android:background="@color/seriy_calc_line"/>
+            <RelativeLayout
+                android:id="@+id/rlSubcategory"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/opeation_frame_white"
+                android:layout_weight="1">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:id="@+id/ivRecordEditSubCategory"
+                        android:layout_width="@dimen/twentyfive_dp"
+                        android:layout_height="@dimen/twentyfive_dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="@dimen/sevent_dp"
+                        android:layout_marginTop="@dimen/nine_dp"
+                        android:src="@drawable/icons_7"
+                        />
+                    <TextView
+                        android:id="@+id/tvRecordEditSubCategoryName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="eight"
+                        android:maxWidth="@dimen/sixty_seven_dp"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:textSize="@dimen/fourteen_dp"
+                        android:textColor="@color/seriy_calc"
+                        />
+                </LinearLayout>
+            </RelativeLayout>
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:background="@color/seriy_calc_line"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+            <RelativeLayout
+                android:id="@+id/rlDot"
+                android:background="@drawable/opeation_frame_white"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:layout_centerInParent="true"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="."
+                        android:layout_gravity="center_horizontal"
+                        android:textSize="@dimen/thirty_dp"
+                        android:textColor="@color/black_for_myagkiy_glavniy"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="decimal"
+                        android:textSize="@dimen/fourteen_dp"
+                        android:textColor="@color/seriy_calc"
+                        />
+                </LinearLayout>
+            </RelativeLayout>
+            <View
+                android:layout_width="2px"
+                android:layout_height="match_parent"
+                android:background="@color/seriy_calc_line"/>
+            <RelativeLayout
+                android:id="@+id/rlZero"
+                android:layout_width="0dp"
+                android:background="@drawable/opeation_frame_white"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:layout_gravity="center_horizontal"
+                        android:textSize="@dimen/thirty_dp"
+                        android:textColor="@color/black_for_myagkiy_glavniy"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="zero"
+                        android:textSize="@dimen/fourteen_dp"
+                        android:textColor="@color/seriy_calc"
+                        />
+                </LinearLayout>
+            </RelativeLayout>
+            <View
+                android:layout_width="2px"
+                android:layout_height="match_parent"
+                android:background="@color/seriy_calc_line"/>
+            <RelativeLayout
+                android:id="@+id/rlEqualSign"
+                android:layout_width="0dp"
+                android:background="@drawable/opeation_frame_white"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="="
+                        android:layout_gravity="center_horizontal"
+                        android:textSize="@dimen/thirty_dp"
+                        android:textColor="@color/black_for_myagkiy_glavniy"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="equals"
+                        android:textSize="@dimen/fourteen_dp"
+                        android:textColor="@color/seriy_calc"
+                        />
+                </LinearLayout>
+            </RelativeLayout>
+            <View
+                android:layout_width="2px"
+                android:layout_height="match_parent"
+                android:background="@color/seriy_calc_line"/>
+            <RelativeLayout
+                android:id="@+id/imOKBut"
+                android:layout_width="0dp"
+                android:background="@drawable/opeation_frame_white"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:layout_width="@dimen/twentyfive_dp"
+                        android:layout_height="@dimen/twentyfive_dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="@dimen/sevent_dp"
+                        android:layout_marginTop="@dimen/nine_dp"
+                        android:src="@drawable/checkboxx"
+                        android:tint="?attr/colorAccent"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Add"
+                        android:textSize="@dimen/fourteen_dp"
+                        android:textColor="?attr/colorAccent"
+                        />
+                </LinearLayout>
+            </RelativeLayout>
+
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

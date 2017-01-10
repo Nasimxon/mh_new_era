@@ -1761,6 +1761,10 @@
     <string name="must_restart">Для установки темы понадобится перезапуск программы!</string>
     <string name="daily_operations">Daily operations</string>
     <string name="category_subcategory">Category SubCategory</string>
+    <string name="choise_category">Choise category</string>
+    <string name="choise_subcategory">Choise subcategory</string>
+    <string name="choise_account_f">Choise account</string>
+    <string name="with_out_comment">With out comment</string>
     <string name="processed_sms">Processed sms:</string>
     <string name="theme">Themes</string>
 </resources>
