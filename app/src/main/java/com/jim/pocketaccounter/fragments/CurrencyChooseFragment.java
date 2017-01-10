@@ -33,6 +33,8 @@ public class CurrencyChooseFragment extends PABaseInfoFragment {
         dialog = new WarningDialog(getContext());
         toolbarManager.setTitle(getResources().getString(R.string.choose_currencies)); // toolbar settings
         toolbarManager.setSubtitle("");
+        toolbarManager.setOnTitleClickListener(null);
+        toolbarManager.setSubtitleIconVisibility(View.GONE);
         toolbarManager.setOnHomeButtonClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {

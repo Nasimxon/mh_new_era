@@ -50,7 +50,9 @@ public class CurrencyFragment extends PABaseListFragment implements OnClickListe
 			}
 		},100);
 		toolbarManager.setTitle(getResources().getString(R.string.currencies));
+		toolbarManager.setOnTitleClickListener(null);
 		toolbarManager.setSubtitle(getResources().getString(R.string.main_currency)+" "+ commonOperations.getMainCurrency().getAbbr());
+		toolbarManager.setSubtitleIconVisibility(View.GONE);
 		toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
 		toolbarManager.setImageToSecondImage(R.drawable.pencil);
 		toolbarManager.setOnSecondImageClickListener(this);

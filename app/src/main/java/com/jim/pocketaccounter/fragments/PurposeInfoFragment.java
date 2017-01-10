@@ -116,12 +116,15 @@ public class PurposeInfoFragment extends Fragment implements View.OnClickListene
         });
         pvPercent.setPercetStripeVisibility(false);
         toolbarManager.setImageToSecondImage(R.drawable.ic_more_vert_black_48dp);
+        toolbarManager.setOnTitleClickListener(null);
+        toolbarManager.setSubtitle(getResources().getString(R.string.information));
+        toolbarManager.setSubtitleIconVisibility(View.GONE);
         toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
         toolbarManager.setOnSecondImageClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String[] st = new String[2];
-                st[0] = getResources().getString(R.string.edit);
+                st[0] = getResources().getString(R.string.to_edit);
                 st[1] = getResources().getString(R.string.delete);
                 operationsListDialog.setAdapter(st);
                 operationsListDialog.setOnItemClickListener(new AdapterView.OnItemClickListener() {

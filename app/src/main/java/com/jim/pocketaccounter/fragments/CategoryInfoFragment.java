@@ -79,7 +79,9 @@ public class CategoryInfoFragment extends PABaseInfoFragment {
         warningDialog = new WarningDialog(getContext());
         toolbarManager.setImageToSecondImage(R.drawable.ic_more_vert_black_48dp);
         toolbarManager.setTitle(getResources().getString(R.string.category));
+        toolbarManager.setOnTitleClickListener(null);
         toolbarManager.setSubtitle(rootCategory.getName());
+        toolbarManager.setSubtitleIconVisibility(View.GONE);
         toolbarManager.setOnHomeButtonClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {

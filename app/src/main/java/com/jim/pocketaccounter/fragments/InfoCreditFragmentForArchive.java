@@ -256,6 +256,7 @@ public class InfoCreditFragmentForArchive extends Fragment {
         });
         isCheks = new boolean[currentCredit.getReckings().size()];
         toolbarManager.setImageToSecondImage(R.drawable.ic_more_vert_black_48dp);
+        toolbarManager.setOnTitleClickListener(null);
         toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
         toolbarManager.setOnSecondImageClickListener(new View.OnClickListener() {
             @Override

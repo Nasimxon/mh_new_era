@@ -62,6 +62,7 @@ public class ReportByIncomeExpenseDaily extends Fragment {
         View rootView = inflater.inflate(R.layout.report_by_income_and_expense_daily, container, false);
         toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
         toolbarManager.setSpinnerVisibility(View.GONE);
+        toolbarManager.setOnTitleClickListener(null);
         ivReportExpense = (ImageView) rootView.findViewById(R.id.ivReportExpense);
         ivReportIncome = (ImageView) rootView.findViewById(R.id.ivReportIncome);
 

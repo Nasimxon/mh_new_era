@@ -292,7 +292,8 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
                 android.R.layout.simple_list_item_1, new String[]{
                 getResources().getString(R.string.delete)});
         spinner.setAdapter(arrayAdapter);
-
+        toolbarManager.setOnTitleClickListener(null);
+        toolbarManager.setSubtitleIconVisibility(View.GONE);
         toolbarManager.setOnSecondImageClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

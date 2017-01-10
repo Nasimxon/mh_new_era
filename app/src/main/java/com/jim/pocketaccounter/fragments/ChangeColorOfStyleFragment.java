@@ -60,6 +60,10 @@ public class ChangeColorOfStyleFragment extends Fragment {
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
         choosenThemeName = preferences.getString(PocketAccounterGeneral.CHOOSEN_THEME_NAME_KEY,
                 PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.BLUE_THEME);
+        toolbarManager.setTitle(getResources().getString(R.string.theme));
+        toolbarManager.setOnTitleClickListener(null);
+        toolbarManager.setSubtitle("");
+        toolbarManager.setSubtitleIconVisibility(View.GONE);
         llBuyColorButton = (LinearLayout) rootView.findViewById(R.id.llBuyColorButton);
         tvColorChooseSetText = (TextView) rootView.findViewById(R.id.tvColorChooseSetText);
         tvColorChooseButtonPaymentAmount = (TextView) rootView.findViewById(R.id.tvColorChooseButtonPaymentAmount);

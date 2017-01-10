@@ -62,6 +62,8 @@ public class AccountFragment extends PABaseListFragment {
 		});
         toolbarManager.setTitle(getResources().getString(R.string.accounts));
         toolbarManager.setSubtitle("");
+		toolbarManager.setOnTitleClickListener(null);
+		toolbarManager.setSubtitleIconVisibility(View.GONE);
         toolbarManager.setToolbarIconsVisibility(View.GONE, View.VISIBLE, View.VISIBLE);
 		toolbarManager.setImageToSecondImage(R.drawable.ic_info_outline_black_48dp);
 		toolbarManager.setImageToFirstImage(R.drawable.ic_history_black_48dp);

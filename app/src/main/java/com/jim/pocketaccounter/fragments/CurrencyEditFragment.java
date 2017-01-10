@@ -75,6 +75,8 @@ public class CurrencyEditFragment extends PABaseInfoFragment implements OnClickL
         });
         toolbarManager.setTitle(currency.getName());
         toolbarManager.setSubtitle(getResources().getString(R.string.edit));
+        toolbarManager.setOnTitleClickListener(null);
+        toolbarManager.setSubtitleIconVisibility(View.GONE);
         toolbarManager.setOnSecondImageClickListener(this);
         ivExCurrencyAdd = (LinearLayout) rootView.findViewById(R.id.ivExCurrencyAdd);
         ivExCurrencyAdd.setOnClickListener(new OnClickListener() {

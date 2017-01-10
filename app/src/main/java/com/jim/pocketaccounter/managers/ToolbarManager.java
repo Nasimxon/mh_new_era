@@ -151,6 +151,9 @@ public class ToolbarManager {
         setImageToHomeButton(R.drawable.ic_back_button);
         searchEditToolbar.setVisibility(View.VISIBLE);
         searchEditToolbar.setFocusableInTouchMode(true);
+        tvToolbarTitle.setVisibility(View.GONE);
+        ivSubtitle.setVisibility(View.GONE);
+        tvToolbarSubtitle.setVisibility(View.GONE);
         searchEditToolbar.requestFocus();
         if (searchFragment == null) {
             searchFragment = new SearchFragment();
@@ -290,6 +293,9 @@ public class ToolbarManager {
                     else ivToolbarSecond.setVisibility(View.GONE);
                     ivToolbarStart.setImageResource(R.drawable.ic_search_black_24dp);
                     setImageToHomeButton(R.drawable.ic_drawer);
+                    tvToolbarTitle.setVisibility(View.VISIBLE);
+                    ivSubtitle.setVisibility(View.VISIBLE);
+                    tvToolbarSubtitle.setVisibility(View.VISIBLE);
                     toolbar.setTitle(context.getResources().getString(R.string.app_name));
                     toolbar.setSubtitle(format.format(Calendar.getInstance().getTime()));
                     setOnHomeButtonClickListener(new View.OnClickListener() {

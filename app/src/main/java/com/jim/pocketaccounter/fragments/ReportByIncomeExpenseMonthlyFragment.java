@@ -23,6 +23,7 @@ import com.jim.pocketaccounter.database.FinanceRecord;
 import com.jim.pocketaccounter.database.SmsParseSuccess;
 import com.jim.pocketaccounter.managers.CommonOperations;
 import com.jim.pocketaccounter.managers.ReportManager;
+import com.jim.pocketaccounter.managers.ToolbarManager;
 import com.jim.pocketaccounter.report.ReportByIncomeExpenseMonthlyData;
 import com.jim.pocketaccounter.report.ReportByIncomeExpenseMonthlyView;
 import com.jim.pocketaccounter.report.ReportObject;
@@ -65,11 +66,13 @@ public class ReportByIncomeExpenseMonthlyFragment extends Fragment {
     private Calendar calendar = Calendar.getInstance();
     @Inject ReportManager reportManager;
     @Inject CommonOperations commonOperations;
+    @Inject ToolbarManager toolbarManager;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
         View rootView = inflater.inflate(R.layout.report_by_income_expense_monthly, container, false);
+        toolbarManager.setOnTitleClickListener(null);
         tvJanuary = (TextView) rootView.findViewById(R.id.tvJanuary);
         tvFebruary = (TextView) rootView.findViewById(R.id.tvFebruary);
         tvMarch = (TextView) rootView.findViewById(R.id.tvMarch);

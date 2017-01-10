@@ -51,6 +51,7 @@ public class CategoryFragment extends PABaseListFragment implements OnClickListe
 		},100);
 		toolbarManager.setTitle(getResources().getString(R.string.category));
 		toolbarManager.setSubtitle("");
+		toolbarManager.setOnTitleClickListener(null);
 		toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
 		fabCategoryAdd = (FloatingActionButton) rootView.findViewById(R.id.fabAccountAdd);
 		fabCategoryAdd.setOnClickListener(this);

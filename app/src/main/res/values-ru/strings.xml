@@ -1182,7 +1182,7 @@
     <string name="after_per_choise">Введите дату!</string>
     <string name="first_enter_period">Сначала введите срок кредитования!</string>
     <string name="it_is_our_solution_but_please_check_it">Настройте под свои требования!</string>
-    <string name="cred_managment">Настройка кредита</string>
+    <string name="cred_managment">Кредиты</string>
     <string name="not_calc">Не учтено</string>
     <string name="calculaed">Учтено</string>
     <string name="accept_delete_reck">Вы действительно хотите удалить запись?</string>
@@ -1510,7 +1510,7 @@
     <string name="let_and_years">лет</string>
     <string name="purpose_list_empty">Добавьте цель</string>
     <string name="purpose_ammount">Сумма цели:</string>
-    <string name="report_by_account_title">Отчет по счетам</string>
+    <string name="report_by_account_title">Отчеты</string>
     <string name="saved_money">Накопленная сумма</string>
     <string name="auto_operations">Автооперации</string>
     <string name="auto_op_is_empty">Лист пуст!</string>
@@ -1683,6 +1683,6 @@
     <string name="daily_operations">Ежедневные операции</string>
     <string name="category_subcategory">Категория Субкатегория</string>
     <string name="processed_sms">Processed sms:</string>
-
+    <string name="theme">Темы</string>
 </resources>
 

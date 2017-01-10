@@ -153,6 +153,8 @@ public class AddAutoMarketFragment extends Fragment {
         toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
         toolbarManager.setSpinnerVisibility(View.GONE);
         toolbarManager.setTitle(getResources().getString(R.string.addedit));
+        toolbarManager.setSubtitleIconVisibility(View.GONE);
+        toolbarManager.setOnTitleClickListener(null);
         toolbarManager.setImageToSecondImage(R.drawable.check_sign);
         toolbarManager.setOnSecondImageClickListener(new View.OnClickListener() {
             @Override

@@ -374,4 +374,9 @@ public class PocketAccounter extends AppCompatActivity {
             finish();
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 }

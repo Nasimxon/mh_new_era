@@ -207,6 +207,7 @@ public class AddCreditFragment extends Fragment {
         checkContribution = (RelativeLayout) V.findViewById(R.id.checkContribution);
 
         spNotifMode = (Spinner) V.findViewById(R.id.spNotifModeCredit);
+        toolbarManager.setOnTitleClickListener(null);
 //        btnDetalization = (FrameLayout) V.findViewById(R.id.btnDetalizationCredit);
 //        btnDetalization.setOnClickListener(new View.OnClickListener() {
 //            @Override

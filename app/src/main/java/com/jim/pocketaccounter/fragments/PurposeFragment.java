@@ -65,6 +65,8 @@ public class PurposeFragment extends Fragment{
         toolbarManager.setTitle(getString(R.string.purposes));
         toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
         toolbarManager.setSubtitle("");
+        toolbarManager.setOnTitleClickListener(null);
+        toolbarManager.setSubtitleIconVisibility(View.GONE);
         toolbarManager.setImageToHomeButton(R.drawable.ic_drawer);
         toolbarManager.setOnHomeButtonClickListener(new View.OnClickListener() {
             @Override

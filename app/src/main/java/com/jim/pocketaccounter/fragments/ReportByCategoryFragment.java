@@ -80,6 +80,7 @@ public class ReportByCategoryFragment extends Fragment {
         final View rootView = inflater.inflate(R.layout.report_by_category_fragment, container, false);
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
         toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
+        toolbarManager.setOnTitleClickListener(null);
 
         llPickDate = (LinearLayout) rootView.findViewById(R.id.llPickDate);
         llPickDate.setOnClickListener(new View.OnClickListener() {

@@ -1183,7 +1183,7 @@
     <string name="after_per_choise">Enter the date!</string>
     <string name="first_enter_period">Please enter the credit term!</string>
     <string name="it_is_our_solution_but_please_check_it">Customize to fit your requirements!</string>
-    <string name="cred_managment">Credit settings</string>
+    <string name="cred_managment">Loans</string>
     <string name="not_calc">Not in balance</string>
     <string name="calculaed">In balance</string>
     <string name="accept_delete_reck">Do you want to delete the record?</string>
@@ -1512,7 +1512,7 @@
     <string name="let_and_years">years</string>
     <string name="purpose_list_empty">Add purpose</string>
     <string name="purpose_ammount">Purpose sum:</string>
-    <string name="report_by_account_title">Report by accounts</string>
+    <string name="report_by_account_title">Reports</string>
     <string name="saved_money">Cumulative sum:</string>
     <string name="auto_operations">Auto operations</string>
     <string name="auto_op_is_empty">List is empty!</string>
@@ -1668,7 +1668,7 @@
     <string name="processed_sms">Processed sms:</string>
     <string name="daily_operations">Daily operations</string>
     <string name="category_subcategory">Category SubCategory</string>
-
+    <string name="theme">Themes</string>
     <string-array name="currency_1">
         <item>доллар</item>
         <item>долларов</item>

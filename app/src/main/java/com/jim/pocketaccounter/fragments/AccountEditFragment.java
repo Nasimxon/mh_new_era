@@ -68,6 +68,8 @@ public class AccountEditFragment extends PABaseInfoFragment implements OnClickLi
         });
         toolbarManager.setTitle(getResources().getString(R.string.addedit));
         toolbarManager.setSubtitle("");
+        toolbarManager.setOnTitleClickListener(null);
+        toolbarManager.setSubtitleIconVisibility(View.GONE);
         toolbarManager.setImageToSecondImage(R.drawable.check_sign);
         toolbarManager.setOnSecondImageClickListener(this);
         List<Currency> currencies = daoSession.getCurrencyDao().loadAll();

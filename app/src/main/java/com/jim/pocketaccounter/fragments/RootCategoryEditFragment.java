@@ -67,7 +67,8 @@ public class RootCategoryEditFragment extends PABaseInfoFragment implements OnCl
         toolbarManager.setSubtitle(getResources().getString(R.string.edit));
         toolbarManager.setImageToSecondImage(R.drawable.check_sign);
         toolbarManager.setOnSecondImageClickListener(this);
-
+        toolbarManager.setOnTitleClickListener(null);
+        toolbarManager.setSubtitleIconVisibility(View.GONE);
         toolbarManager.setOnHomeButtonClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {

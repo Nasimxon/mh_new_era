@@ -71,7 +71,9 @@ public class AccountInfoFragment extends PABaseInfoFragment {
 		toolbarManager.setImageToSecondImage(R.drawable.ic_more_vert_black_48dp);
 		toolbarManager.setImageToHomeButton(R.drawable.ic_back_button);
 		toolbarManager.setTitle(getResources().getString(R.string.accounts));
+		toolbarManager.setOnTitleClickListener(null);
 		toolbarManager.setSubtitle(account.getName());
+		toolbarManager.setSubtitleIconVisibility(View.GONE);
 		toolbarManager.setOnHomeButtonClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
