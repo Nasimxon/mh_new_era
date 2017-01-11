@@ -228,6 +228,12 @@ public class PurchaseImplementation {
                             .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_CATEGORY_ON_MAIN_BOARD_SKU, true)
                             .commit();
                     break;
+                case PocketAccounterGeneral.MoneyHolderSkus.VOICE_RECOGNITION_SKU:
+                    preferences
+                            .edit()
+                            .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.VOICE_RECOGNITION_KEY, true)
+                            .commit();
+                    break;
                 case PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_CREDIT_ON_MAIN_BOARD_SKU:
                     preferences
                             .edit()
@@ -431,6 +437,19 @@ public class PurchaseImplementation {
         try {
             mHelper.launchPurchaseFlow(((PocketAccounter) context),
                     PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_FUNCTION_ON_MAIN_BOARD_SKU, RC_REQUEST,
+                    mPurchaseFinishedListener,
+                    payload);
+        } catch (IabHelper.IabAsyncInProgressException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void buyVoiceRecognition() {
+        String payload = "";
+        try {
+            mHelper.launchPurchaseFlow(((PocketAccounter) context),
+                    PocketAccounterGeneral.MoneyHolderSkus.VOICE_RECOGNITION_SKU, RC_REQUEST,
                     mPurchaseFinishedListener,
                     payload);
         } catch (IabHelper.IabAsyncInProgressException e) {

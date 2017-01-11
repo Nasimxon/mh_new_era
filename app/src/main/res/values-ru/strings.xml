@@ -1684,5 +1684,7 @@
     <string name="category_subcategory">Категория Субкатегория</string>
     <string name="processed_sms">Processed sms:</string>
     <string name="theme">Темы</string>
+    <string name="attention">Attention!</string>
+    <string name="buy_voice_text">Вы превысили количество попыток. Хотите активировать услугу?</string>
 </resources>
 

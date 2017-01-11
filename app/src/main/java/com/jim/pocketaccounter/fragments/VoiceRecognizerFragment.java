@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -17,6 +18,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,6 +50,8 @@ import com.jim.pocketaccounter.managers.FinansiaFirebaseAnalytics;
 import com.jim.pocketaccounter.managers.PAFragmentManager;
 import com.jim.pocketaccounter.managers.ReportManager;
 import com.jim.pocketaccounter.utils.PocketAccounterGeneral;
+import com.jim.pocketaccounter.utils.WarningDialog;
+import com.jim.pocketaccounter.utils.billing.PurchaseImplementation;
 import com.jim.pocketaccounter.utils.cache.DataCache;
 import com.jim.pocketaccounter.utils.speech.PASpeechRecognizer;
 import com.jim.pocketaccounter.utils.speech.SpeechListener;
@@ -125,6 +129,8 @@ public class VoiceRecognizerFragment extends Fragment {
     @Inject CommonOperations commonOperations;
     @Inject List<TemplateCurrencyVoice> templateCurrencyVoices;
     @Inject FinansiaFirebaseAnalytics analytics;
+    @Inject SharedPreferences preferences;
+    @Inject PurchaseImplementation purchaseImplementation;
     private String[] curString;
     private String[] accString;
     private CountDownTimer timer;
@@ -176,7 +182,32 @@ public class VoiceRecognizerFragment extends Fragment {
             public void onClick(View view) {
                 if (!started) {
                     askForContactPermission();
-                    startRecognition();
+                    if (!preferences.getBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.VOICE_RECOGNITION_KEY, false)) {
+                        if (preferences.getInt(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.VOICE_RECOGNITION_COUNT, 0) > 3) {
+                            final WarningDialog dialog = new WarningDialog(getContext());
+                            dialog.setTitle(R.string.attention);
+                            dialog.setText(getString(R.string.buy_voice_text));
+                            dialog.setOnNoButtonClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    dialog.dismiss();
+                                }
+                            });
+                            dialog.setOnYesButtonListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    purchaseImplementation.buyVoiceRecognition();
+                                    dialog.dismiss();
+                                }
+                            });
+                            dialog.show();
+                            return;
+                        }
+                        else {
+                            startRecognition();
+                        }
+                    } else
+                        startRecognition();
                     if (rlNotSpeechMode.getVisibility() == View.VISIBLE) {
                         visibilLR();
                         refreshMode(true);
@@ -308,6 +339,15 @@ public class VoiceRecognizerFragment extends Fragment {
     }
 
     private void startRecognition() {
+        if (!preferences.getBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.VOICE_RECOGNITION_KEY, false)) {
+            int count = preferences.getInt(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.VOICE_RECOGNITION_COUNT, 0);
+            count++;
+            Log.d("sss", "startRecognition: " + count);
+            preferences
+                    .edit()
+                    .putInt(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.VOICE_RECOGNITION_COUNT, count)
+                    .commit();
+        }
         ivCenterButton.setBackgroundResource(R.drawable.speech_pressed_circle);
         ivMicrophoneIcon.setColorFilter(Color.WHITE);
         recognizer.startVoiceRecognitionCycle();

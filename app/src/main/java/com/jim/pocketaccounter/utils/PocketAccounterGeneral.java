@@ -49,7 +49,7 @@ public class PocketAccounterGeneral {
 		public static final String ADD_REPLACE_CREDIT_ON_MAIN_BOARD_SKU = BuildConfig.add_replace_credit_on_main_board_sku;
 		public static final String ADD_REPLACE_FUNCTION_ON_MAIN_BOARD_SKU = BuildConfig.add_replace_function_on_main_board_sku;
 		public static final String ADD_REPLACE_PAGE_ON_MAIN_BOARD_SKU = BuildConfig.add_replace_page_on_main_board_sku;
-
+		public static final String VOICE_RECOGNITION_SKU = BuildConfig.voice_recognition_sku;
 		public class SkuPreferenceKeys {
 			public static final String SMS_PARSING_COUNT_KEY = BuildConfig.SMS_PARSING_COUNT_KEY;
 			public static final String ZERO_PAGE_COUNT_KEY = BuildConfig.ZERO_PAGE_COUNT_KEY;
@@ -67,6 +67,8 @@ public class PocketAccounterGeneral {
 			public static final String IS_AVAILABLE_CHANGING_OF_CREDIT_KEY = BuildConfig.IS_AVAILABLE_CHANGING_OF_CREDIT_KEY;
 			public static final String IS_AVAILABLE_CHANGING_OF_FUNCTION = BuildConfig.IS_AVAILABLE_CHANGING_OF_FUNCTION;
 			public static final String IS_AVAILABLE_CHANGING_OF_PAGE = BuildConfig.IS_AVAILABLE_CHANGING_OF_PAGE;
+			public static final String VOICE_RECOGNITION_KEY = BuildConfig.VOICE_RECOGNITION_KEY;
+			public static final String VOICE_RECOGNITION_COUNT = "VOICE_RECOGNITION_COUNT";
 			public static final String BLUE_THEME = BuildConfig.BLUE_THEME;
 			public static final String FIOLA_THEME = BuildConfig.FIOLA_THEME;
 			public static final String YELLOW_THEME = BuildConfig.YELLOW_THEME;

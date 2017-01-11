@@ -223,9 +223,8 @@ public class ReportManager {
                         result.add(reportObject);
                     }
                     for (Recking recking : debtBorrow.getReckings()) {
-                        if(recking.getAccountId().equals("")) continue;
+                        if(recking.getAccountId() == null || recking.getAccountId().equals("")) continue;
                          Calendar calendar = recking.getPayDate();
-
                         if (calendar.compareTo(begin) >= 0 && calendar.compareTo(end) <= 0) {
                             ReportObject reportObject = new ReportObject();
                             reportObject.setDate(calendar);
@@ -296,7 +295,7 @@ public class ReportManager {
                         result.add(reportObject);
                     }
                     for (ReckingCredit reckingCredit : creditDetials.getReckings()) {
-                        if(reckingCredit.getAccountId().equals(""))continue;
+                        if(reckingCredit.getAccountId() == null || reckingCredit.getAccountId().equals("")) continue;
                         Calendar calendar = reckingCredit.getPayDate();
                         if (calendar.compareTo(begin) >= 0 && calendar.compareTo(end) <= 0) {
                             ReportObject reportObject = new ReportObject();

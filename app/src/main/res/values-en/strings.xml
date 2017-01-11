@@ -1669,6 +1669,8 @@
     <string name="daily_operations">Daily operations</string>
     <string name="category_subcategory">Category SubCategory</string>
     <string name="theme">Themes</string>
+    <string name="attention">Attention!</string>
+    <string name="buy_voice_text">Вы превысили количество попыток. Хотите активировать услугу?</string>
     <string-array name="currency_1">
         <item>доллар</item>
         <item>долларов</item>
