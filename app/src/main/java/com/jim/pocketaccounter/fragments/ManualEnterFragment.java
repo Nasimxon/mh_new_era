@@ -17,6 +17,7 @@ import com.jim.pocketaccounter.PocketAccounter;
 import com.jim.pocketaccounter.PocketAccounterApplication;
 import com.jim.pocketaccounter.R;
 import com.jim.pocketaccounter.managers.FinansiaFirebaseAnalytics;
+import com.jim.pocketaccounter.managers.PAFragmentManager;
 import com.jim.pocketaccounter.utils.cache.DataCache;
 
 import java.util.Calendar;
@@ -30,6 +31,7 @@ public class ManualEnterFragment extends Fragment {
     private Boolean direction = null;
     @Inject DataCache dataCache;
     @Inject FinansiaFirebaseAnalytics analytics;
+    @Inject PAFragmentManager paFragmentManager;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -85,6 +87,7 @@ public class ManualEnterFragment extends Fragment {
                     page.update();
                     dataCache.setEndDate(page.getDay());
                     dataCache.updatePercentsWhenSwiping();
+                    paFragmentManager.updateVoiceRecognizePage(page.getDay());
                 }
                 lastPos = position;
                 Log.d("sss", "page selected "+position);

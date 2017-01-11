@@ -1539,6 +1539,7 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
             daoSession.getPhotoDetailsDao().insertInTx(myTickets);
             logicManager.insertRecord(savingRecord);
             dataCache.updateOneDay(date);
+            paFragmentManager.updateVoiceRecognizePage(date);
         } else {
             if (fromEdit) {
                 record.setAllTickets(myTicketsFromBackRoll);

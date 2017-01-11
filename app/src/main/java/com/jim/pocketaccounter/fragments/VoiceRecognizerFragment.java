@@ -1,6 +1,7 @@
 package com.jim.pocketaccounter.fragments;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -65,6 +66,7 @@ import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 
+@SuppressLint("ValidFragment")
 public class VoiceRecognizerFragment extends Fragment {
     public static final int DEBTBORROW = 0;
     public static final int CATEGORY = 1;
@@ -126,6 +128,12 @@ public class VoiceRecognizerFragment extends Fragment {
     private String[] curString;
     private String[] accString;
     private CountDownTimer timer;
+    private Calendar day;
+
+
+    public VoiceRecognizerFragment(Calendar day) {
+        this.day = (Calendar) day.clone();
+    }
 
     @Nullable
     @Override
@@ -252,6 +260,11 @@ public class VoiceRecognizerFragment extends Fragment {
         return rootView;
     }
 
+    public void setDay(Calendar day) {
+        this.day = (Calendar) day.clone();
+        refreshChanges();
+    }
+
     private void visibilityGoneLR() {
         recStartRight.setAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.left_anim));
         recStartLeft.setAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.right_gone_anim));
@@ -280,6 +293,11 @@ public class VoiceRecognizerFragment extends Fragment {
             llSpeechMode.setVisibility(View.GONE);
             rvNotSpeechModeRecordsList.setAdapter(new MyAfterSavedAdapter());
         }
+    }
+
+    public void refreshChanges() {
+        rvNotSpeechModeRecordsList.setAdapter(new MyAfterSavedAdapter());
+
     }
 
     private void processSpeechResults(final List<String> speechResult) {
@@ -818,7 +836,7 @@ public class VoiceRecognizerFragment extends Fragment {
             if (daoSession.getRootCategoryDao().load(categoryId) != null ||
                     daoSession.getSubCategoryDao().load(categoryId) != null) {
                 FinanceRecord financeRecord = new FinanceRecord();
-                financeRecord.setDate(dataCache.getEndDate());
+                financeRecord.setDate(day);
                 financeRecord.setAmount(summ);
                 financeRecord.setComment("");
                 financeRecord.setRecordId(UUID.randomUUID().toString());
@@ -842,6 +860,7 @@ public class VoiceRecognizerFragment extends Fragment {
                     financeRecord.setSubCategory(subCategory);
                 }
                 daoSession.getFinanceRecordDao().insertOrReplace(financeRecord);
+                paFragmentManager.updateMain();
                 paFragmentManager.updateAllFragmentsPageChanges();
                 paFragmentManager.updateAllFragmentsOnViewPager();
                 timer.cancel();
@@ -866,8 +885,7 @@ public class VoiceRecognizerFragment extends Fragment {
 
         public MyAfterSavedAdapter() {
             financeRecords = daoSession.getFinanceRecordDao().queryBuilder()
-                    .where(FinanceRecordDao.Properties.Date.eq(simpleDateFormat.format(
-                            Calendar.getInstance().getTime()))).list();
+                    .where(FinanceRecordDao.Properties.Date.eq(simpleDateFormat.format(day.getTime()))).list();
             Map<String, Double> balance = reportManager.calculateBalance(dataCache.getBeginDate(), dataCache.getEndDate());
             DecimalFormat decFormat = new DecimalFormat("0.00");
             String abbr = commonOperations.getMainCurrency().getAbbr();

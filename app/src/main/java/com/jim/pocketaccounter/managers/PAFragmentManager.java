@@ -143,6 +143,17 @@ public class PAFragmentManager {
         }
     }
 
+    public void updateVoiceRecognizePage(Calendar day) {
+        int size = fragmentManager.getFragments().size();
+        for (int i = 0; i < size; i++) {
+            Fragment fragment = fragmentManager.getFragments().get(i);
+            if (fragment != null && fragment.getClass().getName().equals(VoiceRecognizerFragment.class.getName())) {
+                ((VoiceRecognizerFragment) fragment).setDay(day);
+                break;
+            }
+        }
+    }
+
     public void setPage(int page) {
         ManualEnterFragment fragment = null;
         for (int i = 0; i < fragmentManager.getFragments().size(); i++) {
@@ -190,14 +201,8 @@ public class PAFragmentManager {
                 .replace(R.id.flMain, fragment)
                 .commit();
     }
-    public ViewPager getLvpMain() {
-        ManualEnterFragment manualEnterFragment = (ManualEnterFragment) adapter.getItem(1);
-        ViewPager lvpMain;
-        if (manualEnterFragment.getLvpMain() != null)
-            lvpMain = manualEnterFragment.getLvpMain();
-        else
-            lvpMain = new ViewPager(activity);
-        return lvpMain;
+    public void updateMain() {
+        dataCache.updateAllPercents();
     }
     public void displayFragment(Fragment fragment, String tag) {
         if (fragmentManager.findFragmentById(R.id.flMain) != null && fragment.getClass().getName().equals(fragmentManager.findFragmentById(R.id.flMain).getClass().getName()))
@@ -218,7 +223,7 @@ public class PAFragmentManager {
         public Fragment getItem(int position) {
             Fragment fragment;
             if (position == 0)
-                fragment = new VoiceRecognizerFragment();
+                fragment = new VoiceRecognizerFragment(dataCache.getEndDate());
             else {
                 fragment = new ManualEnterFragment();
             }
