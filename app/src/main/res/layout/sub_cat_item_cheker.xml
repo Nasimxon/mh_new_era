@@ -7,6 +7,8 @@
         android:layout_width="@dimen/thirty_dp"
         android:layout_height="@dimen/thirty_dp"
         android:id="@+id/ivSubcatChecker"
+        android:tint="@color/black_for_maykiy_secodary"
+        android:src="@drawable/icons_7"
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/five_dp"
         android:layout_marginBottom="@dimen/five_dp"/>

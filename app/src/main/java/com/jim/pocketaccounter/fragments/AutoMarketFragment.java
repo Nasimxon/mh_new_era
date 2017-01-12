@@ -291,7 +291,7 @@ public class AutoMarketFragment extends Fragment implements View.OnClickListener
                         recordAdapter = null;
                         view.ivClock.setColorFilter(Color.parseColor("#c8c8c8"));
                         view.nextDay.setTextColor(Color.parseColor("#c8c8c8"));
-                        view.llAutoMarketItemDefaultMode.setVisibility(View.VISIBLE);
+                        view.llAutoMarketItemDefaultMode.setVisibility( View.VISIBLE);
                         view.llAutoMarketItemSwitchMode.setVisibility(View.GONE);
                         view.recyclerView.setVisibility(View.GONE);
                         view.deleteOperationItem.setVisibility(View.GONE);
@@ -525,9 +525,10 @@ public class AutoMarketFragment extends Fragment implements View.OnClickListener
 
             for (int i = financeRecordList.size() - 1; i >= 0; i --) {
                 if (!financeRecordList.get(i).getRecordId().startsWith("auto")
-                        || (financeRecordList.get(i).getSubCategory() != null &&
-                        financeRecordList.get(i).getSubCategory() != autoMarket.getSubCategory())) {
-                    daoSession.getFinanceRecordDao().delete(financeRecordList.get(i));
+//                        || (financeRecordList.get(i).getSubCategory() != null &&
+//                        !financeRecordList.get(i).getSubCategory().getId().equals(autoMarket.getSubCategory().getId()))
+                        ) {
+                    financeRecordList.remove(financeRecordList.get(i));
                 }
             }
             Collections.sort(financeRecordList, new Comparator<FinanceRecord>() {

@@ -163,33 +163,33 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
     private PopupMenu popupMenu;
     private void showOperationsList(View v) {
         popupMenu = new PopupMenu(getContext(), v);
-        popupMenu.inflate(R.menu.toolbar_popup);
+        popupMenu.inflate(R.menu.toolbar_popup_debt);
         MenuPopupHelper menuHelper = new MenuPopupHelper(getContext(), (MenuBuilder) popupMenu.getMenu(), v);
         menuHelper.setForceShowIcon(true);
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.edit:
-                               AddBorrowFragment addBorrowFragment = AddBorrowFragment.getInstance(TYPE, debtBorrow);
-
-                                if (!daoSession.getBoardButtonDao().queryBuilder()
-                                        .where(BoardButtonDao.Properties.CategoryId.eq(debtBorrow.getId()))
-                                        .list().isEmpty()) {
-                                    BoardButton boardButton = daoSession.getBoardButtonDao().queryBuilder()
-                                            .where(BoardButtonDao.Properties.CategoryId.eq(debtBorrow.getId()))
-                                            .list().get(0);
-                                    addBorrowFragment.setMainView(boardButton);
-                                }
-
-                                int count = paFragmentManager.getFragmentManager().getBackStackEntryCount();
-                                while (count > 0) {
-                                    paFragmentManager.getFragmentManager().popBackStack();
-                                    count--;
-                                }
-                                operationsListDialog.dismiss();
-                                paFragmentManager.displayFragment(addBorrowFragment);
-                        break;
+//                    case R.id.edit:
+//                               AddBorrowFragment addBorrowFragment = AddBorrowFragment.getInstance(TYPE, debtBorrow);
+//
+//                                if (!daoSession.getBoardButtonDao().queryBuilder()
+//                                        .where(BoardButtonDao.Properties.CategoryId.eq(debtBorrow.getId()))
+//                                        .list().isEmpty()) {
+//                                    BoardButton boardButton = daoSession.getBoardButtonDao().queryBuilder()
+//                                            .where(BoardButtonDao.Properties.CategoryId.eq(debtBorrow.getId()))
+//                                            .list().get(0);
+//                                    addBorrowFragment.setMainView(boardButton);
+//                                }
+//
+//                                int count = paFragmentManager.getFragmentManager().getBackStackEntryCount();
+//                                while (count > 0) {
+//                                    paFragmentManager.getFragmentManager().popBackStack();
+//                                    count--;
+//                                }
+//                                operationsListDialog.dismiss();
+//                                paFragmentManager.displayFragment(addBorrowFragment);
+//                        break;
                     case R.id.delete: {
                         warningDialog.setOnNoButtonClickListener(new View.OnClickListener() {
                             @Override

@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.ActionBarOverlayLayout;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.DisplayMetrics;
@@ -37,6 +38,7 @@ import com.jim.pocketaccounter.database.CurrencyDao;
 import com.jim.pocketaccounter.database.DaoSession;
 import com.jim.pocketaccounter.database.RootCategory;
 import com.jim.pocketaccounter.database.SubCategory;
+import com.jim.pocketaccounter.finance.ChoiseCategoryDialoogItemAdapter;
 import com.jim.pocketaccounter.finance.IconAdapterCategory;
 import com.jim.pocketaccounter.finance.RecordCategoryAdapter;
 import com.jim.pocketaccounter.finance.RecordSubCategoryAdapter;
@@ -80,7 +82,7 @@ public class AddAutoMarketFragment extends Fragment {
     private ImageView ivCategory;
     private TextView categoryName;
     private TextView subCategoryName;
-
+    ChoiseCategoryDialoogItemAdapter choiseCategoryDialoogItemAdapter;
     private int selectCategory = -1;
     private int selectSubCategory = -1;
     private AutoMarket autoMarket;
@@ -91,7 +93,7 @@ public class AddAutoMarketFragment extends Fragment {
     private RecyclerView rvDays;
     private DaysAdapter daysAdapter;
     private RadioGroup radioGroup;
-
+    List<RootCategory> categoryList;
     public AddAutoMarketFragment() {
     }
 
@@ -223,38 +225,123 @@ public class AddAutoMarketFragment extends Fragment {
         ivCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 final Dialog dialog = new Dialog(getActivity());
                 View dialogView = getActivity().getLayoutInflater().inflate(R.layout.category_choose_list, null);
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog.setContentView(dialogView);
-                ListView lvCategoryChoose = (ListView) dialogView.findViewById(R.id.lvCategoryChoose);
-                String expanse = getResources().getString(R.string.expanse);
-                String income = getResources().getString(R.string.income);
-                String[] items = new String[2];
-                items[0] = expanse;
-                items[1] = income;
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, items);
-                lvCategoryChoose.setAdapter(adapter);
-                lvCategoryChoose.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                View vr = dialog.getWindow().getDecorView();
+                vr.setBackgroundResource(android.R.color.transparent);
+                categoryList = daoSession.getRootCategoryDao().loadAll();
+                final TextView tvAllView = (TextView)  dialogView.findViewById(R.id.tvAllView);
+                final TextView tvExpenseView = (TextView)  dialogView.findViewById(R.id.tvExpenseView);
+                final TextView tvIncomeView = (TextView)  dialogView.findViewById(R.id.tvIncomeView);
+                RecyclerView rvCategoryChoose = (RecyclerView) dialogView.findViewById(R.id.lvCategoryChoose);
+                ArrayList<Object> tempForCastToObject = new ArrayList<>();
+                for(int t=0;t<categoryList.size();t++){
+                    tempForCastToObject.add(categoryList.get(t));
+                }
+
+                choiseCategoryDialoogItemAdapter = new ChoiseCategoryDialoogItemAdapter(tempForCastToObject, getContext(), new ChoiseCategoryDialoogItemAdapter.OnItemSelected() {
                     @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        ArrayList<RootCategory> categories = new ArrayList<>();
-                        List<RootCategory> categoryList = daoSession.getRootCategoryDao().loadAll();
-                        if (position == 0) {
-                            for (int i = 0; i < categoryList.size(); i++) {
-                                if (categoryList.get(i).getType() == PocketAccounterGeneral.EXPENSE)
-                                    categories.add(categoryList.get(i));
+                    public void itemPressed(String itemID) {
+                        boolean keyBroker = false;
+                        for (RootCategory rootCategory : categoryList) {
+                            if (rootCategory.getId().equals(itemID)) {
+                                category_item = rootCategory;
+                                subCategory = null;
+                                ivCategory.setImageResource(getResources().getIdentifier(subCategory.getIcon(), "drawable", getActivity().getPackageName()));
+                                categoryName.setText(category_item.getName());
+                                subCategoryName.setText((category_item.getType() == PocketAccounterGeneral.INCOME) ? "Income category" : "Expanse category");
+
+                                break;
                             }
-                        } else {
-                            for (int i = 0; i < categoryList.size(); i++) {
-                                if (categoryList.get(i).getType() == PocketAccounterGeneral.INCOME)
-                                    categories.add(categoryList.get(i));
+                            for (SubCategory subCategoryTemp : rootCategory.getSubCategories()) {
+                                if (subCategoryTemp.getId().equals(itemID)) {
+                                    category_item = rootCategory;
+                                    subCategory = subCategoryTemp;
+                                    categoryName.setText(category_item.getName());
+                                    subCategoryName.setText(subCategory.getName());
+                                    ivCategory.setImageResource(getResources().getIdentifier(subCategory.getIcon(), "drawable", getActivity().getPackageName()));
+
+                                    keyBroker = true;
+                                    break;
+                                }
                             }
+                            if (keyBroker)
+                                break;
                         }
                         dialog.dismiss();
-                        openCategoryDialog(categories);
                     }
                 });
+
+                tvAllView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        tvAllView.setTextColor(ContextCompat.getColor(getContext(),R.color.black_for_myagkiy_glavniy));
+                        tvExpenseView.setTextColor(ContextCompat.getColor(getContext(),R.color.black_for_secondary_text));
+                        tvIncomeView.setTextColor(ContextCompat.getColor(getContext(),R.color.black_for_secondary_text));
+
+                        categoryList.clear();
+                        categoryList = daoSession.getRootCategoryDao().loadAll();
+                        choiseCategoryDialoogItemAdapter.setListForRefresh(categoryList);
+                        choiseCategoryDialoogItemAdapter.toBackedToCategory(false);
+                        choiseCategoryDialoogItemAdapter.notifyDataSetChanged();
+
+
+
+                    }
+                });
+                tvExpenseView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        tvAllView.setTextColor(ContextCompat.getColor(getContext(),R.color.black_for_secondary_text));
+                        tvExpenseView.setTextColor(ContextCompat.getColor(getContext(),R.color.black_for_myagkiy_glavniy));
+                        tvIncomeView.setTextColor(ContextCompat.getColor(getContext(),R.color.black_for_secondary_text));
+
+                        categoryList.clear();
+                        for (RootCategory rootCategory:daoSession.getRootCategoryDao().loadAll()){
+                            if(rootCategory.getType() == PocketAccounterGeneral.EXPENSE)
+                                categoryList.add(rootCategory);
+                        }
+                        choiseCategoryDialoogItemAdapter.setListForRefresh(categoryList);
+
+                        choiseCategoryDialoogItemAdapter.toBackedToCategory(false);
+                        choiseCategoryDialoogItemAdapter.notifyDataSetChanged();
+
+                    }
+                });
+                tvIncomeView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        tvAllView.setTextColor(ContextCompat.getColor(getContext(),R.color.black_for_secondary_text));
+                        tvExpenseView.setTextColor(ContextCompat.getColor(getContext(),R.color.black_for_secondary_text));
+                        tvIncomeView.setTextColor(ContextCompat.getColor(getContext(),R.color.black_for_myagkiy_glavniy));
+
+                        categoryList.clear();
+                        for (RootCategory rootCategory:daoSession.getRootCategoryDao().loadAll()){
+                            if(rootCategory.getType() == PocketAccounterGeneral.INCOME)
+                                categoryList.add(rootCategory);
+                        }
+                        choiseCategoryDialoogItemAdapter.setListForRefresh(categoryList);
+                        choiseCategoryDialoogItemAdapter.toBackedToCategory(false);
+                        choiseCategoryDialoogItemAdapter.notifyDataSetChanged();
+
+                    }
+                });
+                dialogView.findViewById(R.id.ivInfoDebtBorrowCancel).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
+                rvCategoryChoose.setLayoutManager(new GridLayoutManager(getContext(),3));
+                rvCategoryChoose.setHasFixedSize(true);
+                rvCategoryChoose.setAdapter(choiseCategoryDialoogItemAdapter);
+                DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
+                int width = displayMetrics.widthPixels;
+                int hieght = displayMetrics.heightPixels;
+                dialog.getWindow().setLayout(9 * width / 10, (int) (8.2*hieght/10));
                 dialog.show();
             }
         });

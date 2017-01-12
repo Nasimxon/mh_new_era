@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -73,10 +74,14 @@ public class SubcatItemChecker extends LinearLayout {
     }
 
     private void toggle() {
-        if (checked)
+        if (checked){
             imageView.setColorFilter(color);
-        else
-            imageView.setColorFilter(null);
+            textView.setTextColor(ContextCompat.getColor(getContext(),R.color.black_for_myagkiy_glavniy));
+        }
+        else{
+            imageView.setColorFilter(ContextCompat.getColor(getContext(),R.color.black_for_maykiy_secodary_category));
+            textView.setTextColor(ContextCompat.getColor(getContext(),R.color.black_for_maykiy_secodary_category));
+        }
     }
 
     public void setChecked(boolean checked) {

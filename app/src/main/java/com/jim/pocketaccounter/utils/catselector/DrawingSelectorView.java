@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.ViewGroup;
@@ -71,12 +72,12 @@ public class DrawingSelectorView extends AbstractSelectorView {
         ivPrevious = new ImageView(getContext());
         ivPrevious.setLayoutParams(neighborLp);
         ivPrevious.setImageBitmap(prevButtonBitmap);
-        ivPrevious.setColorFilter( GetterAttributColors.fetchHeadAccedentColor(getContext()));
+        ivPrevious.setColorFilter(ContextCompat.getColor(getContext(),R.color.black_for_maykiy_secodary_category));
         ivPrevious.setRotation(180.0f);
 
         ivNext = new ImageView(getContext());
         ivNext.setLayoutParams(neighborLp);
-        ivNext.setColorFilter( GetterAttributColors.fetchHeadAccedentColor(getContext()));
+        ivNext.setColorFilter( ContextCompat.getColor(getContext(),R.color.black_for_maykiy_secodary_category));
         ivNext.setImageBitmap(nextButtonBitmap);
 
         left = new LinearLayout(getContext());

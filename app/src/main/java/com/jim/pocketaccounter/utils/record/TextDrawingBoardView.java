@@ -3,6 +3,7 @@ package com.jim.pocketaccounter.utils.record;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PointF;
@@ -57,8 +58,9 @@ public class TextDrawingBoardView extends DecorationBoardView {
     protected void init() {
         super.initButtons();
         color = ContextCompat.getColor(getContext(), R.color.toolbar_text_color);
-        red = ContextCompat.getColor(getContext(), R.color.red);
-        green = ContextCompat.getColor(getContext(), R.color.green_just);
+        red = Color.parseColor("#dc4849");
+        green = Color.parseColor("#63972e");
+//        green = ContextCompat.getColor(getContext(), R.color.green_just);
         elements = new ArrayList<>();
         delay = getResources().getDimension(R.dimen.eight_dp);
         for (ABoardButton button : buttons) {
