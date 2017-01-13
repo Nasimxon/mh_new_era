@@ -5,7 +5,7 @@
     android:id="@+id/activity_intro_indicator"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.jim.pocketaccounter.intropage.IntroIndicator"
+    tools:context="com.jim.finansia.intropage.IntroIndicator"
     android:background="@color/with_seriy">
     <LinearLayout
         android:layout_width="match_parent"
@@ -43,7 +43,7 @@
         android:layout_margin="@dimen/sixteen_sp"
         android:textSize="@dimen/sixteen_sp"
         android:textColor="#d5d5d5"/>
-    <com.jim.pocketaccounter.intropage.PageCircleIndicator
+    <com.jim.finansia.intropage.PageCircleIndicator
         android:layout_width="match_parent"
         android:layout_height="@dimen/thirty_dp"
         android:id="@+id/indicator"

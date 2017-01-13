@@ -1,0 +1,188 @@
+package com.jim.finansia.modulesandcomponents.modules;
+
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+
+import com.jim.finansia.PocketAccounterApplication;
+import com.jim.finansia.database.Account;
+import com.jim.finansia.database.Currency;
+import com.jim.finansia.database.DaoMaster;
+import com.jim.finansia.database.DaoSession;
+import com.jim.finansia.database.RootCategory;
+import com.jim.finansia.database.TemplateAccount;
+import com.jim.finansia.database.TemplateCurrencyVoice;
+import com.jim.finansia.database.TemplateVoice;
+import com.jim.finansia.managers.CommonOperations;
+import com.jim.finansia.managers.ReportManager;
+import com.jim.finansia.utils.PocketAccounterGeneral;
+import com.jim.finansia.utils.cache.DataCache;
+
+import org.greenrobot.greendao.database.Database;
+
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
+import javax.inject.Named;
+
+import dagger.Module;
+import dagger.Provides;
+
+/**
+ * Created by DEV on 27.08.2016.
+ */
+@Module
+public class PocketAccounterApplicationModule {
+    private PocketAccounterApplication pocketAccounterApplication;
+    private DaoSession daoSession;
+    private DataCache dataCache;
+    private SharedPreferences preferences;
+    private Calendar begin, end;
+    private SimpleDateFormat displayFormatter, commonFormatter;
+    private List<TemplateVoice> voices;
+    private List<TemplateAccount> accountVoice;
+    private List<TemplateCurrencyVoice> currencyVoices;
+    private DecimalFormat formatter;
+    public PocketAccounterApplicationModule(PocketAccounterApplication pocketAccounterApplication) {
+        this.pocketAccounterApplication = pocketAccounterApplication;
+        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(pocketAccounterApplication, PocketAccounterGeneral.CURRENT_DB_NAME);
+        Database db = helper.getWritableDb();
+        daoSession = new DaoMaster(db).newSession();
+        preferences = PreferenceManager.getDefaultSharedPreferences(pocketAccounterApplication);
+
+
+    }
+
+    @Provides
+    public PocketAccounterApplication getPocketAccounterApplication() {
+        return pocketAccounterApplication;
+    }
+
+    @Provides
+    public DecimalFormat getFormatter() {
+        if (formatter == null)
+        {
+            NumberFormat numberFormat = NumberFormat.getNumberInstance();
+            numberFormat.setMaximumFractionDigits(2);
+            formatter = (DecimalFormat) numberFormat;
+            DecimalFormatSymbols symbols = formatter.getDecimalFormatSymbols();
+            symbols.setGroupingSeparator(' ');
+            formatter.setDecimalFormatSymbols(symbols);
+        }
+        return formatter;
+    }
+
+    @Provides
+    public DaoSession getDaoSession() {
+        if (daoSession == null) {
+            DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(pocketAccounterApplication, PocketAccounterGeneral.CURRENT_DB_NAME);
+            Database db = helper.getWritableDb();
+            daoSession = new DaoMaster(db).newSession();
+        }
+        return daoSession;
+    }
+
+    public void updateDaoSession () {
+        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(pocketAccounterApplication, PocketAccounterGeneral.CURRENT_DB_NAME);
+        Database db = helper.getWritableDb();
+        daoSession = new DaoMaster(db).newSession();
+    }
+
+    @Provides
+    public PocketAccounterApplicationModule getModule () {
+        return this;
+    }
+
+    @Provides
+    public DataCache getDataCache() {
+        if (dataCache == null)
+            dataCache = new DataCache(pocketAccounterApplication);
+        return dataCache;
+    }
+
+    @Provides
+    public SharedPreferences getSharedPreferences() {
+        if (preferences == null)
+            preferences = PreferenceManager.getDefaultSharedPreferences(pocketAccounterApplication);
+        return preferences;
+    }
+
+    @Provides
+    public ReportManager reportManager() {
+        return new ReportManager(pocketAccounterApplication);
+    }
+
+    @Provides
+    public CommonOperations getCommonOperations() {
+        return new CommonOperations(pocketAccounterApplication);
+    }
+
+    @Provides
+    @Named(value = "begin")
+    public Calendar getBegin() {
+        if (begin == null)
+            begin = Calendar.getInstance();
+        return begin;
+    }
+
+    @Provides
+    @Named(value = "end")
+    public Calendar getEnd() {
+        if (end == null)
+            end = Calendar.getInstance();
+        return end;
+    }
+    @Provides
+    @Named(value = "common_formatter")
+    public SimpleDateFormat getCommonFormatter() {
+        if (commonFormatter == null)
+            commonFormatter = new SimpleDateFormat("dd.MM.yyyy");
+        return commonFormatter;
+    }
+    @Provides
+    @Named(value = "display_formatter")
+    public SimpleDateFormat getDisplayFormatter() {
+        if (displayFormatter == null)
+            displayFormatter = new SimpleDateFormat("dd LLLL, yyyy");
+        return displayFormatter;
+    }
+
+    @Provides
+    public List<TemplateVoice> getVoices() {
+        if (voices == null) {
+            voices = new ArrayList<>();
+            for (RootCategory cat : daoSession.getRootCategoryDao().loadAll()) {
+                CommonOperations.generateRegexVoice(voices, cat);
+            }
+        }
+        return voices;
+    }
+
+    @Provides
+    public List<TemplateAccount> getAccountVoice () {
+        if (accountVoice == null) {
+            accountVoice = new ArrayList<>();
+            daoSession = getDaoSession();
+            for (Account ac : daoSession.getAccountDao().loadAll()) {
+                CommonOperations.generateRegexAcocuntVoice(accountVoice, ac);
+            }
+        }
+        return accountVoice;
+     }
+
+    @Provides
+    public List<TemplateCurrencyVoice> getCurrencyVoices () {
+        if (currencyVoices == null) {
+            currencyVoices = new ArrayList<>();
+            daoSession = getDaoSession();
+            for (Currency cr: daoSession.getCurrencyDao().loadAll()) {
+                CommonOperations.generateRegexCurrencyVoice(currencyVoices, cr, getPocketAccounterApplication());
+            }
+        }
+        return currencyVoices;
+    }
+}

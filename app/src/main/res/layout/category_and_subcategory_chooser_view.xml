@@ -7,12 +7,12 @@
         android:layout_height="@dimen/sixty_seven_dp"
         android:id="@+id/container"
         android:orientation="horizontal" />
-    <com.jim.pocketaccounter.utils.calculator.ArcBitmapChooserView
+    <com.jim.finansia.utils.calculator.ArcBitmapChooserView
         android:layout_width="match_parent"
         android:layout_height="@dimen/hunder_and_fourty_dp"
         android:id="@+id/abchvSubcategoryChooser"
         android:layout_below="@+id/container"/>
-    <com.jim.pocketaccounter.utils.calculator.ArcBitmapChooserView
+    <com.jim.finansia.utils.calculator.ArcBitmapChooserView
         android:layout_width="match_parent"
         android:layout_height="@dimen/hunder_and_fourty_dp"
         android:id="@+id/abchvCategoryChooser"/>

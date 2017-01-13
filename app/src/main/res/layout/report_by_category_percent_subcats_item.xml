@@ -10,7 +10,7 @@
     android:paddingRight="@dimen/sixteen_dp"
     android:paddingLeft="@dimen/ten_dp"
     android:orientation="horizontal">
-    <com.jim.pocketaccounter.utils.reportviews.SubcatReportView
+    <com.jim.finansia.utils.reportviews.SubcatReportView
         android:layout_width="@dimen/eighty_dp"
         android:layout_height="@dimen/eighty_dp"
         android:padding="@dimen/ten_dp"
@@ -42,7 +42,7 @@
                 android:text="Subcategory name"
                 android:layout_gravity="center_vertical"/>
         </LinearLayout>
-        <com.jim.pocketaccounter.utils.reportviews.LineChartView
+        <com.jim.finansia.utils.reportviews.LineChartView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"

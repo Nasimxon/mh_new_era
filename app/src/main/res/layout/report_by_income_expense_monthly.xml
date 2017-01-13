@@ -20,7 +20,7 @@
                 android:paddingBottom="@dimen/five_dp"
                 android:textColor="#414141"
                 android:text="March, 2017"/>
-            <com.jim.pocketaccounter.utils.reportviews.ReportSelectingYearWithMonthsView
+            <com.jim.finansia.utils.reportviews.ReportSelectingYearWithMonthsView
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/hundred_fivety_four"
                 android:id="@+id/rsywmvReportByIncomeExpenseMonthly"
@@ -217,7 +217,7 @@
                 android:layout_height="match_parent"
                 android:layout_below="@+id/ivBottomStripe"
                 android:orientation="vertical">
-                <com.jim.pocketaccounter.utils.reportviews.LinearChartWithAverageView
+                <com.jim.finansia.utils.reportviews.LinearChartWithAverageView
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/eighty_dp"
                     android:id="@+id/lchwavReportMonthly"

@@ -21,7 +21,7 @@
 			android:layout_alignParentStart="true">
 
 
-				<com.jim.pocketaccounter.utils.CircleImageView
+				<com.jim.finansia.utils.CircleImageView
 					android:id="@+id/userphoto"
 					android:layout_marginLeft="@dimen/ten_dp"
 					android:layout_width="@dimen/fourtyseven_dp"

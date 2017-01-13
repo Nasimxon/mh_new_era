@@ -5,7 +5,7 @@
     android:background="#fff"
     android:id="@+id/moainnnn"
     android:layout_height="wrap_content"
-    tools:context="com.jim.pocketaccounter.fragments.InfoCreditFragment"
+    tools:context="com.jim.finansia.fragments.InfoCreditFragment"
     android:layout_gravity="center_horizontal">
 
     <RelativeLayout

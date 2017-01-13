@@ -40,7 +40,7 @@
         android:key="general_notif"
         android:summary="@string/notifications_summary"
         android:title="@string/notifications" />
-    <com.jim.pocketaccounter.utils.TimePreference
+    <com.jim.finansia.utils.TimePreference
         android:defaultValue="08:00"
         android:dependency="@string/general_notif"
         android:dialogLayout="@layout/time_preference"
@@ -80,7 +80,7 @@
         android:defaultValue="@bool/secure_default"
         android:key="secure"
         android:title="@string/secure_on" />
-    <com.jim.pocketaccounter.utils.PasswordPreference
+    <com.jim.finansia.utils.PasswordPreference
         android:dependency="secure"
         android:key="password"
         android:title="@string/izmenit_parol" />

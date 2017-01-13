@@ -17,7 +17,7 @@
         app:tabMaxWidth="0dp"
         app:tabMode="fixed"
         app:tabTextAppearance="@style/MineCustomTabText" />
-    <com.jim.pocketaccounter.debt.DebtBorrowViewPager
+    <com.jim.finansia.debt.DebtBorrowViewPager
         android:id="@+id/vpDebtBorrowFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

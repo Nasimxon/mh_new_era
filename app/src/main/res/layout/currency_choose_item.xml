@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/five_dp"
     >
-    <com.jim.pocketaccounter.utils.CurrencyChecbox
+    <com.jim.finansia.utils.CurrencyChecbox
         android:id="@+id/chbCurrencyChoose"
         android:layout_width="match_parent"
         android:layout_height="@dimen/hunder_and_fourty_dp"

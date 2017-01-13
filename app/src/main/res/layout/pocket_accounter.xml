@@ -99,7 +99,7 @@
             android:background="@drawable/spinner"
             android:visibility="gone" />
     </android.support.v7.widget.Toolbar>
-    <com.jim.pocketaccounter.helper.MyVerticalViewPager
+    <com.jim.finansia.helper.MyVerticalViewPager
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/vpVertical"
@@ -116,7 +116,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/toolbar" />
-    <com.jim.pocketaccounter.utils.password.PasswordWindow
+    <com.jim.finansia.utils.password.PasswordWindow
         android:id="@+id/pwPassword"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

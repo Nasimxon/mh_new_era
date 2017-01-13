@@ -18,7 +18,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_weight="1"
             android:id="@+id/ivTopStripe"/>
-        <com.jim.pocketaccounter.utils.SubcatAdapterCircles
+        <com.jim.finansia.utils.SubcatAdapterCircles
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <ImageView

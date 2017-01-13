@@ -3,8 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#000"
-    tools:context="com.jim.pocketaccounter.PhotoViewActivity">
-    <com.jim.pocketaccounter.photocalc.ViewPagerFixed xmlns:android="http://schemas.android.com/apk/res/android"
+    tools:context="com.jim.finansia.PhotoViewActivity">
+    <com.jim.finansia.photocalc.ViewPagerFixed xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/viewpagerik"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

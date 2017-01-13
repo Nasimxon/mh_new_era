@@ -135,7 +135,7 @@
             android:textColor="@color/seecondary_button"
             android:textSize="@dimen/sixteen_dp"
             />
-        <com.jim.pocketaccounter.utils.PercentView
+        <com.jim.finansia.utils.PercentView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/pvPercent"

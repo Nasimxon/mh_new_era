@@ -32,7 +32,7 @@
                 android:gravity="left|center_vertical"
                 android:textColor="@color/black_for_secondary_text"
                 />
-            <com.jim.pocketaccounter.utils.CircleImageView
+            <com.jim.finansia.utils.CircleImageView
                 android:layout_width="@dimen/fourteen_dp"
                 android:layout_height="@dimen/fourteen_dp"
                 android:layout_marginTop="@dimen/three_dp"
@@ -44,7 +44,7 @@
                 android:textSize="@dimen/twelve_dp"
                 android:layout_marginLeft="@dimen/ten_dp"
                 android:textColor="@color/black_for_secondary_text"/>
-            <com.jim.pocketaccounter.utils.CircleImageView
+            <com.jim.finansia.utils.CircleImageView
                 android:layout_width="@dimen/fourteen_dp"
                 android:layout_height="@dimen/fourteen_dp"
                 android:layout_marginTop="@dimen/three_dp"

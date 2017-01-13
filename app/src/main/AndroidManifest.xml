@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.jim.pocketaccounter"
+    package="com.jim.finansia"
     android:versionCode="22"
     android:versionName="v7.00">
     <uses-sdk
@@ -31,18 +31,18 @@
         android:name="android.hardware.camera"
         android:required="true" />
     <application
-        android:name=".PocketAccounterApplication"
+        android:name="com.jim.finansia.PocketAccounterApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/MainTheme">
-        <receiver android:name=".credit.notificat.AlarmReceiver" />
+        <receiver android:name="com.jim.finansia.credit.notificat.AlarmReceiver" />
         <activity
-            android:name=".intropage.IntroIndicator"
+            android:name="com.jim.finansia.intropage.IntroIndicator"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".PocketAccounter"
+            android:name="com.jim.finansia.PocketAccounter"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize">
@@ -51,7 +51,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <receiver android:name=".widget.WidgetProvider">
+        <receiver android:name="com.jim.finansia.widget.WidgetProvider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -59,35 +59,35 @@
                 android:name="android.appwidget.provider"
                 android:resource="@layout/widget_provider_info" />
         </receiver>
-        <receiver android:name=".utils.SMSMonitor">
+        <receiver android:name="com.jim.finansia.utils.SMSMonitor">
             <intent-filter android:priority="100">
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
         <activity
-            android:name=".widget.SettingsWidget"
+            android:name="com.jim.finansia.widget.SettingsWidget"
             android:label="Widget Settings"
             android:launchMode="singleInstance"
             android:noHistory="true" />
         <activity
-            android:name=".SettingsActivity"
+            android:name="com.jim.finansia.SettingsActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".widget.ChooseWidget"
+            android:name="com.jim.finansia.widget.ChooseWidget"
             android:launchMode="singleInstance"
             android:noHistory="true" />
         <activity
-            android:name=".widget.CalcActivity"
+            android:name="com.jim.finansia.widget.CalcActivity"
             android:label=""
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <receiver
-            android:name=".credit.notificat.AutoMarketReciver"
+            android:name="com.jim.finansia.credit.notificat.AutoMarketReciver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
@@ -96,9 +96,9 @@
             </intent-filter>
         </receiver>
 
-        <service android:name=".credit.notificat.AutoMarketService"/>
-        <activity android:name=".photocalc.PhotoViewActivity"
+        <service android:name="com.jim.finansia.credit.notificat.AutoMarketService"/>
+        <activity android:name="com.jim.finansia.photocalc.PhotoViewActivity"
             android:screenOrientation="portrait"/>
-        <service android:name=".utils.SmsService"/>
+        <service android:name="com.jim.finansia.utils.SmsService"/>
     </application>
 </manifest>

@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-        <com.jim.pocketaccounter.utils.reportviews.CategorySliding
+        <com.jim.finansia.utils.reportviews.CategorySliding
             android:layout_width="match_parent"
             android:layout_height="@dimen/one_hundred_eighty_one_dp"
             android:id="@+id/csReportByCategory"

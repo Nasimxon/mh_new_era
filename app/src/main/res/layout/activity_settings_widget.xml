@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:padding="@dimen/sixteen_dp"
     android:background="#fafafa"
-    tools:context="com.jim.pocketaccounter.widget.SettingsWidget">
+    tools:context="com.jim.finansia.widget.SettingsWidget">
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">

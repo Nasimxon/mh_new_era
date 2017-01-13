@@ -3,7 +3,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-    <com.jim.pocketaccounter.utils.reportviews.ReportProgress
+    <com.jim.finansia.utils.reportviews.ReportProgress
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/rpReport"

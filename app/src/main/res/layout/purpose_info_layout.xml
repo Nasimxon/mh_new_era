@@ -148,7 +148,7 @@
             android:layout_marginLeft="@dimen/fourty_dp"
             android:background="@color/green_light_forline"/>
 
-        <com.jim.pocketaccounter.utils.PercentView
+        <com.jim.finansia.utils.PercentView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/pvPercent"
