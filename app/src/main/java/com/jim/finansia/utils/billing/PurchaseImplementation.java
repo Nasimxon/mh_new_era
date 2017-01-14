@@ -293,6 +293,50 @@ public class PurchaseImplementation {
 
     }
 
+    public void buyPage(int position) {
+        String sku = "";
+        switch (position) {
+            case 0:
+                sku = PocketAccounterGeneral.MoneyHolderSkus.ZERO_PAGE_SKU;
+                break;
+            case 1:
+                sku = PocketAccounterGeneral.MoneyHolderSkus.FIRST_PAGE_SKU;
+                break;
+            case 2:
+                sku = PocketAccounterGeneral.MoneyHolderSkus.SECOND_PAGE_SKU;
+                break;
+            case 3:
+                sku = PocketAccounterGeneral.MoneyHolderSkus.THIRD_PAGE_SKU;
+                break;
+            case 4:
+                sku = PocketAccounterGeneral.MoneyHolderSkus.FOURTH_PAGE_SKU;
+                break;
+            case 5:
+                sku = PocketAccounterGeneral.MoneyHolderSkus.FIFTH_PAGE_SKU;
+                break;
+            case 6:
+                sku = PocketAccounterGeneral.MoneyHolderSkus.SIXTH_PAGE_SKU;
+                break;
+            case 7:
+                sku = PocketAccounterGeneral.MoneyHolderSkus.SEVENTH_PAGE_SKU;
+                break;
+            case 8:
+                sku = PocketAccounterGeneral.MoneyHolderSkus.EIGHTH_PAGE_SKU;
+                break;
+            case 9:
+                sku = PocketAccounterGeneral.MoneyHolderSkus.NINTH_PAGE_SKU;
+                break;
+        }
+        try {
+            InAppProduct product = new InAppProduct();
+            product.productId = sku;
+            product.isSubscription = false;
+            purchaseProduct(product);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void buySms() {
         try {
             InAppProduct product = new InAppProduct();
@@ -380,6 +424,7 @@ public class PurchaseImplementation {
             e.printStackTrace();
         }
     }
+
 
     /** Verifies the developer payload of a purchase. */
     boolean verifyDeveloperPayload(Purchase p) {
