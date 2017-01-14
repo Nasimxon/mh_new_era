@@ -48,6 +48,9 @@ import java.util.Locale;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import static com.jim.finansia.utils.billing.PurchaseImplementation.BILLING_RESPONSE_RESULT_OK;
+import static com.jim.finansia.utils.billing.PurchaseImplementation.REQUEST_CODE_BUY;
+
 public class PocketAccounter extends AppCompatActivity {
     public static Toolbar toolbar;
     private PasswordWindow pwPassword;
@@ -369,6 +372,17 @@ public class PocketAccounter extends AppCompatActivity {
                 }
             }
             finish();
+        }
+        if (requestCode == REQUEST_CODE_BUY) {
+            int responseCode = data.getIntExtra("RESPONSE_CODE", -1);
+            if (responseCode == BILLING_RESPONSE_RESULT_OK) {
+                String purchaseData = data.getStringExtra("INAPP_PURCHASE_DATA");
+                String dataSignature = data.getStringExtra("INAPP_DATA_SIGNATURE");
+                // можете проверить цифровую подпись
+                purchaseImplementation.readPurchase(purchaseData);
+            } else {
+                // обрабатываем ответ
+            }
         }
     }
 

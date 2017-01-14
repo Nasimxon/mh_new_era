@@ -56,6 +56,102 @@
           "status": 2
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:913068431761:android:247907bc5387b83c",
+        "android_client_info": {
+          "package_name": "com.jim.pocketaccounter.lite"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "913068431761-6a7c54sgsrjugod1g09u5ua3ebetm5de.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jim.pocketaccounter.lite",
+            "certificate_hash": "8A621F3ECE8B2A1DBD8EBAB3B10156EB661B1A28"
+          }
+        },
+        {
+          "client_id": "913068431761-4gjl18s9mmen3pjjesi4ui3saaq73dlm.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "913068431761-3luv38obf2eoj8gi1nj6v8j373292vt7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDixGGbiWDuLNWXwz48pKOTZTPW_vdElEU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "913068431761-4gjl18s9mmen3pjjesi4ui3saaq73dlm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:913068431761:android:33de9a46e61a2555",
+        "android_client_info": {
+          "package_name": "com.jim.finansia"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "913068431761-3a8skl8rilovh049qagpnu1inpnng89s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jim.finansia",
+            "certificate_hash": "8A621F3ECE8B2A1DBD8EBAB3B10156EB661B1A28"
+          }
+        },
+        {
+          "client_id": "913068431761-4gjl18s9mmen3pjjesi4ui3saaq73dlm.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "913068431761-3luv38obf2eoj8gi1nj6v8j373292vt7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDixGGbiWDuLNWXwz48pKOTZTPW_vdElEU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "913068431761-4gjl18s9mmen3pjjesi4ui3saaq73dlm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
     }
   ],
   "configuration_version": "1"

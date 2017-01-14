@@ -1,14 +1,32 @@
 package com.jim.finansia.utils.billing;
 
 
+import android.app.PendingIntent;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.os.IBinder;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
+import com.android.vending.billing.IInAppBillingService;
 import com.jim.finansia.PocketAccounter;
 import com.jim.finansia.PocketAccounterApplication;
+import com.jim.finansia.fragments.ChangeColorOfStyleFragment;
+import com.jim.finansia.fragments.SmsParseMainFragment;
 import com.jim.finansia.managers.PAFragmentManager;
 import com.jim.finansia.utils.PocketAccounterGeneral;
+import com.jim.finansia.utils.WarningDialog;
+
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.Executor;
 
 import javax.inject.Inject;
 
@@ -16,206 +34,180 @@ public class PurchaseImplementation {
 
     private IabHelper mHelper;
     private String base64rsa = PocketAccounterGeneral.BASE64RSA;
-    private Context context;
     //accesses
+
     public static final int RC_REQUEST = 10001;
     private PAFragmentManager paFragmentManager;
+    private IInAppBillingService inAppBillingService;
+    private Context context;
+
+    public static final int REQUEST_CODE_BUY = 1234;
+
+    public static final int BILLING_RESPONSE_RESULT_OK = 0;
+    public static final int BILLING_RESPONSE_RESULT_USER_CANCELED = 1;
+    public static final int BILLING_RESPONSE_RESULT_SERVICE_UNAVAILABLE = 2;
+    public static final int BILLING_RESPONSE_RESULT_BILLING_UNAVAILABLE = 3;
+    public static final int BILLING_RESPONSE_RESULT_ITEM_UNAVAILABLE = 4;
+    public static final int BILLING_RESPONSE_RESULT_DEVELOPER_ERROR = 5;
+    public static final int BILLING_RESPONSE_RESULT_ERROR = 6;
+    public static final int BILLING_RESPONSE_RESULT_ITEM_ALREADY_OWNED = 7;
+    public static final int BILLING_RESPONSE_RESULT_ITEM_NOT_OWNED = 8;
+    public static final int PURCHASE_STATUS_PURCHASED = 0;
+    public static final int PURCHASE_STATUS_CANCELLED = 1;
+    public static final int PURCHASE_STATUS_REFUNDED = 2;
     @Inject SharedPreferences preferences;
+    ServiceConnection serviceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            inAppBillingService = IInAppBillingService.Stub.asInterface(service);
+        }
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            inAppBillingService = null;
+        }
+    };
+
     public PurchaseImplementation(Context context, PAFragmentManager paFragmentManager) {
         this.context = context;
         ((PocketAccounter) context).component((PocketAccounterApplication) context.getApplicationContext()).inject(this);
         this.paFragmentManager = paFragmentManager;
-        mHelper = new IabHelper(context, base64rsa);
-        initialize();
+        Intent serviceIntent = new Intent("com.android.vending.billing.InAppBillingService.BIND");
+        serviceIntent.setPackage("com.android.vending");
+        context.bindService(serviceIntent, serviceConnection, Context.BIND_AUTO_CREATE);
     }
 
-    public void initialize() {
-        mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
-            public void onIabSetupFinished(IabResult result) {
-                if (!result.isSuccess()) {
-                    Log.d("sss", "Problem setting up in-app billing: " + result);
-                    return;
-                }
-                if (mHelper == null) return;
-                try {
-                    mHelper.queryInventoryAsync(mGotInventoryListener);
-                } catch (IabHelper.IabAsyncInProgressException e) {
-                    Log.d("sss", "Error querying inventory. Another async operation in progress.");
-                }
-            }
-        });
-    }
-
-    public IabHelper getHelper() { return mHelper; }
-
-    // Listener that's called when we finish querying the items and subscriptions we own
-    IabHelper.QueryInventoryFinishedListener mGotInventoryListener = new IabHelper.QueryInventoryFinishedListener() {
-        public void onQueryInventoryFinished(IabResult result, Inventory inventory) {
-            if (mHelper == null) return;
-            if (result.isFailure()) {
-                Log.d("sss", "Failed to query inventory: " + result);
-                return;
-            }
-            preferences
-                    .edit()
-                    .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.FIRST_PAGE_COUNT_KEY,
-                            inventory.getPurchase(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.FIRST_PAGE_COUNT_KEY) != null)
-                    .commit();
-            preferences
-                    .edit()
-                    .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.SECOND_PAGE_COUNT_KEY,
-                            inventory.getPurchase(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.SECOND_PAGE_COUNT_KEY) != null)
-                    .commit();
-            preferences
-                    .edit()
-                    .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.THIRD_PAGE_COUNT_KEY,
-                            inventory.getPurchase(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.THIRD_PAGE_COUNT_KEY) != null)
-                    .commit();
-            preferences
-                    .edit()
-                    .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.FOURTH_PAGE_COUNT_KEY,
-                            inventory.getPurchase(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.FOURTH_PAGE_COUNT_KEY) != null)
-                    .commit();
-            preferences
-                    .edit()
-                    .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.FIFTH_PAGE_COUNT_KEY,
-                            inventory.getPurchase(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.FIFTH_PAGE_COUNT_KEY) != null)
-                    .commit();
-            preferences
-                    .edit()
-                    .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.SIXTH_PAGE_COUNT_KEY,
-                            inventory.getPurchase(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.SIXTH_PAGE_COUNT_KEY) != null)
-                    .commit();
-            preferences
-                    .edit()
-                    .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.SEVENTH_PAGE_COUNT_KEY,
-                            inventory.getPurchase(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.SEVENTH_PAGE_COUNT_KEY) != null)
-                    .commit();
-            preferences
-                    .edit()
-                    .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.EIGHTH_PAGE_COUNT_KEY,
-                            inventory.getPurchase(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.EIGHTH_PAGE_COUNT_KEY) != null)
-                    .commit();
-            preferences
-                    .edit()
-                    .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.NINTH_PAGE_COUNT_KEY,
-                            inventory.getPurchase(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.NINTH_PAGE_COUNT_KEY) != null)
-                    .commit();
-            preferences
-                    .edit()
-                    .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_CATEGORY_ON_MAIN_BOARD_SKU,
-                            inventory.getPurchase(PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_CATEGORY_ON_MAIN_BOARD_SKU) != null)
-                    .commit();
-            preferences
-                    .edit()
-                    .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_FUNCTION_ON_MAIN_BOARD_SKU,
-                            inventory.getPurchase(PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_FUNCTION_ON_MAIN_BOARD_SKU) != null)
-                    .commit();
-            preferences
-                    .edit()
-                    .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_PAGE_ON_MAIN_BOARD_SKU,
-                            inventory.getPurchase(PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_PAGE_ON_MAIN_BOARD_SKU) != null)
-                    .commit();
-            preferences
-                    .edit()
-                    .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_DEBT_BORROW_ON_MAIN_BOARD_SKU,
-                            inventory.getPurchase(PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_DEBT_BORROW_ON_MAIN_BOARD_SKU) != null)
-                    .commit();
-            preferences
-                    .edit()
-                    .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_CREDIT_ON_MAIN_BOARD_SKU,
-                            inventory.getPurchase(PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_CREDIT_ON_MAIN_BOARD_SKU) != null)
-                    .commit();
-
-//            Purchase categoryChange = inventory.getPurchase(PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_CATEGORY_ON_MAIN_BOARD_SKU);
-//            isCategoryChangeAvailable = (categoryChange != null && verifyDeveloperPayload(categoryChange));
-//            Purchase creditChange = inventory.getPurchase(PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_CREDIT_ON_MAIN_BOARD_SKU);
-//            isCreditChangeAvailable = (creditChange != null && verifyDeveloperPayload(creditChange));
-//            Purchase debtBorrowChange = inventory.getPurchase(PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_DEBT_BORROW_ON_MAIN_BOARD_SKU);
-//            isDebtBorrowChangeAvailable = (debtBorrowChange != null && verifyDeveloperPayload(debtBorrowChange));
-//            Purchase functionChange = inventory.getPurchase(PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_FUNCTION_ON_MAIN_BOARD_SKU);
-//            isDebtBorrowChangeAvailable = (functionChange != null && verifyDeveloperPayload(functionChange));
-//            Purchase pageChange = inventory.getPurchase(PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_PAGE_ON_MAIN_BOARD_SKU);
-//            isPageChangeAvailable = (pageChange != null && verifyDeveloperPayload(pageChange));
-
+    public void unbindService() {
+        if (serviceConnection != null) {
+            context.unbindService(serviceConnection);
         }
-    };
+    }
 
-    // Callback for when a purchase is finished
-    IabHelper.OnIabPurchaseFinishedListener mPurchaseFinishedListener = new IabHelper.OnIabPurchaseFinishedListener() {
-        public void onIabPurchaseFinished(IabResult result, Purchase purchase) {
-            if (mHelper == null) return;
-            if (result.isFailure()) {
-                Log.d("sss", "Error purchasing: " + result);
-                return;
-            }
-            if (!verifyDeveloperPayload(purchase)) {
-                Log.d("sss", "Error purchasing. Authenticity verification failed.");
-                return;
-            }
-            if (purchase == null) {
-                Log.d("sss", "Null purchase.");
-                return;
-            }
+    public void purchaseProduct(InAppProduct product) throws Exception {
+        String sku = product.getSku();
+        String type = product.getType();
+        // сюда вы можете добавить произвольные данные
+        // потом вы сможете получить их вместе с покупкой
+        String developerPayload = "12345";
+        Bundle buyIntentBundle = inAppBillingService.getBuyIntent(
+                3, context.getPackageName(),
+                sku, type, developerPayload);
+        PendingIntent pendingIntent = buyIntentBundle.getParcelable("BUY_INTENT");
+        ((PocketAccounter)context).startIntentSenderForResult(pendingIntent.getIntentSender(),
+                REQUEST_CODE_BUY, new Intent(), Integer.valueOf(0), Integer.valueOf(0),
+                Integer.valueOf(0), null);
+    }
+
+    public List<InAppProduct> getInAppPurchases(String type, String... productIds) throws Exception {
+        ArrayList<String> skuList = new ArrayList<>(Arrays.asList(productIds));
+        Bundle query = new Bundle();
+        query.putStringArrayList("ITEM_ID_LIST", skuList);
+        Bundle skuDetails = inAppBillingService.getSkuDetails(
+                3, context.getPackageName(), type, query);
+        ArrayList<String> responseList = skuDetails.getStringArrayList("DETAILS_LIST");
+        List<InAppProduct> result = new ArrayList<>();
+        for (String responseItem : responseList) {
+            JSONObject jsonObject = new JSONObject(responseItem);
+            InAppProduct product = new InAppProduct();
+            // "com.example.myapp_testing_inapp1"
+            product.productId = jsonObject.getString("productId");
+            // Покупка
+            product.storeName = jsonObject.getString("title");
+            // Детали покупки
+            product.storeDescription = jsonObject.getString("description");
+            // "0.99USD"
+            product.price = jsonObject.getString("price");
+            // "true/false"
+            product.isSubscription = jsonObject.getString("type").equals("subs");
+            // "990000" = цена x 1000000
+            product.priceAmountMicros =
+                    Integer.parseInt(jsonObject.getString("price_amount_micros"));
+            // USD
+            product.currencyIsoCode = jsonObject.getString("price_currency_code");
+            result.add(product);
+        }
+        return result;
+    }
+
+    public void readPurchase(String purchaseData) {
+        try {
+            JSONObject jsonObject = new JSONObject(purchaseData);
+            // ид покупки, для тестовой покупки будет null
+            String orderId = jsonObject.optString("orderId");
+            // "com.example.myapp"
+            String packageName = jsonObject.getString("packageName");
+            // "com.example.myapp_testing_inapp1"
+            String productId = jsonObject.getString("productId");
+            // unix-timestamp времени покупки
+            long purchaseTime = jsonObject.getLong("purchaseTime");
+            // PURCHASE_STATUS_PURCHASED
+            // PURCHASE_STATUS_CANCELLED
+            // PURCHASE_STATUS_REFUNDED
+            int purchaseState = jsonObject.getInt("purchaseState");
+            // "12345"
+            String developerPayload = jsonObject.optString("developerPayload");
+            // токен покупки, с его помощью можно получить
+            // данные о покупке на сервере
+            String purchaseToken = jsonObject.getString("purchaseToken");
+            // далее вы обрабатываете покупку
             boolean pageBought = false;
-            switch (purchase.getSku()) {
-                case PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.FIRST_PAGE_COUNT_KEY:
+            switch (productId) {
+                case PocketAccounterGeneral.MoneyHolderSkus.FIRST_PAGE_SKU:
                     pageBought = true;
                     preferences
                             .edit()
                             .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.FIRST_PAGE_COUNT_KEY, true)
                             .commit();
                     break;
-                case PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.SECOND_PAGE_COUNT_KEY:
+                case PocketAccounterGeneral.MoneyHolderSkus.SECOND_PAGE_SKU:
                     pageBought = true;
                     preferences
                             .edit()
                             .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.SECOND_PAGE_COUNT_KEY, true)
                             .commit();
                     break;
-                case PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.THIRD_PAGE_COUNT_KEY:
+                case PocketAccounterGeneral.MoneyHolderSkus.THIRD_PAGE_SKU:
                     pageBought = true;
                     preferences
                             .edit()
                             .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.THIRD_PAGE_COUNT_KEY, true)
                             .commit();
                     break;
-                case PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.FOURTH_PAGE_COUNT_KEY:
+                case PocketAccounterGeneral.MoneyHolderSkus.FOURTH_PAGE_SKU:
                     pageBought = true;
                     preferences
                             .edit()
                             .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.FOURTH_PAGE_COUNT_KEY, true)
                             .commit();
                     break;
-                case PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.FIFTH_PAGE_COUNT_KEY:
+                case PocketAccounterGeneral.MoneyHolderSkus.FIFTH_PAGE_SKU:
                     pageBought = true;
                     preferences
                             .edit()
                             .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.FIFTH_PAGE_COUNT_KEY, true)
                             .commit();
                     break;
-                case PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.SIXTH_PAGE_COUNT_KEY:
+                case PocketAccounterGeneral.MoneyHolderSkus.SIXTH_PAGE_SKU:
                     pageBought = true;
                     preferences
                             .edit()
                             .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.SIXTH_PAGE_COUNT_KEY, true)
                             .commit();
                     break;
-                case PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.SEVENTH_PAGE_COUNT_KEY:
+                case PocketAccounterGeneral.MoneyHolderSkus.SEVENTH_PAGE_SKU:
                     pageBought = true;
                     preferences
                             .edit()
                             .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.SEVENTH_PAGE_COUNT_KEY, true)
                             .commit();
                     break;
-                case PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.EIGHTH_PAGE_COUNT_KEY:
+                case PocketAccounterGeneral.MoneyHolderSkus.EIGHTH_PAGE_SKU:
                     pageBought = true;
                     preferences
                             .edit()
                             .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.EIGHTH_PAGE_COUNT_KEY, true)
                             .commit();
                     break;
-                case PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.NINTH_PAGE_COUNT_KEY:
+                case PocketAccounterGeneral.MoneyHolderSkus.NINTH_PAGE_SKU:
                     pageBought = true;
                     preferences
                             .edit()
@@ -225,7 +217,7 @@ public class PurchaseImplementation {
                 case PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_CATEGORY_ON_MAIN_BOARD_SKU:
                     preferences
                             .edit()
-                            .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_CATEGORY_ON_MAIN_BOARD_SKU, true)
+                            .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.IS_AVAILABLE_CHANGING_OF_CATEGORY_KEY, true)
                             .commit();
                     break;
                 case PocketAccounterGeneral.MoneyHolderSkus.VOICE_RECOGNITION_SKU:
@@ -237,31 +229,31 @@ public class PurchaseImplementation {
                 case PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_CREDIT_ON_MAIN_BOARD_SKU:
                     preferences
                             .edit()
-                            .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_CREDIT_ON_MAIN_BOARD_SKU, true)
+                            .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.IS_AVAILABLE_CHANGING_OF_CREDIT_KEY, true)
                             .commit();
                     break;
                 case PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_DEBT_BORROW_ON_MAIN_BOARD_SKU:
                     preferences
                             .edit()
-                            .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_DEBT_BORROW_ON_MAIN_BOARD_SKU, true)
+                            .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.IS_AVAILABLE_CHANGING_OF_DEBT_BORROW_KEY, true)
                             .commit();
                     break;
                 case PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_PAGE_ON_MAIN_BOARD_SKU:
                     preferences
                             .edit()
-                            .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_PAGE_ON_MAIN_BOARD_SKU, true)
+                            .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.IS_AVAILABLE_CHANGING_OF_PAGE, true)
                             .commit();
                     break;
                 case PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_FUNCTION_ON_MAIN_BOARD_SKU:
                     preferences
                             .edit()
-                            .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_FUNCTION_ON_MAIN_BOARD_SKU, true)
+                            .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.IS_AVAILABLE_CHANGING_OF_FUNCTION, true)
                             .commit();
                     break;
                 case PocketAccounterGeneral.MoneyHolderSkus.SMS_PARSING_SKU:
                     try {
-                        mHelper.consumeAsync(purchase, mConsumeFinishedListener);
-                    } catch (IabHelper.IabAsyncInProgressException e) {
+                        consumePurchase(purchaseToken);
+                    } catch (Exception e) {
                         Log.d("sss", "Error consuming gas. Another async operation in progress.");
                         return;
                     }
@@ -271,191 +263,122 @@ public class PurchaseImplementation {
                             .edit()
                             .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.YELLOW_THEME, true)
                             .commit();
+                    paFragmentManager.displayFragment(new ChangeColorOfStyleFragment());
                     break;
                 case PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.FIOLA_THEME:
                     preferences
                             .edit()
                             .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.FIOLA_THEME, true)
                             .commit();
+                    paFragmentManager.displayFragment(new ChangeColorOfStyleFragment());
                     break;
             }
             if (pageBought)
                 paFragmentManager.updateAllFragmentsPageChanges();
-
-        }
-    };
-
-    // Called when consumption is complete
-    IabHelper.OnConsumeFinishedListener mConsumeFinishedListener = new IabHelper.OnConsumeFinishedListener() {
-        public void onConsumeFinished(Purchase purchase, IabResult result) {
-            Log.d("sss", "Consumption finished. Purchase: " + purchase + ", result: " + result);
-
-            // if we were disposed of in the meantime, quit.
-            if (mHelper == null) return;
-
-            // We know this is the "gas" sku because it's the only one we consume,
-            // so we don't check which sku was consumed. If you have more than one
-            // sku, you probably should check...
-            if (result.isSuccess()) {
-                // successfully consumed, so we apply the effects of the item in our
-                // game world's logic, which in our case means filling the gas tank a bit
-                int count = preferences.getInt(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.SMS_PARSING_COUNT_KEY, 1);
-                count++;
-                preferences
-                        .edit()
-                        .putInt(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.SMS_PARSING_COUNT_KEY, count)
-                        .commit();
-            }
-            else {
-                Log.d("sss", "Error while consuming: " + result);
-            }
-            Log.d("sss", "End consumption flow.");
-        }
-    };
-
-    public void buyPage(int position) {
-        String payload = "";
-        String sku = "";
-        switch (position) {
-            case 0:
-                sku = PocketAccounterGeneral.MoneyHolderSkus.ZERO_PAGE_SKU;
-                break;
-            case 1:
-                sku = PocketAccounterGeneral.MoneyHolderSkus.FIRST_PAGE_SKU;
-                break;
-            case 2:
-                sku = PocketAccounterGeneral.MoneyHolderSkus.SECOND_PAGE_SKU;
-                break;
-            case 3:
-                sku = PocketAccounterGeneral.MoneyHolderSkus.THIRD_PAGE_SKU;
-                break;
-            case 4:
-                sku = PocketAccounterGeneral.MoneyHolderSkus.FOURTH_PAGE_SKU;
-                break;
-            case 5:
-                sku = PocketAccounterGeneral.MoneyHolderSkus.FIFTH_PAGE_SKU;
-                break;
-            case 6:
-                sku = PocketAccounterGeneral.MoneyHolderSkus.SIXTH_PAGE_SKU;
-                break;
-            case 7:
-                sku = PocketAccounterGeneral.MoneyHolderSkus.SEVENTH_PAGE_SKU;
-                break;
-            case 8:
-                sku = PocketAccounterGeneral.MoneyHolderSkus.EIGHTH_PAGE_SKU;
-                break;
-            case 9:
-                sku = PocketAccounterGeneral.MoneyHolderSkus.NINTH_PAGE_SKU;
-                break;
-        }
-        try {
-            mHelper.launchPurchaseFlow(((PocketAccounter) context),
-                    sku, RC_REQUEST,
-                    mPurchaseFinishedListener,
-                    payload);
-        } catch (IabHelper.IabAsyncInProgressException e) {
+        } catch (Exception e) {
             e.printStackTrace();
-            Log.d("sss", "Error launching purchase flow. Another async operation in progress.");
         }
     }
 
+    private void consumePurchase(String purchaseToken) throws Exception {
+        int result = inAppBillingService.consumePurchase(3,
+                context.getPackageName(), purchaseToken);
+        if (result == BILLING_RESPONSE_RESULT_OK) {
+            // начисляем бонусы
+            paFragmentManager.displayFragment(new SmsParseMainFragment());
+        } else {
+            // обработка ошибки
+            paFragmentManager.displayMainWindow();
+        }
+
+    }
+
     public void buySms() {
-        String payload = "";
         try {
-            mHelper.launchPurchaseFlow(((PocketAccounter) context),
-                    PocketAccounterGeneral.MoneyHolderSkus.SMS_PARSING_SKU, RC_REQUEST,
-                    mPurchaseFinishedListener,
-                    payload);
-        } catch (IabHelper.IabAsyncInProgressException e) {
+            InAppProduct product = new InAppProduct();
+            product.productId = PocketAccounterGeneral.MoneyHolderSkus.SMS_PARSING_SKU;
+            product.isSubscription = false;
+            purchaseProduct(product);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public void buyChangingCategory() {
-        String payload = "";
         try {
-            mHelper.launchPurchaseFlow(((PocketAccounter) context),
-                    PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_CATEGORY_ON_MAIN_BOARD_SKU, RC_REQUEST,
-                    mPurchaseFinishedListener,
-                    payload);
-        } catch (IabHelper.IabAsyncInProgressException e) {
+            InAppProduct product = new InAppProduct();
+            product.productId = PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_CATEGORY_ON_MAIN_BOARD_SKU;
+            product.isSubscription = false;
+            purchaseProduct(product);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public void buyChanchingCredit() {
-        String payload = "";
         try {
-            mHelper.launchPurchaseFlow(((PocketAccounter) context),
-                    PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_CREDIT_ON_MAIN_BOARD_SKU, RC_REQUEST,
-                    mPurchaseFinishedListener,
-                    payload);
-        } catch (IabHelper.IabAsyncInProgressException e) {
+            InAppProduct product = new InAppProduct();
+            product.productId = PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_CREDIT_ON_MAIN_BOARD_SKU;
+            product.isSubscription = false;
+            purchaseProduct(product);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public void buyChangingDebtBorrow() {
-        String payload = "";
         try {
-            mHelper.launchPurchaseFlow(((PocketAccounter) context),
-                    PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_DEBT_BORROW_ON_MAIN_BOARD_SKU, RC_REQUEST,
-                    mPurchaseFinishedListener,
-                    payload);
-        } catch (IabHelper.IabAsyncInProgressException e) {
+            InAppProduct product = new InAppProduct();
+            product.productId = PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_DEBT_BORROW_ON_MAIN_BOARD_SKU;
+            product.isSubscription = false;
+            purchaseProduct(product);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public void buyTheme(String themeName) {
-        String payload = "";
         try {
-            mHelper.launchPurchaseFlow(((PocketAccounter) context),
-                    themeName, RC_REQUEST,
-                    mPurchaseFinishedListener,
-                    payload);
-        } catch (IabHelper.IabAsyncInProgressException e) {
+            InAppProduct product = new InAppProduct();
+            product.productId = themeName;
+            product.isSubscription = false;
+            purchaseProduct(product);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public void buyChangingPage() {
-        String payload = "";
         try {
-            mHelper.launchPurchaseFlow(((PocketAccounter) context),
-                    PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_PAGE_ON_MAIN_BOARD_SKU, RC_REQUEST,
-                    mPurchaseFinishedListener,
-                    payload);
-        } catch (IabHelper.IabAsyncInProgressException e) {
+            InAppProduct product = new InAppProduct();
+            product.productId = PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_PAGE_ON_MAIN_BOARD_SKU;
+            product.isSubscription = false;
+            purchaseProduct(product);
+        } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     public void buyChangingFunction() {
-        String payload = "";
         try {
-            mHelper.launchPurchaseFlow(((PocketAccounter) context),
-                    PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_FUNCTION_ON_MAIN_BOARD_SKU, RC_REQUEST,
-                    mPurchaseFinishedListener,
-                    payload);
-        } catch (IabHelper.IabAsyncInProgressException e) {
+            InAppProduct product = new InAppProduct();
+            product.productId = PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_FUNCTION_ON_MAIN_BOARD_SKU;
+            product.isSubscription = false;
+            purchaseProduct(product);
+        } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     public void buyVoiceRecognition() {
-        String payload = "";
         try {
-            mHelper.launchPurchaseFlow(((PocketAccounter) context),
-                    PocketAccounterGeneral.MoneyHolderSkus.VOICE_RECOGNITION_SKU, RC_REQUEST,
-                    mPurchaseFinishedListener,
-                    payload);
-        } catch (IabHelper.IabAsyncInProgressException e) {
+            InAppProduct product = new InAppProduct();
+            product.productId = PocketAccounterGeneral.MoneyHolderSkus.VOICE_RECOGNITION_SKU;
+            product.isSubscription = false;
+            purchaseProduct(product);
+        } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     /** Verifies the developer payload of a purchase. */
