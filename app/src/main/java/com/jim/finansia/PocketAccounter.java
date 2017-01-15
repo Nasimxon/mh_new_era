@@ -96,6 +96,7 @@ public class PocketAccounter extends AppCompatActivity {
         setTheme(themeId);
         setContentView(R.layout.pocket_accounter);
         component((PocketAccounterApplication) getApplication()).inject(this);
+        initDisplaySettings();
         button_1 = (Button) findViewById(R.id.button_1);
         button_1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -163,6 +164,14 @@ public class PocketAccounter extends AppCompatActivity {
                     finish();
                 }
             });
+        }
+    }
+
+    private void initDisplaySettings() {
+        int width = getResources().getDisplayMetrics().widthPixels;
+        int height = getResources().getDisplayMetrics().heightPixels;
+        if (width == 240 && height == 320) {
+            sharedPreferences.edit().putInt(PocketAccounterGeneral.EXPENSE_BOARD_KEYS_COUNT, 2).commit();
         }
     }
 

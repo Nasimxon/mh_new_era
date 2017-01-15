@@ -2,6 +2,7 @@ package com.jim.finansia.utils.record;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -10,6 +11,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PointF;
 import android.graphics.RectF;
+import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 
@@ -48,6 +50,7 @@ public class DecorationBoardView extends BaseBoardView {
     private List<RootCategory> categories;
     private List<CreditDetials> credits;
     private boolean drawIndicator = true;
+
     public DecorationBoardView(Context context, int table) {
         super(context, table);
         this.context = context;
@@ -82,6 +85,7 @@ public class DecorationBoardView extends BaseBoardView {
 
 
     private void init() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         active = ContextCompat.getColor(getContext(), R.color.active_circle);
         not_active = ContextCompat.getColor(getContext(), R.color.not_active_circle);
         indicatorFrame = ContextCompat.getColor(getContext(), R.color.indicators_frame);
@@ -308,59 +312,9 @@ public class DecorationBoardView extends BaseBoardView {
             canvas.drawBitmap(white, button.getContainer().left, button.getContainer().top, whitePaint);
             canvas.drawBitmap(gradient, button.getContainer().centerX() - gradient.getWidth() / 2,
                     button.getContainer().centerY() - gradient.getHeight() / 2, shadowsPaint);
-//            int color = Color.RED;
-//            if (button.getPosition()%4 == 0)
-//                color = Color.parseColor("#C02F1E");
-//            if (button.getPosition()%4 == 1)
-//                color = Color.parseColor("#D84E1F");
-//            if (button.getPosition()%4 == 2)
-//                color = Color.parseColor("#F16C21");
-//            if (button.getPosition()%4 == 3)
-//                color = Color.parseColor("#EF8B2D");
-//            ColorFilter filter = new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN);
-//            Paint bitmapPaint = new Paint();
-//            bitmapPaint.setAntiAlias(true);
-//            bitmapPaint.setColorFilter(filter);
             canvas.drawBitmap(icon, button.getContainer().centerX() - icon.getWidth() / 2,
                     button.getContainer().centerY() - icon.getHeight() / 2, shadowsPaint);
         }
-    }
-
-    private int generateColor() {
-        return Color.rgb(RandomUtils.nextInt(0, 192),
-                RandomUtils.nextInt(0, 192),
-                RandomUtils.nextInt(0, 192));
-    }
-
-    protected void hideIcons() {
-        drawIcons = true;
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (elapsed <= frames) {
-                    try {
-                        Thread.sleep(interim);
-                        if (elapsed < frames / 2) {
-                            alpha = (int) (fullAlpha * (1 - (float) elapsed / frames));
-                        } else {
-                            alpha = (int) (fullAlpha * (float) elapsed / frames);
-                        }
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    } finally {
-                        postInvalidate();
-                        elapsed++;
-                    }
-                }
-                elapsed = 0;
-                drawState = DRAWN;
-            }
-        }).start();
-    }
-
-    protected void showIcons(Canvas canvas) {
-        drawIcons = false;
-
     }
 
     private String getIcon(int type, String id) {

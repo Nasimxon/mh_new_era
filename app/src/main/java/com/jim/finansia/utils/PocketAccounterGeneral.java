@@ -15,6 +15,8 @@ public class PocketAccounterGeneral {
 	public static final int NO_MODE = 0, EXPANSE_MODE = 1, INCOME_MODE = 2;
 	public static final int MAIN = 0, DETAIL = 1;
 	public static final int SMS_ONLY_EXPENSE = 0, SMS_ONLY_INCOME = 1, SMS_BOTH = 2;
+
+	public static final String EXPENSE_BOARD_KEYS_COUNT = "EXPENSE_BOARD_KEYS_COUNT";
 	public static final String EVERY_DAY="EVERY_DAY", EVERY_WEEK="EVERY_WEEK", EVERY_MONTH="EVERY_MONTH";
 	public static final String TAG = "sss";
 	public static final String DB_ONCREATE_ENTER = "DB_ONCREATE_ENTER";
@@ -72,8 +74,6 @@ public class PocketAccounterGeneral {
 			public static final String BLUE_THEME = BuildConfig.BLUE_THEME;
 			public static final String FIOLA_THEME = BuildConfig.FIOLA_THEME;
 			public static final String YELLOW_THEME = BuildConfig.YELLOW_THEME;
-
-
 		}
 	}
 }

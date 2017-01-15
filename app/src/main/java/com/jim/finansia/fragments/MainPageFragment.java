@@ -111,6 +111,20 @@ public class MainPageFragment extends Fragment {
         return rootView;
     }
 
+    private int getExpenseBoardViewHeight() {
+        int height = 0;
+        int screenWidth = getResources().getDisplayMetrics().widthPixels;
+        int screenHeight = getResources().getDisplayMetrics().heightPixels;
+        if (screenWidth == 240 && screenHeight == 320) {
+            height = screenWidth/2;
+        }
+        if (screenWidth == 320 && screenHeight == 480 ||
+                screenWidth == 240 && screenHeight == 400) {
+            height = 74*screenWidth/100;
+        }
+        return height;
+    }
+
     private boolean checkAccessForPage(int position) {
         String key = "";
         switch (position) {
@@ -158,7 +172,10 @@ public class MainPageFragment extends Fragment {
         double ratio = height/width;
         rlMainPageContainer.removeAllViews();
         expenseView = new BoardView(getContext(), PocketAccounterGeneral.EXPENSE, day);
-        RelativeLayout.LayoutParams lpExpenses = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dm.widthPixels);
+        int tempHeight = getExpenseBoardViewHeight();
+        if (tempHeight == 0)
+            tempHeight = dm.widthPixels;
+        RelativeLayout.LayoutParams lpExpenses = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, tempHeight);
         lpExpenses.addRule(RelativeLayout.ALIGN_PARENT_TOP);
         lockView = new MainPageLockView(getContext(), expenseView.getCurrentPage());
         lockView.setLayoutParams(lpExpenses);
@@ -337,7 +354,10 @@ public class MainPageFragment extends Fragment {
                 incomeView.hideText();
             }
         }
-        preferences.edit().putBoolean(PocketAccounterGeneral.INFO_VISIBILITY, infosVisibility).commit();
+        preferences
+                .edit()
+                .putBoolean(PocketAccounterGeneral.INFO_VISIBILITY, infosVisibility)
+                .commit();
 
     }
     public void hideClouds() {
