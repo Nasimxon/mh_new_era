@@ -64,7 +64,7 @@ public class PAFragmentManager {
     @Inject SharedPreferences preferences;
     @Inject DaoSession daoSession;
     private VerticalViewPagerAdapter adapter;
-    public PAFragmentManager(PocketAccounter activity) {
+    public PAFragmentManager(final PocketAccounter activity) {
         this.activity = activity;
         ((PocketAccounterApplication) activity.getApplicationContext()).component().inject(this);
         fragmentManager = activity.getSupportFragmentManager();
@@ -84,6 +84,11 @@ public class PAFragmentManager {
                         .edit()
                         .putInt(PocketAccounterGeneral.VERTICAL_SELECTED_PAGE, position)
                         .commit();
+                if (position == 0)
+                    activity.setToToolbarVoiceMode();
+                else
+                    activity.setToToolbarManualEnterMode();
+
             }
             @Override
             public void onPageScrollStateChanged(int state) {
@@ -149,6 +154,17 @@ public class PAFragmentManager {
             Fragment fragment = fragmentManager.getFragments().get(i);
             if (fragment != null && fragment.getClass().getName().equals(VoiceRecognizerFragment.class.getName())) {
                 ((VoiceRecognizerFragment) fragment).setDay(day);
+                break;
+            }
+        }
+    }
+
+    public void updateVoiceRecognizePageCurrencyChanges() {
+        int size = fragmentManager.getFragments().size();
+        for (int i = 0; i < size; i++) {
+            Fragment fragment = fragmentManager.getFragments().get(i);
+            if (fragment != null && fragment.getClass().getName().equals(VoiceRecognizerFragment.class.getName())) {
+                ((VoiceRecognizerFragment) fragment).refreshCurrencyChanges();
                 break;
             }
         }

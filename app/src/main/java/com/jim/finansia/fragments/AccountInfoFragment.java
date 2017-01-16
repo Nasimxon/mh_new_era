@@ -39,24 +39,21 @@ import javax.inject.Inject;
 
 @SuppressLint({"InflateParams", "ValidFragment"})
 public class AccountInfoFragment extends PABaseInfoFragment {
-	@Inject
-	DecimalFormat formatter;
+	private DecimalFormat formatter = new DecimalFormat("0.##");
 	private Account account;
 	private RecyclerView rvAccountDetailsInfo;
 	private TextView firstPay;
 	private TextView canbeNegative;
 	private TextView totalAmount;
-	SelectorView svCategorySelector;
+	private SelectorView svCategorySelector;
 
 	@SuppressLint("ValidFragment")
 	public AccountInfoFragment(Account account) {
 		this.account = account;
 	}
 
-
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		final View rootView = inflater.inflate(R.layout.account_info_modern_layout, container, false);
-		((PocketAccounter)getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
 		toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
 		toolbarManager.setImageToSecondImage(R.drawable.ic_more_vert_black_48dp);
 		toolbarManager.setImageToHomeButton(R.drawable.ic_back_button);
@@ -98,6 +95,7 @@ public class AccountInfoFragment extends PABaseInfoFragment {
 			public void onItemSelected(int selectedItemPosition) {
 				account = rootAccounts.get(selectedItemPosition);
 				toolbarManager.setSubtitle(account.getName());
+				toolbarManager.setSubtitleIconVisibility(View.GONE);
 				refreshOperationsList(commonOperations.getFirstDay(), Calendar.getInstance());
 			}
 		});
@@ -120,90 +118,9 @@ public class AccountInfoFragment extends PABaseInfoFragment {
 
 		rvAccountDetailsInfo = (RecyclerView) rootView.findViewById(R.id.rvAccountInfoOperations);
 		rvAccountDetailsInfo.setLayoutManager(new LinearLayoutManager(getContext()));
-//		ivAccountInfoOperationsFilter = (ImageView) rootView.findViewById(R.id.ivAccountInfoOperationsFilter);
-//		ivAccountInfoOperationsFilter.setOnClickListener(new OnClickListener() {
-//			@Override
-//			public void onClick(View v) {
-//				FilterDialog filterDialog = new FilterDialog(getContext());
-//				filterDialog.setOnDateSelectedListener(new FilterSelectable() {
-//					@Override
-//					public void onDateSelected(Calendar begin, Calendar end) {
-//						refreshOperationsList(begin, end);
-//					}
-//				});
-//				filterDialog.show();
-//			}
-//		});
-//		sendPay.setOnClickListener(new OnClickListener() {
-//			@Override
-//			public void onClick(View v) {
-//				if (daoSession.getPurposeDao().loadAll().isEmpty()) {
-//					final WarningDialog warningDialog = new WarningDialog(getContext());
-//					warningDialog.setText(getString(R.string.purpose_list_is_empty));
-//					warningDialog.setOnYesButtonListener(new OnClickListener() {
-//						@Override
-//						public void onClick(View v) {
-//							paFragmentManager.getFragmentManager().popBackStack();
-//							paFragmentManager.displayFragment(new PurposeFragment());
-//							warningDialog.dismiss();
-//						}
-//					});
-//					warningDialog.setOnNoButtonClickListener(new OnClickListener() {
-//						@Override
-//						public void onClick(View v) {
-//							warningDialog.dismiss();
-//						}
-//					});
-//					warningDialog.show();
-//				} else {
-//					final TransferDialog transferDialog = new TransferDialog(getContext());
-//					transferDialog.setAccountOrPurpose(account.getId(), true);
-//					transferDialog.setOnTransferDialogSaveListener(new TransferDialog.OnTransferDialogSaveListener() {
-//						@Override
-//						public void OnTransferDialogSave() {
-//							refreshOperationsList();
-//							transferDialog.dismiss();
-//						}
-//					});
-//					transferDialog.show();
-//				}
-//			}
-//		});
-//		getPay.setOnClickListener(new OnClickListener() {
-//			@Override
-//			public void onClick(View v) {
-//				final TransferDialog transferDialog = new TransferDialog(getContext());
-//				transferDialog.show();
-//				transferDialog.setAccountOrPurpose(account.getId(), false);
-//				transferDialog.setOnTransferDialogSaveListener(new TransferDialog.OnTransferDialogSaveListener() {
-//					@Override
-//					public void OnTransferDialogSave() {
-//						refreshOperationsList();
-//						transferDialog.dismiss();
-//					}
-//				});
-//			}
-//		});
 		RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
 		rvAccountDetailsInfo.setLayoutManager(layoutManager);
 		refreshOperationsList();
-
-//		ivCatSelectorItem.setOnTouchListener(new View.OnTouchListener() {
-//			@Override
-//			public boolean onTouch(View v, MotionEvent event) {
-//				if (event.getAction() == MotionEvent.ACTION_DOWN) {
-//					int pos = rootAccounts.indexOf(account);
-////					if (pos ++ >= rootAccounts.size() - 1) {
-////						pos = 0;
-////					}
-//					pos ++;
-//					svCategorySelector.move(pos);
-//					return true;
-//				}
-//				return false;
-//			}
-//		});
-
 		return rootView;
 	}
 
@@ -246,27 +163,36 @@ public class AccountInfoFragment extends PABaseInfoFragment {
 		DecimalFormat format = new DecimalFormat("0.##");
 		double total = 0.0d;
 		for (ReportObject reportObject : objects) {
-			if (reportObject.getAccount().getId().matches(account.getId()))
+			if (reportObject.getType() == PocketAccounterGeneral.INCOME)
 				total += commonOperations.getCost(reportObject.getDate(), reportObject.getCurrency(), reportObject.getAmount());
 			else
 				total -= commonOperations.getCost(reportObject.getDate(), reportObject.getCurrency(), reportObject.getAmount());
 		}
-		totalAmount.setText(getResources().getString(R.string.total) + " " + format.format(total) + commonOperations.getMainCurrency().getAbbr());
+		totalAmount.setText(getResources().getString(R.string.balance) + ": " + format.format(total) + commonOperations.getMainCurrency().getAbbr());
 		rvAccountDetailsInfo.setAdapter(accountOperationsAdapter);
 	}
 
-	private void refreshOperationsList(Calendar begin, Calendar end) {
+	private void refreshOperationsList(Calendar b, Calendar e) {
+		Calendar begin = (Calendar) b.clone();
+		begin.set(Calendar.HOUR_OF_DAY, 0);
+		begin.set(Calendar.MINUTE, 0);
+		begin.set(Calendar.SECOND, 0);
+		begin.set(Calendar.MILLISECOND, 0);
+		Calendar end = (Calendar) e.clone();
+		end.set(Calendar.HOUR_OF_DAY, 23);
+		end.set(Calendar.MINUTE, 59);
+		end.set(Calendar.SECOND, 59);
+		end.set(Calendar.MILLISECOND, 59);
 		List<ReportObject> objects = reportManager.getAccountOperations(account, begin, end);
 		AccountOperationsAdapter accountOperationsAdapter = new AccountOperationsAdapter(objects);
-		DecimalFormat format = new DecimalFormat("0.##");
 		double total = 0.0d;
 		for (ReportObject reportObject : objects) {
-			if (reportObject.getAccount().getId() == account.getId())
-				total += commonOperations.getCost(reportObject.getDate(), reportObject.getCurrency(), reportObject.getAccount().getAmount());
+			if (reportObject.getType() == PocketAccounterGeneral.INCOME)
+				total += commonOperations.getCost(reportObject.getDate(), reportObject.getCurrency(), reportObject.getAmount());
 			else
-				total -= commonOperations.getCost(reportObject.getDate(), reportObject.getCurrency(), reportObject.getAccount().getAmount());
+				total -= commonOperations.getCost(reportObject.getDate(), reportObject.getCurrency(), reportObject.getAmount());
 		}
-		totalAmount.setText(getResources().getString(R.string.total) + " " + formatter.format(total) + commonOperations.getMainCurrency().getAbbr());
+		totalAmount.setText(getResources().getString(R.string.balance) + ": " + formatter.format(total) + commonOperations.getMainCurrency().getAbbr());
 		rvAccountDetailsInfo.setAdapter(accountOperationsAdapter);
 	}
 
@@ -297,7 +223,6 @@ public class AccountInfoFragment extends PABaseInfoFragment {
 				amount += "-"+formatter.format(result.get(position).getAmount()) + result.get(position).getCurrency().getAbbr();
 				view.tvAccountInfoAmount.setTextColor(ContextCompat.getColor(getContext(), R.color.red));
 			}
-			Log.d("nnn", " " + amount.matches("\\s?[0-9]*[.,]?[0]?\\s?"));
 			view.tvAccountInfoAmount.setText(amount);
 		}
 

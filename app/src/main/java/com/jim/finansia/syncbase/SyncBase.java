@@ -24,6 +24,7 @@ import com.jim.finansia.SettingsActivity;
 import com.jim.finansia.database.DaoMaster;
 import com.jim.finansia.managers.CommonOperations;
 import com.jim.finansia.managers.PAFragmentManager;
+import com.jim.finansia.managers.ToolbarManager;
 import com.jim.finansia.modulesandcomponents.modules.PocketAccounterApplicationModule;
 import com.jim.finansia.database.DaoSession;
 import com.jim.finansia.utils.PocketAccounterGeneral;

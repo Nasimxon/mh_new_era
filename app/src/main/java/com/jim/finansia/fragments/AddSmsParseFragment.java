@@ -135,7 +135,6 @@ public class AddSmsParseFragment extends PABaseFragment{
         tvSmsCount.setText("0");
         tvIncome = (TextView) rootView.findViewById(R.id.forIncome);
         tvExpense = (TextView) rootView.findViewById(R.id.smsParsForExpense);
-        initSms();
         final List<String> accStrings = new ArrayList<>();
         for (Account ac : daoSession.getAccountDao().loadAll()) {
             accStrings.add(ac.getId());

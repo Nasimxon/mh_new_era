@@ -168,13 +168,9 @@ public class CurrencyEditFragment extends PABaseInfoFragment implements OnClickL
             case R.id.ivExCurrencyDelete:
                 if (mode == PocketAccounterGeneral.NORMAL_MODE) {
                     mode = PocketAccounterGeneral.EDIT_MODE;
-//                    ivExCurrencyDelete.setImageDrawable(null);
-//                    ivExCurrencyDelete.setImageResource(R.drawable.ic_cat_trash);
                     selected = new boolean[currency.getCosts().size()];
                 } else {
                     mode = PocketAccounterGeneral.NORMAL_MODE;
-//                    ivExCurrencyDelete.setImageDrawable(null);
-//                    ivExCurrencyDelete.setImageResource(R.drawable.subcat_delete);
                     deleteCosts();
                     selected = null;
                 }
@@ -187,6 +183,7 @@ public class CurrencyEditFragment extends PABaseInfoFragment implements OnClickL
                     logicManager.setMainCurrency(currency);
                 }
                 paFragmentManager.updateCurrencyChanges();
+                paFragmentManager.updateVoiceRecognizePageCurrencyChanges();
                 paFragmentManager.displayFragment(new CurrencyFragment());
                 break;
         }

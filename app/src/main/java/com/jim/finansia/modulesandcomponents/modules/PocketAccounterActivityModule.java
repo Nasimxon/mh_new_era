@@ -39,9 +39,9 @@ public class PocketAccounterActivityModule {
     private FinansiaFirebaseAnalytics finansiaFiregbaseAnalytics;
     public PocketAccounterActivityModule(PocketAccounter pocketAccounter, Toolbar toolbar) {
         this.pocketAccounter = pocketAccounter;
-        paFragmentManager = new PAFragmentManager(pocketAccounter);
         this.toolbar = toolbar;
         toolbarManager = new ToolbarManager(pocketAccounter, toolbar);
+        paFragmentManager = new PAFragmentManager(pocketAccounter);
         drawerInitializer = new DrawerInitializer(this.pocketAccounter, paFragmentManager);
         logicManager = new LogicManager(pocketAccounter);
         finansiaFiregbaseAnalytics = new FinansiaFirebaseAnalytics(pocketAccounter);

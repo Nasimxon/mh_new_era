@@ -296,6 +296,12 @@ public class VoiceRecognizerFragment extends Fragment {
         refreshChanges();
     }
 
+    public void refreshCurrencyChanges() {
+        commonOperations.refreshCurrency();
+        refreshChanges();
+        refreshMode(false);
+    }
+
     private void visibilityGoneLR() {
         recStartRight.setAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.left_anim));
         recStartLeft.setAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.right_gone_anim));

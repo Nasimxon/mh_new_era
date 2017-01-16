@@ -183,7 +183,6 @@ public class RootCategoryEditFragment extends PABaseInfoFragment implements OnCl
     @Override
     public void onDetach() {
         super.onDetach();
-        Log.d("nnn", "ishladi");
         if (subCategories != null) {
             for (int i = 0; i < subCategories.size(); i++) {
                 if (subCategories.get(i) == null) {

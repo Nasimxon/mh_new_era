@@ -67,17 +67,19 @@ public class PercentView extends RelativeLayout {
                 int temp = tempPercent*getWidth()/100;
                 if (temp == 0)
                     temp = (int) getResources().getDimension(R.dimen.two_dp);
-                    LinearLayout.LayoutParams percentLp = (LinearLayout.LayoutParams) ivPercentStripe.getLayoutParams();
-                    percentLp.width = temp;
-                    ivPercentStripe.setLayoutParams(percentLp);
-                    LinearLayout.LayoutParams notActiveSideLp = (LinearLayout.LayoutParams) ivEmptySide.getLayoutParams();
-                    notActiveSideLp.width = getWidth() - temp;
-                    ivEmptySide.setLayoutParams(notActiveSideLp);
+                LinearLayout.LayoutParams percentLp = (LinearLayout.LayoutParams) ivPercentStripe.getLayoutParams();
+                percentLp.width = temp;
+                ivPercentStripe.setLayoutParams(percentLp);
+                LinearLayout.LayoutParams notActiveSideLp = (LinearLayout.LayoutParams) ivEmptySide.getLayoutParams();
+                notActiveSideLp.width = getWidth() - temp;
+                ivEmptySide.setLayoutParams(notActiveSideLp);
                 //bow arrow percent
                 if (isBowArrowVisible) {
-                    int realWidth = getWidth() - (int) getResources().getDimension(R.dimen.eleven_dp);
+                    int realWidth = getWidth() - (int) getResources().getDimension(R.dimen.twenty_dp);
                     LayoutParams lpArrow = (LayoutParams) rlBowArrow.getLayoutParams();
-                    lpArrow.width = tempPercent*realWidth/100;
+                    lpArrow.width = tempPercent*realWidth/100 <= (int) getResources().getDimension(R.dimen.twenty_dp) ?
+                            (int) getResources().getDimension(R.dimen.twenty_dp) :
+                            tempPercent*realWidth/100;
                     rlBowArrow.setLayoutParams(lpArrow);
                 }
             }

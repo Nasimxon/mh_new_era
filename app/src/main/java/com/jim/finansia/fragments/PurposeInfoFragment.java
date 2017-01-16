@@ -41,6 +41,9 @@ import com.jim.finansia.utils.OperationsListDialog;
 import com.jim.finansia.utils.PercentView;
 import com.jim.finansia.utils.PocketAccounterGeneral;
 import com.jim.finansia.utils.TransferDialog;
+import com.jim.finansia.utils.reportfilter.IntervalPickDialog;
+import com.jim.finansia.utils.reportfilter.IntervalPickerView;
+
 import org.greenrobot.greendao.query.Query;
 
 import java.text.DecimalFormat;
@@ -62,9 +65,9 @@ public class PurposeInfoFragment extends Fragment implements View.OnClickListene
     @Inject LogicManager logicManager;
     @Inject ReportManager reportManager;
     @Inject DaoSession daoSession;
-    @Inject FilterDialog filterDialog;
     @Inject TransferDialog transferDialog;
     @Inject CommonOperations commonOperations;
+    IntervalPickDialog filterDialog;
     private MyAdapter myAdapter;
     private Purpose purpose;
     private ImageView iconPurpose;
@@ -96,6 +99,7 @@ public class PurposeInfoFragment extends Fragment implements View.OnClickListene
         View rooView = inflater.inflate(R.layout.purpose_info_layout, container, false);
         beginDate = null;
         endDate = null;
+        filterDialog = new IntervalPickDialog(getContext());
         forGoneLeftDate = (RelativeLayout) rooView.findViewById(R.id.forGoneLeftDate);
 //        deleteOpertions = (ImageView) rooView.findViewById(R.id.ivPurposeInfoDelete);
         filterOpertions = (ImageView) rooView.findViewById(R.id.ivPurposeInfoFilter);
@@ -262,14 +266,23 @@ public class PurposeInfoFragment extends Fragment implements View.OnClickListene
             }
             case R.id.ivPurposeInfoFilter: {
                 filterDialog.show();
-                filterDialog.setOnDateSelectedListener(new FilterSelectable() {
+                filterDialog.setListener(new IntervalPickerView.IntervalPickListener() {
                     @Override
-                    public void onDateSelected(Calendar begin, Calendar end) {
+                    public void onIntervalPick(Calendar begin, Calendar end) {
                         beginDate = (Calendar) begin.clone();
                         endDate = (Calendar) end.clone();
                         myAdapter.refreshFilterPurpose();
+                        filterDialog.dismiss();
+                    }
+
+                    @Override
+                    public void onCancelPick() {
+                        filterDialog.dismiss();
                     }
                 });
+                int width = getResources().getDisplayMetrics().widthPixels;
+                filterDialog.getWindow().setLayout(8*width/9, ViewGroup.LayoutParams.WRAP_CONTENT);
+                filterDialog.show();
                 break;
             }
             //TODO Nasimxon pul otkazilgandan kiyin adapter bilan total sumni yam yangilavoriw kere

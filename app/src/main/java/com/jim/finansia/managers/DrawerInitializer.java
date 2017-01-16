@@ -84,6 +84,7 @@ public class DrawerInitializer {
     public DrawerInitializer(PocketAccounter pocketAccounter, PAFragmentManager fragmentManager) {
         this.pocketAccounter = pocketAccounter;
         this.fragmentManager = fragmentManager;
+
         drawer = new LeftSideDrawer(pocketAccounter);
         drawer.setLeftBehindContentView(R.layout.activity_behind_left_simple);
         rvLeftMenu = (RecyclerView) pocketAccounter.findViewById(R.id.rvLeftMenu);

@@ -96,7 +96,6 @@ public interface PocketAccounterActivityComponent {
     void inject(AccountFragment accountFragment);
     void inject(AccountEditFragment accountEditFragment);
     void inject(CategoryFragment categoryFragment);
-    void inject(AccountInfoFragment accountInfoFragment);
     void inject(SubCatAddEditDialog subCatAddEditDialog);
     void inject(RootCategoryEditFragment rootCategoryEditFragment);
     void inject(CategoryInfoFragment categoryInfoFragment);

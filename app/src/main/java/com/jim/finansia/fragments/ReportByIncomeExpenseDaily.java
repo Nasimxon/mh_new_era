@@ -49,6 +49,7 @@ public class ReportByIncomeExpenseDaily extends Fragment {
     private RelativeLayout expenseButton,incomeButton;
     private List<DayData> adapterList;
     private TextView tvReportIncome, tvReportExpense;
+    private Calendar today = Calendar.getInstance();
     @Inject DaoSession daoSession;
     @Inject ReportManager reportManager;
     @Inject ToolbarManager toolbarManager;
@@ -82,15 +83,33 @@ public class ReportByIncomeExpenseDaily extends Fragment {
                 adapterList = generateDatas(month, year);
                 daysAdapter = new DaysAdapter(adapterList);
                 rvReportByIncomeExpenseDays.setAdapter(daysAdapter);
+//                int scrollPosition = 0;
+//                for (DayData dayData : adapterList) {
+//                    if (dayData.isSelected()) {
+//                        scrollPosition = dayData.getDay() - 1;
+//                        break;
+//                    }
+//                }
+//                if (scrollPosition - 2 >= 0) scrollPosition -= 2;
+//                rvReportByIncomeExpenseDays.scrollToPosition(scrollPosition);
             }
         });
-
         Calendar cal = Calendar.getInstance();
         month = cal.get(Calendar.MONTH);
         year = cal.get(Calendar.YEAR);
         adapterList = generateDatas(month, year);
         daysAdapter = new DaysAdapter(adapterList);
         rvReportByIncomeExpenseDays.setAdapter(daysAdapter);
+
+        int scrollPosition = 0;
+        for (DayData dayData : adapterList) {
+            if (dayData.isSelected()) {
+                scrollPosition = dayData.getDay() - 1;
+                break;
+            }
+        }
+        if (scrollPosition - 2 >= 0) scrollPosition -= 2;
+        rvReportByIncomeExpenseDays.scrollToPosition(scrollPosition);
 
         tvReportIncome.setTextColor(notActiveColor);
         tvReportExpense.setTextColor(activeColor);
@@ -196,7 +215,9 @@ public class ReportByIncomeExpenseDaily extends Fragment {
             temp.set(Calendar.DAY_OF_MONTH, currentDay);
             DayData dayData = new DayData();
             dayData.setDay(currentDay);
-            dayData.setSelected(i == 2);
+            dayData.setSelected(today.get(Calendar.YEAR) == year &&
+                    today.get(Calendar.MONTH) == month
+                    && i == today.get(Calendar.DAY_OF_MONTH));
             dayData.setDayOfWeek(temp.get(Calendar.DAY_OF_WEEK));
             dayData.setLeftIncome(leftIncome);
             dayData.setLeftExpense(leftExpense);

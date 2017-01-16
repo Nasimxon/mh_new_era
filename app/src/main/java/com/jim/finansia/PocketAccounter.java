@@ -167,6 +167,14 @@ public class PocketAccounter extends AppCompatActivity {
         }
     }
 
+    public void setToToolbarVoiceMode() {
+        toolbarManager.setToolbarIconsVisibility(View.VISIBLE, View.GONE, View.GONE);
+    }
+    public void setToToolbarManualEnterMode() {
+        toolbarManager.setToolbarIconsVisibility(View.VISIBLE, View.GONE, View.VISIBLE);
+    }
+
+
     private void initDisplaySettings() {
         int width = getResources().getDisplayMetrics().widthPixels;
         int height = getResources().getDisplayMetrics().heightPixels;

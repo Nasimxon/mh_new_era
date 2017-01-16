@@ -453,11 +453,15 @@ public class LogicManager {
     }
 
     private void defineMainCurrency() {
-        List<Currency> mainCurrencyList = daoSession.queryBuilder(Currency.class).where(CurrencyDao.Properties.IsMain.eq(true)).list();
+        List<Currency> mainCurrencyList = daoSession
+                .queryBuilder(Currency.class)
+                .where(CurrencyDao.Properties.IsMain.eq(true))
+                .list();
         if (mainCurrencyList.isEmpty()) {
             Currency currency = daoSession.getCurrencyDao().loadAll().get(0);
             currency.setMain(true);
             daoSession.insertOrReplace(currency);
+            daoSession.getCurrencyDao().detachAll();
         }
     }
 

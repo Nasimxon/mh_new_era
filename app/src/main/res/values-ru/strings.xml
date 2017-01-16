@@ -66,6 +66,9 @@
         <item>Поделиться</item>
         <item>Обратная свзяь</item>
     </string-array>
+
+
+    <!-- begin currency datas -->
     <string-array name="base_currencies">
         <item>Доллары</item>
         <item>Рубль</item>
@@ -109,6 +112,7 @@
         <item>Сербский динар</item>
         <item>Бат</item>
         <item>Лира</item>
+        <item>Афгани</item>
     </string-array>
     <string-array name="base_abbrs">
         <item>$</item>
@@ -153,6 +157,7 @@
         <item>din</item>
         <item>฿</item>
         <item>₺</item>
+        <item>؋</item>
     </string-array>
     <string-array name="currency_ids">
         <item>currency_1</item>
@@ -197,6 +202,7 @@
         <item>currency_40</item>
         <item>currency_41</item>
         <item>currency_42</item>
+        <item>currency_43</item>
     </string-array>
     <string-array name="currency_costs">
         <item>1.0</item>
@@ -240,6 +246,10 @@
         <item>1.0</item>
         <item>1.0</item>
         <item>1.0</item>
+        <item>1.0</item>
+    </string-array>
+    <!-- end currency datas -->
+
         <item>1.0</item>
     </string-array>
     <string-array name="icons">
