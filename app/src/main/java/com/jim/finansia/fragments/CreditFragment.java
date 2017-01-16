@@ -1,6 +1,7 @@
 package com.jim.finansia.fragments;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -36,7 +37,8 @@ public class CreditFragment extends Fragment {
     PAFragmentManager paFragmentManager;
     @Inject
     ToolbarManager toolbarManager;
-
+    @Inject
+    SharedPreferences sPref;
     private CreditDetialsDao creditDetialsDao;
     RecyclerView crRV;
     AdapterCridet crAdap;
@@ -85,6 +87,8 @@ public class CreditFragment extends Fragment {
         toolbarManager.setOnTitleClickListener(null);
         toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
         View V=inflater.inflate(R.layout.fragment_credit, container, false);
+        SharedPreferences.Editor editor = sPref.edit();
+        editor.putInt("FRAG_ID", 3).commit();
         ifListEmpty=(TextView) V.findViewById(R.id.ifListEmpty);
         if(creditDetialsDao.queryBuilder()
                 .where(CreditDetialsDao.Properties.Key_for_archive.eq(false)).orderDesc(CreditDetialsDao.Properties.MyCredit_id).build().list().size()==0){

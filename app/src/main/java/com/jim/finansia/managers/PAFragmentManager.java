@@ -300,6 +300,10 @@ public class PAFragmentManager {
                          displayFragment(infoCreditFragmentForArchive);
                      }
                       else displayMainWindow();
+                } else if (preferences.getInt("FRAG_ID", 0) == 3){
+                    CreditTabLay creditTabL = new CreditTabLay();
+                    creditTabL.setArchivePosition();
+                    displayFragment(new CreditTabLay());
                 }
             }
         }

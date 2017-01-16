@@ -63,6 +63,7 @@ public class ChangeColorOfStyleFragment extends Fragment {
         toolbarManager.setOnTitleClickListener(null);
         toolbarManager.setSubtitle("");
         toolbarManager.setSubtitleIconVisibility(View.GONE);
+        toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
         llBuyColorButton = (LinearLayout) rootView.findViewById(R.id.llBuyColorButton);
         tvColorChooseSetText = (TextView) rootView.findViewById(R.id.tvColorChooseSetText);
         tvColorChooseButtonPaymentAmount = (TextView) rootView.findViewById(R.id.tvColorChooseButtonPaymentAmount);

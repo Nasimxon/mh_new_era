@@ -28,6 +28,7 @@ public class ReportFragment extends Fragment {
         toolbarManager.setOnTitleClickListener(null);
         toolbarManager.setSubtitle("");
         toolbarManager.setSubtitleIconVisibility(View.GONE);
+        toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
         btnReportByCategory = (LinearLayout) rootView.findViewById(R.id.btnReportByCategory);
         btnReportByCategory.setOnClickListener(new View.OnClickListener() {
             @Override

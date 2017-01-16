@@ -1,5 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="300dp"
+    android:layout_width="@dimen/three_hundred_dp"
     android:layout_height="match_parent" >
 	<RelativeLayout
 		style="@style/behindMenuScrollContent"
@@ -9,7 +9,7 @@
 		<LinearLayout
 			android:id="@+id/rlDrawerHeader"
 			android:layout_width="match_parent"
-			android:layout_height="115dp"
+			android:layout_height="@dimen/one_hundred_fiveteen_dp"
 			android:paddingTop="@dimen/fifteen_dp"
 			android:paddingLeft="@dimen/fifteen_dp"
 			android:paddingRight="@dimen/fifteen_dp"

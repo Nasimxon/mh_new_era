@@ -117,4 +117,5 @@
     <dimen name="two_hundred">200dp</dimen>
     <dimen name="hundred_and_ninety_dp">190dp</dimen>
     <dimen name="sixty_seven_dp">67dp</dimen>
+    <dimen name="three_hundred_dp">300dp</dimen>
 </resources>
