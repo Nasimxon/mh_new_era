@@ -334,7 +334,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="@dimen/fifteen_dp"
         >
-        <ImageView
+        <com.jim.finansia.utils.TintImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/speech_circle_border"
@@ -417,7 +417,7 @@
             android:layout_height="@dimen/hundred_sixty_dp"
             android:layout_centerInParent="true"
             >
-            <ImageView
+            <com.jim.finansia.utils.TintImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/speech_circle_container_main_bg"

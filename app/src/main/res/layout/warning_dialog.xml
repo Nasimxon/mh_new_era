@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="@dimen/ten_dp"
-        android:layout_marginRight="@dimen/ten_dp">
+        >
         <TextView
             android:id="@+id/tvCatEditName"
             android:layout_width="match_parent"
@@ -31,7 +31,8 @@
         android:id="@+id/tvWarningText"
         android:layout_width="match_parent"
         android:gravity="center"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
 
         android:layout_marginRight="@dimen/sixteen_dp"
         android:layout_marginLeft="@dimen/sixteen_dp"
@@ -45,7 +46,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginBottom="@dimen/twelve_dp">
+        android:layout_marginBottom="@dimen/five_dp"
+        >
         <TextView
             android:id="@+id/btnWarningNo"
             android:layout_width="0dp"
@@ -58,14 +60,14 @@
             android:textSize="@dimen/sixteen_dp"
             android:padding="5dp"
             android:layout_marginRight="@dimen/ten_dp"
-            android:layout_marginLeft="@dimen/twelve_dp"/>
+            android:layout_marginLeft="@dimen/sixteen_dp"/>
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             >
 
-            <ImageView
+            <com.jim.finansia.utils.TintImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/btnWarningYes"
@@ -84,7 +86,7 @@
                 android:gravity="center"
                 android:textSize="@dimen/sixteen_dp"
                 android:text="@string/yes"
-                android:layout_marginRight="@dimen/twelve_dp"
+                android:layout_marginRight="@dimen/sixteen_dp"
                 android:padding="5dp"/>
         </RelativeLayout>
 

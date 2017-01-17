@@ -317,7 +317,7 @@
         android:layout_marginTop="@dimen/five_dp"
         android:layout_marginBottom="@dimen/twenty_dp"
         >
-        <ImageView
+        <com.jim.finansia.utils.TintImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/diaolog_buttons"

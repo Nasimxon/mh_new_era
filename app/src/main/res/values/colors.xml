@@ -19,12 +19,12 @@
     <color name="message_text_bg" type="color">#9cba63</color>
     <color name="lv_border" type="color">#ebebeb</color>
     <color name="message_color" type="color">#ebebeb</color>
-    <color name="currency_chooser" type="color">#828282</color>
+    <color name="currency_chooser" type="color">#bababa</color>
     <color name="currency_list_border" type="color">#ebebeb</color>
     <color name="material_blue_500" type="color">#2196f3</color>
     <color name="fab_icon_bg" type="color">#ffffff</color>
     <color name="warning_color" type="color">#ababab</color>
-    <color name="icon_select" type="color">#332196f3</color>
+    <color name="icon_select" type="color">#2853b9b9</color>
     <color name="record_borders" type="color">#889c9c9c</color>
     <color name="record_outline" type="color">#88acacac</color>
     <color name="blue_color_drakness" type="color">#2c7fe2</color>

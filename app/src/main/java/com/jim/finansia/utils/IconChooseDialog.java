@@ -3,6 +3,8 @@ package com.jim.finansia.utils;
 import android.app.ActionBar;
 import android.app.Dialog;
 import android.content.Context;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.Window;
@@ -17,21 +19,32 @@ import com.jim.finansia.finance.IconAdapterCategory;
  */
 
 public class IconChooseDialog extends Dialog {
-    private GridView gvCategoryIcons;
+    private RecyclerView rvCategoryIcons;
     private String[] icons;
     private String selectedIcon = "icons_1";
     private View dialogView;
-    private IconAdapterCategory adapter;
-
-    public IconChooseDialog(Context context) {
+    private IconsAdapters adapter;
+    private OnIconPickListener onIconPickListener;
+    IconsAdapters.OnClickListnerForBack onClickListnerForBack;
+    public IconChooseDialog(Context context ) {
         super(context);
         dialogView = getLayoutInflater().inflate(R.layout.cat_icon_select, null);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(dialogView);
-        gvCategoryIcons = (GridView) dialogView.findViewById(R.id.gvCategoryIcons);
+        View v = getWindow().getDecorView();
+        v.setBackgroundResource(android.R.color.transparent);
+        onClickListnerForBack = new IconsAdapters.OnClickListnerForBack() {
+            @Override
+            public void onClick(String s) {
+                onIconPickListener.OnIconPick(s);
+            }
+        };
+        rvCategoryIcons = (RecyclerView) dialogView.findViewById(R.id.gvCategoryIcons);
         icons = context.getResources().getStringArray(R.array.icons);
-        adapter = new IconAdapterCategory(context, icons, selectedIcon);
-        gvCategoryIcons.setAdapter(adapter);
+        adapter = new IconsAdapters(context, icons, selectedIcon, onClickListnerForBack);
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(context,4);
+        rvCategoryIcons.setLayoutManager(layoutManager);
+        rvCategoryIcons.setAdapter(adapter);
         DisplayMetrics dm = context.getResources().getDisplayMetrics();
         int width = dm.widthPixels;
         getWindow().setLayout(width, ActionBar.LayoutParams.MATCH_PARENT);
@@ -46,12 +59,7 @@ public class IconChooseDialog extends Dialog {
     }
 
     public void setOnIconPickListener(final OnIconPickListener onIconPickListener) {
-        gvCategoryIcons.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                onIconPickListener.OnIconPick(icons[position]);
-            }
-        });
+        this.onIconPickListener = onIconPickListener;
     }
 
     public String[] getIcons() {
@@ -60,7 +68,12 @@ public class IconChooseDialog extends Dialog {
 
     public void setSelectedIcon(String selectedIcon) {
         this.selectedIcon = selectedIcon;
-        adapter = new IconAdapterCategory(getContext(), icons, selectedIcon);
-        gvCategoryIcons.setAdapter(adapter);
+        adapter = new IconsAdapters(getContext(), icons, selectedIcon, new IconsAdapters.OnClickListnerForBack() {
+            @Override
+            public void onClick(String s) {
+                onIconPickListener.OnIconPick(s);
+            }
+        });
+        rvCategoryIcons.setAdapter(adapter);
     }
 }

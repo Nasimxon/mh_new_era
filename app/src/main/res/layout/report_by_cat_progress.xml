@@ -44,7 +44,7 @@
             android:minHeight="@dimen/five_dp"
             android:id="@+id/llRepByCatPercent"
             android:orientation="horizontal">
-            <ImageView
+            <com.jim.finansia.utils.TintImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/report_progress_percent_element_bg"

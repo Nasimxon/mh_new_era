@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/message_color"
+    android:background="@drawable/dialog_shape"
     android:orientation="vertical" >
     <TextView
         android:id="@+id/tvAccountEditBalance"
@@ -17,20 +17,19 @@
     <ImageView
         android:id="@+id/ivSelectIcon"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/one_dp"
-        android:background="@color/warning_color" />
-    <GridView
+        android:layout_height="2px"
+        android:background="#bdbdbd" />
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/gvCategoryIcons"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginBottom="@dimen/ten_dp"
         android:layout_marginLeft="@dimen/ten_dp"
         android:layout_marginRight="@dimen/ten_dp"
         android:layout_marginTop="@dimen/ten_dp"
-        android:layout_weight="1"
         android:background="@drawable/gv_icon"
-        android:numColumns="4" >
-    </GridView>
+        >
+    </android.support.v7.widget.RecyclerView>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
