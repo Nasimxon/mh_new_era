@@ -83,15 +83,6 @@ public class ReportByIncomeExpenseDaily extends Fragment {
                 adapterList = generateDatas(month, year);
                 daysAdapter = new DaysAdapter(adapterList);
                 rvReportByIncomeExpenseDays.setAdapter(daysAdapter);
-//                int scrollPosition = 0;
-//                for (DayData dayData : adapterList) {
-//                    if (dayData.isSelected()) {
-//                        scrollPosition = dayData.getDay() - 1;
-//                        break;
-//                    }
-//                }
-//                if (scrollPosition - 2 >= 0) scrollPosition -= 2;
-//                rvReportByIncomeExpenseDays.scrollToPosition(scrollPosition);
             }
         });
         Calendar cal = Calendar.getInstance();
@@ -108,9 +99,9 @@ public class ReportByIncomeExpenseDaily extends Fragment {
                 break;
             }
         }
+        generateDataForDetailList(scrollPosition + 1);
         if (scrollPosition - 2 >= 0) scrollPosition -= 2;
         rvReportByIncomeExpenseDays.scrollToPosition(scrollPosition);
-
         tvReportIncome.setTextColor(notActiveColor);
         tvReportExpense.setTextColor(activeColor);
         ivReportIncome.setRotation(0.0f);

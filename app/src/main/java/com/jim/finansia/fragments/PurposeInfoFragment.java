@@ -55,9 +55,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-/**
- * Created by root on 9/7/16.
- */
 @SuppressLint("ValidFragment")
 public class PurposeInfoFragment extends Fragment implements View.OnClickListener {
     @Inject ToolbarManager toolbarManager;
@@ -68,7 +65,7 @@ public class PurposeInfoFragment extends Fragment implements View.OnClickListene
     @Inject DaoSession daoSession;
     @Inject TransferDialog transferDialog;
     @Inject CommonOperations commonOperations;
-    IntervalPickDialog filterDialog;
+    private IntervalPickDialog filterDialog;
     private MyAdapter myAdapter;
     private Purpose purpose;
     private ImageView iconPurpose;

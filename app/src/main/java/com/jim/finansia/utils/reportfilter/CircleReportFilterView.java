@@ -264,10 +264,10 @@ public class CircleReportFilterView extends View {
                             int month = (int) (res/step);
                             end.set(Calendar.MONTH, month);
                             end.set(Calendar.DAY_OF_MONTH, 1);
-                            end.set(Calendar.HOUR_OF_DAY, 0);
-                            end.set(Calendar.MINUTE, 0);
-                            end.set(Calendar.SECOND, 0);
-                            end.set(Calendar.MILLISECOND, 0);
+                            end.set(Calendar.HOUR_OF_DAY, 23);
+                            end.set(Calendar.MINUTE, 59);
+                            end.set(Calendar.SECOND, 59);
+                            end.set(Calendar.MILLISECOND, 59);
                             if (listener != null) listener.onIntervalCircleTick(begin, end, false);
                             invalidate();
                         }
@@ -287,10 +287,10 @@ public class CircleReportFilterView extends View {
                             int month = (int) (res/step);
                             end.set(Calendar.MONTH, month);
                             end.set(Calendar.DAY_OF_MONTH, 1);
-                            end.set(Calendar.HOUR_OF_DAY, 0);
-                            end.set(Calendar.MINUTE, 0);
-                            end.set(Calendar.SECOND, 0);
-                            end.set(Calendar.MILLISECOND, 0);
+                            end.set(Calendar.HOUR_OF_DAY, 23);
+                            end.set(Calendar.MINUTE, 59);
+                            end.set(Calendar.SECOND, 59);
+                            end.set(Calendar.MILLISECOND, 59);
                             if (listener != null) listener.onIntervalCircleTick(begin, end, false);
                             invalidate();
                         }
