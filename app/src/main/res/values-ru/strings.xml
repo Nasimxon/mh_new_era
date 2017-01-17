@@ -58,7 +58,7 @@
         <item>Цели</item>
         <item>Автооперации</item>
         <item>Кредиты</item>
-        <item>Долгы</item>
+        <item>Долги</item>
         <item>Смс парсинг</item>
         <item>Отчеты</item>
         <item>Темы</item>
@@ -209,6 +209,7 @@
         <item>1.0</item>
         <item>0.0154</item>
         <item>0.9</item>
+        <item>1.0</item>
         <item>1.0</item>
         <item>1.0</item>
         <item>1.0</item>

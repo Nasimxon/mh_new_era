@@ -136,7 +136,7 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
                                 PERMISSION_READ_STORAGE);
                     }
                 } else {
-                    File direct = new File(Environment.getExternalStorageDirectory() + "/Pocket Accounter");
+                    File direct = new File(Environment.getExternalStorageDirectory() + "/Finansia");
                     if(!direct.exists())
                     {
                         if(direct.mkdir())
@@ -533,7 +533,6 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
                         public void onClick(DialogInterface dialog, int id) {
                             hideProgressDialog();
                             dialog.cancel();
-
                         }
                     });
                     builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
@@ -564,12 +563,12 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
                 String  currentDBPath;
                 currentDBPath = "//data//" + getPackageName().toString()
                         + "//databases//" + PocketAccounterGeneral.CURRENT_DB_NAME;
-                String backupDBPath  = "/Pocket Accounter/" + PocketAccounterGeneral.OLD_DB_NAME;
+                String backupDBPath  = "/Finansia/" + PocketAccounterGeneral.OLD_DB_NAME;
                 File   currentDB= new File(data, currentDBPath);
                 File  backupDB = new File(sd, backupDBPath);
 
                 if(!backupDB.exists()){
-                    backupDBPath  = "/Pocket Accounter/" + PocketAccounterGeneral.CURRENT_DB_NAME;
+                    backupDBPath  = "/Finansia/" + PocketAccounterGeneral.CURRENT_DB_NAME;
                     backupDB = new File(sd,backupDBPath);
                     if(!backupDB.exists())
                         return;
@@ -578,7 +577,7 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
                 final SQLiteDatabase current = SQLiteDatabase.openDatabase(currentDB.getAbsolutePath(), null, SQLiteDatabase.OPEN_READONLY);
                 SQLiteDatabase received = SQLiteDatabase.openDatabase(backupDB.getAbsolutePath(), null, SQLiteDatabase.OPEN_READWRITE);
                 if (current.getVersion() > received.getVersion()) {
-                    DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "pocketaccounter-db", null);
+                    DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, PocketAccounterGeneral.CURRENT_DB_NAME, null);
                     Database sqLiteDatabase= helper.getWritableDb();
                     DaoMaster daoMaster= new DaoMaster(sqLiteDatabase);
                     daoSession= daoMaster.newSession();
@@ -619,7 +618,7 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
             File data = Environment.getDataDirectory();
             if (sd.canWrite()) {
                 String  currentDBPath= "//data//" + getPackageName().toString()+ "//databases//" + PocketAccounterGeneral.CURRENT_DB_NAME;
-                String backupDBPath  = "/Pocket Accounter/"+PocketAccounterGeneral.CURRENT_DB_NAME;
+                String backupDBPath  = "/Finansia/"+PocketAccounterGeneral.CURRENT_DB_NAME;
                 File currentDB = new File(data, currentDBPath);
                 File backupDB = new File(sd, backupDBPath);
                 FileChannel src = new FileInputStream(currentDB).getChannel();
