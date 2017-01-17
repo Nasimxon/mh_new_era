@@ -2,31 +2,95 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#fff"
     tools:context="com.jim.finansia.intropage.IntroFrame">
     <!-- TODO: Update blank fragment layout -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <ImageView
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="3"
-            android:layout_marginTop="@dimen/thirty_dp"
-            android:id="@+id/imageView" />
+            android:paddingTop="@dimen/thirty_dp"
+            android:paddingBottom="@dimen/thirty_dp"
+            android:layout_weight="6"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"/>
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="4"
+                    android:layout_height="match_parent">
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/into_fon"
+                        android:scaleType="centerInside"
+                        />
+                    <ImageView
+                        android:layout_width="@dimen/one_hundred_eighty_one_dp"
+                        android:layout_height="@dimen/one_hundred_eighty_one_dp"
+                        android:layout_centerInParent="true"
+                        android:paddingLeft="@dimen/thirty_dp"
+                        android:paddingBottom="@dimen/sixteen_dp"
+                        android:paddingTop="@dimen/sixteen_dp"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/voice_intro"
+                        android:id="@+id/imageView"/>
+                </RelativeLayout>
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"/>
+            </LinearLayout>
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/seventy_dp">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/fourty_dp"
+                android:src="@drawable/shadow_buttom_intro"
+                android:layout_centerVertical="true"
+                android:scaleType="fitXY"
+                />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/ellips_intro"/>
+            <ImageView
+                android:id="@+id/miniIcon"
+                android:layout_width="@dimen/twentyfive_dp"
+                android:layout_height="@dimen/twentyfive_dp"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/voice_recognize"
+                android:tint="#fff"
+                android:layout_marginTop="@dimen/twenty_dp"/>
+        </RelativeLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="2"
+            android:layout_weight="3"
             android:orientation="vertical">
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:textSize="@dimen/twentyfour_sp"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/twenty_dp"
                 android:paddingRight="@dimen/sixteen_dp"
                 android:paddingLeft="@dimen/sixteen_dp"
-                android:text=""
+                android:paddingTop="@dimen/five_dp"
+                android:text="Voice recognition"
                 android:textStyle="bold"
                 android:textColor="#414141"
                 android:gravity="bottom|center_horizontal"
@@ -35,7 +99,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="3"
-                android:layout_marginTop="@dimen/twenty_dp"
+                android:layout_marginTop="@dimen/five_dp"
                 android:orientation="horizontal">
                 <FrameLayout
                     android:layout_width="0dp"
@@ -45,9 +109,9 @@
                     android:id="@+id/conntentText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="5"
+                    android:layout_weight="8"
                     android:textSize="@dimen/fourteen_sp"
-                   android:text=""
+                   android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec volutpat fermentum interdum. Vivamus iaculis a arcu quis placerat. Nam eget libero sed turpis pellentesque tincidunt. "
                     android:textColor="#414141"
                     android:gravity="center"/>
                 <FrameLayout

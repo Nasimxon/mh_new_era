@@ -49,6 +49,7 @@ import com.jim.finansia.managers.CommonOperations;
 import com.jim.finansia.managers.FinansiaFirebaseAnalytics;
 import com.jim.finansia.managers.PAFragmentManager;
 import com.jim.finansia.managers.ReportManager;
+import com.jim.finansia.utils.GetterAttributColors;
 import com.jim.finansia.utils.PocketAccounterGeneral;
 import com.jim.finansia.utils.WarningDialog;
 import com.jim.finansia.utils.billing.PurchaseImplementation;
@@ -274,6 +275,7 @@ public class VoiceRecognizerFragment extends Fragment {
                     public void run() {
                         if (started) {
                             ivCenterButton.setBackgroundResource(R.drawable.speech_pressed_circle);
+                            ivCenterButton.setColorFilter(GetterAttributColors.fetchHeadAccedentColor(getContext()));
                             ivMicrophoneIcon.setColorFilter(Color.WHITE);
                         } else {
                             ivCenterButton.setBackgroundResource(R.drawable.white_circle);
@@ -355,6 +357,7 @@ public class VoiceRecognizerFragment extends Fragment {
                     .commit();
         }
         ivCenterButton.setBackgroundResource(R.drawable.speech_pressed_circle);
+        ivCenterButton.setColorFilter(GetterAttributColors.fetchHeadAccedentColor(getContext()));
         ivMicrophoneIcon.setColorFilter(Color.WHITE);
         recognizer.startVoiceRecognitionCycle();
     }

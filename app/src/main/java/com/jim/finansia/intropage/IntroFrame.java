@@ -18,6 +18,7 @@ public class IntroFrame extends Fragment {
     TextView titleText;
     TextView contentText;
     ImageView contentImage;
+    ImageView miniIcon;
     public IntroFrame() {
         // Required empty public constructor
     }
@@ -38,11 +39,8 @@ public class IntroFrame extends Fragment {
         titleText=(TextView) V.findViewById(R.id.textView8);
         contentText=(TextView) V.findViewById(R.id.conntentText);
         contentImage=(ImageView) V.findViewById(R.id.imageView);
-
-        Typeface fontBlack = Typeface.createFromAsset(getActivity().getAssets(), "ralewayBlack.ttf");
-        titleText.setTypeface(fontBlack);
-        Typeface fontmed = Typeface.createFromAsset(getActivity().getAssets(), "ralewayMedium.ttf");
-        contentText.setTypeface(fontmed);
+        miniIcon=(ImageView) V.findViewById(R.id.miniIcon);
+        miniIcon.setImageResource(dataIntro.getMiniImageRes());
         titleText.setText(dataIntro.getIntoTitle());
         contentText.setText(dataIntro.getContentText());
         contentImage.setImageResource(dataIntro.getImageRes());

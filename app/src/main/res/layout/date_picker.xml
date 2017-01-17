@@ -11,40 +11,59 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
 
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
+
         android:calendarViewShown="false" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="35dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginBottom="@dimen/twelve_dp">
         <TextView
             android:id="@+id/ivDatePickCancel"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/diaolog_button_enable_color"
             android:textColor="@color/white"
             android:gravity="center"
-            android:text="Cancel"
+            android:text="@string/cancel"
             android:textSize="@dimen/sixteen_dp"
             android:padding="5dp"
             android:layout_marginRight="@dimen/ten_dp"
             android:layout_marginLeft="@dimen/twelve_dp"/>
-        <TextView
+
+        <RelativeLayout
             android:layout_width="0dp"
-            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:id="@+id/ivDatePickOk"
-            android:background="@drawable/diaolog_buttons"
-            android:textColor="@color/white"
-            android:gravity="center"
-            android:textSize="@dimen/sixteen_dp"
-            android:text="Move to"
-            android:layout_marginRight="@dimen/twelve_dp"
-            android:padding="5dp"/>
+            android:layout_height="wrap_content"
+
+            >
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/diaolog_buttons"
+                android:scaleType="fitXY"
+                android:tint="?attr/headAccedent"
+                android:layout_alignRight="@+id/ivDatePickOk"
+                android:layout_alignTop="@+id/ivDatePickOk"
+                android:layout_alignBottom="@+id/ivDatePickOk"
+                android:layout_alignLeft="@+id/ivDatePickOk"
+                />
+            <TextView
+                android:id="@+id/ivDatePickOk"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/move_to"
+                android:gravity="center"
+                android:padding="@dimen/five_dp"
+                android:layout_marginRight="@dimen/twelve_dp"
+                android:textSize="@dimen/sixteen_dp"
+                android:textColor="@color/white"
+                />
+        </RelativeLayout>
+
+
     </LinearLayout>
 </LinearLayout>
 

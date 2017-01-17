@@ -2,6 +2,7 @@ package com.jim.finansia.fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -29,6 +30,7 @@ import com.jim.finansia.managers.PAFragmentManager;
 import com.jim.finansia.managers.ToolbarManager;
 import com.jim.finansia.photocalc.PhotoAdapter;
 import com.jim.finansia.utils.PocketAccounterGeneral;
+import com.jim.finansia.utils.WarningDialog;
 import com.jim.finansia.utils.cache.DataCache;
 
 import java.io.File;
@@ -58,6 +60,7 @@ public class RecordDetailFragment extends Fragment implements OnClickListener {
     LogicManager logicManager;
     @Inject
     DataCache dataCache;
+
     @SuppressLint("ValidFragment")
     public RecordDetailFragment(Calendar date) {
         this.date = (Calendar) date.clone();
@@ -131,18 +134,57 @@ public class RecordDetailFragment extends Fragment implements OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ivToolbarMostRight:
+                if(mode==PocketAccounterGeneral.EDIT_MODE){
+
+                }
                 mode = (mode == PocketAccounterGeneral.NORMAL_MODE ? PocketAccounterGeneral.EDIT_MODE : PocketAccounterGeneral.NORMAL_MODE);
                 setMode(mode);
                 break;
         }
     }
 
-    private void setMode(int mode) {
-        RecordDetailAdapter adapter = (RecordDetailAdapter) rvRecordDetail.getAdapter();
+    private void setMode(final int mode) {
+
+        final RecordDetailAdapter adapter = (RecordDetailAdapter) rvRecordDetail.getAdapter();
         adapter.setMode(mode);
         if (mode == PocketAccounterGeneral.NORMAL_MODE) {
-            toolbarManager.setImageToSecondImage(R.drawable.pencil);
-            adapter.removeItems();
+            boolean b = false;
+            if(selections !=null )
+                for (int i = 0; i < selections.length; i++) {
+                    if (selections[i]) {
+                        b = true;
+                        break;
+                    }
+                }
+            if(b){
+               final   WarningDialog warningDialog = new WarningDialog(getContext());
+                warningDialog.setText(getString(R.string.records_will_be_deleted));
+                warningDialog.setOnYesButtonListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        toolbarManager.setImageToSecondImage(R.drawable.pencil);
+                        adapter.removeItems();
+                        warningDialog.dismiss();
+                    }
+                });
+                warningDialog.setOnNoButtonClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        warningDialog.dismiss();
+
+                    }
+                });
+                warningDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialogInterface) {
+                        RecordDetailFragment.this.mode = PocketAccounterGeneral.EDIT_MODE;
+                    }
+                });
+                warningDialog.show();
+             }
+
+
+
         } else {
             toolbarManager.setImageToSecondImage(R.drawable.ic_delete_black);
             adapter.listenChanges();

@@ -34,16 +34,32 @@
                 android:textStyle="bold" />
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="2">
+                android:layout_height="@dimen/seventy_dp"
+                android:layout_marginBottom="@dimen/seventy_dp"
+                android:layout_marginTop="@dimen/twenty_dp">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/fourty_dp"
+                    android:src="@drawable/shadow_buttom_intro"
+                    android:layout_centerVertical="true"
+                    android:scaleType="fitXY"
+                    />
                 <ImageView
                     android:id="@+id/fbDebtBorrowFragment"
-                    android:layout_width="@dimen/sexty_dp"
-                    android:layout_height="@dimen/sexty_dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="@dimen/twenty_dp"
-                    android:src="@drawable/intropage_ok" />
+                    android:src="@drawable/ellips_intro"/>
+                <ImageView
+                    android:layout_width="@dimen/twentyfive_dp"
+                    android:layout_height="@dimen/twentyfive_dp"
+                    android:layout_centerHorizontal="true"
+                    android:src="@drawable/check_sign_oq"
+                    android:tint="#fff"
+                    android:layout_marginTop="@dimen/twenty_dp"/>
             </RelativeLayout>
+
         </LinearLayout>
     </LinearLayout>
 </FrameLayout>

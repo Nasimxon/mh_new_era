@@ -333,7 +333,14 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="@dimen/fifteen_dp"
-        android:background="@drawable/speech_circle_border" />
+        >
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/speech_circle_border"
+            android:scaleType="fitXY"
+            android:tint="?attr/headColor"/>
+    </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/hundred_sixty_dp"
@@ -409,7 +416,14 @@
             android:layout_width="@dimen/hundred_sixty_dp"
             android:layout_height="@dimen/hundred_sixty_dp"
             android:layout_centerInParent="true"
-            android:background="@drawable/speech_circle_container_main_bg">
+            >
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/speech_circle_container_main_bg"
+                android:scaleType="fitXY"
+                android:tint="?attr/colorPrimaryDark"
+                />
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

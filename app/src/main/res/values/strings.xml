@@ -1767,6 +1767,10 @@
     <string name="with_out_comment">With out comment</string>
     <string name="processed_sms">Processed sms:</string>
     <string name="theme">Themes</string>
-    <string name="attention">Attention!</string>
+    <string name="attention">Attention</string>
     <string name="buy_voice_text">Вы превысили количество попыток. Хотите активировать услугу?</string>
+    <string name="paymet_p">Payment</string>
+    <string name="move_to">Move to</string>
+    <string name="change_ch">Change</string>
+    <string name="records_will_be_deleted">Records will be deleted</string>
 </resources>

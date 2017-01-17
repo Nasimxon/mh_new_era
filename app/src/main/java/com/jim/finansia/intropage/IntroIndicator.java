@@ -66,23 +66,26 @@ public class IntroIndicator extends AppCompatActivity {
 
         //Sozdaniya i otpravka data v fragmentam
         IntroFrame appInfo=new IntroFrame();
-        appInfo.shareData(new DataIntro(getString(R.string.appInfoTitel),getString(R.string.introAppInfo),R.drawable.big_icon));
+        appInfo.shareData(new DataIntro(getString(R.string.appInfoTitel),getString(R.string.introAppInfo),R.drawable.big_icon,R.drawable.ic_sms));
         fragments.add(appInfo);
 
         IntroFrame udobstvaInfo=new IntroFrame();
-        udobstvaInfo.shareData(new DataIntro(getString(R.string.quickInfp),getString(R.string.quickInfo),R.drawable.design_info));
-        fragments.add(udobstvaInfo);
+        udobstvaInfo.shareData(new DataIntro(getString(R.string.quickInfp),getString(R.string.quickInfo),R.drawable.voice_intro,R.drawable.voice_recognize));
 
         IntroFrame dizaynInfo=new IntroFrame();
-        dizaynInfo.shareData(new DataIntro(getString(R.string.designInfo),getString(R.string.clear_desgn),R.drawable.photoim));
-        fragments.add(dizaynInfo);
+        dizaynInfo.shareData(new DataIntro(getString(R.string.designInfo),getString(R.string.clear_desgn),R.drawable.mobilesms,R.drawable.ic_sms));
+
 
         IntroFrame syncInfo=new IntroFrame();
-        syncInfo.shareData(new DataIntro(getString(R.string.safeInfo),getString(R.string.secureInfo),R.drawable.sync_info));
-        fragments.add(syncInfo);
+        syncInfo.shareData(new DataIntro(getString(R.string.safeInfo),getString(R.string.secureInfo),R.drawable.debt_intro,R.drawable.ic_debt));
+
 
         IntroFrame flixebleReportInfo=new IntroFrame();
-        flixebleReportInfo.shareData(new DataIntro(getString(R.string.flexInfo),getString(R.string.flexinfo),R.drawable.static_innfo));
+        flixebleReportInfo.shareData(new DataIntro(getString(R.string.flexInfo),getString(R.string.flexinfo),R.drawable.report_intro,R.drawable.ic_report));
+
+        fragments.add(udobstvaInfo);
+        fragments.add(syncInfo);
+        fragments.add(dizaynInfo);
         fragments.add(flixebleReportInfo);
 
         fragments.add(new IntroWithButton());

@@ -317,13 +317,22 @@
         android:layout_marginTop="@dimen/five_dp"
         android:layout_marginBottom="@dimen/twenty_dp"
         >
-        <TextView
-            android:id="@+id/ivInfoDebtBorrowSave"
-
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/diaolog_buttons"
-            android:text="Payment"
+            android:src="@drawable/diaolog_buttons"
+            android:scaleType="fitXY"
+            android:tint="?attr/headAccedent"
+            android:layout_alignRight="@+id/ivInfoDebtBorrowSave"
+            android:layout_alignTop="@+id/ivInfoDebtBorrowSave"
+            android:layout_alignBottom="@+id/ivInfoDebtBorrowSave"
+            android:layout_alignLeft="@+id/ivInfoDebtBorrowSave"
+            />
+        <TextView
+            android:id="@+id/ivInfoDebtBorrowSave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/paymet_p"
             android:paddingLeft="@dimen/fourty_dp"
             android:paddingRight="@dimen/fourty_dp"
             android:paddingTop="@dimen/five_dp"
@@ -331,8 +340,8 @@
             android:textSize="@dimen/sixteen_dp"
             android:textColor="@color/white"
             android:layout_centerHorizontal="true"
-
             />
     </RelativeLayout>
+
 
 </LinearLayout>

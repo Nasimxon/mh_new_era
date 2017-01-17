@@ -15,6 +15,9 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.BackgroundColorSpan;
@@ -2073,4 +2076,12 @@ public class CommonOperations {
     }
     public static final int ANUTETNIY = 1 ;
     public static final int DEFERINSIAL = 0;
+    public static final Drawable getDrawable(Context context, int id) {
+        final int version = Build.VERSION.SDK_INT;
+        if (version >= 21) {
+            return ContextCompat.getDrawable(context, id);
+        } else {
+            return context.getResources().getDrawable(id);
+        }
+    }
 }

@@ -243,20 +243,38 @@
                     android:layout_marginLeft="@dimen/five_dp"
                     android:textColor="@color/white"
                     android:textSize="@dimen/eighteen_sp" />
-                <TextView
-                    android:id="@+id/ivCurrencyEditDialogOk"
+                <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/diaolog_buttons"
-                    android:paddingBottom="@dimen/five_dp"
-                    android:paddingLeft="@dimen/thirty_dp"
-                    android:paddingRight="@dimen/thirty_dp"
-                    android:paddingTop="@dimen/five_dp"
-                    android:text="Change"
-                    android:layout_marginRight="@dimen/five_dp"
-                    android:layout_marginLeft="@dimen/five_dp"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/eighteen_sp" />
+                    >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/ivCurrencyEditDialogOk"
+                        android:layout_alignLeft="@+id/ivCurrencyEditDialogOk"
+                        android:layout_alignRight="@+id/ivCurrencyEditDialogOk"
+                        android:layout_alignTop="@+id/ivCurrencyEditDialogOk"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/diaolog_buttons"
+                        android:tint="?attr/headAccedent" />
+
+                    <TextView
+                        android:id="@+id/ivCurrencyEditDialogOk"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="@dimen/five_dp"
+                        android:paddingLeft="@dimen/thirty_dp"
+                        android:paddingRight="@dimen/thirty_dp"
+                        android:paddingTop="@dimen/five_dp"
+                        android:text="@string/change_ch"
+                        android:layout_marginRight="@dimen/five_dp"
+                        android:layout_marginLeft="@dimen/five_dp"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/eighteen_sp" />
+                </RelativeLayout>
+
+
             </LinearLayout>
         </RelativeLayout>
     </LinearLayout>

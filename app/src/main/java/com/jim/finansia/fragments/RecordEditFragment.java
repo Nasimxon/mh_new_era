@@ -1521,7 +1521,7 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
             savingRecord.setDate(date);
             savingRecord.setAccount(account);
             savingRecord.setCurrency(currency);
-            savingRecord.setAmount(Double.parseDouble(tvRecordEditDisplay.getText().toString()));
+            savingRecord.setAmount(Math.abs(Double.parseDouble(tvRecordEditDisplay.getText().toString())));
             if (record != null)
                 savingRecord.setRecordId(record.getRecordId());
             else

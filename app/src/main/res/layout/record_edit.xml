@@ -264,10 +264,15 @@
             <RelativeLayout
                 android:id="@+id/rlDivideSign"
                 android:layout_width="0dp"
-                android:background="@drawable/opeation_frame"
-
+                android:background="?attr/headColor"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/opeation_frame"
+
+                    />
                 <ImageView
                     android:layout_width="@dimen/eighteen_sp"
                     android:layout_height="@dimen/seventeen_dp"
@@ -286,8 +291,14 @@
                 android:id="@+id/rlMultipleSign"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:background="@drawable/opeation_frame"
+                android:background="?attr/headColor"
                 android:layout_weight="1">
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/opeation_frame"
+
+                    />
                 <ImageView
                     android:layout_width="@dimen/fifteen_dp"
                     android:layout_height="@dimen/fifteen_dp"
@@ -306,8 +317,14 @@
                 android:id="@+id/rlMinusSign"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:background="@drawable/opeation_frame"
+                android:background="?attr/headColor"
                 android:layout_weight="1">
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/opeation_frame"
+
+                    />
                 <ImageView
                     android:layout_width="@dimen/fifteen_dp"
                     android:layout_height="@dimen/fifteen_dp"
@@ -326,8 +343,14 @@
                 android:id="@+id/rlPlusSign"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:background="@drawable/opeation_frame"
+                android:background="?attr/headColor"
                 android:layout_weight="1">
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/opeation_frame"
+
+                    />
                 <ImageView
                     android:layout_width="@dimen/fifteen_dp"
                     android:layout_height="@dimen/fifteen_dp"

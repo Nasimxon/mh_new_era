@@ -32,7 +32,7 @@ public class RotateDownTransformer extends ABaseTransformer {
 		view.setPivotY(height);
 		view.setRotation(rotation);
 	}
-	
+
 	@Override
 	protected boolean isPagingEnabled() {
 		return true;

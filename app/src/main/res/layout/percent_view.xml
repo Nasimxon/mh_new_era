@@ -74,7 +74,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/five_dp"
                 android:layout_centerVertical="true"
-                android:background="@drawable/percent_view_main_bg" />
+                android:src="@drawable/percent_view_main_bg"
+                android:scaleType="fitXY"
+                android:tint="?attr/headAccedent"/>
         </LinearLayout>
 
         <LinearLayout

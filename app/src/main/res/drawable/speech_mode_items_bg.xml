@@ -5,8 +5,5 @@
     <stroke android:color="#c9c9c9"
         android:width="2px" />
     <corners
-        android:topLeftRadius="1000dp"
-        android:bottomLeftRadius="1000dp"
-        android:topRightRadius="1000dp"
-        android:bottomRightRadius="1000dp" />
+       android:radius="@dimen/hundred" />
 </shape>

@@ -1,5 +1,6 @@
 package com.jim.finansia;
 
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.appwidget.AppWidgetManager;
 import android.content.Intent;
@@ -43,11 +44,14 @@ import com.jim.finansia.widget.WidgetProvider;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Locale;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import static com.jim.finansia.R.id.dp;
 import static com.jim.finansia.utils.billing.PurchaseImplementation.BILLING_RESPONSE_RESULT_OK;
 import static com.jim.finansia.utils.billing.PurchaseImplementation.REQUEST_CODE_BUY;
 
@@ -62,6 +66,8 @@ public class PocketAccounter extends AppCompatActivity {
     boolean keyFromCalc = false;
     public static boolean PRESSED = false;
     int WidgetID;
+    DatePickerDialog.OnDateSetListener getDatesetListener;
+
     public static boolean keyboardVisible = false;
     @Inject PAFragmentManager paFragmentManager;
     @Inject DaoSession daoSession;
@@ -214,63 +220,52 @@ public class PocketAccounter extends AppCompatActivity {
         toolbarManager.setImageToSecondImage(R.drawable.ic_info_outline_black_48dp);
         toolbarManager.setSearchView(drawerInitializer, format, paFragmentManager, findViewById(R.id.main));
         toolbarManager.setImageToStartImage(R.drawable.ic_search_black_24dp);
+         getDatesetListener = new DatePickerDialog.OnDateSetListener() {
+            public void onDateSet(DatePicker arg0, int arg1, int arg2, int arg3) {
+               Calendar calend = new GregorianCalendar(arg1, arg2, arg3);
+                 String key = preferences.getString("balance_solve", "0");
+                Calendar begin, end = Calendar.getInstance();
+                if (key.equals("0")) {
+                    Calendar firstDay = commonOperations.getFirstDay();
+                    if (firstDay == null)
+                        firstDay = commonOperations.getFirstDay();
+                    begin = (Calendar) firstDay.clone();
+                    end = (Calendar) calend.clone();
+                } else {
+                    begin = (Calendar) calend.clone();
+                    begin.set(Calendar.HOUR_OF_DAY, 0);
+                    begin.set(Calendar.MINUTE, 0);
+                    begin.set(Calendar.SECOND, 0);
+                    begin.set(Calendar.MILLISECOND, 0);
+                    end = (Calendar) calend.clone();
+                    end.set(Calendar.HOUR_OF_DAY, 23);
+                    end.set(Calendar.MINUTE, 59);
+                    end.set(Calendar.SECOND, 59);
+                    end.set(Calendar.MILLISECOND, 59);
+                }
+                dataCache.setBeginDate(begin);
+                dataCache.setEndDate(end);
+                long countOfDays = 0;
+                if (end.compareTo(Calendar.getInstance()) >= 0) {
+                    countOfDays = commonOperations.betweenDays(Calendar.getInstance(), end) - 1;
+                    paFragmentManager.setPage(5000 + (int) countOfDays);
+                } else {
+                    countOfDays = commonOperations.betweenDays(end, Calendar.getInstance()) - 1;
+                    paFragmentManager.setPage(5000 - (int) countOfDays);
+                }
+                if (paFragmentManager.getCurrentFragment() != null)
+                    paFragmentManager.getCurrentFragment().update();
+
+            }
+        };
         toolbarManager.setOnTitleClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final Dialog dialog = new Dialog(PocketAccounter.this);
-                final View dialogView = getLayoutInflater().inflate(R.layout.date_picker, null);
-                dialogView.findViewById(R.id.dp).setVisibility(View.VISIBLE);
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setContentView(dialogView);
-                final DatePicker dp = (DatePicker) dialogView.findViewById(R.id.dp);
-                TextView ivDatePickOk = (TextView) dialogView.findViewById(R.id.ivDatePickOk);
-                ivDatePickOk.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String key = preferences.getString("balance_solve", "0");
-                        Calendar begin, end = Calendar.getInstance();
-                        if (key.equals("0")) {
-                            Calendar firstDay = commonOperations.getFirstDay();
-                            if (firstDay == null)
-                                firstDay = commonOperations.getFirstDay();
-                            begin = (Calendar) firstDay.clone();
-                            end.set(dp.getYear(), dp.getMonth(), dp.getDayOfMonth());
-                        } else {
-                            begin = Calendar.getInstance();
-                            begin.set(dp.getYear(), dp.getMonth(), dp.getDayOfMonth());
-                            begin.set(Calendar.HOUR_OF_DAY, 0);
-                            begin.set(Calendar.MINUTE, 0);
-                            begin.set(Calendar.SECOND, 0);
-                            begin.set(Calendar.MILLISECOND, 0);
-                            end.set(dp.getYear(), dp.getMonth(), dp.getDayOfMonth());
-                            end.set(Calendar.HOUR_OF_DAY, 23);
-                            end.set(Calendar.MINUTE, 59);
-                            end.set(Calendar.SECOND, 59);
-                            end.set(Calendar.MILLISECOND, 59);
-                        }
-                        dataCache.setBeginDate(begin);
-                        dataCache.setEndDate(end);
-                        long countOfDays = 0;
-                        if (end.compareTo(Calendar.getInstance()) >= 0) {
-                            countOfDays = commonOperations.betweenDays(Calendar.getInstance(), end) - 1;
-                            paFragmentManager.setPage(5000 + (int) countOfDays);
-                        } else {
-                            countOfDays = commonOperations.betweenDays(end, Calendar.getInstance()) - 1;
-                            paFragmentManager.setPage(5000 - (int) countOfDays);
-                        }
-                        if (paFragmentManager.getCurrentFragment() != null)
-                            paFragmentManager.getCurrentFragment().update();
-                        dialog.dismiss();
-                    }
-                });
-                TextView ivDatePickCancel = (TextView) dialogView.findViewById(R.id.ivDatePickCancel);
-                ivDatePickCancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
-                dialog.show();
+                Dialog mDialog = new DatePickerDialog(PocketAccounter.this,
+                        getDatesetListener, dataCache.getEndDate().get(Calendar.YEAR),
+                        dataCache.getEndDate().get(Calendar.MONTH), dataCache.getEndDate()
+                        .get(Calendar.DAY_OF_MONTH));
+                mDialog.show();
             }
         });
         toolbarManager.setOnSecondImageClickListener(new View.OnClickListener() {

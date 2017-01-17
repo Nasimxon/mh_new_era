@@ -18,18 +18,8 @@
             android:gravity="center"
             android:textSize="@dimen/sixteen_dp"
             android:textColor="@color/black_for_myagkiy_glavniy"
-            android:text="Payment detials" />
-        <ImageView
-            android:id="@+id/ivInfoDebtBorrowCancel"
-            android:layout_width="@dimen/twenty_dp"
-            android:layout_height="@dimen/twenty_dp"
-            android:layout_gravity="center_vertical"
-            android:padding="2dp"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/ten_dp"
-            android:src="@drawable/cancel_sign"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:text="@string/attention" />
+
 
     </RelativeLayout>
     <FrameLayout
@@ -53,13 +43,13 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="35dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginBottom="@dimen/twelve_dp">
         <TextView
             android:id="@+id/btnWarningNo"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/diaolog_button_enable_color"
             android:textColor="@color/white"
@@ -69,18 +59,35 @@
             android:padding="5dp"
             android:layout_marginRight="@dimen/ten_dp"
             android:layout_marginLeft="@dimen/twelve_dp"/>
-        <TextView
+        <RelativeLayout
             android:layout_width="0dp"
-            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:id="@+id/btnWarningYes"
-            android:background="@drawable/diaolog_buttons"
-            android:textColor="@color/white"
-            android:gravity="center"
-            android:textSize="@dimen/sixteen_dp"
-            android:text="@string/yes"
-            android:layout_marginRight="@dimen/twelve_dp"
-            android:padding="5dp"/>
+            android:layout_height="wrap_content"
+            >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/btnWarningYes"
+                android:layout_alignLeft="@+id/btnWarningYes"
+                android:layout_alignRight="@+id/btnWarningYes"
+                android:layout_alignTop="@+id/btnWarningYes"
+                android:scaleType="fitXY"
+                android:src="@drawable/diaolog_buttons"
+                android:tint="?attr/headAccedent" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnWarningYes"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:textSize="@dimen/sixteen_dp"
+                android:text="@string/yes"
+                android:layout_marginRight="@dimen/twelve_dp"
+                android:padding="5dp"/>
+        </RelativeLayout>
+
     </LinearLayout>
 
 </LinearLayout>

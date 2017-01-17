@@ -71,25 +71,35 @@
             android:textSize="@dimen/sixteen_sp">
             <requestFocus />
         </EditText>
-      <RelativeLayout
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          >
-          <TextView
-              android:id="@+id/ivSubCatSave"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:background="@drawable/diaolog_buttons"
-              android:text="@string/add_plus"
-              android:paddingLeft="@dimen/twenty_dp"
-              android:paddingRight="@dimen/twenty_dp"
-              android:paddingTop="@dimen/five_dp"
-              android:paddingBottom="@dimen/five_dp"
-              android:textSize="@dimen/eighteen_sp"
-              android:textColor="@color/white"
-              android:layout_centerHorizontal="true"
-              android:layout_marginBottom="@dimen/twentyfive_dp"
-              />
-      </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/ivSubCatSave"
+                android:layout_alignLeft="@+id/ivSubCatSave"
+                android:layout_alignRight="@+id/ivSubCatSave"
+                android:layout_alignTop="@+id/ivSubCatSave"
+                android:scaleType="fitXY"
+                android:src="@drawable/diaolog_buttons"
+                android:tint="?attr/headAccedent" />
+            <TextView
+                android:id="@+id/ivSubCatSave"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/add_plus"
+                android:paddingLeft="@dimen/twenty_dp"
+                android:paddingRight="@dimen/twenty_dp"
+                android:paddingTop="@dimen/five_dp"
+                android:paddingBottom="@dimen/five_dp"
+                android:textSize="@dimen/eighteen_sp"
+                android:textColor="@color/white"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="@dimen/twentyfive_dp"
+                />
+        </RelativeLayout>
+
     </LinearLayout>
 </LinearLayout>

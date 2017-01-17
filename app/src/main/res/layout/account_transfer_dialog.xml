@@ -230,21 +230,38 @@
             android:layout_marginTop="@dimen/twenty_dp"
             android:layout_marginBottom="@dimen/twenty_dp"
             >
-            <TextView
-                android:id="@+id/ivAccountManSave"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/diaolog_buttons"
-                android:text="Трансфер"
-                android:paddingLeft="@dimen/fourty_dp"
-                android:paddingRight="@dimen/fourty_dp"
-                android:paddingTop="@dimen/five_dp"
-                android:paddingBottom="@dimen/five_dp"
-                android:textSize="@dimen/eighteen_sp"
-                android:textColor="@color/white"
-                android:layout_centerHorizontal="true"
+                >
 
-                />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/ivAccountManSave"
+                    android:layout_alignLeft="@+id/ivAccountManSave"
+                    android:layout_alignRight="@+id/ivAccountManSave"
+                    android:layout_alignTop="@+id/ivAccountManSave"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/diaolog_buttons"
+                    android:tint="?attr/headAccedent" />
+
+                <TextView
+                    android:id="@+id/ivAccountManSave"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Трансфер"
+                    android:paddingLeft="@dimen/fourty_dp"
+                    android:paddingRight="@dimen/fourty_dp"
+                    android:paddingTop="@dimen/five_dp"
+                    android:paddingBottom="@dimen/five_dp"
+                    android:textSize="@dimen/eighteen_sp"
+                    android:textColor="@color/white"
+                    android:layout_centerHorizontal="true"
+
+                    />
+            </RelativeLayout>
+
         </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

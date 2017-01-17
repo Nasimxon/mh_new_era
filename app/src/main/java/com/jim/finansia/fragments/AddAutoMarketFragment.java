@@ -250,7 +250,7 @@ public class AddAutoMarketFragment extends Fragment {
                             if (rootCategory.getId().equals(itemID)) {
                                 category_item = rootCategory;
                                 subCategory = null;
-                                ivCategory.setImageResource(getResources().getIdentifier(subCategory.getIcon(), "drawable", getActivity().getPackageName()));
+                                ivCategory.setImageResource(getResources().getIdentifier(category_item.getIcon(), "drawable", getActivity().getPackageName()));
                                 categoryName.setText(category_item.getName());
                                 subCategoryName.setText((category_item.getType() == PocketAccounterGeneral.INCOME) ? "Income category" : "Expanse category");
 

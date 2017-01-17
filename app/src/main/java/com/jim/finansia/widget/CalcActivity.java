@@ -1,11 +1,12 @@
 package com.jim.finansia.widget;
 
-
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.database.Cursor;
@@ -24,6 +25,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ActionBarOverlayLayout;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -58,16 +60,26 @@ import com.jim.finansia.database.FinanceRecord;
 import com.jim.finansia.database.FinanceRecordDao;
 import com.jim.finansia.database.Recking;
 import com.jim.finansia.database.ReckingCredit;
+import com.jim.finansia.finance.AccountChoiseDialogAdapter;
+import com.jim.finansia.finance.ChoiseCategoryDialoogItemAdapter;
 import com.jim.finansia.finance.RecordAccountAdapter;
 import com.jim.finansia.finance.RecordCategoryAdapter;
 import com.jim.finansia.finance.RecordSubCategoryAdapter;
 import com.jim.finansia.database.RootCategory;
 import com.jim.finansia.database.SubCategory;
 import com.jim.finansia.fragments.RecordEditFragment;
+import com.jim.finansia.managers.CommonOperations;
+import com.jim.finansia.managers.LogicManager;
+import com.jim.finansia.managers.PAFragmentManager;
+import com.jim.finansia.managers.ToolbarManager;
 import com.jim.finansia.photocalc.PhotoAdapter;
+import com.jim.finansia.utils.GetterAttributColors;
+import com.jim.finansia.utils.OnSubcategorySavingListener;
 import com.jim.finansia.utils.PocketAccounterGeneral;
 //    import com.jim.pocketaccounter.photocalc.PhotoAdapter;
 import com.jim.finansia.database.PhotoDetails;
+import com.jim.finansia.utils.SubCatAddEditDialog;
+import com.jim.finansia.utils.cache.DataCache;
 import com.transitionseverywhere.AutoTransition;
 import com.transitionseverywhere.Transition;
 import com.transitionseverywhere.TransitionManager;
@@ -92,6 +104,8 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 
+import javax.inject.Inject;
+
 import static com.jim.finansia.debt.AddBorrowFragment.RESULT_LOAD_IMAGE;
 import static com.jim.finansia.photocalc.PhotoAdapter.BEGIN_DELETE_TICKKETS_PATH;
 import static com.jim.finansia.photocalc.PhotoAdapter.BEGIN_DELETE_TICKKETS_PATH_CACHE;
@@ -103,15 +117,19 @@ import static com.jim.finansia.photocalc.PhotoAdapter.REQUEST_DELETE_PHOTOS;
 //    import static com.jim.pocketaccounter.photocalc.PhotoAdapter.REQUEST_DELETE_PHOTOS;
 
 public class CalcActivity extends AppCompatActivity implements View.OnClickListener {
+
+
     private boolean keyforback = false;
     private TextView tvRecordEditDisplay;
     private ImageView ivRecordEditCategory, ivRecordEditSubCategory;
-    private Spinner spRecordEdit, spToolbar;
+    private Spinner spRecordEdit;
     private RootCategory category;
     private SubCategory subCategory;
+    private FinanceRecord record;
     private Currency currency;
     private Account account;
     private Calendar date;
+    private ImageView choosePhoto;
     private int parent;
     private int[] numericButtons = {R.id.rlZero, R.id.rlOne, R.id.rlTwo, R.id.rlThree, R.id.rlFour, R.id.rlFive, R.id.rlSix, R.id.rlSeven, R.id.rlEight, R.id.rlNine};
     private int[] operatorButtons = {R.id.rlPlusSign, R.id.rlMinusSign, R.id.rlMultipleSign, R.id.rlDivideSign};
@@ -122,11 +140,21 @@ public class CalcActivity extends AppCompatActivity implements View.OnClickListe
     private DecimalFormat decimalFormat = null;
     private RelativeLayout rlCategory, rlSubCategory;
     private Animation buttonClick;
+    private TextView tvAccountName;
     private TextView comment;
+    private TextView tvRecordEditCategoryName;
+    private TextView tvRecordEditSubCategoryName;
     private EditText comment_add;
+    private String commentBackRoll;
+    private ImageView ivBackspaceSign;
+    private ImageView ivCommentButton;
     private String oraliqComment = "";
+    private ImageView ivClear;
+    private ImageView ivAccountIcon;
+    private RelativeLayout rvAccountChoise;
     boolean keykeboard = false;
     private final int PERMISSION_READ_STORAGE = 6;
+    boolean keyForDesideOpenSubCategoryDialog = false;
     private boolean keyForDeleteAllPhotos = true;
     boolean isCalcLayoutOpen = false;
     static final int REQUEST_IMAGE_CAPTURE = 112;
@@ -137,19 +165,25 @@ public class CalcActivity extends AppCompatActivity implements View.OnClickListe
     PhotoAdapter myTickedAdapter;
     boolean openAddingDialog = false;
     private int WIDGET_ID;
-    LinearLayout mainView;
     DaoSession daoSession;
+    View mainView;
+    private static final int MY_PERMISSIONS_REQUEST_CAMERA = 18;
     Database db;
     public static String KEY_FOR_INSTALAZING = "key_for_init";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String themeName = prefs.getString(PocketAccounterGeneral.CHOOSEN_THEME_NAME_KEY, PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.BLUE_THEME);
+        int themeId = getResources().getIdentifier(themeName, "style", getPackageName());
+        setTheme(themeId);
         setContentView(R.layout.activity_calc);
         mainView = (LinearLayout) findViewById(R.id.llRoot);
         DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, PocketAccounterGeneral.CURRENT_DB_NAME);
         db = helper.getWritableDb();
         daoSession = new DaoMaster(db).newSession();
         comment = (TextView) findViewById(R.id.textView18);
+        ivCommentButton = (ImageView) mainView.findViewById(R.id.comment_opener);
         comment_add = (EditText) findViewById(R.id.comment_add);
         date = Calendar.getInstance();
         DecimalFormatSymbols otherSymbols = new DecimalFormatSymbols();
@@ -173,29 +207,24 @@ public class CalcActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
-
+        ivRecordEditCategory = (ImageView) mainView.findViewById(R.id.ivRecordEditCategory);
+        ivRecordEditSubCategory = (ImageView) mainView.findViewById(R.id.ivRecordEditSubCategory);
+        tvRecordEditDisplay = (TextView) mainView.findViewById(R.id.tvRecordEditDisplay);
+        tvRecordEditCategoryName = (TextView) mainView.findViewById(R.id.tvRecordEditCategoryName);
+        tvRecordEditSubCategoryName = (TextView) mainView.findViewById(R.id.tvRecordEditSubCategoryName);
 
         buttonClick = AnimationUtils.loadAnimation(CalcActivity.this, R.anim.button_click);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        toolbar.setTitle("");
-        toolbar.setSubtitle("");
-        spRecordEdit = (Spinner) findViewById(R.id.spRecordEdit);
-        spToolbar = (Spinner) toolbar.findViewById(R.id.spToolbar);
-        spToolbar.setVisibility(View.VISIBLE);
-        RecordAccountAdapter accountAdapter = new RecordAccountAdapter(CalcActivity.this, daoSession.getAccountDao().loadAll());
-        spToolbar.setAdapter(accountAdapter);
-        spToolbar.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                account = daoSession.getAccountDao().loadAll().get(position);
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
+        spRecordEdit = (Spinner) findViewById(R.id.spRecordEdit);
+        RecordAccountAdapter accountAdapter = new RecordAccountAdapter(CalcActivity.this, daoSession.getAccountDao().loadAll());
+        ivAccountIcon = (ImageView) mainView.findViewById(R.id.ivAccountIcon);
+        tvAccountName = (TextView) mainView.findViewById(R.id.tvAccountName);
+        rvAccountChoise = (RelativeLayout) mainView.findViewById(R.id.rvAccountChoise);
+        final List<Account> accountList = daoSession.getAccountDao().loadAll();
+        account = accountList.get(0);
+        int resId2 = getResources().getIdentifier(account.getIcon(), "drawable", getPackageName());
+        ivAccountIcon.setImageResource(resId2);
+        tvAccountName.setText(account.getName());
         final String[] currencies = new String[daoSession.getCurrencyDao().loadAll().size()];
         for (int i = 0; i < daoSession.getCurrencyDao().loadAll().size(); i++)
             currencies[i] = daoSession.getCurrencyDao().loadAll().get(i).getAbbr();
@@ -209,6 +238,62 @@ public class CalcActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             }
         }
+
+        rvAccountChoise.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                final Dialog dialog = new Dialog(CalcActivity.this);
+                View dialogView = getLayoutInflater().inflate(R.layout.category_choose_list, null);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setContentView(dialogView);
+                View v = dialog.getWindow().getDecorView();
+                v.setBackgroundResource(android.R.color.transparent);
+                final ArrayList<Object> subCategories = new ArrayList<>();
+                subCategories.add(category);
+                for (int i = 0; i < category.getSubCategories().size(); i++)
+                    subCategories.add(category.getSubCategories().get(i));
+                subCategories.add(null);
+                dialogView.findViewById(R.id.llToolBars).setVisibility(View.GONE);
+
+                TextView title = (TextView) dialogView.findViewById(R.id.title);
+                title.setText(R.string.choise_account_f);
+                RecyclerView rvCategoryChoose = (RecyclerView) dialogView.findViewById(R.id.lvCategoryChoose);
+                AccountChoiseDialogAdapter adapter = new AccountChoiseDialogAdapter(accountList, CalcActivity.this, new AccountChoiseDialogAdapter.OnItemSelectListner() {
+                    @Override
+                    public void onItemSelect(Account fromDialog) {
+                        int resId = getResources().getIdentifier(fromDialog.getIcon(), "drawable", getPackageName());
+                        ivAccountIcon.setImageResource(resId);
+                        tvAccountName.setText(fromDialog.getName());
+                        account = fromDialog;
+                        dialog.dismiss();
+                    }
+                });
+                dialogView.findViewById(R.id.ivInfoDebtBorrowCancel).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
+                rvCategoryChoose.setLayoutManager(new LinearLayoutManager(CalcActivity.this));
+                rvCategoryChoose.setHasFixedSize(true);
+                rvCategoryChoose.setAdapter(adapter);
+                DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+                int width = displayMetrics.widthPixels;
+                int hieght = displayMetrics.heightPixels;
+                dialog.getWindow().setLayout(9 * width / 10, (int) (8.2*hieght/10));
+                dialog.show();
+
+
+
+
+
+
+
+
+            }
+        });
+
         spRecordEdit.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -220,6 +305,10 @@ public class CalcActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
+        ivClear = (ImageView) mainView.findViewById(R.id.ivClear);
+        ivBackspaceSign = (ImageView) mainView.findViewById(R.id.ivBackspaceSign);
+        choosePhoto = (ImageView) mainView.findViewById(R.id.choose_photo);
+        spRecordEdit = (Spinner) mainView.findViewById(R.id.spRecordEdit);
 
         ivRecordEditCategory = (ImageView) findViewById(R.id.ivRecordEditCategory);
         ivRecordEditSubCategory = (ImageView) findViewById(R.id.ivRecordEditSubCategory);
@@ -232,15 +321,40 @@ public class CalcActivity extends AppCompatActivity implements View.OnClickListe
         setOperatorOnClickListener();
         if (category != null) {
             ivRecordEditSubCategory.setImageResource(R.drawable.category_not_selected);
-            int resId = getResources().getIdentifier(category.getIcon(), "drawable", getApplication().getPackageName());
-
+            tvRecordEditSubCategoryName.setText(R.string.no_category_name);
+            int resId = getResources().getIdentifier(category.getIcon(), "drawable", getPackageName());
+            tvRecordEditCategoryName.setText(category.getName());
             ivRecordEditCategory.setImageResource(resId);
+        }
+        if (record != null) {
+            int resId = getResources().getIdentifier(record.getCategory().getIcon(), "drawable", getPackageName());
+            ivRecordEditCategory.setImageResource(resId);
+            tvRecordEditCategoryName.setText(record.getCategory().getName());
+            if (record.getSubCategory() != null) {
+                resId = getResources().getIdentifier(record.getSubCategory().getIcon(), "drawable", getPackageName());
+                ivRecordEditSubCategory.setImageResource(resId);
+                tvRecordEditSubCategoryName.setText(record.getSubCategory().getName());
+            } else{
+                ivRecordEditSubCategory.setImageResource(R.drawable.category_not_selected);
+                tvRecordEditSubCategoryName.setText(R.string.no_category_name);
 
-            if (subCategory != null) {
-                int res = getResources().getIdentifier(subCategory.getIcon(), "drawable", getApplication().getPackageName());
-                ivRecordEditSubCategory.setImageResource(res);
             }
-            else  ivRecordEditSubCategory.setImageResource(R.drawable.category_not_selected);
+            tvRecordEditDisplay.setText(decimalFormat.format(record.getAmount()));
+
+            for (int i = 0; i < curlist.size(); i++) {
+                if (curlist.get(i).getId().matches(record.getCurrency().getId())) {
+                    spRecordEdit.setSelection(i);
+                    break;
+                }
+            }
+
+            myTickets = (ArrayList<PhotoDetails>) record.getAllTickets()/*.clone()*/;
+            myTicketsFromBackRoll = (ArrayList<PhotoDetails>) myTickets.clone();
+            if (record.getComment() != null && !record.getComment().matches("")) {
+                oraliqComment = record.getComment();
+                comment.setText(oraliqComment);
+                comment_add.setText(oraliqComment);
+            }
         }
 
 
@@ -425,10 +539,28 @@ public class CalcActivity extends AppCompatActivity implements View.OnClickListe
 
             }
         });
-        findViewById(R.id.rlBackspaceSign).setOnClickListener(new View.OnClickListener() {
+        ivBackspaceSign.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                tvRecordEditDisplay.setText("0");
+                lastNumeric = false;
+                stateError = false;
+                lastDot = false;
+                lastOperator = false;
+                return false;
+            }
+        });
+        ivBackspaceSign.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                v.startAnimation(buttonClick);
+                ivBackspaceSign.setColorFilter(GetterAttributColors.fetchHeadColor(CalcActivity.this));
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        ivBackspaceSign.setColorFilter(ContextCompat.getColor(CalcActivity.this,R.color.seriy_calc));
+                    }
+                },100);
                 String dispText = tvRecordEditDisplay.getText().toString();
                 char lastChar = dispText.charAt(dispText.length() - 1);
                 char[] opers = {'+', '-', '*', '/'};
@@ -451,9 +583,17 @@ public class CalcActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        comment.setOnClickListener(new View.OnClickListener() {
+        ivCommentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ivCommentButton.setColorFilter(GetterAttributColors.fetchHeadColor(CalcActivity.this));
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        ivCommentButton.setColorFilter(ContextCompat.getColor(CalcActivity.this,R.color.seriy_calc));
+                    }
+                },100);
                 LinearLayout linbutview = (LinearLayout) findViewById(R.id.numbersbut);
                 TransitionManager.beginDelayedTransition(linbutview);
                 linbutview.setVisibility(View.GONE);
@@ -579,7 +719,24 @@ public class CalcActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-
+        ivClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ivClear.setColorFilter(GetterAttributColors.fetchHeadColor(CalcActivity.this));
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        ivClear.setColorFilter(ContextCompat.getColor(CalcActivity.this,R.color.seriy_calc));
+                    }
+                },100);
+                tvRecordEditDisplay.setText("0");
+                lastNumeric = false;
+                stateError = false;
+                lastDot = false;
+                lastOperator = false;
+            }
+        });
         findViewById(R.id.addcomment).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -803,19 +960,8 @@ public class CalcActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        findViewById(R.id.rlBackspaceSign).setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                v.startAnimation(buttonClick);
-                tvRecordEditDisplay.setText("0");
-                lastNumeric = false;
-                stateError = false;
-                lastDot = false;
-                lastOperator = false;
-                return true;
-            }
-        });
-        findViewById(R.id.imOK).setOnClickListener(new View.OnClickListener() {
+
+        findViewById(R.id.imOKBut).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
                 keyForDeleteAllPhotos = false;
@@ -1167,44 +1313,132 @@ public class CalcActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-
+    List<RootCategory> categoryList;
+    ChoiseCategoryDialoogItemAdapter choiseCategoryDialoogItemAdapter;
     @Override
     public void onClick(View view) {
         view.startAnimation(buttonClick);
         switch (view.getId()) {
             case R.id.rlCategory:
                 final Dialog dialog = new Dialog(CalcActivity.this);
-                View dialogView = CalcActivity.this.getLayoutInflater().inflate(R.layout.category_choose_list, null);
+                View dialogView = getLayoutInflater().inflate(R.layout.category_choose_list, null);
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog.setContentView(dialogView);
-                ListView lvCategoryChoose = (ListView) dialogView.findViewById(R.id.lvCategoryChoose);
-                String expanse = getResources().getString(R.string.expanse);
-                String income = getResources().getString(R.string.income);
-                String[] items = new String[2];
-                items[0] = expanse;
-                items[1] = income;
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(CalcActivity.this, android.R.layout.simple_list_item_1, items);
-                lvCategoryChoose.setAdapter(adapter);
-                lvCategoryChoose.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                View v = dialog.getWindow().getDecorView();
+                v.setBackgroundResource(android.R.color.transparent);
+                categoryList = daoSession.getRootCategoryDao().loadAll();
+                final TextView tvAllView = (TextView)  dialogView.findViewById(R.id.tvAllView);
+                final TextView tvExpenseView = (TextView)  dialogView.findViewById(R.id.tvExpenseView);
+                final TextView tvIncomeView = (TextView)  dialogView.findViewById(R.id.tvIncomeView);
+                RecyclerView rvCategoryChoose = (RecyclerView) dialogView.findViewById(R.id.lvCategoryChoose);
+                ArrayList<Object> tempForCastToObject = new ArrayList<>();
+                for(int t=0;t<categoryList.size();t++){
+                    tempForCastToObject.add(categoryList.get(t));
+                }
+
+                choiseCategoryDialoogItemAdapter = new ChoiseCategoryDialoogItemAdapter(tempForCastToObject, CalcActivity.this, new ChoiseCategoryDialoogItemAdapter.OnItemSelected() {
                     @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        ArrayList<RootCategory> categories = new ArrayList<RootCategory>();
-                        List<RootCategory> lsList = daoSession.getRootCategoryDao().loadAll();
-                        if (position == 0) {
-                            for (int i = 0; i < lsList.size(); i++) {
-                                if (lsList.get(i).getType() == PocketAccounterGeneral.EXPENSE)
-                                    categories.add(lsList.get(i));
+                    public void itemPressed(String itemID) {
+                        boolean keyBroker = false;
+                        for(RootCategory rootCategory:categoryList){
+                            if(rootCategory.getId().equals(itemID)){
+                                category = rootCategory;
+                                ivRecordEditSubCategory.setImageResource(R.drawable.category_not_selected);
+                                tvRecordEditSubCategoryName.setText(R.string.no_category_name);
+                                int resId = getResources().getIdentifier(category.getIcon(), "drawable", getPackageName());
+                                tvRecordEditCategoryName.setText(category.getName());
+                                ivRecordEditCategory.setImageResource(resId);
+
+                                break;
                             }
-                        } else {
-                            for (int i = 0; i < lsList.size(); i++) {
-                                if (lsList.get(i).getType() == PocketAccounterGeneral.INCOME)
-                                    categories.add(lsList.get(i));
+                            for(SubCategory subCategoryTemp:rootCategory.getSubCategories()){
+                                if(subCategoryTemp.getId().equals(itemID)){
+                                    category = rootCategory;
+                                    subCategory = subCategoryTemp;
+                                    int resId = getResources().getIdentifier(subCategory.getIcon(), "drawable", getPackageName());
+                                    ivRecordEditSubCategory.setImageResource(resId);
+                                    tvRecordEditSubCategoryName.setText(subCategory.getName());
+                                    int resId2 = getResources().getIdentifier(category.getIcon(), "drawable", getPackageName());
+                                    tvRecordEditCategoryName.setText(category.getName());
+                                    ivRecordEditCategory.setImageResource(resId2);
+                                    keyBroker=true;
+                                    break;
+                                }
                             }
+                            if(keyBroker)
+                                break;
                         }
                         dialog.dismiss();
-                        openCategoryDialog(categories);
+
                     }
                 });
+                tvAllView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        tvAllView.setTextColor(ContextCompat.getColor(CalcActivity.this,R.color.black_for_myagkiy_glavniy));
+                        tvExpenseView.setTextColor(ContextCompat.getColor(CalcActivity.this,R.color.black_for_secondary_text));
+                        tvIncomeView.setTextColor(ContextCompat.getColor(CalcActivity.this,R.color.black_for_secondary_text));
+
+                        categoryList.clear();
+                        categoryList = daoSession.getRootCategoryDao().loadAll();
+                        choiseCategoryDialoogItemAdapter.setListForRefresh(categoryList);
+                        choiseCategoryDialoogItemAdapter.toBackedToCategory(false);
+                        choiseCategoryDialoogItemAdapter.notifyDataSetChanged();
+
+
+
+                    }
+                });
+                tvExpenseView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        tvAllView.setTextColor(ContextCompat.getColor(CalcActivity.this,R.color.black_for_secondary_text));
+                        tvExpenseView.setTextColor(ContextCompat.getColor(CalcActivity.this,R.color.black_for_myagkiy_glavniy));
+                        tvIncomeView.setTextColor(ContextCompat.getColor(CalcActivity.this,R.color.black_for_secondary_text));
+
+                        categoryList.clear();
+                        for (RootCategory rootCategory:daoSession.getRootCategoryDao().loadAll()){
+                            if(rootCategory.getType() == PocketAccounterGeneral.EXPENSE)
+                                categoryList.add(rootCategory);
+                        }
+                        choiseCategoryDialoogItemAdapter.setListForRefresh(categoryList);
+
+                        choiseCategoryDialoogItemAdapter.toBackedToCategory(false);
+                        choiseCategoryDialoogItemAdapter.notifyDataSetChanged();
+
+                    }
+                });
+                tvIncomeView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        tvAllView.setTextColor(ContextCompat.getColor(CalcActivity.this,R.color.black_for_secondary_text));
+                        tvExpenseView.setTextColor(ContextCompat.getColor(CalcActivity.this,R.color.black_for_secondary_text));
+                        tvIncomeView.setTextColor(ContextCompat.getColor(CalcActivity.this,R.color.black_for_myagkiy_glavniy));
+
+                        categoryList.clear();
+                        for (RootCategory rootCategory:daoSession.getRootCategoryDao().loadAll()){
+                            if(rootCategory.getType() == PocketAccounterGeneral.INCOME)
+                                categoryList.add(rootCategory);
+                        }
+                        choiseCategoryDialoogItemAdapter.setListForRefresh(categoryList);
+                        choiseCategoryDialoogItemAdapter.toBackedToCategory(false);
+                        choiseCategoryDialoogItemAdapter.notifyDataSetChanged();
+
+                    }
+                });
+                dialogView.findViewById(R.id.ivInfoDebtBorrowCancel).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
+                rvCategoryChoose.setLayoutManager(new GridLayoutManager(CalcActivity.this,3));
+                rvCategoryChoose.setHasFixedSize(true);
+                rvCategoryChoose.setAdapter(choiseCategoryDialoogItemAdapter);
+                DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+                int width = displayMetrics.widthPixels;
+                int hieght = displayMetrics.heightPixels;
+                dialog.getWindow().setLayout(9 * width / 10, (int) (8.2*hieght/10));
                 dialog.show();
                 break;
             case R.id.rlSubcategory:
@@ -1237,7 +1471,7 @@ public class CalcActivity extends AppCompatActivity implements View.OnClickListe
             newRecord.setDate(date);
             newRecord.setAccount(account);
             newRecord.setCurrency(currency);
-            newRecord.setAmount(Double.parseDouble(tvRecordEditDisplay.getText().toString()));
+            newRecord.setAmount(Math.abs(Double.parseDouble(tvRecordEditDisplay.getText().toString())));
             newRecord.setRecordId(uid_code);
             newRecord.setAllTickets(myTickets);
             for (PhotoDetails photoDetails : myTickets) {
@@ -1306,39 +1540,86 @@ public class CalcActivity extends AppCompatActivity implements View.OnClickListe
         dialog.getWindow().setLayout(8 * width / 9, ActionBarOverlayLayout.LayoutParams.MATCH_PARENT);
         dialog.show();
     }
-
     private void openSubCategoryDialog() {
+
+
+
         final Dialog dialog = new Dialog(CalcActivity.this);
-        View dialogView = CalcActivity.this.getLayoutInflater().inflate(R.layout.category_choose_list, null);
+        View dialogView = getLayoutInflater().inflate(R.layout.category_choose_list, null);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(dialogView);
-        ListView lvCategoryChoose = (ListView) dialogView.findViewById(R.id.lvCategoryChoose);
-        final ArrayList<SubCategory> subCategories = new ArrayList<SubCategory>();
-        SubCategory noSubCategory = new SubCategory();
-        noSubCategory.setIcon("category_not_selected");
-        noSubCategory.setName(getResources().getString(R.string.no_category_name));
-        noSubCategory.setId(getResources().getString(R.string.no_category));
-        subCategories.add(noSubCategory);
+        View v = dialog.getWindow().getDecorView();
+        v.setBackgroundResource(android.R.color.transparent);
+        final ArrayList<Object> subCategories = new ArrayList<Object>();
+        subCategories.add(category);
         for (int i = 0; i < category.getSubCategories().size(); i++)
             subCategories.add(category.getSubCategories().get(i));
-        RecordSubCategoryAdapter adapter = new RecordSubCategoryAdapter(CalcActivity.this, subCategories);
-        lvCategoryChoose.setAdapter(adapter);
-        lvCategoryChoose.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        dialogView.findViewById(R.id.llToolBars).setVisibility(View.GONE);
+
+        TextView title = (TextView) dialogView.findViewById(R.id.title);
+        title.setText(R.string.choise_subcategory);
+        RecyclerView rvCategoryChoose = (RecyclerView) dialogView.findViewById(R.id.lvCategoryChoose);
+        choiseCategoryDialoogItemAdapter = new ChoiseCategoryDialoogItemAdapter(subCategories, CalcActivity.this, new ChoiseCategoryDialoogItemAdapter.OnItemSelected() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (subCategories.get(position).getId().matches(getResources().getString(R.string.no_category)))
-                    subCategory = null;
-                else
-                    subCategory = subCategories.get(position);
-                int resId = getResources().getIdentifier(subCategories.get(position).getIcon(), "drawable", CalcActivity.this.getPackageName());
-                ivRecordEditSubCategory.setImageResource(resId);
+            public void itemPressed(String itemID) {
+
+                boolean keyBroker = false;
+
+                categoryList = daoSession.getRootCategoryDao().loadAll();
+                for(RootCategory rootCategory:categoryList){
+                    if(rootCategory.getId().equals(itemID)){
+                        category = rootCategory;
+                        ivRecordEditSubCategory.setImageResource(R.drawable.category_not_selected);
+                        tvRecordEditSubCategoryName.setText(R.string.no_category_name);
+                        int resId = getResources().getIdentifier(category.getIcon(), "drawable", getPackageName());
+                        tvRecordEditCategoryName.setText(category.getName());
+                        ivRecordEditCategory.setImageResource(resId);
+
+                        break;
+                    }
+                    for(SubCategory subCategoryTemp:rootCategory.getSubCategories()){
+                        if(subCategoryTemp.getId().equals(itemID)){
+                            category = rootCategory;
+                            subCategory = subCategoryTemp;
+                            int resId = getResources().getIdentifier(subCategory.getIcon(), "drawable", getPackageName());
+                            ivRecordEditSubCategory.setImageResource(resId);
+                            tvRecordEditSubCategoryName.setText(subCategory.getName());
+                            int resId2 = getResources().getIdentifier(category.getIcon(), "drawable", getPackageName());
+                            tvRecordEditCategoryName.setText(category.getName());
+                            ivRecordEditCategory.setImageResource(resId2);
+                            keyBroker=true;
+                            break;
+                        }
+                    }
+                    if(keyBroker)
+                        break;
+
+
+
+                }
+                dialog.dismiss();
+
+            }
+        });
+        choiseCategoryDialoogItemAdapter.toBackedToCategory(true);
+
+        dialogView.findViewById(R.id.ivInfoDebtBorrowCancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 dialog.dismiss();
             }
         });
-        DisplayMetrics dm = getResources().getDisplayMetrics();
-        int width = dm.widthPixels;
-        dialog.getWindow().setLayout(8 * width / 9, ActionBarOverlayLayout.LayoutParams.MATCH_PARENT);
+        rvCategoryChoose.setLayoutManager(new GridLayoutManager(CalcActivity.this,3));
+        rvCategoryChoose.setHasFixedSize(true);
+        rvCategoryChoose.setAdapter(choiseCategoryDialoogItemAdapter);
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        int width = displayMetrics.widthPixels;
+        int hieght = displayMetrics.heightPixels;
+        dialog.getWindow().setLayout(9 * width / 10, (int) (8.2*hieght/10));
         dialog.show();
+
+
+
     }
 
     @Override

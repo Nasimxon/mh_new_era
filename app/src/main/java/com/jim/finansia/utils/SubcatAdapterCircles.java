@@ -60,6 +60,7 @@ public class SubcatAdapterCircles extends RelativeLayout {
         ivTop = new ImageView(getContext());
         ivTop.setLayoutParams(topLp);
         ivTop.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.circle_with_head_accendent));
+        ivTop.setColorFilter(GetterAttributColors.fetchHeadAccedentColor(context));
         addView(ivBottom);
         addView(ivMiddle);
         addView(ivTop);

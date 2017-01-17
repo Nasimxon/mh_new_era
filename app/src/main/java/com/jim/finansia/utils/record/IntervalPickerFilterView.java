@@ -3,6 +3,8 @@ package com.jim.finansia.utils.record;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -11,6 +13,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jim.finansia.R;
+import com.jim.finansia.managers.CommonOperations;
+import com.jim.finansia.utils.GetterAttributColors;
 
 import java.util.Calendar;
 
@@ -111,7 +115,9 @@ public class IntervalPickerFilterView extends LinearLayout {
             this.isCurrentDay = isCurrentDay;
             if (isCurrentDay) {
                 tvIntervalPickerDate.setTextColor(Color.WHITE);
-                rlCurrentDateBg.setBackgroundResource(R.drawable.interval_picker_current_day_circle);
+                Drawable drawable = CommonOperations.getDrawable(getContext(),R.drawable.interval_picker_current_day_circle);
+                drawable.setColorFilter(GetterAttributColors.fetchHeadAccedentColor(getContext()), PorterDuff.Mode.ADD);
+                rlCurrentDateBg.setBackground(drawable);
             } else {
                 tvIntervalPickerDate.setTextColor(Color.parseColor("414141"));
                 rlCurrentDateBg.setBackground(null);

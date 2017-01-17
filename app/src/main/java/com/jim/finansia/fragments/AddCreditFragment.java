@@ -502,11 +502,11 @@ public class AddCreditFragment extends Fragment {
                 firstCred.setError(null);
                 lastCred.setError(null);
                 Calendar calendar = Calendar.getInstance();
-                Dialog mDialog = new DatePickerDialog(getContext(),
-                        getDatesetListener, calendar.get(Calendar.YEAR),
-                        calendar.get(Calendar.MONTH), calendar
-                        .get(Calendar.DAY_OF_MONTH));
-                mDialog.show();
+                    Dialog mDialog = new DatePickerDialog(getContext(),
+                            getDatesetListener, calendar.get(Calendar.YEAR),
+                            calendar.get(Calendar.MONTH), calendar
+                            .get(Calendar.DAY_OF_MONTH));
+                    mDialog.show();
             }
         });
 //        checkInclude.setOnClickListener(new View.OnClickListener() {
