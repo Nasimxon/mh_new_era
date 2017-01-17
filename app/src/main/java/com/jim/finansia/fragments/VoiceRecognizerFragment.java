@@ -293,6 +293,12 @@ public class VoiceRecognizerFragment extends Fragment {
         return rootView;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        refreshChanges();
+    }
+
     public void setDay(Calendar day) {
         this.day = (Calendar) day.clone();
         refreshChanges();

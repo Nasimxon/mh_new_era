@@ -66,6 +66,13 @@ public class MainPageFragment extends Fragment {
         this.pocketAccounter = (PocketAccounter) context;
         pocketAccounter.component((PocketAccounterApplication) pocketAccounter.getApplicationContext()).inject(this);
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        initialize();
+    }
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.main_page_fragment, container, false);
         pocketAccounter.findViewById(R.id.main).setVisibility(View.VISIBLE);

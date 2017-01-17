@@ -30,6 +30,7 @@ import com.jim.finansia.utils.PocketAccounterGeneral;
 import com.jim.finansia.utils.reportviews.MonthPickSliderView;
 import com.jim.finansia.utils.reportviews.ReportByIncomeExpenseOneDayView;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -312,7 +313,8 @@ public class ReportByIncomeExpenseDaily extends Fragment {
                 view.tvReportIncomeExpenseDetailAmount.setTextColor(Color.parseColor("#dc4849"));
                 sign = "-";
             }
-            view.tvReportIncomeExpenseDetailAmount.setText(sign + result.get(position).getAmount() + result.get(position).getCurrency().getAbbr());
+            DecimalFormat decimalFormat = new DecimalFormat("0.##");
+            view.tvReportIncomeExpenseDetailAmount.setText(sign + decimalFormat.format(result.get(position).getAmount()) + result.get(position).getCurrency().getAbbr());
         }
         public ReportByIncomeExpenseDaily.DetailViewHolder onCreateViewHolder(ViewGroup parent, int var2) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.report_by_income_expense_daily_detail_list_item, parent, false);
