@@ -34,20 +34,21 @@
         <item>Period</item>
     </string-array>
     <string-array name="drawer_menus_icons">
-        <item>icons_1</item>
-        <item>icons_2</item>
-        <item>icons_3</item>
-        <item>icons_4</item>
-        <item>icons_5</item>
-        <item>icons_6</item>
-        <item>icons_7</item>
-        <item>icons_8</item>
-        <item>icons_9</item>
-        <item>icons_10</item>
-        <item>icons_11</item>
-        <item>icons_12</item>
-        <item>icons_13</item>
-        <item>icons_14</item>
+        <item>ic_home</item>
+        <item>ic_currency</item>
+        <item>ic_categories</item>
+        <item>ic_accounts</item>
+        <item>ic_purpose</item>
+        <item>ic_auto</item>
+        <item>ic_loans</item>
+        <item>ic_debt</item>
+        <item>ic_sms</item>
+        <item>ic_report</item>
+        <item>ic_themes</item>
+        <item>ic_settings</item>
+        <item>ic_rate</item>
+        <item>ic_share</item>
+        <item>ic_feedback</item>
     </string-array>
     <string-array name="drawer_menus">
         <item>Главная</item>
@@ -247,11 +248,10 @@
         <item>1.0</item>
         <item>1.0</item>
         <item>1.0</item>
+        <item>1.0</item>
     </string-array>
     <!-- end currency datas -->
 
-        <item>1.0</item>
-    </string-array>
     <string-array name="icons">
         <item>icons_1</item>
         <item>icons_2</item>

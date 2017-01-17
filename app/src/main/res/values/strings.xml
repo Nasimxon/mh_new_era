@@ -39,9 +39,9 @@
         <item>ic_report</item>
         <item>ic_themes</item>
         <item>ic_settings</item>
-        <item>icons_12</item>
-        <item>icons_13</item>
-        <item>icons_14</item>
+        <item>ic_rate</item>
+        <item>ic_share</item>
+        <item>ic_feedback</item>
     </string-array>
     <string-array name="base_currencies">
         <item>Dollars</item>
