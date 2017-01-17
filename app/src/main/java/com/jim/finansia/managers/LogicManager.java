@@ -113,22 +113,33 @@ public class LogicManager {
         if (allCureencies.size() < 2 || currencies.size() == allCureencies.size())
             return LogicManagerConstants.MUST_BE_AT_LEAST_ONE_OBJECT;
         for (Currency currency : currencies) {
-            for (FinanceRecord record : recordDao.loadAll()) {
+            List<FinanceRecord> financeRecords = recordDao.loadAll();
+            for (FinanceRecord record : financeRecords) {
                 if (record.getCurrency().getId().equals(currency.getId())) {
                     recordDao.delete(record);
                 }
             }
-            for (DebtBorrow debtBorrow : debtBorrowDao.loadAll()) {
+            List<DebtBorrow> debtBorrows = debtBorrowDao.loadAll();
+            for (DebtBorrow debtBorrow : debtBorrows) {
                 if (debtBorrow.getCurrency().getId().equals(currency.getId()))
                     debtBorrowDao.delete(debtBorrow);
             }
-            for (CreditDetials creditDetials : creditDetialsDao.loadAll()) {
+
+            List<CreditDetials> creditDetialses = creditDetialsDao.loadAll();
+            for (CreditDetials creditDetials : creditDetialses) {
                 if (creditDetials.getValyute_currency().getId().equals(currency.getId()))
                     creditDetialsDao.delete(creditDetials);
             }
-            for (SmsParseObject smsParseObject : smsParseObjectDao.loadAll()) {
+            List<SmsParseObject> smsParseObjects = smsParseObjectDao.loadAll();
+            for (SmsParseObject smsParseObject : smsParseObjects) {
                 if (smsParseObject.getCurrency().getId().equals(currency.getId()))
                     smsParseObjectDao.delete(smsParseObject);
+            }
+            List<SmsParseSuccess> smses = daoSession.getSmsParseSuccessDao().loadAll();
+            for (SmsParseSuccess sms : smses) {
+                if (sms.getCurrencyId().equals(currency.getId())) {
+                    daoSession.getSmsParseSuccessDao().delete(sms);
+                }
             }
             List<CurrencyCostState> states = currencyCostStateDao.loadAll();
             for (CurrencyCostState currencyCostState : states) {
@@ -149,6 +160,12 @@ public class LogicManager {
             }
             for (UserEnteredCalendars userEnteredCalendars : currency.getUserEnteredCalendarses())
                 daoSession.getUserEnteredCalendarsDao().delete(userEnteredCalendars);
+            List<Purpose> purposes = daoSession.getPurposeDao().loadAll();
+            for (Purpose purpose : purposes) {
+                if (purpose.getCurrencyId().equals(currency.getId())) {
+                    daoSession.getPurposeDao().delete(purpose);
+                }
+            }
             currencyDao.delete(currency);
         }
         defineMainCurrency();
@@ -172,16 +189,31 @@ public class LogicManager {
         for (Account account : accounts) {
             List<FinanceRecord> records = recordDao.loadAll();
             for (FinanceRecord record : records) {
-                if (record.getAccount().getId().matches(account.getId())) {
+                if (record.getAccount().getId().equals(account.getId())) {
                     recordDao.delete(record);
                 }
             }
             List<DebtBorrow> debtBorrows = debtBorrowDao.loadAll();
             for (DebtBorrow debtBorrow : debtBorrows) {
-                if (debtBorrow.getAccount().getId().matches(account.getId()))
+                if (debtBorrow.getAccount().getId().equals(account.getId()))
                     debtBorrowDao.delete(debtBorrow);
             }
+            debtBorrowDao.detachAll();
+            debtBorrows = debtBorrowDao.loadAll();
+            for (DebtBorrow debtBorrow : debtBorrows) {
+                for (Recking recking : debtBorrow.getReckings()) {
+                    if (recking.getAccountId().equals(account.getId())) {
+                        debtBorrowDao.delete(debtBorrow);
+                    }
+                }
+            }
             List<CreditDetials> creditDetialses = creditDetialsDao.loadAll();
+            for (CreditDetials creditDetials : creditDetialses) {
+                if (creditDetials.getAccountID().equals(account.getId()))
+                    creditDetialsDao.delete(creditDetials);
+            }
+            creditDetialsDao.detachAll();
+            creditDetialses = creditDetialsDao.loadAll();
             for (CreditDetials creditDetials : creditDetialses) {
                 for (ReckingCredit reckingCredit : creditDetials.getReckings())
                     if (reckingCredit.getAccountId().matches(account.getId()))
@@ -199,7 +231,26 @@ public class LogicManager {
                     daoSession.delete(accountOperation);
                 }
             }
+
+            List<SmsParseSuccess> smses = smsParseSuccessDao.loadAll();
+            for (SmsParseSuccess sms : smses) {
+                if (sms.getAccountId().equals(account.getId())) {
+                    smsParseSuccessDao.delete(sms);
+                }
+            }
+            List<AutoMarket> autoMarkets = daoSession.getAutoMarketDao().loadAll();
+            for (AutoMarket autoMarket : autoMarkets) {
+                if (autoMarket.getAccountId().equals(account.getId())) {
+                    daoSession.getAutoMarketDao().delete(autoMarket);
+                }
+            }
             accountDao.delete(account);
+            daoSession.getFinanceRecordDao().detachAll();
+            daoSession.getDebtBorrowDao().detachAll();
+            daoSession.getCreditDetialsDao().detachAll();
+            daoSession.getSmsParseSuccessDao().detachAll();
+            daoSession.getAutoMarketDao().detachAll();
+            daoSession.getAccountDao().detachAll();
         }
         return LogicManagerConstants.DELETED_SUCCESSFUL;
     }

@@ -26,6 +26,7 @@ import com.jim.finansia.database.AccountDao;
 import com.jim.finansia.managers.LogicManagerConstants;
 import com.jim.finansia.report.ReportObject;
 import com.jim.finansia.utils.PocketAccounterGeneral;
+import com.jim.finansia.utils.WarningDialog;
 import com.jim.finansia.utils.catselector.OnItemSelectedListener;
 import com.jim.finansia.utils.catselector.SelectorView;
 
@@ -134,15 +135,30 @@ public class AccountInfoFragment extends PABaseInfoFragment {
 			public boolean onMenuItemClick(MenuItem item) {
 				switch (item.getItemId()) {
 					case R.id.delete: {
-						List<Account> accounts = new ArrayList<>();
-						accounts.add(account);
-						if (LogicManagerConstants.MUST_BE_AT_LEAST_ONE_OBJECT == logicManager.deleteAccount(accounts)){
-							Toast.makeText(getContext(), R.string.account_deleting_error, Toast.LENGTH_SHORT).show();
-						} else {
-							paFragmentManager.getFragmentManager().popBackStack();
-							paFragmentManager.displayFragment(new AccountFragment());
-						}
-						dataCache.updateAllPercents();
+						final WarningDialog dialog = new WarningDialog(getContext());
+						dialog.setText(getResources().getString(R.string.account_delete_warning));
+						dialog.setOnYesButtonListener(new OnClickListener() {
+							@Override
+							public void onClick(View view) {
+								List<Account> accounts = new ArrayList<>();
+								accounts.add(account);
+								if (LogicManagerConstants.MUST_BE_AT_LEAST_ONE_OBJECT == logicManager.deleteAccount(accounts)){
+									Toast.makeText(getContext(), R.string.account_deleting_error, Toast.LENGTH_SHORT).show();
+								} else {
+									paFragmentManager.getFragmentManager().popBackStack();
+									paFragmentManager.displayFragment(new AccountFragment());
+								}
+								dataCache.updateAllPercents();
+								dialog.dismiss();
+							}
+						});
+						dialog.setOnNoButtonClickListener(new OnClickListener() {
+							@Override
+							public void onClick(View view) {
+								dialog.dismiss();
+							}
+						});
+						dialog.show();
 						break;
 					}
 					case R.id.edit: {

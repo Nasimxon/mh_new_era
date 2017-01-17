@@ -1672,6 +1672,7 @@
     <string name="theme">Themes</string>
     <string name="attention">Attention!</string>
     <string name="buy_voice_text">Вы превысили количество попыток. Хотите активировать услугу?</string>
+    <string name="purpose_delete_warning">Do you really want to delete the purpose?</string>
     <string-array name="currency_1">
         <item>доллар</item>
         <item>долларов</item>

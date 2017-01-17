@@ -41,6 +41,7 @@ import com.jim.finansia.utils.OperationsListDialog;
 import com.jim.finansia.utils.PercentView;
 import com.jim.finansia.utils.PocketAccounterGeneral;
 import com.jim.finansia.utils.TransferDialog;
+import com.jim.finansia.utils.WarningDialog;
 import com.jim.finansia.utils.reportfilter.IntervalPickDialog;
 import com.jim.finansia.utils.reportfilter.IntervalPickerView;
 
@@ -134,19 +135,34 @@ public class PurposeInfoFragment extends Fragment implements View.OnClickListene
                             paFragmentManager.displayFragment(new PurposeEditFragment(purpose));
                             operationsListDialog.dismiss();
                         } else {
-                            switch (logicManager.deletePurpose(purpose)) {
-                                case LogicManagerConstants.REQUESTED_OBJECT_NOT_FOUND: {
-                                    Toast.makeText(getContext(), "No this purpose", Toast.LENGTH_SHORT).show();
-                                    operationsListDialog.dismiss();
-                                    break;
+                            final WarningDialog warningDialog = new WarningDialog(getContext());
+                            warningDialog.setText(getResources().getString(R.string.do_you_want_to_delete));
+                            warningDialog.setOnYesButtonListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    switch (logicManager.deletePurpose(purpose)) {
+                                        case LogicManagerConstants.REQUESTED_OBJECT_NOT_FOUND: {
+                                            Toast.makeText(getContext(), "Purpose not found", Toast.LENGTH_SHORT).show();
+                                            operationsListDialog.dismiss();
+                                            break;
+                                        }
+                                        case LogicManagerConstants.DELETED_SUCCESSFUL: {
+                                            paFragmentManager.getFragmentManager().popBackStack();
+                                            paFragmentManager.displayFragment(new PurposeFragment());
+                                            operationsListDialog.dismiss();
+                                            break;
+                                        }
+                                    }
+                                    warningDialog.dismiss();
                                 }
-                                case LogicManagerConstants.DELETED_SUCCESSFUL: {
-                                    paFragmentManager.getFragmentManager().popBackStack();
-                                    paFragmentManager.displayFragment(new PurposeFragment());
-                                    operationsListDialog.dismiss();
-                                    break;
+                            });
+                            warningDialog.setOnNoButtonClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    warningDialog.dismiss();
                                 }
-                            }
+                            });
+                            warningDialog.show();
                         }
                     }
                 });
@@ -285,7 +301,6 @@ public class PurposeInfoFragment extends Fragment implements View.OnClickListene
                 filterDialog.show();
                 break;
             }
-            //TODO Nasimxon pul otkazilgandan kiyin adapter bilan total sumni yam yangilavoriw kere
             case R.id.tvPurposeInfoToCash: {
                 transferDialog.show();
                 transferDialog.setAccountOrPurpose(purpose.getId(), false);

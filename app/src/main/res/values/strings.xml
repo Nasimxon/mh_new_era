@@ -1773,4 +1773,5 @@
     <string name="move_to">Move to</string>
     <string name="change_ch">Change</string>
     <string name="records_will_be_deleted">Records will be deleted</string>
+    <string name="purpose_delete_warning">Do you really want to delete the purpose?</string>
 </resources>

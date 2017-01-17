@@ -49,6 +49,7 @@ public class RecordDetailFragment extends Fragment implements OnClickListener {
     private int mode = PocketAccounterGeneral.NORMAL_MODE;
     private ArrayList<FinanceRecord> records;
     private boolean[] selections;
+    private boolean onNoPressed = false;
     Context context;
     @Inject
     DaoSession daoSession;
@@ -134,61 +135,57 @@ public class RecordDetailFragment extends Fragment implements OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ivToolbarMostRight:
-                if(mode==PocketAccounterGeneral.EDIT_MODE){
-
+                final RecordDetailAdapter adapter = (RecordDetailAdapter) rvRecordDetail.getAdapter();
+                if (mode == PocketAccounterGeneral.EDIT_MODE) {
+                    boolean b = false;
+                    if(selections != null)
+                        for (int i = 0; i < selections.length; i++) {
+                            if (selections[i]) {
+                                b = true;
+                                break;
+                            }
+                        }
+                    if(b){
+                        final WarningDialog warningDialog = new WarningDialog(getContext());
+                        warningDialog.setText(getString(R.string.records_will_be_deleted));
+                        warningDialog.setOnYesButtonListener(new OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                adapter.removeItems();
+                                mode = PocketAccounterGeneral.NORMAL_MODE;
+                                setMode(mode);
+                                warningDialog.dismiss();
+                            }
+                        });
+                        warningDialog.setOnNoButtonClickListener(new OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                mode = PocketAccounterGeneral.NORMAL_MODE;
+                                setMode(mode);
+                                warningDialog.dismiss();
+                            }
+                        });
+                        warningDialog.show();
+                    }
+                } else {
+                    mode = PocketAccounterGeneral.EDIT_MODE;
+                    setMode(mode);
                 }
-                mode = (mode == PocketAccounterGeneral.NORMAL_MODE ? PocketAccounterGeneral.EDIT_MODE : PocketAccounterGeneral.NORMAL_MODE);
-                setMode(mode);
+
                 break;
         }
     }
 
     private void setMode(final int mode) {
-
         final RecordDetailAdapter adapter = (RecordDetailAdapter) rvRecordDetail.getAdapter();
         adapter.setMode(mode);
         if (mode == PocketAccounterGeneral.NORMAL_MODE) {
-            boolean b = false;
-            if(selections !=null )
-                for (int i = 0; i < selections.length; i++) {
-                    if (selections[i]) {
-                        b = true;
-                        break;
-                    }
-                }
-            if(b){
-               final   WarningDialog warningDialog = new WarningDialog(getContext());
-                warningDialog.setText(getString(R.string.records_will_be_deleted));
-                warningDialog.setOnYesButtonListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        toolbarManager.setImageToSecondImage(R.drawable.pencil);
-                        adapter.removeItems();
-                        warningDialog.dismiss();
-                    }
-                });
-                warningDialog.setOnNoButtonClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        warningDialog.dismiss();
-
-                    }
-                });
-                warningDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialogInterface) {
-                        RecordDetailFragment.this.mode = PocketAccounterGeneral.EDIT_MODE;
-                    }
-                });
-                warningDialog.show();
-             }
-
-
+            toolbarManager.setImageToSecondImage(R.drawable.pencil);
 
         } else {
             toolbarManager.setImageToSecondImage(R.drawable.ic_delete_black);
-            adapter.listenChanges();
         }
+        adapter.listenChanges();
     }
 
     public class RecordDetailAdapter extends RecyclerView.Adapter<RecordDetailAdapter.DetailViewHolder>{
