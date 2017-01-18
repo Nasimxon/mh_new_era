@@ -54,6 +54,7 @@ public class ReportByIncomeExpenseDaily extends Fragment {
     @Inject DaoSession daoSession;
     @Inject ReportManager reportManager;
     @Inject ToolbarManager toolbarManager;
+    @Inject DecimalFormat formatter;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -314,7 +315,7 @@ public class ReportByIncomeExpenseDaily extends Fragment {
                 sign = "-";
             }
             DecimalFormat decimalFormat = new DecimalFormat("0.##");
-            view.tvReportIncomeExpenseDetailAmount.setText(sign + decimalFormat.format(result.get(position).getAmount()) + result.get(position).getCurrency().getAbbr());
+            view.tvReportIncomeExpenseDetailAmount.setText(sign + formatter.format(result.get(position).getAmount()) + result.get(position).getCurrency().getAbbr());
         }
         public ReportByIncomeExpenseDaily.DetailViewHolder onCreateViewHolder(ViewGroup parent, int var2) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.report_by_income_expense_daily_detail_list_item, parent, false);

@@ -543,7 +543,7 @@
     <string name="no">No</string>
     <string name="currency_exchange_warning">Data on exchange rates and the recording will be lost because you did not select the previously selected currency!</string>
     <string name="currency_delete_warning">Entries for selected currencies will be deleted!</string>
-    <string name="currency_empty_warning">List of currency must not be empty!</string>
+    <string name="currency_empty_warning">List of currencies must not be empty!</string>
     <string name="warning">Caution</string>
     <string name="add">Add</string>
     <string name="expanse">Expense</string>
@@ -888,7 +888,7 @@
         <item>icons_77</item>
     </string-array>
     <string name="no_category">no_category</string>
-    <string name="no_category_name">No subcategories</string>
+    <string name="no_category_name">No subcategory</string>
     <string name="records">Entries</string>
     <string name="balanse">Balance</string>
     <!-- for google signing -->
@@ -903,7 +903,7 @@
     <string name="from_email">from_email</string>
     <string name="to_email">basicstepsdevelopment@gmail.com</string>
     <string name="rate_app_web">https://play.google.com/store/apps/details?debtBorrowsId=com.jim.pocketaccounter</string>
-    <string name="share_app_text">I recommend "Money Holder"
+    <string name="share_app_text">I recommend "Finansia"
         https://play.google.com/store/apps/details?debtBorrowsId=com.jim.pocketaccounter</string>
     <string name="feedback_hint">Contact Us</string>
     <string name="feedback_subject">Subject: </string>
@@ -923,7 +923,7 @@
     <string name="comment">Note</string>
     <string name="diagram_no_data_text">There is no data to display!</string>
     <string name="credit">Credit</string>
-    <string name="borrow_statistics">I gave into debt</string>
+    <string name="borrow_statistics">Given debt</string>
     <string name="borrow_recking_statistics">Returned debt</string>
     <string name="debt_statistics">Borrowed</string>
     <string name="debt_recking_statistics">Returned debt</string>
@@ -969,7 +969,7 @@
         <item>Category</item>
     </string-array>
     <string name="debt_borrow_taken">Borrowed</string>
-    <string name="debt_borrow_given">I gave into debt</string>
+    <string name="debt_borrow_given">Given debt</string>
     <string name="debt_borrow_taken_recking">Returned debt</string>
     <string name="debt_borrow_given_recking">Returned debt</string>
     <string name="detail">Details</string>
@@ -1172,15 +1172,15 @@
     <string name="notif_credit">Check your credits!</string>
     <string name="notif_debt">Check your debts!</string>
     <string name="payment_balans">"Unpaid balance:"</string>
-    <string name="payment_balance2">"\nYou are overpay for the sum:"</string>
+    <string name="payment_balance2">"\nYou overpay for the sum:"</string>
     <string name="total_credit_value">Credit amount</string>
     <string name="left2">Credit term:</string>
     <string name="taken_date">Payment day:</string>
     <string name="adding_to_archive">To archive:</string>
-    <string name="should_not_empty">Enter the name!</string>
-    <string name="value_shoud_not_empty">Enter the amount!</string>
+    <string name="should_not_empty">Enter the name</string>
+    <string name="value_shoud_not_empty">Enter the amount</string>
     <string name="procent_should_not_empty">Enter the percent!</string>
-    <string name="period_should_not_empty">Enter the period!</string>
+    <string name="period_should_not_empty">Enter the period</string>
     <string name="after_per_choise">Enter the date!</string>
     <string name="first_enter_period">Please enter the credit term!</string>
     <string name="it_is_our_solution_but_please_check_it">Customize to fit your requirements!</string>
@@ -1216,7 +1216,7 @@
     <string name="how_long_time_you_should_pay">Credit period</string>
     <string name="dou_delete">"Do you want to delete the record? The record is calculeted in balance ! All transaction operations will deleted from aplication! "</string>
     <string name="dou_delete_arc">"Do you want to delete the record? "</string>
-    <string name="clear_warning">Records with this category will deleted (</string>
+    <string name="clear_warning">Records, associated with this category will be deleted (</string>
     <string name="transfer_money">Money transfer</string>
     <string name="amount_keywords">Defining of amount \nKeywords:</string>
     <string name="from_transfer">Transfer from account</string>
@@ -1258,7 +1258,7 @@
     <string name="zdes_idot_dlinnaya_obyasneniya_pro_to_shto_kak_rabotaet_klyuchi_i">Enter keywords, separated by a comma, followed by a digit (the payment amount). Keywords can be found in your SMS, received from the bank. Punctuation marks are ignored</string>
     <string name="ti_type_parsinga_sms_sobsheni_eti_type_parsinga_sms_sobshenieti_type_parsinga_sms_sobsheni">Here you can select type of SMS, which you get from your bank</string>
     <string name="monthly_diagram">Expense and income</string>
-    <string name="sys_not_found_accanount">There is not enough count of account !</string>
+    <string name="sys_not_found_accanount">There is not enough count of account</string>
     <string name="notif_setting">Notification settings*</string>
     <string name="detalization">Detail</string>
     <string name="notif_annual">Annual</string>
@@ -1276,7 +1276,7 @@
         <item>1</item>
     </string-array>
     <string name="about_currencu">This option sets currency for your SMS message</string>
-    <string name="about_operat">This option for choosing account to your SMS message</string>
+    <string name="about_operat">This option is for choosing account to your SMS message</string>
     <string name="sync_and_backup">SYNC AND BACKUP</string>
 
     <string name="default_settings">All settings and datas will be deleted. Do you agree?</string>
@@ -1346,7 +1346,7 @@
     <string name="choesetypeing">Select photo</string>
     <string name="savein">SAVE</string>
     <string name="ok_b">OK</string>
-    <string name="must_be_one_currency">Must be at least one currency!</string>
+    <string name="must_be_one_currency">Must be at least one currency</string>
     <string name="replanish">Cash in</string>
     <string name="limit_not_setted">Limit no set</string>
     <string name="transfer">Transfer money</string>
@@ -1355,7 +1355,7 @@
     <string name="none_zero_account">Not a negative account</string>
     <string name="operations">Operations</string>
     <string name="add_subcategory">Add subcategory</string>
-    <string name="such_subcat_exist">Subcategory with such name is exists!</string>
+    <string name="such_subcat_exist">Subcategory with such name is exists</string>
     <string name="purposes">Purposes</string>
     <string name="earn">Saving box</string>
     <string name="period">Period</string>
@@ -1444,7 +1444,7 @@
         <item>icons_413</item>
     </string-array>
     <string name="accountdo">Account:</string>
-    <string name="balance_invis">Dont show balance</string>
+    <string name="balance_invis">Don\'t show balance</string>
     <string name="borrow_arch">BORROW in Archive</string>
     <string name="borrow_com">This debt is included in balance, but it is in archive!</string>
     <string name="borrow_coment_incl">This debt is not included in balance</string>
@@ -1457,13 +1457,13 @@
     <string name="cred_arch">Archive</string>
     <string name="cred_include_bal">This credit is included in balance</string>
     <string name="cred_not_include_bal">This credit is not included in balance</string>
-    <string name="credit_reckings_var">Credit recking</string>
+    <string name="credit_reckings_var">Credit payment</string>
     <string name="credit_var">Credit</string>
     <string name="date_with_two_dots">Date:</string>
     <string name="debt_com">The debt is included in balance, but it is in archive</string>
     <string name="debt_coment">The debt is included in balance</string>
-    <string name="debt_comment_not_icluded">The Debt is not included in the balance and is in archive</string>
-    <string name="debt_arch">Debt is in Archive</string>
+    <string name="debt_comment_not_icluded">The debt is not included in the balance and is in archive</string>
+    <string name="debt_arch">Debt is in the Archive</string>
     <string name="debt_comment_to">This debt is not included in balance</string>
     <string name="debt_reckings_var">Debt record</string>
     <string name="debt_var">Debt</string>
@@ -1500,7 +1500,7 @@
     <string name="from_sms">SMS list</string>
     <string name="do_you_want_to_delete">Do you really want to delete?</string>
     <string name="please_type">Search for word</string>
-    <string name="cant_find">I can\'t find</string>
+    <string name="cant_find">Not found</string>
     <string name="your_purpose">Your purpose :</string>
     <string name="enter_the_title">Enter the title</string>
     <string name="accumulation">Accumulation</string>
@@ -1526,11 +1526,10 @@
     <string name="sub_category">Sub Category</string>
     <string name="sync_failed">Sync failed</string>
     <string name="sync_suc">Sync is successful</string>
-    <string name="transfer_isnt_done">Transfer failed!</string>
+    <string name="transfer_isnt_done">Transfer failed</string>
     <string name="credit_arcive_are_empty">Archive list is empty</string>
     <string name="credit_are_empty">Add credit</string>
-    <string name="choose_different_accounts">Select difference accounts</string>
-    <string name="chooseroot">Choice root</string>
+    <string name="choose_different_accounts">Select different accounts</string>
     <string name="category_one">Category</string>
     <string name="amount_operation">Amount for operation :</string>
     <string name="skip">SKIP</string>
@@ -1587,13 +1586,13 @@
     <string name="archive_is_empty">Archive list is empty!</string>
     <string name="borrow_is_empty">Add debts</string>
     <string name="start_day">Start date</string>
-    <string name="such_name_exists">Such name is already exist!</string>
+    <string name="such_name_exists">Such name is already exist</string>
     <string name="summa">Sum</string>
     <string name="widget">Widget</string>
     <string name="sms_not_exist">SMS messages is not exist</string>
     <string name="main_window">Main page</string>
     <string name="cancelb">Cancel</string>
-    <string name="there_is_no_operations_for_today">There is no operations for today!</string>
+    <string name="there_is_no_operations_for_today">There is no operations for today</string>
     <string name="choose_amount">Amount is not choosen</string>
     <string name="no_parsing">Not parsed</string>
     <string name="no_success">Not processed</string>
@@ -1627,9 +1626,9 @@
     <string name="select_icon_category">Please select icon for category</string>
     <string name="select_icons_sb">Select subcategory icon</string>
     <string name="subcategory_empty">Subcategory name is empty</string>
-    <string name="to_purpose">Перевод в копилку</string>
-    <string name="reached_max_value">Достигнуто максимальное значение</string>
-    <string name="reached_min_value">Достигнуто минимальное значение</string>
+    <string name="to_purpose">Transfer to money box</string>
+    <string name="reached_max_value">Reached maximum value</string>
+    <string name="reached_min_value">Reached maximum value</string>
     <string-array name="month_abbrs">
         <item>Янв.</item>
         <item>Фев.</item>
@@ -1660,12 +1659,12 @@
     <string name="december">DEC</string>
     <string name="max_income_in_the_month">"Maximum income in the month: "</string>
     <string name="average_income">"Average income: "</string>
-    <string name="min_income_in_the_month">"Minimum average in the month: "</string>
+    <string name="min_income_in_the_month">"Minimum income in the month: "</string>
     <string name="average_expense">"Average expense: "</string>
     <string name="max_expense_in_the_month">"Maximum expense in the month: "</string>
     <string name="min_expense_in_the_month">"Minimum income in the month: "</string>
     <string name="report_by_income_expense_table">Report by income and expense</string>
-    <string name="must_restart">Для установки темы понадобится перезапуск программы!</string>
+    <string name="must_restart">Restart application to set theme</string>
     <string name="processed_sms">Processed sms:</string>
     <string name="daily_operations">Daily operations</string>
     <string name="category_subcategory">Category SubCategory</string>
@@ -1686,5 +1685,69 @@
         <item>рубль</item>
         <item>рублей</item>
     </string-array>
+    <string name="about_notifications">*Notification will remind you about payment chosen period</string>
+    <string name="add_the_loan_in_the_balance">Include the loan amount in the balance</string>
+    <string name="all_periods">All periods</string>
+    <string name="ammount_of_debt_include_the_balance">Include debt amount in the balance</string>
+    <string name="archiveee">ARCHIVE</string>
+    <string name="bank_fees">Bank fees</string>
+    <string name="borrower_name">Borrower name</string>
+    <string name="categories_report">Categories</string>
+    <string name="change_rate">Change rate</string>
+    <string name="choise_account_f">Choise account</string>
+    <string name="choise_category">Choise category</string>
+    <string name="choise_photo">Choose icon for your purpose</string>
+    <string name="choise_subcategory">Choise subcategory</string>
+    <string name="complete">COMPLETE</string>
+    <string name="c_interval">From</string>
+    <string name="credit_end_date">Credit end date</string>
+    <string name="credit_repiad">Credit repaid</string>
+    <string name="credit_stat">Credit status:</string>
+    <string name="daily_operations_report">Daily operations</string>
+    <string name="debtor_name">Debtor name</string>
+    <string name="do_interval">To</string>
+    <string name="financial_transactions_report">Financial transactions</string>
+    <string name="for_this_period">For this period:</string>
+    <string name="from_balance">From balance:</string>
+    <string name="from_loan_amount">From loan amount</string>
+    <string name="have_first_contribution">First contribution</string>
+    <string name="info_categories_report">Category and subcategory details for custom period with graphics and percents</string>
+    <string name="info_daily_operations_report">Graphics for monthly statement and daily state for income, expense and balance</string>
+    <string name="info_financial_transactions_report">Table income and expense daily state for custom interval with details</string>
+    <string name="info_monthly_state_report">Graphic monthly statement for income or expense and overall information for every month</string>
+    <string name="invalide_format">Invalide format</string>
+    <string name="loan_name">Loan name</string>
+    <string name="mes">messages</string>
+    <string name="mes2">message</string>
+    <string name="monthly_payment">Monthly Payment</string>
+    <string name="monthly_state_report">Monthly statement</string>
+    <string name="ne_uchitavaetsya">Not in the balance</string>
+    <string name="not_completed">Not completed</string>
+    <string name="not_data">No operations</string>
+    <string name="overpayment_interest">Overpayment Interest</string>
+    <string name="payment">PAYMENT</string>
+    <string name="payment_period">Payment period</string>
+    <string name="percent_fee">Percent fee</string>
+    <string name="period_ends">Current period ends</string>
+    <string name="period_payments">Period payments</string>
+    <string name="period_payment">Period payment</string>
+    <string name="rate"></string>
+    <string name="repeat_every">Repeat every</string>
+    <string name="schedule">SCHEDULE</string>
+    <string name="period_end_after">Period end after:</string>
+    <string name="set_to_main">Set to main</string>
+    <string name="taked_date">Taken date</string>
+    <string name="taked_value">Taken value</string>
+    <string name="to_archive">To archive</string>
+    <string name="total_expense">Total expense</string>
+    <string name="total_income">Total income</string>
+    <string name="total_payed">Total paid</string>
+    <string name="value_of_contribution">value of contribution</string>
+    <string name="value_percent">Value percent</string>
+    <string name="with_interest">With interest</string>
+    <string name="with_out_comment">Without comment</string>
+    <string name="wrong_input_type">Wrong input type</string>
+    <string name="you_have_debt">Debt for period</string>
+    <string name="za_period">During the period:</string>
 
 </resources>

@@ -60,6 +60,7 @@ public class ReportByCategoryFragment extends Fragment {
     @Inject PAFragmentManager paFragmentManager;
     @Inject SharedPreferences preferences;
     @Inject DaoSession daoSession;
+    @Inject DecimalFormat formatter;
     private RecyclerView rvReportByCategorySubcatPercents;
     private List<String> allCategories; //allcategories = rootcategories + debtborrow + credit
     private List<SubcatData> subcatDatas; // subcategories data for selected id
@@ -302,7 +303,7 @@ public class ReportByCategoryFragment extends Fragment {
                 double total = 0.0d;
                 for (Double amount : result.get(position).getAmounts())
                     total += amount;
-                view.tvReportByCategoryInterval.setText(decimalFormat.format(total)+commonOperations.getMainCurrency().getAbbr());
+                view.tvReportByCategoryInterval.setText(formatter.format(total)+commonOperations.getMainCurrency().getAbbr());
                 view.lchvReportByCategoryItem.setData(result.get(position).getAmounts());
             }
         }

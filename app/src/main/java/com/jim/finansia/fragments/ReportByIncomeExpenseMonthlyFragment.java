@@ -62,6 +62,7 @@ public class ReportByIncomeExpenseMonthlyFragment extends Fragment {
     @Inject ReportManager reportManager;
     @Inject CommonOperations commonOperations;
     @Inject ToolbarManager toolbarManager;
+    @Inject DecimalFormat formetter;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -269,13 +270,13 @@ public class ReportByIncomeExpenseMonthlyFragment extends Fragment {
                 tvReportMonthlyTotal.setText(getResources().getString(R.string.report_income_expanse_total_income));
                 tvReportMonthlyTotalAmount.setTextColor(ContextCompat.getColor(getContext(), R.color.green_just));
                 DecimalFormat format = new DecimalFormat("0.##");
-                tvReportMonthlyTotalAmount.setText(format.format(totalIncome) + commonOperations.getMainCurrency().getAbbr());
+                tvReportMonthlyTotalAmount.setText(formetter.format(totalIncome) + commonOperations.getMainCurrency().getAbbr());
                 tvReportMonthlyAverage.setText(R.string.average_income);
-                tvReportMonthlyAverageAmount.setText(format.format(average) + commonOperations.getMainCurrency().getAbbr());
+                tvReportMonthlyAverageAmount.setText(formetter.format(average) + commonOperations.getMainCurrency().getAbbr());
                 tvReportMaximumTotal.setText(R.string.max_income_in_the_month);
-                tvReportMonthlyMaximumAmount.setText(format.format(maxIncome) + commonOperations.getMainCurrency().getAbbr());
+                tvReportMonthlyMaximumAmount.setText(formetter.format(maxIncome) + commonOperations.getMainCurrency().getAbbr());
                 tvReportMinimum.setText(R.string.min_income_in_the_month);
-                tvReportMonthlyMiniumAmount.setText(format.format(minIncome) + commonOperations.getMainCurrency().getAbbr());
+                tvReportMonthlyMiniumAmount.setText(formetter.format(minIncome) + commonOperations.getMainCurrency().getAbbr());
                 break;
             case PocketAccounterGeneral.EXPENSE:
                 temp = (Calendar) begin.clone();
@@ -338,13 +339,13 @@ public class ReportByIncomeExpenseMonthlyFragment extends Fragment {
                 tvReportMonthlyTotal.setText(getResources().getString(R.string.report_income_expanse_total_expanse));
                 tvReportMonthlyTotalAmount.setTextColor(ContextCompat.getColor(getContext(), R.color.red));
                 format = new DecimalFormat("0.##");
-                tvReportMonthlyTotalAmount.setText(format.format(totalExpense) + commonOperations.getMainCurrency().getAbbr());
+                tvReportMonthlyTotalAmount.setText(formetter.format(totalExpense) + commonOperations.getMainCurrency().getAbbr());
                 tvReportMonthlyAverage.setText(R.string.average_expense);
-                tvReportMonthlyAverageAmount.setText(format.format(averageExpense) + commonOperations.getMainCurrency().getAbbr());
+                tvReportMonthlyAverageAmount.setText(formetter.format(averageExpense) + commonOperations.getMainCurrency().getAbbr());
                 tvReportMaximumTotal.setText(R.string.max_expense_in_the_month);
-                tvReportMonthlyMaximumAmount.setText(format.format(maxExpense) + commonOperations.getMainCurrency().getAbbr());
+                tvReportMonthlyMaximumAmount.setText(formetter.format(maxExpense) + commonOperations.getMainCurrency().getAbbr());
                 tvReportMinimum.setText(R.string.min_expense_in_the_month);
-                tvReportMonthlyMiniumAmount.setText(format.format(minExpense) + commonOperations.getMainCurrency().getAbbr());
+                tvReportMonthlyMiniumAmount.setText(formetter.format(minExpense) + commonOperations.getMainCurrency().getAbbr());
                 break;
         }
     }

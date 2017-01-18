@@ -41,6 +41,7 @@ public class ReportByCategoryRootCategoryFragment extends Fragment {
     private Calendar begin, end;
     @Inject DaoSession daoSession;
     @Inject CommonOperations commonOperations;
+    @Inject DecimalFormat formatter;
 
     public ReportByCategoryRootCategoryFragment(String id, Map<String, Integer> colors) {
         this.id = id;
@@ -122,9 +123,9 @@ public class ReportByCategoryRootCategoryFragment extends Fragment {
                 }
                 DecimalFormat format = new DecimalFormat("0.##");
                 if (category.getType() == PocketAccounterGeneral.EXPENSE)
-                    tvReportByCategoryRootCatSum.setText(getString(R.string.total_expense) + ": " + format.format(total) +commonOperations.getMainCurrency().getAbbr());
+                    tvReportByCategoryRootCatSum.setText(getString(R.string.total_expense) + ": " + formatter.format(total) +commonOperations.getMainCurrency().getAbbr());
                 if (category.getType() == PocketAccounterGeneral.INCOME)
-                    tvReportByCategoryRootCatSum.setText(getString(R.string.total_income) + ": " + format.format(total)+commonOperations.getMainCurrency().getAbbr());
+                    tvReportByCategoryRootCatSum.setText(getString(R.string.total_income) + ": " + formatter.format(total)+commonOperations.getMainCurrency().getAbbr());
 
             }
         }

@@ -23,6 +23,7 @@ import com.jim.finansia.utils.reportfilter.IntervalPickDialog;
 import com.jim.finansia.utils.reportfilter.IntervalPickerView;
 import com.jim.finansia.utils.reportviews.TableView;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -42,6 +43,7 @@ public class ReportByIncomeExpenseDailyTableFragment extends Fragment {
     @Inject ToolbarManager toolbarManager;
     @Inject ReportManager reportManager;
     @Inject CommonOperations commonOperations;
+    @Inject DecimalFormat formatter;
     SimpleDateFormat sDateFormat = new SimpleDateFormat("dd MMM, yyyy");
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ((PocketAccounter) getContext()).component((PocketAccounterApplication)getContext().getApplicationContext()).inject(this);
@@ -242,13 +244,13 @@ public class ReportByIncomeExpenseDailyTableFragment extends Fragment {
         datas.add(0, null);
         TableView.TableViewData data = new TableView.TableViewData();
         data.setDate(format.format(Calendar.getInstance().getTime()));
-        data.setIncome(Double.toString(totalIncome) + mainCurrencyAbbr);
-        data.setExpense(Double.toString(totalExpense) + mainCurrencyAbbr);
+        data.setIncome(formatter.format(totalIncome) + mainCurrencyAbbr);
+        data.setExpense(formatter.format(totalIncome) + mainCurrencyAbbr);
         datas.add(data);
         for (int i = 0; i < datas.size(); i++) {
             if (i != 0 && i != datas.size() - 1) {
-                datas.get(i).setIncome(datas.get(i).getIncome() + mainCurrencyAbbr);
-                datas.get(i).setExpense(datas.get(i).getExpense() + mainCurrencyAbbr);
+                datas.get(i).setIncome(formatter.format(Double.parseDouble(datas.get(i).getIncome())) + mainCurrencyAbbr);
+                datas.get(i).setExpense(formatter.format(Double.parseDouble(datas.get(i).getExpense())) + mainCurrencyAbbr);
             }
         }
         tvReportDailyTable.setDatas(datas);
