@@ -97,7 +97,6 @@ public class ReportByCategoryFragment extends Fragment {
             public void onSlide(String id, Map<String, Integer> colorSet, int position, boolean isActive) {
                 if (!isActive) {
                     if (subcatDatas != null) subcatDatas = null;
-                    prepareSubcatData(id, colorSet);
                     replaceSubcats(id, colorSet);
                 } else {
                     if (animator != null && (animator.isStarted() || animator.isRunning())) {
@@ -172,6 +171,10 @@ public class ReportByCategoryFragment extends Fragment {
             } else {
                 begin = Calendar.getInstance();
                 end = Calendar.getInstance();
+                end.set(Calendar.HOUR_OF_DAY, 23);
+                end.set(Calendar.MINUTE, 59);
+                end.set(Calendar.SECOND, 59);
+                end.set(Calendar.MILLISECOND, 59);
                 if (!records.isEmpty()) {
                     for (FinanceRecord record : records) {
                         if (record.getDate().compareTo(begin) <= 0)
@@ -187,16 +190,15 @@ public class ReportByCategoryFragment extends Fragment {
             }
 
             float betweenDays = ((float)(end.getTimeInMillis() - begin.getTimeInMillis()))/(1000.0f*60.0f*60.0f*24.0f);
-            int divider = betweenDays < 2*minLength ? 1 : (int) Math.floor(betweenDays/minLength);
             SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
             double amount = 0.0d;
-            int day = 1;
             while (beg.compareTo(end) <= 0) {
                 for (SubcatData subcatData : subcatDatas) {
                     for (FinanceRecord record : records) {
                         if (subcatData.getId().equals("null")) {
                             if (format.format(record.getDate().getTime()).equals(format.format(beg.getTime())) &&
-                                    record.getCategory() == null) {
+                                    record.getCategoryId().equals(category.getId()) &&
+                                    record.getSubCategory() == null) {
                                 amount += commonOperations.getCost(record);
                             }
                         } else {
@@ -206,14 +208,10 @@ public class ReportByCategoryFragment extends Fragment {
                             }
                         }
                     }
-                    if (day%divider == 0 ||
-                            (format.format(beg.getTime()).equals(format.format(end.getTime())) && amount != 0.0d)) {
-                        subcatData.getAmounts().add(amount);
-                        amount = 0.0d;
-                    }
+                    subcatData.getAmounts().add(amount);
+                    amount = 0.0d;
                 }
                 beg.add(Calendar.DAY_OF_MONTH, 1);
-                day++;
             }
             if (!records.isEmpty()) {
                 double total = 0.0d;
@@ -225,14 +223,12 @@ public class ReportByCategoryFragment extends Fragment {
                         for (FinanceRecord record : records) {
                             if (record.getSubCategory() == null) {
                                 subcatAmount += commonOperations.getCost(record);
-                                subcatData.getAmounts().add(subcatAmount);
                             }
                         }
                     } else {
                         for (FinanceRecord record : records) {
                             if (record.getSubCategory() != null && subcatData.getId().equals(record.getSubCategoryId())) {
                                 subcatAmount += commonOperations.getCost(record);
-                                subcatData.getAmounts().add(subcatAmount);
                             }
                         }
                     }

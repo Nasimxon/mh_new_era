@@ -75,10 +75,10 @@ public class PercentView extends RelativeLayout {
                 ivEmptySide.setLayoutParams(notActiveSideLp);
                 //bow arrow percent
                 if (isBowArrowVisible) {
-                    int realWidth = getWidth() - (int) getResources().getDimension(R.dimen.twenty_dp);
+                    int realWidth = getWidth() - (int) getResources().getDimension(R.dimen.eleven_dp);
                     LayoutParams lpArrow = (LayoutParams) rlBowArrow.getLayoutParams();
-                    lpArrow.width = tempPercent*realWidth/100 <= (int) getResources().getDimension(R.dimen.twenty_dp) ?
-                            (int) getResources().getDimension(R.dimen.twenty_dp) :
+                    lpArrow.width = tempPercent*realWidth/100 <= (int) getResources().getDimension(R.dimen.eleven_dp) ?
+                            (int) getResources().getDimension(R.dimen.eleven_dp) :
                             tempPercent*realWidth/100;
                     rlBowArrow.setLayoutParams(lpArrow);
                 }

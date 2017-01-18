@@ -23,6 +23,7 @@ import com.jim.finansia.utils.PocketAccounterGeneral;
 import com.jim.finansia.utils.reportviews.PieData;
 import com.jim.finansia.utils.reportviews.ReportPieView;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -119,10 +120,11 @@ public class ReportByCategoryRootCategoryFragment extends Fragment {
                 for (FinanceRecord record : records) {
                     total += commonOperations.getCost(record);
                 }
+                DecimalFormat format = new DecimalFormat("0.##");
                 if (category.getType() == PocketAccounterGeneral.EXPENSE)
-                    tvReportByCategoryRootCatSum.setText(getString(R.string.total_expense) + ": " + total +commonOperations.getMainCurrency().getAbbr());
+                    tvReportByCategoryRootCatSum.setText(getString(R.string.total_expense) + ": " + format.format(total) +commonOperations.getMainCurrency().getAbbr());
                 if (category.getType() == PocketAccounterGeneral.INCOME)
-                    tvReportByCategoryRootCatSum.setText(getString(R.string.total_income) + ": " + total+commonOperations.getMainCurrency().getAbbr());
+                    tvReportByCategoryRootCatSum.setText(getString(R.string.total_income) + ": " + format.format(total)+commonOperations.getMainCurrency().getAbbr());
 
             }
         }

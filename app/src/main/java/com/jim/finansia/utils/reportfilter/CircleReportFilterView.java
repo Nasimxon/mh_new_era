@@ -108,12 +108,16 @@ public class CircleReportFilterView extends View {
         step = fullDegree/monthTexts.length;
         //init begin point
         end = Calendar.getInstance();
-        end.set(Calendar.HOUR_OF_DAY, 0);
-        end.set(Calendar.MINUTE, 0);
-        end.set(Calendar.SECOND, 0);
-        end.set(Calendar.MILLISECOND, 0);
+        end.set(Calendar.HOUR_OF_DAY, 23);
+        end.set(Calendar.MINUTE, 59);
+        end.set(Calendar.SECOND, 59);
+        end.set(Calendar.MILLISECOND, 59);
         //init end point
         begin = (Calendar) end.clone();
+        begin.set(Calendar.HOUR_OF_DAY, 0);
+        begin.set(Calendar.MINUTE, 0);
+        begin.set(Calendar.SECOND, 0);
+        begin.set(Calendar.MILLISECOND, 0);
         begin.add(Calendar.MONTH, -1);
         float beginMaxDays = begin.getActualMaximum(Calendar.DAY_OF_MONTH);
         beginDegree = begin.get(Calendar.YEAR) * 360 + step * (begin.get(Calendar.MONTH) + (begin.get(Calendar.DAY_OF_MONTH)-1)/beginMaxDays);
