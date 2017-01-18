@@ -3,6 +3,7 @@ package com.jim.finansia.utils.password;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
@@ -149,7 +150,7 @@ public class PasswordWindow extends LinearLayout implements View.OnClickListener
 
         switch (view.getId()) {
             case R.id.rlPassZero:
-                tvPassword.setTextColor(ContextCompat.getColor(getContext(), R.color.black_for_secondary_text));
+                tvPassword.setTextColor(Color.WHITE);
                 if (password.length() == passwordSize-1) {
                     ssThird.makeCircleFaster();
                     ssFourth.setVisibility(VISIBLE);
@@ -199,7 +200,7 @@ public class PasswordWindow extends LinearLayout implements View.OnClickListener
                 }
                 break;
             case R.id.rlPassOne:
-                tvPassword.setTextColor(ContextCompat.getColor(getContext(), R.color.black_for_secondary_text));
+                tvPassword.setTextColor(Color.WHITE);
                 if (password.length() == passwordSize-1) {
                     ssThird.makeCircleFaster();
                     ssFourth.setVisibility(VISIBLE);
@@ -249,7 +250,7 @@ public class PasswordWindow extends LinearLayout implements View.OnClickListener
                 }
                 break;
             case R.id.rlPassTwo:
-                tvPassword.setTextColor(ContextCompat.getColor(getContext(), R.color.black_for_secondary_text));
+                tvPassword.setTextColor(Color.WHITE);
                 if (password.length() == passwordSize-1) {
                     ssThird.makeCircleFaster();
                     ssFourth.setVisibility(VISIBLE);
@@ -298,7 +299,7 @@ public class PasswordWindow extends LinearLayout implements View.OnClickListener
                 }
                 break;
             case R.id.rlPassThree:
-                tvPassword.setTextColor(ContextCompat.getColor(getContext(), R.color.black_for_secondary_text));
+                tvPassword.setTextColor(Color.WHITE);
                 if (password.length() == passwordSize-1) {
                     ssThird.makeCircleFaster();
                     ssFourth.setVisibility(VISIBLE);
@@ -347,7 +348,7 @@ public class PasswordWindow extends LinearLayout implements View.OnClickListener
                 }
                 break;
             case R.id.rlPassFour:
-                tvPassword.setTextColor(ContextCompat.getColor(getContext(), R.color.black_for_secondary_text));
+                tvPassword.setTextColor(Color.WHITE);
                 if (password.length() == passwordSize-1) {
                     ssThird.makeCircleFaster();
                     ssFourth.setVisibility(VISIBLE);
@@ -396,7 +397,7 @@ public class PasswordWindow extends LinearLayout implements View.OnClickListener
                 }
                 break;
             case R.id.rlPassFive:
-                tvPassword.setTextColor(ContextCompat.getColor(getContext(), R.color.black_for_secondary_text));
+                tvPassword.setTextColor(Color.WHITE);
                 if (password.length() == passwordSize-1) {
                     ssThird.makeCircleFaster();
                     ssFourth.setVisibility(VISIBLE);
@@ -445,7 +446,7 @@ public class PasswordWindow extends LinearLayout implements View.OnClickListener
                 }
                 break;
             case R.id.rlPassSix:
-                tvPassword.setTextColor(ContextCompat.getColor(getContext(), R.color.black_for_secondary_text));
+                tvPassword.setTextColor(Color.WHITE);
                 if (password.length() == passwordSize-1) {
                     ssThird.makeCircleFaster();
                     ssFourth.setVisibility(VISIBLE);
@@ -493,7 +494,7 @@ public class PasswordWindow extends LinearLayout implements View.OnClickListener
                 }
                 break;
             case R.id.rlPassSeven:
-                tvPassword.setTextColor(ContextCompat.getColor(getContext(), R.color.black_for_secondary_text));
+                tvPassword.setTextColor(Color.WHITE);
                 if (password.length() == passwordSize-1) {
                     ssThird.makeCircleFaster();
                     ssFourth.setVisibility(VISIBLE);
@@ -541,7 +542,7 @@ public class PasswordWindow extends LinearLayout implements View.OnClickListener
                 }
                 break;
             case R.id.rlPassEight:
-                tvPassword.setTextColor(ContextCompat.getColor(getContext(), R.color.black_for_secondary_text));
+                tvPassword.setTextColor(Color.WHITE);
                 if (password.length() == passwordSize-1) {
                     ssThird.makeCircleFaster();
                     ssFourth.setVisibility(VISIBLE);
@@ -589,7 +590,7 @@ public class PasswordWindow extends LinearLayout implements View.OnClickListener
                 }
                 break;
             case R.id.rlPassNine:
-                tvPassword.setTextColor(ContextCompat.getColor(getContext(), R.color.black_for_secondary_text));
+                tvPassword.setTextColor(Color.WHITE);
                 if (password.length() == passwordSize-1) {
                     ssThird.makeCircleFaster();
                     ssFourth.setVisibility(VISIBLE);
@@ -638,7 +639,7 @@ public class PasswordWindow extends LinearLayout implements View.OnClickListener
                 }
                 break;
             case R.id.rlPassBack:
-                tvPassword.setTextColor(ContextCompat.getColor(getContext(), R.color.black_for_secondary_text));
+                tvPassword.setTextColor(Color.WHITE);
                 if (password.length() != 0) {
                     switch (password.length()) {
                         case 1:
@@ -656,7 +657,7 @@ public class PasswordWindow extends LinearLayout implements View.OnClickListener
                         case 4:
                             ssFourth.clearSign();
                             ssFourth.setVisibility(GONE);
-                            tvPassword.setTextColor(ContextCompat.getColor(getContext(), R.color.black_for_secondary_text));
+                            tvPassword.setTextColor(Color.WHITE);
                             break;
                     }
                     password = password.substring(0, password.length()-1);

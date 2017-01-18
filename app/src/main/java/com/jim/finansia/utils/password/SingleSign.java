@@ -2,6 +2,7 @@ package com.jim.finansia.utils.password;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
@@ -43,9 +44,8 @@ public class SingleSign extends RelativeLayout {
 
         tvNumber = new TextView(context);
         tvNumber.setLayoutParams(lp);
-
         tvNumber.setTextSize((int) (getResources().getDimension(R.dimen.thirty_dp) / getResources().getDisplayMetrics().density));
-        tvNumber.setTextColor(ContextCompat.getColor(getContext(), R.color.black_for_glavniy_text));
+        tvNumber.setTextColor(Color.WHITE);
         addView(tvNumber);
     }
     public void setSign(int sign) {
