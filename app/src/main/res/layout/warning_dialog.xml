@@ -47,6 +47,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginBottom="@dimen/five_dp"
+        android:gravity="bottom"
         >
         <TextView
             android:id="@+id/btnWarningNo"
@@ -70,6 +71,7 @@
             <com.jim.finansia.utils.TintImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+
                 android:layout_alignBottom="@+id/btnWarningYes"
                 android:layout_alignLeft="@+id/btnWarningYes"
                 android:layout_alignRight="@+id/btnWarningYes"

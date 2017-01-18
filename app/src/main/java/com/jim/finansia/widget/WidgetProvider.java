@@ -328,6 +328,10 @@ public class WidgetProvider extends AppWidgetProvider {
         PendingIntent actionPendingIntent_s = PendingIntent.getActivity(context, widgetID
                 , active_s, 0);
         views.setOnClickPendingIntent(R.id.settings_widget, actionPendingIntent_s);
+        Intent active_to_app = new Intent(context, PocketAccounter.class);
+        PendingIntent actionPendingIntent_to_app = PendingIntent.getActivity(context, widgetID
+                , active_to_app, 0);
+        views.setOnClickPendingIntent(R.id.to_program, actionPendingIntent_to_app);
 
         if(PreferenceManager.getDefaultSharedPreferences(context).getBoolean("securewidget",false)){
             SimpleDateFormat foramat=new SimpleDateFormat("dd MMM yyyy");

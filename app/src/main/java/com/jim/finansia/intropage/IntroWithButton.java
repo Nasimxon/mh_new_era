@@ -41,8 +41,8 @@ public class IntroWithButton extends Fragment {
 
         textLets=(TextView) V.findViewById(R.id.textView8) ;
         togoBEGIN=(ImageView) V.findViewById(R.id.fbDebtBorrowFragment) ;
-        Typeface fontBlack = Typeface.createFromAsset(getActivity().getAssets(), "ralewayBlack.ttf");
-        textLets.setTypeface(fontBlack);
+//        Typeface fontBlack = Typeface.createFromAsset(getActivity().getAssets(), "ralewayBlack.ttf");
+//        textLets.setTypeface(fontBlack);
         togoBEGIN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

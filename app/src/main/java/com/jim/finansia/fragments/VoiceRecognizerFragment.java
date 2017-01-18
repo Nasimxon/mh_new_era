@@ -274,11 +274,14 @@ public class VoiceRecognizerFragment extends Fragment {
                     @Override
                     public void run() {
                         if (started) {
-                            ivCenterButton.setBackgroundResource(R.drawable.speech_pressed_circle);
+                            ivCenterButton.setImageResource(R.drawable.speech_pressed_circle);
+                            ivCenterButton.setScaleType(ImageView.ScaleType.FIT_XY);
                             ivCenterButton.setColorFilter(GetterAttributColors.fetchHeadAccedentColor(getContext()));
                             ivMicrophoneIcon.setColorFilter(Color.WHITE);
                         } else {
-                            ivCenterButton.setBackgroundResource(R.drawable.white_circle);
+                            ivCenterButton.setImageResource(R.drawable.white_circle);
+                            ivCenterButton.setColorFilter(Color.WHITE);
+
                             ivMicrophoneIcon.setColorFilter(Color.parseColor("#414141"));
                         }
                         VoiceRecognizerFragment.this.started = started;
@@ -362,14 +365,16 @@ public class VoiceRecognizerFragment extends Fragment {
                     .putInt(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.VOICE_RECOGNITION_COUNT, count)
                     .commit();
         }
-        ivCenterButton.setBackgroundResource(R.drawable.speech_pressed_circle);
+        ivCenterButton.setImageResource(R.drawable.speech_pressed_circle);
+        ivCenterButton.setScaleType(ImageView.ScaleType.FIT_XY);
         ivCenterButton.setColorFilter(GetterAttributColors.fetchHeadAccedentColor(getContext()));
         ivMicrophoneIcon.setColorFilter(Color.WHITE);
         recognizer.startVoiceRecognitionCycle();
     }
 
     private void stopRecognition() {
-        ivCenterButton.setBackgroundResource(R.drawable.white_circle);
+        ivCenterButton.setImageResource(R.drawable.white_circle);
+        ivCenterButton.setColorFilter(Color.WHITE);
         ivMicrophoneIcon.setColorFilter(Color.parseColor("#414141"));
         recognizer.stopVoiceRecognition();
     }

@@ -41,6 +41,13 @@ public class IntroFrame extends Fragment {
         contentImage=(ImageView) V.findViewById(R.id.imageView);
         miniIcon=(ImageView) V.findViewById(R.id.miniIcon);
         miniIcon.setImageResource(dataIntro.getMiniImageRes());
+
+
+//        Typeface fontBlack = Typeface.createFromAsset(getActivity().getAssets(), "ralewayBlack.ttf");
+//        titleText.setTypeface(fontBlack);
+//        Typeface fontt = Typeface.createFromAsset(getActivity().getAssets(), "ralewayMedium.ttf");
+//        contentText.setTypeface(fontt);
+
         titleText.setText(dataIntro.getIntoTitle());
         contentText.setText(dataIntro.getContentText());
         contentImage.setImageResource(dataIntro.getImageRes());

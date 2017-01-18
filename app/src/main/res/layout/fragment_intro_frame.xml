@@ -9,115 +9,132 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:paddingTop="@dimen/thirty_dp"
-            android:paddingBottom="@dimen/thirty_dp"
             android:layout_weight="6"
-            >
+            android:layout_marginTop="@dimen/fourty_dp"
+            android:paddingBottom="@dimen/thirty_dp"
+            android:paddingTop="@dimen/thirty_dp">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
+
                 <FrameLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1" />
+
                 <RelativeLayout
                     android:layout_width="0dp"
-                    android:layout_weight="4"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:layout_weight="4">
+
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:src="@drawable/into_fon"
                         android:scaleType="centerInside"
-                        />
+                        android:src="@drawable/into_fon" />
+
                     <ImageView
+                        android:id="@+id/imageView"
                         android:layout_width="@dimen/one_hundred_eighty_one_dp"
                         android:layout_height="@dimen/one_hundred_eighty_one_dp"
                         android:layout_centerInParent="true"
-                        android:paddingLeft="@dimen/thirty_dp"
                         android:paddingBottom="@dimen/sixteen_dp"
+                        android:paddingLeft="@dimen/thirty_dp"
                         android:paddingTop="@dimen/sixteen_dp"
                         android:scaleType="centerInside"
-                        android:src="@drawable/voice_intro"
-                        android:id="@+id/imageView"/>
+                        android:src="@drawable/voice_intro" />
                 </RelativeLayout>
 
                 <FrameLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1" />
             </LinearLayout>
 
         </RelativeLayout>
+
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/seventy_dp">
+            android:layout_height="@dimen/seventy_dp"
+            android:visibility="gone">
+
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/fourty_dp"
-                android:src="@drawable/shadow_buttom_intro"
                 android:layout_centerVertical="true"
                 android:scaleType="fitXY"
-                />
+                android:src="@drawable/shadow_buttom_intro" />
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:adjustViewBounds="true"
                 android:layout_centerHorizontal="true"
-                android:src="@drawable/ellips_intro"/>
+                android:adjustViewBounds="true"
+                android:src="@drawable/ellips_intro"
+                android:visibility="invisible" />
+
             <ImageView
                 android:id="@+id/miniIcon"
                 android:layout_width="@dimen/twentyfive_dp"
                 android:layout_height="@dimen/twentyfive_dp"
                 android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/twenty_dp"
                 android:src="@drawable/voice_recognize"
-                android:tint="#fff"
-                android:layout_marginTop="@dimen/twenty_dp"/>
+                android:tint="#fff" />
         </RelativeLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="3"
+            android:layout_weight="4"
             android:orientation="vertical">
+
             <TextView
+                android:id="@+id/textView8"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/twenty_dp"
-                android:paddingRight="@dimen/sixteen_dp"
+                android:layout_marginBottom="@dimen/five_dp"
+                android:gravity="bottom|center_horizontal"
                 android:paddingLeft="@dimen/sixteen_dp"
+                android:paddingRight="@dimen/sixteen_dp"
                 android:paddingTop="@dimen/five_dp"
                 android:text="Voice recognition"
-                android:textStyle="bold"
                 android:textColor="#414141"
-                android:gravity="bottom|center_horizontal"
-                android:id="@+id/textView8" />
+                android:textSize="@dimen/twenty_dp"
+                android:textStyle="bold" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="3"
                 android:layout_marginTop="@dimen/five_dp"
+                android:layout_weight="3"
                 android:orientation="horizontal">
+
                 <FrameLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1" />
+
                 <TextView
                     android:id="@+id/conntentText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="8"
-                    android:textSize="@dimen/fourteen_sp"
-                   android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec volutpat fermentum interdum. Vivamus iaculis a arcu quis placerat. Nam eget libero sed turpis pellentesque tincidunt. "
+                    android:layout_weight="7"
+                    android:gravity="center"
+                    android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec volutpat fermentum interdum. Vivamus iaculis a arcu quis placerat. Nam eget libero sed turpis pellentesque tincidunt. "
                     android:textColor="#414141"
-                    android:gravity="center"/>
+                    android:textSize="@dimen/fourteen_dp" />
+
                 <FrameLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

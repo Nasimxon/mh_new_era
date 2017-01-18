@@ -123,6 +123,7 @@ public class PocketAccounter extends AppCompatActivity {
                 finish();
             } finally {}
         }
+
         notific = new NotificationManagerCredit(PocketAccounter.this);
         toolbarManager.init();
         date = Calendar.getInstance();
