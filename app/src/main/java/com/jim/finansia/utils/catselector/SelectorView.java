@@ -1,6 +1,7 @@
 package com.jim.finansia.utils.catselector;
 
 import android.content.Context;
+import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 
+import com.jim.finansia.PocketAccounter;
 import com.jim.finansia.R;
 
 import java.util.Iterator;
@@ -20,7 +22,7 @@ public class SelectorView extends DrawingSelectorView{
     private OnItemSelectedListener listener;
     private Animation inFromLeft, inFromRight, outToLeft, outToRight;
     private View last, current;
-    private boolean right = false, animating = false;
+    private boolean right = false;
     private float oldX = 0;
     private boolean moved = false;
 
@@ -52,9 +54,8 @@ public class SelectorView extends DrawingSelectorView{
         ivPrevious.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (animating || count <= 1) return;
+                if (count <= 1) return;
                 right = false;
-                animating = true;
                 decPosition();
                 if (listener != null)
                     listener.onItemSelected(position);
@@ -64,9 +65,8 @@ public class SelectorView extends DrawingSelectorView{
         ivNext.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(animating || count <= 1) return;
+                if(count <= 1) return;
                 right = true;
-                animating = true;
                 incPosition();
                 if (listener != null)
                     listener.onItemSelected(position);
@@ -78,53 +78,27 @@ public class SelectorView extends DrawingSelectorView{
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     oldX = event.getX();
-                    moved = true;
                 }
-                if (moved && event.getAction() == MotionEvent.ACTION_MOVE) {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
                     if (oldX + 200 < event.getX()) {
-                        if (animating || count <= 1) return false;
+                        if (count <= 1) return false;
                         right = false;
-                        animating = true;
                         decPosition();
                         if (listener != null)
                             listener.onItemSelected(position);
                         doTransition();
-                        moved = false;
                     } else if (oldX - 200 > event.getX()) {
-                        if(animating || count <= 1) return false;
+                        if(count <= 1) return false;
                         right = true;
-                        animating = true;
                         incPosition();
                         if (listener != null)
                             listener.onItemSelected(position);
                         doTransition();
-                        moved = false;
                     }
                 }
                 return true;
             }
         });
-        Animation.AnimationListener animationListener = new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-            }
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                current.setVisibility(VISIBLE);
-                last.setVisibility(GONE);
-                scene.removeView(last);
-                animating = false;
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        };
-        inFromLeft.setAnimationListener(animationListener);
-        inFromRight.setAnimationListener(animationListener);
-        outToLeft.setAnimationListener(animationListener);
-        outToRight.setAnimationListener(animationListener);
     }
 
     private void doTransition() {
@@ -134,10 +108,16 @@ public class SelectorView extends DrawingSelectorView{
         if (!right) {
             last.startAnimation(outToRight);
             current.startAnimation(inFromLeft);
+            current.setVisibility(VISIBLE);
+            last.setVisibility(GONE);
+            scene.removeView(last);
         }
         else {
             last.startAnimation(outToLeft);
             current.startAnimation(inFromRight);
+            current.setVisibility(VISIBLE);
+            last.setVisibility(GONE);
+            scene.removeView(last);
         }
         int leftBorder = position - 2;
         int rightBorder = position + 2;
