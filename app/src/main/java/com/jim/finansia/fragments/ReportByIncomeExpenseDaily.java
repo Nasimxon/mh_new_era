@@ -122,21 +122,39 @@ public class ReportByIncomeExpenseDaily extends Fragment {
                 expenseButton.setBackgroundColor(Color.parseColor("#F1F1F1"));
                 incomeButton.setBackgroundColor(Color.parseColor("#00000000"));
                 mode = EXPENSE;
+                int position = 0;
+                if (adapterList != null && !adapterList.isEmpty()) {
+                    for (DayData dayData : adapterList) {
+                        if (dayData.isSelected()) {
+                            position = dayData.getDay() - 1;
+                            break;
+                        }
+                    }
+                    generateDataForDetailList(position + 1);
+                }
                 daysAdapter.notifyDataSetChanged();
             }
         });
         incomeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 tvReportIncome.setTextColor(activeColor);
                 tvReportExpense.setTextColor(notActiveColor);
                 ivReportIncome.setRotation(180.0f);
                 ivReportExpense.setRotation(0.0f);
                 incomeButton.setBackgroundColor(Color.parseColor("#F1F1F1"));
                 expenseButton.setBackgroundColor(Color.parseColor("#00000000"));
-
                 mode = INCOME;
+                int position = 0;
+                if (adapterList != null && !adapterList.isEmpty()) {
+                    for (DayData dayData : adapterList) {
+                        if (dayData.isSelected()) {
+                            position = dayData.getDay() - 1;
+                            break;
+                        }
+                    }
+                    generateDataForDetailList(position + 1);
+                }
                 daysAdapter.notifyDataSetChanged();
             }
         });
@@ -295,7 +313,13 @@ public class ReportByIncomeExpenseDaily extends Fragment {
         e.set(Calendar.SECOND, 59);
         e.set(Calendar.MILLISECOND, 59);
         List<ReportObject> reportObjects = reportManager.getReportObjects(false, b, e, FinanceRecord.class, CreditDetials.class, DebtBorrow.class, SmsParseSuccess.class);
-        rvReportByIncomeExpenseDetail.setAdapter(new DetailAdapter(reportObjects));
+        List<ReportObject> temp = new ArrayList<>();
+        for (ReportObject reportObject : reportObjects) {
+            if (reportObject.getType() == mode) {
+                temp.add(reportObject);
+            }
+        }
+        rvReportByIncomeExpenseDetail.setAdapter(new DetailAdapter(temp));
      }
 
     private class DetailAdapter extends RecyclerView.Adapter<ReportByIncomeExpenseDaily.DetailViewHolder> {
@@ -307,19 +331,27 @@ public class ReportByIncomeExpenseDaily extends Fragment {
             return result.size();
         }
         public void onBindViewHolder(final ReportByIncomeExpenseDaily.DetailViewHolder view, final int position) {
-            view.tvReportIncomeExpenseDetailName.setText(result.get(position).getDescription());
             String sign = "";
+            DecimalFormat decimalFormat = new DecimalFormat("0.##");;
+            switch (mode) {
+                case PocketAccounterGeneral.INCOME:
+                    if (result.get(position).getType() == PocketAccounterGeneral.INCOME) {
+                        view.tvReportIncomeExpenseDetailName.setText(result.get(position).getDescription());
+                        view.tvReportIncomeExpenseDetailAmount.setTextColor(Color.parseColor("#8cc156"));
+                        sign = "+";
+                        view.tvReportIncomeExpenseDetailAmount.setText(sign + decimalFormat.format(result.get(position).getAmount()) + result.get(position).getCurrency().getAbbr());
+                    }
+                    break;
+                case PocketAccounterGeneral.EXPENSE:
+                    if (result.get(position).getType() == PocketAccounterGeneral.EXPENSE){
+                        view.tvReportIncomeExpenseDetailName.setText(result.get(position).getDescription());
+                        view.tvReportIncomeExpenseDetailAmount.setTextColor(Color.parseColor("#dc4849"));
+                        sign = "-";
+                        view.tvReportIncomeExpenseDetailAmount.setText(sign + decimalFormat.format(result.get(position).getAmount()) + result.get(position).getCurrency().getAbbr());
+                    }
+                    break;
+            }
 
-            if (result.get(position).getType() == PocketAccounterGeneral.INCOME) {
-                view.tvReportIncomeExpenseDetailAmount.setTextColor(Color.parseColor("#8cc156"));
-                sign = "+";
-            }
-            else {
-                view.tvReportIncomeExpenseDetailAmount.setTextColor(Color.parseColor("#dc4849"));
-                sign = "-";
-            }
-            DecimalFormat decimalFormat = new DecimalFormat("0.##");
-            view.tvReportIncomeExpenseDetailAmount.setText(sign + formatter.format(result.get(position).getAmount()) + result.get(position).getCurrency().getAbbr());
         }
         public ReportByIncomeExpenseDaily.DetailViewHolder onCreateViewHolder(ViewGroup parent, int var2) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.report_by_income_expense_daily_detail_list_item, parent, false);
