@@ -51,6 +51,7 @@ public class ReportByIncomeExpenseDaily extends Fragment {
     private List<DayData> adapterList;
     private TextView tvReportIncome, tvReportExpense;
     private Calendar today = Calendar.getInstance();
+    private double maxIncome, minIncome, maxExpense, minExpense, maxBalance, minBalance;
     @Inject DaoSession daoSession;
     @Inject ReportManager reportManager;
     @Inject ToolbarManager toolbarManager;
@@ -254,25 +255,48 @@ public class ReportByIncomeExpenseDaily extends Fragment {
             dayData.setProfitPercent(profitPercent);
             result.add(dayData);
         }
-        double minValue = 0.0d, maxValue = 0.0;
+        minIncome = 0.0d;
+        maxIncome = 0.0d;
+        minExpense = 0.0d;
+        maxExpense = 0.0d;
+        minBalance = 0.0d;
+        maxBalance = 0.0d;
         for (DayData dayData : result) {
-            if (dayData.getLeftExpense() <= minValue) minValue = dayData.getLeftExpense();
-            if (dayData.getLeftExpense() >= maxValue) maxValue = dayData.getLeftExpense();
-            if (dayData.getLeftIncome() <= minValue) minValue = dayData.getLeftIncome();
-            if (dayData.getLeftIncome() >= maxValue) maxValue = dayData.getLeftIncome();
-            if (dayData.getLeftProfit() <= minValue) minValue = dayData.getLeftProfit();
-            if (dayData.getLeftProfit() >= maxValue) maxValue = dayData.getLeftProfit();
-            if (dayData.getRightExpense() <= minValue) minValue = dayData.getRightExpense();
-            if (dayData.getRightExpense() >= maxValue) maxValue = dayData.getRightExpense();
-            if (dayData.getRightIncome() <= minValue) minValue = dayData.getRightIncome();
-            if (dayData.getRightIncome() >= maxValue) maxValue = dayData.getRightIncome();
-            if (dayData.getRightProfit() <= minValue) minValue = dayData.getRightProfit();
-            if (dayData.getRightProfit() >= maxValue) maxValue = dayData.getRightProfit();
+            minIncome = dayData.getLeftIncome() <= minIncome ? dayData.getLeftIncome() : minIncome;
+            minIncome = dayData.getRightIncome() <= minIncome ? dayData.getRightIncome() : minIncome;
+            maxIncome = dayData.getLeftIncome() >= maxIncome ? dayData.getLeftIncome() : maxIncome;
+            maxIncome = dayData.getRightIncome() >= maxIncome ? dayData.getRightIncome() : maxIncome;
+
+            minExpense = dayData.getLeftExpense() <= minExpense ? dayData.getLeftExpense() : minExpense;
+            minExpense = dayData.getRightExpense() <= minExpense ? dayData.getRightExpense() : minExpense;
+            maxExpense = dayData.getLeftExpense() >= maxExpense ? dayData.getLeftExpense() : maxExpense;
+            maxExpense = dayData.getRightExpense() >= maxExpense ? dayData.getRightExpense() : maxExpense;
+
+            minBalance = dayData.getLeftProfit() <= minBalance ? dayData.getLeftProfit() : minBalance;
+            minBalance = dayData.getRightProfit() <= minBalance ? dayData.getRightProfit() : minBalance;
+            maxBalance = dayData.getLeftProfit() >= maxBalance ? dayData.getLeftProfit() : maxBalance;
+            maxBalance = dayData.getRightProfit() >= maxBalance ? dayData.getRightProfit() : maxBalance;
         }
-        for (DayData dayData : result) {
-            dayData.setMinValue(minValue);
-            dayData.setMaxValue(maxValue);
-        }
+
+//        double minValue = 0.0d, maxValue = 0.0;
+//        for (DayData dayData : result) {
+//            if (dayData.getLeftExpense() <= minValue) minValue = dayData.getLeftExpense();
+//            if (dayData.getLeftExpense() >= maxValue) maxValue = dayData.getLeftExpense();
+//            if (dayData.getLeftIncome() <= minValue) minValue = dayData.getLeftIncome();
+//            if (dayData.getLeftIncome() >= maxValue) maxValue = dayData.getLeftIncome();
+//            if (dayData.getLeftProfit() <= minValue) minValue = dayData.getLeftProfit();
+//            if (dayData.getLeftProfit() >= maxValue) maxValue = dayData.getLeftProfit();
+//            if (dayData.getRightExpense() <= minValue) minValue = dayData.getRightExpense();
+//            if (dayData.getRightExpense() >= maxValue) maxValue = dayData.getRightExpense();
+//            if (dayData.getRightIncome() <= minValue) minValue = dayData.getRightIncome();
+//            if (dayData.getRightIncome() >= maxValue) maxValue = dayData.getRightIncome();
+//            if (dayData.getRightProfit() <= minValue) minValue = dayData.getRightProfit();
+//            if (dayData.getRightProfit() >= maxValue) maxValue = dayData.getRightProfit();
+//        }
+//        for (DayData dayData : result) {
+//            dayData.setMinValue(minValue);
+//            dayData.setMaxValue(maxValue);
+//        }
         return result;
     }
 
@@ -346,8 +370,6 @@ public class ReportByIncomeExpenseDaily extends Fragment {
         }
         public void onBindViewHolder(final ReportByIncomeExpenseDaily.ViewHolder view, final int position) {
             view.rbieodvReportByIncomeExpenseDayItem.setDay(result.get(position).getDay());
-            view.rbieodvReportByIncomeExpenseDayItem.setMinValue(result.get(position).getMinValue());
-            view.rbieodvReportByIncomeExpenseDayItem.setMaxValue(result.get(position).getMaxValue());
             view.rbieodvReportByIncomeExpenseDayItem.setDayOfWeek(result.get(position).getDayOfWeek());
             switch (mode) {
                 case EXPENSE:
@@ -357,6 +379,8 @@ public class ReportByIncomeExpenseDaily extends Fragment {
                         keyForAnim = true;
                     }
                     typeChange = 1;
+                    view.rbieodvReportByIncomeExpenseDayItem.setMinValue(minExpense);
+                    view.rbieodvReportByIncomeExpenseDayItem.setMaxValue(maxExpense);
                     view.rbieodvReportByIncomeExpenseDayItem.setLeftValue(result.get(position).getLeftExpense());
                     view.rbieodvReportByIncomeExpenseDayItem.setRightValue(result.get(position).getRightExpense());
                     view.rbieodvReportByIncomeExpenseDayItem.setIncreasePercent((int) result.get(position).getExpensePercent());
@@ -370,6 +394,8 @@ public class ReportByIncomeExpenseDaily extends Fragment {
                         keyForAnim = true;
                     }
                     typeChange = 2;
+                    view.rbieodvReportByIncomeExpenseDayItem.setMinValue(minIncome);
+                    view.rbieodvReportByIncomeExpenseDayItem.setMaxValue(maxIncome);
                     view.rbieodvReportByIncomeExpenseDayItem.setLeftValue(result.get(position).getLeftIncome());
                     view.rbieodvReportByIncomeExpenseDayItem.setRightValue(result.get(position).getRightIncome());
                     view.rbieodvReportByIncomeExpenseDayItem.setIncreasePercent((int) result.get(position).getIncomePercent());
@@ -383,6 +409,8 @@ public class ReportByIncomeExpenseDaily extends Fragment {
                         keyForAnim = true;
                     }
                     typeChange = 3;
+                    view.rbieodvReportByIncomeExpenseDayItem.setMinValue(minBalance);
+                    view.rbieodvReportByIncomeExpenseDayItem.setMaxValue(maxBalance);
                     view.rbieodvReportByIncomeExpenseDayItem.setLeftValue(result.get(position).getLeftProfit());
                     view.rbieodvReportByIncomeExpenseDayItem.setRightValue(result.get(position).getRightProfit());
                     view.rbieodvReportByIncomeExpenseDayItem.setIncreasePercent((int) result.get(position).getProfitPercent());

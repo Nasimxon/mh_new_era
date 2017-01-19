@@ -193,7 +193,6 @@ public class ReportByIncomeExpenseOneDayView extends View {
         rightPoint.x = getWidth();
         rightPoint.y = maxValue + Math.abs(minValue) == 0.0f ? bottomPoint.y : bottomPoint.y * (1.0f - (float)rightValue*ratio/(float)(maxValue + Math.abs(minValue)));
 
-
         Paint paint = new Paint();
         paint.setAntiAlias(true);
         paint.setColor(trapezeColor);
