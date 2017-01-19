@@ -296,8 +296,8 @@ public class MainPageFragment extends Fragment {
         balanceStripe.calculateBalance();
         incomeView.updateText();
         expenseView.updateText();
-        expenseView.invalidate();
         incomeView.invalidate();
+        expenseView.invalidate();
     }
     public void updatePageChanges() {
         if (checkAccessForPage(expenseView.getCurrentPage())) {
@@ -309,8 +309,6 @@ public class MainPageFragment extends Fragment {
             expenseView.lockPage();
         }
         lockView.setPage(expenseView.getCurrentPage()+1);
-        expenseView.updateText();
-        incomeView.updateText();
         expenseView.refreshPagesCount();
         expenseView.init();
         expenseView.invalidate();

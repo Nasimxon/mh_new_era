@@ -837,8 +837,9 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
                         logicManager.changeBoardButton(table, currentPage*buttonsCount+pos, categories.get(position).getId());
                         changeIconInCache(pos, categories.get(position).getIcon());
                         init();
+                        dataCache.updateAllPercents();
                         paFragmentManager.updateAllFragmentsOnViewPager();
-                        dataCache.updateOneDay(day);
+                        paFragmentManager.updateAllFragmentsPageChanges();
                     }
                     else
                         purchaseImplementation.buyChangingCategory();
@@ -847,8 +848,9 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
                     logicManager.changeBoardButton(table, currentPage*buttonsCount+pos, categories.get(position).getId());
                     changeIconInCache(pos, categories.get(position).getIcon());
                     init();
+                    dataCache.updateAllPercents();
                     paFragmentManager.updateAllFragmentsOnViewPager();
-                    dataCache.updateOneDay(day);
+                    paFragmentManager.updateAllFragmentsPageChanges();
                 }
                 PocketAccounter.PRESSED = false;
                 dialog.dismiss();
