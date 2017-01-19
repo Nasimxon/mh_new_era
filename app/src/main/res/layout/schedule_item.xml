@@ -71,7 +71,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:paddingLeft="@dimen/ten_dp"
-                    android:text="Principal"
+                    android:text="@string/principal"
                     android:textColor="#8a8a8a"
                     android:textSize="@dimen/sixteen_dp" />
 
@@ -97,7 +97,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:paddingLeft="@dimen/ten_dp"
-                    android:text="Interest"
+                    android:text="@string/interest"
                     android:textColor="#8a8a8a"
                     android:textSize="@dimen/sixteen_dp" />
 
@@ -124,7 +124,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:paddingLeft="@dimen/ten_dp"
-                    android:text="Monthly fee"
+                    android:text="@string/monthly_fee"
                     android:textColor="#8a8a8a"
                     android:textSize="@dimen/sixteen_dp" />
 
@@ -150,7 +150,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:paddingLeft="@dimen/ten_dp"
-                    android:text="Should pay"
+                    android:text="@string/should_pay"
                     android:textColor="#8a8a8a"
                     android:textSize="@dimen/sixteen_dp" />
 
@@ -177,7 +177,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:paddingLeft="@dimen/ten_dp"
-                    android:text="Payment"
+                    android:text="@string/paid_amount"
                     android:textColor="#8a8a8a"
                     android:textSize="@dimen/sixteen_dp" />
 
@@ -204,7 +204,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:paddingLeft="@dimen/ten_dp"
-                    android:text="Balance"
+                    android:text="@string/balance"
                     android:textColor="#8a8a8a"
                     android:textSize="@dimen/sixteen_dp" />
 

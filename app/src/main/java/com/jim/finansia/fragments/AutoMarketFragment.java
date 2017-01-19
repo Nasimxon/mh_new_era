@@ -347,9 +347,9 @@ public class AutoMarketFragment extends Fragment implements View.OnClickListener
             });
 
             if (list.get(position).getType()) {
-                view.nextDay.setText(getResources().getString(R.string.next_operations)+":\n" + checkCalculateLeftDayForDate(list.get(position).getPosDays().split(",")) + " day");
+                view.nextDay.setText(getResources().getString(R.string.next_operations)+":\n" + checkCalculateLeftDayForDate(list.get(position).getPosDays().split(",")) + " " + getResources().getString(R.string.day));
             } else {
-                view.nextDay.setText(getResources().getString(R.string.next_operations)+":\n" + checkCalculateLeftDayForWeeks(list.get(position).getPosDays().split(",")) + " day");
+                view.nextDay.setText(getResources().getString(R.string.next_operations)+":\n" + checkCalculateLeftDayForWeeks(list.get(position).getPosDays().split(",")) + " " + getResources().getString(R.string.day));
             }
         }
 

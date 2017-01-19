@@ -1681,9 +1681,9 @@
     <string name="november">НОЯ</string>
     <string name="december">ДЕК</string>
     <string name="max_income_in_the_month">"Maximum income in the month: "</string>
-    <string name="average_income">\"Средный доход: \"</string>
+    <string name="average_income">"Средный доход: "</string>
     <string name="min_income_in_the_month">Минимальный доход:</string>
-    <string name="average_expense">\"Средный расход: \"</string>
+    <string name="average_expense">"Средный расход: "</string>
     <string name="max_expense_in_the_month">"Maximum expense in the month: "</string>
     <string name="min_expense_in_the_month">\"Минимальный доход: \"</string>
     <string name="report_by_income_expense_table">Отчет по доходам и расходам</string>
@@ -1747,7 +1747,7 @@
     <string name="schedule">ГРАФИК ПЛАТЕЖЕЙ</string>
     <string name="period_end_after">Период заканчивается через:</string>
     <string name="taked_date">Дата взятия</string>
-    <string name="taked_value">Сумма займа</string>
+    <string name="taked_value">Введите сумму кредита</string>
     <string name="to_archive">В архив</string>
     <string name="total_payed">Итого оплачено: </string>
     <string name="value_of_contribution">сумма взноса</string>
@@ -1786,8 +1786,8 @@
     <string name="operation_ndays">Дни \nопераций</string>
     <string name="select_days">Выбрать день</string>
     <string name="next_operations">Слудующия операция</string>
-    <string name="set_color">Установить цвет теме</string>
-    <string name="buy_color">Купить цвет темы</string>
+    <string name="set_color">Установить тему</string>
+    <string name="buy_color">Купить тему</string>
     <string name="total_with_interest">Общая сумма оплаты</string>
     <string name="current_rate">Установленный курс</string>
     <string name="rate">Курс</string>
@@ -1805,5 +1805,8 @@
     <string name="return_deadline">Срок долга</string>
     <string name="credit_details">Детали кредита</string>
     <string name="paid_amount">Оплачено</string>
+    <string name="monthly_fee">Ежемесячная коммисия</string>
+    <string name="interest">Начисленные проценты</string>
+    <string name="principal">Основной долг</string>
 </resources>
 

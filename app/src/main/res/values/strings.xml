@@ -16,7 +16,7 @@
         <item>Accounts</item>
         <item>Purpose</item>
         <item>Auto operations</item>
-        <item>Loans</item>
+        <item>Credits</item>
         <item>Debts</item>
         <item>Sms parsing</item>
         <item>Reports</item>
@@ -1160,7 +1160,7 @@
     <string name="after_per_choise">Enter the date!</string>
     <string name="first_enter_period">Please enter the credit term!</string>
     <string name="it_is_our_solution_but_please_check_it">Customize to fit your requirements!</string>
-    <string name="cred_managment">Loans</string>
+    <string name="cred_managment">Credits</string>
     <string name="not_calc">Not in balance</string>
     <string name="calculaed">In balance</string>
     <string name="accept_delete_reck">Do you want to delete the record?</string>
@@ -1764,7 +1764,7 @@
     <string name="choise_account_f">Choise account</string>
     <string name="with_out_comment">No comments</string>
     <string name="processed_sms">Processed sms:</string>
-    <string name="theme" translatable="false">Themes</string>
+    <string name="theme">Themes</string>
     <string name="attention">Attention</string>
     <string name="buy_voice_text">Вы превысили количество попыток. Хотите активировать услугу?</string>
     <string name="paymet_p">Payment</string>
@@ -1818,4 +1818,7 @@
     <string name="return_deadline">Return deadline</string>
     <string name="credit_details">Credit Details</string>
     <string name="paid_amount">Paid amount:</string>
+    <string name="monthly_fee">Monthly fee</string>
+    <string name="interest">Interest</string>
+    <string name="principal">Principal</string>
 </resources>

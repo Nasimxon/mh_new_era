@@ -41,7 +41,7 @@
                     android:layout_width="@dimen/twentyfive_dp"
                     android:layout_height="@dimen/twentyfive_dp"
                     android:tint="#979797"
-                    android:src="@drawable/drawer_categoryreport" />
+                    android:src="@drawable/parasen" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -98,7 +98,7 @@
                     android:layout_width="@dimen/twentyfive_dp"
                     android:tint="#979797"
                     android:layout_height="@dimen/twentyfive_dp"
-                    android:src="@drawable/drawer_categoryreport" />
+                    android:src="@drawable/transfer" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -106,7 +106,7 @@
                     android:layout_marginTop="@dimen/five_dp"
                     android:gravity="center"
                     android:textSize="@dimen/ten_dp"
-                    android:text="Перевод на другую счет"
+                    android:text="@string/transfer_to_another_acc"
                     android:textColor="#aeaaaa" />
 
             </LinearLayout>

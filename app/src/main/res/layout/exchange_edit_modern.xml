@@ -242,8 +242,8 @@
                     android:layout_marginRight="@dimen/five_dp"
                     android:layout_marginLeft="@dimen/five_dp"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/eighteen_sp" />
-                <RelativeLayout
+                    android:textSize="@dimen/sixteen_sp" />
+                <RelativeLayout nbmmmmmmmmmmmmmmmmmmmmmmmmm
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     >
@@ -271,7 +271,7 @@
                         android:layout_marginRight="@dimen/five_dp"
                         android:layout_marginLeft="@dimen/five_dp"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/eighteen_sp" />
+                        android:textSize="@dimen/sixteen_sp" />
                 </RelativeLayout>
 
 

@@ -394,7 +394,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="seven"
+                        android:text="@string/seven"
                         android:textSize="@dimen/fourteen_dp"
                         android:textColor="@color/seriy_calc"
                         />
@@ -425,7 +425,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="eight"
+                        android:text="@string/eight"
                         android:textSize="@dimen/fourteen_dp"
                         android:textColor="@color/seriy_calc"
                         />
@@ -456,7 +456,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="nine"
+                        android:text="@string/nine"
                         android:textSize="@dimen/fourteen_dp"
                         android:textColor="@color/seriy_calc"
                         />
@@ -533,7 +533,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="four"
+                        android:text="@string/four"
                         android:textSize="@dimen/fourteen_dp"
                         android:textColor="@color/seriy_calc"
                         />
@@ -564,7 +564,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="five"
+                        android:text="@string/five"
                         android:textSize="@dimen/fourteen_dp"
                         android:textColor="@color/seriy_calc"
                         />
@@ -595,7 +595,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="six"
+                        android:text="@string/six"
                         android:textSize="@dimen/fourteen_dp"
                         android:textColor="@color/seriy_calc"
                         />
@@ -672,7 +672,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="one"
+                        android:text="@string/one"
                         android:textSize="@dimen/fourteen_dp"
                         android:textColor="@color/seriy_calc"
                         />
@@ -703,7 +703,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="two"
+                        android:text="@string/two"
                         android:textSize="@dimen/fourteen_dp"
                         android:textColor="@color/seriy_calc"
                         />
@@ -734,7 +734,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="three"
+                        android:text="@string/three"
                         android:textSize="@dimen/fourteen_dp"
                         android:textColor="@color/seriy_calc"
                         />
@@ -811,7 +811,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="decimal"
+                        android:text="@string/decimal"
                         android:textSize="@dimen/fourteen_dp"
                         android:textColor="@color/seriy_calc"
                         />
@@ -839,13 +839,14 @@
                         android:layout_gravity="center_horizontal"
                         android:textSize="@dimen/thirty_dp"
                         android:textColor="@color/black_for_myagkiy_glavniy"/>
+
                     <TextView
+                        android:id="@+id/textView3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="zero"
-                        android:textSize="@dimen/fourteen_dp"
+                        android:text="@string/zero"
                         android:textColor="@color/seriy_calc"
-                        />
+                        android:textSize="@dimen/fourteen_dp" />
                 </LinearLayout>
             </RelativeLayout>
             <View
@@ -873,7 +874,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="equals"
+                        android:text="@string/equals"
                         android:textSize="@dimen/fourteen_dp"
                         android:textColor="@color/seriy_calc"
                         />
@@ -906,7 +907,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Add"
+                        android:text="@string/add"
                         android:textSize="@dimen/fourteen_dp"
                         android:textColor="?attr/colorAccent"
                         />
