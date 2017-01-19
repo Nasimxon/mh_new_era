@@ -345,7 +345,6 @@ public class VoiceRecognizerFragment extends Fragment {
 
     public void refreshChanges() {
         rvNotSpeechModeRecordsList.setAdapter(new MyAfterSavedAdapter());
-
     }
 
     private void processSpeechResults(final List<String> speechResult) {
