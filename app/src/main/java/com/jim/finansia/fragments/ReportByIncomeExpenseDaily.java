@@ -277,26 +277,6 @@ public class ReportByIncomeExpenseDaily extends Fragment {
             maxBalance = dayData.getLeftProfit() >= maxBalance ? dayData.getLeftProfit() : maxBalance;
             maxBalance = dayData.getRightProfit() >= maxBalance ? dayData.getRightProfit() : maxBalance;
         }
-
-//        double minValue = 0.0d, maxValue = 0.0;
-//        for (DayData dayData : result) {
-//            if (dayData.getLeftExpense() <= minValue) minValue = dayData.getLeftExpense();
-//            if (dayData.getLeftExpense() >= maxValue) maxValue = dayData.getLeftExpense();
-//            if (dayData.getLeftIncome() <= minValue) minValue = dayData.getLeftIncome();
-//            if (dayData.getLeftIncome() >= maxValue) maxValue = dayData.getLeftIncome();
-//            if (dayData.getLeftProfit() <= minValue) minValue = dayData.getLeftProfit();
-//            if (dayData.getLeftProfit() >= maxValue) maxValue = dayData.getLeftProfit();
-//            if (dayData.getRightExpense() <= minValue) minValue = dayData.getRightExpense();
-//            if (dayData.getRightExpense() >= maxValue) maxValue = dayData.getRightExpense();
-//            if (dayData.getRightIncome() <= minValue) minValue = dayData.getRightIncome();
-//            if (dayData.getRightIncome() >= maxValue) maxValue = dayData.getRightIncome();
-//            if (dayData.getRightProfit() <= minValue) minValue = dayData.getRightProfit();
-//            if (dayData.getRightProfit() >= maxValue) maxValue = dayData.getRightProfit();
-//        }
-//        for (DayData dayData : result) {
-//            dayData.setMinValue(minValue);
-//            dayData.setMaxValue(maxValue);
-//        }
         return result;
     }
 

@@ -60,9 +60,16 @@ public class TextDrawingBoardView extends DecorationBoardView {
         color = ContextCompat.getColor(getContext(), R.color.toolbar_text_color);
         red = Color.parseColor("#dc4849");
         green = Color.parseColor("#63972e");
-//        green = ContextCompat.getColor(getContext(), R.color.green_just);
         elements = new ArrayList<>();
         delay = getResources().getDimension(R.dimen.eight_dp);
+        for (ABoardButton button : buttons) {
+            TextElement textElement = new TextElement(button);
+            elements.add(textElement);
+        }
+    }
+
+    public void updateText() {
+        elements = new ArrayList<>();
         for (ABoardButton button : buttons) {
             TextElement textElement = new TextElement(button);
             elements.add(textElement);

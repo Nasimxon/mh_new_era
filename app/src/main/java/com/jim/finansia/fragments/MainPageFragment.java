@@ -294,6 +294,8 @@ public class MainPageFragment extends Fragment {
         lockView.setPage(expenseView.getCurrentPage()+1);
         toolbarManager.setSubtitle(simpleDateFormat.format(day.getTime()));
         balanceStripe.calculateBalance();
+        incomeView.updateText();
+        expenseView.updateText();
         expenseView.invalidate();
         incomeView.invalidate();
     }

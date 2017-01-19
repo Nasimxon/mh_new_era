@@ -518,8 +518,8 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
                         changeIconInCache(pos, "no_category");
                         initButtons();
                         releasePress();
+                        dataCache.updateAllPercents();
                         paFragmentManager.updateAllFragmentsOnViewPager();
-                        dataCache.updateOneDay(day);
                         operationsListDialog.dismiss();
                         break;
                     case 2:
@@ -571,8 +571,8 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
                                 FinanceRecordDao.Properties.CategoryId.eq(id));
                 List<FinanceRecord> deletingRecords = financeRecordQueryBuilder.list();
                 daoSession.getFinanceRecordDao().deleteInTx(deletingRecords);
-                paFragmentManager.getCurrentFragment().update();
                 dataCache.updateOneDay(dataCache.getEndDate());
+                paFragmentManager.updateAllFragmentsOnViewPager();
                 releasePress();
                 PocketAccounter.PRESSED = false;
                 invalidate();
@@ -643,6 +643,8 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
                     operationsListDialog.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int p, long id) {
+                            int buttonsCount = 0;
+                            boolean isAvailable = false;
                             switch (p) {
                                 case 0:
                                     switch (position) {
@@ -661,19 +663,31 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
                                     switch (position) {
                                         case 0:
                                             paFragmentManager.setMainReturn(true);
-                                            int buttonsCount = table == PocketAccounterGeneral.INCOME ? INCOME_BUTTONS_COUNT_PER_PAGE : EXPENSE_BUTTONS_COUNT_PER_PAGE;
-                                            paFragmentManager.displayFragment(new RootCategoryEditFragment(null, PocketAccounterGeneral.EXPANSE_MODE, currentPage*buttonsCount+pos, day));
+                                            isAvailable = sharedPreferences.getBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.IS_AVAILABLE_CHANGING_OF_CATEGORY_KEY, false);
+                                            if (isAvailable) {
+                                                buttonsCount = table == PocketAccounterGeneral.INCOME ? INCOME_BUTTONS_COUNT_PER_PAGE : EXPENSE_BUTTONS_COUNT_PER_PAGE;
+                                                paFragmentManager.displayFragment(new RootCategoryEditFragment(null, PocketAccounterGeneral.EXPANSE_MODE, currentPage*buttonsCount+pos, day));
+                                            } else
+                                                purchaseImplementation.buyChangingPage();
                                             break;
                                         case 1:
                                             paFragmentManager.setMainReturn(true);
-                                            buttonsCount = table == PocketAccounterGeneral.INCOME ? INCOME_BUTTONS_COUNT_PER_PAGE : EXPENSE_BUTTONS_COUNT_PER_PAGE;
-                                            paFragmentManager.displayFragment((new AddCreditFragment()).setDateFormatModes(PocketAccounterGeneral.EXPANSE_MODE,currentPage*buttonsCount+pos));
+                                            isAvailable = sharedPreferences.getBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.IS_AVAILABLE_CHANGING_OF_CREDIT_KEY, false);
+                                            if (isAvailable) {
+                                                buttonsCount = table == PocketAccounterGeneral.INCOME ? INCOME_BUTTONS_COUNT_PER_PAGE : EXPENSE_BUTTONS_COUNT_PER_PAGE;
+                                                paFragmentManager.displayFragment((new AddCreditFragment()).setDateFormatModes(PocketAccounterGeneral.EXPANSE_MODE,currentPage*buttonsCount+pos));
+                                            } else
+                                                purchaseImplementation.buyChangingPage();
                                             break;
                                         case 2:
                                             paFragmentManager.setMainReturn(true);
-                                            AddBorrowFragment fragment = AddBorrowFragment.getInstance(DebtBorrow.DEBT, null);
-                                            fragment.setMainView(daoSession.getBoardButtonDao().load(buttons.get(pos).getButtonId()));
-                                            paFragmentManager.displayFragment(fragment);
+                                            isAvailable = sharedPreferences.getBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.IS_AVAILABLE_CHANGING_OF_DEBT_BORROW_KEY, false);
+                                            if (isAvailable) {
+                                                AddBorrowFragment fragment = AddBorrowFragment.getInstance(DebtBorrow.DEBT, null);
+                                                fragment.setMainView(daoSession.getBoardButtonDao().load(buttons.get(pos).getButtonId()));
+                                                paFragmentManager.displayFragment(fragment);
+                                            } else
+                                                purchaseImplementation.buyChangingPage();
                                             break;
                                     }
                                     break;
