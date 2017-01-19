@@ -105,7 +105,8 @@ public class ChangeColorOfStyleFragment extends Fragment {
                             warningDialog.dismiss();
                             preferences
                                     .edit()
-                                    .putString(PocketAccounterGeneral.CHOOSEN_THEME_NAME_KEY, colorDatas.get(selectedColorPos).getThemeName());
+                                    .putString(PocketAccounterGeneral.CHOOSEN_THEME_NAME_KEY, colorDatas.get(selectedColorPos).getThemeName())
+                                    .commit();
                             ((PocketAccounter)getContext()).finish();
                         }
                     });

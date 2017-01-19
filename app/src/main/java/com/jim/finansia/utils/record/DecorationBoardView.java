@@ -108,9 +108,12 @@ public class DecorationBoardView extends BaseBoardView {
     }
 
     private void initForButtons() {
-        boardButtons = daoSession.getBoardButtonDao().loadAll();
-        categories = daoSession.getRootCategoryDao().loadAll();
-        credits = daoSession.getCreditDetialsDao().loadAll();
+        if (boardButtons == null || boardButtons.isEmpty())
+            boardButtons = daoSession.getBoardButtonDao().loadAll();
+        if (categories == null || categories.isEmpty())
+            categories = daoSession.getRootCategoryDao().loadAll();
+        if (credits == null || credits.isEmpty())
+            credits = daoSession.getCreditDetialsDao().loadAll();
     }
 
     public void loadDrawingElements() {

@@ -1,5 +1,6 @@
 package com.jim.finansia.utils.record;
 
+import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;

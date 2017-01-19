@@ -41,6 +41,7 @@ import com.jim.finansia.database.CurrencyDao;
 import com.jim.finansia.database.DaoSession;
 import com.jim.finansia.database.FinanceRecord;
 import com.jim.finansia.database.FinanceRecordDao;
+import com.jim.finansia.database.RootCategory;
 import com.jim.finansia.database.SubCategory;
 import com.jim.finansia.database.TemplateAccount;
 import com.jim.finansia.database.TemplateCurrencyVoice;
@@ -358,7 +359,6 @@ public class VoiceRecognizerFragment extends Fragment {
         if (!preferences.getBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.VOICE_RECOGNITION_KEY, false)) {
             int count = preferences.getInt(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.VOICE_RECOGNITION_COUNT, 0);
             count++;
-            Log.d("sss", "startRecognition: " + count);
             preferences
                     .edit()
                     .putInt(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.VOICE_RECOGNITION_COUNT, count)
@@ -635,7 +635,11 @@ public class VoiceRecognizerFragment extends Fragment {
         //after accumulating we begin finding suitable for us category
         if (!successTemplates.isEmpty()) {
             if (successTemplates.size() == 1) { // if only one suitable
-                categoryId = successTemplates.get(0).getCategoryId();
+                if (successTemplates.get(0).getCategoryId() != null && !successTemplates.get(0).getCategoryId().isEmpty())
+                    categoryId = successTemplates.get(0).getCategoryId();
+                if (successTemplates.get(0).getSubCatId() != null && !successTemplates.get(0).getSubCatId().isEmpty())
+                    categoryId = successTemplates.get(0).getSubCatId();
+//                categoryId = successTemplates.get(0).getCategoryId();
             } else { // otherwise
                 //It need to find and to concentrate attention in last said word, which suits with one of category or subcategory
                 //end pos of last said word, which suits to one of category or subcategory
@@ -732,7 +736,11 @@ public class VoiceRecognizerFragment extends Fragment {
                     }
                     //after priority check
                     if (successTemplates.size() == 1) { // if found
-                        categoryId = successTemplates.get(0).getCategoryId();
+//                        categoryId = successTemplates.get(0).getCategoryId();
+                        if (successTemplates.get(0).getCategoryId() != null && !successTemplates.get(0).getCategoryId().isEmpty())
+                            categoryId = successTemplates.get(0).getCategoryId();
+                        if (successTemplates.get(0).getSubCatId() != null && !successTemplates.get(0).getSubCatId().isEmpty())
+                            categoryId = successTemplates.get(0).getSubCatId();
                     } else { // otherwise
                         //finding nearest pair to last said word, which suits to one of category of subcategory
                         //pos for saving position of found template
@@ -758,10 +766,18 @@ public class VoiceRecognizerFragment extends Fragment {
                             }
                         }
                         //after finding
-                        categoryId = successTemplates.get(pos).getCategoryId();
+                        if (successTemplates.get(pos).getCategoryId() != null && !successTemplates.get(pos).getCategoryId().isEmpty())
+                            categoryId = successTemplates.get(pos).getCategoryId();
+                        if (successTemplates.get(pos).getSubCatId() != null && !successTemplates.get(pos).getSubCatId().isEmpty())
+                            categoryId = successTemplates.get(pos).getSubCatId();
+
                     }
                 } else if (!successTemplates.isEmpty()) { // if success templates size = 1
-                    categoryId = successTemplates.get(0).getCategoryId();
+                    if (successTemplates.get(0).getCategoryId() != null && !successTemplates.get(0).getCategoryId().isEmpty())
+                        categoryId = successTemplates.get(0).getCategoryId();
+                    if (successTemplates.get(0).getSubCatId() != null && !successTemplates.get(0).getSubCatId().isEmpty())
+                        categoryId = successTemplates.get(0).getSubCatId();
+//                    categoryId = successTemplates.get(0).getCategoryId();
                 }
             }
             //passing data to another block
@@ -821,12 +837,19 @@ public class VoiceRecognizerFragment extends Fragment {
                 }
             }
         }
-
-        String s = "";
-        if (templateVoice != null) {
-            if (templateVoice.getSubCatName() != null && !templateVoice.getSubCatName().isEmpty())
-                s = " " + templateVoice.getSubCatName();
-            tvSpeechModeCategory.setText(templateVoice.getCatName() + s);
+        if (categoryId != null && !categoryId.isEmpty()) {
+            String text = "";
+            RootCategory category = daoSession.load(RootCategory.class, categoryId);
+            if (category != null) {
+                text = category.getName();
+            }
+            SubCategory subCategory = daoSession.load(SubCategory.class, categoryId);
+            if (subCategory != null) {
+                RootCategory cat = daoSession.load(RootCategory.class, subCategory.getParentId());
+                String catName = cat != null ? cat.getName() : "";
+                text = catName + ", "+subCategory.getName();
+            }
+            tvSpeechModeCategory.setText(text);
         }
         String amountRegex = "([([^0-9]*)\\s*([0-9]+[.,]?[0-9]*)]*\\s([$]*)([0-9]+[.,]?[0-9]*).*)|(^([0-9]+[.,]?[0-9]*).*)";
         Pattern pattern = Pattern.compile(amountRegex);
