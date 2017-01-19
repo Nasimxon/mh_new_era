@@ -251,113 +251,124 @@
     </RelativeLayout>
 
     <LinearLayout
+        android:id="@+id/numbersbut"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible"
-        android:id="@+id/numbersbut"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="visible">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/fourtyfive_dp"
-            android:orientation="horizontal"
-            >
+            android:orientation="horizontal">
+
             <RelativeLayout
                 android:id="@+id/rlDivideSign"
                 android:layout_width="0dp"
-                android:background="?attr/headColor"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="?attr/headColor">
+
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/opeation_frame"
 
                     />
+
                 <ImageView
                     android:layout_width="@dimen/eighteen_sp"
                     android:layout_height="@dimen/seventeen_dp"
                     android:layout_centerInParent="true"
-                    android:tint="#fff"
-                    android:src="@drawable/deleniya"/>
+                    android:src="@drawable/deleniya"
+                    android:tint="#fff" />
 
             </RelativeLayout>
+
             <View
                 android:layout_width="2px"
                 android:layout_height="match_parent"
-                android:visibility="visible"
                 android:background="@color/seriy_calc_line"
-                />
+                android:visibility="visible" />
+
             <RelativeLayout
                 android:id="@+id/rlMultipleSign"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:background="?attr/headColor"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="?attr/headColor">
+
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/opeation_frame"
 
                     />
+
                 <ImageView
                     android:layout_width="@dimen/fifteen_dp"
                     android:layout_height="@dimen/fifteen_dp"
                     android:layout_centerInParent="true"
-                    android:tint="#fff"
-                    android:src="@drawable/umnojeniya"/>
+                    android:src="@drawable/umnojeniya"
+                    android:tint="#fff" />
 
             </RelativeLayout>
+
             <View
                 android:layout_width="2px"
                 android:layout_height="match_parent"
-                android:visibility="visible"
                 android:background="@color/seriy_calc_line"
-                />
+                android:visibility="visible" />
+
             <RelativeLayout
                 android:id="@+id/rlMinusSign"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:background="?attr/headColor"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="?attr/headColor">
+
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/opeation_frame"
 
                     />
+
                 <ImageView
                     android:layout_width="@dimen/fifteen_dp"
                     android:layout_height="@dimen/fifteen_dp"
                     android:layout_centerInParent="true"
-                    android:tint="#fff"
-                    android:src="@drawable/minus"/>
+                    android:src="@drawable/minus"
+                    android:tint="#fff" />
 
             </RelativeLayout>
+
             <View
                 android:layout_width="2px"
                 android:layout_height="match_parent"
-                android:visibility="visible"
                 android:background="@color/seriy_calc_line"
-                />
+                android:visibility="visible" />
+
             <RelativeLayout
                 android:id="@+id/rlPlusSign"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:background="?attr/headColor"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="?attr/headColor">
+
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/opeation_frame"
 
                     />
+
                 <ImageView
                     android:layout_width="@dimen/fifteen_dp"
                     android:layout_height="@dimen/fifteen_dp"
                     android:layout_centerInParent="true"
-                    android:tint="#fff"
-                    android:src="@drawable/plus"/>
+                    android:src="@drawable/plus"
+                    android:tint="#fff" />
 
             </RelativeLayout>
 
@@ -366,118 +377,133 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="2px"
-            android:visibility="visible"
             android:background="@color/seriy_calc_line"
-            />
+            android:visibility="visible" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:orientation="horizontal">
+
             <RelativeLayout
                 android:id="@+id/rlSeven"
                 android:layout_width="0dp"
-                android:background="@drawable/opeation_frame_white"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@drawable/opeation_frame_white">
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:orientation="vertical">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="7"
                         android:layout_gravity="center_horizontal"
-                        android:textSize="@dimen/thirty_dp"
-                        android:textColor="@color/black_for_myagkiy_glavniy"/>
+                        android:text="7"
+                        android:textColor="@color/black_for_myagkiy_glavniy"
+                        android:textSize="@dimen/thirty_dp" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="seven"
-                        android:textSize="@dimen/fourteen_dp"
+                        android:text="@string/seven"
                         android:textColor="@color/seriy_calc"
-                        />
+                        android:textSize="@dimen/fourteen_dp" />
                 </LinearLayout>
             </RelativeLayout>
+
             <View
                 android:layout_width="2px"
                 android:layout_height="match_parent"
-                android:background="@color/seriy_calc_line"/>
+                android:background="@color/seriy_calc_line" />
+
             <RelativeLayout
                 android:id="@+id/rlEight"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:background="@drawable/opeation_frame_white"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@drawable/opeation_frame_white">
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:orientation="vertical">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="8"
                         android:layout_gravity="center_horizontal"
-                        android:textSize="@dimen/thirty_dp"
-                        android:textColor="@color/black_for_myagkiy_glavniy"/>
+                        android:text="8"
+                        android:textColor="@color/black_for_myagkiy_glavniy"
+                        android:textSize="@dimen/thirty_dp" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="eight"
-                        android:textSize="@dimen/fourteen_dp"
+                        android:text="@string/eight"
                         android:textColor="@color/seriy_calc"
-                        />
+                        android:textSize="@dimen/fourteen_dp" />
                 </LinearLayout>
             </RelativeLayout>
+
             <View
                 android:layout_width="2px"
                 android:layout_height="match_parent"
-                android:background="@color/seriy_calc_line"/>
+                android:background="@color/seriy_calc_line" />
+
             <RelativeLayout
                 android:id="@+id/rlNine"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:background="@drawable/opeation_frame_white"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@drawable/opeation_frame_white">
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:orientation="vertical">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="9"
                         android:layout_gravity="center_horizontal"
-                        android:textSize="@dimen/thirty_dp"
-                        android:textColor="@color/black_for_myagkiy_glavniy"/>
+                        android:text="9"
+                        android:textColor="@color/black_for_myagkiy_glavniy"
+                        android:textSize="@dimen/thirty_dp" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="nine"
-                        android:textSize="@dimen/fourteen_dp"
+                        android:text="@string/nine"
                         android:textColor="@color/seriy_calc"
-                        />
+                        android:textSize="@dimen/fourteen_dp" />
                 </LinearLayout>
             </RelativeLayout>
+
             <View
                 android:layout_width="2px"
                 android:layout_height="match_parent"
-                android:background="@color/seriy_calc_line"/>
+                android:background="@color/seriy_calc_line" />
+
             <RelativeLayout
                 android:id="@+id/rvAccountChoise"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:background="@drawable/opeation_frame_white"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@drawable/opeation_frame_white">
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:orientation="vertical">
+
                     <ImageView
                         android:id="@+id/ivAccountIcon"
                         android:layout_width="@dimen/twentyfive_dp"
@@ -485,139 +511,154 @@
                         android:layout_gravity="center_horizontal"
                         android:layout_marginBottom="@dimen/sevent_dp"
                         android:layout_marginTop="@dimen/nine_dp"
-                        android:src="@drawable/icons_7"
-                        />
+                        android:src="@drawable/icons_7" />
+
                     <TextView
 
                         android:id="@+id/tvAccountName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="eightsadasdsdasdasasdasdasdasd"
-                        android:maxWidth="@dimen/sixty_seven_dp"
-                        android:maxLines="1"
                         android:ellipsize="end"
-                        android:textSize="@dimen/fourteen_dp"
+                        android:maxLines="1"
+                        android:maxWidth="@dimen/sixty_seven_dp"
+                        android:text="eightsadasdsdasdasasdasdasdasd"
                         android:textColor="@color/seriy_calc"
-                        />
+                        android:textSize="@dimen/fourteen_dp" />
                 </LinearLayout>
             </RelativeLayout>
 
         </LinearLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="2px"
-            android:background="@color/seriy_calc_line"
-            />
+            android:background="@color/seriy_calc_line" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:orientation="horizontal">
+
             <RelativeLayout
                 android:id="@+id/rlFour"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:background="@drawable/opeation_frame_white"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@drawable/opeation_frame_white">
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:orientation="vertical">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="4"
                         android:layout_gravity="center_horizontal"
-                        android:textSize="@dimen/thirty_dp"
-                        android:textColor="@color/black_for_myagkiy_glavniy"/>
+                        android:text="4"
+                        android:textColor="@color/black_for_myagkiy_glavniy"
+                        android:textSize="@dimen/thirty_dp" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="four"
-                        android:textSize="@dimen/fourteen_dp"
+                        android:text="@string/four"
                         android:textColor="@color/seriy_calc"
-                        />
+                        android:textSize="@dimen/fourteen_dp" />
                 </LinearLayout>
             </RelativeLayout>
+
             <View
                 android:layout_width="2px"
                 android:layout_height="match_parent"
-                android:background="@color/seriy_calc_line"/>
+                android:background="@color/seriy_calc_line" />
+
             <RelativeLayout
                 android:id="@+id/rlFive"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:background="@drawable/opeation_frame_white"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@drawable/opeation_frame_white">
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:orientation="vertical">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="5"
                         android:layout_gravity="center_horizontal"
-                        android:textSize="@dimen/thirty_dp"
-                        android:textColor="@color/black_for_myagkiy_glavniy"/>
+                        android:text="5"
+                        android:textColor="@color/black_for_myagkiy_glavniy"
+                        android:textSize="@dimen/thirty_dp" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="five"
-                        android:textSize="@dimen/fourteen_dp"
+                        android:text="@string/five"
                         android:textColor="@color/seriy_calc"
-                        />
+                        android:textSize="@dimen/fourteen_dp" />
                 </LinearLayout>
             </RelativeLayout>
+
             <View
                 android:layout_width="2px"
                 android:layout_height="match_parent"
-                android:background="@color/seriy_calc_line"/>
+                android:background="@color/seriy_calc_line" />
+
             <RelativeLayout
                 android:id="@+id/rlSix"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:background="@drawable/opeation_frame_white"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@drawable/opeation_frame_white">
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:orientation="vertical">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="6"
                         android:layout_gravity="center_horizontal"
-                        android:textSize="@dimen/thirty_dp"
-                        android:textColor="@color/black_for_myagkiy_glavniy"/>
+                        android:text="6"
+                        android:textColor="@color/black_for_myagkiy_glavniy"
+                        android:textSize="@dimen/thirty_dp" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="six"
-                        android:textSize="@dimen/fourteen_dp"
+                        android:text="@string/six"
                         android:textColor="@color/seriy_calc"
-                        />
+                        android:textSize="@dimen/fourteen_dp" />
                 </LinearLayout>
             </RelativeLayout>
+
             <View
                 android:layout_width="2px"
                 android:layout_height="match_parent"
-                android:background="@color/seriy_calc_line"/>
+                android:background="@color/seriy_calc_line" />
+
             <RelativeLayout
                 android:id="@+id/rlCategory"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:background="@drawable/opeation_frame_white"
+                android:layout_weight="1"
 
-                android:layout_weight="1">
+                android:background="@drawable/opeation_frame_white">
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:orientation="vertical">
+
                     <ImageView
                         android:id="@+id/ivRecordEditCategory"
                         android:layout_width="@dimen/twentyfive_dp"
@@ -625,137 +666,152 @@
                         android:layout_gravity="center_horizontal"
                         android:layout_marginBottom="@dimen/sevent_dp"
                         android:layout_marginTop="@dimen/nine_dp"
-                        android:src="@drawable/icons_7"
-                        />
+                        android:src="@drawable/icons_7" />
+
                     <TextView
                         android:id="@+id/tvRecordEditCategoryName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="eight"
-                        android:maxWidth="@dimen/sixty_seven_dp"
-                        android:maxLines="1"
                         android:ellipsize="end"
-                        android:textSize="@dimen/fourteen_dp"
+                        android:maxLines="1"
+                        android:maxWidth="@dimen/sixty_seven_dp"
+                        android:text="eight"
                         android:textColor="@color/seriy_calc"
-                        />
+                        android:textSize="@dimen/fourteen_dp" />
                 </LinearLayout>
             </RelativeLayout>
 
         </LinearLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="2px"
-            android:background="@color/seriy_calc_line"
-            />
+            android:background="@color/seriy_calc_line" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:orientation="horizontal">
+
             <RelativeLayout
                 android:id="@+id/rlOne"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:background="@drawable/opeation_frame_white"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@drawable/opeation_frame_white">
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:orientation="vertical">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="1"
                         android:layout_gravity="center_horizontal"
-                        android:textSize="@dimen/thirty_dp"
-                        android:textColor="@color/black_for_myagkiy_glavniy"/>
+                        android:text="1"
+                        android:textColor="@color/black_for_myagkiy_glavniy"
+                        android:textSize="@dimen/thirty_dp" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="one"
-                        android:textSize="@dimen/fourteen_dp"
+                        android:text="@string/one"
                         android:textColor="@color/seriy_calc"
-                        />
+                        android:textSize="@dimen/fourteen_dp" />
                 </LinearLayout>
             </RelativeLayout>
+
             <View
                 android:layout_width="2px"
                 android:layout_height="match_parent"
-                android:background="@color/seriy_calc_line"/>
+                android:background="@color/seriy_calc_line" />
+
             <RelativeLayout
                 android:id="@+id/rlTwo"
                 android:layout_width="0dp"
-                android:background="@drawable/opeation_frame_white"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@drawable/opeation_frame_white">
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:orientation="vertical">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="2"
                         android:layout_gravity="center_horizontal"
-                        android:textSize="@dimen/thirty_dp"
-                        android:textColor="@color/black_for_myagkiy_glavniy"/>
+                        android:text="2"
+                        android:textColor="@color/black_for_myagkiy_glavniy"
+                        android:textSize="@dimen/thirty_dp" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="two"
-                        android:textSize="@dimen/fourteen_dp"
+                        android:text="@string/two"
                         android:textColor="@color/seriy_calc"
-                        />
+                        android:textSize="@dimen/fourteen_dp" />
                 </LinearLayout>
             </RelativeLayout>
+
             <View
                 android:layout_width="2px"
                 android:layout_height="match_parent"
-                android:background="@color/seriy_calc_line"/>
+                android:background="@color/seriy_calc_line" />
+
             <RelativeLayout
                 android:id="@+id/rlThree"
-                android:background="@drawable/opeation_frame_white"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@drawable/opeation_frame_white">
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:orientation="vertical">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="3"
                         android:layout_gravity="center_horizontal"
-                        android:textSize="@dimen/thirty_dp"
-                        android:textColor="@color/black_for_myagkiy_glavniy"/>
+                        android:text="3"
+                        android:textColor="@color/black_for_myagkiy_glavniy"
+                        android:textSize="@dimen/thirty_dp" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="three"
-                        android:textSize="@dimen/fourteen_dp"
+                        android:text="@string/three"
                         android:textColor="@color/seriy_calc"
-                        />
+                        android:textSize="@dimen/fourteen_dp" />
                 </LinearLayout>
             </RelativeLayout>
+
             <View
                 android:layout_width="2px"
                 android:layout_height="match_parent"
-                android:background="@color/seriy_calc_line"/>
+                android:background="@color/seriy_calc_line" />
+
             <RelativeLayout
                 android:id="@+id/rlSubcategory"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:background="@drawable/opeation_frame_white"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@drawable/opeation_frame_white">
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:orientation="vertical">
+
                     <ImageView
                         android:id="@+id/ivRecordEditSubCategory"
                         android:layout_width="@dimen/twentyfive_dp"
@@ -763,138 +819,153 @@
                         android:layout_gravity="center_horizontal"
                         android:layout_marginBottom="@dimen/sevent_dp"
                         android:layout_marginTop="@dimen/nine_dp"
-                        android:src="@drawable/icons_7"
-                        />
+                        android:src="@drawable/icons_7" />
+
                     <TextView
                         android:id="@+id/tvRecordEditSubCategoryName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="eight"
-                        android:maxWidth="@dimen/sixty_seven_dp"
-                        android:maxLines="1"
                         android:ellipsize="end"
-                        android:textSize="@dimen/fourteen_dp"
+                        android:maxLines="1"
+                        android:maxWidth="@dimen/sixty_seven_dp"
+                        android:text="eight"
                         android:textColor="@color/seriy_calc"
-                        />
+                        android:textSize="@dimen/fourteen_dp" />
                 </LinearLayout>
             </RelativeLayout>
 
         </LinearLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="2px"
-            android:background="@color/seriy_calc_line"
-            />
+            android:background="@color/seriy_calc_line" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:orientation="horizontal">
+
             <RelativeLayout
                 android:id="@+id/rlDot"
-                android:background="@drawable/opeation_frame_white"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@drawable/opeation_frame_white">
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 
                     android:layout_centerInParent="true"
                     android:orientation="vertical">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="."
                         android:layout_gravity="center_horizontal"
-                        android:textSize="@dimen/thirty_dp"
-                        android:textColor="@color/black_for_myagkiy_glavniy"/>
+                        android:text="."
+                        android:textColor="@color/black_for_myagkiy_glavniy"
+                        android:textSize="@dimen/thirty_dp" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="decimal"
-                        android:textSize="@dimen/fourteen_dp"
+                        android:text="@string/decimal"
                         android:textColor="@color/seriy_calc"
-                        />
+                        android:textSize="@dimen/fourteen_dp" />
                 </LinearLayout>
             </RelativeLayout>
+
             <View
                 android:layout_width="2px"
                 android:layout_height="match_parent"
-                android:background="@color/seriy_calc_line"/>
+                android:background="@color/seriy_calc_line" />
+
             <RelativeLayout
                 android:id="@+id/rlZero"
                 android:layout_width="0dp"
-                android:background="@drawable/opeation_frame_white"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@drawable/opeation_frame_white">
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:orientation="vertical">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="0"
                         android:layout_gravity="center_horizontal"
-                        android:textSize="@dimen/thirty_dp"
-                        android:textColor="@color/black_for_myagkiy_glavniy"/>
+                        android:text="0"
+                        android:textColor="@color/black_for_myagkiy_glavniy"
+                        android:textSize="@dimen/thirty_dp" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="zero"
-                        android:textSize="@dimen/fourteen_dp"
+                        android:text="@string/zero"
                         android:textColor="@color/seriy_calc"
-                        />
+                        android:textSize="@dimen/fourteen_dp" />
                 </LinearLayout>
             </RelativeLayout>
+
             <View
                 android:layout_width="2px"
                 android:layout_height="match_parent"
-                android:background="@color/seriy_calc_line"/>
+                android:background="@color/seriy_calc_line" />
+
             <RelativeLayout
                 android:id="@+id/rlEqualSign"
                 android:layout_width="0dp"
-                android:background="@drawable/opeation_frame_white"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@drawable/opeation_frame_white">
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:orientation="vertical">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="="
                         android:layout_gravity="center_horizontal"
-                        android:textSize="@dimen/thirty_dp"
-                        android:textColor="@color/black_for_myagkiy_glavniy"/>
+                        android:text="="
+                        android:textColor="@color/black_for_myagkiy_glavniy"
+                        android:textSize="@dimen/thirty_dp" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="equals"
-                        android:textSize="@dimen/fourteen_dp"
+                        android:text="@string/equals"
                         android:textColor="@color/seriy_calc"
-                        />
+                        android:textSize="@dimen/fourteen_dp" />
                 </LinearLayout>
             </RelativeLayout>
+
             <View
                 android:layout_width="2px"
                 android:layout_height="match_parent"
-                android:background="@color/seriy_calc_line"/>
+                android:background="@color/seriy_calc_line" />
+
             <RelativeLayout
                 android:id="@+id/imOKBut"
                 android:layout_width="0dp"
-                android:background="@drawable/opeation_frame_white"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@drawable/opeation_frame_white">
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:orientation="vertical">
+
                     <ImageView
                         android:layout_width="@dimen/twentyfive_dp"
                         android:layout_height="@dimen/twentyfive_dp"
@@ -902,15 +973,14 @@
                         android:layout_marginBottom="@dimen/sevent_dp"
                         android:layout_marginTop="@dimen/nine_dp"
                         android:src="@drawable/checkboxx"
-                        android:tint="?attr/colorAccent"
-                        />
+                        android:tint="?attr/colorAccent" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Add"
-                        android:textSize="@dimen/fourteen_dp"
+                        android:text="@string/add"
                         android:textColor="?attr/colorAccent"
-                        />
+                        android:textSize="@dimen/fourteen_dp" />
                 </LinearLayout>
             </RelativeLayout>
 

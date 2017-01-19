@@ -70,10 +70,11 @@
                     android:id="@+id/tvItemAutoMarketRvTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:text="Operation list"
+                    android:text="@string/operations"
                     android:textColor="#c8c8c8"
-                    android:textSize="@dimen/fourteen_sp" />
+                    android:textSize="@dimen/fourteen_sp"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true" />
 
                 <ImageView
                     android:id="@+id/ivItemAutoMarketOperationDelete"
@@ -114,7 +115,7 @@
                             android:layout_marginLeft="@dimen/ten_dp"
                             android:layout_marginTop="@dimen/three_dp"
                             android:layout_weight="1"
-                            android:text="Date"
+                            android:text="@string/date"
                             android:textColor="@color/black_for_myagkiy_glavniy"
                             android:textSize="@dimen/fourteen_dp" />
 
@@ -125,7 +126,7 @@
                             android:layout_marginTop="@dimen/three_dp"
                             android:layout_weight="1"
                             android:gravity="center_horizontal"
-                            android:text="Ammount"
+                            android:text="@string/amount3"
                             android:textColor="@color/black_for_myagkiy_glavniy"
                             android:textSize="@dimen/fourteen_dp" />
 
@@ -137,7 +138,7 @@
                             android:layout_marginTop="@dimen/three_dp"
                             android:layout_weight="1"
                             android:gravity="right"
-                            android:text="Status"
+                            android:text="@string/status"
                             android:textColor="@color/black_for_myagkiy_glavniy"
                             android:textSize="@dimen/fourteen_dp" />
                     </LinearLayout>
@@ -184,7 +185,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:paddingTop="@dimen/five_dp"
-                    android:text="Amount"
+                    android:text="@string/amount3"
                     android:textColor="#bdbdbd"
                     android:textSize="@dimen/sixteen_dp" />
 
@@ -213,7 +214,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="For Account"
+                    android:text="@string/for_account"
                     android:textColor="#bdbdbd"
                     android:textSize="@dimen/sixteen_dp"
                     android:paddingBottom="@dimen/five_dp"/>
@@ -280,7 +281,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:paddingLeft="@dimen/ten_dp"
-                android:text="Operation \ndays"
+                android:text="@string/operation_ndays"
                 android:textColor="#c8c8c8"
                 android:textSize="@dimen/twelve_dp" />
 
@@ -310,7 +311,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/ten_dp"
-                android:text="Next Operations \n15 days"
+                android:text="Next operations \n 15 days"
                 android:textColor="#c8c8c8"
                 android:textSize="@dimen/twelve_dp" />
 

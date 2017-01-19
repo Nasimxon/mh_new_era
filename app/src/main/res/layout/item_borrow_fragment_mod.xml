@@ -38,7 +38,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/five_dp"
-                android:text="SMS"
+                android:text="@string/sms"
                 android:textColor="#ddc731"
                 android:textSize="@dimen/fourteen_dp"
                 />
@@ -149,7 +149,7 @@
                 android:textSize="@dimen/sixteen_dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Residue"
+                android:text="@string/residue1"
                 android:layout_marginLeft="@dimen/ten_dp"
                 />
 
@@ -189,7 +189,7 @@
                 android:layout_weight="1"
                 android:textSize="@dimen/sixteen_dp"
                 android:layout_marginLeft="@dimen/ten_dp"
-                android:text="Return deadline" />
+                android:text="@string/return_deadline" />
 
             <TextView
                 android:layout_width="wrap_content"

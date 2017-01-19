@@ -16,7 +16,7 @@
             android:gravity="center"
             android:textSize="@dimen/sixteen_dp"
             android:textColor="@color/black_for_myagkiy_glavniy"
-            android:text="Payment detials" />
+            android:text="@string/payment_details" />
         <ImageView
             android:id="@+id/ivInfoDebtBorrowCancel"
             android:layout_width="@dimen/twenty_dp"
@@ -59,7 +59,7 @@
                     android:layout_weight="1"
                     android:textSize="@dimen/fourteen_dp"
                     android:textColor="@color/black_for_myagkiy_glavniy"
-                    android:text="For period:"/>
+                    android:text="@string/for_period"/>
                 <TextView
                     android:id="@+id/periodDate"
                     android:layout_width="wrap_content"
@@ -82,7 +82,7 @@
                     android:textSize="@dimen/fourteen_dp"
                     android:layout_weight="1"
                     android:textColor="@color/black_for_myagkiy_glavniy"
-                    android:text="Should payment:"/>
+                    android:text="@string/should_pay"/>
                 <TextView
                     android:id="@+id/shouldPayPeriod"
                     android:layout_width="wrap_content"
@@ -175,7 +175,7 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:hint="Ammount"
+                android:hint="@string/amount3"
                 android:textColorHint="@color/black_for_maykiy_secodary"
                 android:paddingTop="@dimen/five_dp"
                 android:paddingBottom="@dimen/five_dp"
@@ -192,6 +192,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center"
+                android:textSize="@dimen/fourteen_dp"
                 android:layout_marginRight="@dimen/twenty_dp"
                 android:text="$"
                 android:textColor="@color/black_for_myagkiy_glavniy"
@@ -265,7 +266,7 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:hint="Some comment"
+                android:hint="@string/some_comment"
                 android:textColorHint="@color/black_for_maykiy_secodary"
                 android:paddingTop="@dimen/five_dp"
                 android:paddingBottom="@dimen/five_dp"

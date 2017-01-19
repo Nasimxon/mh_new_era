@@ -116,7 +116,7 @@
                        android:layout_height="wrap_content"
                        android:paddingLeft="@dimen/sixteen_dp"
                        android:textSize="@dimen/sixteen_dp"
-                       android:text="Credit Detials"
+                       android:text="@string/credit_details"
                        android:paddingTop="@dimen/sevent_dp"
                        android:paddingBottom="@dimen/sevent_dp"/>
                    <ImageView
@@ -402,12 +402,11 @@
                         android:id="@+id/tvPayAbout"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="Payment for \nloan"
+                        android:text="@string/pay"
                         android:textSize="@dimen/twelve_dp"/>
 
                 </LinearLayout>
             </LinearLayout>
-
         </LinearLayout>
     </RelativeLayout>
 </LinearLayout>

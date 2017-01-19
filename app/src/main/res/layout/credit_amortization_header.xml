@@ -80,7 +80,7 @@
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:text="Total with interest"
+        android:text="@string/total_with_interest"
         android:textColor="#8a8a8a"
         android:layout_marginLeft="@dimen/sixteen_dp"
         android:textSize="@dimen/sixteen_dp"

@@ -75,7 +75,7 @@
                         android:id="@+id/textView5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Payed amount:"
+                        android:text="@string/paid_amount"
                         android:textColor="@color/secondaryCred"
                         android:textSize="@dimen/sixteen_dp" />
 
@@ -117,7 +117,7 @@
                         android:layout_height="wrap_content"
                         android:paddingLeft="@dimen/sixteen_dp"
                         android:textSize="@dimen/sixteen_dp"
-                        android:text="Credit Detials"
+                        android:text="@string/credit_details"
                         android:paddingTop="@dimen/sevent_dp"
                         android:paddingBottom="@dimen/sevent_dp"/>
                     <ImageView

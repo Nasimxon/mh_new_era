@@ -56,7 +56,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Change to exchange rate"
+            android:text="@string/change_exchange_rate"
             android:gravity="center_horizontal"
             android:textColor="@color/seecondary_button"
             android:textSize="@dimen/sixteen_dp"
@@ -238,7 +238,7 @@
                     android:paddingLeft="@dimen/thirty_dp"
                     android:paddingRight="@dimen/thirty_dp"
                     android:paddingTop="@dimen/five_dp"
-                    android:text="Delete"
+                    android:text="@string/delete"
                     android:layout_marginRight="@dimen/five_dp"
                     android:layout_marginLeft="@dimen/five_dp"
                     android:textColor="@color/white"

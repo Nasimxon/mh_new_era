@@ -878,7 +878,7 @@
     <string name="to">To: </string>
     <string name="from_email">from_email</string>
     <string name="to_email">basicstepsdevelopment@gmail.com</string>
-    <string name="rate_app_web">https://play.google.com/store/apps/details?id=com.jim.pocketaccounter</string>
+    <string name="rate_app_web" translatable="false">https://play.google.com/store/apps/details?id=com.jim.pocketaccounter</string>
     <string name="share_app_text">I recommend "Finansia"
         https://play.google.com/store/apps/details?id=com.jim.pocketaccounter</string>
     <string name="feedback_hint">Contact Us</string>
@@ -903,7 +903,7 @@
     <string name="borrow_recking_statistics">Returned debt</string>
     <string name="debt_statistics">Borrowed</string>
     <string name="debt_recking_statistics">Returned debt</string>
-    <string name="pay">Payment for \nloan</string>
+    <string name="pay">Pay</string>
     <string name="cancel">Cancel</string>
     <string name="repaid">Completed</string>
     <string name="active">Active</string>
@@ -1141,7 +1141,7 @@
     <string name="sync_short">Sync</string>
     <string name="exit">Yes</string>
     <string name="dou_you_want_discard">You did not add credit, do you want to go out?</string>
-    <string name="discard">Exit</string>
+    <string name="discard">Saving box</string>
     <string name="dou_you_want_quit">Do you want to go out?</string>
     <string name="are_you_sure_for_log_out">Do you really want to get out of your account? Without an account, you can not sync!</string>
     <string name="sync_want_from_data">Synchronize data:</string>
@@ -1180,11 +1180,11 @@
     <string name="left_date">Left:</string>
     <string name="period_of_credit2">Credit period</string>
     <string name="taked_credit_time">Credit date:</string>
-    <string name="in_the_balance">In the balance:</string>
+    <string name="in_the_balance">In the balance</string>
     <string name="transactions2">Transactions</string>
     <string name="delete2">DELETE</string>
     <string name="total_a">TOTAL:</string>
-    <string name="amount_borrow">Loan amount</string>
+    <string name="amount_borrow">Credit amount</string>
     <string name="between_dates">Select a period</string>
     <string name="between">Period</string>
     <string name="debts_title">Debts</string>
@@ -1362,7 +1362,7 @@
     <string name="credit_reckings_var">Credit payment</string>
     <string name="debt_reckings_var">Debt record</string>
     <string name="borrow_reckings_var">Debt record</string>
-    <string name="type">Type:</string>
+    <string name="type">Type</string>
     <string name="date_with_two_dots">Date:</string>
     <string name="accountdo">Account:</string>
     <string name="not_exist">Not exist</string>
@@ -1621,7 +1621,7 @@
     <string name="to_purpose">Transfer to money box</string>
     <string name="account_from">Account from</string>
     <string name="account_to">Account to</string>
-    <string name="scet_imeet_nacalniy_sum">Счет имеет началную сумму:</string>
+    <string name="scet_imeet_nacalniy_sum">Has an initial sum</string>
     <string name="previous">Back</string>
     <string name="unlock">Unlock</string>
     <string name="page">страница</string>
@@ -1649,7 +1649,6 @@
     <string name="period_payment">Period payment</string>
     <string name="period_ends">Current period ends</string>
     <string name="taked_date">Taken date</string>
-    <string name="loan_name">Loan name</string>
     <string name="taked_value">Taken value</string>
     <string name="with_the_even_principal">* With the even principal payment schedule, the size of the principal payment is the same for every payment. It is computed by dividing the amount of the original loan by the number of payments</string>
     <string name="value_percent">Value percent</string>
@@ -1659,18 +1658,18 @@
     <string name="even_princ">Even Principal Payments</string>
     <string name="even_total">Even Total Payments</string>
     <string name="even_about_total">* The even total payment schedule is comprised of a decreasing interest payment and an increasing principal payment. The decrease in the size of the interest payment is matched by an increase in the size of the principal payment so that the size of the total loan payment remains constant over the life of the loan.</string>
-    <string name="about_notifications">*Notification will remind you about payment chosen period</string>
+    <string name="about_notifications">*Notification will remind about payment in chosen period</string>
     <string name="percent_fee">Percent fee</string>
     <string name="from_balance">From balance</string>
-    <string name="from_loan_amount">From loan amount</string>
+    <string name="from_loan_amount">From credit amount</string>
     <string name="monthly_payment">Monthly Payment</string>
     <string name="overpayment_interest">Overpayment Interest</string>
     <string name="bank_fees">Bank fees</string>
-    <string name="total_payed">Total paid</string>
+    <string name="total_payed">Total paid: </string>
     <string name="period_payments">Period payments</string>
     <string name="period_end_after">Period end after:</string>
     <string name="complete">COMPLETE</string>
-    <string name="reached_max_value">Reached maximum valueзначение</string>
+    <string name="reached_max_value">Reached maximum value</string>
     <string name="reached_min_value">Reached maximum value</string>
 
     <string-array name="currency_1">
@@ -1763,9 +1762,9 @@
     <string name="choise_category">Choise category</string>
     <string name="choise_subcategory">Choise subcategory</string>
     <string name="choise_account_f">Choise account</string>
-    <string name="with_out_comment">Without comment</string>
+    <string name="with_out_comment">No comments</string>
     <string name="processed_sms">Processed sms:</string>
-    <string name="theme">Themes</string>
+    <string name="theme" translatable="false">Themes</string>
     <string name="attention">Attention</string>
     <string name="buy_voice_text">Вы превысили количество попыток. Хотите активировать услугу?</string>
     <string name="paymet_p">Payment</string>
@@ -1773,4 +1772,50 @@
     <string name="change_ch">Change</string>
     <string name="records_will_be_deleted">Records will be deleted</string>
     <string name="purpose_delete_warning">Do you really want to delete the purpose?</string>
+    <string name="transfer_to_another_acc">Transfer to another account</string>
+    <string name="acc_state">Account state</string>
+    <string name="transfer_to">Transfer</string>
+    <string name="transaction">Transaction</string>
+    <string name="seven">seven</string>
+    <string name="eight">eight</string>
+    <string name="nine">nine</string>
+    <string name="four">four</string>
+    <string name="five">five</string>
+    <string name="six">six</string>
+    <string name="one">one</string>
+    <string name="two">two</string>
+    <string name="three">three</string>
+    <string name="zero">zero</string>
+    <string name="equals">equals</string>
+    <string name="decimal">decimal</string>
+    <string name="press_icon">Press icon</string>
+    <string name="and_choose_category">and choose category</string>
+    <string name="for_period">For period:</string>
+    <string name="should_pay">Should pay:</string>
+    <string name="payment_details">Payment details</string>
+    <string name="amount3">Amount</string>
+    <string name="some_comment">Some comment</string>
+    <string name="status">Status</string>
+    <string name="for_account">For Account</string>
+    <string name="operation_ndays">Operation \n days</string>
+    <string name="next_operations">Next operation</string>
+    <string name="select_days">Select days</string>
+    <string name="set_color">Set color to theme</string>
+    <string name="buy_color">Buy color for theme</string>
+    <string name="total_with_interest">Total with interest</string>
+    <string name="current_rate">Current rate</string>
+    <string name="change_exchange_rate">Change exchange rate</string>
+    <string name="loan_name">Credit name</string>
+    <string name="credit_type">Credit type*</string>
+    <string name="preview_all_details">Preview all details</string>
+    <string name="hide_details">Hide details</string>
+    <string name="transitions_list">Transitions list</string>
+    <string name="residue">Residue: </string>
+    <string name="waiting">Waiting</string>
+    <string name="success">Success</string>
+    <string name="residue1">Residue</string>
+    <string name="sms">SMS</string>
+    <string name="return_deadline">Return deadline</string>
+    <string name="credit_details">Credit Details</string>
+    <string name="paid_amount">Paid amount:</string>
 </resources>

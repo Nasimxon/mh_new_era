@@ -23,13 +23,13 @@
         android:text="100$" />
 
     <TextView
+        android:id="@+id/tvItemAutoMarketOperationIsSuccess"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="right"
-        android:textSize="@dimen/fourteen_dp"
-        android:id="@+id/tvItemAutoMarketOperationIsSuccess"
-        android:text="success" />
+        android:text="success"
+        android:textSize="@dimen/fourteen_dp" />
 
     <CheckBox
         android:layout_width="wrap_content"

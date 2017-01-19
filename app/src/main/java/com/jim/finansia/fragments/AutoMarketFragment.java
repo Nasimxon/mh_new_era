@@ -213,7 +213,7 @@ public class AutoMarketFragment extends Fragment implements View.OnClickListener
                         view.llAutoMarketItemSwitchMode.setVisibility(View.VISIBLE);
                         view.llAutoMarketItemDefaultMode.setVisibility(View.GONE);
                         view.deleteOperationItem.setVisibility(View.GONE);
-                        view.rvTitle.setText("Switch days");
+                        view.rvTitle.setText(R.string.select_days);
                         RecyclerView.LayoutManager layoutManager;
                         if (list.get(position).getType()) {
                             // todo It's numbers
@@ -264,7 +264,7 @@ public class AutoMarketFragment extends Fragment implements View.OnClickListener
                         view.nextDay.setTextColor(Color.BLACK);
                         view.ivCalendar.setColorFilter(Color.parseColor("#c8c8c8"));
                         view.tvOperation.setTextColor(Color.parseColor("#c8c8c8"));
-                        view.rvTitle.setText("Operation lists");
+                        view.rvTitle.setText(R.string.operations);
                         view.recyclerView.setVisibility(View.VISIBLE);
                         view.llAutoMarketItemSwitchMode.setVisibility(View.VISIBLE);
                         view.llAutoMarketItemDefaultMode.setVisibility(View.GONE);
@@ -347,9 +347,9 @@ public class AutoMarketFragment extends Fragment implements View.OnClickListener
             });
 
             if (list.get(position).getType()) {
-                view.nextDay.setText("Next operations:\n" + checkCalculateLeftDayForDate(list.get(position).getPosDays().split(",")) + " day");
+                view.nextDay.setText(getResources().getString(R.string.next_operations)+":\n" + checkCalculateLeftDayForDate(list.get(position).getPosDays().split(",")) + " day");
             } else {
-                view.nextDay.setText("Next operations:\n" + checkCalculateLeftDayForWeeks(list.get(position).getPosDays().split(",")) + " day");
+                view.nextDay.setText(getResources().getString(R.string.next_operations)+":\n" + checkCalculateLeftDayForWeeks(list.get(position).getPosDays().split(",")) + " day");
             }
         }
 
@@ -585,12 +585,12 @@ public class AutoMarketFragment extends Fragment implements View.OnClickListener
                 }
                 view.tvDate.setText(simpleDate.format(nextOperation.getTime()));
                 view.tvAmount.setText("" + formatter.format(autoMarket.getAmount()) + autoMarket.getCurrency().getAbbr());
-                view.tvIsSuccess.setText("Waiting");
+                view.tvIsSuccess.setText(R.string.waiting);
             } else {
                 view.tvDate.setText(simpleDate.format(financeRecordList.get(position - 1).getDate().getTime()));
                 view.tvAmount.setText("" + formatter.format(financeRecordList.get(position - 1).getAmount())
                         + financeRecordList.get(position - 1).getCurrency().getAbbr());
-                view.tvIsSuccess.setText("Success");
+                view.tvIsSuccess.setText(R.string.success);
                 if (mode) {
                     view.checkBox.setVisibility(View.VISIBLE);
                     view.checkBox.setChecked(tek[position - 1]);

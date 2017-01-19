@@ -120,7 +120,7 @@
                         android:layout_marginTop="@dimen/five_dp"
                         android:gravity="center"
                         android:textSize="@dimen/ten_dp"
-                        android:text="Перевод на другую счет"
+                        android:text="@string/transfer_to_another_acc"
                         android:textColor="#c8c8c8" />
 
                 </LinearLayout>
@@ -143,7 +143,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Состаяния счета"
+                    android:text="@string/acc_state"
                     android:gravity="center_horizontal"
                     android:textSize="@dimen/fourteen_dp"
                     android:layout_marginBottom="@dimen/five_dp"
@@ -158,7 +158,7 @@
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:text="Приход"
+                        android:text="@string/it_is_income"
                         android:layout_marginLeft="@dimen/ten_dp"
                         android:layout_marginTop="@dimen/three_dp"
                         android:layout_marginBottom="@dimen/three_dp"
@@ -168,7 +168,7 @@
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:text="Состояния"
+                        android:text="@string/balance"
                         android:layout_marginTop="@dimen/three_dp"
                         android:layout_marginBottom="@dimen/three_dp"
                         android:gravity="center_horizontal"
@@ -180,7 +180,7 @@
                         android:layout_marginRight="@dimen/ten_dp"
                         android:gravity="right"
                         android:layout_height="wrap_content"
-                        android:text="Затраты"
+                        android:text="@string/it_is_expense"
                         android:layout_marginTop="@dimen/three_dp"
                         android:layout_marginBottom="@dimen/three_dp"
                         android:textColor="@color/black_for_myagkiy_glavniy"

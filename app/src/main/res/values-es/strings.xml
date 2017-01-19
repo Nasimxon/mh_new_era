@@ -927,7 +927,7 @@
     <string name="borrow_recking_statistics">Returned debt</string>
     <string name="debt_statistics">Borrowed</string>
     <string name="debt_recking_statistics">Returned debt</string>
-    <string name="pay">Payment for \nloan</string>
+    <string name="pay">Pay</string>
     <string name="cancel">Cancel</string>
     <string name="repaid">Completed</string>
     <string name="active">Active</string>
@@ -1204,11 +1204,11 @@
     <string name="left_date">Left:</string>
     <string name="period_of_credit2">Credit period</string>
     <string name="taked_credit_time">Credit date:</string>
-    <string name="in_the_balance">In the balance:</string>
+    <string name="in_the_balance">In the balance</string>
     <string name="transactions2">Transactions</string>
     <string name="delete2">DELETE</string>
     <string name="total_a">TOTAL:</string>
-    <string name="amount_borrow">Loan amount</string>
+    <string name="amount_borrow">Credit amount</string>
     <string name="between_dates">Select a period</string>
     <string name="between">Period</string>
     <string name="debts_title">Debts</string>
@@ -1623,7 +1623,7 @@
     <string name="name_of_category">Name of category</string>
     <string name="name_of_subcategory">Имя подкатегории</string>
     <string name="next_page">Next</string>
-    <string name="scet_imeet_nacalniy_sum">Счет имеет начальную сумму</string>
+    <string name="scet_imeet_nacalniy_sum">Has an initial sum</string>
     <string name="select_icon_category">Please select icon for category</string>
     <string name="select_icons_sb">Select subcategory icon</string>
     <string name="subcategory_empty">Subcategory name is empty</string>
@@ -1685,5 +1685,25 @@
         <item>рубль</item>
         <item>рублей</item>
     </string-array>
+    <string name="transfer_to_another_acc">Transfer to another account</string>
+    <string name="six">six</string>
+    <string name="decimal">decimal</string>
+    <string name="press_icon">Press icon</string>
+    <string name="and_choose_category">and choose category</string>
+    <string name="about_notifications">*Notification will remind you about payment chosen period</string>
+    <string name="acc_state">Account state</string>
+    <string name="for_period">For period:</string>
+    <string name="should_pay">Should pay:</string>
+    <string name="payment_details">Payment details</string>
+    <string name="amount3">Amount</string>
+    <string name="some_comment">Some comment</string>
+    <string name="paymet_p">Payment</string>
+    <string name="status">Status</string>
+    <string name="for_account">For Account</string>
+    <string name="operation_ndays">Operation \ndays</string>
+    <string name="select_days">Select days</string>
+    <string name="next_operations">Next operation</string>
+    <string name="set_color">"Set color to theme "</string>
+
 
 </resources>

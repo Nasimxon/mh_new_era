@@ -40,7 +40,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/ten_dp"
-                        android:text="Press icon"
+                        android:text="@string/press_icon"
                         android:textColor="@color/black_for_glavniy_text"
                         android:textSize="@dimen/twenty_dp" />
                     <TextView
@@ -48,7 +48,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/tvAddAutoMarketCatName"
-                        android:text="and choise category"
+                        android:text="@string/and_choose_category"
                         android:textSize="@dimen/sixteen_dp" />
                 </RelativeLayout>
             </LinearLayout>

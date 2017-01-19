@@ -140,7 +140,7 @@ public class ChangeColorOfStyleFragment extends Fragment {
     private void defineMode() {
         boolean isActive = preferences.getBoolean(choosenThemeName, choosenThemeName.equals(BuildConfig.BLUE_THEME));
         if (isActive) {
-            tvColorChooseSetText.setText("Set color to theme");
+            tvColorChooseSetText.setText(getString(R.string.set_color));
             tvColorChooseSetText.setTextColor(Color.parseColor("#414141"));
             ivColorChooseButtonThinStripe.setVisibility(View.GONE);
             tvColorChooseButtonPaymentAmount.setVisibility(View.GONE);
@@ -148,7 +148,7 @@ public class ChangeColorOfStyleFragment extends Fragment {
             llBuyColorButton.setBackground(ContextCompat.getDrawable(getContext(), setColorBgId));
         }
         else {
-            tvColorChooseSetText.setText("Buy color for theme");
+            tvColorChooseSetText.setText(R.string.buy_color);
             tvColorChooseSetText.setTextColor(Color.WHITE);
             ivColorChooseButtonThinStripe.setVisibility(View.VISIBLE);
             tvColorChooseButtonPaymentAmount.setVisibility(View.VISIBLE);
