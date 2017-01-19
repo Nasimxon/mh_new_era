@@ -309,6 +309,8 @@ public class MainPageFragment extends Fragment {
             expenseView.lockPage();
         }
         lockView.setPage(expenseView.getCurrentPage()+1);
+        expenseView.updateText();
+        incomeView.updateText();
         expenseView.refreshPagesCount();
         expenseView.init();
         expenseView.invalidate();
