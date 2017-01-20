@@ -13,10 +13,11 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="@dimen/thirty_dp"
-            android:layout_height="@dimen/thirty_dp"
+            android:layout_width="@dimen/twentyfive_dp"
+            android:layout_height="@dimen/twentyfive_dp"
             android:id="@+id/ivItemAfterSavedIcon"
             android:src="@drawable/icons_4"
+            android:layout_marginTop="@dimen/two_dp"
             />
 
         <LinearLayout
@@ -38,7 +39,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/tvItemAfterSavedCatName"
                     android:text="Home water"
-                    android:textSize="@dimen/sixteen_dp"
+                    android:textSize="@dimen/twelve_dp"
                     android:layout_weight="1"
                     />
                 <TextView
@@ -46,7 +47,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/tvItemAfterSavedAmount"
                     android:text="126 $"
-                    android:textSize="@dimen/sixteen_dp"
+                    android:textSize="@dimen/twelve_dp"
                     />
             </LinearLayout>
 
@@ -55,7 +56,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/one_dp"
                 android:layout_marginTop="@dimen/five_dp"
-                android:background="#dbdbdb" />
+                android:background="#13000000" />
 
         </LinearLayout>
 

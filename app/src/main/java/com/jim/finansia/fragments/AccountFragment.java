@@ -41,7 +41,7 @@ public class AccountFragment extends PABaseListFragment {
 	DecimalFormat formatter;
 	private FloatingActionButton fabAccountAdd;
     private RecyclerView recyclerView;
-	boolean isReportOpen = false;
+	boolean isReportOpen = true;
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		final View rootView = inflater.inflate(R.layout.account_layout, container, false);
 		rootView.postDelayed(new Runnable() {

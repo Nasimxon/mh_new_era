@@ -60,12 +60,13 @@
             android:text="@string/no"
             android:textSize="@dimen/sixteen_dp"
             android:padding="5dp"
-            android:layout_marginRight="@dimen/ten_dp"
+            android:layout_marginRight="@dimen/five_dp"
             android:layout_marginLeft="@dimen/sixteen_dp"/>
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/five_dp"
             >
 
             <com.jim.finansia.utils.TintImageView

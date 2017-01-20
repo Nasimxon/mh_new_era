@@ -601,9 +601,9 @@ public class VoiceRecognizerFragment extends Fragment {
             final int firstOrGroup = 3, secondOrGroup = 5;
             if (matcher.matches()) {
                 if (matcher.group(firstOrGroup) != null)
-                    summ = Double.parseDouble(matcher.group(firstOrGroup));
+                    summ = Double.parseDouble(matcher.group(firstOrGroup).replace(',','.'));
                 if (matcher.group(secondOrGroup) != null)
-                    summ = Double.parseDouble(matcher.group(secondOrGroup));
+                    summ = Double.parseDouble(matcher.group(secondOrGroup).replace(',','.'));
             }
             tvSpeechAmount.setText(Double.toString(summ));
             if (accountId != null && !accountId.isEmpty()) {
@@ -857,9 +857,9 @@ public class VoiceRecognizerFragment extends Fragment {
         final int firstOrGroup = 3, secondOrGroup = 5;
         if (matcher.matches()) {
             if (matcher.group(firstOrGroup) != null)
-                summ = Double.parseDouble(matcher.group(firstOrGroup));
+                summ = Double.parseDouble(matcher.group(firstOrGroup).replace(',','.'));
             if (matcher.group(secondOrGroup) != null)
-                summ = Double.parseDouble(matcher.group(secondOrGroup));
+                summ = Double.parseDouble(matcher.group(secondOrGroup).replace(',','.'));
         }
         tvSpeechAmount.setText(Double.toString(summ));
         if (accountId != null && !accountId.isEmpty()) {
@@ -877,13 +877,14 @@ public class VoiceRecognizerFragment extends Fragment {
                 timer = new CountDownTimer(6000, 1000) {
                     @Override
                     public void onTick(long l) {
-                        autoSave.setText("sec " + Math.floor(l/1000));
+                        autoSave.setText(getString(R.string.sec)+' '+ ((int)Math.floor(l/1000)));
                     }
 
                     @Override
                     public void onFinish() {
-                        autoSave.setVisibility(View.GONE);
-                        autoSave.setText("");
+                        autoSave.setText(R.string.ok);
+//                        autoSave.setVisibility(View.GONE);
+//                        autoSave.setText("");
                         savingVoice();
                     }
                 }.start();

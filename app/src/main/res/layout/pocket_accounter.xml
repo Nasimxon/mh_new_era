@@ -32,15 +32,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#a5a5a5"
+                    android:textColor="#5a000000"
                     android:textSize="@dimen/twelve_dp"
                     android:text="Subtitle"
                     android:id="@+id/tvToolbarSubtitle"/>
                 <ImageView
                     android:layout_width="@dimen/fifteen_dp"
                     android:layout_height="@dimen/fifteen_dp"
-                    android:src="@drawable/finance_calendar"
-                    android:tint="#a5a5a5"
+                    android:src="@drawable/finance_calendar_faded"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="@dimen/five_dp"
                     android:id="@+id/ivSubtitle" />

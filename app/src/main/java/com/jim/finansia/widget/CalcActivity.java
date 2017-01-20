@@ -326,35 +326,10 @@ public class CalcActivity extends AppCompatActivity implements View.OnClickListe
             tvRecordEditCategoryName.setText(category.getName());
             ivRecordEditCategory.setImageResource(resId);
         }
-        if (record != null) {
-            int resId = getResources().getIdentifier(record.getCategory().getIcon(), "drawable", getPackageName());
-            ivRecordEditCategory.setImageResource(resId);
-            tvRecordEditCategoryName.setText(record.getCategory().getName());
-            if (record.getSubCategory() != null) {
-                resId = getResources().getIdentifier(record.getSubCategory().getIcon(), "drawable", getPackageName());
-                ivRecordEditSubCategory.setImageResource(resId);
-                tvRecordEditSubCategoryName.setText(record.getSubCategory().getName());
-            } else{
-                ivRecordEditSubCategory.setImageResource(R.drawable.category_not_selected);
-                tvRecordEditSubCategoryName.setText(R.string.no_category_name);
-
-            }
-            tvRecordEditDisplay.setText(decimalFormat.format(record.getAmount()));
-
-            for (int i = 0; i < curlist.size(); i++) {
-                if (curlist.get(i).getId().matches(record.getCurrency().getId())) {
-                    spRecordEdit.setSelection(i);
-                    break;
-                }
-            }
-
-            myTickets = (ArrayList<PhotoDetails>) record.getAllTickets()/*.clone()*/;
-            myTicketsFromBackRoll = (ArrayList<PhotoDetails>) myTickets.clone();
-            if (record.getComment() != null && !record.getComment().matches("")) {
-                oraliqComment = record.getComment();
-                comment.setText(oraliqComment);
-                comment_add.setText(oraliqComment);
-            }
+        if(subCategory!=null){
+            int resId = getResources().getIdentifier(subCategory.getIcon(), "drawable", getPackageName());
+            ivRecordEditSubCategory.setImageResource(resId);
+            tvRecordEditSubCategoryName.setText(subCategory.getName());
         }
 
 

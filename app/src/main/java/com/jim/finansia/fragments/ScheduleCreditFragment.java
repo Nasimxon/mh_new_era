@@ -1,9 +1,12 @@
 package com.jim.finansia.fragments;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,14 +14,21 @@ import android.view.ViewGroup;
 import com.jim.finansia.R;
 import com.jim.finansia.credit.AdapterForSchedule;
 import com.jim.finansia.credit.HeaderData;
+import com.jim.finansia.database.BoardButton;
+import com.jim.finansia.database.BoardButtonDao;
 import com.jim.finansia.database.CreditDetials;
 import com.jim.finansia.credit.CreditsSchedule;
+import com.jim.finansia.database.DaoSession;
 import com.jim.finansia.database.ReckingCredit;
 import com.jim.finansia.managers.CommonOperations;
+import com.jim.finansia.managers.LogicManager;
+import com.jim.finansia.managers.PAFragmentManager;
+import com.jim.finansia.utils.PocketAccounterGeneral;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 
 public class ScheduleCreditFragment extends PABaseFragment {
@@ -26,7 +36,14 @@ public class ScheduleCreditFragment extends PABaseFragment {
     AdapterForSchedule adapterForSchedule;
     CreditDetials currentCredit;
     ArrayList<Object> creditsSchedule;
+    LogicManager logicManager;
+    int modeFromMain;
+    boolean isEdit = false;
     boolean fromAdding = false;
+    boolean fromMainWindow = false;
+    PAFragmentManager  paFragmentManager;
+    DaoSession daoSession;
+    int posFromMain;
     public ScheduleCreditFragment() {
         // Required empty public constructor
 
@@ -39,7 +56,15 @@ public class ScheduleCreditFragment extends PABaseFragment {
         creditsSchedule = new ArrayList<>();
 
     }
-
+    public void isFromWindow(boolean isEdit, LogicManager logicManager, int modeFromMain , PAFragmentManager  paFragmentManager, DaoSession daoSession, int posFromMain){
+        fromMainWindow = true;
+        this.logicManager = logicManager;
+        this.modeFromMain = modeFromMain;
+        this.isEdit = isEdit;
+        this.paFragmentManager = paFragmentManager;
+        this.daoSession = daoSession;
+        this.posFromMain = posFromMain ;
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +94,77 @@ public class ScheduleCreditFragment extends PABaseFragment {
                     for(ReckingCredit reckingCredit:currentCredit.getReckings() )
                     logicManager.insertReckingCredit(reckingCredit);
                     logicManager.insertCredit(currentCredit);
+
+                    if (isEdit&&!fromMainWindow) {
+
+                        if(!daoSession.getBoardButtonDao().queryBuilder()
+                                .where(BoardButtonDao.Properties.CategoryId.eq(Long.toString(currentCredit.getMyCredit_id())))
+                                .list().isEmpty()) {
+
+                            BitmapFactory.Options options = new BitmapFactory.Options();
+                            options.inPreferredConfig = Bitmap.Config.RGB_565;
+                            Bitmap temp = BitmapFactory.decodeResource(getResources(), getResources().getIdentifier(currentCredit.getIcon_ID(), "drawable", getContext().getPackageName()), options);
+                            temp = Bitmap.createScaledBitmap(temp, (int) getResources().getDimension(R.dimen.thirty_dp), (int) getResources().getDimension(R.dimen.thirty_dp), true);
+                            dataCache.getBoardBitmapsCache().put(daoSession.getBoardButtonDao().queryBuilder()
+                                    .where(BoardButtonDao.Properties.CategoryId.eq(Long.toString(currentCredit.getMyCredit_id())))
+                                    .list().get(0).getId(), temp);
+
+
+                            dataCache.updateAllPercents();
+                            paFragmentManager.updateAllFragmentsOnViewPager();
+                        }
+                        toolbarManager.setToolbarIconsVisibility(View.GONE,View.GONE,View.GONE);
+                        paFragmentManager.getFragmentManager().popBackStack();
+                        paFragmentManager.getFragmentManager().popBackStack();
+                        paFragmentManager.displayFragment(new CreditTabLay());
+
+
+                    } else if (fromMainWindow) {
+                        Log.d("testttt", "fromMainWindow");
+                        if(isEdit) {
+                            List<BoardButton> boardButtons = daoSession.getBoardButtonDao().loadAll();
+                            for (BoardButton boardButton : boardButtons) {
+                                if (boardButton.getCategoryId() != null) {
+                                    if (boardButton.getCategoryId().equals(Long.toString(currentCredit.getMyCredit_id()))) {
+
+                                        if (boardButton.getTable() == PocketAccounterGeneral.EXPENSE) {
+                                            logicManager.changeBoardButton(PocketAccounterGeneral.EXPENSE, boardButton.getPos(), Long.toString(currentCredit.getMyCredit_id()));
+                                        } else {
+                                            logicManager.changeBoardButton(PocketAccounterGeneral.INCOME, boardButton.getPos(), Long.toString(currentCredit.getMyCredit_id()));
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        else {
+                            if (modeFromMain == PocketAccounterGeneral.EXPENSE)
+                                logicManager.changeBoardButton(PocketAccounterGeneral.EXPENSE, posFromMain, Long.toString(currentCredit.getMyCredit_id()));
+                            else
+                                logicManager.changeBoardButton(PocketAccounterGeneral.INCOME,posFromMain,Long.toString(currentCredit.getMyCredit_id()));
+
+                        }
+                        BitmapFactory.Options options=new BitmapFactory.Options();
+                        options.inPreferredConfig= Bitmap.Config.RGB_565;
+                        Bitmap temp=BitmapFactory.decodeResource(getResources(),getResources().getIdentifier(currentCredit.getIcon_ID(),"drawable",getContext().getPackageName()),options);
+                        temp=Bitmap.createScaledBitmap(temp,(int)getResources().getDimension(R.dimen.thirty_dp),(int)getResources().getDimension(R.dimen.thirty_dp),true);
+
+                        List<BoardButton> boardButtonss=daoSession.getBoardButtonDao().queryBuilder().where(BoardButtonDao.Properties.CategoryId.eq(Long.toString(currentCredit.getMyCredit_id()))).build().list();
+                        if(!boardButtonss.isEmpty()){
+                            for(BoardButton boardButton:boardButtonss){
+                                dataCache.getBoardBitmapsCache().put(boardButton.getId(), temp);
+                            }
+                        }
+
+                        dataCache.updateAllPercents();
+                        paFragmentManager.updateAllFragmentsOnViewPager();
+                        toolbarManager.setToolbarIconsVisibility(View.GONE,View.GONE,View.GONE);
+                        paFragmentManager.displayMainWindow();
+                    }
+                    else {
+                        toolbarManager.setToolbarIconsVisibility(View.GONE,View.GONE,View.GONE);
+                        paFragmentManager.getFragmentManager().popBackStack();
+                    }
+
                     paFragmentManager.displayFragment(new CreditTabLay());
                 }
             });

@@ -1025,81 +1025,14 @@ public class AddCreditFragment extends Fragment {
         //logicManager.insertCredit(A1);
 
 
-        if (isEdit()&&!fromMainWindow) {
 
-            if(!daoSession.getBoardButtonDao().queryBuilder()
-                    .where(BoardButtonDao.Properties.CategoryId.eq(Long.toString(A1.getMyCredit_id())))
-                    .list().isEmpty()) {
-
-                BitmapFactory.Options options = new BitmapFactory.Options();
-                options.inPreferredConfig = Bitmap.Config.RGB_565;
-                Bitmap temp = BitmapFactory.decodeResource(getResources(), getResources().getIdentifier(A1.getIcon_ID(), "drawable", context.getPackageName()), options);
-                temp = Bitmap.createScaledBitmap(temp, (int) getResources().getDimension(R.dimen.thirty_dp), (int) getResources().getDimension(R.dimen.thirty_dp), true);
-                dataCache.getBoardBitmapsCache().put(daoSession.getBoardButtonDao().queryBuilder()
-                        .where(BoardButtonDao.Properties.CategoryId.eq(Long.toString(A1.getMyCredit_id())))
-                        .list().get(0).getId(), temp);
-
-
-                dataCache.updateAllPercents();
-                paFragmentManager.updateAllFragmentsOnViewPager();
-            }
-            toolbarManager.setToolbarIconsVisibility(View.GONE,View.GONE,View.GONE);
-            paFragmentManager.getFragmentManager().popBackStack();
-            paFragmentManager.getFragmentManager().popBackStack();
-            paFragmentManager.displayFragment(new CreditTabLay());
-
-
-        } else if (fromMainWindow) {
-            Log.d("testttt", "fromMainWindow");
-            if(isEdit()) {
-                List<BoardButton> boardButtons = daoSession.getBoardButtonDao().loadAll();
-                for (BoardButton boardButton : boardButtons) {
-                    if (boardButton.getCategoryId() != null) {
-                        if (boardButton.getCategoryId().equals(Long.toString(A1.getMyCredit_id()))) {
-
-                            if (boardButton.getTable() == PocketAccounterGeneral.EXPENSE) {
-                                logicManager.changeBoardButton(PocketAccounterGeneral.EXPENSE, boardButton.getPos(), Long.toString(A1.getMyCredit_id()));
-                            } else {
-                                logicManager.changeBoardButton(PocketAccounterGeneral.INCOME, boardButton.getPos(), Long.toString(A1.getMyCredit_id()));
-                            }
-                        }
-                    }
-                }
-            }
-            else {
-                if (modeFromMain == PocketAccounterGeneral.EXPENSE)
-                    logicManager.changeBoardButton(PocketAccounterGeneral.EXPENSE, posFromMain, Long.toString(A1.getMyCredit_id()));
-                else
-                    logicManager.changeBoardButton(PocketAccounterGeneral.INCOME,posFromMain,Long.toString(A1.getMyCredit_id()));
-
-            }
-            BitmapFactory.Options options=new BitmapFactory.Options();
-            options.inPreferredConfig= Bitmap.Config.RGB_565;
-            Bitmap temp=BitmapFactory.decodeResource(getResources(),getResources().getIdentifier(A1.getIcon_ID(),"drawable",context.getPackageName()),options);
-            temp=Bitmap.createScaledBitmap(temp,(int)getResources().getDimension(R.dimen.thirty_dp),(int)getResources().getDimension(R.dimen.thirty_dp),true);
-
-            List<BoardButton> boardButtonss=daoSession.getBoardButtonDao().queryBuilder().where(BoardButtonDao.Properties.CategoryId.eq(Long.toString(A1.getMyCredit_id()))).build().list();
-            if(!boardButtonss.isEmpty()){
-                for(BoardButton boardButton:boardButtonss){
-                    dataCache.getBoardBitmapsCache().put(boardButton.getId(), temp);
-                }
-            }
-
-            dataCache.updateAllPercents();
-            paFragmentManager.updateAllFragmentsOnViewPager();
-            toolbarManager.setToolbarIconsVisibility(View.GONE,View.GONE,View.GONE);
-            paFragmentManager.displayMainWindow();
-        }
-        else {
-            toolbarManager.setToolbarIconsVisibility(View.GONE,View.GONE,View.GONE);
-            paFragmentManager.getFragmentManager().popBackStack();
-        }
 
         onSucsessed = true;
 
         ScheduleCreditFragment scheduleCreditFragment = new ScheduleCreditFragment();
         scheduleCreditFragment.setCreditObject(A1);
         scheduleCreditFragment.isFromAdding();
+        scheduleCreditFragment.isFromWindow(isEdit(),logicManager,modeFromMain,paFragmentManager,daoSession,posFromMain);
         paFragmentManager.displayFragment(scheduleCreditFragment);
 
     }
