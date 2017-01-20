@@ -63,6 +63,7 @@ import com.jim.finansia.database.PhotoDetails;
 import com.jim.finansia.managers.CommonOperations;
 import com.jim.finansia.managers.LogicManager;
 import com.jim.finansia.managers.PAFragmentManager;
+import com.jim.finansia.managers.ReportManager;
 import com.jim.finansia.managers.ToolbarManager;
 import com.jim.finansia.photocalc.PhotoAdapter;
 import com.jim.finansia.utils.GetterAttributColors;
@@ -163,7 +164,8 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
     SubCatAddEditDialog subCatAddEditDialog;
     @Inject
     DataCache dataCache;
-
+    @Inject
+    ReportManager reportManager;
     @SuppressLint("ValidFragment")
     public RecordEditFragment(RootCategory category, Calendar date, FinanceRecord record, int parent) {
         this.parent = parent;
@@ -1535,6 +1537,7 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
             logicManager.insertRecord(savingRecord);
             dataCache.updateOneDay(date);
             paFragmentManager.updateVoiceRecognizePage(date);
+            reportManager.refreshDatas();
         } else {
             if (fromEdit) {
                 record.setAllTickets(myTicketsFromBackRoll);

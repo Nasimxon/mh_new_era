@@ -136,6 +136,7 @@ public class TransferDialog extends Dialog implements View.OnClickListener {
                 accountOperation.setSourceId(chooseAccountFirstId);
                 accountOperation.setTargetId(chooseAccountSecondId);
                 logicManager.insertAccountOperation(accountOperation);
+                reportManager.refreshDatas();
                 if (onTransferDialogSaveListener != null)
                     onTransferDialogSaveListener.OnTransferDialogSave();
                 accountOperation = null;

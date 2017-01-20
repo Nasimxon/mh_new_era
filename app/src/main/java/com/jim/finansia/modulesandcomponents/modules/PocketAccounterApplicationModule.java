@@ -6,6 +6,7 @@ import android.preference.PreferenceManager;
 import com.jim.finansia.PocketAccounterApplication;
 import com.jim.finansia.database.Account;
 import com.jim.finansia.database.Currency;
+import com.jim.finansia.database.CurrencyCost;
 import com.jim.finansia.database.DaoMaster;
 import com.jim.finansia.database.DaoSession;
 import com.jim.finansia.database.RootCategory;
@@ -47,14 +48,14 @@ public class PocketAccounterApplicationModule {
     private List<TemplateAccount> accountVoice;
     private List<TemplateCurrencyVoice> currencyVoices;
     private DecimalFormat formatter;
+    private ReportManager reportManager;
+    private CommonOperations commonOperations;
     public PocketAccounterApplicationModule(PocketAccounterApplication pocketAccounterApplication) {
         this.pocketAccounterApplication = pocketAccounterApplication;
         DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(pocketAccounterApplication, PocketAccounterGeneral.CURRENT_DB_NAME);
         Database db = helper.getWritableDb();
         daoSession = new DaoMaster(db).newSession();
         preferences = PreferenceManager.getDefaultSharedPreferences(pocketAccounterApplication);
-
-
     }
 
     @Provides
@@ -113,12 +114,16 @@ public class PocketAccounterApplicationModule {
 
     @Provides
     public ReportManager reportManager() {
-        return new ReportManager(pocketAccounterApplication);
+        if (reportManager == null)
+            reportManager = new ReportManager(pocketAccounterApplication);
+        return reportManager;
     }
 
     @Provides
     public CommonOperations getCommonOperations() {
-        return new CommonOperations(pocketAccounterApplication);
+        if (commonOperations == null)
+            commonOperations = new CommonOperations(pocketAccounterApplication);
+        return commonOperations;
     }
 
     @Provides

@@ -164,7 +164,7 @@ public class ScheduleCreditFragment extends PABaseFragment {
                         toolbarManager.setToolbarIconsVisibility(View.GONE,View.GONE,View.GONE);
                         paFragmentManager.getFragmentManager().popBackStack();
                     }
-
+                    reportManager.refreshDatas();
                     paFragmentManager.displayFragment(new CreditTabLay());
                 }
             });

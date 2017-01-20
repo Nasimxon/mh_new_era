@@ -273,6 +273,7 @@ public class AccountEditFragment extends PABaseInfoFragment implements OnClickLi
                         paFragmentManager.displayFragment(new AccountFragment());
                     }
                 }
+                reportManager.refreshDatas();
                 break;
         }
     }

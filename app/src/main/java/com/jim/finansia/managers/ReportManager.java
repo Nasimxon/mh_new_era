@@ -62,6 +62,13 @@ public class ReportManager {
     private SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
     private List<ReportObject> incomes;
     private List<ReportObject> expances;
+    private List<Account> accounts;
+    private List<FinanceRecord> financeRecords;
+    private List<CreditDetials> creditDetialses;
+    private List<DebtBorrow> debtBorrows;
+    private List<AccountOperation> accountOperations;
+    private List<SmsParseSuccess> smsParseSuccesses;
+
 
     public ReportManager(Context context) {
         ((PocketAccounterApplication) context.getApplicationContext()).component().inject(this);
@@ -73,11 +80,21 @@ public class ReportManager {
         accountDao = daoSession.getAccountDao();
         smsParseSuccessDao = daoSession.getSmsParseSuccessDao();
     }
+
+    public void refreshDatas() {
+        accounts = null;
+        financeRecords = null;
+        creditDetialses = null;
+        debtBorrows = null;
+        accountOperations = null;
+        smsParseSuccesses = null;
+    }
+
     public List<ReportObject> getReportObjects(boolean toMainCurrency, Calendar begin, Calendar end, Class ...classes) {
         List<ReportObject> result = new ArrayList<>();
+        accounts = accounts == null ? accountDao.loadAll() : accounts;
         for (Class cl : classes) {
             if (cl.getName().equals(Account.class.getName())) {
-                List<Account> accounts = accountDao.loadAll();
                 for (Account account : accounts) {
                     if (account.getAmount() != 0 &&
                             account.getCalendar().compareTo(begin) >= 0 &&
@@ -100,38 +117,39 @@ public class ReportManager {
                 }
             }
             if (cl.getName().equals(AccountOperation.class.getName())) {
-                for (AccountOperation accountOperations : accountOperationsDao.loadAll()) {
-                    if (accountOperations.getDate().compareTo(begin) >= 0 &&
-                            accountOperations.getDate().compareTo(end) <= 0) {
+                accountOperations = accountOperations == null ? accountOperationsDao.loadAll() : accountOperations;
+                for (AccountOperation accountOperation : accountOperations) {
+                    if (accountOperation.getDate().compareTo(begin) >= 0 &&
+                            accountOperation.getDate().compareTo(end) <= 0) {
                         List<Account> accountList = daoSession.getAccountDao().queryBuilder()
-                                .where(AccountDao.Properties.Id.eq(accountOperations.getSourceId()))
+                                .where(AccountDao.Properties.Id.eq(accountOperation.getSourceId()))
                                 .list();
                         if (!accountList.isEmpty()) {
                             ReportObject reportObject = new ReportObject();
                             reportObject.setType(PocketAccounterGeneral.EXPENSE);
                             reportObject.setAccount(accountList.get(0));
-                            reportObject.setCurrency(accountOperations.getCurrency());
+                            reportObject.setCurrency(accountOperation.getCurrency());
                             if (toMainCurrency)
-                                reportObject.setAmount(commonOperations.getCost(accountOperations.getDate(), accountOperations.getCurrency(), accountOperations.getAmount()));
+                                reportObject.setAmount(commonOperations.getCost(accountOperation.getDate(), accountOperation.getCurrency(), accountOperation.getAmount()));
                             else
-                                reportObject.setAmount(accountOperations.getAmount());
-                            reportObject.setDate(accountOperations.getDate());
+                                reportObject.setAmount(accountOperation.getAmount());
+                            reportObject.setDate(accountOperation.getDate());
                             reportObject.setDescription(context.getResources().getString(R.string.transfer));
                             result.add(reportObject);
                         }
                         accountList = daoSession.getAccountDao().queryBuilder()
-                                .where(AccountDao.Properties.Id.eq(accountOperations.getTargetId()))
+                                .where(AccountDao.Properties.Id.eq(accountOperation.getTargetId()))
                                 .list();
                         if (!accountList.isEmpty()) {
                             ReportObject reportObject = new ReportObject();
                             reportObject.setType(PocketAccounterGeneral.INCOME);
                             reportObject.setAccount(accountList.get(0));
-                            reportObject.setCurrency(accountOperations.getCurrency());
+                            reportObject.setCurrency(accountOperation.getCurrency());
                             if (toMainCurrency)
-                                reportObject.setAmount(commonOperations.getCost(accountOperations.getDate(), accountOperations.getCurrency(), accountOperations.getAmount()));
+                                reportObject.setAmount(commonOperations.getCost(accountOperation.getDate(), accountOperation.getCurrency(), accountOperation.getAmount()));
                             else
-                                reportObject.setAmount(accountOperations.getAmount());
-                            reportObject.setDate(accountOperations.getDate());
+                                reportObject.setAmount(accountOperation.getAmount());
+                            reportObject.setDate(accountOperation.getDate());
                             reportObject.setDescription(context.getResources().getString(R.string.transfer));
                             result.add(reportObject);
                         }
@@ -164,8 +182,8 @@ public class ReportManager {
                 }
             }
             if (cl.getName().equals(FinanceRecord.class.getName())) {
-                List<FinanceRecord> financeRecordList = financeRecordDao.loadAll();
-                for (FinanceRecord financeRecord : financeRecordList) {
+                financeRecords = financeRecords == null ? financeRecordDao.loadAll() : financeRecords;
+                for (FinanceRecord financeRecord : financeRecords) {
                     if (financeRecord.getDate().compareTo(begin) >= 0 &&
                             financeRecord.getDate().compareTo(end) <= 0) {
                         ReportObject reportObject = new ReportObject();
@@ -189,9 +207,8 @@ public class ReportManager {
                 }
             }
             if (cl.getName().equals(DebtBorrow.class.getName())) {
-                List<DebtBorrow> debtBorrowList = debtBorrowDao.loadAll();
-                for (DebtBorrow debtBorrow : debtBorrowList) {
-
+                debtBorrows = debtBorrows == null ? debtBorrowDao.loadAll() : debtBorrows;
+                for (DebtBorrow debtBorrow : debtBorrows) {
                     if (debtBorrow.getTakenDate().compareTo(begin) >= 0 &&
                             debtBorrow.getTakenDate().compareTo(end) <= 0) {
                         ReportObject reportObject = new ReportObject();
@@ -230,8 +247,7 @@ public class ReportManager {
                                 reportObject.setType(PocketAccounterGeneral.EXPENSE);
                             }
                             Account account = null;
-                            List<Account> accountList = accountDao.loadAll();
-                            for (Account acc : accountList) {
+                            for (Account acc : accounts) {
                                 if (acc.getId().equals(recking.getAccountId())) {
                                     account = acc;
                                     break;
@@ -255,16 +271,15 @@ public class ReportManager {
                 }
             }
             if (cl.getName().equals(CreditDetials.class.getName())) {
-                List<CreditDetials> creditDetialsList = creditDetialsDao.loadAll();
-                for (CreditDetials creditDetials : creditDetialsList) {
+                creditDetialses = creditDetialses == null ? creditDetialsDao.loadAll() : creditDetialses;
+                for (CreditDetials creditDetials : creditDetialses) {
                     if (creditDetials.getKey_for_include()) {
                         ReportObject reportObject = new ReportObject();
                         reportObject.setType(PocketAccounterGeneral.INCOME);
                         reportObject.setDate(creditDetials.getTake_time());
                         reportObject.setDescription(context.getResources().getString(R.string.credit));
                         Account account = null;
-                        List<Account> accountList = accountDao.loadAll();
-                        for (Account acc : accountList) {
+                        for (Account acc : accounts) {
                             if (acc.getId().equals(creditDetials.getAccountID())) {
                                 account = acc;
                                 break;
@@ -296,8 +311,7 @@ public class ReportManager {
                             reportObject.setDate(calendar);
                             reportObject.setDescription(context.getResources().getString(R.string.credit));
                             Account account = null;
-                            List<Account> accountList = accountDao.loadAll();
-                            for (Account acc : accountList) {
+                            for (Account acc : accounts) {
                                 if (acc.getId().equals(reckingCredit.getAccountId())) {
                                     account = acc;
                                     break;

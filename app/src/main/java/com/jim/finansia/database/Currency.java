@@ -52,33 +52,40 @@ public class Currency {
 	}
 	@Keep
 	public List<CurrencyCost> getCosts() {
-		costs = new ArrayList<>();
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
-		List<CurrencyCostState> costStateList = daoSession.getCurrencyCostStateDao().loadAll();
-		for (UserEnteredCalendars userCalendar : getUserEnteredCalendarses()) {
-			for (CurrencyCostState currencyCostState : costStateList) {
-				String formattedUserCalendar = simpleDateFormat.format(userCalendar.getCalendar().getTime());
-				String formattedStateDay = simpleDateFormat.format(currencyCostState.getDay().getTime());
-				if (formattedUserCalendar.equals(formattedStateDay) && currencyCostState.getMainCurrency().getMain()) {
-					double cost = 1.0;
-					for (CurrencyWithAmount withAmount : currencyCostState.getCurrencyWithAmountList()) {
-						if (withAmount.getCurrencyId().equals(getId())) {
-							cost = withAmount.getAmount();
-							break;
+		if (costs == null) {
+			costs = new ArrayList<>();
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
+			List<CurrencyCostState> costStateList = daoSession.getCurrencyCostStateDao().loadAll();
+			for (UserEnteredCalendars userCalendar : getUserEnteredCalendarses()) {
+				for (CurrencyCostState currencyCostState : costStateList) {
+					String formattedUserCalendar = simpleDateFormat.format(userCalendar.getCalendar().getTime());
+					String formattedStateDay = simpleDateFormat.format(currencyCostState.getDay().getTime());
+					if (formattedUserCalendar.equals(formattedStateDay) && currencyCostState.getMainCurrency().getMain()) {
+						double cost = 1.0;
+						for (CurrencyWithAmount withAmount : currencyCostState.getCurrencyWithAmountList()) {
+							if (withAmount.getCurrencyId().equals(getId())) {
+								cost = withAmount.getAmount();
+								break;
+							}
 						}
+						CurrencyCost currencyCost = new CurrencyCost(cost, userCalendar.getCalendar());
+						costs.add(currencyCost);
 					}
-					CurrencyCost currencyCost = new CurrencyCost(cost, userCalendar.getCalendar());
-					costs.add(currencyCost);
 				}
 			}
+			Collections.sort(costs, new Comparator<CurrencyCost>() {
+				@Override
+				public int compare(CurrencyCost lhs, CurrencyCost rhs) {
+					return lhs.getDay().compareTo(rhs.getDay());
+				}
+			});
 		}
-		Collections.sort(costs, new Comparator<CurrencyCost>() {
-			@Override
-			public int compare(CurrencyCost lhs, CurrencyCost rhs) {
-				return lhs.getDay().compareTo(rhs.getDay());
-			}
-		});
 		return costs;
+	}
+
+	@Keep
+	public void refreshCosts() {
+		costs = null;
 	}
 	/**
 	 * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.

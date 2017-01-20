@@ -61,6 +61,7 @@ import com.jim.finansia.database.Recking;
 import com.jim.finansia.managers.CommonOperations;
 import com.jim.finansia.managers.LogicManager;
 import com.jim.finansia.managers.PAFragmentManager;
+import com.jim.finansia.managers.ReportManager;
 import com.jim.finansia.managers.ToolbarManager;
 import com.jim.finansia.utils.PocketAccounterGeneral;
 import com.jim.finansia.utils.cache.DataCache;
@@ -103,6 +104,8 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
     @Inject
     @Named(value = "display_formatter")
     SimpleDateFormat dateFormat;
+    @Inject
+    ReportManager reportManager;
     private DebtBorrowDao debtBorrowDao;
     private AccountDao accountDao;
     private CurrencyDao currencyDao;
@@ -585,6 +588,7 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
                             }
                         }
                         mainView = false;
+                        reportManager.refreshDatas();
                         paFragmentManager.displayMainWindow();
                         dataCache.updateAllPercents();
                         paFragmentManager.updateAllFragmentsOnViewPager();
@@ -601,6 +605,7 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
                             dataCache.updateAllPercents();
                             paFragmentManager.updateAllFragmentsOnViewPager();
                         }
+                        reportManager.refreshDatas();
                         paFragmentManager.displayFragment(fragment);
                     }
 

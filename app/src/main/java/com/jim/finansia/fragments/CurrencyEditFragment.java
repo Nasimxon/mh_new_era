@@ -343,6 +343,7 @@ public class CurrencyEditFragment extends PABaseInfoFragment implements OnClickL
                     logicManager.generateCurrencyCosts((Calendar)day.clone(), Double.parseDouble(etExchange.getText().toString())/Double.parseDouble(etHowMuch.getText().toString()), currency);
                 }
                 refreshList();
+                currency.refreshCosts();
                 tvCurrentCurrencyRate.setText("1"+currency.getAbbr()+
                         " = "+decFormat.format(currency.getCosts().get(currency.getCosts().size()-1).getCost())+commonOperations.getMainCurrency().getAbbr());
 
