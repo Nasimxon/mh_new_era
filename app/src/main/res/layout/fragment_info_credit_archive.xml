@@ -164,7 +164,7 @@
                 android:layout_marginLeft="@dimen/five_dp"
                 android:layout_marginTop="@dimen/eight_dp"
                 android:layout_marginBottom="@dimen/eight_dp"
-                android:text="Preview all details"
+                android:text="@string/preview_all_details"
                 android:textColor="#a4a4a4"
                 android:textSize="@dimen/sixteen_sp" />
 
@@ -481,7 +481,7 @@
             android:layout_margin="@dimen/five_dp"
             android:layout_toEndOf="@+id/ivHide"
             android:layout_toRightOf="@+id/ivHide"
-            android:text="Hide detials"
+            android:text="@string/hide_details"
             android:textColor="@color/black_for_maykiy_secodary"
             android:textSize="@dimen/sixteen_sp" />
 
@@ -526,7 +526,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:text="Transitions list"
+                    android:text="@string/transitions_list"
                     android:gravity="center_vertical"
                     android:textColor="#c8c8c8"
                     android:textSize="@dimen/sixteen_dp"/>
@@ -579,7 +579,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="right"
-                        android:text="Total payed: "
+                        android:text="@string/total_payed"
                         android:textColor="@color/black_for_maykiy_secodary"
                         android:textSize="@dimen/twelve_dp" />
 
@@ -589,7 +589,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="right"
                         android:layout_marginBottom="@dimen/five_dp"
-                        android:text="Residue: "
+                        android:text="@string/residue"
                         android:textColor="@color/black_for_maykiy_secodary"
                         android:textSize="@dimen/twelve_dp" />
 

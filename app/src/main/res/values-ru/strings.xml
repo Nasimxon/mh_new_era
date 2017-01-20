@@ -1680,18 +1680,18 @@
     <string name="october">ОКТ</string>
     <string name="november">НОЯ</string>
     <string name="december">ДЕК</string>
-    <string name="max_income_in_the_month">Максимальный доход</string>
+    <string name="max_income_in_the_month">Максимальный доход:</string>
     <string name="average_income">Средний доход: </string>
     <string name="min_income_in_the_month">Минимальный доход:</string>
     <string name="average_expense">Средний расход: </string>
-    <string name="max_expense_in_the_month">Максимальный расход</string>
-    <string name="min_expense_in_the_month">Минимальный доход:</string>
+    <string name="max_expense_in_the_month">Максимальный расход:</string>
+    <string name="min_expense_in_the_month">Минимальный расход:</string>
     <string name="report_by_income_expense_table">Отчет по доходам и расходам</string>
     <string name="total_expense">Общая расход</string>
     <string name="total_income">Общая прибыль</string>
     <string name="must_restart">Для установки темы понадобится перезапуск программы!</string>
     <string name="daily_operations">Голосовой ввод</string>
-    <string name="category_subcategory">Категория Подскатегория</string>
+    <string name="category_subcategory">Категория Подкатегория</string>
     <string name="processed_sms">Processed sms:</string>
     <string name="theme">Темы</string>
     <string name="attention">Внимание!</string>
@@ -1785,7 +1785,7 @@
     <string name="for_account">С cчета</string>
     <string name="operation_ndays">Дни \nопераций</string>
     <string name="select_days">Выбрать дни</string>
-    <string name="next_operations">Слудующия операция</string>
+    <string name="next_operations">Следующия операция</string>
     <string name="set_color">Установить тему</string>
     <string name="buy_color">Купить тему</string>
     <string name="total_with_interest">Общая сумма оплаты</string>
@@ -1820,5 +1820,6 @@
     <string name="with_the_even_principal">*Аннуитетными, т.е. равновеликими платежами называют платежи, которые производятся на протяжении всего срока кредита равными друг другу. При таком виде платежа заемщик регулярно совершает платеж одного и того же размера.</string>
     <string name="date_of_transfer">Дата трансфера</string>
     <string name="sec">сек</string>
+    <string name="payment_date">Дата оплаты:</string>
 </resources>
 

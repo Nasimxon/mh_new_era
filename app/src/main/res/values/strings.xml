@@ -1828,4 +1828,5 @@
         <item>Expense</item>
     </string-array>
     <string name="sec">sec</string>
+    <string name="payment_date">Payment date:</string>
 </resources>
