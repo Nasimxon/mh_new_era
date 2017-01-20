@@ -1190,7 +1190,7 @@
     <string name="value_shoud_not_empty">Введите сумму</string>
     <string name="procent_should_not_empty">Введите процент!</string>
     <string name="period_should_not_empty">Введите период</string>
-    <string name="after_per_choise">Введите дату!</string>
+    <string name="after_per_choise">Введите дату</string>
     <string name="first_enter_period">Сначала введите срок кредитования!</string>
     <string name="it_is_our_solution_but_please_check_it">Настройте под свои требования!</string>
     <string name="cred_managment">Кредиты</string>
@@ -1614,7 +1614,7 @@
     <string name="amount_keyword_error">Введите ключевое слово для определения суммы</string>
     <string name="incom_expense_list">Список расходов и доходов</string>
     <string name="login">Login</string>
-    <string name="all">Всеdd</string>
+    <string name="all">Все</string>
     <string name="previous">Назад</string>
     <string name="next_page">След.</string>
     <string name="unlock">Разблокировать</string>
@@ -1627,7 +1627,7 @@
     <string name="account_to">Account to</string>
     <string name="add_plus">+ Добавить</string>
     <string name="choise_icon">Выберите иконку</string>
-    <string name="main_curr">Main currency</string>
+    <string name="main_curr">Основной курс</string>
     <string name="name_of_category">Name of category</string>
     <string name="name_of_subcategory">Имя подкатегории</string>
     <string name="scet_imeet_nacalniy_sum">Счет имеет начальную сумму</string>
@@ -1680,17 +1680,17 @@
     <string name="october">ОКТ</string>
     <string name="november">НОЯ</string>
     <string name="december">ДЕК</string>
-    <string name="max_income_in_the_month">"Maximum income in the month: "</string>
-    <string name="average_income">\"Средный доход: \"</string>
+    <string name="max_income_in_the_month">Максимальный доход</string>
+    <string name="average_income">Средний доход: </string>
     <string name="min_income_in_the_month">Минимальный доход:</string>
-    <string name="average_expense">\"Средный расход: \"</string>
-    <string name="max_expense_in_the_month">"Maximum expense in the month: "</string>
-    <string name="min_expense_in_the_month">\"Минимальный доход: \"</string>
+    <string name="average_expense">Средний расход: </string>
+    <string name="max_expense_in_the_month">Максимальный расход</string>
+    <string name="min_expense_in_the_month">Минимальный доход:</string>
     <string name="report_by_income_expense_table">Отчет по доходам и расходам</string>
     <string name="total_expense">Общая расход</string>
     <string name="total_income">Общая прибыль</string>
     <string name="must_restart">Для установки темы понадобится перезапуск программы!</string>
-    <string name="daily_operations">Ежедневные операции</string>
+    <string name="daily_operations">Голосовой ввод</string>
     <string name="category_subcategory">Категория Подскатегория</string>
     <string name="processed_sms">Processed sms:</string>
     <string name="theme">Темы</string>
@@ -1743,9 +1743,9 @@
     <string name="period_ends">Период заканчивается через</string>
     <string name="period_payment">Месячная оплата</string>
     <string name="period_payments">Период оплат</string>
-    <string name="repeat_every">Повторить каждый</string>
+    <string name="repeat_every">Повторять каждый</string>
     <string name="schedule">ГРАФИК ПЛАТЕЖЕЙ</string>
-    <string name="period_end_after">Период заканчивается через:</string>
+    <string name="period_end_after">До окончания периода:</string>
     <string name="taked_date">Дата взятия</string>
     <string name="taked_value">Введите сумму кредита</string>
     <string name="to_archive">В архив</string>
@@ -1784,7 +1784,7 @@
     <string name="status">Статус</string>
     <string name="for_account">С cчета</string>
     <string name="operation_ndays">Дни \nопераций</string>
-    <string name="select_days">Выбрать день</string>
+    <string name="select_days">Выбрать дни</string>
     <string name="next_operations">Слудующия операция</string>
     <string name="set_color">Установить тему</string>
     <string name="buy_color">Купить тему</string>
@@ -1814,5 +1814,11 @@
         <item>Доход</item>
         <item>Расход</item>
     </string-array>
+    <string name="even_total">Дифференцированные платежи</string>
+    <string name="even_princ">Аннуитетные платежи</string>
+    <string name="even_about_total">*Дифференцированные платежи в начале срока кредитования больше, а затем постепенно уменьшаются, т.е. регулярные платежи по ипотечному кредиту не равны между собой.</string>
+    <string name="with_the_even_principal">*Аннуитетными, т.е. равновеликими платежами называют платежи, которые производятся на протяжении всего срока кредита равными друг другу. При таком виде платежа заемщик регулярно совершает платеж одного и того же размера.</string>
+    <string name="date_of_transfer">Дата трансфера</string>
+    <string name="sec">сек</string>
 </resources>
 

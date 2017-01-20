@@ -930,7 +930,7 @@
     <string name="pay">Pay</string>
     <string name="cancel">Cancel</string>
     <string name="repaid">Completed</string>
-    <string name="active">Active</string>
+    <string name="active">Activo</string>
     <string name="archivee">Archive</string>
     <string-array name="months">
         <item>January</item>
@@ -1100,7 +1100,7 @@
     <string name="google_logout">Log out</string>
     <string name="incorrect_value">Permission incorrect value!</string>
     <string name="edit">Add/Edit</string>
-    <string name="accounts">Accounts</string>
+    <string name="accounts">Cuentas</string>
     <string name="report_by_income_expanse">Expenses and Income</string>
     <string name="report_by_categories">Report by Category</string>
     <string name="to_edit">Edit</string>
@@ -1108,12 +1108,12 @@
     <string name="enter_credit_name">Enter the name of the credit</string>
     <string name="credit_amount">Credit amount</string>
     <string name="percent">Percent</string>
-    <string name="credit_percent">Percent</string>
+    <string name="credit_percent">El por ciento</string>
     <string name="period_of_credit">Credit term</string>
     <string name="enter_period_of_credit">Enter credit term</string>
     <string name="interval">Period</string>
     <string name="credit_begin_date">Start</string>
-    <string name="credit_return_date">End</string>
+    <string name="credit_return_date">Fin</string>
     <string name="transactions">Transactions</string>
     <string name="include_credit_in_balance">Payment consider in the balance</string>
     <string name="enter_name_error">Enter name</string>
@@ -1176,12 +1176,12 @@
     <string name="total_credit_value">Credit amount</string>
     <string name="left2">Credit term:</string>
     <string name="taken_date">Payment day:</string>
-    <string name="adding_to_archive">To archive:</string>
+    <string name="adding_to_archive">Para archivar:</string>
     <string name="should_not_empty">Enter the name!</string>
     <string name="value_shoud_not_empty">Enter the amount!</string>
     <string name="procent_should_not_empty">Enter the percent!</string>
     <string name="period_should_not_empty">Enter the period!</string>
-    <string name="after_per_choise">Enter the date!</string>
+    <string name="after_per_choise">Introduzca la fecha</string>
     <string name="first_enter_period">Please enter the credit term!</string>
     <string name="it_is_our_solution_but_please_check_it">Customize to fit your requirements!</string>
     <string name="not_calc">Not in balance</string>
@@ -1238,7 +1238,7 @@
     <string name="sms_parse_expense_id">sms_expense</string>
     <string name="sms_parse_expense_icon">icons_21</string>
     <string name="ch_cat">Choose category</string>
-    <string name="addedit">Add/Edit</string>
+    <string name="addedit">Añadir / Editar</string>
     <string name="sms_parse">SMS Parsing</string>
     <string name="all_transfer_operitions_you_can_see_bla_bla_bla_hullas_transactisiya_haqida">All money transfers are fixed in the balance</string>
     <string name="choose_type_sms">Select type of SMS</string>
@@ -1274,7 +1274,6 @@
         <item>0</item>
         <item>1</item>
     </string-array>
-    <string name="about_currencu">This option sets currency for your SMS message</string>
     <string name="about_operat">This option for choosing account to your SMS message</string>
     <string name="sync_and_backup">SYNC AND BACKUP</string>
 
@@ -1442,7 +1441,7 @@
         <item>icons_412</item>
         <item>icons_413</item>
     </string-array>
-    <string name="accountdo">Account:</string>
+    <string name="accountdo">Cuenta:</string>
     <string name="balance_invis">Dont show balance</string>
     <string name="borrow_arch">BORROW in Archive</string>
     <string name="borrow_com">This debt is included in balance, but it is in archive!</string>
@@ -1485,8 +1484,8 @@
     <string name="whole_day_datas_deleting">Records for current day will be deleted!</string>
     <string name="search">Search</string>
     <string name="account_for_parsing">Account for parsing:</string>
-    <string name="all_expense">All expense:</string>
-    <string name="all_incomes">All incomes:</string>
+    <string name="all_expense">Todo gasto:</string>
+    <string name="all_incomes">Todos los ingresos:</string>
     <string name="ammount_of_operation">Amount of operation for message:</string>
     <string name="income_decide_with_static_word">Select keyword(income)</string>
     <string name="info_toliq">Information</string>
@@ -1516,7 +1515,7 @@
     <string name="saved_money">Cumulative sum:</string>
     <string name="auto_operations">Auto operations</string>
     <string name="auto_op_is_empty">List is empty!</string>
-    <string name="enter_amount_operation">Enter amount for the operation</string>
+    <string name="enter_amount_operation">Enter amount</string>
     <string name="income_expance_title">Incomes and expenses</string>
     <string name="key_for_type">Select keyword for defining type(income or expense):</string>
     <string name="select_word">Select a word</string>
@@ -1570,12 +1569,12 @@
     <string name="comment_">Comment</string>
     <string name="choose_category">Select category</string>
     <string name="choise_account">Select account:</string>
-    <string name="all_operations">All operations</string>
+    <string name="all_operations">Todas las operaciones</string>
     <string name="add_keywords_in_sms_parsing">Add keywords in sms parsing</string>
     <string name="add_key_word">(add key word)</string>
     <string name="account_of_operation">Account for operation</string>
-    <string name="account_for_sms_parsing">Account:</string>
-    <string name="account_">Account :</string>
+    <string name="account_for_sms_parsing">Cuenta:</string>
+    <string name="account_">Cuenta :</string>
     <string name="week_days">Weekdays</string>
     <string name="add_auto_operation">Add an operation</string>
     <string name="dates_not_choosen_error">Select date</string>
@@ -1605,7 +1604,7 @@
     <string name="amount_keyword_error">Enter keyword for defining amount</string>
     <string name="incom_expense_list">Список расходов и доходов</string>
     <string name="login">Login</string>
-    <string name="all">All</string>
+    <string name="all">Todo</string>
     <string name="previous">Back</string>
     <string name="unlock">Unlock</string>
     <string name="page">страница</string>
@@ -1616,7 +1615,7 @@
     </string-array>
     <string name="account_from">Account from</string>
     <string name="account_to">Account to</string>
-    <string name="add_plus">+ Добавить</string>
+    <string name="add_plus">+ Añadir</string>
     <string name="choise_icon">Выберите иконку</string>
     <string name="main_curr">"Main currency "</string>
     <string name="name_of_category">Name of category</string>
@@ -1666,7 +1665,6 @@
     <string name="report_by_income_expense_table">Report by income and expense</string>
     <string name="must_restart">Для установки темы понадобится перезапуск программы!</string>
     <string name="processed_sms">Processed sms:</string>
-    <string name="daily_operations">Daily operations</string>
     <string name="category_subcategory">Category SubCategory</string>
     <string name="theme">Themes</string>
     <string name="attention">Attention!</string>
@@ -1689,7 +1687,6 @@
     <string name="decimal">decimal</string>
     <string name="press_icon">Press icon</string>
     <string name="and_choose_category">and choose category</string>
-    <string name="about_notifications">*Notification will remind you about payment chosen period</string>
     <string name="acc_state">Account state</string>
     <string name="for_period">For period:</string>
     <string name="should_pay">Should pay:</string>
@@ -1703,7 +1700,9 @@
     <string name="select_days">Select days</string>
     <string name="next_operations">Next operation</string>
     <string name="set_color">"Set color to theme "</string>
-    <string name="transfer_to_other_account">Перевод на другой счет</string>
+    <string name="even_princ"></string>
+    <string name="daily_operations">Entrada de voz</string>
+    <string name="all_periods">Todos los periodos</string>
 
 
 </resources>

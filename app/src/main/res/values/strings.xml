@@ -1157,7 +1157,7 @@
     <string name="value_shoud_not_empty">Enter the amount</string>
     <string name="procent_should_not_empty">Enter the percent!</string>
     <string name="period_should_not_empty">Enter the period!</string>
-    <string name="after_per_choise">Enter the date!</string>
+    <string name="after_per_choise">Enter the date</string>
     <string name="first_enter_period">Please enter the credit term!</string>
     <string name="it_is_our_solution_but_please_check_it">Customize to fit your requirements!</string>
     <string name="cred_managment">Credits</string>
@@ -1613,7 +1613,7 @@
     <string name="all">All</string>
     <string name="choise_icon">Выберите иконку</string>
     <string name="name_of_subcategory">Имя подкатегории</string>
-    <string name="add_plus">+ Добавить</string>
+    <string name="add_plus">+ Add</string>
     <string name="select_icons_sb">Select subcategory icon</string>
     <string name="subcategory_empty">Subcategory name is empty</string>
     <string name="name_of_category">Name of category:</string>
@@ -1757,7 +1757,7 @@
     <string name="total_expense">Total expense</string>
     <string name="total_income">Total income</string>
     <string name="must_restart">Restart application to set theme</string>
-    <string name="daily_operations">Daily operations</string>
+    <string name="daily_operations">Voice input</string>
     <string name="category_subcategory">Category SubCategory</string>
     <string name="choise_category">Choise category</string>
     <string name="choise_subcategory">Choise subcategory</string>
@@ -1822,10 +1822,10 @@
     <string name="interest">Interest</string>
     <string name="principal">Principal</string>
     <string name="transfer_to_other_account">Перевод на другой счет</string>
-    <string name="sec">sec</string>
     <string-array name="excel_headers">
         <item>Date</item>
         <item>Income</item>
         <item>Expense</item>
     </string-array>
+    <string name="sec">sec</string>
 </resources>

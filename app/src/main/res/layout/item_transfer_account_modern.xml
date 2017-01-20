@@ -165,7 +165,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="date of transfer"
+                        android:text="@string/date_of_transfer"
                         android:textSize="@dimen/twelve_dp"
                         android:textColor="#c8c8c8" />
                 </LinearLayout>

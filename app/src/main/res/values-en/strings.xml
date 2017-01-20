@@ -1181,7 +1181,7 @@
     <string name="value_shoud_not_empty">Enter the amount</string>
     <string name="procent_should_not_empty">Enter the percent!</string>
     <string name="period_should_not_empty">Enter the period</string>
-    <string name="after_per_choise">Enter the date!</string>
+    <string name="after_per_choise">Enter the date</string>
     <string name="first_enter_period">Please enter the credit term!</string>
     <string name="it_is_our_solution_but_please_check_it">Customize to fit your requirements!</string>
     <string name="cred_managment">Credits</string>
@@ -1517,7 +1517,7 @@
     <string name="saved_money">Cumulative sum:</string>
     <string name="auto_operations">Auto operations</string>
     <string name="auto_op_is_empty">List is empty!</string>
-    <string name="enter_amount_operation">Enter amount for the operation</string>
+    <string name="enter_amount_operation">Enter amount</string>
     <string name="income_expance_title">Incomes and expenses</string>
     <string name="key_for_type">Select keyword for defining type(income or expense):</string>
     <string name="select_word">Select a word</string>
@@ -1616,7 +1616,7 @@
     </string-array>
     <string name="account_from">Account from</string>
     <string name="account_to">Account to</string>
-    <string name="add_plus">+ Добавить</string>
+    <string name="add_plus">+ Add</string>
     <string name="choise_icon">Выберите иконку</string>
     <string name="main_curr">"Main currency "</string>
     <string name="name_of_category">Name of category</string>
@@ -1658,15 +1658,15 @@
     <string name="november">NOV</string>
     <string name="december">DEC</string>
     <string name="max_income_in_the_month">"Maximum income in the month: "</string>
-    <string name="average_income">"Average income: "</string>
+    <string name="average_income">Average income: </string>
     <string name="min_income_in_the_month">"Minimum income in the month: "</string>
-    <string name="average_expense">"Average expense: "</string>
+    <string name="average_expense">Average expense: </string>
     <string name="max_expense_in_the_month">"Maximum expense in the month: "</string>
     <string name="min_expense_in_the_month">"Minimum income in the month: "</string>
     <string name="report_by_income_expense_table">Report by income and expense</string>
     <string name="must_restart">Restart application to set theme</string>
     <string name="processed_sms">Processed sms:</string>
-    <string name="daily_operations">Daily operations</string>
+    <string name="daily_operations">Voice input</string>
     <string name="category_subcategory">Category SubCategory</string>
     <string name="theme">Themes</string>
     <string name="attention">Attention!</string>
@@ -1798,11 +1798,18 @@
     <string name="monthly_fee">Monthly fee</string>
     <string name="interest">Interest</string>
     <string name="principal">Principal</string>
+    <string name="with_the_even_principal">* With the even principal payment schedule, the size of the principal payment is the same for every payment. It is computed by dividing the amount of the original loan by the number of payments</string>
+    <string name="even_total">Even Total Payments</string>
+    <string name="even_princ">Even Principal Payments</string>
+    <string name="even_about_total">* The even total payment schedule is comprised of a decreasing interest payment and an increasing principal payment. The decrease in the size of the interest payment is matched by an increase in the size of the principal payment so that the size of the total loan payment remains constant over the life of the loan.</string>
+    <string name="decimal">decimal</string>
     <string name="transfer_to_other_account">Перевод на другой счет</string>
+    <string name="date_of_transfer">Date of transfer</string>
     <string-array name="excel_headers">
         <item>Date</item>
         <item>Income</item>
         <item>Expense</item>
     </string-array>
+    <string name="sec">sec</string>
 
 </resources>

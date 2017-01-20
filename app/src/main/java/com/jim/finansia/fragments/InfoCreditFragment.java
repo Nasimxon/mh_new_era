@@ -421,7 +421,7 @@ public class InfoCreditFragment extends Fragment {
                     openDialog(creditsSchedules);
                 } else if (toArcive && delete_flag) {
                     delete_flag = false;
-                    myPay.setText(R.string.archive);
+                    myPay.setText(R.string.to_archive);
                     adapRecyc.notifyDataSetChanged();
                 }
 

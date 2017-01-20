@@ -284,7 +284,7 @@ public class AdapterCridet extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
 
         if (itemCr.getValue_of_credit_with_procent() - total_paid <= 0) {
-            holder.tvPayAbout.setText(R.string.archive);
+            holder.tvPayAbout.setText(R.string.to_archive);
         } else {
             holder.tvPayAbout.setText(R.string.pay);
         }
