@@ -147,7 +147,8 @@
                 android:layout_below="@+id/tvSpeechModeAdjective"
                 android:layout_marginTop="@dimen/twenty_sp">
                 <ImageView
-                    android:layout_width="@dimen/sixty_dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="@dimen/one_dp"
                     android:layout_gravity="center_vertical"
                     android:background="#0a000000" />
@@ -176,7 +177,8 @@
 
                 </LinearLayout>
                 <ImageView
-                    android:layout_width="@dimen/sixty_dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="@dimen/one_dp"
                     android:layout_gravity="center_vertical"
                     android:background="#0a000000" />
@@ -188,11 +190,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/speechCategory"
+                android:orientation="horizontal"
                 android:layout_marginTop="@dimen/ten_dp">
 
                 <ImageView
                     android:id="@+id/imageView11"
-                    android:layout_width="@dimen/sixty_dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="@dimen/one_dp"
                     android:layout_gravity="center_vertical"
                     android:background="#0a000000" />
@@ -225,7 +229,8 @@
                         android:layout_height="wrap_content" />
                 </LinearLayout>
                 <ImageView
-                    android:layout_width="@dimen/sixty_dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="@dimen/one_dp"
                     android:layout_gravity="center_vertical"
                     android:background="#0a000000" />
@@ -237,7 +242,8 @@
                 android:layout_below="@+id/speechAmount"
                 android:layout_marginTop="@dimen/ten_dp">
                 <ImageView
-                    android:layout_width="@dimen/sixty_dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="@dimen/one_dp"
                     android:layout_gravity="center_vertical"
                     android:background="#0a000000" />
