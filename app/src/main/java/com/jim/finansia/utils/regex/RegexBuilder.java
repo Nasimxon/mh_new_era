@@ -13,7 +13,7 @@ public class RegexBuilder {
         return this;
     }
 
-    private String anyErrorChar = ".*[/^*~&%@!+()$#-\\/'\\{`\\];\\[:].*";
+    private String anyErrorChar = ".*[/^*~&%@!+()$#-\\/'\"\\{`\\];\\[:].*";
 
     public RegexBuilder beginsWithWord(String beginWord) {
         String partRegex = "";

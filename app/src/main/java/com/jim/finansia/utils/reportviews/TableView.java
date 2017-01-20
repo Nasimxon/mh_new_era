@@ -52,6 +52,10 @@ public class TableView extends RelativeLayout {
         rvTableView.setLayoutManager(new LinearLayoutManager(context));
     }
 
+    public RecyclerView getRvTableView() {
+        return rvTableView;
+    }
+
     public void setDatas(List<TableViewData> datas) {
         this.datas = datas;
         adapter = new TableAdapter(this.datas);

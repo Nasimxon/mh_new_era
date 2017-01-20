@@ -113,10 +113,10 @@ public class CommonOperations {
 
     public void refreshCurrency() {
         mainCurrency = null;
-        List<Currency> currencies = currencyDao.loadAll();
-        for (Currency currency : currencies) {
-            if (currency.getIsMain())
-                mainCurrency = currency;
+        currencyDao.detachAll();
+        List<Currency> mainCurrencyList = currencyDao.queryBuilder().where(CurrencyDao.Properties.IsMain.eq(true)).list();
+        if (mainCurrencyList != null && !mainCurrencyList.isEmpty()) {
+            mainCurrency = mainCurrencyList.get(0);
         }
     }
 

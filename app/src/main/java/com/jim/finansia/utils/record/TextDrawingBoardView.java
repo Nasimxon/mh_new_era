@@ -20,6 +20,8 @@ import com.jim.finansia.utils.PocketAccounterGeneral;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 @SuppressLint("NewApi")
 public class TextDrawingBoardView extends DecorationBoardView {
@@ -151,7 +153,8 @@ public class TextDrawingBoardView extends DecorationBoardView {
 
     public void showText() {
         drawing = true;
-        new Thread(new Runnable() {
+        Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute(new Runnable() {
             @Override
             public void run() {
                 while (elapsed <= relay) {
@@ -169,7 +172,7 @@ public class TextDrawingBoardView extends DecorationBoardView {
                 drawn = true;
                 sharedPreferences.edit().putBoolean(PocketAccounterGeneral.INFO_VISIBILITY, true).commit();
             }
-        }).start();
+        });
     }
 
     public void hideText() {

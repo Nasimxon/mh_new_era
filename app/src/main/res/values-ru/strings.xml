@@ -1681,9 +1681,9 @@
     <string name="november">НОЯ</string>
     <string name="december">ДЕК</string>
     <string name="max_income_in_the_month">"Maximum income in the month: "</string>
-    <string name="average_income">"Средный доход: "</string>
+    <string name="average_income">\"Средный доход: \"</string>
     <string name="min_income_in_the_month">Минимальный доход:</string>
-    <string name="average_expense">"Средный расход: "</string>
+    <string name="average_expense">\"Средный расход: \"</string>
     <string name="max_expense_in_the_month">"Maximum expense in the month: "</string>
     <string name="min_expense_in_the_month">\"Минимальный доход: \"</string>
     <string name="report_by_income_expense_table">Отчет по доходам и расходам</string>
@@ -1808,5 +1808,6 @@
     <string name="monthly_fee">Ежемесячная коммисия</string>
     <string name="interest">Начисленные проценты</string>
     <string name="principal">Основной долг</string>
+    <string name="transfer_to_other_account">Перевод на другой счет</string>
 </resources>
 

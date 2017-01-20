@@ -1821,4 +1821,5 @@
     <string name="monthly_fee">Monthly fee</string>
     <string name="interest">Interest</string>
     <string name="principal">Principal</string>
+    <string name="transfer_to_other_account">Перевод на другой счет</string>
 </resources>

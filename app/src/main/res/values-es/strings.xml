@@ -1703,6 +1703,7 @@
     <string name="select_days">Select days</string>
     <string name="next_operations">Next operation</string>
     <string name="set_color">"Set color to theme "</string>
+    <string name="transfer_to_other_account">Перевод на другой счет</string>
 
 
 </resources>

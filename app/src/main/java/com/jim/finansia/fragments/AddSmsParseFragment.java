@@ -94,6 +94,8 @@ public class AddSmsParseFragment extends PABaseFragment{
     private List<TemplateSms> templates;
     private List<TextView> tvList;
     private List<String> splittedBody;
+
+
     public AddSmsParseFragment(SmsParseObject object) {
         this.oldObject = object;
         incomeKeys = new ArrayList<>();
@@ -107,11 +109,6 @@ public class AddSmsParseFragment extends PABaseFragment{
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
     }
 
     @Nullable
@@ -144,7 +141,7 @@ public class AddSmsParseFragment extends PABaseFragment{
         final List<String> cursStrings = new ArrayList<>();
         List<Currency> currencies = daoSession.getCurrencyDao().loadAll();
         for (Currency cr : currencies) {
-            cursStrings.add(cr.getAbbr()+"  ("+cr.getName()+")");
+            cursStrings.add(cr.getAbbr()+" ("+cr.getName()+")");
         }
         ArrayAdapter<String> cursAdapter = new ArrayAdapter<String>(getContext(),
                 R.layout.spiner_gravity_left, cursStrings);
@@ -192,8 +189,6 @@ public class AddSmsParseFragment extends PABaseFragment{
                         etNumber.setError(getString(R.string.enter_contact_error));
                         return;
                     }
-
-
                     if (rbnSmsParseAddAll.isChecked() ) {
                         if (etExpance.getText().toString().isEmpty()) {
                             etExpance.setError(getString(R.string.expense_keyword_error));
@@ -360,8 +355,9 @@ public class AddSmsParseFragment extends PABaseFragment{
                             new String[]{Manifest.permission.READ_SMS},
                             REQUEST_CODE_ASK_PERMISSIONS);
                 } else {
-                    if (all == null || forChoose == null)
+                    if (all == null || forChoose == null) {
                         initSms();
+                    }
                     MyNumberAdapter myAdapter = new MyNumberAdapter(forChoose);
                     recyclerView.setAdapter(myAdapter);
                     int width = getResources().getDisplayMetrics().widthPixels;
@@ -460,8 +456,6 @@ public class AddSmsParseFragment extends PABaseFragment{
     private static final String[] mProjection = new String[]{"_id", "address", "body", "date", "type"};
     private List<Sms> lstSms = new ArrayList<>();
 
-
-
     class Sms {
         private String body;
         private String number;
@@ -494,115 +488,151 @@ public class AddSmsParseFragment extends PABaseFragment{
     }
 
     private List<String> smsBodyParse(String body) {
+        String anyWordWithoutNumber = "([a-zA-Z/^*~&%@!+()$#-\\/'\"\\{`])";
+        String anyNumber = "([a-zA-Z/^*~&%@!+()$#-\\/'\"\\{`]*)([0-9]+[.,]?[0-9]*)([a-zA-Z/^*~&%@!+()$#-\\/'\"\\{`]*)";
+        String numberWordNumberWord = "([0-9]+[.,]?[0-9]*)([a-zA-Z/^*~&%@!+()$#-\\/'\"\\{`]*)([0-9]+[.,]?[0-9]*)([a-zA-Z/^*~&%@!+()$#-\\/'\"\\{`]*)";
+        String wordNumberWordNumber = "([a-zA-Z/^*~&%@!+()$#-\\/'\"\\{`]*)([0-9]+[.,]?[0-9]*)([a-zA-Z/^*~&%@!+()$#-\\/'\"\\{`]*)([0-9]+[.,]?[0-9]*)";
         String[] strings = body.split(" ");
         List<String> temp = Arrays.asList(strings);
         for (String s : temp) s.replace("\n", "");
         List<String> words = new ArrayList<>();
         for (int i = temp.size() - 1; i >= 0; i--) {
-            boolean added = false;
-            String regex = "([a-zA-Z])+([/^*~&%@!+()$#-\\/'\\{`\\];\\[:]+)([0-9]+[.,]?[0-9]*)?";
-            Pattern pattern = Pattern.compile(regex);
+            Pattern pattern = Pattern.compile(anyWordWithoutNumber);
             Matcher matcher = pattern.matcher(temp.get(i));
+            if (matcher.matches()) {
+                words.add(matcher.group(1));
+                continue;
+            }
+
+            pattern = Pattern.compile(anyNumber);
+            matcher = pattern.matcher(temp.get(i));
             if (matcher.matches()) {
                 words.add(matcher.group(3));
                 words.add(matcher.group(2));
                 words.add(matcher.group(1));
-                added = true;
+                continue;
             }
-            if (!added) {
-                regex = "([0-9]+[.,]?[0-9]*)?([/^*~&%@!+()$#-\\/'\\{`\\];\\[:]+)";
-                pattern = Pattern.compile(regex);
-                matcher = pattern.matcher(temp.get(i));
-                if (matcher.matches()) {
-                    words.add(matcher.group(2));
-                    words.add(matcher.group(1));
-                    added = true;
-                }
+            pattern = Pattern.compile(numberWordNumberWord);
+            matcher = pattern.matcher(temp.get(i));
+            if (matcher.matches()) {
+                words.add(matcher.group(4));
+                words.add(matcher.group(3));
+                words.add(matcher.group(2));
+                words.add(matcher.group(1));
+                continue;
             }
-            if (!added) {
-                regex = "([/^*~&%@!+()$#-\\/'\\{`\\];\\[:]+)([0-9]+[.,]?[0-9]*)?";
-                pattern = Pattern.compile(regex);
-                matcher = pattern.matcher(temp.get(i));
-                if (matcher.matches()) {
-                    words.add(matcher.group(2));
-                    words.add(matcher.group(1));
-                    added = true;
-                }
+            pattern = Pattern.compile(wordNumberWordNumber);
+            matcher = pattern.matcher(temp.get(i));
+            if (matcher.matches()) {
+                words.add(matcher.group(4));
+                words.add(matcher.group(3));
+                words.add(matcher.group(2));
+                words.add(matcher.group(1));
+                continue;
             }
-            if (!added) {
-                regex = "([0-9]+[.,]?[0-9]*)?([a-zA-Z])+([/^*~&%@!+()$#-\\/'\\{`\\];\\[:]+)";
-                pattern = Pattern.compile(regex);
-                matcher = pattern.matcher(temp.get(i));
-                if (matcher.matches()) {
-                    words.add(matcher.group(3));
-                    words.add(matcher.group(2));
-                    words.add(matcher.group(1));
-                    added = true;
-                }
-            }
-            if (!added) {
-                regex = "([/^*~&%@!+()$#-\\/'\\{`\\];\\[:]+)([0-9]+[.,]?[0-9]*)?([/^*~&%@!+()$#-\\/'\\{`\\];\\[:]+)";
-                pattern = Pattern.compile(regex);
-                matcher = pattern.matcher(temp.get(i));
-                if (matcher.matches()) {
-                    words.add(matcher.group(3));
-                    words.add(matcher.group(2));
-                    words.add(matcher.group(1));
-                    added = true;
-                }
-            }
-            if (!added) {
-                regex = "([a-zA-Z])+([/^*~&%@!+()$#-\\/'\\{`\\];\\[:]+)([0-9]+[.,]?[0-9]*)?([/^*~&%@!+()$#-\\/'\\{`\\];\\[:]+)";
-                pattern = Pattern.compile(regex);
-                matcher = pattern.matcher(temp.get(i));
-                if (matcher.matches()) {
-                    words.add(matcher.group(4));
-                    words.add(matcher.group(3));
-                    words.add(matcher.group(2));
-                    words.add(matcher.group(1));
-                    added = true;
-                }
-            }
-            if (!added) {
-                regex = "([a-zA-Z])+([/^*~&%@!+()$#-\\/'\\{`\\];\\[:]+)([0-9]+[.,]?[0-9]*)?([a-zA-Z])+";
-                pattern = Pattern.compile(regex);
-                matcher = pattern.matcher(temp.get(i));
-                if (matcher.matches()) {
-                    words.add(matcher.group(4));
-                    words.add(matcher.group(3));
-                    words.add(matcher.group(2));
-                    words.add(matcher.group(1));
-                    added = true;
-                }
-            }
-            if (!added) {
-                regex = "([a-zA-Z])+([/^*~&%@!+()$#-\\/'\\{`\\];\\[:]+)([0-9]+[.,]?[0-9]*)?([a-zA-Z])+([/^*~&%@!+()$#-\\/'\\{`\\];\\[:]+)";
-                pattern = Pattern.compile(regex);
-                matcher = pattern.matcher(temp.get(i));
-                if (matcher.matches()) {
-                    words.add(matcher.group(5));
-                    words.add(matcher.group(4));
-                    words.add(matcher.group(3));
-                    words.add(matcher.group(2));
-                    words.add(matcher.group(1));
-                    added = true;
-                }
-            }
-            if (!added) {
-                regex = "([a-zA-Z])+([/^*~&%@!+()$#-\\/'\\{`\\];\\[:]+)([0-9]+[.,]?[0-9]*)?([/^*~&%@!+()$#-\\/'\\{`\\];\\[:]+)([a-zA-Z])+";
-                pattern = Pattern.compile(regex);
-                matcher = pattern.matcher(temp.get(i));
-                if (matcher.matches()) {
-                    words.add(matcher.group(5));
-                    words.add(matcher.group(4));
-                    words.add(matcher.group(3));
-                    words.add(matcher.group(2));
-                    words.add(matcher.group(1));
-                    added = true;
-                }
-            }
-            if (!added)
-                words.add(temp.get(i));
+            words.add(temp.get(i));
+//            regex = "([a-zA-Z])+([/^*~&%@!+()$#-\\/'\\{`\\];\\[:]+)([0-9]+[.,]?[0-9]*)?";
+//            Pattern pattern = Pattern.compile(regex);
+//            Matcher matcher = pattern.matcher(temp.get(i));
+//            if (matcher.matches()) {
+//                words.add(matcher.group(3));
+//                words.add(matcher.group(2));
+//                words.add(matcher.group(1));
+//                added = true;
+//            }
+//            if (!added) {
+//                regex = "([0-9]+[.,]?[0-9]*)?([/^*~&%@!+()$#-\\/'\\{`\\];\\[:]+)";
+//                pattern = Pattern.compile(regex);
+//                matcher = pattern.matcher(temp.get(i));
+//                if (matcher.matches()) {
+//                    words.add(matcher.group(2));
+//                    words.add(matcher.group(1));
+//                    added = true;
+//                }
+//            }
+//            if (!added) {
+//                regex = "([/^*~&%@!+()$#-\\/'\\{`\\];\\[:]+)([0-9]+[.,]?[0-9]*)?";
+//                pattern = Pattern.compile(regex);
+//                matcher = pattern.matcher(temp.get(i));
+//                if (matcher.matches()) {
+//                    words.add(matcher.group(2));
+//                    words.add(matcher.group(1));
+//                    added = true;
+//                }
+//            }
+//            if (!added) {
+//                regex = "([0-9]+[.,]?[0-9]*)?([a-zA-Z])+([/^*~&%@!+()$#-\\/'\\{`\\];\\[:]+)";
+//                pattern = Pattern.compile(regex);
+//                matcher = pattern.matcher(temp.get(i));
+//                if (matcher.matches()) {
+//                    words.add(matcher.group(3));
+//                    words.add(matcher.group(2));
+//                    words.add(matcher.group(1));
+//                    added = true;
+//                }
+//            }
+//            if (!added) {
+//                regex = "([/^*~&%@!+()$#-\\/'\\{`\\];\\[:]+)([0-9]+[.,]?[0-9]*)?([/^*~&%@!+()$#-\\/'\\{`\\];\\[:]+)";
+//                pattern = Pattern.compile(regex);
+//                matcher = pattern.matcher(temp.get(i));
+//                if (matcher.matches()) {
+//                    words.add(matcher.group(3));
+//                    words.add(matcher.group(2));
+//                    words.add(matcher.group(1));
+//                    added = true;
+//                }
+//            }
+//            if (!added) {
+//                regex = "([a-zA-Z])+([/^*~&%@!+()$#-\\/'\\{`\\];\\[:]+)([0-9]+[.,]?[0-9]*)?([/^*~&%@!+()$#-\\/'\\{`\\];\\[:]+)";
+//                pattern = Pattern.compile(regex);
+//                matcher = pattern.matcher(temp.get(i));
+//                if (matcher.matches()) {
+//                    words.add(matcher.group(4));
+//                    words.add(matcher.group(3));
+//                    words.add(matcher.group(2));
+//                    words.add(matcher.group(1));
+//                    added = true;
+//                }
+//            }
+//            if (!added) {
+//                regex = "([a-zA-Z])+([/^*~&%@!+()$#-\\/'\\{`\\];\\[:]+)([0-9]+[.,]?[0-9]*)?([a-zA-Z])+";
+//                pattern = Pattern.compile(regex);
+//                matcher = pattern.matcher(temp.get(i));
+//                if (matcher.matches()) {
+//                    words.add(matcher.group(4));
+//                    words.add(matcher.group(3));
+//                    words.add(matcher.group(2));
+//                    words.add(matcher.group(1));
+//                    added = true;
+//                }
+//            }
+//            if (!added) {
+//                regex = "([a-zA-Z])+([/^*~&%@!+()$#-\\/'\\{`\\];\\[:]+)([0-9]+[.,]?[0-9]*)?([a-zA-Z])+([/^*~&%@!+()$#-\\/'\\{`\\];\\[:]+)";
+//                pattern = Pattern.compile(regex);
+//                matcher = pattern.matcher(temp.get(i));
+//                if (matcher.matches()) {
+//                    words.add(matcher.group(5));
+//                    words.add(matcher.group(4));
+//                    words.add(matcher.group(3));
+//                    words.add(matcher.group(2));
+//                    words.add(matcher.group(1));
+//                    added = true;
+//                }
+//            }
+//            if (!added) {
+//                regex = "([a-zA-Z])+([/^*~&%@!+()$#-\\/'\\{`\\];\\[:]+)([0-9]+[.,]?[0-9]*)?([/^*~&%@!+()$#-\\/'\\{`\\];\\[:]+)([a-zA-Z])+";
+//                pattern = Pattern.compile(regex);
+//                matcher = pattern.matcher(temp.get(i));
+//                if (matcher.matches()) {
+//                    words.add(matcher.group(5));
+//                    words.add(matcher.group(4));
+//                    words.add(matcher.group(3));
+//                    words.add(matcher.group(2));
+//                    words.add(matcher.group(1));
+//                    added = true;
+//                }
+//            }
+
         }
         Collections.reverse(words);
         return words;
@@ -760,8 +790,10 @@ public class AddSmsParseFragment extends PABaseFragment{
                 public void onClick(View v) {
                     if (posAmount == -1) {
                         Toast.makeText(getContext(), "Choose amount", Toast.LENGTH_SHORT).show();
+                        return;
                     } else if (posIncExp == -1) {
                         Toast.makeText(getContext(), "Choose " + (type ? "income " : "expance " + "key"), Toast.LENGTH_SHORT).show();
+                        return;
                     } else {
                         for (int i = 0; i < splittedBody.size(); i++) {
                             splittedBody.set(i, splittedBody.get(i).trim());
@@ -770,7 +802,6 @@ public class AddSmsParseFragment extends PABaseFragment{
                             incomeKeys.add(splittedBody.get(posIncExp));
                         else
                             expenseKeys.add(splittedBody.get(posIncExp));
-                        amountKeys.add(splittedBody.get(posAmount));
                         if (posAmount != 0) {
                             amountKeys.add(splittedBody.get(posAmount - 1));
                         } else {
@@ -785,24 +816,45 @@ public class AddSmsParseFragment extends PABaseFragment{
                                 }
                             }
                         }
+                        for (int i = 0; i < incomeKeys.size(); i++) {
+                            if (incomeKeys.get(i) == null || incomeKeys.get(i).isEmpty()) {
+                                incomeKeys.remove(i);
+                                i--;
+                            }
+                        }
+                        for (int i = 0; i < expenseKeys.size(); i++) {
+                            if (expenseKeys.get(i) == null || expenseKeys.get(i).isEmpty()) {
+                                expenseKeys.remove(i);
+                                i--;
+                            }
+                        }
+                        for (int i = 0; i < amountKeys.size(); i++) {
+                            if (amountKeys.get(i) == null || amountKeys.get(i).isEmpty()) {
+                                amountKeys.remove(i);
+                                i--;
+                            }
+                        }
                         adapter.refreshList();
                         String incs = "";
                         for (String s : incomeKeys) {
-                            incs += s + ", ";
+                            String divider = incomeKeys.indexOf(s) == incomeKeys.size()-1 ? "" : ", ";
+                            incs += s + divider;
                         }
                         String exps = "";
                         for (String expanceKey : expenseKeys) {
-                            exps += expanceKey + ", ";
+                            String divider = expenseKeys.indexOf(expanceKey) == expenseKeys.size()-1 ? "" : ", ";
+                            exps += expanceKey + divider;
                         }
                         String ams = "";
                         for (String amountKey : amountKeys) {
-                            ams += amountKey + ", ";
+                            String divider = amountKeys.indexOf(amountKey) == amountKeys.size()-1 ? "" : ", ";
+                            ams += amountKey + divider;
                         }
                         if (!incomeKeys.isEmpty())
-                            etIncome.setText(incs.substring(0, incs.length() - 1));
+                            etIncome.setText(incs.substring(0, incs.length()));
                         if (!expenseKeys.isEmpty())
-                            etExpance.setText(exps.substring(0, exps.length() - 1));
-                        etAmount.setText(ams.substring(0, ams.length() - 1));
+                            etExpance.setText(exps.substring(0, exps.length()));
+                        etAmount.setText(ams.substring(0, ams.length()));
                         tvSmsCount.setText("" + choosenSms.size());
                     }
                     dialog.dismiss();
@@ -852,6 +904,7 @@ public class AddSmsParseFragment extends PABaseFragment{
         }
         adapter = new MyAdapter(choosenSms);
         rvSmsList.setAdapter(adapter);
+        tvSmsCount.setText(Integer.toString(choosenSms.size()));
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

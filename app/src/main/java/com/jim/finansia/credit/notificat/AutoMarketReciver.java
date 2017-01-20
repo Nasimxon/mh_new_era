@@ -11,12 +11,12 @@ import android.widget.Toast;
 public class AutoMarketReciver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (intent.getAction().equals("android.intent.action.TIME_TICK")) {
-            Toast.makeText(context, "time set", Toast.LENGTH_SHORT).show();
-        }
-        if (intent.getAction().equals("android.intent.action.DATE_CHANGED")) {
-            Toast.makeText(context, "data change", Toast.LENGTH_SHORT).show();
-        }
+//        if (intent.getAction().equals("android.intent.action.TIME_TICK")) {
+//            Toast.makeText(context, "time set", Toast.LENGTH_SHORT).show();
+//        }
+//        if (intent.getAction().equals("android.intent.action.DATE_CHANGED")) {
+//            Toast.makeText(context, "data change", Toast.LENGTH_SHORT).show();
+//        }
         intent = new Intent(context, AutoMarketService.class);
         context.startService(intent);
     }
