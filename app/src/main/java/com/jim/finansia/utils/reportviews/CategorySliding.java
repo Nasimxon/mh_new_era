@@ -9,6 +9,8 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.jim.finansia.PocketAccounter;
@@ -17,6 +19,7 @@ import com.jim.finansia.R;
 import com.jim.finansia.database.DaoSession;
 import com.jim.finansia.database.RootCategory;
 import com.jim.finansia.fragments.ReportByCategoryRootCategoryFragment;
+import com.jim.finansia.managers.CommonOperations;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -35,6 +38,8 @@ public class CategorySliding extends LinearLayout {
     private CategoryAdapter adapter;
     private Calendar begin, end;
     @Inject DaoSession daoSession;
+    ImageView ivToLeftButton,ivToRightButton;
+
     public CategorySliding(Context context) {
         super(context);
         init(context);
@@ -52,10 +57,26 @@ public class CategorySliding extends LinearLayout {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context);
     }
+    public void toNext(){
+        if (countAccounts-1!=vpCategorySlider.getCurrentItem()){
+            keyAnimIsEnded  = false;
+            vpCategorySlider.setCurrentItem(vpCategorySlider.getCurrentItem()+1,true);
+        }
+    }
+    public void toPrev(){
+        if (vpCategorySlider.getCurrentItem()!=0){
+            keyAnimIsEnded  = false;
+            vpCategorySlider.setCurrentItem(vpCategorySlider.getCurrentItem()-1,true);
+        }
+    }
+    boolean keyAnimIsEnded = true;
     private void init(Context context) {
         LayoutInflater.from(context).inflate(R.layout.category_slider_layout, this, true);
         ((PocketAccounter) context).component((PocketAccounterApplication) context.getApplicationContext()).inject(this);
         vpCategorySlider = (ViewPager) findViewById(R.id.vpCategorySlider);
+        ivToLeftButton = (ImageView) findViewById(R.id.ivToLeftButton);
+        ivToRightButton = (ImageView) findViewById(R.id.ivToRightButton);
+        ivToLeftButton.setVisibility(INVISIBLE);
         initDataForViewPager();
         adapter = new CategoryAdapter(((PocketAccounter)context).getSupportFragmentManager());
         vpCategorySlider.setAdapter(adapter);
@@ -84,11 +105,53 @@ public class CategorySliding extends LinearLayout {
                         listener.onSlide(allCategories.get(position), allColors.get(allCategories.get(position)), position, false);
                     }
                     lastPosition = position;
+                    if(lastPosition==0){
+                        ivToLeftButton.setVisibility(INVISIBLE);
+                    }
+                    else ivToLeftButton.setVisibility(VISIBLE);
+                    if(lastPosition==countAccounts-1){
+                        ivToRightButton.setVisibility(INVISIBLE);
+                    }
+                    else ivToRightButton.setVisibility(VISIBLE);
+                    keyAnimIsEnded=true;
                 }
+            }
+        });
+        ivToLeftButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(keyAnimIsEnded){
+                    toPrev();
+                }
+//                CommonOperations.buttonClickCustomAnimation(0.85f,ivToLeftButton, new CommonOperations.AfterAnimationEnd() {
+//                    @Override
+//                    public void onAnimoationEnd() {
+//
+//
+//                    }
+//                });
+            }
+        });
+        ivToRightButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(keyAnimIsEnded){
+                    toNext();
+
+                }
+//                CommonOperations.buttonClickCustomAnimation(0.85f,ivToRightButton, new CommonOperations.AfterAnimationEnd() {
+//                    @Override
+//                    public void onAnimoationEnd() {
+//
+//
+//                    }
+//                });
             }
         });
         vpCategorySlider.setCurrentItem(0);
         generateAllColors();
+
+
     }
 
     public void setInterval(Calendar begin, Calendar end) {
@@ -131,11 +194,12 @@ public class CategorySliding extends LinearLayout {
         }
         return colors;
     }
-
+    int countAccounts = 0;
     private void initDataForViewPager() {
         if (allCategories == null) {
             allCategories = new ArrayList<>();
             List<RootCategory> categories = daoSession.loadAll(RootCategory.class);
+            countAccounts = categories.size();
             for (RootCategory category : categories)
                 allCategories.add(category.getId());
         }

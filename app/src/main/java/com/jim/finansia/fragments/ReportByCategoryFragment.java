@@ -89,6 +89,7 @@ public class ReportByCategoryFragment extends Fragment {
         });
         tvBeginDate = (TextView) rootView.findViewById(R.id.tvBeginDate);
         tvEndDate = (TextView) rootView.findViewById(R.id.tvEndDate);
+
         rvReportByCategorySubcatPercents = (RecyclerView) rootView.findViewById(R.id.rvReportByCategorySubcatPercents);
         rvReportByCategorySubcatPercents.setLayoutManager(new GridLayoutManager(getContext(), 2, GridLayoutManager.HORIZONTAL, false));
         csReportByCategory = (CategorySliding) rootView.findViewById(R.id.csReportByCategory);

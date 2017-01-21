@@ -9,11 +9,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
         <com.jim.finansia.utils.reportviews.CategorySliding
             android:layout_width="match_parent"
             android:layout_height="@dimen/one_hundred_eighty_one_dp"
             android:id="@+id/csReportByCategory"
-            android:layout_marginTop="@dimen/ten_dp"
             android:layout_above="@+id/shlyuzik"/>
         <LinearLayout
             android:id="@+id/llPickDate"

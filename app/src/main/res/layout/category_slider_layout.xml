@@ -1,9 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
     <android.support.v4.view.ViewPager
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/ten_dp"
+        android:layout_marginRight="@dimen/seventy_dp"
+        android:layout_marginLeft="@dimen/seventy_dp"
         android:id="@+id/vpCategorySlider"/>
-</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="@dimen/thirtyfive_dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/white_gradient"
+            android:paddingLeft="@dimen/ten_dp"
+            android:layout_marginLeft="@dimen/fifty_dp"
+            />
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"></FrameLayout>
+        <ImageView
+            android:layout_width="@dimen/thirtyfive_dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/white_gradient_right"
+            android:paddingRight="@dimen/ten_dp"
+            android:layout_marginRight="@dimen/fifty_dp"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        >
+        <ImageView
+            android:id="@+id/ivToLeftButton"
+            android:layout_width="@dimen/thirtyfive_dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/toleft"
+            android:paddingTop="@dimen/ten_dp"
+            android:paddingBottom="@dimen/ten_dp"
+            android:paddingLeft="@dimen/ten_dp"
+            android:layout_marginBottom="@dimen/fourty_dp"
+            android:layout_marginTop="@dimen/fourty_dp"
+            android:layout_marginLeft="@dimen/thirty_dp"
+            />
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"></FrameLayout>
+        <ImageView
+            android:id="@+id/ivToRightButton"
+            android:layout_width="@dimen/thirtyfive_dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/toright"
+            android:paddingTop="@dimen/ten_dp"
+            android:paddingBottom="@dimen/ten_dp"
+            android:paddingRight="@dimen/ten_dp"
+            android:layout_marginBottom="@dimen/fourty_dp"
+            android:layout_marginTop="@dimen/fourty_dp"
+            android:layout_marginRight="@dimen/thirty_dp"
+            />
+    </LinearLayout>
+</FrameLayout>
