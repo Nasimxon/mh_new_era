@@ -1809,6 +1809,7 @@
     <string name="interest">Начисленные проценты</string>
     <string name="principal">Основной долг</string>
     <string name="transfer_to_other_account">Перевод на другой счет</string>
+    <string name="press_button_nand_speak">Говорите</string>
     <string-array name="excel_headers">
         <item>Дата</item>
         <item>Доход</item>

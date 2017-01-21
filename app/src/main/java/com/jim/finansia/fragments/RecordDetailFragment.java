@@ -73,7 +73,6 @@ public class RecordDetailFragment extends Fragment implements OnClickListener {
         toolbarManager.setImageToSecondImage(R.drawable.pencil);
         toolbarManager.setOnSecondImageClickListener(this);
         toolbarManager.setImageToHomeButton(R.drawable.ic_back_button);
-        toolbarManager.setSpinnerVisibility(View.GONE);
         toolbarManager.setOnHomeButtonClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {

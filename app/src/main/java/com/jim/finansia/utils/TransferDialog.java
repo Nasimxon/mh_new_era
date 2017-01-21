@@ -88,11 +88,20 @@ public class TransferDialog extends Dialog implements View.OnClickListener {
         date = (TextView) dialogView.findViewById(R.id.tvAccountDialogDate);
         currencies = daoSession.getCurrencyDao().loadAll();
         String[] currs = new String[currencies.size()];
-        for (int i = 0; i < currencies.size(); i++)
+        int main_currency_index = -1;
+        for (int i = 0; i < currencies.size(); i++){
             currs[i] = currencies.get(i).getAbbr();
+            if(currencies.get(i).getIsMain()){
+                main_currency_index = i;
+            }
+        }
+
         ArrayAdapter<String> currencyAdapter = new ArrayAdapter<String>(getContext(), R.layout.spiner_gravity_right_transfer, currs);
         spAccManDialog.getBackground().setColorFilter(ContextCompat.getColor(context, R.color.grey_ochrang), PorterDuff.Mode.SRC_ATOP);
         spAccManDialog.setAdapter(currencyAdapter);
+        if (main_currency_index!=-1){
+        spAccManDialog.setSelection(main_currency_index);
+        }
         ivYes = (TextView) dialogView.findViewById(R.id.ivAccountManSave);
         ivYes.setOnClickListener(new View.OnClickListener() {
             @Override

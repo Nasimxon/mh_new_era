@@ -6,9 +6,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.view.menu.MenuBuilder;
+import android.support.v7.view.menu.MenuPopupHelper;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -26,6 +30,7 @@ import com.jim.finansia.R;
 import com.jim.finansia.database.Account;
 import com.jim.finansia.database.AccountDao;
 import com.jim.finansia.database.AccountOperation;
+import com.jim.finansia.database.BoardButton;
 import com.jim.finansia.database.DaoSession;
 import com.jim.finansia.database.Purpose;
 import com.jim.finansia.database.PurposeDao;
@@ -82,6 +87,7 @@ public class PurposeInfoFragment extends Fragment implements View.OnClickListene
     private Calendar beginDate;
     private Calendar endDate;
     private PercentView pvPercent;
+    PopupMenu popupMenu;
     private DecimalFormat format = new DecimalFormat("0.##");
     public PurposeInfoFragment(Purpose purpose) {
         this.purpose = purpose;
@@ -121,49 +127,60 @@ public class PurposeInfoFragment extends Fragment implements View.OnClickListene
         toolbarManager.setOnSecondImageClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String[] st = new String[2];
-                st[0] = getResources().getString(R.string.to_edit);
-                st[1] = getResources().getString(R.string.delete);
-                operationsListDialog.setAdapter(st);
-                operationsListDialog.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                popupMenu = new PopupMenu(getContext(), v);
+                popupMenu.inflate(R.menu.toolbar_popup);
+                MenuPopupHelper menuHelper = new MenuPopupHelper(getContext(), (MenuBuilder) popupMenu.getMenu(), v);
+                menuHelper.setForceShowIcon(true);
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        if (position == 0) {
-                            paFragmentManager.displayFragment(new PurposeEditFragment(purpose));
-                            operationsListDialog.dismiss();
-                        } else {
-                            final WarningDialog warningDialog = new WarningDialog(getContext());
-                            warningDialog.setText(getResources().getString(R.string.do_you_want_to_delete));
-                            warningDialog.setOnYesButtonListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    switch (logicManager.deletePurpose(purpose)) {
-                                        case LogicManagerConstants.REQUESTED_OBJECT_NOT_FOUND: {
-                                            Toast.makeText(getContext(), "Purpose not found", Toast.LENGTH_SHORT).show();
-                                            operationsListDialog.dismiss();
-                                            break;
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.edit:
+                                paFragmentManager.displayFragment(new PurposeEditFragment(purpose));
+                                operationsListDialog.dismiss();
+                                break;
+                            case R.id.delete: {
+
+                                final WarningDialog warningDialog = new WarningDialog(getContext());
+                                warningDialog.setText(getResources().getString(R.string.do_you_want_to_delete));
+                                warningDialog.setOnYesButtonListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        switch (logicManager.deletePurpose(purpose)) {
+                                            case LogicManagerConstants.REQUESTED_OBJECT_NOT_FOUND: {
+                                                Toast.makeText(getContext(), "Purpose not found", Toast.LENGTH_SHORT).show();
+                                                operationsListDialog.dismiss();
+                                                break;
+                                            }
+                                            case LogicManagerConstants.DELETED_SUCCESSFUL: {
+                                                paFragmentManager.getFragmentManager().popBackStack();
+                                                paFragmentManager.displayFragment(new PurposeFragment());
+                                                operationsListDialog.dismiss();
+                                                break;
+                                            }
                                         }
-                                        case LogicManagerConstants.DELETED_SUCCESSFUL: {
-                                            paFragmentManager.getFragmentManager().popBackStack();
-                                            paFragmentManager.displayFragment(new PurposeFragment());
-                                            operationsListDialog.dismiss();
-                                            break;
-                                        }
+                                        warningDialog.dismiss();
                                     }
-                                    warningDialog.dismiss();
-                                }
-                            });
-                            warningDialog.setOnNoButtonClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    warningDialog.dismiss();
-                                }
-                            });
-                            warningDialog.show();
+                                });
+                                warningDialog.setOnNoButtonClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        warningDialog.dismiss();
+                                    }
+                                });
+                                warningDialog.show();
+                                break;
+                            }
+
                         }
+                        return false;
                     }
                 });
-                operationsListDialog.show();
+                popupMenu.show();
+
+
+
+
             }
         });
         iconPurpose = (ImageView) rooView.findViewById(R.id.ivPurposeinfoIcon);

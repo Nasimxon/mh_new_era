@@ -98,7 +98,6 @@ public class CategoryInfoFragment extends PABaseInfoFragment {
         });
         rvCategoryInfoOperations = (RecyclerView) rootView.findViewById(R.id.rvAccountDetailsInfo);
         svCategorySelector = (SelectorView) rootView.findViewById(R.id.svCategorySelector);
-        spinner = toolbarManager.getSpTest();
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getContext(),
                 android.R.layout.simple_list_item_1, new String[]{getResources().getString(R.string.to_edit),
                 getResources().getString(R.string.delete)});
@@ -153,7 +152,6 @@ public class CategoryInfoFragment extends PABaseInfoFragment {
             toolbarManager.setTitle(getResources().getString(R.string.auto_operations));
             toolbarManager.setOnTitleClickListener(null);
             toolbarManager.setSubtitleIconVisibility(View.GONE);
-            toolbarManager.setSpinnerVisibility(View.GONE);
             toolbarManager.setSubtitle("");
         }
     }

@@ -43,6 +43,7 @@ import com.jim.finansia.report.FilterSelectable;
 import com.jim.finansia.report.ReportObject;
 import com.jim.finansia.report.TableView;
 import com.jim.finansia.utils.FilterDialog;
+import com.jim.finansia.utils.TintImageView;
 
 import java.io.File;
 import java.io.IOException;
@@ -106,7 +107,6 @@ public class ReportByAccountFragment extends Fragment implements View.OnClickLis
         tvReportbyAccountAverageProfit = (TextView) rootView.findViewById(R.id.tvReportbyAccountAverageProfit);
         toolbarManager.setTitle("");
         toolbarManager.setSubtitle("");
-        toolbarManager.setSpinnerVisibility(View.VISIBLE);
         toolbarManager.setToolbarIconsVisibility(View.GONE, View.VISIBLE, View.VISIBLE);
         toolbarManager.setImageToFirstImage(R.drawable.ic_excel);
         toolbarManager.setImageToSecondImage(R.drawable.ic_filter);
@@ -144,46 +144,17 @@ public class ReportByAccountFragment extends Fragment implements View.OnClickLis
         }
         for (int i=0; i<pairs.size(); i++)
             result.add(pairs.get(i).getAccount().getName() + ", "+pairs.get(i).getCurrency().getAbbr());
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
-                getContext(),
-                R.layout.spiner_gravity_right2,
-                result);
-        toolbarManager.getSpinner().setAdapter(arrayAdapter);
+
         if (pairs.isEmpty()){
             toolbarManager.setTitle(getString(R.string.report_by_account_title));
         } else {
             toolbarManager.setTitle("");
         }
-        toolbarManager.getSpinner().setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                account = pairs.get(position).getAccount();
-                currency = pairs.get(position).getCurrency();
-                onCreateReportbyAccount(begin, end, account, currency);
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
         tbReportByAccount = (TableView) rootView.findViewById(R.id.tbReportByAccount);
         tvReportByAccountNoDatas = (TextView) rootView.findViewById(R.id.tvReportByAccountNoDatas);
         titles = rootView.getResources().getStringArray(R.array.report_by_account_titles);
-        String tekwir = PreferenceManager.getDefaultSharedPreferences(getContext()).getString("report_shp", "");
-        if (!tekwir.matches("")) {
-            int position = 0;
-            for (String temp : result) {
-                if (temp.equals(tekwir)) {
-                    try {
-                        toolbarManager.getSpinner().setSelection(position);
-                    } catch (Exception o) {
-                        o.printStackTrace();
-                    }
-                    break;
-                }
-                position++;
-            }
-        }
+
         tbReportByAccount.setTitle(titles, true);
         return rootView;
     }
@@ -287,11 +258,7 @@ public class ReportByAccountFragment extends Fragment implements View.OnClickLis
                         }
                         for (int i=0; i<pairs.size(); i++)
                             result.add(pairs.get(i).getAccount().getName() + ", "+pairs.get(i).getCurrency().getAbbr());
-                        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
-                                getContext(),
-                                R.layout.spiner_gravity_right2,
-                                result);
-                        toolbarManager.getSpinner().setAdapter(arrayAdapter);
+
                         if (pairs.isEmpty()){
                             toolbarManager.setTitle(getString(R.string.report_by_account_title));
                         } else {
@@ -398,7 +365,7 @@ public class ReportByAccountFragment extends Fragment implements View.OnClickLis
         dialog.setContentView(dialogView);
         TextView tvWarningText = (TextView) dialogView.findViewById(R.id.tvWarningText);
         tvWarningText.setText(R.string.save_excel);
-        Button ok = (Button) dialogView.findViewById(R.id.btnWarningYes);
+        TextView ok = (TextView) dialogView.findViewById(R.id.btnWarningYes);
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -441,7 +408,7 @@ public class ReportByAccountFragment extends Fragment implements View.OnClickLis
                 dialog.dismiss();
             }
         });
-        Button cancel = (Button) dialogView.findViewById(R.id.btnWarningNo);
+        TextView cancel = (TextView) dialogView.findViewById(R.id.btnWarningNo);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

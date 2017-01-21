@@ -100,7 +100,6 @@ public class AccountFragment extends PABaseListFragment {
 				}
 			}
 		});
-        toolbarManager.setSpinnerVisibility(View.GONE);
         recyclerView = (RecyclerView) rootView.findViewById(R.id.rvAccounts);
 		recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 		recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -178,7 +177,6 @@ public class AccountFragment extends PABaseListFragment {
 					}
 				}
 			});
-			toolbarManager.setSpinnerVisibility(View.GONE);
 		}
 	}
 

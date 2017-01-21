@@ -20,7 +20,6 @@ public abstract class PABaseListFragment extends PABaseFragment {
                 drawerInitializer.getDrawer().openLeftSide();
             }
         });
-        toolbarManager.setSpinnerVisibility(View.GONE);
         toolbarManager.setSubtitleIconVisibility(View.GONE);
     }
     abstract void refreshList();

@@ -153,7 +153,6 @@ public class AddAutoMarketFragment extends Fragment {
         }
 
         toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
-        toolbarManager.setSpinnerVisibility(View.GONE);
         toolbarManager.setTitle(getResources().getString(R.string.addedit));
         toolbarManager.setSubtitleIconVisibility(View.GONE);
         toolbarManager.setOnTitleClickListener(null);
@@ -373,12 +372,7 @@ public class AddAutoMarketFragment extends Fragment {
                     break;
                 }
             }
-            for (int i = 0; i < acNames.size(); i++) {
-                if (acNames.get(i).matches(autoMarket.getAccountId())) {
-                    toolbarManager.getSpinner().setSelection(i);
-                    break;
-                }
-            }
+
             if (autoMarket.getType()) {
                 daysAdapter = new DaysAdapter(1);
                 layoutManager = new StaggeredGridLayoutManager(7, StaggeredGridLayoutManager.VERTICAL);

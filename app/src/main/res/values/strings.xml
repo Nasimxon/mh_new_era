@@ -1822,11 +1822,12 @@
     <string name="interest">Interest</string>
     <string name="principal">Principal</string>
     <string name="transfer_to_other_account">Перевод на другой счет</string>
+    <string name="sec">sec</string>
+    <string name="press_button_nand_speak">Speak</string>
+    <string name="payment_date">Payment date:</string>
     <string-array name="excel_headers">
         <item>Date</item>
         <item>Income</item>
         <item>Expense</item>
     </string-array>
-    <string name="sec">sec</string>
-    <string name="payment_date">Payment date:</string>
 </resources>

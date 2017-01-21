@@ -12,7 +12,6 @@ public abstract class PABaseInfoFragment extends PABaseFragment {
         toolbarManager.setImageToHomeButton(R.drawable.ic_back_button);
         toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
         toolbarManager.setImageToSecondImage(R.drawable.check_sign);
-        toolbarManager.setSpinnerVisibility(View.GONE);
         toolbarManager.setSubtitleIconVisibility(View.GONE);
     }
     abstract void refreshList();

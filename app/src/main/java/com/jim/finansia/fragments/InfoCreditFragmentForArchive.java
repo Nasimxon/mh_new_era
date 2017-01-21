@@ -10,10 +10,14 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.view.menu.MenuBuilder;
+import android.support.v7.view.menu.MenuPopupHelper;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -131,6 +135,7 @@ public class InfoCreditFragmentForArchive extends Fragment {
     DecimalFormat decimalFormat;
     NumberFormat numberFormat;
     TextView myPay;
+    PopupMenu popupMenu;
     //    ImageView myDelete;
     boolean fromMainWindow = false;
     private boolean[] isCheks;
@@ -250,115 +255,118 @@ public class InfoCreditFragmentForArchive extends Fragment {
         toolbarManager.setOnSecondImageClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO add remove and edit
-                final AlertDialog.Builder builderChouse = new AlertDialog.Builder(getActivity());
-                builderChouse.setTitle(getString(R.string.choose_type_p)).setItems(R.array.more_option_for_credit_debt2, new DialogInterface.OnClickListener() {
+
+                popupMenu = new PopupMenu(getContext(), v);
+                popupMenu.inflate(R.menu.toolbar_popup_debt);
+                MenuPopupHelper menuHelper = new MenuPopupHelper(getContext(), (MenuBuilder) popupMenu.getMenu(), v);
+                menuHelper.setForceShowIcon(true);
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (which == 1) {
-                            paFragmentManager.getFragmentManager().popBackStack();
-                            AddCreditFragment forEdit = new AddCreditFragment();
-                            if (fromMainWindow)
-                                forEdit.setDateFormatModes(modeOfMain, positionOfBourdMain);
-                            forEdit.shareForEdit(currentCredit);
-                            paFragmentManager.displayFragment(forEdit);
-                        } else {
-                            warningDialog.setOnYesButtonListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    if (!fromMainWindow) {
-                                        List<BoardButton> boardButtons = daoSession.getBoardButtonDao().loadAll();
-                                        for (BoardButton boardButton : boardButtons) {
-                                            if (boardButton.getCategoryId() != null)
-                                                if (boardButton.getCategoryId().equals(Long.toString(currentCredit.getMyCredit_id()))) {
-                                                    if (boardButton.getTable() == PocketAccounterGeneral.EXPENSE)
-                                                        logicManager.changeBoardButton(PocketAccounterGeneral.EXPENSE, boardButton.getPos(), null);
-                                                    else
-                                                        logicManager.changeBoardButton(PocketAccounterGeneral.INCOME, boardButton.getPos(), null);
-                                                    commonOperations.changeIconToNull(boardButton.getPos(), dataCache, boardButton.getTable());
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
 
-                                                }
-                                        }
+                            case R.id.delete: {
+                                warningDialog.setOnYesButtonListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        if (!fromMainWindow) {
+                                            List<BoardButton> boardButtons = daoSession.getBoardButtonDao().loadAll();
+                                            for (BoardButton boardButton : boardButtons) {
+                                                if (boardButton.getCategoryId() != null)
+                                                    if (boardButton.getCategoryId().equals(Long.toString(currentCredit.getMyCredit_id()))) {
+                                                        if (boardButton.getTable() == PocketAccounterGeneral.EXPENSE)
+                                                            logicManager.changeBoardButton(PocketAccounterGeneral.EXPENSE, boardButton.getPos(), null);
+                                                        else
+                                                            logicManager.changeBoardButton(PocketAccounterGeneral.INCOME, boardButton.getPos(), null);
+                                                        commonOperations.changeIconToNull(boardButton.getPos(), dataCache, boardButton.getTable());
 
-                                        logicManager.deleteCredit(currentCredit);
-                                        dataCache.updateAllPercents();
-                                        paFragmentManager.updateAllFragmentsOnViewPager();
-
-                                        A1.delete_item(currentPOS);
-                                    } else if (fromSearch) {
-                                        List<BoardButton> boardButtons = daoSession.getBoardButtonDao().loadAll();
-                                        for (BoardButton boardButton : boardButtons) {
-                                            if (boardButton.getCategoryId() != null)
-                                                if (boardButton.getCategoryId().equals(Long.toString(currentCredit.getMyCredit_id()))) {
-
-                                                    if (boardButton.getTable() == PocketAccounterGeneral.EXPENSE)
-                                                        logicManager.changeBoardButton(PocketAccounterGeneral.EXPENSE, boardButton.getPos(), null);
-                                                    else
-                                                        logicManager.changeBoardButton(PocketAccounterGeneral.INCOME, boardButton.getPos(), null);
-
-                                                    commonOperations.changeIconToNull(boardButton.getPos(), dataCache, boardButton.getTable());
-
-                                                }
-                                        }
-                                        dataCache.updateAllPercents();
-                                        paFragmentManager.updateAllFragmentsOnViewPager();
-                                        logicManager.deleteCredit(currentCredit);
-
-                                    } else {
-                                        if (modeOfMain == PocketAccounterGeneral.EXPENSE) {
-                                            logicManager.changeBoardButton(PocketAccounterGeneral.EXPENSE, positionOfBourdMain, null);
-                                        } else {
-                                            logicManager.changeBoardButton(PocketAccounterGeneral.INCOME, positionOfBourdMain, null);
-                                        }
-                                        commonOperations.changeIconToNull(positionOfBourdMain, dataCache, modeOfMain);
-
-                                        List<BoardButton> boardButtons = daoSession.getBoardButtonDao().loadAll();
-                                        for (BoardButton boardButton : boardButtons) {
-                                            if (boardButton.getCategoryId() != null) {
-                                                if (boardButton.getCategoryId().equals(Long.toString(currentCredit.getMyCredit_id()))) {
-
-                                                    if (boardButton.getTable() == PocketAccounterGeneral.EXPENSE) {
-                                                        logicManager.changeBoardButton(PocketAccounterGeneral.EXPENSE, boardButton.getPos(), null);
-                                                    } else {
-                                                        logicManager.changeBoardButton(PocketAccounterGeneral.INCOME, boardButton.getPos(), null);
                                                     }
+                                            }
 
-                                                    commonOperations.changeIconToNull(boardButton.getPos(), dataCache, boardButton.getTable());
+                                            logicManager.deleteCredit(currentCredit);
+                                            dataCache.updateAllPercents();
+                                            paFragmentManager.updateAllFragmentsOnViewPager();
 
+                                            A1.delete_item(currentPOS);
+                                        } else if (fromSearch) {
+                                            List<BoardButton> boardButtons = daoSession.getBoardButtonDao().loadAll();
+                                            for (BoardButton boardButton : boardButtons) {
+                                                if (boardButton.getCategoryId() != null)
+                                                    if (boardButton.getCategoryId().equals(Long.toString(currentCredit.getMyCredit_id()))) {
+
+                                                        if (boardButton.getTable() == PocketAccounterGeneral.EXPENSE)
+                                                            logicManager.changeBoardButton(PocketAccounterGeneral.EXPENSE, boardButton.getPos(), null);
+                                                        else
+                                                            logicManager.changeBoardButton(PocketAccounterGeneral.INCOME, boardButton.getPos(), null);
+
+                                                        commonOperations.changeIconToNull(boardButton.getPos(), dataCache, boardButton.getTable());
+
+                                                    }
+                                            }
+                                            dataCache.updateAllPercents();
+                                            paFragmentManager.updateAllFragmentsOnViewPager();
+                                            logicManager.deleteCredit(currentCredit);
+
+                                        } else {
+                                            if (modeOfMain == PocketAccounterGeneral.EXPENSE) {
+                                                logicManager.changeBoardButton(PocketAccounterGeneral.EXPENSE, positionOfBourdMain, null);
+                                            } else {
+                                                logicManager.changeBoardButton(PocketAccounterGeneral.INCOME, positionOfBourdMain, null);
+                                            }
+                                            commonOperations.changeIconToNull(positionOfBourdMain, dataCache, modeOfMain);
+
+                                            List<BoardButton> boardButtons = daoSession.getBoardButtonDao().loadAll();
+                                            for (BoardButton boardButton : boardButtons) {
+                                                if (boardButton.getCategoryId() != null) {
+                                                    if (boardButton.getCategoryId().equals(Long.toString(currentCredit.getMyCredit_id()))) {
+
+                                                        if (boardButton.getTable() == PocketAccounterGeneral.EXPENSE) {
+                                                            logicManager.changeBoardButton(PocketAccounterGeneral.EXPENSE, boardButton.getPos(), null);
+                                                        } else {
+                                                            logicManager.changeBoardButton(PocketAccounterGeneral.INCOME, boardButton.getPos(), null);
+                                                        }
+
+                                                        commonOperations.changeIconToNull(boardButton.getPos(), dataCache, boardButton.getTable());
+
+                                                    }
                                                 }
                                             }
+                                            logicManager.deleteCredit(currentCredit);
+                                            dataCache.updateAllPercents();
+                                            paFragmentManager.updateAllFragmentsOnViewPager();
+
                                         }
-                                        logicManager.deleteCredit(currentCredit);
-                                        dataCache.updateAllPercents();
-                                        paFragmentManager.updateAllFragmentsOnViewPager();
+                                        if (fromMainWindow)
+                                            dataCache.updateOneDay(dataCache.getEndDate());
+                                        if (fromMainWindow) {
+                                            getActivity().getSupportFragmentManager().popBackStack();
+                                            paFragmentManager.displayMainWindow();
+                                        } else {
 
+                                            getActivity().getSupportFragmentManager().popBackStack();
+
+                                            paFragmentManager.displayFragment(new CreditTabLay());
+                                        }
+                                        warningDialog.dismiss();
                                     }
-                                    if (fromMainWindow)
-                                        dataCache.updateOneDay(dataCache.getEndDate());
-                                    if (fromMainWindow) {
-                                        getActivity().getSupportFragmentManager().popBackStack();
-                                        paFragmentManager.displayMainWindow();
-                                    } else {
-
-                                        getActivity().getSupportFragmentManager().popBackStack();
-
-                                        paFragmentManager.displayFragment(new CreditTabLay());
+                                });
+                                warningDialog.setOnNoButtonClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        warningDialog.dismiss();
                                     }
-                                    warningDialog.dismiss();
-                                }
-                            });
-                            warningDialog.setOnNoButtonClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    warningDialog.dismiss();
-                                }
-                            });
-                            warningDialog.setText(getString(R.string.delete_credit));
-                            warningDialog.show();
+                                });
+                                warningDialog.setText(getString(R.string.delete_credit));
+                                warningDialog.show();
+                            }
+
                         }
+                        return false;
                     }
                 });
-                builderChouse.create().show();
+                popupMenu.show();
+
+
             }
         });
 
