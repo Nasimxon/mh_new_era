@@ -760,7 +760,6 @@ public class AddCreditFragment extends Fragment {
             toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
             toolbarManager.setOnTitleClickListener(null);
             toolbarManager.setSubtitleIconVisibility(View.GONE);
-            toolbarManager.setSubtitle(getResources().getString(R.string.add));
             toolbarManager.setTitle(getResources().getString(R.string.credit));
         }
     }

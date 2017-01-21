@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#f4f4f4">
+    android:background="#f4f4f4"
+    android:clickable="true">
     <android.support.v7.widget.RecyclerView
         android:id="@+id/lvCurrency"
         android:layout_width="match_parent"

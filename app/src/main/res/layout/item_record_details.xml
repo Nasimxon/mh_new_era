@@ -6,6 +6,7 @@
     android:layout_marginRight="@dimen/ten_dp"
     android:layout_marginTop="@dimen/three_dp"
     android:layout_marginBottom="@dimen/three_dp"
+    android:clickable="true"
     android:background="@drawable/carditem"
     android:orientation="horizontal">
 

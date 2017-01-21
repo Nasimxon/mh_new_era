@@ -9,6 +9,7 @@
     android:paddingBottom="@dimen/ten_dp"
     android:paddingRight="@dimen/sixteen_dp"
     android:paddingLeft="@dimen/ten_dp"
+    android:clickable="true"
     android:orientation="horizontal">
     <com.jim.finansia.utils.reportviews.SubcatReportView
         android:layout_width="@dimen/eighty_dp"

@@ -96,6 +96,7 @@ public class CategoryInfoFragment extends PABaseInfoFragment {
             public void onItemSelected(int selectedItemPosition) {
                 rootCategory = rootCategories.get(selectedItemPosition);
                 toolbarManager.setSubtitle(rootCategory.getName());
+                toolbarManager.setSubtitleIconVisibility(View.GONE);
                 subCategories = new ArrayList<>();
                 SubCategory all = new SubCategory();
                 all.setName(getString(R.string.all));

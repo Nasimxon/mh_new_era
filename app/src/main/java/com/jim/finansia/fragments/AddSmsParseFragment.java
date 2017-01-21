@@ -400,8 +400,9 @@ public class AddSmsParseFragment extends PABaseFragment{
             toolbarManager.setImageToSecondImage(R.drawable.check_sign);
             toolbarManager.setOnTitleClickListener(null);
             toolbarManager.setTitle(getResources().getString(R.string.sms_parse));
+            toolbarManager.setSubtitle("");
             toolbarManager.setSubtitleIconVisibility(View.GONE);
-            toolbarManager.setSubtitle(getResources().getString(R.string.add));
+
         }
     }
 

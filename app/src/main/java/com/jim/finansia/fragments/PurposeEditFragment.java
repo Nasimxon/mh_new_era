@@ -444,7 +444,7 @@ public class PurposeEditFragment extends Fragment implements OnClickListener, On
         {
             toolbarManager.setImageToSecondImage(R.drawable.check_sign);
             toolbarManager.setOnTitleClickListener(null);
-            toolbarManager.setSubtitle(getResources().getString(R.string.to_edit));
+            toolbarManager.setSubtitle("");
             toolbarManager.setSubtitleIconVisibility(View.GONE);
             toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
         }

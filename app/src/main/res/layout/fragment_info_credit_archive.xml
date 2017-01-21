@@ -5,6 +5,7 @@
     android:background="#fff"
     android:id="@+id/moainnnn"
     android:layout_height="wrap_content"
+    android:clickable="true"
     tools:context="com.jim.finansia.fragments.InfoCreditFragment"
     android:layout_gravity="center_horizontal">
 

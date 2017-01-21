@@ -3,7 +3,8 @@
     android:layout_width="wrap_content"
     android:layout_height="@dimen/fourtyfive_dp"
     android:layout_marginTop="@dimen/five_dp"
-    android:paddingBottom="@dimen/three_dp">
+    android:paddingBottom="@dimen/three_dp"
+    android:clickable="true">
     <FrameLayout
         android:id="@+id/flItemDay"
         android:layout_width="2px"
