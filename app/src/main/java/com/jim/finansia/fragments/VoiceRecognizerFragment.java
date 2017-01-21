@@ -178,7 +178,7 @@ public class VoiceRecognizerFragment extends Fragment {
             accString[i] = daoSession.getAccountDao().loadAll().get(i).getName();
         }
         final ArrayAdapter<String> accAdapter = new ArrayAdapter<>(getContext(),
-                R.layout.spinner_item, accString);
+                R.layout.spiner_gravity_right5, accString);
         spSpeechAccount.setAdapter(accAdapter);
         rlCenterButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -262,7 +262,7 @@ public class VoiceRecognizerFragment extends Fragment {
                     // canceled task
                     timer.cancel();
                     timer = null;
-                    tvSpeechModeAdjective.setText("");
+//                    tvSpeechModeAdjective.setText("");
                     tvSpeechModeCategory.setText("");
                     tvSpeechAmount.setText("0.0");
                     categoryId = "";
@@ -363,7 +363,6 @@ public class VoiceRecognizerFragment extends Fragment {
     private void visibilLR() {
         recStartRight.setAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.left_gone_anim));
         recStartLeft.setAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.right_anim));
-        rlNotSpeechMode.setAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.left_gone_anim));
         recStartRight.setVisibility(View.VISIBLE);
         recStartLeft.setVisibility(View.VISIBLE);
         paFragmentManager.setVerticalScrolling(false);
@@ -373,6 +372,9 @@ public class VoiceRecognizerFragment extends Fragment {
         if (isRecord) {
             rlNotSpeechMode.setVisibility(View.GONE);
             llSpeechMode.setVisibility(View.VISIBLE);
+            tvSpeechModeEnteredText.setText(R.string.press_button_nand_speak);
+            tvSpeechModeCategory.setText(R.string.category_subcategory);
+
         } else {
             rlNotSpeechMode.setAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.left_gone_anim));
             rlNotSpeechMode.setVisibility(View.VISIBLE);
@@ -985,7 +987,7 @@ public class VoiceRecognizerFragment extends Fragment {
                 paFragmentManager.updateAllFragmentsOnViewPager();
                 timer.cancel();
                 timer = null;
-                tvSpeechModeAdjective.setText("");
+//                tvSpeechModeAdjective.setText("");
                 tvSpeechModeEnteredText.setText("Entered text");
                 tvSpeechAmount.setText("0.0");
                 categoryId = "";

@@ -98,11 +98,11 @@ public class ReportPieView extends View {
         }
         rectF = new RectF(left, top, right, bottom);
         canvas.drawArc(rectF, 0, 360.0f, true, paint);
-        bitmap = Bitmap.createScaledBitmap(bitmap, (int) (side/2), (int) (side/2), false);
+        bitmap = Bitmap.createScaledBitmap(bitmap, (int) (side/2), (int) (side/2), true);
         Paint bitmapPaint2 = new Paint();
         bitmapPaint2.setAntiAlias(true);
         canvas.drawBitmap(bitmap, getWidth()/2 - bitmap.getWidth()/2, getHeight()/2 - bitmap.getHeight()/2, bitmapPaint2);
-        bitmap = Bitmap.createScaledBitmap(bitmap, (int) (side/2), (int) (side/2), false);
+        bitmap = Bitmap.createScaledBitmap(bitmap, (int) (side/2), (int) (side/2), true);
         Paint bitmapPaint = new Paint();
         bitmapPaint.setAntiAlias(true);
         canvas.drawBitmap(bitmap, getWidth()/2 - bitmap.getWidth()/2,

@@ -203,7 +203,6 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
         toolbarManager.setImageToHomeButton(R.drawable.ic_back_button);
         toolbarManager.setTitle("");
         toolbarManager.setSubtitle("");
-        toolbarManager.setSpinnerVisibility(View.INVISIBLE);
         toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
         toolbarManager.setOnHomeButtonClickListener(new OnClickListener() {
             @Override

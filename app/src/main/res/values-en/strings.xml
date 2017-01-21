@@ -1805,6 +1805,7 @@
     <string name="decimal">decimal</string>
     <string name="transfer_to_other_account">Перевод на другой счет</string>
     <string name="date_of_transfer">Date of transfer</string>
+    <string name="press_button_nand_speak">Speak</string>
     <string-array name="excel_headers">
         <item>Date</item>
         <item>Income</item>

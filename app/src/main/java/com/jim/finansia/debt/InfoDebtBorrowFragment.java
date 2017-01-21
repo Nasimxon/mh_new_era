@@ -294,7 +294,6 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
             isCheks[i] = false;
         }
         toolbarManager.setImageToSecondImage(R.drawable.ic_more_vert_black_48dp);
-        spinner =  toolbarManager.getSpTest();
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getContext(),
                 android.R.layout.simple_list_item_1, new String[]{
                 getResources().getString(R.string.delete)});

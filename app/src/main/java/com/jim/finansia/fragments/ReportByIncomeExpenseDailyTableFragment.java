@@ -76,7 +76,6 @@ public class ReportByIncomeExpenseDailyTableFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ((PocketAccounter) getContext()).component((PocketAccounterApplication)getContext().getApplicationContext()).inject(this);
         final View rootView = inflater.inflate(R.layout.report_by_income_expense_daily_table_fragment, container, false);
-        toolbarManager.setSpinnerVisibility(View.GONE);
         toolbarManager.setSubtitleIconVisibility(View.GONE);
         toolbarManager.setSubtitle(null);
         toolbarManager.setOnTitleClickListener(null);

@@ -140,12 +140,18 @@ public class AddSmsParseFragment extends PABaseFragment{
         spAccount.setAdapter(transferAccountAdapter);
         final List<String> cursStrings = new ArrayList<>();
         List<Currency> currencies = daoSession.getCurrencyDao().loadAll();
+        int main_currency_index = -1;
         for (Currency cr : currencies) {
             cursStrings.add(cr.getAbbr()+" ("+cr.getName()+")");
+            if(cr.getIsMain()){
+                main_currency_index= currencies.indexOf(cr);
+            }
         }
         ArrayAdapter<String> cursAdapter = new ArrayAdapter<String>(getContext(),
                 R.layout.spiner_gravity_left, cursStrings);
         spCurrency.setAdapter(cursAdapter);
+        if(main_currency_index!=-1)
+        spCurrency.setSelection(main_currency_index);
         int posMain = 0;
         for (int i = 0; i < cursStrings.size(); i++) {
             if (cursStrings.get(i).equals(commonOperations.getMainCurrency().getAbbr())) {
@@ -394,7 +400,6 @@ public class AddSmsParseFragment extends PABaseFragment{
             toolbarManager.setTitle(getResources().getString(R.string.auto_operations));
             toolbarManager.setOnTitleClickListener(null);
             toolbarManager.setSubtitleIconVisibility(View.GONE);
-            toolbarManager.setSpinnerVisibility(View.GONE);
             toolbarManager.setSubtitle("");
         }
     }

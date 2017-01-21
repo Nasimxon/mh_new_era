@@ -69,7 +69,6 @@ public class DebtBorrowFragment extends Fragment implements View.OnClickListener
         toolbarManager.setOnTitleClickListener(null);
         toolbarManager.setSubtitleIconVisibility(View.GONE);
         toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
-        toolbarManager.setSpinnerVisibility(View.GONE);
 
         fb = (FloatingActionButton) view.findViewById(R.id.fbDebtBorrowFragment);
         fb.setOnClickListener(this);

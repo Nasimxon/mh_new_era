@@ -83,7 +83,6 @@ public class CreditFragment extends Fragment {
         // Inflate the layout for this fragment
         toolbarManager.setTitle(getResources().getString(R.string.cred_managment));
         toolbarManager.setSubtitle("");
-        toolbarManager.setSpinnerVisibility(View.GONE);
         toolbarManager.setOnTitleClickListener(null);
         toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
         View V=inflater.inflate(R.layout.fragment_credit, container, false);

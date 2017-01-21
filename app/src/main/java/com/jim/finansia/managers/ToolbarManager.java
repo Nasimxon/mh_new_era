@@ -32,8 +32,6 @@ public class ToolbarManager {
     private Toolbar toolbar;
     private Context context;
     private ImageView ivToolbarFirst, ivToolbarSecond, ivToolbarStart;
-    private Spinner spinner;
-    private Spinner spTest;
     private EditText searchEditToolbar;
     private Handler whenKeyboardClosed;
     private TextView tvToolbarTitle, tvToolbarSubtitle;
@@ -71,8 +69,6 @@ public class ToolbarManager {
         ivToolbarSecond = (ImageView) toolbar.findViewById(R.id.ivToolbarMostRight);
         ivToolbarStart = (ImageView) toolbar.findViewById(R.id.ivToolbarSearch);
         searchEditToolbar = (EditText) toolbar.findViewById(R.id.editToolbar);
-        spinner = (Spinner) toolbar.findViewById(R.id.spToolbar);
-        spTest = (Spinner) toolbar.findViewById(R.id.spTest);
         tvToolbarTitle = (TextView) toolbar.findViewById(R.id.tvToolbarTitle);
         tvToolbarSubtitle = (TextView) toolbar.findViewById(R.id.tvToolbarSubtitle);
         ivSubtitle = (ImageView) toolbar.findViewById(R.id.ivSubtitle);
@@ -80,17 +76,12 @@ public class ToolbarManager {
         toolbar.setTitle("");
         toolbar.setSubtitle("");
     }
-    public Spinner getSpTest () {
-        return spTest;
-    }
     public void init() {
         ((PocketAccounter) context).setSupportActionBar(toolbar);
         toolbar.setTitleTextColor(ContextCompat.getColor(context, toolbar_text_color));
         ((PocketAccounter) context).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
-    public void setOnSpinnerItemSelectedListener(AdapterView.OnItemSelectedListener listener) {
-        spinner.setOnItemSelectedListener(listener);
-    }
+
     public void setOnFirstImageClickListener(View.OnClickListener listener) {
         ivToolbarFirst.setOnClickListener(listener);
     }
@@ -335,12 +326,6 @@ public class ToolbarManager {
     }
     public void setImageToHomeButton(int resId) {
         ((PocketAccounter) context).getSupportActionBar().setHomeAsUpIndicator(resId);
-    }
-    public Spinner getSpinner() {
-        return spinner;
-    }
-    public void setSpinnerVisibility(int visibility) {
-        spinner.setVisibility(visibility);
     }
     public void setOnTitleClickListener(View.OnClickListener listener) {
         this.listener = listener;

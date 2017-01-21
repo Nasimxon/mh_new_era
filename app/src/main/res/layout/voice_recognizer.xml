@@ -7,13 +7,14 @@
         android:id="@+id/rlTopPanel"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/bottomAnchor"
-        android:background="#77FFFFFF">
+        android:background="#77FFFFFF"
+       android:layout_above="@+id/bottomAnchor">
         <!-- not speech mode -->
         <RelativeLayout
             android:id="@+id/rlNotSpeechMode"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+
             android:visibility="visible">
             <LinearLayout
                 android:id="@+id/balanceStripe"
@@ -49,7 +50,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginBottom="@dimen/five_dp"
                     android:layout_marginTop="@dimen/five_dp"
-                    android:background="#0a000000" />
+                    android:background="#19000000" />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -78,7 +79,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginBottom="@dimen/five_dp"
                     android:layout_marginTop="@dimen/five_dp"
-                    android:background="#0a000000" />
+                    android:background="#19000000" />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -133,7 +134,10 @@
                 android:padding="@dimen/ten_dp"
                 android:textColor="@color/black_for_myagkiy_glavniy"
                 android:text="@string/daily_operations"
-                android:textSize="@dimen/twenty_dp" />
+                android:textSize="@dimen/sixteen_dp"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/linearLayout2"
+                android:layout_toEndOf="@+id/linearLayout2" />
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="2px"
@@ -145,19 +149,19 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_below="@+id/tvSpeechModeAdjective"
-                android:layout_marginTop="@dimen/twenty_sp">
+                android:layout_marginTop="@dimen/thirty_dp">
                 <ImageView
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="@dimen/one_dp"
                     android:layout_gravity="center_vertical"
-                    android:background="#0a000000" />
+                    android:background="#19000000" />
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="@dimen/fifty_dp"
                     android:layout_marginLeft="@dimen/ten_dp"
                     android:layout_marginRight="@dimen/ten_dp"
-                    android:layout_weight="1"
+                    android:layout_weight="6"
                     android:background="@drawable/speech_mode_items_bg"
                    >
                     <TextView
@@ -166,8 +170,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:layout_marginLeft="@dimen/sixteen_dp"
-                        android:layout_marginRight="@dimen/sixteen_dp"
+                        android:layout_marginLeft="@dimen/twenty_dp"
+                        android:layout_marginRight="@dimen/twenty_dp"
                         android:gravity="left"
                         android:textColor="@color/black_for_myagkiy_glavniy"
                         android:textSize="@dimen/sixteen_dp"
@@ -181,7 +185,7 @@
                     android:layout_weight="1"
                     android:layout_height="@dimen/one_dp"
                     android:layout_gravity="center_vertical"
-                    android:background="#0a000000" />
+                    android:background="#19000000" />
 
 
             </LinearLayout>
@@ -199,14 +203,14 @@
                     android:layout_weight="1"
                     android:layout_height="@dimen/one_dp"
                     android:layout_gravity="center_vertical"
-                    android:background="#0a000000" />
+                    android:background="#19000000" />
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="@dimen/fifty_dp"
                     android:layout_marginLeft="@dimen/ten_dp"
                     android:layout_marginRight="@dimen/ten_dp"
-                    android:layout_weight="1"
+                    android:layout_weight="6"
                     android:background="@drawable/speech_mode_items_bg"
                     >
                     <TextView
@@ -218,13 +222,13 @@
                         android:layout_gravity="center_vertical"
                         android:gravity="left"
                         android:layout_weight="1"
-                        android:textSize="@dimen/eightteen_dp"
+                        android:textSize="@dimen/sixteen_dp"
                         android:textColor="@color/black_for_myagkiy_glavniy"
                         android:text="0.0" />
                     <Spinner
                         android:id="@+id/spSpeechCurrency"
                         android:layout_width="wrap_content"
-                        android:layout_marginRight="@dimen/fifteen_dp"
+                        android:layout_marginRight="@dimen/ten_dp"
                         android:layout_gravity="center_vertical"
                         android:layout_height="wrap_content" />
                 </LinearLayout>
@@ -233,7 +237,7 @@
                     android:layout_weight="1"
                     android:layout_height="@dimen/one_dp"
                     android:layout_gravity="center_vertical"
-                    android:background="#0a000000" />
+                    android:background="#19000000" />
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/speechAccount"
@@ -246,13 +250,13 @@
                     android:layout_weight="1"
                     android:layout_height="@dimen/one_dp"
                     android:layout_gravity="center_vertical"
-                    android:background="#0a000000" />
+                    android:background="#19000000" />
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="@dimen/fifty_dp"
                     android:layout_marginLeft="@dimen/ten_dp"
                     android:layout_marginRight="@dimen/ten_dp"
-                    android:layout_weight="1"
+                    android:layout_weight="6"
                     android:background="@drawable/speech_mode_items_bg"
                     android:gravity="center"
                     >
@@ -260,45 +264,27 @@
                         android:id="@+id/spSpeechAccount"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="@dimen/fifteen_dp"
-                        android:layout_marginLeft="@dimen/ten_dp"
+                        android:layout_marginRight="@dimen/ten_dp"
+                        android:layout_marginLeft="@dimen/twenty_dp"
                         android:layout_gravity="center"
                         android:gravity="left" />
                 </LinearLayout>
                 <ImageView
-                    android:layout_width="@dimen/sixty_dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="@dimen/one_dp"
                     android:layout_gravity="center_vertical"
-                    android:background="#0a000000" />
+                    android:background="#19000000" />
             </LinearLayout>
-            <ImageView
-                android:id="@+id/speechNonImportantStripe"
-                android:layout_width="200dp"
-                android:layout_height="@dimen/one_dp"
-                android:visibility="invisible"
-                android:layout_below="@+id/speechAccount"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/twenty_dp"
-                android:background="#0a000000" />
-            <TextView
-                android:id="@+id/tvSpeechModeEnteredText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/speechNonImportantStripe"
-                android:layout_marginBottom="@dimen/seventy_dp"
-                android:layout_marginLeft="@dimen/ten_dp"
-                android:layout_marginRight="@dimen/ten_dp"
-                android:layout_marginTop="@dimen/ten_dp"
-                android:gravity="center"
-                android:text="Entered text"
-                android:textSize="@dimen/sixteen_dp" />
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
+                android:layout_below="@+id/speechAccount"
                 android:layout_centerHorizontal="true"
-                android:layout_marginBottom="@dimen/fifty_dp"
-                android:orientation="horizontal">
+                android:visibility="gone"
+                android:layout_marginTop="@dimen/twenty_dp"
+                android:orientation="horizontal"
+                android:id="@+id/linearLayout2">
                 <ImageView
                     android:id="@+id/speechModeWaitCenter"
                     android:layout_width="@dimen/five_dp"
@@ -315,6 +301,30 @@
                     android:layout_height="@dimen/five_dp"
                     android:background="@drawable/speech_mode_wait_circle" />
             </LinearLayout>
+            <ImageView
+                android:id="@+id/speechNonImportantStripe"
+                android:layout_width="200dp"
+                android:layout_height="@dimen/one_dp"
+                android:visibility="invisible"
+                android:layout_below="@+id/speechAccount"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/twenty_dp"
+                android:background="#19000000" />
+            <TextView
+                android:id="@+id/tvSpeechModeEnteredText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/speechNonImportantStripe"
+                android:layout_marginLeft="@dimen/ten_dp"
+                android:layout_marginRight="@dimen/ten_dp"
+                android:gravity="center"
+                android:maxLines="4"
+                android:text="@string/press_button_nand_speak"
+                android:textSize="@dimen/fourteen_dp"
+                android:textColor="@color/black_for_secondary_text"
+                android:paddingBottom="@dimen/twentyfive_dp"
+                android:layout_alignParentBottom="true" />
+
         </RelativeLayout>
         <ImageView
             android:layout_width="match_parent"

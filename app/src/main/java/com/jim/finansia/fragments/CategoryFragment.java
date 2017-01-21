@@ -89,7 +89,6 @@ public class CategoryFragment extends PABaseListFragment implements OnClickListe
 			toolbarManager.setTitle(getResources().getString(R.string.auto_operations));
 			toolbarManager.setOnTitleClickListener(null);
 			toolbarManager.setSubtitleIconVisibility(View.GONE);
-			toolbarManager.setSpinnerVisibility(View.GONE);
 			toolbarManager.setSubtitle("");
 		}
 	}

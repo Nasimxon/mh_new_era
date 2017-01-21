@@ -221,7 +221,6 @@ public class PocketAccounter extends AppCompatActivity {
                 drawerInitializer.getDrawer().openLeftSide();
             }
         });
-        toolbarManager.setSpinnerVisibility(View.GONE);
         toolbarManager.setToolbarIconsVisibility(View.VISIBLE, View.GONE, View.VISIBLE);
         toolbarManager.setSearchView(drawerInitializer, format, paFragmentManager, findViewById(R.id.main));
         toolbarManager.setImageToSecondImage(R.drawable.ic_info_outline_black_48dp);

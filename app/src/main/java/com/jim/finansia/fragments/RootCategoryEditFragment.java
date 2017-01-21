@@ -207,10 +207,8 @@ public class RootCategoryEditFragment extends PABaseInfoFragment implements OnCl
                         selectedIcon = icon;
                         Bitmap temp, scaled;
                         int resId = getResources().getIdentifier(icon, "drawable", getContext().getPackageName());
-                        temp = BitmapFactory.decodeResource(getResources(), resId);
-                        scaled = Bitmap.createScaledBitmap(temp, (int) getResources().getDimension(R.dimen.twentyfive_dp),
-                                (int) getResources().getDimension(R.dimen.twentyfive_dp), false);
-                        ivCatEdit.setImageBitmap(scaled);
+
+                        ivCatEdit.setImageResource(resId);
                         iconChooseDialog.dismiss();
                     }
                 });
