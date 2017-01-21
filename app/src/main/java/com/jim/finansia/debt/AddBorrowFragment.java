@@ -346,8 +346,7 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
             }
         });
 
-        toolbarManager.setImageToSecondImage(R.drawable.check_sign);
-        toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
+
 
         calculate.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -445,7 +444,17 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
         }
         return view;
     }
-
+    public void onResume() {
+        super.onResume();
+        if (toolbarManager != null)
+        {
+            toolbarManager.setOnTitleClickListener(null);
+            toolbarManager.setSubtitle("");
+            toolbarManager.setSubtitleIconVisibility(View.GONE);
+            toolbarManager.setImageToSecondImage(R.drawable.check_sign);
+            toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
+        }
+    }
     private void saveAndExit() {
         try {
             Double.parseDouble(PersonSumm.getText().toString());

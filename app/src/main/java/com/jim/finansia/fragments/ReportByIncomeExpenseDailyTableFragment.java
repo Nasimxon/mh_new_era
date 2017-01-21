@@ -76,12 +76,7 @@ public class ReportByIncomeExpenseDailyTableFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ((PocketAccounter) getContext()).component((PocketAccounterApplication)getContext().getApplicationContext()).inject(this);
         final View rootView = inflater.inflate(R.layout.report_by_income_expense_daily_table_fragment, container, false);
-        toolbarManager.setSubtitleIconVisibility(View.GONE);
-        toolbarManager.setSubtitle(null);
-        toolbarManager.setOnTitleClickListener(null);
-        toolbarManager.setImageToSecondImage(R.drawable.ic_filter);
-//        toolbarManager.setTitle(getString(R.string.report_by_income_expense_table));
-        toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
+
         tvReportDailyTable = (TableView) rootView.findViewById(R.id.tvReportDailyTable);
         RecyclerView recyclerView = tvReportDailyTable.getRvTableView();
         if (recyclerView != null) {
@@ -410,6 +405,18 @@ public class ReportByIncomeExpenseDailyTableFragment extends Fragment {
             if (show)
                 fabToExcelFile.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.fab_up));
             show = false;
+        }
+    }
+    public void onResume() {
+        super.onResume();
+        if (toolbarManager != null)
+        {
+            toolbarManager.setSubtitleIconVisibility(View.GONE);
+            toolbarManager.setSubtitle(null);
+            toolbarManager.setOnTitleClickListener(null);
+            toolbarManager.setImageToSecondImage(R.drawable.ic_filter);
+//        toolbarManager.setTitle(getString(R.string.report_by_income_expense_table));
+            toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
         }
     }
 

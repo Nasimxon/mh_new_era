@@ -65,17 +65,7 @@ public class CurrencyEditFragment extends PABaseInfoFragment implements OnClickL
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.currency_edit_modern, container, false);
         dialog = new WarningDialog(getContext());
-        toolbarManager.setOnHomeButtonClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                paFragmentManager.displayFragment(new CurrencyFragment());
-            }
-        });
-        toolbarManager.setTitle(currency.getName());
-        toolbarManager.setSubtitle(getResources().getString(R.string.edit));
-        toolbarManager.setOnTitleClickListener(null);
-        toolbarManager.setSubtitleIconVisibility(View.GONE);
-        toolbarManager.setOnSecondImageClickListener(this);
+
         ivExCurrencyAdd = (LinearLayout) rootView.findViewById(R.id.ivExCurrencyAdd);
         ivExCurrencyAdd.setOnClickListener(new OnClickListener() {
             @Override
@@ -145,7 +135,23 @@ public class CurrencyEditFragment extends PABaseInfoFragment implements OnClickL
         lvCurrencyEditExchange.setLayoutManager(layoutManager);
         lvCurrencyEditExchange.setAdapter(adapter);
     }
-
+    public void onResume() {
+        super.onResume();
+        if (toolbarManager != null)
+        {
+            toolbarManager.setOnHomeButtonClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    paFragmentManager.displayFragment(new CurrencyFragment());
+                }
+            });
+            toolbarManager.setTitle(currency.getName());
+            toolbarManager.setSubtitle(getResources().getString(R.string.edit));
+            toolbarManager.setOnTitleClickListener(null);
+            toolbarManager.setSubtitleIconVisibility(View.GONE);
+            toolbarManager.setOnSecondImageClickListener(this);
+        }
+    }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

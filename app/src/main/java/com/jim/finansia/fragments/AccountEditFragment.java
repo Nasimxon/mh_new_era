@@ -59,19 +59,6 @@ public class AccountEditFragment extends PABaseInfoFragment implements OnClickLi
                 imm.hideSoftInputFromWindow(rootView.getWindowToken(), 0);
             }
         }, 100);
-        toolbarManager.setOnHomeButtonClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                paFragmentManager.getFragmentManager().popBackStack();
-                paFragmentManager.displayFragment(new AccountFragment());
-            }
-        });
-        toolbarManager.setTitle(getResources().getString(R.string.addedit));
-        toolbarManager.setSubtitle("");
-        toolbarManager.setOnTitleClickListener(null);
-        toolbarManager.setSubtitleIconVisibility(View.GONE);
-        toolbarManager.setImageToSecondImage(R.drawable.check_sign);
-        toolbarManager.setOnSecondImageClickListener(this);
         List<Currency> currencies = daoSession.getCurrencyDao().loadAll();
         String[] items = new String[currencies.size()];
         int mainCurrencyPos = 0;

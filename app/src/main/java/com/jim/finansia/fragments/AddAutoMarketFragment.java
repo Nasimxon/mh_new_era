@@ -152,11 +152,7 @@ public class AddAutoMarketFragment extends Fragment {
             acNames.add(ac.getId());
         }
 
-        toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
-        toolbarManager.setTitle(getResources().getString(R.string.addedit));
-        toolbarManager.setSubtitleIconVisibility(View.GONE);
-        toolbarManager.setOnTitleClickListener(null);
-        toolbarManager.setImageToSecondImage(R.drawable.check_sign);
+
         toolbarManager.setOnSecondImageClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -391,6 +387,18 @@ public class AddAutoMarketFragment extends Fragment {
         rvDays.setLayoutManager(layoutManager);
         rvDays.setAdapter(daysAdapter);
         return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (toolbarManager != null) {
+            toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
+            toolbarManager.setTitle(getResources().getString(R.string.addedit));
+            toolbarManager.setSubtitleIconVisibility(View.GONE);
+            toolbarManager.setOnTitleClickListener(null);
+            toolbarManager.setImageToSecondImage(R.drawable.check_sign);
+        }
     }
 
     private IconAdapterCategory adapter;

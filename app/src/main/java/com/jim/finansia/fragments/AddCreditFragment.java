@@ -330,8 +330,7 @@ public class AddCreditFragment extends Fragment {
             }
         });
 
-        toolbarManager.setImageToSecondImage(R.drawable.check_sign);
-        toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
+
         toolbarManager.setOnSecondImageClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -757,11 +756,12 @@ public class AddCreditFragment extends Fragment {
     public void onResume() {
         super.onResume();
         if (toolbarManager != null) {
-            toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
-            toolbarManager.setTitle(getResources().getString(R.string.auto_operations));
+            toolbarManager.setImageToSecondImage(R.drawable.check_sign);
+            toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
             toolbarManager.setOnTitleClickListener(null);
             toolbarManager.setSubtitleIconVisibility(View.GONE);
-            toolbarManager.setSubtitle("");
+            toolbarManager.setSubtitle(getResources().getString(R.string.add));
+            toolbarManager.setTitle(getResources().getString(R.string.credit));
         }
     }
 

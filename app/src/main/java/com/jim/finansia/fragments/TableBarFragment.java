@@ -41,23 +41,7 @@ public class TableBarFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
         final View view = inflater.inflate(R.layout.table_bar_fragment_layout, container, false);
-        toolbarManager.setToolbarIconsVisibility(View.GONE, View.VISIBLE, View.VISIBLE);
-        toolbarManager.setImageToFirstImage(R.drawable.ic_excel);
-        toolbarManager.setImageToSecondImage(R.drawable.ic_filter);
-        toolbarManager.setTitle(getResources().getString(R.string.income_expance_title));
-        toolbarManager.setSubtitle("");
-        toolbarManager.setOnFirstImageClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tableFragment.setPermissionForExcelFile();
-            }
-        });
-        toolbarManager.setOnSecondImageClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                filterDialog.show();
-            }
-        });
+
         view.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -113,6 +97,29 @@ public class TableBarFragment extends Fragment {
             }
         });
         return view;
+    }
+    public void onResume() {
+        super.onResume();
+        if (toolbarManager != null)
+        {
+            toolbarManager.setToolbarIconsVisibility(View.GONE, View.VISIBLE, View.VISIBLE);
+            toolbarManager.setImageToFirstImage(R.drawable.ic_excel);
+            toolbarManager.setImageToSecondImage(R.drawable.ic_filter);
+            toolbarManager.setTitle(getResources().getString(R.string.income_expance_title));
+            toolbarManager.setSubtitle("");
+            toolbarManager.setOnFirstImageClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    tableFragment.setPermissionForExcelFile();
+                }
+            });
+            toolbarManager.setOnSecondImageClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    filterDialog.show();
+                }
+            });
+        }
     }
     private class TableBarAdapter extends FragmentStatePagerAdapter {
         private ArrayList<Fragment> list;

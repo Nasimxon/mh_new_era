@@ -77,8 +77,7 @@ public class ReportByCategoryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.report_by_category_fragment, container, false);
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
-        toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
-        toolbarManager.setOnTitleClickListener(null);
+
 
         llPickDate = (LinearLayout) rootView.findViewById(R.id.llPickDate);
         llPickDate.setOnClickListener(new View.OnClickListener() {
@@ -284,7 +283,16 @@ public class ReportByCategoryFragment extends Fragment {
         });
         animator.start();
     }
+    public void onResume() {
+        super.onResume();
+            if (toolbarManager != null)
+            {
+                toolbarManager.setOnTitleClickListener(null);
+                toolbarManager.setSubtitle("");
+                toolbarManager.setSubtitleIconVisibility(View.GONE);
 
+        }
+    }
     //adapter percent subcategory
     private class PercentSubcategoryAdapter extends RecyclerView.Adapter<ReportByCategoryFragment.ViewHolder> {
         private List<SubcatData> result;

@@ -165,6 +165,16 @@ public class ReportByIncomeExpenseMonthlyFragment extends Fragment {
         return rootView;
     }
 
+    public void onResume() {
+        super.onResume();
+        if (toolbarManager != null)
+        {
+            toolbarManager.setOnTitleClickListener(null);
+            toolbarManager.setSubtitle("");
+            toolbarManager.setSubtitleIconVisibility(View.GONE);
+        }
+    }
+
     private void setMode(int mode) {
         switch (mode) {
             case PocketAccounterGeneral.INCOME:

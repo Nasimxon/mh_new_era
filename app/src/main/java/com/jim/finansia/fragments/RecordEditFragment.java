@@ -200,10 +200,7 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
             this.category = record.getCategory();
             this.subCategory = record.getSubCategory();
         }
-        toolbarManager.setImageToHomeButton(R.drawable.ic_back_button);
-        toolbarManager.setTitle("");
-        toolbarManager.setSubtitle("");
-        toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
+
         toolbarManager.setOnHomeButtonClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -398,7 +395,16 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
         myListPhoto.setAdapter(myTickedAdapter);
         return mainView;
     }
-
+    public void onResume() {
+        super.onResume();
+        if (toolbarManager != null)
+        {
+            toolbarManager.setImageToHomeButton(R.drawable.ic_back_button);
+            toolbarManager.setTitle("");
+            toolbarManager.setSubtitle("");
+            toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
+        }
+    }
     private void setNumericOnClickListener(View view) {
         OnClickListener listener = new OnClickListener() {
             @Override

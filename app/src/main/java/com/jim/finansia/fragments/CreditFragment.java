@@ -81,10 +81,7 @@ public class CreditFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        toolbarManager.setTitle(getResources().getString(R.string.cred_managment));
-        toolbarManager.setSubtitle("");
-        toolbarManager.setOnTitleClickListener(null);
-        toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
+
         View V=inflater.inflate(R.layout.fragment_credit, container, false);
         SharedPreferences.Editor editor = sPref.edit();
         editor.putInt("FRAG_ID", 3).commit();
@@ -114,6 +111,18 @@ public class CreditFragment extends Fragment {
             }
         });
         return V;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (toolbarManager != null)
+        {
+            toolbarManager.setTitle(getResources().getString(R.string.cred_managment));
+            toolbarManager.setSubtitle("");
+            toolbarManager.setOnTitleClickListener(null);
+            toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
+        }
     }
 
     public void setCreditTabLay (CreditTabLay creditTabLay) {

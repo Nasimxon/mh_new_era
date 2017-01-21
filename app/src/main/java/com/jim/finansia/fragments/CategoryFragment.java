@@ -49,10 +49,7 @@ public class CategoryFragment extends PABaseListFragment implements OnClickListe
 					imm.hideSoftInputFromWindow(rootView.getWindowToken(), 0);}
 			}
 		},100);
-		toolbarManager.setTitle(getResources().getString(R.string.category));
-		toolbarManager.setSubtitle("");
-		toolbarManager.setOnTitleClickListener(null);
-		toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
+
 		fabCategoryAdd = (FloatingActionButton) rootView.findViewById(R.id.fabAccountAdd);
 		fabCategoryAdd.setOnClickListener(this);
 		rvCategories = (RecyclerView) rootView.findViewById(R.id.rvCategories);
@@ -85,11 +82,11 @@ public class CategoryFragment extends PABaseListFragment implements OnClickListe
 	public void onResume() {
 		super.onResume();
 		if (toolbarManager != null) {
-			toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
-			toolbarManager.setTitle(getResources().getString(R.string.auto_operations));
-			toolbarManager.setOnTitleClickListener(null);
 			toolbarManager.setSubtitleIconVisibility(View.GONE);
+			toolbarManager.setTitle(getResources().getString(R.string.category));
 			toolbarManager.setSubtitle("");
+			toolbarManager.setOnTitleClickListener(null);
+			toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
 		}
 	}
 

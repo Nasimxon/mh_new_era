@@ -28,17 +28,7 @@ public class CurrencyChooseFragment extends PABaseInfoFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.currency_choose_fragment, container, false);
         dialog = new WarningDialog(getContext());
-        toolbarManager.setTitle(getResources().getString(R.string.choose_currencies)); // toolbar settings
-        toolbarManager.setSubtitle("");
-        toolbarManager.setOnTitleClickListener(null);
-        toolbarManager.setSubtitleIconVisibility(View.GONE);
-        toolbarManager.setOnHomeButtonClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                paFragmentManager.displayFragment(new CurrencyFragment());
-            }
-        });
-        toolbarManager.setImageToSecondImage(R.drawable.check_sign);
+
         gvCurrencyChoose = (RecyclerView) view.findViewById(R.id.gvCurrencyChoose); // gridview for representing currencies
 
         final String[] baseCurrencies = getResources().getStringArray(R.array.base_currencies); // getting data from resources to creating default currency list
@@ -194,6 +184,24 @@ public class CurrencyChooseFragment extends PABaseInfoFragment {
             }
         });
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (toolbarManager != null){
+            toolbarManager.setTitle(getResources().getString(R.string.choose_currencies)); // toolbar settings
+            toolbarManager.setSubtitle("");
+            toolbarManager.setOnTitleClickListener(null);
+            toolbarManager.setSubtitleIconVisibility(View.GONE);
+            toolbarManager.setOnHomeButtonClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    paFragmentManager.displayFragment(new CurrencyFragment());
+                }
+            });
+            toolbarManager.setImageToSecondImage(R.drawable.check_sign);
+        }
     }
 
     @Override

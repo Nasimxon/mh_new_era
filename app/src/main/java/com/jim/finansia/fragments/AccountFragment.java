@@ -54,53 +54,7 @@ public class AccountFragment extends PABaseListFragment {
 		}, 100);
 
 		((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
-		toolbarManager.setOnHomeButtonClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				drawerInitializer.getDrawer().openLeftSide();
-			}
-		});
-        toolbarManager.setTitle(getResources().getString(R.string.accounts));
-        toolbarManager.setSubtitle("");
-		toolbarManager.setOnTitleClickListener(null);
-		toolbarManager.setSubtitleIconVisibility(View.GONE);
-        toolbarManager.setToolbarIconsVisibility(View.GONE, View.VISIBLE, View.VISIBLE);
-		toolbarManager.setImageToSecondImage(R.drawable.ic_info_outline_black_48dp);
-		toolbarManager.setImageToFirstImage(R.drawable.ic_history_black_48dp);
-
-		toolbarManager.setOnFirstImageClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (!daoSession.getAccountOperationDao().loadAll().isEmpty()) {
-					final TransferAddEditDialog transferAddEditDialog = new TransferAddEditDialog(getContext());
-					int width = getResources().getDisplayMetrics().widthPixels;
-					int height = getResources().getDisplayMetrics().heightPixels;
-					transferAddEditDialog.getWindow().setLayout(12*width/13, 9*height/10);
-					transferAddEditDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-						@Override
-						public void onDismiss(DialogInterface dialog) {
-							refreshList();
-						}
-					});
-					transferAddEditDialog.show();
-				} else
-					Toast.makeText(getContext(), R.string.transfer_isnt_done, Toast.LENGTH_SHORT).show();
-			}
-		});
-		toolbarManager.setOnSecondImageClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if(isReportOpen){
-					isReportOpen=false	;
-					refreshList();
-				}
-				else {
-					isReportOpen=true;
-					refreshList();
-				}
-			}
-		});
-        recyclerView = (RecyclerView) rootView.findViewById(R.id.rvAccounts);
+		recyclerView = (RecyclerView) rootView.findViewById(R.id.rvAccounts);
 		recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 		recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 			@Override

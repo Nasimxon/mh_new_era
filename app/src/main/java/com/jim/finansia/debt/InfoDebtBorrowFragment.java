@@ -298,15 +298,7 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
                 android.R.layout.simple_list_item_1, new String[]{
                 getResources().getString(R.string.delete)});
         spinner.setAdapter(arrayAdapter);
-        toolbarManager.setOnTitleClickListener(null);
-        toolbarManager.setSubtitleIconVisibility(View.GONE);
-        toolbarManager.setOnSecondImageClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showOperationsList(v);
-            }
-        });
-        toolbarManager.setImageToHomeButton(R.drawable.ic_drawer);
+
         cancel_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -633,7 +625,22 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
         });
         return view;
     }
-
+    public void onResume() {
+        super.onResume();
+        if (toolbarManager != null)
+        {
+            toolbarManager.setOnTitleClickListener(null);
+            toolbarManager.setSubtitleIconVisibility(View.GONE);
+            toolbarManager.setOnSecondImageClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showOperationsList(v);
+                }
+            });
+            toolbarManager.setImageToHomeButton(R.drawable.ic_drawer);
+            toolbarManager.setSubtitle("");
+        }
+    }
     private Bitmap queryContactImage(int imageDataRow) {
         Cursor c = getContext().getContentResolver().query(ContactsContract.Data.CONTENT_URI, new String[]{
                 ContactsContract.CommonDataKinds.Photo.PHOTO

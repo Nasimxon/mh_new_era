@@ -110,11 +110,6 @@ public class PurposeEditFragment extends Fragment implements OnClickListener, On
         simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
         beginDate.setText(simpleDateFormat.format(begCalendar.getTime()));
         // ------------ Toolbar setting ----------
-        toolbarManager.setImageToSecondImage(R.drawable.check_sign);
-        toolbarManager.setOnTitleClickListener(null);
-        toolbarManager.setSubtitle(getResources().getString(R.string.to_edit));
-        toolbarManager.setSubtitleIconVisibility(View.GONE);
-        toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
         toolbarManager.setOnSecondImageClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -443,7 +438,17 @@ public class PurposeEditFragment extends Fragment implements OnClickListener, On
         }
         return rootView;
     }
-
+    public void onResume() {
+        super.onResume();
+        if (toolbarManager != null)
+        {
+            toolbarManager.setImageToSecondImage(R.drawable.check_sign);
+            toolbarManager.setOnTitleClickListener(null);
+            toolbarManager.setSubtitle(getResources().getString(R.string.to_edit));
+            toolbarManager.setSubtitleIconVisibility(View.GONE);
+            toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
+        }
+    }
     public void forDateSyncFirst() {
         if (!forCustomPeriod) {
             beginDate.setText(simpleDateFormat.format(begCalendar.getTime()));

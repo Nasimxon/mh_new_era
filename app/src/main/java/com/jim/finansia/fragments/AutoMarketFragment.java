@@ -87,11 +87,6 @@ public class AutoMarketFragment extends Fragment implements View.OnClickListener
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(autoAdapter);
-        toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
-        toolbarManager.setTitle(getResources().getString(R.string.auto_operations));
-        toolbarManager.setOnTitleClickListener(null);
-        toolbarManager.setSubtitleIconVisibility(View.GONE);
-        toolbarManager.setSubtitle("");
         floatingActionButton = (FloatingActionButton) rootView.findViewById(R.id.fbAutoMarketAdd);
         floatingActionButton.setOnClickListener(this);
         return rootView;

@@ -44,18 +44,25 @@ public class CurrencyFragment extends PABaseListFragment implements OnClickListe
 					imm.hideSoftInputFromWindow(rootView.getWindowToken(), 0);}
 			}
 		},100);
-		toolbarManager.setTitle(getResources().getString(R.string.currencies));
-		toolbarManager.setOnTitleClickListener(null);
-		toolbarManager.setSubtitle(getResources().getString(R.string.main_currency)+" "+ commonOperations.getMainCurrency().getAbbr());
-		toolbarManager.setSubtitleIconVisibility(View.GONE);
-		toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
-		toolbarManager.setImageToSecondImage(R.drawable.pencil);
-		toolbarManager.setOnSecondImageClickListener(this);
+
 		fabCurrencyAdd = (FloatingActionButton) rootView.findViewById(R.id.fabCurrencyAdd);
 		fabCurrencyAdd.setOnClickListener(this);
 		lvCurrency = (RecyclerView) rootView.findViewById(R.id.lvCurrency);
 		refreshList();
 		return rootView;
+	}
+	public void onResume() {
+		super.onResume();
+		if (toolbarManager != null)
+		{
+			toolbarManager.setTitle(getResources().getString(R.string.currencies));
+			toolbarManager.setOnTitleClickListener(null);
+			toolbarManager.setSubtitle(getResources().getString(R.string.main_currency)+" "+ commonOperations.getMainCurrency().getAbbr());
+			toolbarManager.setSubtitleIconVisibility(View.GONE);
+			toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
+			toolbarManager.setImageToSecondImage(R.drawable.pencil);
+			toolbarManager.setOnSecondImageClickListener(this);
+		}
 	}
 
 	private void setEditMode() {

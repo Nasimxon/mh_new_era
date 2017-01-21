@@ -59,11 +59,6 @@ public class ChangeColorOfStyleFragment extends Fragment {
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
         choosenThemeName = preferences.getString(PocketAccounterGeneral.CHOOSEN_THEME_NAME_KEY,
                 PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.BLUE_THEME);
-        toolbarManager.setTitle(getResources().getString(R.string.theme));
-        toolbarManager.setOnTitleClickListener(null);
-        toolbarManager.setSubtitle("");
-        toolbarManager.setSubtitleIconVisibility(View.GONE);
-        toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
         llBuyColorButton = (LinearLayout) rootView.findViewById(R.id.llBuyColorButton);
         tvColorChooseSetText = (TextView) rootView.findViewById(R.id.tvColorChooseSetText);
         tvColorChooseButtonPaymentAmount = (TextView) rootView.findViewById(R.id.tvColorChooseButtonPaymentAmount);
@@ -131,11 +126,11 @@ public class ChangeColorOfStyleFragment extends Fragment {
     public void onResume() {
         super.onResume();
         if (toolbarManager != null) {
-            toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
-            toolbarManager.setTitle(getResources().getString(R.string.auto_operations));
+            toolbarManager.setTitle(getResources().getString(R.string.theme));
             toolbarManager.setOnTitleClickListener(null);
-            toolbarManager.setSubtitleIconVisibility(View.GONE);
             toolbarManager.setSubtitle("");
+            toolbarManager.setSubtitleIconVisibility(View.GONE);
+            toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
         }
     }
 

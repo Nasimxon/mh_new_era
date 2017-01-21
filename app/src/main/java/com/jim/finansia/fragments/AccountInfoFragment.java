@@ -55,26 +55,6 @@ public class AccountInfoFragment extends PABaseInfoFragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		final View rootView = inflater.inflate(R.layout.account_info_modern_layout, container, false);
-		toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
-		toolbarManager.setImageToSecondImage(R.drawable.ic_more_vert_black_48dp);
-		toolbarManager.setImageToHomeButton(R.drawable.ic_back_button);
-		toolbarManager.setTitle(getResources().getString(R.string.accounts));
-		toolbarManager.setOnTitleClickListener(null);
-		toolbarManager.setSubtitle(account.getName());
-		toolbarManager.setSubtitleIconVisibility(View.GONE);
-		toolbarManager.setOnHomeButtonClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				paFragmentManager.getFragmentManager().popBackStack();
-				paFragmentManager.displayFragment(new AccountFragment());
-			}
-		});
-		toolbarManager.setOnSecondImageClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				showOperationsList(v);
-			}
-		});
 
 		totalAmount = (TextView) rootView.findViewById(R.id.tvAccountInfoTotal);
 		svCategorySelector = (SelectorView) rootView.findViewById(R.id.svAccountSelector);
@@ -310,4 +290,5 @@ public class AccountInfoFragment extends PABaseInfoFragment {
 			return list.size();
 		}
 	}
+
 }

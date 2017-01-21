@@ -63,12 +63,7 @@ public class RootCategoryEditFragment extends PABaseInfoFragment implements OnCl
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.cat_edit_layout, container, false);
-        toolbarManager.setTitle(getResources().getString(R.string.category));
-        toolbarManager.setSubtitle(getResources().getString(R.string.edit));
-        toolbarManager.setImageToSecondImage(R.drawable.check_sign);
-        toolbarManager.setOnSecondImageClickListener(this);
-        toolbarManager.setOnTitleClickListener(null);
-        toolbarManager.setSubtitleIconVisibility(View.GONE);
+
         toolbarManager.setOnHomeButtonClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -192,7 +187,18 @@ public class RootCategoryEditFragment extends PABaseInfoFragment implements OnCl
             }
         }
     }
-
+    public void onResume() {
+        super.onResume();
+        if (toolbarManager != null)
+        {
+            toolbarManager.setTitle(getResources().getString(R.string.category));
+            toolbarManager.setSubtitle(getResources().getString(R.string.edit));
+            toolbarManager.setImageToSecondImage(R.drawable.check_sign);
+            toolbarManager.setOnSecondImageClickListener(this);
+            toolbarManager.setOnTitleClickListener(null);
+            toolbarManager.setSubtitleIconVisibility(View.GONE);
+        }
+    }
     @Override
     public void onClick(View v) {
         InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);

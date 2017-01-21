@@ -69,33 +69,7 @@ public class SMSParseInfoFragment extends Fragment {
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
         View rootView = inflater.inflate(R.layout.sms_parse_info, container, false);
         warningDialog = new WarningDialog(getContext());
-        toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
-        toolbarManager.setImageToSecondImage(R.drawable.trash);
-        toolbarManager.setSubtitle("");
-        toolbarManager.setOnSecondImageClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                warningDialog.setOnYesButtonListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        logicManager.deleteSmsParseObject(object);
-                        paFragmentManager.getFragmentManager().popBackStack();
-                        paFragmentManager.displayFragment(new SmsParseMainFragment());
-                        warningDialog.dismiss();
-                    }
-                });
-                warningDialog.setOnNoButtonClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        warningDialog.dismiss();
-                    }
-                });
-                warningDialog.setText(getResources().getString(R.string.delete));
-                int width = getResources().getDisplayMetrics().widthPixels;
-                warningDialog.getWindow().setLayout(8*width/10, ViewGroup.LayoutParams.WRAP_CONTENT);
-                warningDialog.show();
-            }
-        });
+
         ifListEmpty = (TextView) rootView.findViewById(R.id.ifListEmpty);
         recyclerView = (RecyclerView) rootView.findViewById(R.id.rvSmsParseInfo);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
@@ -104,7 +78,39 @@ public class SMSParseInfoFragment extends Fragment {
         recyclerView.setAdapter(myAdapter);
         return rootView;
     }
-
+    public void onResume() {
+        super.onResume();
+        if (toolbarManager != null)
+        {
+            toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
+            toolbarManager.setImageToSecondImage(R.drawable.trash);
+            toolbarManager.setSubtitle("");
+            toolbarManager.setOnSecondImageClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    warningDialog.setOnYesButtonListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            logicManager.deleteSmsParseObject(object);
+                            paFragmentManager.getFragmentManager().popBackStack();
+                            paFragmentManager.displayFragment(new SmsParseMainFragment());
+                            warningDialog.dismiss();
+                        }
+                    });
+                    warningDialog.setOnNoButtonClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            warningDialog.dismiss();
+                        }
+                    });
+                    warningDialog.setText(getResources().getString(R.string.delete));
+                    int width = getResources().getDisplayMetrics().widthPixels;
+                    warningDialog.getWindow().setLayout(8*width/10, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    warningDialog.show();
+                }
+            });
+        }
+    }
     private class MyAdapter extends RecyclerView.Adapter<SMSParseInfoFragment.ViewHolder> implements View.OnClickListener {
         private List<SmsParseSuccess> successList;
         private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd:MM:yyyy HH:MM");

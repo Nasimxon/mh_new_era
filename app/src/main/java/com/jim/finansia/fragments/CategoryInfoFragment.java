@@ -76,25 +76,6 @@ public class CategoryInfoFragment extends PABaseInfoFragment {
         for (int i = 0; i < subcatChecked.length; i++)
             subcatChecked[i] = (i == 0);
         warningDialog = new WarningDialog(getContext());
-        toolbarManager.setImageToSecondImage(R.drawable.ic_more_vert_black_48dp);
-        toolbarManager.setTitle(getResources().getString(R.string.category));
-        toolbarManager.setOnTitleClickListener(null);
-        toolbarManager.setSubtitle(rootCategory.getName());
-        toolbarManager.setSubtitleIconVisibility(View.GONE);
-        toolbarManager.setOnHomeButtonClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                paFragmentManager.getFragmentManager().popBackStack();
-                paFragmentManager.displayFragment(new CategoryFragment());
-            }
-        });
-
-        toolbarManager.setOnSecondImageClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showOperationsList(v);
-            }
-        });
         rvCategoryInfoOperations = (RecyclerView) rootView.findViewById(R.id.rvAccountDetailsInfo);
         svCategorySelector = (SelectorView) rootView.findViewById(R.id.svCategorySelector);
 
@@ -144,11 +125,25 @@ public class CategoryInfoFragment extends PABaseInfoFragment {
     public void onResume() {
         super.onResume();
         if (toolbarManager != null) {
-            toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
-            toolbarManager.setTitle(getResources().getString(R.string.auto_operations));
+            toolbarManager.setImageToSecondImage(R.drawable.ic_more_vert_black_48dp);
+            toolbarManager.setTitle(getResources().getString(R.string.category));
             toolbarManager.setOnTitleClickListener(null);
+            toolbarManager.setSubtitle(rootCategory.getName());
             toolbarManager.setSubtitleIconVisibility(View.GONE);
-            toolbarManager.setSubtitle("");
+            toolbarManager.setOnHomeButtonClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    paFragmentManager.getFragmentManager().popBackStack();
+                    paFragmentManager.displayFragment(new CategoryFragment());
+                }
+            });
+
+            toolbarManager.setOnSecondImageClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showOperationsList(v);
+                }
+            });
         }
     }
 

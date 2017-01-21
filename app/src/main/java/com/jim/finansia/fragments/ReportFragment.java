@@ -24,11 +24,7 @@ public class ReportFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.report_fragment, container, false);
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
-        toolbarManager.setTitle(getResources().getString(R.string.report_by_account_title));
-        toolbarManager.setOnTitleClickListener(null);
-        toolbarManager.setSubtitle("");
-        toolbarManager.setSubtitleIconVisibility(View.GONE);
-        toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
+
         btnReportByCategory = (LinearLayout) rootView.findViewById(R.id.btnReportByCategory);
         btnReportByCategory.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,6 +54,17 @@ public class ReportFragment extends Fragment {
             }
         });
         return rootView;
+    }
+    public void onResume() {
+        super.onResume();
+        if (toolbarManager != null)
+        {
+            toolbarManager.setTitle(getResources().getString(R.string.report_by_account_title));
+            toolbarManager.setOnTitleClickListener(null);
+            toolbarManager.setSubtitle("");
+            toolbarManager.setSubtitleIconVisibility(View.GONE);
+            toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
+        }
     }
 }
 

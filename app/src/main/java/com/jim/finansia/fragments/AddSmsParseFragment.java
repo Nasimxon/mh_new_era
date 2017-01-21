@@ -396,11 +396,12 @@ public class AddSmsParseFragment extends PABaseFragment{
     public void onResume() {
         super.onResume();
         if (toolbarManager != null) {
-            toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
-            toolbarManager.setTitle(getResources().getString(R.string.auto_operations));
+            toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
+            toolbarManager.setImageToSecondImage(R.drawable.check_sign);
             toolbarManager.setOnTitleClickListener(null);
+            toolbarManager.setTitle(getResources().getString(R.string.sms_parse));
             toolbarManager.setSubtitleIconVisibility(View.GONE);
-            toolbarManager.setSubtitle("");
+            toolbarManager.setSubtitle(getResources().getString(R.string.add));
         }
     }
 

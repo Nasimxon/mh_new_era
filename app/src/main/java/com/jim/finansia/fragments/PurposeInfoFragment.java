@@ -119,11 +119,7 @@ public class PurposeInfoFragment extends Fragment implements View.OnClickListene
             }
         });
         pvPercent.setPercetStripeVisibility(false);
-        toolbarManager.setImageToSecondImage(R.drawable.ic_more_vert_black_48dp);
-        toolbarManager.setOnTitleClickListener(null);
-        toolbarManager.setSubtitle(getResources().getString(R.string.information));
-        toolbarManager.setSubtitleIconVisibility(View.GONE);
-        toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
+
         toolbarManager.setOnSecondImageClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -342,7 +338,17 @@ public class PurposeInfoFragment extends Fragment implements View.OnClickListene
             }
         }
     }
-
+    public void onResume() {
+        super.onResume();
+        if (toolbarManager != null)
+        {
+            toolbarManager.setImageToSecondImage(R.drawable.ic_more_vert_black_48dp);
+            toolbarManager.setOnTitleClickListener(null);
+            toolbarManager.setSubtitle(getResources().getString(R.string.information));
+            toolbarManager.setSubtitleIconVisibility(View.GONE);
+            toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
+        }
+    }
     private class MyAdapter extends RecyclerView.Adapter<ViewHolder> {
         private ArrayList<AccountOperation> purposes;
         private ArrayList<AccountOperation> allPurposes;

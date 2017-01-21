@@ -60,18 +60,6 @@ public class PurposeFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.purpose_layout, container, false);
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
-        toolbarManager.setTitle(getString(R.string.purposes));
-        toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
-        toolbarManager.setSubtitle("");
-        toolbarManager.setOnTitleClickListener(null);
-        toolbarManager.setSubtitleIconVisibility(View.GONE);
-        toolbarManager.setImageToHomeButton(R.drawable.ic_drawer);
-        toolbarManager.setOnHomeButtonClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                drawerInitializer.getDrawer().openLeftSide();
-            }
-        });
         ifListEmpty = (TextView) rootView.findViewById(R.id.ifListEmpty);
         rvPurposes = (RecyclerView) rootView.findViewById(R.id.rvPurposes);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
@@ -99,6 +87,25 @@ public class PurposeFragment extends Fragment{
             }
         });
         return  rootView;
+    }
+
+    public void onResume() {
+        super.onResume();
+        if (toolbarManager != null)
+        {
+            toolbarManager.setTitle(getString(R.string.purposes));
+            toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
+            toolbarManager.setSubtitle("");
+            toolbarManager.setOnTitleClickListener(null);
+            toolbarManager.setSubtitleIconVisibility(View.GONE);
+            toolbarManager.setImageToHomeButton(R.drawable.ic_drawer);
+            toolbarManager.setOnHomeButtonClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    drawerInitializer.getDrawer().openLeftSide();
+                }
+            });
+        }
     }
     private void refreshList() {
         PurposeAdapter adapter = new PurposeAdapter(daoSession.getPurposeDao().loadAll());

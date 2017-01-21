@@ -242,9 +242,6 @@ public class InfoCreditFragment extends Fragment {
             }
         });
         isCheks = new boolean[currentCredit.getReckings().size()];
-        toolbarManager.setImageToSecondImage(R.drawable.ic_more_vert_black_48dp);
-        toolbarManager.setOnTitleClickListener(null);
-        toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
         toolbarManager.setOnSecondImageClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1229,6 +1226,18 @@ public class InfoCreditFragment extends Fragment {
             infoSumm = (TextView) view.findViewById(R.id.paid_value);
             forDelete = (CheckBox) view.findViewById(R.id.for_delete_check_box);
             glav = view;
+        }
+    }
+
+    public void onResume() {
+        super.onResume();
+        if (toolbarManager != null)
+        {
+            toolbarManager.setImageToSecondImage(R.drawable.ic_more_vert_black_48dp);
+            toolbarManager.setOnTitleClickListener(null);
+            toolbarManager.setSubtitle("");
+            toolbarManager.setSubtitleIconVisibility(View.GONE);
+            toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
         }
     }
 }

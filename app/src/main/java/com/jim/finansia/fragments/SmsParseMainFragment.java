@@ -79,6 +79,16 @@ public class SmsParseMainFragment extends Fragment implements View.OnClickListen
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        if (toolbarManager != null) {
+            toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
+            toolbarManager.setTitle(getResources().getString(R.string.sms_parse));
+            toolbarManager.setSubtitle("");
+            toolbarManager.setSubtitleIconVisibility(View.GONE);
+        }
+    }
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fbDebtBorrowFragment: {
