@@ -56,7 +56,6 @@ public class CategoryInfoFragment extends PABaseInfoFragment {
     private SelectorView svCategorySelector;
     private boolean[] subcatChecked;
     private List<SubCategory> subCategories;
-    private Spinner spinner;
     private PopupMenu popupMenu;
 
     @SuppressLint("ValidFragment")
@@ -98,10 +97,7 @@ public class CategoryInfoFragment extends PABaseInfoFragment {
         });
         rvCategoryInfoOperations = (RecyclerView) rootView.findViewById(R.id.rvAccountDetailsInfo);
         svCategorySelector = (SelectorView) rootView.findViewById(R.id.svCategorySelector);
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getContext(),
-                android.R.layout.simple_list_item_1, new String[]{getResources().getString(R.string.to_edit),
-                getResources().getString(R.string.delete)});
-        spinner.setAdapter(arrayAdapter);
+
         final List<RootCategory> rootCategories = daoSession.getRootCategoryDao().queryBuilder().orderAsc(RootCategoryDao.Properties.Name).list();
         CategorySelectorAdapter adapter = new CategorySelectorAdapter(rootCategories);
         int selectedPos = 0;
