@@ -64,7 +64,6 @@ public class LogicManager {
     @Inject DaoSession daoSession;
     @Inject CommonOperations commonOperations;
     @Inject DataCache dataCache;
-    @Inject List<TemplateVoice> voices;
     private Context context;
     private CurrencyDao currencyDao;
     private FinanceRecordDao recordDao;
@@ -670,7 +669,6 @@ public class LogicManager {
         if (!query.list().isEmpty())
             return LogicManagerConstants.SUCH_NAME_ALREADY_EXISTS;
         rootCategoryDao.insertOrReplace(rootCategory);
-        CommonOperations.generateRegexVoice(voices, rootCategory);
         return LogicManagerConstants.SAVED_SUCCESSFULL;
     }
 

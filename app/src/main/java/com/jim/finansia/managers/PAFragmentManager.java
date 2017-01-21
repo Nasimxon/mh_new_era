@@ -95,6 +95,9 @@ public class PAFragmentManager {
             }
         });
     }
+    public int getSelectedMode() {
+        return vpVertical.getCurrentItem();
+    }
     public void notifyInfosVisibility() {
         int size = fragmentManager.getFragments().size();
         for (int i = 0; i < size; i++) {
@@ -154,6 +157,17 @@ public class PAFragmentManager {
             Fragment fragment = fragmentManager.getFragments().get(i);
             if (fragment != null && fragment.getClass().getName().equals(VoiceRecognizerFragment.class.getName())) {
                 ((VoiceRecognizerFragment) fragment).setDay(day);
+                break;
+            }
+        }
+    }
+
+    public void updateTemplatesInVoiceRecognitionFragment() {
+        int size = fragmentManager.getFragments().size();
+        for (int i = 0; i < size; i++) {
+            Fragment fragment = fragmentManager.getFragments().get(i);
+            if (fragment != null && fragment.getClass().getName().equals(VoiceRecognizerFragment.class.getName())) {
+                ((VoiceRecognizerFragment) fragment).initVoices();
                 break;
             }
         }

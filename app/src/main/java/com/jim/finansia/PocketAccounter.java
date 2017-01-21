@@ -69,10 +69,10 @@ public class PocketAccounter extends AppCompatActivity {
     DatePickerDialog.OnDateSetListener getDatesetListener;
 
     public static boolean keyboardVisible = false;
-    @Inject PAFragmentManager paFragmentManager;
     @Inject DaoSession daoSession;
     @Inject SharedPreferences preferences;
     @Inject ToolbarManager toolbarManager;
+    @Inject PAFragmentManager paFragmentManager;
     @Inject SettingsManager settingsManager;
     @Inject @Named(value = "display_formatter") SimpleDateFormat format;
     @Inject DrawerInitializer drawerInitializer;
@@ -172,13 +172,19 @@ public class PocketAccounter extends AppCompatActivity {
                 }
             });
         }
+        if (paFragmentManager.getSelectedMode() == 0)
+            setToToolbarVoiceMode();
+        else
+            setToToolbarManualEnterMode();
     }
 
     public void setToToolbarVoiceMode() {
-        toolbarManager.setToolbarIconsVisibility(View.VISIBLE, View.GONE, View.GONE);
+        if (toolbarManager != null)
+            toolbarManager.setToolbarIconsVisibility(View.VISIBLE, View.GONE, View.GONE);
     }
     public void setToToolbarManualEnterMode() {
-        toolbarManager.setToolbarIconsVisibility(View.VISIBLE, View.GONE, View.VISIBLE);
+        if (toolbarManager != null)
+            toolbarManager.setToolbarIconsVisibility(View.VISIBLE, View.GONE, View.VISIBLE);
     }
 
 

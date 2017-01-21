@@ -122,9 +122,9 @@ public class VoiceRecognizerFragment extends Fragment {
     //auto save voice
     private TextView autoSave;
     //switching between modes
+    private List<TemplateVoice> voices;
     @Inject DaoSession daoSession;
     @Inject PAFragmentManager paFragmentManager;
-    @Inject List<TemplateVoice> voices;
     @Inject List<TemplateAccount> templateAccountVoices;
     @Inject DataCache dataCache;
     @Inject ReportManager reportManager;
@@ -165,6 +165,7 @@ public class VoiceRecognizerFragment extends Fragment {
         spSpeechAccount = (Spinner) rootView.findViewById(R.id.spSpeechAccount);
         tvSpeechModeAdjective = (TextView) rootView.findViewById(R.id.tvSpeechModeAdjective);
         autoSave = (TextView) rootView.findViewById(R.id.tvAutoSaveVoice);
+        initVoices();
         curString = new String[daoSession.getCurrencyDao().loadAll().size()];
         for (int i = 0; i < curString.length; i++) {
             curString[i] = daoSession.getCurrencyDao().loadAll().get(i).getAbbr();
@@ -183,7 +184,33 @@ public class VoiceRecognizerFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (!started) {
-                    askForContactPermission();
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+                            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
+                                    Manifest.permission.RECORD_AUDIO)) {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                                builder.setTitle(R.string.contact_access_needed);
+                                builder.setPositiveButton(android.R.string.ok, null);
+                                builder.setMessage(R.string.please_confirm_contact_access);//TODO put real question
+                                builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                                    @TargetApi(Build.VERSION_CODES.M)
+                                    @Override
+                                    public void onDismiss(DialogInterface dialog) {
+                                        requestPermissions(
+                                                new String[]
+                                                        {Manifest.permission.RECORD_AUDIO}
+                                                , PERMISSION_REQUEST_RECORD);
+                                    }
+                                });
+                                builder.show();
+                            } else {
+                                ActivityCompat.requestPermissions(getActivity(),
+                                        new String[]{Manifest.permission.RECORD_AUDIO},
+                                        PERMISSION_REQUEST_RECORD);
+                            }
+                            return;
+                        }
+                    }
                     if (!preferences.getBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.VOICE_RECOGNITION_KEY, false)) {
                         if (preferences.getInt(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.VOICE_RECOGNITION_COUNT, 0) > 3) {
                             final WarningDialog dialog = new WarningDialog(getContext());
@@ -261,11 +288,13 @@ public class VoiceRecognizerFragment extends Fragment {
         recognizer.setSpeechListener(new SpeechListener() {
             @Override
             public void onSpeechEnd(List<String> speechResult) {
+                Log.d("sss", "onSpeechEnd: ");
                 processSpeechResults(speechResult);
             }
 
             @Override
             public void onSpeechPartialListening(List<String> speechResult) {
+                Log.d("sss", "onSpeechPartialListening: ");
                 processSpeechResults(speechResult);
             }
 
@@ -295,6 +324,14 @@ public class VoiceRecognizerFragment extends Fragment {
         String fragmentName = getClass().getName();
         analytics.sendText("User entered: " + fragmentName);
         return rootView;
+    }
+
+    public void initVoices() {
+        voices = new ArrayList<>();
+        List<RootCategory> allCategories = daoSession.getRootCategoryDao().loadAll();
+        for (RootCategory cat : allCategories) {
+            CommonOperations.generateRegexVoice(voices, cat);
+        }
     }
 
     @Override
@@ -623,6 +660,7 @@ public class VoiceRecognizerFragment extends Fragment {
     private MyTask myTask;
 
     private void parseVoice(final String newLetter) {
+        Log.d("sss", "parseVoice: " + newLetter);
         List<TemplateVoice> successTemplates = new ArrayList<>();
         List<TemplateAccount> templateAccounts = new ArrayList<>();
         //finding a category
@@ -837,6 +875,7 @@ public class VoiceRecognizerFragment extends Fragment {
                 }
             }
         }
+        Log.d("sss", "parseVoice: "+categoryId);
         if (categoryId != null && !categoryId.isEmpty()) {
             String text = "";
             RootCategory category = daoSession.load(RootCategory.class, categoryId);
@@ -883,8 +922,6 @@ public class VoiceRecognizerFragment extends Fragment {
                     @Override
                     public void onFinish() {
                         autoSave.setText(R.string.ok);
-//                        autoSave.setVisibility(View.GONE);
-//                        autoSave.setText("");
                         savingVoice();
                     }
                 }.start();
@@ -1047,40 +1084,14 @@ public class VoiceRecognizerFragment extends Fragment {
     private final int PERMISSION_REQUEST_RECORD = 0;
 
     public void askForContactPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
-                if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
-                        Manifest.permission.RECORD_AUDIO)) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                    builder.setTitle(R.string.contact_access_needed);
-                    builder.setPositiveButton(android.R.string.ok, null);
-                    builder.setMessage(R.string.please_confirm_contact_access);//TODO put real question
-                    builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                        @TargetApi(Build.VERSION_CODES.M)
-                        @Override
-                        public void onDismiss(DialogInterface dialog) {
-                            requestPermissions(
-                                    new String[]
-                                            {Manifest.permission.RECORD_AUDIO}
-                                    , PERMISSION_REQUEST_RECORD);
-                        }
-                    });
-                    builder.show();
-                } else {
-                    ActivityCompat.requestPermissions(getActivity(),
-                            new String[]{Manifest.permission.RECORD_AUDIO},
-                            PERMISSION_REQUEST_RECORD);
-                }
-            }
-        }
+
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
             case PERMISSION_REQUEST_RECORD: {
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 }
                 return;
             }

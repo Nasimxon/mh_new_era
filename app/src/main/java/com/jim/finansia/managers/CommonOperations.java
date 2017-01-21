@@ -83,7 +83,6 @@ import javax.inject.Named;
 
 public class CommonOperations {
     @Inject DaoSession daoSession;
-    @Inject List<TemplateVoice> voices;
     private CurrencyDao currencyDao;
     private Context context;
     private Currency mainCurrency;

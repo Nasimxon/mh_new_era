@@ -156,16 +156,6 @@ public class PocketAccounterApplicationModule {
         return displayFormatter;
     }
 
-    @Provides
-    public List<TemplateVoice> getVoices() {
-        if (voices == null) {
-            voices = new ArrayList<>();
-            for (RootCategory cat : daoSession.getRootCategoryDao().loadAll()) {
-                CommonOperations.generateRegexVoice(voices, cat);
-            }
-        }
-        return voices;
-    }
 
     @Provides
     public List<TemplateAccount> getAccountVoice () {

@@ -339,6 +339,7 @@ public class RootCategoryEditFragment extends PABaseInfoFragment implements OnCl
                 rootCategory.setId(categoryId);
                 if (category != null) {
                     logicManager.insertRootCategory(rootCategory);
+                    paFragmentManager.updateTemplatesInVoiceRecognitionFragment();
                     List<BoardButton> list = daoSession
                             .getBoardButtonDao()
                             .queryBuilder()
@@ -360,6 +361,7 @@ public class RootCategoryEditFragment extends PABaseInfoFragment implements OnCl
                         Toast.makeText(getContext(), R.string.category_name_error, Toast.LENGTH_SHORT).show();
                         return;
                     }
+                    paFragmentManager.updateTemplatesInVoiceRecognitionFragment();
                 }
                 if (editMode == PocketAccounterGeneral.NO_MODE) {
                     paFragmentManager.getFragmentManager().popBackStack();

@@ -53,10 +53,9 @@ public interface PocketAccounterApplicationComponent {
     CommonOperations getCommonOperations();
     ReportManager reportManager();
     PocketAccounterApplicationModule getPocketAccounterApplicationModule();
-    List<TemplateVoice> getVoices();
     List<TemplateAccount> getTemplateAccounts();
     List<TemplateCurrencyVoice> getCurrencyVoices();
-    public DecimalFormat getFormatter();
+    DecimalFormat getFormatter();
     @Named(value = "begin") Calendar getBegin();
     @Named(value = "end") Calendar getEnd();
     @Named(value = "common_formatter") SimpleDateFormat getCommonFormatter();

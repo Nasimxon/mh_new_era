@@ -85,7 +85,6 @@ public class DecorationBoardView extends BaseBoardView {
 
 
     private void init() {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         active = ContextCompat.getColor(getContext(), R.color.active_circle);
         not_active = ContextCompat.getColor(getContext(), R.color.not_active_circle);
         indicatorFrame = ContextCompat.getColor(getContext(), R.color.indicators_frame);
