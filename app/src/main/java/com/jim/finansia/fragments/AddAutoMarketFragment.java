@@ -481,7 +481,6 @@ public class AddAutoMarketFragment extends Fragment {
         dialog.show();
     }
 
-
     private class DaysAdapter extends RecyclerView.Adapter<ViewHolderDialog> {
         private String[] days;
         private boolean tek[];

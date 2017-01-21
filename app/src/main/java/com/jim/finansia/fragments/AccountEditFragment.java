@@ -187,6 +187,26 @@ public class AccountEditFragment extends PABaseInfoFragment implements OnClickLi
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        if (toolbarManager != null) {
+            toolbarManager.setOnHomeButtonClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    paFragmentManager.getFragmentManager().popBackStack();
+                    paFragmentManager.displayFragment(new AccountFragment());
+                }
+            });
+            toolbarManager.setTitle(getResources().getString(R.string.addedit));
+            toolbarManager.setSubtitle("");
+            toolbarManager.setOnTitleClickListener(null);
+            toolbarManager.setSubtitleIconVisibility(View.GONE);
+            toolbarManager.setImageToSecondImage(R.drawable.check_sign);
+            toolbarManager.setOnSecondImageClickListener(this);
+        }
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ivToolbarMostRight:

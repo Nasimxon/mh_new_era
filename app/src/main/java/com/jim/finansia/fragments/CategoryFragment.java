@@ -81,6 +81,19 @@ public class CategoryFragment extends PABaseListFragment implements OnClickListe
 		return rootView;
 	}
 
+	@Override
+	public void onResume() {
+		super.onResume();
+		if (toolbarManager != null) {
+			toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
+			toolbarManager.setTitle(getResources().getString(R.string.auto_operations));
+			toolbarManager.setOnTitleClickListener(null);
+			toolbarManager.setSubtitleIconVisibility(View.GONE);
+			toolbarManager.setSpinnerVisibility(View.GONE);
+			toolbarManager.setSubtitle("");
+		}
+	}
+
 	private boolean show = false;
 	public void onScrolledList(boolean k) {
 		if (k) {

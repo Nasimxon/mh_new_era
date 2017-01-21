@@ -125,6 +125,33 @@ public class AccountInfoFragment extends PABaseInfoFragment {
 		return rootView;
 	}
 
+	@Override
+	public void onResume() {
+		super.onResume();
+		if (toolbarManager != null) {
+			toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
+			toolbarManager.setImageToSecondImage(R.drawable.ic_more_vert_black_48dp);
+			toolbarManager.setImageToHomeButton(R.drawable.ic_back_button);
+			toolbarManager.setTitle(getResources().getString(R.string.accounts));
+			toolbarManager.setOnTitleClickListener(null);
+			toolbarManager.setSubtitle(account.getName());
+			toolbarManager.setSubtitleIconVisibility(View.GONE);
+			toolbarManager.setOnHomeButtonClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					paFragmentManager.getFragmentManager().popBackStack();
+					paFragmentManager.displayFragment(new AccountFragment());
+				}
+			});
+			toolbarManager.setOnSecondImageClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					showOperationsList(v);
+				}
+			});
+		}
+	}
+
 	private void showOperationsList(View v) {
 		PopupMenu popupMenu = new PopupMenu(getContext(), v);
 		popupMenu.inflate(R.menu.toolbar_popup);

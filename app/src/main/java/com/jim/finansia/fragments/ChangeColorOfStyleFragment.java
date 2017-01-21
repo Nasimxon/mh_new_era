@@ -127,7 +127,18 @@ public class ChangeColorOfStyleFragment extends Fragment {
         return rootView;
     }
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (toolbarManager != null) {
+            toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
+            toolbarManager.setTitle(getResources().getString(R.string.auto_operations));
+            toolbarManager.setOnTitleClickListener(null);
+            toolbarManager.setSubtitleIconVisibility(View.GONE);
+            toolbarManager.setSpinnerVisibility(View.GONE);
+            toolbarManager.setSubtitle("");
+        }
+    }
 
     private void generateColorDatas() {
         colorDatas = new ArrayList<>();

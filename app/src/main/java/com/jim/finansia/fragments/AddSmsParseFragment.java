@@ -387,6 +387,19 @@ public class AddSmsParseFragment extends PABaseFragment{
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        if (toolbarManager != null) {
+            toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
+            toolbarManager.setTitle(getResources().getString(R.string.auto_operations));
+            toolbarManager.setOnTitleClickListener(null);
+            toolbarManager.setSubtitleIconVisibility(View.GONE);
+            toolbarManager.setSpinnerVisibility(View.GONE);
+            toolbarManager.setSubtitle("");
+        }
+    }
+
+    @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == REQUEST_CODE_ASK_PERMISSIONS) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
