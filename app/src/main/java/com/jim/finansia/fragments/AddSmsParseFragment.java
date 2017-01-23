@@ -624,7 +624,6 @@ public class AddSmsParseFragment extends PABaseFragment{
         private void dialogSms(final boolean type, final int position) {
             posIncExp = -1;
             posAmount = -1;
-            posAmount = -1;
             dialog = new Dialog(getActivity());
             View dialogView = getActivity().getLayoutInflater().inflate(R.layout.dialog_parsin_sms_select_word, null);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -743,7 +742,8 @@ public class AddSmsParseFragment extends PABaseFragment{
                                 if (amountKeyPos < 0) {
                                     forward = true;
                                     amountKeyPos = posAmount+1;
-                                } else if (amountKeyPos >= splittedBody.size()) break;
+                                }
+                                else if (amountKeyPos >= splittedBody.size()) break;
                                 else if (!forward) {
                                     if (!splittedBody.get(amountKeyPos).matches(dateRegex))
                                         amountKeyDefined = true;

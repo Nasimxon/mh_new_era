@@ -1288,14 +1288,14 @@
     <string name="secure_on">Enable security</string>
     <string name="enter_password">Enter password</string>
     <string-array name="secure_times_titles">
-        <item>1 мин.</item>
-        <item>5 мин.</item>
-        <item>10 мин.</item>
-        <item>15 мин.</item>
-        <item>25 мин.</item>
-        <item>30 мин.</item>
-        <item>40 мин.</item>
-        <item>50 мин.</item>
+        <item>1 min.</item>
+        <item>5 min.</item>
+        <item>10 min.</item>
+        <item>15 min.</item>
+        <item>25 min.</item>
+        <item>30 min.</item>
+        <item>40 min.</item>
+        <item>50 min.</item>
         <item>1 час.</item>
     </string-array>
     <string-array name="secure_times_values">
@@ -1309,80 +1309,79 @@
         <item>50</item>
         <item>60</item>
     </string-array>
-    <string name="set_time_of_secure_title">Time</string>
-    <string name="set_time_of_secure_summary">Установите время, через которого подействует защита</string>
-    <string name="start_money">Start sum</string>
-    <string name="limit_exceed">The current account limit exceeded</string>
-    <string name="add_comment">Add comment +</string>
-    <string name="commenti">Write comment</string>
-    <string name="current_password">Current password</string>
-    <string name="enter_your_password">Enter your password</string>
-    <string name="izmenit_parol">Change password</string>
-    <string name="limit">Limit</string>
-    <string name="limit_sum">Sum of limit</string>
-    <string name="new_password">New password</string>
-    <string name="otklyuchit">Turn off password</string>
-    <string name="password_should_be_4_numbers">Password should be 4 numbers</string>
-    <string name="please_repait_correct">Check your password</string>
-    <string name="please_write_your_current_password">Please write your current password</string>
-    <string name="really_dellete">Do you want to delete?</string>
-    <string name="repiat_yout_password">Repeat new password</string>
-    <string name="scetimeet">Set limit</string>
+    <string name="set_time_of_secure_title">Tiempo</string>
+    <string name="start_money">Suma inicial</string>
+    <string name="limit_exceed">Se excedió el límite de cuenta corriente</string>
+    <string name="add_comment">Añadir un commentario +</string>
+    <string name="commenti">Escribe un commentario</string>
+    <string name="current_password">Contraseña actual</string>
+    <string name="enter_your_password">Introduzca su contraseña</string>
+    <string name="izmenit_parol">Cambia la contraseña</string>
+    <string name="limit">Límite</string>
+    <string name="limit_sum">Suma de límite</string>
+    <string name="new_password">Nueva contraseña</string>
+    <string name="otklyuchit">Desactiva la contraseña</string>
+    <string name="password_should_be_4_numbers">La contraseña debe tener 4 números</string>
+    <string name="please_repait_correct">Revisa tu contraseña</string>
+    <string name="please_write_your_current_password">Por favor, escribe tu contraseña actual!</string>
+    <string name="really_dellete">Quiere suprimir?</string>
+    <string name="repiat_yout_password">Repita la nueva contraseńa</string>
+    <string name="scetimeet">Establecer límite</string>
     <string name="share_ticket">Share</string>
-    <string name="try_one_more">Entered password is incorrect, try again</string>
-    <string name="was_four_numbers">Your password must consist of 4 numbers</string>
-    <string name="start_moneyy">Start sum</string>
-    <string name="data_izmenenia">Date:</string>
-    <string name="securee">Security</string>
+    <string name="try_one_more">La contraseña ingresada es incorrecta, intétalo nuevo</string>
+    <string name="was_four_numbers">Tu contraseña debe consistir de 4 números</string>
+    <string name="start_moneyy">Suma inicial</string>
+    <string name="data_izmenenia">Fecha:</string>
+    <string name="securee">Seguridad</string>
     <string-array name="adding_ticket_type">
-        <item>From gallery</item>
-        <item>Camera</item>
+        <item>De la galería</item>
+        <item>Cámara</item>
     </string-array>
     <string-array name="more_option_for_credit_debt">
-        <item>Edit</item>
-        <item>Delete</item>
+        <item>Editar</item>
+        <item>Borrar</item>
     </string-array>
-    <string name="choesetypeing">Select photo</string>
-    <string name="savein">SAVE</string>
-    <string name="ok_b">OK</string>
-    <string name="must_be_one_currency">Must be at least one currency!</string>
-    <string name="replanish">Cash in</string>
-    <string name="limit_not_setted">Limit no set</string>
-    <string name="transfer">Transfer money</string>
-    <string name="limit_interval">Interval of limit</string>
-    <string name="such_account_name_exists_error">Account with such name is already exist!</string>
-    <string name="none_zero_account">Not a negative account</string>
-    <string name="operations">Operations</string>
-    <string name="add_subcategory">Add subcategory</string>
-    <string name="such_subcat_exist">Subcategory with such name is exists!</string>
-    <string name="purposes">Purposes</string>
-    <string name="earn">Saving box</string>
-    <string name="period">Period</string>
-    <string name="none_minus_account_warning">Account cannot be negative!</string>
-    <string name="add_category">Add category</string>
-    <string name="debt_borrow_list_is_empty">Add debt</string>
-    <string name="credit_list_is_empty">Add credit</string>
-    <string name="account_deleting_error">It must be at least one account!!!</string>
-    <string name="purpose_list_is_empty">Purpose list is empty! Do you want to add?</string>
+    <string name="choesetypeing">Seleccióne foto</string>
+    <string name="savein">SALVAR</string>
+    <string name="ok_b">Sí</string>
+    <string name="must_be_one_currency">Debe ser al menos una moneda!</string>
+    <string name="replanish">Pagar</string>
+    <string name="limit_not_setted">Límite no establecido</string>
+    <string name="transfer">Transferir el dinero</string>
+    <string name="limit_interval">Intervalo de límite</string>
+    <string name="such_account_name_exists_error">Cuenta con ese nonbre existe!</string>
+    <string name="none_zero_account">Cuenta no negativa </string>
+    <string name="operations">Operaciónes</string>
+    <string name="add_subcategory">Añadir subcategoría</string>
+    <string name="such_subcat_exist">¡La subcategoría con ese nombre existe!</string>
+    <string name="purposes">Propósitos</string>
+    <string name="earn">Caja de dínero</string>
+    <string name="period">Período</string>
+    <string name="none_minus_account_warning">La cuenta no puede ser negativa!</string>
+    <string name="add_category">Ańadir categoría</string>
+    <string name="debt_borrow_list_is_empty">Ańadir deuda</string>
+    <string name="credit_list_is_empty">Añadir crédito</string>
+    <string name="account_deleting_error">Debe tener al menos una cuenta!!!</string>
+    <string name="purpose_list_is_empty">La lista de propósito está vaciá! Quieres agregar?</string>
     <!--operations-->
     <string-array name="operation_category">
-        <item>Choose from exist</item>
-        <item>Create new</item>
+        <item>Elije de existir</item>
+        <item>Crear nuevo</item>
     </string-array>
     <string-array name="board_operation_names_long_press">
-        <item>Categories</item>
-        <item>Credits</item>
-        <item>Debts</item>
-        <item>Functions</item>
-        <item>Pages</item>
+        <item>Categrías</item>
+        <item>Créditos</item>
+        <item>Deudas</item>
+        <item>Función</item>
+        <item>Páginas</item>
     </string-array>
     <string-array name="operation_names">
-        <item>Sync with Google</item>
-        <item>Load datas</item>
-        <item>Transfer money</item>
-        <item>Clear for the day</item>
-        <item>Next</item>
-        <item>Previous</item>
+        <item>Sincronizar con GOOGLE</item>
+        <item>Cargar datos</item>
+        <item>Transferir dinero</item>
+        <item>Claro para el dïa</item>
+        <item>Siguiente</item>
+        <item>Anterior</item>
     </string-array>
     <string-array name="operation_ids">
         <item>sync</item>
@@ -1443,88 +1442,88 @@
         <item>icons_413</item>
     </string-array>
     <string name="accountdo">Cuenta:</string>
-    <string name="balance_invis">Dont show balance</string>
-    <string name="borrow_arch">BORROW in Archive</string>
-    <string name="borrow_com">This debt is included in balance, but it is in archive!</string>
+    <string name="balance_invis">No mostrar el balance</string>
+    <string name="borrow_arch">El préstamo está en archivo</string>
+    <string name="borrow_com">La deuda está incluido en el balance, pero está en archivo!</string>
     <string name="borrow_coment_incl">This debt is not included in balance</string>
-    <string name="borrow_comment">This debt is included in balance</string>
-    <string name="borrow_comment_not_icl_arch">This debt is not included in balance, but it is in archive!</string>
-    <string name="borrow_reckings_var">Debt record</string>
-    <string name="borrow_var">Borrow</string>
-    <string name="choose_type_p">Choose type action</string>
-    <string name="count_pages">Count of pages</string>
-    <string name="cred_arch">Archive</string>
-    <string name="cred_include_bal">This credit is included in balance</string>
-    <string name="cred_not_include_bal">This credit is not included in balance</string>
-    <string name="credit_reckings_var">Credit recking</string>
-    <string name="credit_var">Credit</string>
-    <string name="date_with_two_dots">Date:</string>
-    <string name="debt_com">The debt is included in balance, but it is in archive</string>
-    <string name="debt_coment">The debt is included in balance</string>
-    <string name="debt_comment_not_icluded">The Debt is not included in the balance and is in archive</string>
-    <string name="debt_arch">Debt is in Archive</string>
+    <string name="borrow_comment">La deuda no está incluido en el balance</string>
+    <string name="borrow_comment_not_icl_arch">La deuda no está incluido en el balance, pero está en archivo!</string>
+    <string name="borrow_reckings_var">Registro de la deuda</string>
+    <string name="borrow_var">Préstamo</string>
+    <string name="choose_type_p">Elije el tipo de acción</string>
+    <string name="count_pages">Número de páginas</string>
+    <string name="cred_arch">Archivo</string>
+    <string name="cred_include_bal">Este crédito esta en el balance</string>
+    <string name="cred_not_include_bal">Este crédito no esta en el balance</string>
+    <string name="credit_reckings_var">Pago de crédito</string>
+    <string name="credit_var">Crédito</string>
+    <string name="date_with_two_dots">Fecha:</string>
+    <string name="debt_com">La deuda está incluido en el balance, pero está en archivo</string>
+    <string name="debt_coment">La deuda está incluido en el balance</string>
+    <string name="debt_comment_not_icluded">La deuda no está incluido en el balance, está en archivo</string>
+    <string name="debt_arch">Deuda está en archivo</string>
     <string name="debt_comment_to">This debt is not included in balance</string>
-    <string name="debt_reckings_var">Debt record</string>
-    <string name="debt_var">Debt</string>
-    <string name="export_exel">Export Excel</string>
-    <string name="filter">Filter</string>
-    <string name="how_much_pages_you_need">How much pages you need?</string>
-    <string name="in_window_expense_top_window">Count of pages (expenses)</string>
-    <string name="in_windows_incomes_bottom_window">Count of pages (incomes)</string>
-    <string name="include_balance">The credit is included in balance, but is in archive</string>
-    <string name="limit_page">Limit count must be between 1 and 10</string>
-    <string name="minusable_account">Account can be negative</string>
-    <string name="none_minusable_account">Not a negative account</string>
-    <string name="not_exist">Not exist</string>
-    <string name="not_set">Not set</string>
-    <string name="pages_about">Expanse and Income pages</string>
-    <string name="simple_recking">Expenses, incomes</string>
-    <string name="some_credit">The credit is not included in balance and is in archive</string>
-    <string name="to_earn">Save</string>
-    <string name="type">Type:</string>
-    <string name="whole_day_datas_deleting">Records for current day will be deleted!</string>
-    <string name="search">Search</string>
-    <string name="account_for_parsing">Account for parsing:</string>
+    <string name="debt_reckings_var">Registro de la deuda</string>
+    <string name="debt_var">Deuda</string>
+    <string name="export_exel">Exportar a Excel</string>
+    <string name="filter">Filtro</string>
+    <string name="how_much_pages_you_need">Cuántas páginas necesitas?</string>
+    <string name="in_window_expense_top_window">Número de páginas(gastos)</string>
+    <string name="in_windows_incomes_bottom_window">Número de páginas(ingresos)</string>
+    <string name="include_balance">El crédito está incluido en el balance, pero esta en archivo</string>
+    <string name="limit_page">Límite debe ser de 1 a 10</string>
+    <string name="minusable_account">Cuenta puede ser negativa</string>
+    <string name="none_minusable_account">No una cuenta negative</string>
+    <string name="not_exist">No existe</string>
+    <string name="not_set">No establecido</string>
+    <string name="pages_about">Página de gastos y ingresos</string>
+    <string name="simple_recking">Gastos, ingresos</string>
+    <string name="some_credit">El crédito no está incluido en el balance y está en archivo</string>
+    <string name="to_earn">Salvar</string>
+    <string name="type">Tipo:</string>
+    <string name="whole_day_datas_deleting">Registros para el día actual van a eleminó!</string>
+    <string name="search">Buscar</string>
+    <string name="account_for_parsing">Cuenta para analizar:</string>
     <string name="all_expense">Todo gasto:</string>
     <string name="all_incomes">Todos los ingresos:</string>
-    <string name="ammount_of_operation">Amount of operation for message:</string>
-    <string name="income_decide_with_static_word">Select keyword(income)</string>
-    <string name="info_toliq">Information</string>
-    <string name="it_is_expense">Expense</string>
-    <string name="it_is_income">Income</string>
-    <string name="obyasneniya_pro_parsing">For accuracy of SMS Parsing select a keyword for defining income or expense, and select sum</string>
-    <string name="processed">Processed:</string>
-    <string name="select_word_for_parsing">Select word for parsing</string>
-    <string name="which_type_is_it">Set type</string>
-    <string name="from_sms">SMS list</string>
-    <string name="do_you_want_to_delete">Do you really want to delete?</string>
-    <string name="please_type">Search for word</string>
-    <string name="cant_find">I can\'t find</string>
-    <string name="your_purpose">Your purpose :</string>
-    <string name="enter_the_title">Enter the title</string>
-    <string name="accumulation">Accumulation</string>
-    <string name="enter_the_amount">Enter the amount</string>
-    <string name="term_of_purpose">Term of purpose</string>
-    <string name="duration">Duration</string>
-    <string name="left_datee">End:</string>
-    <string name="left_acomuleted">Left amount:</string>
-    <string name="god_and_years">years</string>
-    <string name="let_and_years">years</string>
-    <string name="purpose_list_empty">Add purpose</string>
-    <string name="purpose_ammount">Purpose sum:</string>
-    <string name="report_by_account_title">Reports</string>
-    <string name="saved_money">Cumulative sum:</string>
-    <string name="auto_operations">Auto operations</string>
-    <string name="auto_op_is_empty">List is empty!</string>
-    <string name="enter_amount_operation">Enter amount</string>
-    <string name="income_expance_title">Incomes and expenses</string>
-    <string name="key_for_type">Select keyword for defining type(income or expense):</string>
-    <string name="select_word">Select a word</string>
-    <string name="sms_pars_list_empty">Sms parsing list is empty</string>
-    <string name="spend">To spend</string>
-    <string name="sub_category">Sub Category</string>
-    <string name="sync_failed">Sync failed</string>
-    <string name="sync_suc">Sync is successful</string>
+    <string name="ammount_of_operation">Cantidad de operatción para el mensaje:</string>
+    <string name="income_decide_with_static_word">Seleccione la palabra clave(ingreso)</string>
+    <string name="info_toliq">Información</string>
+    <string name="it_is_expense">Gasto</string>
+    <string name="it_is_income">Ingreso</string>
+    <string name="obyasneniya_pro_parsing">Para precición de SMS Análisis seleccione una palabra clave para definir el ingresos o gastos, y seleccione la suma</string>
+    <string name="processed">Processada:</string>
+    <string name="select_word_for_parsing">Seleccione palabra para analizar</string>
+    <string name="which_type_is_it">Establecer el típo</string>
+    <string name="from_sms">La lista de SMS</string>
+    <string name="do_you_want_to_delete">¿Usted quiere realmente suprimir?</string>
+    <string name="please_type">Buscar palabra</string>
+    <string name="cant_find">No puedo encontar</string>
+    <string name="your_purpose">Tu propósito:</string>
+    <string name="enter_the_title">Entre la título</string>
+    <string name="accumulation">Accumulación</string>
+    <string name="enter_the_amount">Entre la cantidad</string>
+    <string name="term_of_purpose">Término de propósito</string>
+    <string name="duration">Duración</string>
+    <string name="left_datee">Final:</string>
+    <string name="left_acomuleted">Cantidad residual:</string>
+    <string name="god_and_years">años</string>
+    <string name="let_and_years">años</string>
+    <string name="purpose_list_empty">Añadir propósito</string>
+    <string name="purpose_ammount">Suma de propóposito:</string>
+    <string name="report_by_account_title">Informes</string>
+    <string name="saved_money">Suma accumulada:</string>
+    <string name="auto_operations">Auto operaciones</string>
+    <string name="auto_op_is_empty">La lista está vacía!</string>
+    <string name="enter_amount_operation">Entre cantidad</string>
+    <string name="income_expance_title">Ingresos y gastos</string>
+    <string name="key_for_type">Seleccione palabra clave para tipo de definición(ingreso o gasto):</string>
+    <string name="select_word">Seleccione una palabra</string>
+    <string name="sms_pars_list_empty">La lista de sms análisis está vacío</string>
+    <string name="spend">Gastar</string>
+    <string name="sub_category">Subcategoría</string>
+    <string name="sync_failed">Error de sincronización</string>
+    <string name="sync_suc">La sincronización es correcta</string>
     <string name="transfer_isnt_done">Transferencia fallida!</string>
     <string name="credit_arcive_are_empty">La lista de archivo está vacía</string>
     <string name="credit_are_empty">Añadir crédito</string>

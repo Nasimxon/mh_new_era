@@ -27,6 +27,7 @@ import com.jim.finansia.fragments.ManualEnterFragment;
 import com.jim.finansia.fragments.PurposeFragment;
 import com.jim.finansia.fragments.RecordDetailFragment;
 import com.jim.finansia.fragments.ReportFragment;
+import com.jim.finansia.fragments.SMSParseInfoFragment;
 import com.jim.finansia.fragments.SmsParseMainFragment;
 import com.jim.finansia.fragments.VoiceRecognizerFragment;
 import com.jim.finansia.helper.MyVerticalViewPager;
@@ -271,7 +272,9 @@ public class PAFragmentManager {
             Fragment fragment = fragmentManager.getFragments().get(i);
             if (fragment != null && fragment.getClass().getName().equals(SmsParseMainFragment.class.getName())) {
                 ((SmsParseMainFragment) fragment).refreshList();
-                break;
+            }
+            if (fragment != null && fragment.getClass().getName().equals(SMSParseInfoFragment.class.getName())) {
+                ((SMSParseInfoFragment) fragment).refresh();
             }
         }
     }

@@ -75,6 +75,8 @@ public class SmsService extends Service {
 
         if (!smsParseObjects.isEmpty()) {
             SmsParseObject smsParseObject = smsParseObjects.get(0);
+            smsParseObjects.get(0).resetTemplates();
+            smsParseObjects.get(0).resetSuccessList();
             SmsParseSuccess smsParseSuccess = null;
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(intent.getLongExtra("date", 0));
