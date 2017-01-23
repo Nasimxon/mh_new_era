@@ -3,12 +3,16 @@ package com.jim.finansia;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.appwidget.AppWidgetManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
@@ -34,6 +38,8 @@ import com.jim.finansia.modulesandcomponents.components.DaggerPocketAccounterAct
 import com.jim.finansia.modulesandcomponents.components.PocketAccounterActivityComponent;
 import com.jim.finansia.modulesandcomponents.modules.PocketAccounterActivityModule;
 import com.jim.finansia.utils.PocketAccounterGeneral;
+import com.jim.finansia.utils.SMSMonitor;
+import com.jim.finansia.utils.SmsService;
 import com.jim.finansia.utils.WarningDialog;
 import com.jim.finansia.utils.billing.PurchaseImplementation;
 import com.jim.finansia.utils.cache.DataCache;
@@ -67,7 +73,7 @@ public class PocketAccounter extends AppCompatActivity {
     public static boolean PRESSED = false;
     int WidgetID;
     DatePickerDialog.OnDateSetListener getDatesetListener;
-
+    private SMSMonitor receiver;
     public static boolean keyboardVisible = false;
     @Inject DaoSession daoSession;
     @Inject SharedPreferences preferences;
@@ -176,6 +182,18 @@ public class PocketAccounter extends AppCompatActivity {
             setToToolbarVoiceMode();
         else
             setToToolbarManualEnterMode();
+        receiver = new SMSMonitor() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                String s = intent.getStringExtra(SmsService.PA_MESSAGE);
+                if (s != null) {
+                    paFragmentManager.updateAllFragmentsOnViewPager();
+                    paFragmentManager.updateTemplatesInVoiceRecognitionFragment();
+                    paFragmentManager.updateAllFragmentsPageChanges();
+                    paFragmentManager.updateSmsFragmentChanges();
+                }
+            }
+        };
     }
 
     public void setToToolbarVoiceMode() {
@@ -323,12 +341,16 @@ public class PocketAccounter extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        LocalBroadcastManager.getInstance(this).registerReceiver((receiver),
+                new IntentFilter(SmsService.PA_RESULT)
+        );
         dataCache.updateAllPercents();
         paFragmentManager.updateAllFragmentsOnViewPager();
     }
 
     @Override
     protected void onStop() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
         super.onStop();
         boolean notif = sharedPreferences.getBoolean("general_notif", true);
         if (notif) {

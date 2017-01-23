@@ -78,6 +78,13 @@ public class SmsParseMainFragment extends Fragment implements View.OnClickListen
         return rootView;
     }
 
+    public void refreshList() {
+        if (recyclerView != null) {
+            MyAdapter myAdapter = new MyAdapter();
+            recyclerView.setAdapter(myAdapter);
+        }
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -111,6 +118,9 @@ public class SmsParseMainFragment extends Fragment implements View.OnClickListen
 
         public MyAdapter() {
             this.smsParseObjects = daoSession.getSmsParseObjectDao().loadAll();
+            for (SmsParseObject object : smsParseObjects) {
+                object.resetSuccessList();
+            }
             if(smsParseObjects.size()==0){
                 ifListEmpty.setVisibility(View.VISIBLE);
                 ifListEmpty.setText(R.string.sms_pars_list_empty);
@@ -132,14 +142,14 @@ public class SmsParseMainFragment extends Fragment implements View.OnClickListen
             }
             if (count != 0) {
                 if(count>1)
-                view.tvNotReadCount.setText( count +" "+ getString(R.string.mes));
+                view.tvNotReadCount.setText(count +" "+ getString(R.string.mes));
                 else
-                    view.tvNotReadCount.setText( count+" " + getString(R.string.mes2));
+                    view.tvNotReadCount.setText(count+" " + getString(R.string.mes2));
 
                 view.tvNotReadCount.setTextColor(ContextCompat.getColor(getContext(),R.color.red));
             }
             else {
-                view.tvNotReadCount.setText( getString(R.string.no_message));
+                view.tvNotReadCount.setText(getString(R.string.no_message));
                 view.tvNotReadCount.setTextColor(ContextCompat.getColor(getContext(),R.color.black_for_secondary_text));
             }
             if (smsParseObjects.get(position).getSuccessList() != null) {

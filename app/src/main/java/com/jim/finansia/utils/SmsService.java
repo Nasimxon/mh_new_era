@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
 
 import com.jim.finansia.PocketAccounterApplication;
 import com.jim.finansia.database.DaoMaster;
@@ -31,10 +32,15 @@ import javax.inject.Inject;
 public class SmsService extends Service {
     @Inject
     DaoSession daoSession;
+    private LocalBroadcastManager broadcaster;
 
+    static final public String PA_RESULT = "com.jim.finansia.REQUEST_PROCESSED";
+    static final public String PA_MESSAGE = "com.jim.finansia.MSG_RECEIVED";
+    static final public String MESSAGE = "sending_message";
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         ((PocketAccounterApplication) getApplicationContext()).component().inject(this);
+        broadcaster = LocalBroadcastManager.getInstance(this);
         Bundle bundle=null;
         if(intent!=null)
             bundle= intent.getExtras();
@@ -115,7 +121,14 @@ public class SmsService extends Service {
             }
             daoSession.getSmsParseSuccessDao().insertOrReplace(smsParseSuccess);
         }
+        sendResult(MESSAGE);
         return super.onStartCommand(intent, flags, startId);
+    }
+    public void sendResult(String message) {
+        Intent intent = new Intent(PA_RESULT);
+        if(message != null)
+            intent.putExtra(PA_MESSAGE, message);
+        broadcaster.sendBroadcast(intent);
     }
 
     @Nullable

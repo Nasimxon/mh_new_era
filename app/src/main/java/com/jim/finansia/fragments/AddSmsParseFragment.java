@@ -77,9 +77,6 @@ public class AddSmsParseFragment extends PABaseFragment{
     private Dialog dialog;
     private MyAdapter myAdapter;
     private TextView tvIncome, tvExpense;
-    private final int ALL_SMS = 0;
-    private final int INCOME_SMS = 1;
-    private final int EXPANCE_SMS = 2;
     private int posIncExp = -1;
     private int posAmount = -1;
     private SmsParseObject oldObject;
@@ -551,108 +548,6 @@ public class AddSmsParseFragment extends PABaseFragment{
                 continue;
             }
             words.add(temp.get(i));
-//            regex = "([a-zA-Z])+([/^*~&%@!+()$#-\\/'\\{`\\];\\[:]+)([0-9]+[.,]?[0-9]*)?";
-//            Pattern pattern = Pattern.compile(regex);
-//            Matcher matcher = pattern.matcher(temp.get(i));
-//            if (matcher.matches()) {
-//                words.add(matcher.group(3));
-//                words.add(matcher.group(2));
-//                words.add(matcher.group(1));
-//                added = true;
-//            }
-//            if (!added) {
-//                regex = "([0-9]+[.,]?[0-9]*)?([/^*~&%@!+()$#-\\/'\\{`\\];\\[:]+)";
-//                pattern = Pattern.compile(regex);
-//                matcher = pattern.matcher(temp.get(i));
-//                if (matcher.matches()) {
-//                    words.add(matcher.group(2));
-//                    words.add(matcher.group(1));
-//                    added = true;
-//                }
-//            }
-//            if (!added) {
-//                regex = "([/^*~&%@!+()$#-\\/'\\{`\\];\\[:]+)([0-9]+[.,]?[0-9]*)?";
-//                pattern = Pattern.compile(regex);
-//                matcher = pattern.matcher(temp.get(i));
-//                if (matcher.matches()) {
-//                    words.add(matcher.group(2));
-//                    words.add(matcher.group(1));
-//                    added = true;
-//                }
-//            }
-//            if (!added) {
-//                regex = "([0-9]+[.,]?[0-9]*)?([a-zA-Z])+([/^*~&%@!+()$#-\\/'\\{`\\];\\[:]+)";
-//                pattern = Pattern.compile(regex);
-//                matcher = pattern.matcher(temp.get(i));
-//                if (matcher.matches()) {
-//                    words.add(matcher.group(3));
-//                    words.add(matcher.group(2));
-//                    words.add(matcher.group(1));
-//                    added = true;
-//                }
-//            }
-//            if (!added) {
-//                regex = "([/^*~&%@!+()$#-\\/'\\{`\\];\\[:]+)([0-9]+[.,]?[0-9]*)?([/^*~&%@!+()$#-\\/'\\{`\\];\\[:]+)";
-//                pattern = Pattern.compile(regex);
-//                matcher = pattern.matcher(temp.get(i));
-//                if (matcher.matches()) {
-//                    words.add(matcher.group(3));
-//                    words.add(matcher.group(2));
-//                    words.add(matcher.group(1));
-//                    added = true;
-//                }
-//            }
-//            if (!added) {
-//                regex = "([a-zA-Z])+([/^*~&%@!+()$#-\\/'\\{`\\];\\[:]+)([0-9]+[.,]?[0-9]*)?([/^*~&%@!+()$#-\\/'\\{`\\];\\[:]+)";
-//                pattern = Pattern.compile(regex);
-//                matcher = pattern.matcher(temp.get(i));
-//                if (matcher.matches()) {
-//                    words.add(matcher.group(4));
-//                    words.add(matcher.group(3));
-//                    words.add(matcher.group(2));
-//                    words.add(matcher.group(1));
-//                    added = true;
-//                }
-//            }
-//            if (!added) {
-//                regex = "([a-zA-Z])+([/^*~&%@!+()$#-\\/'\\{`\\];\\[:]+)([0-9]+[.,]?[0-9]*)?([a-zA-Z])+";
-//                pattern = Pattern.compile(regex);
-//                matcher = pattern.matcher(temp.get(i));
-//                if (matcher.matches()) {
-//                    words.add(matcher.group(4));
-//                    words.add(matcher.group(3));
-//                    words.add(matcher.group(2));
-//                    words.add(matcher.group(1));
-//                    added = true;
-//                }
-//            }
-//            if (!added) {
-//                regex = "([a-zA-Z])+([/^*~&%@!+()$#-\\/'\\{`\\];\\[:]+)([0-9]+[.,]?[0-9]*)?([a-zA-Z])+([/^*~&%@!+()$#-\\/'\\{`\\];\\[:]+)";
-//                pattern = Pattern.compile(regex);
-//                matcher = pattern.matcher(temp.get(i));
-//                if (matcher.matches()) {
-//                    words.add(matcher.group(5));
-//                    words.add(matcher.group(4));
-//                    words.add(matcher.group(3));
-//                    words.add(matcher.group(2));
-//                    words.add(matcher.group(1));
-//                    added = true;
-//                }
-//            }
-//            if (!added) {
-//                regex = "([a-zA-Z])+([/^*~&%@!+()$#-\\/'\\{`\\];\\[:]+)([0-9]+[.,]?[0-9]*)?([/^*~&%@!+()$#-\\/'\\{`\\];\\[:]+)([a-zA-Z])+";
-//                pattern = Pattern.compile(regex);
-//                matcher = pattern.matcher(temp.get(i));
-//                if (matcher.matches()) {
-//                    words.add(matcher.group(5));
-//                    words.add(matcher.group(4));
-//                    words.add(matcher.group(3));
-//                    words.add(matcher.group(2));
-//                    words.add(matcher.group(1));
-//                    added = true;
-//                }
-//            }
-
         }
         Collections.reverse(words);
         return words;
@@ -775,7 +670,7 @@ public class AddSmsParseFragment extends PABaseFragment{
                     map.put(row++, tempList);
                 }
             }
-            row = 1;
+            row = 0;
             for (Integer integer : map.keySet()) {
                 List<String> lt = map.get(integer);
                 LinearLayout linearLayout1 = new LinearLayout(getContext());
@@ -822,10 +717,76 @@ public class AddSmsParseFragment extends PABaseFragment{
                             incomeKeys.add(splittedBody.get(posIncExp));
                         else
                             expenseKeys.add(splittedBody.get(posIncExp));
-                        if (posAmount != 0) {
-                            amountKeys.add(splittedBody.get(posAmount - 1));
-                        } else {
-                            amountKeys.add(splittedBody.get(position + 1));
+                        boolean amountKeyDefined = false;
+                        int amountKeyPos;
+                        String dateRegex = "[0-9]+[.,|/^*~&%@!+()$#-\\/'\"\\{`\\];\\[:][0-9]+[.,|/^*~&%@!+()$#-\\/'\"\\{`\\];\\[:]?[0-9]*";
+                        if (posAmount == 0) {
+                            amountKeyPos = posAmount+1;
+                            while (!amountKeyDefined) {
+                                if (amountKeyPos >= splittedBody.size()) break;
+                                else {
+                                    if (!splittedBody.get(amountKeyPos).matches(dateRegex))
+                                        amountKeyDefined = true;
+                                    else {
+                                        amountKeyPos++;
+                                    }
+                                }
+                            }
+                            if (!amountKeyDefined) {
+                                amountKeyPos = posAmount + 1;
+                            }
+                        }
+                        else if (posAmount > 0 && posAmount < splittedBody.size()-1) {
+                            amountKeyPos = posAmount-1;
+                            boolean forward = false;
+                            while (!amountKeyDefined) {
+                                if (amountKeyPos < 0) {
+                                    forward = true;
+                                    amountKeyPos = posAmount+1;
+                                } else if (amountKeyPos >= splittedBody.size()) break;
+                                else if (!forward) {
+                                    if (!splittedBody.get(amountKeyPos).matches(dateRegex))
+                                        amountKeyDefined = true;
+                                    else
+                                        amountKeyPos--;
+                                } else if (forward) {
+                                    if (!splittedBody.get(amountKeyPos).matches(dateRegex))
+                                        amountKeyDefined = true;
+                                    else
+                                        amountKeyPos++;
+                                }
+                            }
+                            if (!amountKeyDefined) {
+                                amountKeyPos = posAmount - 1;
+                            }
+                        }
+                        else {
+                            amountKeyPos = posAmount + 1;
+                            while (!amountKeyDefined) {
+                                if (amountKeyPos >= splittedBody.size()) break;
+                                else {
+                                    if (!splittedBody.get(amountKeyPos).matches(dateRegex))
+                                        amountKeyDefined = true;
+                                    else
+                                        amountKeyPos++;
+                                }
+                            }
+                            if (!amountKeyDefined) {
+                                amountKeyPos = posAmount+1;
+                            }
+                        }
+                        amountKeys.add(splittedBody.get(amountKeyPos));
+                        for (int i = 0; i < incomeKeys.size(); i++) {
+                            if (incomeKeys.get(i) == null || incomeKeys.get(i).isEmpty()) {
+                                incomeKeys.remove(i);
+                                i--;
+                            }
+                        }
+                        for (int i = 0; i < expenseKeys.size(); i++) {
+                            if (expenseKeys.get(i) == null || expenseKeys.get(i).isEmpty()) {
+                                expenseKeys.remove(i);
+                                i--;
+                            }
                         }
                         templateSmsList = commonOperations.generateSmsTemplateList(splittedBody, posIncExp, posAmount, incomeKeys, expenseKeys, new ArrayList<String>());
                         for (int i = choosenSms.size() - 1; i >= 0; i--) {
@@ -856,6 +817,7 @@ public class AddSmsParseFragment extends PABaseFragment{
                         }
                         adapter.refreshList();
                         String incs = "";
+
                         for (String s : incomeKeys) {
                             String divider = incomeKeys.indexOf(s) == incomeKeys.size()-1 ? "" : ", ";
                             incs += s + divider;
@@ -890,13 +852,13 @@ public class AddSmsParseFragment extends PABaseFragment{
             if (v.getTag() != null) {
                 String regex = "([0-9]+[.,]?[0-9]*\\s*)+";
                 Pattern pattern = Pattern.compile(regex);
-                Matcher matcher = pattern.matcher(splittedBody.get((Integer) v.getTag() - 1));
-                if (!matcher.matches() && !splittedBody.get((int) v.getTag() - 1).matches("\\s?[0-9]+\\s?")) {
+                Matcher matcher = pattern.matcher(splittedBody.get((Integer) v.getTag()));
+                if (!matcher.matches() /*&& !splittedBody.get((int) v.getTag() - 1).matches("\\s?[0-9]+\\s?")*/) {
                     if (posIncExp != -1) {
                         parsingkey.setText(getResources().getString(R.string.select_word));
                         tvList.get(posIncExp).setBackgroundResource(R.drawable.select_grey);
                     }
-                    posIncExp = (int) v.getTag() - 1;
+                    posIncExp = (int) v.getTag();
                     v.setBackgroundResource(R.drawable.select_green);
                     parsingkey.setText(((TextView) v).getText().toString());
                 } else {
@@ -904,7 +866,7 @@ public class AddSmsParseFragment extends PABaseFragment{
                         amountkey.setText(getResources().getString(R.string.select_word));
                         tvList.get(posAmount).setBackgroundResource(R.drawable.select_grey);
                     }
-                    posAmount = (int) v.getTag() - 1;
+                    posAmount = (int) v.getTag();
                     amountkey.setText(((TextView) v).getText().toString());
                     v.setBackgroundResource(R.drawable.select_yellow);
                 }

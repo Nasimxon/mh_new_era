@@ -993,10 +993,12 @@
     <string-array name="language_titles">
         <item>ENGLISH (EN)</item>
         <item>РУССКИЙ (RU)</item>
+        <item>ESPAÑOL (ES)</item>
     </string-array>
     <string-array name="language_values">
         <item>en</item>
         <item>ru</item>
+        <item>es</item>
     </string-array>
     <string name="choose_language">Выберите язык</string>
     <string name="transfer_data">Перенести баланс с прошлого месяца</string>

@@ -1401,18 +1401,18 @@
         <item>icons_317</item>
     </string-array>
     <string-array name="page_names">
-        <item>Currencies</item>
-        <item>Categories</item>
-        <item>Accounts</item>
-        <item>Purpose</item>
-        <item>Auto operations</item>
-        <item>Credits</item>
-        <item>Debts</item>
-        <item>Report by account</item>
-        <item>Report by income and expense</item>
-        <item>Report by category</item>
-        <item>SMS Parsing</item>
-        <item>Settings</item>
+        <item>Monedas</item>
+        <item>Categorías</item>
+        <item>Cuentas</item>
+        <item>Propósitos</item>
+        <item>Auto operaciónes</item>
+        <item>Créditos</item>
+        <item>Deudas</item>
+        <item>Informe por cuenta</item>
+        <item>Informe por ingroso y gastoo</item>
+        <item>Informe por categoría</item>
+        <item>SMS Análisis</item>
+        <item>Ajustes</item>
     </string-array>
     <string-array name="page_ids">
         <item>currency_page</item>
@@ -1603,7 +1603,7 @@
     <string name="income_keyword_error">Introduzca la palabra clave(ingreso)</string>
     <string name="expense_keyword_error">Introduzca la palabra clave(gasto)</string>
     <string name="amount_keyword_error">Introduzca la palabra clave para definir la cantidad</string>
-    <string name="incom_expense_list">La lista de ingresos y gastosСписок расходов и доходов</string>
+    <string name="incom_expense_list">La lista de ingresos y gastos</string>
     <string name="login">Iniciar sesión</string>
     <string name="all">Todo</string>
     <string name="previous">Antrior</string>

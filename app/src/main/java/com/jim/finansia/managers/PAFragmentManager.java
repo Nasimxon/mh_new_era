@@ -264,6 +264,18 @@ public class PAFragmentManager {
             return 2;
         }
     }
+
+    public void updateSmsFragmentChanges() {
+        int size = fragmentManager.getFragments().size();
+        for (int i = 0; i < size; i++) {
+            Fragment fragment = fragmentManager.getFragments().get(i);
+            if (fragment != null && fragment.getClass().getName().equals(SmsParseMainFragment.class.getName())) {
+                ((SmsParseMainFragment) fragment).refreshList();
+                break;
+            }
+        }
+    }
+
     public void remoteBackPress(DrawerInitializer drawerInitializer) {
         String fragName = getFragmentManager().findFragmentById(R.id.flMain).getClass().getName();
         int count = getFragmentManager().getBackStackEntryCount();
