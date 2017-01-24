@@ -1689,12 +1689,12 @@
     <string name="max_expense_in_the_month">Максимальный расход:</string>
     <string name="min_expense_in_the_month">Минимальный расход:</string>
     <string name="report_by_income_expense_table">Отчет по доходам и расходам</string>
-    <string name="total_expense">Общая расход</string>
+    <string name="total_expense">Общий расход</string>
     <string name="total_income">Общая прибыль</string>
-    <string name="must_restart">Для установки темы понадобится перезапуск программы!</string>
+    <string name="must_restart">Для установки темы понадобится перезапуск программы</string>
     <string name="daily_operations">Голосовой ввод</string>
     <string name="category_subcategory">Категория Подкатегория</string>
-    <string name="processed_sms">Processed sms:</string>
+    <string name="processed_sms">Обработанный смс:</string>
     <string name="theme">Темы</string>
     <string name="attention">Внимание!</string>
     <string name="buy_voice_text">Вы превысили количество попыток. Хотите активировать услугу?</string>
@@ -1759,8 +1759,8 @@
     <string name="wrong_input_type">Неправильный тип ввода</string>
     <string name="you_have_debt">Долг за период</string>
     <string name="za_period">За период:</string>
-    <string name="transfer_to_another_acc">Перевод на другую счет</string>
-    <string name="acc_state">Состаяния счета</string>
+    <string name="transfer_to_another_acc">Перевод на другой счет</string>
+    <string name="acc_state">Состояние счета</string>
     <string name="transfer_to">Трансфер</string>
     <string name="transaction">Транзакция</string>
     <string name="seven">семь</string>
@@ -1824,5 +1824,6 @@
     <string name="date_of_transfer">Дата трансфера</string>
     <string name="sec">сек</string>
     <string name="payment_date">Дата оплаты:</string>
+    <string name="chooseroot"></string>
 </resources>
 

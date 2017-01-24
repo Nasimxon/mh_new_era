@@ -553,18 +553,18 @@
     <string name="sub_cats">Subcategories</string>
     <string name="both">Both</string>
     <string name="subcat_name">Name of subcategory</string>
-    <string name="warning_subcat">Subcategory with the same name.</string>
+    <string name="warning_subcat">Subcategory with the same name</string>
     <string name="select_icon">Select the icon</string>
     <string name="cat_type_not_choosen">Select the type of category</string>
     <string name="enter_cat_name">Enter the name of the category</string>
     <string name="initial_amount">Starting amount: </string>
-    <string name="account_history">Transfers history: </string>
+    <string name="account_history">"History of transfers: "</string>
     <string name="account">Account</string>
     <string name="currency_exchange">Exchange Rates</string>
     <string name="choose_date">Select date</string>
     <string name="enter_exchange">Enter the exchange rate</string>
     <string name="main_currency_edit">Base currency</string>
-    <string name="costs_selected_all_warning">In the list should remain one element</string>
+    <string name="costs_selected_all_warning">In the list should be at least one element</string>
     <string name="category">Categories</string>
     <string name="divide_null">Dividing by zero!</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -572,8 +572,7 @@
     <string name="in_this_period_paid">Payment shown:</string>
     <string name="this_period_ends">End of the period:</string>
     <string name="verall_debt">Credit balance:</string>
-    <string name="in_this_month_should_pay">Payments this month:</string>
-    <string name="credit_name">Credit product Name</string>
+    <string name="in_this_month_should_pay">Payments in this month:</string>
     <string name="home">Home</string>
     <string name="network">Contact</string>
     <string name="clothes">Clothing</string>
@@ -601,7 +600,7 @@
     <string name="years">years</string>
     <string name="days">days</string>
     <string name="ends">End</string>
-    <string name="archive">Loan to \narchive</string>
+    <string name="archive">Add to \narchive</string>
     <string name="toritus">This system of credit registration, very flexible. Credit conditions may be different, in this regard, you can customize the application to fit your requirements.</string>
     <string-array name="cat_values">
         <item>home</item>
@@ -894,9 +893,9 @@
     <string name="dayy">Day</string>
     <string name="this_first_comment">Payments before using the application</string>
     <string name="always_remember">Do not forget to make your payments and we are happy to help you save your budget!</string>
-    <string name="date_of_pay">Payment day</string>
+    <string name="date_of_pay">Day of payment</string>
     <string name="via">VIA</string>
-    <string name="comment">Records with this category will deleted (</string>
+    <string name="comment">Entries in this category will be deleted (</string>
     <string name="diagram_no_data_text">There is no data to display!</string>
     <string name="credit">Credit</string>
     <string name="borrow_statistics">Given debt</string>
@@ -1071,7 +1070,7 @@
     <string name="date">Date</string>
     <string name="category_delete_warning">The data associated with the selected category will be deleted!</string>
     <string name="account_delete_warning">The data associated with the selected account will be deleted!</string>
-    <string name="subcat_delete_warning">The data associated with the selected subcategories will be deleted!</string>
+    <string name="subcat_delete_warning">The data associated with the selected subcategory will be deleted!</string>
     <string name="google_sync">Google sync</string>
     <string name="backup">Download Database</string>
     <string name="backup_summary">Loads the latest data from your Google Account</string>
@@ -1111,7 +1110,7 @@
     <string name="enter_first_transaction">The first payment</string>
     <string name="no_date_selected">Without return date</string>
     <string name="incorrect_date">incorrect date</string>
-    <string name="incorrect_pay">You pay more than is necessary.</string>
+    <string name="incorrect_pay">You pay more than necessary.</string>
     <string name="enter_pay_value">Enter the amount of payment</string>
     <string name="return_date">Return date</string>
     <string name="left">Residue</string>
@@ -1150,7 +1149,7 @@
     <string name="notif_credit">Check your credits!</string>
     <string name="notif_debt">Check your debts!</string>
     <string name="payment_balans">"Unpaid balance:"</string>
-    <string name="payment_balance2">"\nYou overpay for the sum:"</string>
+    <string name="payment_balance2">"\nYou overpay for the amount:"</string>
     <string name="total_credit_value">Credit amount</string>
     <string name="left2">Credit term:</string>
     <string name="taken_date">Payment day:</string>
@@ -1219,7 +1218,7 @@
     <string name="ch_cat">Choose category</string>
     <string name="addedit">Add/Edit</string>
     <string name="sms_parse">SMS Parsing</string>
-    <string name="all_transfer_operitions_you_can_see_bla_bla_bla_hullas_transactisiya_haqida">All money transfers are fixed in the balance</string>
+    <string name="all_transfer_operitions_you_can_see_bla_bla_bla_hullas_transactisiya_haqida">All money transfers are recorded in the balance</string>
     <string name="this_is_money_transfer_form_from_nsome_to_some_accaunt">Money transfer from one account to another</string>
     <string name="widget_settings">Widget Settings</string>
     <bool name="widget_def">false</bool>
@@ -1590,7 +1589,7 @@
     <string name="dates_not_choosen_error">Select date</string>
     <string name="select_category_error">Select category</string>
     <string name="illegal_name_error">Repeating operation!</string>
-    <string name="amount_of_payment">Sum for operation</string>
+    <string name="amount_of_payment">Amount for operation</string>
     <string name="borrow_is_empty">Add debts</string>
     <string name="debt_is_empty">Add debts</string>
     <string name="archive_is_empty">Archive list is empty!</string>
@@ -1613,7 +1612,7 @@
     <string name="incom_expense_list">Список расходов и доходов</string>
     <string name="login">Login</string>
     <string name="all">All</string>
-    <string name="choise_icon">Выберите иконку</string>
+    <string name="choise_icon">Select the icon</string>
     <string name="name_of_subcategory">Имя подкатегории</string>
     <string name="add_plus">+ Add</string>
     <string name="select_icons_sb">Select subcategory icon</string>
@@ -1699,15 +1698,15 @@
     <string name="credit_stat">Credit status:</string>
     <string name="credit_repiad">Credit repaid</string>
     <string name="credit_end_date">Credit end date</string>
-    <string name="debtor_name">Debtor name</string>
-    <string name="borrower_name">Borrower name</string>
+    <string name="debtor_name">Name of the debtor</string>
+    <string name="borrower_name">Name of borrower</string>
     <string name="to_archive">To archive</string>
     <string name="archiveee">ARCHIVE</string>
     <string name="wrong_input_type">Wrong input type</string>
-    <string name="not_completed">Нет операции</string>
+    <string name="not_completed">Not completed</string>
     <string name="all_periods">All periods</string>
     <string name="invalide_format">Invalide format</string>
-    <string name="add_the_loan_in_the_balance">Include the loan amount in the balance</string>
+    <string name="add_the_loan_in_the_balance">Include the credit amount in the balance</string>
     <string name="ne_uchitavaetsya">Not in the balance</string>
     <string name="ammount_of_debt_include_the_balance">Include debt amount in the balance</string>
     <string name="categories_report">Categories</string>
@@ -1761,14 +1760,14 @@
     <string name="must_restart">Restart application to set theme</string>
     <string name="daily_operations">Voice input</string>
     <string name="category_subcategory">Category SubCategory</string>
-    <string name="choise_category">Choise category</string>
-    <string name="choise_subcategory">Choise subcategory</string>
-    <string name="choise_account_f">Choise account</string>
+    <string name="choise_category">Choose category</string>
+    <string name="choise_subcategory">Choose subcategory</string>
+    <string name="choise_account_f">Choose account</string>
     <string name="with_out_comment">No comments</string>
     <string name="processed_sms">Processed sms:</string>
     <string name="theme">Themes</string>
     <string name="attention">Attention</string>
-    <string name="buy_voice_text">Вы превысили количество попыток. Хотите активировать услугу?</string>
+    <string name="buy_voice_text">You have exceeded the number of attempts. Do you want to activate the service?</string>
     <string name="paymet_p">Payment</string>
     <string name="move_to">Move to</string>
     <string name="change_ch">Change</string>
@@ -1823,7 +1822,7 @@
     <string name="monthly_fee">Monthly fee</string>
     <string name="interest">Interest</string>
     <string name="principal">Principal</string>
-    <string name="transfer_to_other_account">Перевод на другой счет</string>
+    <string name="transfer_to_other_account">Transfer to another account</string>
     <string name="sec">sec</string>
     <string name="press_button_nand_speak">Speak</string>
     <string name="payment_date">Payment date:</string>
@@ -1832,4 +1831,6 @@
         <item>Income</item>
         <item>Expense</item>
     </string-array>
+    <string name="chooseroot">Choose root</string>
+    <string name="date_of_transfer">Date of transfer</string>
 </resources>
