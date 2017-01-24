@@ -217,6 +217,10 @@ public class AddSmsParseFragment extends PABaseFragment{
                     String[] incomes = etIncome.getText().toString().split(",");
                     String[] expanses = etExpance.getText().toString().split(",");
                     String[] amounts = etAmount.getText().toString().split(",");
+                    incomeKeys = incomeKeys == null ? new ArrayList<String>() : incomeKeys;
+                    expenseKeys = expenseKeys == null ? new ArrayList<String>() : expenseKeys;
+                    amountKeys = amountKeys == null ? new ArrayList<String>() : amountKeys;
+                    templateSmsList = templateSmsList == null ? new ArrayList<TemplateSms>() : templateSmsList;
                     boolean change = false;
                     for (String income : incomes) {
                         boolean found = false;

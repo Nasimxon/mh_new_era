@@ -535,16 +535,16 @@
         <item>icons_314</item>
         <item>icons_315</item>
     </string-array>
-    <string name="currencies">Monedas</string>
-    <string name="main_currency">Moneda base: </string>
-    <string name="choose_currencies">Poner moneda</string>
+    <string name="currencies">Divisas</string>
+    <string name="main_currency">Divisa base: </string>
+    <string name="choose_currencies">Eligir moneda</string>
     <string name="curr_not_choosen">Seleccione al menos una moneda</string>
     <string name="yes">Sí</string>
     <string name="no">No</string>
     <string name="currency_exchange_warning">Data on exchange rates and the recording will be lost because you did not select the previously selected currency!</string>
     <string name="currency_delete_warning">Las entradas para monedas seleccionadas va a borrar!</string>
-    <string name="currency_empty_warning">La lista de monedas no debe estar vacía!</string>
-    <string name="warning">La precauciòn</string>
+    <string name="currency_empty_warning">Lista de divisas no debe estar vacía!</string>
+    <string name="warning">La atención</string>
     <string name="add">Añadir</string>
     <string name="expanse">El gasto</string>
     <string name="income">El ingreso</string>
@@ -553,7 +553,7 @@
     <string name="sub_cats">La subcategoría</string>
     <string name="both">Ambos</string>
     <string name="subcat_name">El nombre de la subcategoría</string>
-    <string name="warning_subcat">Subcategoría con el mismo nombre es existe.</string>
+    <string name="warning_subcat">Subcategoría con el este nombre es existe.</string>
     <string name="select_icon">Seleccione uno icono</string>
     <string name="cat_type_not_choosen">Seleccione el tipo de categoría</string>
     <string name="enter_cat_name">Entra el nombre de la categoría</string>
@@ -562,15 +562,15 @@
     <string name="account">Cuenta</string>
     <string name="currency_exchange">Tipo de cambio</string>
     <string name="choose_date">Seleccione la fecha</string>
-    <string name="enter_exchange">Entra el tipo de cambio</string>
+    <string name="enter_exchange">¡Introduzca el tipo de cambio!</string>
     <string name="main_currency_edit">Moneda base: </string>
-    <string name="costs_selected_all_warning">La lista debe contener al menos uno elemento</string>
+    <string name="costs_selected_all_warning">La lista debe consistir al menos uno elemento</string>
     <string name="category">Categorías</string>
-    <string name="divide_null">No se puede eliminar por cero!</string>
+    <string name="divide_null">No se dividir por cero!</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="total_paid">Pago total:</string>
     <string name="in_this_period_paid">Pago en el período:</string>
-    <string name="this_period_ends">Final del períod:</string>
+    <string name="this_period_ends">Final del período:</string>
     <string name="verall_debt">Saldo de crédito:</string>
     <string name="in_this_month_should_pay">Pagos en el mes:</string>
     <string name="credit_name">Nombre del producto del crédito</string>
@@ -670,9 +670,9 @@
     </string-array>
     <string-array name="home">
         <item>Reparaciones</item>
-        <item>Energía elétricф</item>
+        <item>Energía elétrica</item>
         <item>Gas</item>
-        <item>Taxes</item>
+        <item>Impuestos</item>
         <item>Agua(frío)</item>
         <item>Agua(caliente)</item>
         <item>Calefaccíon</item>
@@ -703,13 +703,13 @@
         <item>Intervalo</item>
     </string-array>
     <string-array name="week_day_auto">
-        <item>Lun</item>
-        <item>Mar</item>
-        <item>Mié</item>
-        <item>Jue</item>
-        <item>Vie</item>
-        <item>Sab</item>
-        <item>Dom</item>
+        <item>Lu</item>
+        <item>Ma</item>
+        <item>Mi</item>
+        <item>Ju</item>
+        <item>Vi</item>
+        <item>Sa</item>
+        <item>Do</item>
     </string-array>
     <string-array name="date_picker_period_spinner">
         <item>El mes</item>
@@ -1258,7 +1258,7 @@
     <string name="zdes_idot_dlinnaya_obyasneniya_pro_to_shto_kak_rabotaet_klyuchi_i">Enter keywords, separated by a comma, followed by a digit (the payment amount). Keywords can be found in your SMS, received from the bank. Punctuation marks are ignored</string>
     <string name="ti_type_parsinga_sms_sobsheni_eti_type_parsinga_sms_sobshenieti_type_parsinga_sms_sobsheni">Here you can select type of SMS, which you get from your bank</string>
     <string name="monthly_diagram">Expense and income</string>
-    <string name="sys_not_found_accanount">There is not enough count of account !</string>
+    <string name="sys_not_found_accanount">There is not enough count of account!</string>
     <string name="notif_setting">Notification settings*</string>
     <string name="detalization">Detail</string>
     <string name="notif_annual">Annual</string>
@@ -1278,7 +1278,7 @@
     <string name="about_operat">This option for choosing account to your SMS message</string>
     <string name="sync_and_backup">SYNC AND BACKUP</string>
 
-    <string name="default_settings">All settings and datas will be deleted. Do you agree?</string>
+    <string name="default_settings">¿All settings and datas will be deleted. Do you agree?</string>
 
     <string name="sbrosit">Reset</string>
     <string name="sbrosit_about">All datas and settings will be deleted</string>
@@ -1323,8 +1323,8 @@
     <string name="otklyuchit">Desactiva la contraseña</string>
     <string name="password_should_be_4_numbers">La contraseña debe tener 4 números</string>
     <string name="please_repait_correct">Revisa tu contraseña</string>
-    <string name="please_write_your_current_password">Por favor, escribe tu contraseña actual!</string>
-    <string name="really_dellete">Quiere suprimir?</string>
+    <string name="please_write_your_current_password">¡Por favor, escribe tu contraseña actual!</string>
+    <string name="really_dellete">¿Quiere eleminar?</string>
     <string name="repiat_yout_password">Repita la nueva contraseńa</string>
     <string name="scetimeet">Establecer límite</string>
     <string name="share_ticket">Share</string>
@@ -1344,12 +1344,12 @@
     <string name="choesetypeing">Seleccióne foto</string>
     <string name="savein">SALVAR</string>
     <string name="ok_b">Sí</string>
-    <string name="must_be_one_currency">Debe ser al menos una moneda!</string>
+    <string name="must_be_one_currency">!Debe ser al menos una divisa!</string>
     <string name="replanish">Pagar</string>
     <string name="limit_not_setted">Límite no establecido</string>
     <string name="transfer">Transferir el dinero</string>
     <string name="limit_interval">Intervalo de límite</string>
-    <string name="such_account_name_exists_error">Cuenta con ese nonbre existe!</string>
+    <string name="such_account_name_exists_error">¡Cuenta con tal nombre existe!</string>
     <string name="none_zero_account">Cuenta no negativa </string>
     <string name="operations">Operaciónes</string>
     <string name="add_subcategory">Añadir subcategoría</string>
@@ -1357,12 +1357,12 @@
     <string name="purposes">Propósitos</string>
     <string name="earn">Caja de dínero</string>
     <string name="period">Período</string>
-    <string name="none_minus_account_warning">La cuenta no puede ser negativa!</string>
+    <string name="none_minus_account_warning">¡La cuenta no puede ser negativa!</string>
     <string name="add_category">Ańadir categoría</string>
     <string name="debt_borrow_list_is_empty">Ańadir deuda</string>
     <string name="credit_list_is_empty">Añadir crédito</string>
-    <string name="account_deleting_error">Debe tener al menos una cuenta!!!</string>
-    <string name="purpose_list_is_empty">La lista de propósito está vaciá! Quieres agregar?</string>
+    <string name="account_deleting_error">¡Debe tener al menos una cuenta!</string>
+    <string name="purpose_list_is_empty">¿Lista de propósito está vaciá! Quieres agregar?</string>
     <!--operations-->
     <string-array name="operation_category">
         <item>Elije de existir</item>
@@ -1444,10 +1444,10 @@
     <string name="accountdo">Cuenta:</string>
     <string name="balance_invis">No mostrar el balance</string>
     <string name="borrow_arch">El préstamo está en archivo</string>
-    <string name="borrow_com">La deuda está incluido en el balance, pero está en archivo!</string>
+    <string name="borrow_com">¡La deuda está incluido en el balance, pero está en archivo!</string>
     <string name="borrow_coment_incl">This debt is not included in balance</string>
     <string name="borrow_comment">La deuda no está incluido en el balance</string>
-    <string name="borrow_comment_not_icl_arch">La deuda no está incluido en el balance, pero está en archivo!</string>
+    <string name="borrow_comment_not_icl_arch">¡La deuda no está incluido en el balance, pero está en archivo!</string>
     <string name="borrow_reckings_var">Registro de la deuda</string>
     <string name="borrow_var">Préstamo</string>
     <string name="choose_type_p">Elije el tipo de acción</string>
@@ -1467,7 +1467,7 @@
     <string name="debt_var">Deuda</string>
     <string name="export_exel">Exportar a Excel</string>
     <string name="filter">Filtro</string>
-    <string name="how_much_pages_you_need">Cuántas páginas necesitas?</string>
+    <string name="how_much_pages_you_need">¿Cuántas páginas necesitas?</string>
     <string name="in_window_expense_top_window">Número de páginas(gastos)</string>
     <string name="in_windows_incomes_bottom_window">Número de páginas(ingresos)</string>
     <string name="include_balance">El crédito está incluido en el balance, pero esta en archivo</string>
@@ -1481,7 +1481,7 @@
     <string name="some_credit">El crédito no está incluido en el balance y está en archivo</string>
     <string name="to_earn">Salvar</string>
     <string name="type">Tipo:</string>
-    <string name="whole_day_datas_deleting">Registros para el día actual van a eleminó!</string>
+    <string name="whole_day_datas_deleting">¡Registros para el día actual van a eleminó!</string>
     <string name="search">Buscar</string>
     <string name="account_for_parsing">Cuenta para analizar:</string>
     <string name="all_expense">Todo gasto:</string>
@@ -1495,7 +1495,7 @@
     <string name="processed">Processada:</string>
     <string name="select_word_for_parsing">Seleccione palabra para analizar</string>
     <string name="which_type_is_it">Establecer el típo</string>
-    <string name="from_sms">La lista de SMS</string>
+    <string name="from_sms">Lista de SMS</string>
     <string name="do_you_want_to_delete">¿Usted quiere realmente suprimir?</string>
     <string name="please_type">Buscar palabra</string>
     <string name="cant_find">No puedo encontar</string>
@@ -1514,18 +1514,18 @@
     <string name="report_by_account_title">Informes</string>
     <string name="saved_money">Suma accumulada:</string>
     <string name="auto_operations">Auto operaciones</string>
-    <string name="auto_op_is_empty">La lista está vacía!</string>
+    <string name="auto_op_is_empty">¡La lista está vacía!</string>
     <string name="enter_amount_operation">Entre cantidad</string>
     <string name="income_expance_title">Ingresos y gastos</string>
     <string name="key_for_type">Seleccione palabra clave para tipo de definición(ingreso o gasto):</string>
     <string name="select_word">Seleccione una palabra</string>
-    <string name="sms_pars_list_empty">La lista de sms análisis está vacío</string>
+    <string name="sms_pars_list_empty">Lista de sms análisis está vacío</string>
     <string name="spend">Gastar</string>
     <string name="sub_category">Subcategoría</string>
     <string name="sync_failed">Error de sincronización</string>
     <string name="sync_suc">La sincronización es correcta</string>
-    <string name="transfer_isnt_done">Transferencia fallida!</string>
-    <string name="credit_arcive_are_empty">La lista de archivo está vacía</string>
+    <string name="transfer_isnt_done">¡Transferencia fallida!</string>
+    <string name="credit_arcive_are_empty">Lista de archivo está vacía</string>
     <string name="credit_are_empty">Añadir crédito</string>
     <string name="choose_different_accounts">Seleccione cuentas de diferencia</string>
     <string name="chooseroot">Elegir raíz</string>
@@ -1579,19 +1579,19 @@
     <string name="add_auto_operation">Añadir una operación</string>
     <string name="dates_not_choosen_error">Seleccione fecha</string>
     <string name="select_category_error">Seleccione categoría</string>
-    <string name="illegal_name_error">Operación repitiendo!</string>
+    <string name="illegal_name_error">¡Operación repitiendo!</string>
     <string name="amount_of_payment">Suma para operación</string>
     <string name="debt_is_empty">Añadir deudos</string>
-    <string name="archive_is_empty">La lista de archivos está vacía!</string>
+    <string name="archive_is_empty">Lista de archivos está vacía!</string>
     <string name="borrow_is_empty">Añadir deudo</string>
     <string name="start_day">Fecho de inicio</string>
-    <string name="such_name_exists">Tal nombre ya existe!</string>
+    <string name="such_name_exists">¡Tal nombre ya existe!</string>
     <string name="summa">Suma</string>
     <string name="widget">Widget</string>
     <string name="sms_not_exist">Mensaje sms no existe</string>
     <string name="main_window">Pagina principal</string>
     <string name="cancelb">Cancelar</string>
-    <string name="there_is_no_operations_for_today">No tiene operaciónes para hoy!</string>
+    <string name="there_is_no_operations_for_today">¡No tiene operaciónes para hoy!</string>
     <string name="choose_amount">Cantidad está no se elije</string>
     <string name="no_parsing">No analizado</string>
     <string name="no_success">No procesado</string>
@@ -1602,7 +1602,7 @@
     <string name="income_keyword_error">Introduzca la palabra clave(ingreso)</string>
     <string name="expense_keyword_error">Introduzca la palabra clave(gasto)</string>
     <string name="amount_keyword_error">Introduzca la palabra clave para definir la cantidad</string>
-    <string name="incom_expense_list">La lista de ingresos y gastos</string>
+    <string name="incom_expense_list">Lista de ingresos y gastos</string>
     <string name="login">Iniciar sesión</string>
     <string name="all">Todo</string>
     <string name="previous">Antrior</string>
@@ -1624,7 +1624,7 @@
     <string name="scet_imeet_nacalniy_sum">Tiene una suma inicial.</string>
     <string name="select_icon_category">Por favor seleccióne el icono de la categoría</string>
     <string name="select_icons_sb">Seleccióne icono de la subcategoría</string>
-    <string name="subcategory_empty">El nombre de la subcategría está vacío!</string>
+    <string name="subcategory_empty">¡El nombre de la subcategría está vacío!</string>
     <string name="to_purpose">Transferir en caja de dinero</string>
     <string name="reached_max_value">Alcanzó el valor mánimo</string>
     <string name="reached_min_value">Alcanzó el valor mínimo</string>
@@ -1663,12 +1663,12 @@
     <string name="max_expense_in_the_month">Gasto máximo en el mes: </string>
     <string name="min_expense_in_the_month">Ingreso mínimo en el mes: </string>
     <string name="report_by_income_expense_table">Informe por ingresos y gatos</string>
-    <string name="must_restart">Para instalar el tema,  tendrá que reiniciar el programa!</string>
+    <string name="must_restart">¡Para instalar el tema,  tendrá que reiniciar el programa!</string>
     <string name="processed_sms">Sms procesados:</string>
     <string name="category_subcategory">Categoría Subcategoría</string>
     <string name="theme">Temas</string>
     <string name="attention">Atención!</string>
-    <string name="buy_voice_text">Usted excedió la cuenta de su intento!. ¿Desea activar el servicio?</string>
+    <string name="buy_voice_text">¡Usted excedió la cuenta de su intento!. ¿Desea activar el servicio?</string>
     <string name="purpose_delete_warning">¿Realmente desea eliminar el propósito?</string>
     <string-array name="currency_1">
         <item>dolar</item>
@@ -1697,8 +1697,6 @@
     <string name="next_operations">Siguiente operacion</string>
     <string name="set_color">Establecer el color del tema</string>
     <string name="even_princ"></string>
-    <string name="daily_operations">Entrada de voz</string>
+    <string name="daily_operations">La entrada de voz</string>
     <string name="all_periods">Todos los periodos</string>
-
-
 </resources>

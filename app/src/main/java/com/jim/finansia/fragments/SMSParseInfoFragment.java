@@ -356,6 +356,10 @@ public class SMSParseInfoFragment extends Fragment {
                         Toast.makeText(getContext(),  (type ? "Choose income key" : "Choose expance key"), Toast.LENGTH_SHORT).show();
                         return;
                     } else {
+                        incomeKeys = incomeKeys == null ? new ArrayList<String>() : incomeKeys;
+                        expanceKeys = expanceKeys == null ? new ArrayList<String>() : expanceKeys;
+                        amountKeys = amountKeys == null ? new ArrayList<String>() : amountKeys;
+                        templateSmsList = templateSmsList == null ? new ArrayList<TemplateSms>() : templateSmsList;
                         for (int i = 0; i < strings.size(); i++) {
                             strings.set(i, strings.get(i).trim());
                         }
