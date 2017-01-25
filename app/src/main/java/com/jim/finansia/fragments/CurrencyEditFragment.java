@@ -48,14 +48,14 @@ public class CurrencyEditFragment extends PABaseInfoFragment implements OnClickL
     private LinearLayout ivExCurrencyAdd;
     private RecyclerView lvCurrencyEditExchange;
     private Currency currency;
-    private TextView tvAbrValyuti,tvNameValyute,tvCurrentCurrencyRate;
+    private TextView tvAbrValyuti, tvNameValyute, tvCurrentCurrencyRate;
     private ImageView chbCurrencyEditMainCurrency;
     private TextView textColorMain;
     private LinearLayout linearLayoutCheck;
     private Calendar day = Calendar.getInstance();
     private int mode = PocketAccounterGeneral.NORMAL_MODE;
     private boolean[] selected;
-    boolean isCheckedMain=false;
+    boolean isCheckedMain = false;
     WarningDialog dialog;
 
     public CurrencyEditFragment(Currency currency) {
@@ -84,14 +84,14 @@ public class CurrencyEditFragment extends PABaseInfoFragment implements OnClickL
         tvNameValyute = (TextView) rootView.findViewById(R.id.tvNameValyute);
         tvCurrentCurrencyRate = (TextView) rootView.findViewById(R.id.tvCurrentCurrencyRate);
         chbCurrencyEditMainCurrency = (ImageView) rootView.findViewById(R.id.chbCurrencyEditMainCurrency);
-        chbCurrencyEditMainCurrency.setImageResource((currency.getMain()==true)?R.drawable.blue_background_checked:R.drawable.blue_background_unchecked);
-        isCheckedMain=currency.getMain();
+        chbCurrencyEditMainCurrency.setImageResource((currency.getMain() == true) ? R.drawable.blue_background_checked : R.drawable.blue_background_unchecked);
+        isCheckedMain = currency.getMain();
         tvAbrValyuti.setText(currency.getAbbr());
         tvNameValyute.setText(currency.getName());
         DecimalFormat decFormat = new DecimalFormat("0.####");
 
-        tvCurrentCurrencyRate.setText("1"+currency.getAbbr()+
-                " = "+decFormat.format(currency.getCosts().get(currency.getCosts().size()-1).getCost())+commonOperations.getMainCurrency().getAbbr());
+        tvCurrentCurrencyRate.setText("1" + currency.getAbbr() +
+                " = " + decFormat.format(currency.getCosts().get(currency.getCosts().size() - 1).getCost()) + commonOperations.getMainCurrency().getAbbr());
         linearLayoutCheck = (LinearLayout) rootView.findViewById(R.id.checkerForClick);
         linearLayoutCheck.setOnClickListener(new OnClickListener() {
             @Override
@@ -99,13 +99,12 @@ public class CurrencyEditFragment extends PABaseInfoFragment implements OnClickL
                 CommonOperations.buttonClickCustomAnimation(linearLayoutCheck, new CommonOperations.AfterAnimationEnd() {
                     @Override
                     public void onAnimoationEnd() {
-                        if(isCheckedMain){
+                        if (isCheckedMain) {
                             chbCurrencyEditMainCurrency.setImageResource(R.drawable.blue_background_unchecked);
                             chbCurrencyEditMainCurrency.setColorFilter(Color.parseColor("#d1cfd0"));
                             textColorMain.setTextColor(Color.parseColor("#d1cfd0"));
                             isCheckedMain = false;
-                        }
-                        else {
+                        } else {
                             chbCurrencyEditMainCurrency.setImageResource(R.drawable.blue_background_checked);
                             chbCurrencyEditMainCurrency.setColorFilter(GetterAttributColors.fetchHeadAccedentColor(getContext()));
                             textColorMain.setTextColor(GetterAttributColors.fetchHeadAccedentColor(getContext()));
@@ -129,16 +128,16 @@ public class CurrencyEditFragment extends PABaseInfoFragment implements OnClickL
             public void openDialogForDate(CurrencyCost currCost) {
                 exchangeEditDialog(currCost);
             }
-        },getActivity(),
+        }, getActivity(),
                 (ArrayList<CurrencyCost>) currency.getCosts(), selected, mode, currency.getAbbr());
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         lvCurrencyEditExchange.setLayoutManager(layoutManager);
         lvCurrencyEditExchange.setAdapter(adapter);
     }
+
     public void onResume() {
         super.onResume();
-        if (toolbarManager != null)
-        {
+        if (toolbarManager != null) {
             toolbarManager.setOnHomeButtonClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -171,17 +170,17 @@ public class CurrencyEditFragment extends PABaseInfoFragment implements OnClickL
             case R.id.ivExCurrencyAdd:
 
                 break;
-            case R.id.ivExCurrencyDelete:
-                if (mode == PocketAccounterGeneral.NORMAL_MODE) {
-                    mode = PocketAccounterGeneral.EDIT_MODE;
-                    selected = new boolean[currency.getCosts().size()];
-                } else {
-                    mode = PocketAccounterGeneral.NORMAL_MODE;
-                    deleteCosts();
-                    selected = null;
-                }
-                refreshList();
-                break;
+//            case R.id.ivExCurrencyDelete:
+//                if (mode == PocketAccounterGeneral.NORMAL_MODE) {
+//                    mode = PocketAccounterGeneral.EDIT_MODE;
+//                    selected = new boolean[currency.getCosts().size()];
+//                } else {
+//                    mode = PocketAccounterGeneral.NORMAL_MODE;
+//                    deleteCosts();
+//                    selected = null;
+//                }
+//                refreshList();
+//                break;
             case R.id.ivToolbarMostRight:
                 InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
@@ -205,9 +204,9 @@ public class CurrencyEditFragment extends PABaseInfoFragment implements OnClickL
         final LinearLayout tvExchangeEditDateClick = (LinearLayout) dialogView.findViewById(R.id.tvExchangeEditDate);
         final EditText tvExchangeEditDate = (EditText) dialogView.findViewById(R.id.etDateExchangeRate);
         final EditText etHowMuch = (EditText) dialogView.findViewById(R.id.etHowMuch);
-        etHowMuch.setText(""+1);
-        ((TextView)dialogView.findViewById(R.id.currentCurrencyidic)).setText(1+currency.getAbbr()+" = ");
-        ((TextView)dialogView.findViewById(R.id.tvCurrentCurrencyAbr)).setText(commonOperations.getMainCurrency().getAbbr());
+        etHowMuch.setText("" + 1);
+        ((TextView) dialogView.findViewById(R.id.currentCurrencyidic)).setText(1 + currency.getAbbr() + " = ");
+        ((TextView) dialogView.findViewById(R.id.tvCurrentCurrencyAbr)).setText(commonOperations.getMainCurrency().getAbbr());
         dialog.findViewById(R.id.etDateExchangeRate).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -267,7 +266,7 @@ public class CurrencyEditFragment extends PABaseInfoFragment implements OnClickL
         final EditText etExchange = (EditText) dialogView.findViewById(R.id.etExchange);
         final TextView glava = (TextView) dialogView.findViewById(R.id.glava);
         final TextView currentAbr = (TextView) dialogView.findViewById(R.id.glava);
-        glava.setText( currency.getAbbr());
+        glava.setText(currency.getAbbr());
         currentAbr.setText(currency.getAbbr());
         final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
         DecimalFormatSymbols otherSymbols = new DecimalFormatSymbols();
@@ -283,12 +282,12 @@ public class CurrencyEditFragment extends PABaseInfoFragment implements OnClickL
             dialog.findViewById(R.id.deleteButton).setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(currency.getUserEnteredCalendarses().size()==1){
-                        Toast.makeText(getContext(),R.string.must_be_one_currency,Toast.LENGTH_SHORT).show();
+                    if (currency.getUserEnteredCalendarses().size() == 1) {
+                        Toast.makeText(getContext(), R.string.must_be_one_currency, Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    for(int i= 0; i<currency.getUserEnteredCalendarses().size();i++){
-                        if(dateFormat.format(currCost.getDay().getTime()).equals(dateFormat.format(currency.getUserEnteredCalendarses().get(i).getCalendar().getTime()))){
+                    for (int i = 0; i < currency.getUserEnteredCalendarses().size(); i++) {
+                        if (dateFormat.format(currCost.getDay().getTime()).equals(dateFormat.format(currency.getUserEnteredCalendarses().get(i).getCalendar().getTime()))) {
                             daoSession.delete(currency.getUserEnteredCalendarses().get(i));
                             daoSession.getCurrencyDao().detachAll();
                             dialog.dismiss();
@@ -300,17 +299,14 @@ public class CurrencyEditFragment extends PABaseInfoFragment implements OnClickL
             tvExchangeEditDate.setText(dateFormat.format(currCost.getDay().getTime()));
             day = (Calendar) currCost.getDay().clone();
             cost = currCost.getCost();
-            ((TextView)dialogView.findViewById(R.id.currentRateBig)).setText(decFormat.format(currCost.getCost())+commonOperations.getMainCurrency().getAbbr());
+            ((TextView) dialogView.findViewById(R.id.currentRateBig)).setText(decFormat.format(currCost.getCost()) + commonOperations.getMainCurrency().getAbbr());
 
-        }
+        } else if (currency.getCosts().size() != 0) {
+            cost = currency.getCosts().get(currency.getCosts().size() - 1).getCost();
+            ((TextView) dialogView.findViewById(R.id.currentRateBig)).setText(decFormat.format(cost) + commonOperations.getMainCurrency().getAbbr());
+        } else {
 
-        else if (currency.getCosts().size()!=0){
-            cost =currency.getCosts().get(currency.getCosts().size()-1).getCost();
-            ((TextView)dialogView.findViewById(R.id.currentRateBig)).setText(decFormat.format(cost)+commonOperations.getMainCurrency().getAbbr());
-        }
-        else {
-
-            ((TextView)dialogView.findViewById(R.id.currentRateBig)).setText(decFormat.format(1.0)+commonOperations.getMainCurrency().getAbbr());
+            ((TextView) dialogView.findViewById(R.id.currentRateBig)).setText(decFormat.format(1.0) + commonOperations.getMainCurrency().getAbbr());
 
         }
         tvExchangeEditDate.setText(dateFormat.format(day.getTime()));
@@ -338,20 +334,19 @@ public class CurrencyEditFragment extends PABaseInfoFragment implements OnClickL
                     etHowMuch.setError(getString(R.string.wrong_input_type));
                     return;
                 }
-                if(etHowMuch.getText().toString().matches("")){
+                if (etHowMuch.getText().toString().matches("")) {
                     etHowMuch.setError(getString(R.string.incorrect_value));
                     return;
                 }
-                if (logicManager.insertUserEnteredCalendars(currency, (Calendar)day.clone()) == LogicManagerConstants.SUCH_NAME_ALREADY_EXISTS) {
-                    logicManager.generateCurrencyCosts((Calendar)day.clone(),  Double.parseDouble(etExchange.getText().toString())/Double.parseDouble(etHowMuch.getText().toString()), currency);
-                }
-                else {
-                    logicManager.generateCurrencyCosts((Calendar)day.clone(), Double.parseDouble(etExchange.getText().toString())/Double.parseDouble(etHowMuch.getText().toString()), currency);
+                if (logicManager.insertUserEnteredCalendars(currency, (Calendar) day.clone()) == LogicManagerConstants.SUCH_NAME_ALREADY_EXISTS) {
+                    logicManager.generateCurrencyCosts((Calendar) day.clone(), Double.parseDouble(etExchange.getText().toString()) / Double.parseDouble(etHowMuch.getText().toString()), currency);
+                } else {
+                    logicManager.generateCurrencyCosts((Calendar) day.clone(), Double.parseDouble(etExchange.getText().toString()) / Double.parseDouble(etHowMuch.getText().toString()), currency);
                 }
                 refreshList();
                 currency.refreshCosts();
-                tvCurrentCurrencyRate.setText("1"+currency.getAbbr()+
-                        " = "+decFormat.format(currency.getCosts().get(currency.getCosts().size()-1).getCost())+commonOperations.getMainCurrency().getAbbr());
+                tvCurrentCurrencyRate.setText("1" + currency.getAbbr() +
+                        " = " + decFormat.format(currency.getCosts().get(currency.getCosts().size() - 1).getCost()) + commonOperations.getMainCurrency().getAbbr());
 
                 dialog.dismiss();
             }
@@ -367,9 +362,11 @@ public class CurrencyEditFragment extends PABaseInfoFragment implements OnClickL
         dialog.getWindow().setLayout(9 * width / 10, LayoutParams.WRAP_CONTENT);
         dialog.show();
     }
-    public interface OpenDialog{
+
+    public interface OpenDialog {
         void openDialogForDate(CurrencyCost currCost);
     }
+
     private void deleteCosts() {
         List<UserEnteredCalendars> currencyCostList = new ArrayList<>();
         for (int i = 0; i < selected.length; i++) {

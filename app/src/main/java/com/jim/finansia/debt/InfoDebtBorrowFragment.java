@@ -121,7 +121,6 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
     private ImageView deleteFrame;
     private ImageView pastgaOcil;
     private ImageView cancel_button;
-    private ImageView info;
     private ImageView debt_icon;
     private RelativeLayout infoFrame;
     //    private FrameLayout isHaveReking;
@@ -270,14 +269,12 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
         phoneNumber = (TextView) view.findViewById(R.id.tvInfoDebtBorrowPhoneNumber);
         circleImageView = (CircleImageView) view.findViewById(R.id.imBorrowPerson);
         recyclerView = (RecyclerView) view.findViewById(R.id.rvDebtBorrowInfo);
-        info = (ImageView) view.findViewById(R.id.ivInfoDebtBorrowInfo);
         infoFrame = (RelativeLayout) view.findViewById(R.id.flInfoDebtBorrowVisibl);
         tvInfoDebtBorrowTakeDate = (TextView) view.findViewById(R.id.tvInfoDebtBorrowTakeDate);
         infoFrame.setVisibility(View.GONE);
         calculate = (TextView) view.findViewById(R.id.tvInfoDebtBorrowIsCalculate);
         id = getArguments().getString("id");
         rlInfo = (RelativeLayout) view.findViewById(R.id.rlInfo);
-//        isHaveReking = (FrameLayout) view.findViewById(R.id.ifListHave);
         context = getContext();
         debtBorrow = new DebtBorrow();
         if (debtBorrowDao.queryBuilder().list() != null) {

@@ -76,7 +76,7 @@ public class CategoryInfoFragment extends PABaseInfoFragment {
         for (int i = 0; i < subcatChecked.length; i++)
             subcatChecked[i] = (i == 0);
         warningDialog = new WarningDialog(getContext());
-        rvCategoryInfoOperations = (RecyclerView) rootView.findViewById(R.id.rvAccountDetailsInfo);
+        rvCategoryInfoOperations = (RecyclerView) rootView.findViewById(R.id.rvCategoryInfoOperations);
         svCategorySelector = (SelectorView) rootView.findViewById(R.id.svCategorySelector);
 
         final List<RootCategory> rootCategories = daoSession.getRootCategoryDao().queryBuilder().orderAsc(RootCategoryDao.Properties.Name).list();

@@ -81,7 +81,7 @@ public class AccountInfoFragment extends PABaseInfoFragment {
 			}
 		});
 
-		rvAccountDetailsInfo = (RecyclerView) rootView.findViewById(R.id.rvAccountDetailsInfo);
+		rvAccountDetailsInfo = (RecyclerView) rootView.findViewById(R.id.rvAccountInfoOperations);
  		firstPay = (TextView) rootView.findViewById(R.id.tvAccountInfoFirstPay);
 		canbeNegative = (TextView) rootView.findViewById(R.id.tvAccountInfoCanBeNegative);
 		if (account.getAmount() == 0) {

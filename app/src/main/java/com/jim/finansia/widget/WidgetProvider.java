@@ -316,9 +316,9 @@ public class WidgetProvider extends AppWidgetProvider {
         active.putExtra(WidgetKeys.ACTION_WIDGET_RECEIVER_CHANGE_DIAGRAM_ID,
                 widgetID);
         Log.d(WidgetKeys.TAG, widgetID + "");
-        PendingIntent actionPendingIntent = PendingIntent.getBroadcast(context, widgetID
-                , active, 0);
-        views.setOnClickPendingIntent(R.id.diagramma_widget, actionPendingIntent);
+//        PendingIntent actionPendingIntent = PendingIntent.getBroadcast(context, widgetID
+//                , active, 0);
+//        views.setOnClickPendingIntent(R.id.diagramma_widget, actionPendingIntent);
 
 
         Intent active_s = new Intent(context, SettingsWidget.class);
@@ -338,8 +338,8 @@ public class WidgetProvider extends AppWidgetProvider {
             views.setTextViewText(R.id.balance_widget,foramat.format(new Date()));
             views.setTextViewText(R.id.tvTitleWidget, "Finansia");
 
-            Bitmap bitmap = makeDiagram(context,daoSession);
-            views.setImageViewBitmap(R.id.diagramma_widget, bitmap);
+//            Bitmap bitmap = makeDiagram(context,daoSession);
+//            views.setImageViewBitmap(R.id.diagramma_widget, bitmap);
              appWidgetManager.updateAppWidget(widgetID, views);
             db.close();
             return;
@@ -388,8 +388,8 @@ public class WidgetProvider extends AppWidgetProvider {
 
 
         //income diagramma
-        Bitmap bitmap = makeDiagram(context,daoSession);
-        views.setImageViewBitmap(R.id.diagramma_widget, bitmap);
+//        Bitmap bitmap = makeDiagram(context,daoSession);
+//        views.setImageViewBitmap(R.id.diagramma_widget, bitmap);
         appWidgetManager.updateAppWidget(widgetID, views);
         db.close();
     }
