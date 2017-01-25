@@ -19,7 +19,6 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class IntroWithButton extends Fragment {
     TextView textLets;
-    ImageView togoBEGIN;
     SharedPreferences sPref;
     SharedPreferences.Editor ed;
 
@@ -40,23 +39,9 @@ public class IntroWithButton extends Fragment {
         ed=sPref.edit();
 
         textLets=(TextView) V.findViewById(R.id.textView8) ;
-        togoBEGIN=(ImageView) V.findViewById(R.id.fbDebtBorrowFragment) ;
 //        Typeface fontBlack = Typeface.createFromAsset(getActivity().getAssets(), "ralewayBlack.ttf");
 //        textLets.setTypeface(fontBlack);
-        togoBEGIN.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try{
-                    Intent togoB=new Intent(getActivity(), PocketAccounter.class);
-                    startActivity(togoB);
-                    ed.putBoolean("FIRST_KEY",false);
-                    ed.commit();
-                }
-                finally {
-                    getActivity().finish();
-                }
-            }
-        });
+
         return  V;
     }
 

@@ -6,12 +6,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.jim.finansia.intropage.IntroIndicator"
-    android:background="#fff">
+    android:background="#f5f5f5">
 
     <android.support.v4.view.ViewPager
         android:id="@+id/pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/sixty_dp"
+        >
     </android.support.v4.view.ViewPager>
     <TextView
         android:id="@+id/forskip"
@@ -25,9 +27,55 @@
         android:layout_margin="@dimen/sixteen_sp"
         android:textSize="@dimen/sixteen_sp"
         android:textColor="#eeeeee"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/seventy_dp"
+        android:visibility="visible"
+        android:id="@+id/relativeLayout"
+        android:layout_above="@+id/indicator">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/fourty_dp"
+            android:layout_centerVertical="true"
+            android:scaleType="fitXY"
+            android:src="@drawable/shadow_buttom_intro"
+            android:id="@+id/imageView12" />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/twenty_dp"
+            android:layout_alignBottom="@+id/imageView12"
+            android:background="#fff"/>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/twenty_dp"
+            android:background="#fff"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/imageView12" />
+        <ImageView
+            android:id="@+id/ivToNextBotton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ellips_intro"
+            android:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/miniIcon"
+            android:layout_width="@dimen/twentyfive_dp"
+            android:layout_height="@dimen/twentyfive_dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/twenty_dp"
+            android:src="@drawable/right_password"
+            android:tint="#fff" />
+    </RelativeLayout>
     <com.jim.finansia.intropage.PageCircleIndicator
         android:layout_width="match_parent"
-        android:layout_height="@dimen/thirty_dp"
+        android:layout_height="@dimen/fourty_dp"
+        android:paddingTop="@dimen/ten_dp"
         android:id="@+id/indicator"
+        android:background="#fff"
         android:layout_alignParentBottom="true" />
+
 </RelativeLayout>

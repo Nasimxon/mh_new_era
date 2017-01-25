@@ -8,14 +8,12 @@ public class DataIntro {
     private String intoTitle;
     private String contentText;
     private int imageRes;
-    private int miniImageRes;
 
 
-    public DataIntro(String intoTitle, String contentText, int imageRes, int miniImageRes) {
+    public DataIntro(String intoTitle, String contentText, int imageRes) {
         this.intoTitle = intoTitle;
         this.contentText = contentText;
         this.imageRes = imageRes;
-        this.miniImageRes = miniImageRes;
     }
 
     public String getIntoTitle() {
@@ -42,11 +40,5 @@ public class DataIntro {
         this.imageRes = imageRes;
     }
 
-    public int getMiniImageRes() {
-        return miniImageRes;
-    }
 
-    public void setMiniImageRes(int miniImageRes) {
-        this.miniImageRes = miniImageRes;
-    }
 }

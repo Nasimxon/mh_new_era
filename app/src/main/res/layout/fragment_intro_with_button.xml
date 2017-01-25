@@ -3,63 +3,109 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#fff"
     tools:context="com.jim.finansia.intropage.IntroFrame">
     <!-- TODO: Update blank fragment layout -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <ImageView
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="5"
+            android:layout_marginTop="@dimen/fourty_dp"
+            android:paddingBottom="@dimen/ten_dp"
+            android:paddingTop="@dimen/thirty_dp"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/into_fon"
+                        />
+
+                    <ImageView
+                        android:layout_width="@dimen/one_hundred_eighty_one_dp"
+                        android:layout_height="@dimen/one_hundred_eighty_one_dp"
+                        android:layout_centerInParent="true"
+                        android:padding="@dimen/sixteen_dp"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/benjamin" />
+                </RelativeLayout>
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+        </RelativeLayout>
+        <RelativeLayout
             android:id="@+id/imageView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="@dimen/thirty_dp"
-            android:layout_weight="3" />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2"
-            android:orientation="vertical">
-            <TextView
-                android:id="@+id/textView8"
+            android:paddingTop="@dimen/twenty_dp"
+            android:layout_weight="4" >
+            <LinearLayout
+                android:id="@+id/sitat"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:gravity="bottom|center_horizontal"
-                android:paddingLeft="@dimen/sixteen_dp"
-                android:paddingRight="@dimen/sixteen_dp"
-                android:text="@string/let_s_go"
-                android:textColor="#414141"
-                android:textSize="@dimen/twenty_dp"
-                android:textStyle="bold" />
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/seventy_dp"
-                android:layout_marginBottom="@dimen/seventy_dp"
-                android:layout_marginTop="@dimen/twenty_dp">
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/fourty_dp"
-                    android:src="@drawable/shadow_buttom_intro"
-                    android:layout_centerVertical="true"
-                    android:scaleType="fitXY"
-                    />
-                <ImageView
-                    android:id="@+id/fbDebtBorrowFragment"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:adjustViewBounds="true"
-                    android:layout_centerHorizontal="true"
-                    android:src="@drawable/ellips_intro"/>
-                <ImageView
-                    android:layout_width="@dimen/twentyfive_dp"
-                    android:layout_height="@dimen/twentyfive_dp"
-                    android:layout_centerHorizontal="true"
-                    android:src="@drawable/check_sign_oq"
-                    android:tint="#fff"
-                    android:layout_marginTop="@dimen/twenty_dp"/>
-            </RelativeLayout>
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/sixteen_dp"
 
-        </LinearLayout>
+                >
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"/>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="6"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Если хотите быть богатым, научитесь не только зарабатывать, но и быть экономным."
+                        android:textColor="@color/black_for_myagkiy_glavniy"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/sixteen_dp"
+                        />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="- Бенджамин Франклин"
+                        android:textStyle="italic"
+                        android:textColor="@color/black_for_myagkiy_glavniy"
+                        android:gravity="center"
+                        android:layout_marginTop="@dimen/ten_dp"
+                        />
+                </LinearLayout>
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"/>
+            </LinearLayout>
+
+        </RelativeLayout>
     </LinearLayout>
 </FrameLayout>

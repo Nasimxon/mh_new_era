@@ -2,6 +2,8 @@ package com.jim.finansia.intropage;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -11,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jim.finansia.PocketAccounter;
@@ -26,7 +29,9 @@ public class IntroIndicator extends AppCompatActivity {
     TextView forskip;
     SharedPreferences sPref;
     SharedPreferences.Editor ed;
-
+    ImageView ivToNextBotton;
+    ImageView miniIcon;
+    MediaPlayer mp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +40,10 @@ public class IntroIndicator extends AppCompatActivity {
         setContentView(R.layout.activity_intro_indicator);
         sPref=getSharedPreferences("infoFirst",MODE_PRIVATE);
         ed=sPref.edit();
+
+        forskip = (TextView) findViewById(R.id.forskip);
+        ivToNextBotton = (ImageView) findViewById(R.id.ivToNextBotton);
+        miniIcon = (ImageView) findViewById(R.id.miniIcon);
 
         forskip = (TextView) findViewById(R.id.forskip);
         pager = (ViewPager) findViewById(R.id.pager);
@@ -59,34 +68,78 @@ public class IntroIndicator extends AppCompatActivity {
         PageIndicator mIndicator= (PageCircleIndicator) findViewById(R.id.indicator);
         mIndicator.setViewPager(pager);
 
-        pager.setPageTransformer(true, new RotateDownTransformer());
+
+        pager.setPageTransformer(true,new ZoomOutTranformer());
+        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (position == 5) {
+//                    miniIcon.setImageResource(R.drawable.right_password);
+                    miniIcon.setImageResource(R.drawable.right_password);
+                }
+                else miniIcon.setImageResource(R.drawable.right_password);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+        mp = MediaPlayer.create(this, R.raw.revhiti  );
+        mp.setVolume(0.1f,0.1f);
+        ivToNextBotton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(pager.getCurrentItem()!=5){
+                    pager.setCurrentItem(pager.getCurrentItem()+1,true);
+                    mp.start();
+
+                }
+                else {
+                    try{
+                        Intent togoB=new Intent(IntroIndicator.this, PocketAccounter.class);
+                        startActivity(togoB);
+                        ed.putBoolean("FIRST_KEY",false);
+                        ed.commit();
+                    }
+                    finally {
+                        finish();
+                    }
+                }
+            }
+        });
     }
     private void initFrags(){
         fragments=new ArrayList<>();
 
         //Sozdaniya i otpravka data v fragmentam
         IntroFrame appInfo=new IntroFrame();
-        appInfo.shareData(new DataIntro(getString(R.string.appInfoTitel),getString(R.string.introAppInfo),R.drawable.emp,R.drawable.ic_sms));
+        appInfo.shareData(new DataIntro(getString(R.string.appInfoTitel),getString(R.string.introAppInfo),R.drawable.emp));
         fragments.add(appInfo);
 
-        IntroFrame udobstvaInfo=new IntroFrame();
-        udobstvaInfo.shareData(new DataIntro(getString(R.string.quickInfp),getString(R.string.quickInfo),R.drawable.voice_intro,R.drawable.voice_recognize));
+        IntroFrame smsIntro=new IntroFrame();
+        smsIntro.shareData(new DataIntro(getString(R.string.safeInfo),getString(R.string.secureInfo),R.drawable.mobilesms));
 
-        IntroFrame dizaynInfo=new IntroFrame();
-        dizaynInfo.shareData(new DataIntro(getString(R.string.designInfo),getString(R.string.clear_desgn),R.drawable.mobilesms,R.drawable.ic_sms));
-
-
-        IntroFrame syncInfo=new IntroFrame();
-        syncInfo.shareData(new DataIntro(getString(R.string.safeInfo),getString(R.string.secureInfo),R.drawable.debt_intro,R.drawable.ic_debt));
+        IntroFrame voiceint=new IntroFrame();
+        voiceint.shareData(new DataIntro(getString(R.string.quickInfp),getString(R.string.quickInfo),R.drawable.voice_intro));
 
 
-        IntroFrame flixebleReportInfo=new IntroFrame();
-        flixebleReportInfo.shareData(new DataIntro(getString(R.string.flexInfo),getString(R.string.flexinfo),R.drawable.report_intro,R.drawable.ic_report));
+        IntroFrame debtintro=new IntroFrame();
+        debtintro.shareData(new DataIntro(getString(R.string.designInfo),getString(R.string.clear_desgn),R.drawable.debt_intro));
 
-        fragments.add(udobstvaInfo);
-        fragments.add(syncInfo);
-        fragments.add(dizaynInfo);
-        fragments.add(flixebleReportInfo);
+
+        IntroFrame reportint=new IntroFrame();
+        reportint.shareData(new DataIntro(getString(R.string.flexInfo),getString(R.string.flexiinfo),R.drawable.report_intro));
+
+        fragments.add(voiceint);
+        fragments.add(debtintro);
+        fragments.add(smsIntro);
+        fragments.add(reportint);
 
         fragments.add(new IntroWithButton());
 

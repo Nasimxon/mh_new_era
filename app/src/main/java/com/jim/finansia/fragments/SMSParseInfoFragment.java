@@ -91,7 +91,7 @@ public class SMSParseInfoFragment extends Fragment {
         if (toolbarManager != null)
         {
             toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
-            toolbarManager.setImageToSecondImage(R.drawable.trash);
+            toolbarManager.setImageToSecondImage(R.drawable.ic_delete_proz);
             toolbarManager.setSubtitle("");
             toolbarManager.setOnSecondImageClickListener(new View.OnClickListener() {
                 @Override
@@ -111,7 +111,7 @@ public class SMSParseInfoFragment extends Fragment {
                             warningDialog.dismiss();
                         }
                     });
-                    warningDialog.setText(getResources().getString(R.string.delete));
+                    warningDialog.setText(getString(R.string.delete_all_records));
                     int width = getResources().getDisplayMetrics().widthPixels;
                     warningDialog.getWindow().setLayout(8*width/10, ViewGroup.LayoutParams.WRAP_CONTENT);
                     warningDialog.show();

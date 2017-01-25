@@ -184,34 +184,34 @@ public class SignInGoogleMoneyHold {
         }
     }
     public void openDialog() {
-        final Dialog dialog = new Dialog(context);
-        final View dialogView = ((PocketAccounter) context).getLayoutInflater().inflate(R.layout.first_login_info, null);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(dialogView);
-        final SignInButton singinbut = (SignInButton) dialogView.findViewById(R.id.signg);
-
-        ImageView cancel = (ImageView) dialogView.findViewById(R.id.ivInfoDebtBorrowCancel);
-
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-        singinbut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+//        final Dialog dialog = new Dialog(context);
+//        final View dialogView = ((PocketAccounter) context).getLayoutInflater().inflate(R.layout.first_login_info, null);
+//        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        dialog.setContentView(dialogView);
+//        final SignInButton singinbut = (SignInButton) dialogView.findViewById(R.id.signg);
+//
+//        ImageView cancel = (ImageView) dialogView.findViewById(R.id.ivInfoDebtBorrowCancel);
+//
+//        cancel.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                dialog.dismiss();
+//            }
+//        });
+//
+//        singinbut.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
 
                 regitUser();
-                dialog.dismiss();
-
-            }
-        });
-        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
-        int width = displayMetrics.widthPixels;
-        dialog.getWindow().setLayout(7 * width / 8, RelativeLayout.LayoutParams.WRAP_CONTENT);
-        dialog.show();
+//                dialog.dismiss();
+//
+//            }
+//        });
+//        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+//        int width = displayMetrics.widthPixels;
+//        dialog.getWindow().setLayout(7 * width / 8, RelativeLayout.LayoutParams.WRAP_CONTENT);
+//        dialog.show();
     }
 
 
