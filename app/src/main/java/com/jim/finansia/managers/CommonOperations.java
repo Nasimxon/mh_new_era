@@ -263,7 +263,50 @@ public class CommonOperations {
         String regex;
         if (splittedText != null && !splittedText.isEmpty()) {
             //amountPos > incExpPos
-            if (incExpPos == 0 && incExpPos + 1 == amountPos && amountPos != splittedText.size() - 1) {
+            if (incExpPos == 0 && amountPos == 1 && splittedText.size() == 2) {
+                for (String keyWord : incomeKeywords) {
+                    regex = new RegexBuilder().builder()
+                            .beginsWithWord(keyWord)
+                            .anyWhitespaceSeq()
+                            .defineNumber()
+                            .build();
+                    amountBlockPos = 2;
+                    TemplateSms template = new TemplateSms(regex, PocketAccounterGeneral.INCOME, amountBlockPos);
+                    templates.add(template);
+                }
+                for (String keyWord : expenseKeywords) {
+                    regex = new RegexBuilder().builder()
+                            .beginsWithWord(keyWord)
+                            .anyWhitespaceSeq()
+                            .defineNumber()
+                            .build();
+                    amountBlockPos = 2;
+                    TemplateSms template = new TemplateSms(regex, PocketAccounterGeneral.EXPENSE, amountBlockPos);
+                    templates.add(template);
+                }
+            } else if (incExpPos == 1 && amountPos == 0 && splittedText.size() == 2) {
+                for (String keyWord : incomeKeywords) {
+                    regex = new RegexBuilder().builder()
+                            .defineNumber()
+                            .anyWhitespaceSeq()
+                            .defineWord(keyWord)
+                            .build();
+                    amountBlockPos = 1;
+                    TemplateSms template = new TemplateSms(regex, PocketAccounterGeneral.INCOME, amountBlockPos);
+                    templates.add(template);
+                }
+                for (String keyWord : expenseKeywords) {
+                    regex = new RegexBuilder().builder()
+                            .defineNumber()
+                            .anyWhitespaceSeq()
+                            .defineWord(keyWord)
+                            .build();
+                    amountBlockPos = 1;
+                    TemplateSms template = new TemplateSms(regex, PocketAccounterGeneral.EXPENSE, amountBlockPos);
+                    templates.add(template);
+                }
+            }
+            else if (incExpPos == 0 && incExpPos + 1 == amountPos && amountPos != splittedText.size() - 1) {
                 for (String keyWord : incomeKeywords) {
                     regex = new RegexBuilder().builder()
                             .beginsWithWord(keyWord)

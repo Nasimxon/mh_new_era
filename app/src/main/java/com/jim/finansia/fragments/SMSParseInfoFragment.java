@@ -121,7 +121,7 @@ public class SMSParseInfoFragment extends Fragment {
     }
     private class MyAdapter extends RecyclerView.Adapter<SMSParseInfoFragment.ViewHolder> implements View.OnClickListener {
         private List<SmsParseSuccess> successList;
-        private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd:MM:yyyy HH:MM");
+        private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd:MM:yyyy");
         private List<String> strings;
         private List<TextView> tvList;
         private List<String> incomeKeys;
@@ -413,7 +413,7 @@ public class SMSParseInfoFragment extends Fragment {
                             }
                         }
                         else {
-                            amountKeyPos = posAmount + 1;
+                            amountKeyPos = posAmount - 1;
                             while (!amountKeyDefined) {
                                 if (amountKeyPos >= strings.size()) break;
                                 else {
@@ -424,7 +424,7 @@ public class SMSParseInfoFragment extends Fragment {
                                 }
                             }
                             if (!amountKeyDefined) {
-                                amountKeyPos = posAmount+1;
+                                amountKeyPos = posAmount-1;
                             }
                         }
                         amountKeys.add(strings.get(amountKeyPos));

@@ -129,6 +129,7 @@ public class AddSmsParseFragment extends PABaseFragment{
         tvSmsCount.setText("0");
         tvIncome = (TextView) rootView.findViewById(R.id.forIncome);
         tvExpense = (TextView) rootView.findViewById(R.id.smsParsForExpense);
+        templates = new ArrayList<>();
         final List<String> accStrings = new ArrayList<>();
         for (Account ac : daoSession.getAccountDao().loadAll()) {
             accStrings.add(ac.getId());
@@ -221,7 +222,12 @@ public class AddSmsParseFragment extends PABaseFragment{
                     expenseKeys = expenseKeys == null ? new ArrayList<String>() : expenseKeys;
                     amountKeys = amountKeys == null ? new ArrayList<String>() : amountKeys;
                     templateSmsList = templateSmsList == null ? new ArrayList<TemplateSms>() : templateSmsList;
-                    boolean change = false;
+                    List<String> addingIncomes = new ArrayList<>();
+                    addingIncomes.addAll(incomeKeys);
+                    List<String> addingExpenses = new ArrayList<>();
+                    addingExpenses.addAll(expenseKeys);
+                    List<String> addingAmounts = new ArrayList<>();
+                    addingAmounts.addAll(amountKeys);
                     for (String income : incomes) {
                         boolean found = false;
                         for (String adapter : incomeKeys) {
@@ -231,15 +237,10 @@ public class AddSmsParseFragment extends PABaseFragment{
                             }
                         }
                         if (!found) {
-                            change = true;
-                            break;
+                            addingIncomes.add(income);
                         }
                     }
-                    if (change) {
-                        templateSmsList.addAll(commonOperations.generateSmsTemplateList(null, 0, 0, incomeKeys,
-                                expenseKeys, amountKeys));
-                    }
-                    change = false;
+
                     for (String expense : expanses) {
                         boolean found = false;
                         for (String adapter : expenseKeys) {
@@ -249,15 +250,10 @@ public class AddSmsParseFragment extends PABaseFragment{
                             }
                         }
                         if (!found) {
-                            change = true;
-                            break;
+                            addingExpenses.add(expense);
                         }
                     }
-                    if (change) {
-                        templateSmsList.addAll(commonOperations.generateSmsTemplateList(null, 0, 0, incomeKeys,
-                                expenseKeys, amountKeys));
-                    }
-                    change = false;
+
                     for (String amount : amounts) {
                         boolean found = false;
                         for (String adapter : amountKeys) {
@@ -267,26 +263,23 @@ public class AddSmsParseFragment extends PABaseFragment{
                             }
                         }
                         if (!found) {
-                            change = true;
+                            addingAmounts.add(amount);
                             break;
                         }
                     }
-                    if (change) {
-                        templateSmsList.addAll(commonOperations.generateSmsTemplateList(null, 0, 0, incomeKeys,
-                                expenseKeys, amountKeys));
-                    }
-
+                    if (!incomeKeys.isEmpty() && !expenseKeys.isEmpty() && !addingAmounts.isEmpty())
+                        templateSmsList.addAll(commonOperations.generateSmsTemplateList(null, 0, 0, addingIncomes,
+                                addingExpenses, addingAmounts));
                     SmsParseObject smsParseObject = new SmsParseObject();
-                    if (templateSmsList != null) {
-                        for (TemplateSms templateSms : templateSmsList)
-                            templateSms.setParseObjectId(smsParseObject.getId());
-                    }
                     smsParseObject.setCurrency(daoSession.loadAll(Currency.class).get(spCurrency.getSelectedItemPosition()));
                     smsParseObject.setAccount(daoSession.getAccountDao().queryBuilder()
                             .where(AccountDao.Properties.Id.eq(accStrings.get(spAccount.getSelectedItemPosition()))).list().get(0));
                     smsParseObject.setNumber(etNumber.getText().toString());
-                    daoSession.getTemplateSmsDao().insertInTx(templateSmsList);
                     daoSession.getSmsParseObjectDao().insertOrReplace(smsParseObject);
+                    for (TemplateSms templateSms : templateSmsList)
+                        templateSms.setParseObjectId(smsParseObject.getId());
+                    daoSession.getTemplateSmsDao().insertInTx(templateSmsList);
+                    smsParseObject.resetTemplates();
                     paFragmentManager.getFragmentManager().popBackStack();
                     paFragmentManager.displayFragment(new SmsParseMainFragment());
 
@@ -716,10 +709,28 @@ public class AddSmsParseFragment extends PABaseFragment{
                         for (int i = 0; i < splittedBody.size(); i++) {
                             splittedBody.set(i, splittedBody.get(i).trim());
                         }
-                        if (type)
-                            incomeKeys.add(splittedBody.get(posIncExp));
-                        else
-                            expenseKeys.add(splittedBody.get(posIncExp));
+                        if (type) {
+                            boolean found = false;
+                            for (String key : incomeKeys) {
+                                if (key.equals(splittedBody.get(posIncExp))) {
+                                    found = true;
+                                    break;
+                                }
+                            }
+                            if (!found)
+                                incomeKeys.add(splittedBody.get(posIncExp));
+                        }
+                        else {
+                            boolean found = false;
+                            for (String key : expenseKeys) {
+                                if (key.equals(splittedBody.get(posIncExp))) {
+                                    found = true;
+                                    break;
+                                }
+                            }
+                            if (!found)
+                                expenseKeys.add(splittedBody.get(posIncExp));
+                        }
                         boolean amountKeyDefined = false;
                         int amountKeyPos;
                         String dateRegex = "[0-9]+[.,|/^*~&%@!+()$#-\\/'\"\\{`\\];\\[:][0-9]+[.,|/^*~&%@!+()$#-\\/'\"\\{`\\];\\[:]?[0-9]*";
@@ -765,7 +776,7 @@ public class AddSmsParseFragment extends PABaseFragment{
                             }
                         }
                         else {
-                            amountKeyPos = posAmount + 1;
+                            amountKeyPos = posAmount - 1;
                             while (!amountKeyDefined) {
                                 if (amountKeyPos >= splittedBody.size()) break;
                                 else {
@@ -776,7 +787,7 @@ public class AddSmsParseFragment extends PABaseFragment{
                                 }
                             }
                             if (!amountKeyDefined) {
-                                amountKeyPos = posAmount+1;
+                                amountKeyPos = posAmount-1;
                             }
                         }
                         amountKeys.add(splittedBody.get(amountKeyPos));
@@ -792,8 +803,9 @@ public class AddSmsParseFragment extends PABaseFragment{
                                 i--;
                             }
                         }
-                        templateSmsList = commonOperations.generateSmsTemplateList(splittedBody, posIncExp, posAmount, incomeKeys, expenseKeys, new ArrayList<String>());
-                        for (int i = choosenSms.size() - 1; i >= 0; i--) {
+                        templateSmsList = templateSmsList == null ? new ArrayList<TemplateSms>() : templateSmsList;
+                        templateSmsList.addAll(commonOperations.generateSmsTemplateList(splittedBody, posIncExp, posAmount, incomeKeys, expenseKeys, new ArrayList<String>()));
+                        for (int i = choosenSms.size() - 1; i >= 0; i--) { //TODO whole checking
                             for (TemplateSms templateSms : templateSmsList) {
                                 if (choosenSms.get(i).getBody().matches(templateSms.getRegex())) {
                                     choosenSms.remove(i);
@@ -821,7 +833,6 @@ public class AddSmsParseFragment extends PABaseFragment{
                         }
                         adapter.refreshList();
                         String incs = "";
-
                         for (String s : incomeKeys) {
                             String divider = incomeKeys.indexOf(s) == incomeKeys.size()-1 ? "" : ", ";
                             incs += s + divider;
@@ -857,7 +868,7 @@ public class AddSmsParseFragment extends PABaseFragment{
                 String regex = "([0-9]+[.,]?[0-9]*\\s*)+";
                 Pattern pattern = Pattern.compile(regex);
                 Matcher matcher = pattern.matcher(splittedBody.get((Integer) v.getTag()));
-                if (!matcher.matches() /*&& !splittedBody.get((int) v.getTag() - 1).matches("\\s?[0-9]+\\s?")*/) {
+                if (!matcher.matches()) {
                     if (posIncExp != -1) {
                         parsingkey.setText(getResources().getString(R.string.select_word));
                         tvList.get(posIncExp).setBackgroundResource(R.drawable.select_grey);

@@ -40,6 +40,7 @@ import com.jim.finansia.database.SmsParseSuccess;
 import com.jim.finansia.database.SmsParseSuccessDao;
 import com.jim.finansia.database.SubCategory;
 import com.jim.finansia.database.SubCategoryDao;
+import com.jim.finansia.database.TemplateSmsDao;
 import com.jim.finansia.database.TemplateVoice;
 import com.jim.finansia.database.UserEnteredCalendars;
 import com.jim.finansia.database.UserEnteredCalendarsDao;
@@ -83,6 +84,7 @@ public class LogicManager {
     private SmsParseSuccessDao smsParseSuccessDao;
     private CurrencyCostStateDao currencyCostStateDao;
     private UserEnteredCalendarsDao userEnteredCalendarsDao;
+    private TemplateSmsDao templateSmsDao;
     public LogicManager(Context context) {
         this.context = context;
         ((PocketAccounterApplication) context.getApplicationContext()).component().inject(this);
@@ -105,6 +107,7 @@ public class LogicManager {
         smsParseSuccessDao = daoSession.getSmsParseSuccessDao();
         currencyCostStateDao = daoSession.getCurrencyCostStateDao();
         userEnteredCalendarsDao = daoSession.getUserEnteredCalendarsDao();
+        templateSmsDao = daoSession.getTemplateSmsDao();
     }
 
     public int deleteCurrency(List<Currency> currencies) {
@@ -809,9 +812,8 @@ public class LogicManager {
     }
 
     public int deleteSmsParseObject(SmsParseObject smsParseObject) {
-        smsParseSuccessDao.deleteInTx(smsParseSuccessDao.queryBuilder().
-                where(SmsParseSuccessDao.Properties
-                        .SmsParseObjectId.eq(smsParseObject.getId())).list());
+        smsParseSuccessDao.queryBuilder().where(SmsParseSuccessDao.Properties.SmsParseObjectId.eq(smsParseObject.getId())).buildDelete().executeDeleteWithoutDetachingEntities();
+        templateSmsDao.queryBuilder().where(TemplateSmsDao.Properties.ParseObjectId.eq(smsParseObject.getId())).buildDelete().executeDeleteWithoutDetachingEntities();
         smsParseObjectDao.delete(smsParseObject);
         return LogicManagerConstants.DELETED_SUCCESSFUL;
     }
