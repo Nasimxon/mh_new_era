@@ -40,6 +40,7 @@ import com.jim.finansia.database.DaoMaster;
 import com.jim.finansia.database.DaoSession;
 import com.jim.finansia.managers.CommonOperations;
 import com.jim.finansia.managers.DrawerInitializer;
+import com.jim.finansia.managers.ReportManager;
 import com.jim.finansia.modulesandcomponents.modules.PocketAccounterApplicationModule;
 import com.jim.finansia.syncbase.SyncBase;
 import com.jim.finansia.utils.PocketAccounterGeneral;
@@ -70,15 +71,11 @@ import static android.graphics.Color.RED;
 
 public class SettingsActivity extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
     private final int PERMISSION_READ_STORAGE = 0;
-    @Inject
-    DaoSession daoSession;
-    @Inject
-    SharedPreferences sharedPreferences;
-    @Inject
-    PocketAccounterApplicationModule pocketAccounterApplicationModule;
-    @Inject
-    DataCache dataCache;
-
+    @Inject DaoSession daoSession;
+    @Inject SharedPreferences sharedPreferences;
+    @Inject PocketAccounterApplicationModule pocketAccounterApplicationModule;
+    @Inject DataCache dataCache;
+    @Inject ReportManager reportManager;
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReferenceFromUrl("gs://pocket-accounter.appspot.com");
 
@@ -257,27 +254,20 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
                 builder.setMessage(R.string.default_settings)
                         .setPositiveButton(getString(R.string.no), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-
                                 dialog.cancel();
-
                             }
                         }) .setNegativeButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-
-
                         DrawerInitializer.reg.revokeAccess();
                         String DB_PATH;
-
-
-
-                        for(AbstractDao abstractDao:daoSession.getAllDaos())
-                                abstractDao.deleteAll();
+                        for(AbstractDao abstractDao : daoSession.getAllDaos()) {
+                            abstractDao.deleteAll();
+                            abstractDao.detachAll();
+                        }
                         CommonOperations.createDefaultDatas(sharedPreferences,SettingsActivity.this,daoSession);
-
                         dataCache.clearAllCaches();
-
+                        reportManager.clearCache();
                         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SettingsActivity.this);
-
                         prefs.edit().clear().apply();
                         sharedPreferences.edit().clear().apply();
                         getSharedPreferences("infoFirst", MODE_PRIVATE).edit().clear().apply();

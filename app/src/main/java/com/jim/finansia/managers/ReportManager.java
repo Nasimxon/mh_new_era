@@ -347,7 +347,7 @@ public class ReportManager {
                                                                     DebtBorrow.class,
                                                                     CreditDetials.class,
                                                                     SmsParseSuccess.class);
-        Double incomes = 0.0d, expenses = 0.0d, balance = 0.0d;
+        Double incomes = 0.0d, expenses = 0.0d, balance;
         for (ReportObject reportObject : list) {
             if (reportObject.getType() == PocketAccounterGeneral.INCOME)
                 incomes += reportObject.getAmount();
@@ -990,5 +990,15 @@ public class ReportManager {
         }
 
         return  result;
+    }
+    public void clearCache() {
+        incomes = null;
+        expances = null;
+        accounts = null;
+        financeRecords = null;
+        creditDetialses = null;
+        debtBorrows = null;
+        accountOperations = null;
+        smsParseSuccesses = null;
     }
 }

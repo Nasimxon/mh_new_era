@@ -896,6 +896,7 @@ public class LogicManager {
 
     public int insertRecord(FinanceRecord record) {
         recordDao.insertOrReplace(record);
+        daoSession.getFinanceRecordDao().detachAll();
         return LogicManagerConstants.SAVED_SUCCESSFULL;
     }
 

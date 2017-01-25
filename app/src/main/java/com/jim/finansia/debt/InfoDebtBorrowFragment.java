@@ -123,7 +123,6 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
     private ImageView cancel_button;
     private ImageView debt_icon;
     private RelativeLayout infoFrame;
-    //    private FrameLayout isHaveReking;
     private TextView tvInfoDebtBorrowTakeDate;
     private TextView payText;
     private boolean isCheks[];
@@ -131,7 +130,6 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
     private TextView phoneNumber;
     static int TYPE = 0;
     private int posMain = 0;
-    private Spinner spinner;
     private RelativeLayout rlInfo;
     private LinearLayout llDebtBOrrowItemEdit;
 
@@ -294,7 +292,6 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getContext(),
                 android.R.layout.simple_list_item_1, new String[]{
                 getResources().getString(R.string.delete)});
-        spinner.setAdapter(arrayAdapter);
 
         cancel_button.setOnClickListener(new View.OnClickListener() {
             @Override

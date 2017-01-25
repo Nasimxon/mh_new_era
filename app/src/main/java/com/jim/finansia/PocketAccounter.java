@@ -16,6 +16,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -129,7 +130,7 @@ public class PocketAccounter extends AppCompatActivity {
                 finish();
             } finally {}
         }
-
+        Log.d("sss", "onCreate: " + daoSession.getFinanceRecordDao().loadAll().size());
         notific = new NotificationManagerCredit(PocketAccounter.this);
         toolbarManager.init();
         date = Calendar.getInstance();
