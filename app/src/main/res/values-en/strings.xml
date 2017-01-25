@@ -1017,7 +1017,7 @@
     <string name="planning_before_title">Notice of event</string>
     <string name="filters">Filters</string>
     <string name="finance_record_default">3</string>
-    <string name="record_filter_summary">Set value for records in finance</string>
+    <string name="record_filter_summary">Set value for finance records</string>
     <string name="finance">Finance</string>
     <string name="report_daily_default">2</string>
     <string name="filter_title">Filter</string>

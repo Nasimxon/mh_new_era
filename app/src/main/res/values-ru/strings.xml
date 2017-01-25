@@ -1028,7 +1028,7 @@
     <string name="planning_before_title">Уведомление событий</string>
     <string name="filters">Фильтры</string>
     <string name="finance_record_default">3</string>
-    <string name="record_filter_summary">Установить значение для записей в финансах</string>
+    <string name="record_filter_summary">Установить значение для записей</string>
     <string name="finance">Финансы</string>
     <string name="report_daily_default">2</string>
     <string name="filter_title">Фильтр</string>

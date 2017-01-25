@@ -537,14 +537,14 @@
     </string-array>
     <string name="currencies">Divisas</string>
     <string name="main_currency">Divisa base: </string>
-    <string name="choose_currencies">Eligir moneda</string>
-    <string name="curr_not_choosen">Seleccione al menos una moneda</string>
+    <string name="choose_currencies">Eligir divisa</string>
+    <string name="curr_not_choosen">Seleccione al menos una divisa</string>
     <string name="yes">Sí</string>
     <string name="no">No</string>
-    <string name="currency_exchange_warning">Los datos sobre los tipos de cambio y la grabación se pierde porque no ha seleccionado la moneda seleccionada previamente!</string>
-    <string name="currency_delete_warning">Las entradas para monedas seleccionadas va a borrar!</string>
+    <string name="currency_exchange_warning">Los datos sobre los tipos de cambio y la grabación se pierde porque no ha seleccionado la divisa seleccionada previamente!</string>
+    <string name="currency_delete_warning">Las entradas para divisas seleccionadas va a borrar!</string>
     <string name="currency_empty_warning">Lista de divisas no debe estar vacía!</string>
-    <string name="warning">La atención</string>
+    <string name="warning">Atención</string>
     <string name="add">Añadir</string>
     <string name="expanse">El gasto</string>
     <string name="income">El ingreso</string>
@@ -558,13 +558,13 @@
     <string name="cat_type_not_choosen">Seleccione el tipo de categoría</string>
     <string name="enter_cat_name">Entra el nombre de la categoría</string>
     <string name="initial_amount">La cantidad inicial: </string>
-    <string name="account_history">Las Historias de tranferencias: </string>
+    <string name="account_history">Las historias de tranferencias: </string>
     <string name="account">Cuenta</string>
     <string name="currency_exchange">Tipo de cambio</string>
-    <string name="choose_date">Seleccione la fecha</string>
+    <string name="choose_date">Seleccione una fecha</string>
     <string name="enter_exchange">¡Introduzca el tipo de cambio!</string>
-    <string name="main_currency_edit">Moneda base: </string>
-    <string name="costs_selected_all_warning">La lista debe consistir al menos uno elemento</string>
+    <string name="main_currency_edit">Divisa base:</string>
+    <string name="costs_selected_all_warning">¡La lista debe consistir al menos uno elemento!</string>
     <string name="category">Categorías</string>
     <string name="divide_null">No se dividir por cero!</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -575,7 +575,7 @@
     <string name="in_this_month_should_pay">Pagos en el mes:</string>
     <string name="credit_name">Nombre del producto del crédito</string>
     <string name="home">Casa</string>
-    <string name="network">Contactp</string>
+    <string name="network">Contacto</string>
     <string name="clothes">Ropa</string>
     <string name="health">Salud</string>
     <string name="food">Comida</string>
@@ -813,7 +813,7 @@
         <item>icons_275</item>
     </string-array>
     <string-array name="gaiety">
-        <item>Restaurantу</item>
+        <item>Restaurante</item>
         <item>Cafetería</item>
         <item>Club nocturno</item>
         <item>Bolos</item>
@@ -917,14 +917,14 @@
     <string name="dayy">Día</string>
     <string name="this_first_comment">Pagos que antes de usar la aplicación</string>
     <string name="always_remember">Do not forget to make your payments and we are happy to help you save your budget!</string>
-    <string name="date_of_pay">Dia de pago</string>
+    <string name="date_of_pay">Fecha de pago</string>
     <string name="via">VIA</string>
     <string name="comment">Nota</string>
     <string name="diagram_no_data_text">No hay datos para mostrar!</string>
     <string name="credit">Crédito</string>
     <string name="borrow_statistics">Me endeudé</string>
     <string name="borrow_recking_statistics">Deuda devuelta</string>
-    <string name="debt_statistics">Prestado</string>
+    <string name="debt_statistics">Tomé prestado</string>
     <string name="debt_recking_statistics">Deuda devuelta</string>
     <string name="pay">Pagar</string>
     <string name="cancel">Cancelar</string>
@@ -943,7 +943,7 @@
         <item>Septiembre</item>
         <item>Octubre</item>
         <item>Noviembre</item>
-        <item>Deciembre</item>
+        <item>Diciembre</item>
     </string-array>
     <string name="error">Expresión equivocada!</string>
     <string-array name="account_names">
@@ -967,14 +967,14 @@
         <item>Cantidad</item>
         <item>Categoría</item>
     </string-array>
-    <string name="debt_borrow_taken">Prestado</string>
+    <string name="debt_borrow_taken">Tomé prestado</string>
     <string name="debt_borrow_given">Me endeudé</string>
     <string name="debt_borrow_taken_recking">Deuda devuelta</string>
     <string name="debt_borrow_given_recking">Deuda devuelta</string>
     <string name="detail">Detalles</string>
     <string name="profit">Beneficio</string>
     <string name="loading">Iniciar sesión</string>
-    <string name="please_wait">¡Por favor espera!</string>
+    <string name="please_wait">¡Por favor, espera!</string>
     <string name="total">Cantidad total:</string>
     <string name="average">Cantidad promedio:</string>
 
@@ -995,7 +995,7 @@
     <string name="notifications">Notificaciones</string>
     <bool name="notif_default">true</bool>
     <bool name="secure_default">false</bool>
-    <string name="notifications_summary">Diaramante notificacion ENCENDIDO/APAGADO</string>
+    <string name="notifications_summary">Diaramante notificacion ACTIVAR/DESACTIVAR</string>
     <string name="planning_before_default">10</string>
     <string name="general_notif">general_notif</string>
     <string-array name="planning_before_entries">
@@ -1015,10 +1015,10 @@
         <item>60</item>
     </string-array>
     <string name="planning_before_summary">Establecer valor</string>
-    <string name="planning_before_title">Avico del evento</string>
+    <string name="planning_before_title">Notificación de eventos</string>
     <string name="filters">Filtros</string>
     <string name="finance_record_default">3</string>
-    <string name="record_filter_summary">Establecer el valor de los registros en las finanzas</string>
+    <string name="record_filter_summary">Establecer el valor de los registros</string>
     <string name="finance">Financiar</string>
     <string name="report_daily_default">2</string>
     <string name="filter_title">Filtro</string>
@@ -1050,7 +1050,7 @@
     <string name="planning_notif_summary">Establecer el tiempo de aviso</string>
     <string name="planning_notif_title">Tiempo de aviso</string>
     <string-array name="report_by_income_expanse_table_titles">
-        <item>Feche</item>
+        <item>Fecha</item>
         <item>Ingreso</item>
         <item>Gasto</item>
         <item>Beneficio</item>
@@ -1061,7 +1061,7 @@
     <string name="report_income_expanse_aver_income">Ingreso promedio:</string>
     <string name="report_income_expanse_aver_expanse">Gasto promedio:</string>
     <string name="report_income_expanse_aver_profit">Beneficio promedio:</string>
-    <string name="please_sign">Por Favor regístrese</string>
+    <string name="please_sign">¡Por favor regístrese!</string>
     <string name="and_sync_your_data">Para datos de sincronización</string>
     <string name="introAppInfo">App much detail and conveniently control your daily income and expenses. For those who would like to save your budget carefully. We are happy to assist you!!</string>
     <string name="quickInfo">Quick Access Icons will help you to save your time. Just click on the desired category, and enter your expenses or income, and the rest of the app will do for you!</string>
@@ -1074,7 +1074,7 @@
     <string name="flexInfo">FLEXIBLE REPORT</string>
     <string name="flexinfo">The application will show the statistics of your expenses and income. You will be able to predict costs. A full report on all the information in an understandable way, with the ability to save in EXCEL.</string>
     <string name="let_s_go">GETTING STARTED!</string>
-    <string name="paythan">"You overpay for the sum of:"</string>
+    <string name="paythan">You overpay for the sum of:</string>
     <string name="payza">"Unpaid balance"</string>
     <string name="imsure"> I agree</string>
     <string name="cancel1">Cancelar</string>
@@ -1084,14 +1084,14 @@
     <string name="sync_message">If you are synchronized, your data will be overwritten.</string>
     <string name="category_name_error">¡El nombre de la categoría no se ha introducido!</string>
     <string name="sub_cat_name_error">Subcategory name is not entered!</string>
-    <string name="account_name_error">Account name is not entered!</string>
+    <string name="account_name_error">¡Nombre de cuenta está no entró!</string>
     <string name="info">Info</string>
-    <string name="save_to_excel">Save in EXCEL</string>
-    <string name="no_datas_for_show">There is no data to display!</string>
-    <string name="table">Table</string>
-    <string name="bars">Bars</string>
-    <string name="save_excel">Save in EXCEL file?</string>
-    <string name="date">Date</string>
+    <string name="save_to_excel">Guardar en el archivo EXCEL</string>
+    <string name="no_datas_for_show">¡No hay datos para mostrar!</string>
+    <string name="table">Mesa</string>
+    <string name="bars">Barras</string>
+    <string name="save_excel">Guardar en el archivo EXCEL?</string>
+    <string name="date">Fecha</string>
     <string name="category_delete_warning">¡Los datos asociados a la categoría seleccionada serán eliminados!</string>
     <string name="account_delete_warning">The data associated with the selected account will be deleted!</string>
     <string name="subcat_delete_warning">The data associated with the selected subcategories will be deleted!</string>
@@ -1099,7 +1099,7 @@
     <string name="backup">Download Database</string>
     <string name="backup_summary">Loads the latest data from your Google Account</string>
     <string name="google_logout">Log out</string>
-    ßßß<string name="incorrect_value">Permission incorrect value!</string>
+    <string name="incorrect_value">Permission incorrect value!</string>
     <string name="edit">Añadir/Editar</string>
     <string name="accounts">Cuentas</string>
     <string name="information">Info</string>
