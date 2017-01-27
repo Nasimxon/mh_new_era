@@ -464,7 +464,7 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
                 currentDebtBorrow.setAccount(account);
             }
             else {
-                currentDebtBorrow.setCalculate(true);
+                currentDebtBorrow.setCalculate(false);
                 currentDebtBorrow.setAccount(null);
             }
             currentDebtBorrow.getPerson().setName(etPersonName.getText().toString());
