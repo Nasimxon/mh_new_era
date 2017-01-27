@@ -472,7 +472,7 @@ public class NotificationManagerCredit {
             try {
                 alarmManager.cancel(pendingUpdateIntent);
             } catch (Exception e) {
-                Log.e("AlarmSet", "AlarmManager update was not canceled. " + e.toString());
+                Log.e("AlarmSet", "AlarmManager swipingUpdate was not canceled. " + e.toString());
             } finally {
                 pendingUpdateIntent.cancel();
             }

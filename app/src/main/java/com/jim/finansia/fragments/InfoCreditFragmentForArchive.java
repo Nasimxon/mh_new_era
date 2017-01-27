@@ -925,7 +925,7 @@ public class InfoCreditFragmentForArchive extends Fragment {
 //                                logicManager.insertReckingCredit(rec);
 //                                dataCache.updateAllPercents();
 //                                paFragmentManager.updateAllFragmentsOnViewPager();
-////                                        paFragmentManager.getCurrentFragment().update();
+////                                        paFragmentManager.getCurrentFragment().swipingUpdate();
 //                                currentCredit.resetReckings();
 //                                rcList = currentCredit.getReckings();
 //                                updateDate();

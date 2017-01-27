@@ -3,6 +3,7 @@ package com.jim.finansia.utils;
 import com.jim.finansia.BuildConfig;
 
 public class PocketAccounterGeneral {
+	public static final String DEBT_BORROW_PAGE = "DEBT_BORROW_PAGE";
 	public static final int PAGES_MAX_COUNT = 10;
 	public static final String OLD_DB_NAME = "PocketAccounterDatabase", CURRENT_DB_NAME = "pocketaccounter-db";
 	public static final int NORMAL_MODE = 0;
@@ -30,7 +31,7 @@ public class PocketAccounterGeneral {
 			DOWN_WORKSPACE_SHADER = 20, DOWN_MOST_LEFT = 21, DOWN_SIMPLE = 22, DOWN_MOST_RIGHT = 23,
 			DOWN_MOST_LEFT_PRESSED = 24, DOWN_SIMPLE_PRESSED = 25, DOWN_MOST_RIGHT_PRESSED = 26;
 
-	public static final String INFO_VISIBILITY = "INFO_VISIBILITY", VERTICAL_SELECTED_PAGE = "MAIN_SELECTED_PAGE";
+	public static final String INFO_VISIBILITY = "INFO_VISIBILITY", VERTICAL_SELECTED_PAGE = "MAIN_SELECTED_PAGE", ACCOUNT_INFO_ENABLED_KEY = "ACCOUNT_INFO_ENABLED_KEY";
 	public static final String HEAD_COLOR = "HEAD_COLOR", HELPER_COLOR = "HELPER_COLOR";
 	public static final String BASE64RSA = BuildConfig.base64rsa;
 	public static final String CHOOSEN_THEME_NAME_KEY = "CHOOSEN_THEME_NAME_KEY";

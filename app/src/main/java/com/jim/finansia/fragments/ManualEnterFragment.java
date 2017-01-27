@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,13 +80,12 @@ public class ManualEnterFragment extends Fragment {
                     }
                 }
                 if (page != null) {
-                    page.update();
+                    page.swipingUpdate();
                     dataCache.setEndDate(page.getDay());
                     dataCache.updatePercentsWhenSwiping();
                     paFragmentManager.updateVoiceRecognizePage(page.getDay());
                 }
                 lastPos = position;
-                Log.d("sss", "page selected "+position);
             }
 
             @Override
@@ -108,17 +106,6 @@ public class ManualEnterFragment extends Fragment {
                 }
             }
         });
-    }
-
-    public void refreshCurrencyChanges() {
-        int size  = getFragmentManager().getFragments().size();
-        for (int i = 0; i < size; i++) {
-            if (getFragmentManager().getFragments().get(i).getClass().getName().equals(MainPageFragment.class.getName())) {
-                MainPageFragment fragment = (MainPageFragment) getFragmentManager().getFragments().get(i);
-                if (fragment != null)
-                    fragment.refreshCurrencyChanges();
-            }
-        }
     }
 
     class LVPAdapter extends FragmentPagerAdapter {

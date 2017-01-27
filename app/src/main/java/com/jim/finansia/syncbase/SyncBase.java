@@ -162,11 +162,9 @@ public class SyncBase {
                   if (!context.getClass().getName().equals(SettingsActivity.class.getName())) {
                       PAFragmentManager paFragmentManager=new PAFragmentManager( ((PocketAccounter) context));
 
-
-                      paFragmentManager.updateAllFragmentsOnViewPager();
-                      paFragmentManager.getCurrentFragment().update();
                       dataCache.clearAllCaches();
                       dataCache.updateAllPercents();
+                      paFragmentManager.updateAllFragmentsOnViewPager();
                       even.onSuccses();
 
                   } else {

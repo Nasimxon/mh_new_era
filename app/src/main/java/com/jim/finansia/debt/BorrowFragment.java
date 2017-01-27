@@ -52,6 +52,7 @@ import com.jim.finansia.database.Recking;
 import com.jim.finansia.managers.CommonOperations;
 import com.jim.finansia.managers.LogicManager;
 import com.jim.finansia.managers.PAFragmentManager;
+import com.jim.finansia.managers.ReportManager;
 import com.jim.finansia.utils.DatePicker;
 import com.jim.finansia.utils.PocketAccounterGeneral;
 import com.jim.finansia.utils.WarningDialog;
@@ -91,6 +92,8 @@ public class BorrowFragment extends Fragment {
     DataCache dataCache;
     @Inject
     DecimalFormat formatter;
+    @Inject
+    ReportManager reportManager;
     WarningDialog warningDialog;
     DebtBorrowDao debtBorrowDao;
     AccountDao accountDao;
@@ -479,7 +482,6 @@ public class BorrowFragment extends Fragment {
                                 }
                                 boolean tek = false;
                                 if (!enterPay.getText().toString().isEmpty()) {
-                                    int len = person.getCurrency().getAbbr().length();
                                     if (leftAmount - Double.parseDouble(enterPay.getText().toString()) < 0) {
                                         if (keyForInclude.isChecked() && isMumkin(person, ac, Double.parseDouble(enterPay.getText().toString())))
                                             tek = true;
@@ -522,8 +524,10 @@ public class BorrowFragment extends Fragment {
                                                     view.tvItemDebtBorrowLeft.setText(getResources().getString(R.string.repaid));
                                                     dialog.dismiss();
                                                 }
-                                                paFragmentManager.updateAllFragmentsOnViewPager();
+                                                reportManager.clearCache();
                                                 dataCache.updateAllPercents();
+                                                paFragmentManager.updateAllFragmentsPageChanges();
+                                                paFragmentManager.updateAllFragmentsPageChanges();
                                                 warningDialog.dismiss();
                                             }
                                         });
@@ -553,8 +557,10 @@ public class BorrowFragment extends Fragment {
                                             }
                                             logicManager.insertReckingDebt(recking);
                                             view.tvItemDebtBorrowLeft.setText("" + formatter.format(person.getAmount() - total)  + person.getCurrency().getAbbr());
-                                            paFragmentManager.updateAllFragmentsOnViewPager();
+                                            reportManager.clearCache();
                                             dataCache.updateAllPercents();
+                                            paFragmentManager.updateAllFragmentsPageChanges();
+                                            paFragmentManager.updateAllFragmentsPageChanges();
                                             dialog.dismiss();
                                         } else {
                                             if (!keyForInclude.isChecked()) {
@@ -572,8 +578,11 @@ public class BorrowFragment extends Fragment {
 
                                                 logicManager.insertReckingDebt(recking);
                                                 view.tvItemDebtBorrowLeft.setText("" + formatter.format(person.getAmount() - total) + person.getCurrency().getAbbr());
-                                                paFragmentManager.updateAllFragmentsOnViewPager();
+
+                                                reportManager.clearCache();
                                                 dataCache.updateAllPercents();
+                                                paFragmentManager.updateAllFragmentsPageChanges();
+                                                paFragmentManager.updateAllFragmentsPageChanges();
                                                 dialog.dismiss();
                                             }
                                         }
@@ -681,7 +690,7 @@ public class BorrowFragment extends Fragment {
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void addNextFragment(DebtBorrow debtBorrow, ImageView squareBlue, boolean overlap) {
-        Fragment fragment = InfoDebtBorrowFragment.getInstance(debtBorrow.getId(), TYPE);
+        Fragment fragment = new InfoDebtBorrowFragment(debtBorrow.getId(), PocketAccounterGeneral.NO_MODE);
 
         Fade slideTransition = new Fade(Gravity.LEFT);
         slideTransition.setMode(Visibility.MODE_IN);

@@ -39,30 +39,10 @@ public class PocketAccounterApplication extends Application {
         String  oldDbPath= "//data//data//" + getPackageName().toString()
                         + "//databases//" + PocketAccounterGeneral.OLD_DB_NAME;
         if (!(new File(oldDbPath).exists()) && !sharedPreferences.getBoolean(PocketAccounterGeneral.DB_ONCREATE_ENTER, false)) {
-//            try {
-//                daoSession.getDatabase().beginTransaction();
                 CommonOperations.createDefaultDatas(sharedPreferences, getApplicationContext(), daoSession);
-//                daoSession.getDatabase().setTransactionSuccessful();
-//            }
-//            catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//            finally {
-//                daoSession.getDatabase().endTransaction();
-//            }
         }
         else if (new File(oldDbPath).exists()) {
-//            try {
-//                daoSession.getDatabase().beginTransaction();
                 CommonOperations.migrateDatabase(getApplicationContext(), oldDbPath, daoSession, sharedPreferences);
-//                daoSession.getDatabase().setTransactionSuccessful();
-//            }
-//            catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//            finally {
-//                daoSession.getDatabase().endTransaction();
-//            }
         }
         fullBought(true);
     }

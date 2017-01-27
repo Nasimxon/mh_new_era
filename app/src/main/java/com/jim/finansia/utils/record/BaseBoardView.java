@@ -86,6 +86,4 @@ public abstract class BaseBoardView extends View {
         else
             currentPage = sharedPreferences.getInt("income_current_page", 0);
     }
-
-
 }

@@ -75,7 +75,6 @@ public interface PocketAccounterApplicationComponent {
     void inject(SettingsActivity settingsActivity);
     void inject(IncomeExpanseDataRow incomeExpanseDataRow);
     void inject(SmsService smsService);
-    void inject(BalanceStripe balanceStripe);
     void inject(SubcatItemChecker subcatItemChecker);
     void inject(SubcatAdapterCircles subcatAdapterCircles);
     void inject(CircleReportFilterView circleReportFilterView);

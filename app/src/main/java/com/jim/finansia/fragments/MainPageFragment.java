@@ -76,6 +76,7 @@ public class MainPageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.main_page_fragment, container, false);
         pocketAccounter.findViewById(R.id.main).setVisibility(View.VISIBLE);
+        //is keyboard panel opened?
         pocketAccounter.findViewById(R.id.main).getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
@@ -100,7 +101,8 @@ public class MainPageFragment extends Fragment {
         }
         llMainPageBackground = (LinearLayout) rootView.findViewById(R.id.llMainPageBackground);
         rlMainPageContainer = (RelativeLayout) rootView.findViewById(R.id.rlMainPageContainer);
-        balanceStripe = new BalanceStripe(pocketAccounter, day);
+        //balance stripe
+        balanceStripe = new BalanceStripe(pocketAccounter, day, begin, end, preferences, reportManager, dataCache, commonOperations);
         ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         balanceStripe.setLayoutParams(lp);
         PRESSED = false;
@@ -191,16 +193,19 @@ public class MainPageFragment extends Fragment {
         expenseView.setOnPageChangeListener(new PageChangeListener() {
             @Override
             public void onPageChange(int position) {
+                boolean visibility = false;
                 if (checkAccessForPage(position)) {
                     expenseView.unlockPage();
+                    visibility = preferences.getBoolean(PocketAccounterGeneral.INFO_VISIBILITY, infosVisibility);
                     lockView.setVisibility(View.GONE);
                 }
                 else {
                     expenseView.lockPage();
+                    visibility = false;
                     lockView.setVisibility(View.VISIBLE);
                 }
                 lockView.setPage(position+1);
-                paFragmentManager.notifyInfosVisibility();
+                paFragmentManager.notifyInfosVisibility(visibility);
             }
         });
         rlMainPageContainer.addView(expenseView);
@@ -217,10 +222,15 @@ public class MainPageFragment extends Fragment {
         lockView.setLockViewButtonClickListener(new LockViewButtonClickListener() {
             @Override
             public void onLockViewButtonClickListener(boolean toForward) {
-                if (checkAccessForPage(expenseView.getCurrentPage()))
+                boolean visibility = false;
+                if (checkAccessForPage(expenseView.getCurrentPage())) {
+                    expenseView.lockPage();
+                    visibility = preferences.getBoolean(PocketAccounterGeneral.INFO_VISIBILITY, infosVisibility);
+                }
+                else {
                     expenseView.unlockPage();
-                else
-                    expenseView.unlockPage();
+                    visibility = false;
+                }
                 if (toForward) {
                     expenseView.incCurrentPage();
                     lockView.animateButtons(false);
@@ -231,7 +241,7 @@ public class MainPageFragment extends Fragment {
                 }
                 lockView.setPage(expenseView.getCurrentPage()+1);
                 paFragmentManager.updateAllFragmentsPageChanges();
-                paFragmentManager.notifyInfosVisibility();
+                paFragmentManager.notifyInfosVisibility(visibility);
             }
         });
         incomeView = new BoardView(getContext(), PocketAccounterGeneral.INCOME, day);
@@ -244,7 +254,7 @@ public class MainPageFragment extends Fragment {
         lpBalance.addRule(RelativeLayout.BELOW, R.id.main_expense);
         lpBalance.addRule(RelativeLayout.ABOVE, R.id.main_income);
         if (balanceStripe == null) {
-            balanceStripe = new BalanceStripe(pocketAccounter, day);
+            balanceStripe = new BalanceStripe(pocketAccounter, day, begin, end, preferences, reportManager, dataCache, commonOperations);
             ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             balanceStripe.setLayoutParams(lp);
             PRESSED = false;
@@ -266,7 +276,7 @@ public class MainPageFragment extends Fragment {
         else {
             balanceStripe.hideNotImportantPart();
         }
-        infosVisibility = preferences.getBoolean(PocketAccounterGeneral.INFO_VISIBILITY, true);
+        infosVisibility = preferences.getBoolean(PocketAccounterGeneral.INFO_VISIBILITY, false);
         if (infosVisibility) {
             expenseView.showText();
             incomeView.showText();
@@ -278,11 +288,8 @@ public class MainPageFragment extends Fragment {
         incomeView.invalidate();
         expenseView.invalidate();
     }
-    public void refreshCurrencyChanges() {
-        if (balanceStripe != null)
-            balanceStripe.refreshCurrencies();
-    }
-    public void update() {
+
+    public void swipingUpdate() {
         if (checkAccessForPage(expenseView.getCurrentPage())) {
             lockView.setVisibility(View.GONE);
             expenseView.unlockPage();
@@ -299,6 +306,7 @@ public class MainPageFragment extends Fragment {
         incomeView.invalidate();
         expenseView.invalidate();
     }
+
     public void updatePageChanges() {
         if (checkAccessForPage(expenseView.getCurrentPage())) {
             lockView.setVisibility(View.GONE);
@@ -317,7 +325,7 @@ public class MainPageFragment extends Fragment {
         incomeView.invalidate();
     }
 
-    public void toggleVisibilityForInfos() {
+    public void visibilityOfInfos(boolean visibility) {
         boolean isAccess = true;
         switch (expenseView.getCurrentPage()) {
                 case 1:
@@ -354,7 +362,7 @@ public class MainPageFragment extends Fragment {
             infosVisibility = false;
         }
         else {
-            infosVisibility = !infosVisibility;
+            infosVisibility = visibility;
             if (infosVisibility){
                 expenseView.showText();
                 incomeView.showText();

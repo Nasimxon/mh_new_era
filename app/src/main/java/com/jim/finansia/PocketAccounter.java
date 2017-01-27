@@ -59,6 +59,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import static com.jim.finansia.R.id.dp;
+import static com.jim.finansia.R.id.visibleIfCommentHave;
 import static com.jim.finansia.utils.billing.PurchaseImplementation.BILLING_RESPONSE_RESULT_OK;
 import static com.jim.finansia.utils.billing.PurchaseImplementation.REQUEST_CODE_BUY;
 
@@ -88,7 +89,6 @@ public class PocketAccounter extends AppCompatActivity {
     @Inject SharedPreferences sharedPreferences;
     @Inject PurchaseImplementation purchaseImplementation;
     PocketAccounterActivityComponent component;
-    Button button_1;
     public PocketAccounterActivityComponent component(PocketAccounterApplication application) {
         if (component == null) {
             component = DaggerPocketAccounterActivityComponent
@@ -103,25 +103,24 @@ public class PocketAccounter extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(null);
+        //init theme begin
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String themeName = prefs.getString(PocketAccounterGeneral.CHOOSEN_THEME_NAME_KEY, PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.BLUE_THEME);
         int themeId = getResources().getIdentifier(themeName, "style", getPackageName());
         setTheme(themeId);
+        //init theme end
         setContentView(R.layout.pocket_accounter);
+        //injecting all necessary variables
         component((PocketAccounterApplication) getApplication()).inject(this);
+        //display measurement(for all types of device displays
         initDisplaySettings();
-        button_1 = (Button) findViewById(R.id.button_1);
-        button_1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                paFragmentManager.displayFragment(new ChangeColorOfStyleFragment());
-            }
-        });
+        //initing languaga
         String lang = preferences.getString("language", getResources().getString(R.string.language_default));
         if (lang.matches(getResources().getString(R.string.language_default)))
             setLocale(Locale.getDefault().getLanguage());
         else
             setLocale(lang);
+        //intropage settings
         if (getSharedPreferences("infoFirst", MODE_PRIVATE).getBoolean("FIRST_KEY", true)) {
             try {
                 Intent first = new Intent(this, IntroIndicator.class);
@@ -130,12 +129,13 @@ public class PocketAccounter extends AppCompatActivity {
                 finish();
             } finally {}
         }
-        Log.d("sss", "onCreate: " + daoSession.getFinanceRecordDao().loadAll().size());
-        notific = new NotificationManagerCredit(PocketAccounter.this);
+        //toolbar initialization
         toolbarManager.init();
-        date = Calendar.getInstance();
+        //init toolbar
         treatToolbar();
-        dataCache.getCategoryEditFragmentDatas().setDate(date);
+        //initializing main window elements and show them
+        paFragmentManager.initializeMainWindow();
+        //secure layer configuring
         pwPassword = (PasswordWindow) findViewById(R.id.pwPassword);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         if (preferences.getBoolean("secure", false)) {
@@ -152,7 +152,8 @@ public class PocketAccounter extends AppCompatActivity {
                 }
             });
         }
-
+        //notification of credit
+        notific = new NotificationManagerCredit(this);
         boolean notif = sharedPreferences.getBoolean("general_notif", true);
         if (!notif) {
             (new Thread(new Runnable() {
@@ -165,24 +166,12 @@ public class PocketAccounter extends AppCompatActivity {
                 }
             })).start();
         }
-        preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        if (preferences.getBoolean("secure", false)) {
-            pwPassword.setVisibility(View.VISIBLE);
-            pwPassword.setOnPasswordRightEnteredListener(new OnPasswordRightEntered() {
-                @Override
-                public void onPasswordRight() {
-                    pwPassword.setVisibility(View.GONE);
-                }
-                @Override
-                public void onExit() {
-                    finish();
-                }
-            });
-        }
+        //switching toolbar for two modes
         if (paFragmentManager.getSelectedMode() == 0)
             setToToolbarVoiceMode();
         else
             setToToolbarManualEnterMode();
+        //receiver for updating ui after getting sms message
         receiver = new SMSMonitor() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -278,9 +267,6 @@ public class PocketAccounter extends AppCompatActivity {
                     countOfDays = commonOperations.betweenDays(end, Calendar.getInstance()) - 1;
                     paFragmentManager.setPage(5000 - (int) countOfDays);
                 }
-                if (paFragmentManager.getCurrentFragment() != null)
-                    paFragmentManager.getCurrentFragment().update();
-
             }
         };
         toolbarManager.setOnTitleClickListener(new View.OnClickListener() {
@@ -296,7 +282,10 @@ public class PocketAccounter extends AppCompatActivity {
         toolbarManager.setOnSecondImageClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            paFragmentManager.notifyInfosVisibility();
+                boolean visibility = preferences.getBoolean(PocketAccounterGeneral.INFO_VISIBILITY, false);
+                visibility = !visibility;
+                paFragmentManager.notifyInfosVisibility(visibility);
+                preferences.edit().putBoolean(PocketAccounterGeneral.INFO_VISIBILITY, visibility).commit();
             }
         });
     }

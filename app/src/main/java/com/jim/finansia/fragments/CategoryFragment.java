@@ -176,7 +176,6 @@ public class CategoryFragment extends PABaseListFragment implements OnClickListe
 			view.llCategoryListItemEdit.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					dataCache.getCategoryEditFragmentDatas().setMode(PocketAccounterGeneral.NO_MODE);
 					paFragmentManager.displayFragment(new RootCategoryEditFragment(result.get(position), PocketAccounterGeneral.NO_MODE, 0, null));
 				}
 			});

@@ -25,6 +25,7 @@ import com.jim.finansia.PocketAccounterApplication;
 import com.jim.finansia.R;
 import com.jim.finansia.database.Account;
 import com.jim.finansia.database.Currency;
+import com.jim.finansia.utils.PocketAccounterGeneral;
 import com.jim.finansia.utils.TransferAddEditDialog;
 import com.jim.finansia.utils.TransferDialog;
 import com.jim.finansia.utils.WarningDialog;
@@ -52,7 +53,6 @@ public class AccountFragment extends PABaseListFragment {
 					imm.hideSoftInputFromWindow(rootView.getWindowToken(), 0);}
 			}
 		}, 100);
-
 		((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
 		recyclerView = (RecyclerView) rootView.findViewById(R.id.rvAccounts);
 		recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -118,6 +118,7 @@ public class AccountFragment extends PABaseListFragment {
 						Toast.makeText(getContext(), R.string.transfer_isnt_done, Toast.LENGTH_SHORT).show();
 				}
 			});
+			isReportOpen = preferences.getBoolean(PocketAccounterGeneral.ACCOUNT_INFO_ENABLED_KEY, true);
 			toolbarManager.setOnSecondImageClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
@@ -129,6 +130,7 @@ public class AccountFragment extends PABaseListFragment {
 						isReportOpen=true;
 						refreshList();
 					}
+					preferences.edit().putBoolean(PocketAccounterGeneral.ACCOUNT_INFO_ENABLED_KEY, isReportOpen).commit();
 				}
 			});
 		}
@@ -289,7 +291,6 @@ public class AccountFragment extends PABaseListFragment {
 		RelativeLayout mainViewF;
 		LinearLayout llAccountItemPurpose;
 		LinearLayout llAccountItemOther;
-
 		public ViewHolder(View view) {
 			super(view);
 			ivIconItem = (ImageView) view.findViewById(R.id.ivAccountItemCurrent);

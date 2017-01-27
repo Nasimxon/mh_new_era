@@ -167,27 +167,16 @@ public class CurrencyEditFragment extends PABaseInfoFragment implements OnClickL
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.ivExCurrencyAdd:
-
-                break;
-//            case R.id.ivExCurrencyDelete:
-//                if (mode == PocketAccounterGeneral.NORMAL_MODE) {
-//                    mode = PocketAccounterGeneral.EDIT_MODE;
-//                    selected = new boolean[currency.getCosts().size()];
-//                } else {
-//                    mode = PocketAccounterGeneral.NORMAL_MODE;
-//                    deleteCosts();
-//                    selected = null;
-//                }
-//                refreshList();
-//                break;
             case R.id.ivToolbarMostRight:
                 InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 if (isCheckedMain) {
                     logicManager.setMainCurrency(currency);
                 }
-                paFragmentManager.updateCurrencyChanges();
+                reportManager.clearCache();
+                commonOperations.refreshCurrency();
+                dataCache.updateAllPercents();
+                paFragmentManager.updateAllFragmentsPageChanges();
                 paFragmentManager.updateVoiceRecognizePageCurrencyChanges();
                 paFragmentManager.displayFragment(new CurrencyFragment());
                 break;
@@ -343,6 +332,11 @@ public class CurrencyEditFragment extends PABaseInfoFragment implements OnClickL
                 } else {
                     logicManager.generateCurrencyCosts((Calendar) day.clone(), Double.parseDouble(etExchange.getText().toString()) / Double.parseDouble(etHowMuch.getText().toString()), currency);
                 }
+                reportManager.clearCache();
+                commonOperations.refreshCurrency();
+                dataCache.updateAllPercents();
+                paFragmentManager.updateAllFragmentsOnViewPager();
+                paFragmentManager.updateVoiceRecognizePageCurrencyChanges();
                 refreshList();
                 currency.refreshCosts();
                 tvCurrentCurrencyRate.setText("1" + currency.getAbbr() +

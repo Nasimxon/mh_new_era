@@ -548,8 +548,8 @@ public class SearchFragment extends Fragment {
                             hand.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Fragment infoDebtBorrowFragment = InfoDebtBorrowFragment.getInstance(((DebtBorrow) item.getParrentObject()).getId(),
-                                            ((DebtBorrow) item.getParrentObject()).getType());
+                                    Fragment infoDebtBorrowFragment = new InfoDebtBorrowFragment(((DebtBorrow) item.getParrentObject()).getId(),
+                                            PocketAccounterGeneral.NO_MODE);
                                     toolbarManager.closeSearchFragment();
                                     paFragmentManager.displayFragment(infoDebtBorrowFragment);
                                 }
@@ -574,8 +574,8 @@ public class SearchFragment extends Fragment {
                                 public void run() {
                                     Recking recking = (Recking) item.getParrentObject();
                                     toolbarManager.closeSearchFragment();
-                                    Fragment infoDebtBorrowFragment = InfoDebtBorrowFragment.getInstance(recking.getDebtBorrowsId(),
-                                            daoSession.getDebtBorrowDao().load(recking.getDebtBorrowsId()).getType());
+                                    Fragment infoDebtBorrowFragment = new InfoDebtBorrowFragment(recking.getDebtBorrowsId(),
+                                            PocketAccounterGeneral.NO_MODE);
                                     paFragmentManager.displayFragment(infoDebtBorrowFragment);
 
                                 }

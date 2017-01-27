@@ -31,7 +31,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 public class DataCache {
-    private CategoryEditFragmentDatas categoryEditFragmentDatas;
     private LruCache<Long, Bitmap> boardBitmaps;
     private LruCache<Integer, Bitmap> elements;
     private LruCache<String, List<BoardButtonPercent>> percents;
@@ -51,7 +50,6 @@ public class DataCache {
         final int cacheSize = maxMemory / 16;
         percents = new LruCache<>(cacheSize);
         updatePercentsWhenSwiping();
-        categoryEditFragmentDatas = new CategoryEditFragmentDatas();
         elements = new LruCache<Integer, Bitmap>(cacheSize) {
             @Override
             protected int sizeOf(Integer key, Bitmap bitmap) {
@@ -87,41 +85,6 @@ public class DataCache {
         percents.evictAll();
     }
 
-    public CategoryEditFragmentDatas getCategoryEditFragmentDatas() {
-        if (categoryEditFragmentDatas == null)
-            categoryEditFragmentDatas = new CategoryEditFragmentDatas();
-        return categoryEditFragmentDatas;
-    }
-    public class CategoryEditFragmentDatas {
-        private int mode;
-        private Calendar date;
-        private int pos;
-        private int type;
-        public void setPos(int pos) {
-            this.pos = pos;
-        }
-        public int getPos() {
-            return pos;
-        }
-        public int getMode() {
-            return mode;
-        }
-        public void setMode(int mode) {
-            this.mode = mode;
-        }
-        public Calendar getDate() {
-            return date;
-        }
-        public void setDate(Calendar date) {
-            this.date = date;
-        }
-        public void setType(int type) {
-            this.type = type;
-        }
-        public int getType() {
-            return type;
-        }
-    }
 
     private String format(Calendar calendar) {
         return calendar.get(Calendar.DAY_OF_MONTH)+"."
@@ -143,24 +106,27 @@ public class DataCache {
         end.set(Calendar.SECOND, 59);
         end.set(Calendar.MILLISECOND, 59);
         //all finance records
+        daoSession.getFinanceRecordDao().detachAll();
         List<FinanceRecord> financeRecords = daoSession.getFinanceRecordDao()
                                                         .queryBuilder()
                                                         .where(FinanceRecordDao.Properties.Date.eq(simpleDateFormat.format(begin.getTime())))
                                                         .list();
         //all credits
+        daoSession.getCreditDetialsDao().detachAll();
         List<CreditDetials> tempCredits = daoSession.getCreditDetialsDao().loadAll();
         List<CreditDetials> creditDetialList= new ArrayList<>();
         for (CreditDetials creditDetial : tempCredits) {
             if (!creditDetial.getKey_for_include()) continue;
             for (ReckingCredit reckingCredit : creditDetial.getReckings()) {
                 if (reckingCredit.getPayDate().compareTo(begin) >= 0 &&
-                        reckingCredit.getPayDate().compareTo(end) <= 0) {
+                        reckingCredit.getPayDate().compareTo(end) <= 0 &&
+                        reckingCredit.getAccountId() != null && !reckingCredit.getAccountId().isEmpty()) {
                     creditDetialList.add(creditDetial);
-                    break;
                 }
             }
         }
         //all debt borrows
+        daoSession.getDebtBorrowDao().detachAll();
         List<DebtBorrow> tempDebtBorrows = daoSession.getDebtBorrowDao().loadAll();
         List<DebtBorrow> debtBorrows = new ArrayList<>();
         for (DebtBorrow debtBorrow : tempDebtBorrows) {
@@ -168,13 +134,11 @@ public class DataCache {
             if (debtBorrow.getTakenDate().compareTo(begin) >= 0 &&
                     debtBorrow.getTakenDate().compareTo(end) <= 0) {
                 debtBorrows.add(debtBorrow);
-                continue;
             }
             for (Recking recking : debtBorrow.getReckings()) {
                 if (recking.getPayDate().compareTo(begin) >= 0 &&
-                        recking.getPayDate().compareTo(end) <= 0) {
+                        recking.getPayDate().compareTo(end) <= 0 && recking.getAccountId() != null && !recking.getAccountId().isEmpty()) {
                     debtBorrows.add(debtBorrow);
-                    break;
                 }
             }
         }
@@ -234,18 +198,10 @@ public class DataCache {
                     boardButtonPercent = new BoardButtonPercent();
                     boardButtonPercent.setPosition(boardButtonList.get(i).getPos());
                     boardButtonPercent.setTable(boardButtonList.get(i).getTable());
-                    if (boardButtonList.get(i).getTable() == PocketAccounterGeneral.EXPENSE) {
-                        if (allExpenses == 0)
-                            boardButtonPercent.setAmount(0.0d);
-                        else
-                            boardButtonPercent.setAmount(categoryExpenses);
-                    }
-                    else {
-                        if (allIncomes == 0)
-                            boardButtonPercent.setAmount(0.0d);
-                        else
-                            boardButtonPercent.setAmount(categoryIncomes);
-                    }
+                    if (boardButtonList.get(i).getTable() == PocketAccounterGeneral.EXPENSE)
+                        boardButtonPercent.setAmount(categoryExpenses);
+                    else
+                        boardButtonPercent.setAmount(categoryIncomes);
 
                     if (percents.get(date) == null) {
                         List<BoardButtonPercent> list = new ArrayList<>();

@@ -70,8 +70,6 @@ import com.jim.finansia.utils.TransferDialog;
 import com.jim.finansia.utils.billing.MainPageLockView;
 import com.jim.finansia.utils.billing.PurchaseImplementation;
 import com.jim.finansia.utils.record.BaseBoardView;
-import com.jim.finansia.utils.record.RecordExpanseView;
-import com.jim.finansia.utils.record.RecordIncomesView;
 import com.jim.finansia.utils.reportviews.CategorySliding;
 import com.jim.finansia.utils.reportviews.MonthPickSliderView;
 import com.jim.finansia.utils.reportviews.ReportSelectingYearWithMonthsView;
@@ -118,8 +116,6 @@ public interface PocketAccounterActivityComponent {
     void inject(ToolbarManager toolbarManager);
     void inject(RecordEditFragment recordEditFragment);
     void inject(RecordDetailFragment recordDetailFragment);
-    void inject(RecordExpanseView recordExpanseView);
-    void inject(RecordIncomesView recordIncomesView);
     void inject(MainPageFragment mainPageFragment);
     void inject(AutoMarketFragment autoMarketFragment);
     void inject(AddAutoMarketFragment addAutoMarketFragment);

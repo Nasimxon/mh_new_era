@@ -26,43 +26,45 @@ import javax.inject.Named;
 
 @SuppressLint("NewApi")
 public class BalanceStripe extends LinearLayout {
-    @Inject @Named(value = "begin") Calendar begin;
-    @Inject @Named(value = "end") Calendar end;
-    @Inject SharedPreferences preferences;
-    @Inject ReportManager reportManager;
-    @Inject DataCache dataCache;
-    @Inject CommonOperations commonOperations;
+    private Calendar begin;
+    private Calendar end;
+    private SharedPreferences preferences;
+    private ReportManager reportManager;
+    private DataCache dataCache;
+    private CommonOperations commonOperations;
     private TextView tvBalanceIncome, tvBalanceExpense, tvBalanceBalance;
     private Calendar day;
     private LinearLayout llNotImportant;
     private LinearLayout llBalanceStripeBackground;
     private FrameLayout paddingIskustvenno;
-    public BalanceStripe(Context context, Calendar day) {
+    public BalanceStripe(Context context, Calendar day, Calendar begin, Calendar end, SharedPreferences preferences, ReportManager reportManager, DataCache dataCache, CommonOperations commonOperations) {
         super(context);
-        ((PocketAccounterApplication) context.getApplicationContext()).component().inject(this);
         this.day = day;
-        init();
+        init(begin, end, preferences, reportManager, dataCache, commonOperations);
     }
-    public BalanceStripe(Context context, AttributeSet attrs, Calendar day) {
+    public BalanceStripe(Context context, AttributeSet attrs, Calendar day, Calendar begin, Calendar end, SharedPreferences preferences, ReportManager reportManager, DataCache dataCache, CommonOperations commonOperations) {
         super(context, attrs);
-        ((PocketAccounterApplication) context.getApplicationContext()).component().inject(this);
         this.day = day;
-        init();
+        init(begin, end, preferences, reportManager, dataCache, commonOperations);
     }
-    public BalanceStripe(Context context, AttributeSet attrs, int defStyleAttr, Calendar day) {
+    public BalanceStripe(Context context, AttributeSet attrs, int defStyleAttr, Calendar day, Calendar begin, Calendar end, SharedPreferences preferences, ReportManager reportManager, DataCache dataCache, CommonOperations commonOperations) {
         super(context, attrs, defStyleAttr);
-        ((PocketAccounterApplication) context.getApplicationContext()).component().inject(this);
         this.day = day;
-        init();
+        init(begin, end, preferences, reportManager, dataCache, commonOperations);
     }
-    public BalanceStripe(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes, Calendar day) {
+    public BalanceStripe(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes, Calendar day, Calendar begin, Calendar end, SharedPreferences preferences, ReportManager reportManager, DataCache dataCache, CommonOperations commonOperations) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        ((PocketAccounterApplication) context.getApplicationContext()).component().inject(this);
         this.day = day;
-        init();
+        init(begin, end, preferences, reportManager, dataCache, commonOperations);
     }
-    private void init() {
+    private void init(Calendar begin, Calendar end, SharedPreferences preferences, ReportManager reportManager, DataCache dataCache, CommonOperations commonOperations) {
         inflate(getContext(), R.layout.balance_stripe, this);
+        this.begin = (Calendar) begin.clone();
+        this.end = (Calendar) end.clone();
+        this.preferences = preferences;
+        this.reportManager = reportManager;
+        this.dataCache = dataCache;
+        this.commonOperations = commonOperations;
         tvBalanceIncome = (TextView) findViewById(R.id.tvBalanceIncome);
         tvBalanceExpense = (TextView) findViewById(R.id.tvBalanceExpense);
         tvBalanceBalance = (TextView) findViewById(R.id.tvBalanceBalance);

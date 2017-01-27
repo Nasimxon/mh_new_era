@@ -259,9 +259,7 @@
                             android:layout_marginRight="@dimen/ten_dp"
                             android:text="@string/notif_setting"
                             android:textColor="@color/black_for_glavniy_text"
-                            android:textSize="@dimen/fourteen_dp"
-                            />
-
+                            android:textSize="@dimen/fourteen_dp"/>
                     </LinearLayout>
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -270,7 +268,6 @@
                         android:background="@drawable/edit_text"
                         android:paddingBottom="@dimen/eight_dp"
                         android:layout_marginBottom="@dimen/sixteen_dp"
-
                         android:paddingTop="@dimen/eight_dp"
                         android:orientation="horizontal">
                         <Spinner
@@ -279,20 +276,17 @@
                             android:layout_height="wrap_content"
                             android:layout_marginRight="@dimen/ten_dp"
                             android:layout_weight="1"
-                            android:textSize="@dimen/sixteen_dp"
-                            />
+                            android:textSize="@dimen/sixteen_dp"/>
                     </LinearLayout>
 
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/rvAddAutoMarketPerItems"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-
                         android:layout_gravity="center"
                         android:visibility="gone"
                         android:layout_marginBottom="@dimen/sixteen_dp"
-                        android:padding="@dimen/two_dp"
-                  />
+                        android:padding="@dimen/two_dp"/>
                     <TextView
                         android:id="@+id/tvAboutNotify"
                         android:layout_width="match_parent"
@@ -326,44 +320,31 @@
                             android:layout_alignParentEnd="true"
                             android:id="@+id/chbAddDebtBorrowCalculate" />
                     </RelativeLayout>
-                    <RelativeLayout
-                        android:id="@+id/is_calc"
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/llAccountHolder"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/five_dp"
+                    android:background="@drawable/edit_text"
+                    android:paddingBottom="@dimen/eight_dp"
+                    android:layout_marginBottom="@dimen/ten_dp"
+                    android:layout_marginLeft="@dimen/sixteen_sp"
+                    android:layout_marginRight="@dimen/sixteen_sp"
+                    android:paddingTop="@dimen/eight_dp"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+                    <Spinner
+                        android:id="@+id/spDebtBorrowAccount"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:visibility="gone"
-                        >
-                        <LinearLayout
-                            android:id="@+id/accountSpin"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/edit_text"
-                            android:gravity="end"
-                            android:paddingBottom="@dimen/eight_dp"
-                            android:paddingLeft="@dimen/ten_dp"
-                            android:paddingRight="@dimen/five_dp"
-                            android:paddingTop="@dimen/eight_dp"
-                            android:layout_marginBottom="@dimen/ten_dp"
-                            android:orientation="horizontal"
-                            >
-
-                            <Spinner
-                                android:id="@+id/spInfoDebtBorrowAccount"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentEnd="true"
-                                android:layout_alignParentRight="true"
-
-                                android:layout_alignParentTop="true"
-                                android:layout_gravity="center_vertical"
-
-                                />
-
-                        </LinearLayout>
-
-                    </RelativeLayout>
-
-
+                        android:layout_marginRight="@dimen/ten_dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerInParent="true"
+                        android:textSize="@dimen/sixteen_sp"/>
                 </LinearLayout>
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -379,17 +360,4 @@
             </LinearLayout>
         </RelativeLayout>
     </ScrollView>
-    <RelativeLayout
-        android:id="@+id/rlProgressBar"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#88ffffff"
-        android:clickable="true"
-        android:visibility="gone">
-        <ProgressBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:visibility="visible" />
-    </RelativeLayout>
 </FrameLayout>

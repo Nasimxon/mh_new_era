@@ -152,7 +152,8 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
 
                         }
                         else if (button.getType() == PocketAccounterGeneral.DEBT_BORROW) {
-                            InfoDebtBorrowFragment fragment = InfoDebtBorrowFragment.getInstance(button.getCategoryId(), DebtBorrow.BORROW);
+                            int mode = table == PocketAccounterGeneral.INCOME ? PocketAccounterGeneral.INCOME_MODE : PocketAccounterGeneral.EXPANSE_MODE;
+                            InfoDebtBorrowFragment fragment = new InfoDebtBorrowFragment(button.getCategoryId(), mode);
                             fragment.setMainItems (currentPage*16+position);
                             paFragmentManager.setMainReturn(true);
                             paFragmentManager.displayFragment(fragment);
@@ -683,8 +684,10 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
                                             paFragmentManager.setMainReturn(true);
                                             isAvailable = sharedPreferences.getBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.IS_AVAILABLE_CHANGING_OF_DEBT_BORROW_KEY, false);
                                             if (isAvailable) {
-                                                AddBorrowFragment fragment = AddBorrowFragment.getInstance(DebtBorrow.DEBT, null);
-                                                fragment.setMainView(daoSession.getBoardButtonDao().load(buttons.get(pos).getButtonId()));
+                                                int mode = table == PocketAccounterGeneral.INCOME ? PocketAccounterGeneral.INCOME_MODE : PocketAccounterGeneral.EXPANSE_MODE;
+                                                int type = table == PocketAccounterGeneral.INCOME ? DebtBorrow.BORROW : DebtBorrow.DEBT;
+                                                buttonsCount = table == PocketAccounterGeneral.INCOME ? INCOME_BUTTONS_COUNT_PER_PAGE : EXPENSE_BUTTONS_COUNT_PER_PAGE;
+                                                AddBorrowFragment fragment = new AddBorrowFragment(null, mode, buttonsCount*currentPage + pos, type);
                                                 paFragmentManager.displayFragment(fragment);
                                             } else
                                                 purchaseImplementation.buyChangingPage();

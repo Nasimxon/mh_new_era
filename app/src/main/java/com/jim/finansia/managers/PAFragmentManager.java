@@ -7,13 +7,17 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import com.jim.finansia.PocketAccounter;
 import com.jim.finansia.PocketAccounterApplication;
 import com.jim.finansia.R;
 import com.jim.finansia.database.CreditDetials;
 import com.jim.finansia.database.DaoSession;
+import com.jim.finansia.debt.AddBorrowFragment;
 import com.jim.finansia.debt.DebtBorrowFragment;
+import com.jim.finansia.debt.InfoDebtBorrowFragment;
 import com.jim.finansia.debt.PocketClassess;
 import com.jim.finansia.fragments.AccountFragment;
 import com.jim.finansia.fragments.AutoMarketFragment;
@@ -48,8 +52,6 @@ import static com.jim.finansia.PocketAccounter.PRESSED;
 public class PAFragmentManager {
     private PocketAccounter activity;
     private FragmentManager fragmentManager;
-    private int lastPos = 5000;
-    private Boolean direction = null;
     private boolean isMainReturn = false;
     private MyVerticalViewPager vpVertical;
     public boolean isMainReturn() {
@@ -69,42 +71,17 @@ public class PAFragmentManager {
         this.activity = activity;
         ((PocketAccounterApplication) activity.getApplicationContext()).component().inject(this);
         fragmentManager = activity.getSupportFragmentManager();
-        vpVertical = (MyVerticalViewPager) activity.findViewById(R.id.vpVertical);
-        adapter = new VerticalViewPagerAdapter(fragmentManager);
-        vpVertical.setOnTouchListener(null);
-        vpVertical.setAdapter(adapter);
-        int mainSelectedPage = preferences.getInt(PocketAccounterGeneral.VERTICAL_SELECTED_PAGE, 1);
-        vpVertical.setCurrentItem(mainSelectedPage, false);
-        vpVertical.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            }
-            @Override
-            public void onPageSelected(int position) {
-                preferences
-                        .edit()
-                        .putInt(PocketAccounterGeneral.VERTICAL_SELECTED_PAGE, position)
-                        .commit();
-                if (position == 0)
-                    activity.setToToolbarVoiceMode();
-                else
-                    activity.setToToolbarManualEnterMode();
 
-            }
-            @Override
-            public void onPageScrollStateChanged(int state) {
-            }
-        });
     }
     public int getSelectedMode() {
         return vpVertical.getCurrentItem();
     }
-    public void notifyInfosVisibility() {
+    public void notifyInfosVisibility(boolean visibility) {
         int size = fragmentManager.getFragments().size();
         for (int i = 0; i < size; i++) {
             Fragment fragment = fragmentManager.getFragments().get(i);
             if (fragment != null && fragment.getClass().getName().equals(MainPageFragment.class.getName()))
-                ((MainPageFragment) fragment).toggleVisibilityForInfos();
+                ((MainPageFragment) fragment).visibilityOfInfos(visibility);
         }
     }
     public void setVerticalScrolling (boolean isSwipe) {
@@ -113,41 +90,23 @@ public class PAFragmentManager {
     public FragmentManager getFragmentManager() {
         return fragmentManager;
     }
+
     public void updateAllFragmentsOnViewPager() {
         int size = fragmentManager.getFragments().size();
         for (int i = 0; i < size; i++) {
             Fragment fragment = fragmentManager.getFragments().get(i);
             if (fragment != null && fragment.getClass().getName().equals(MainPageFragment.class.getName())) {
-                ((MainPageFragment) fragment).update();
+                ((MainPageFragment) fragment).swipingUpdate();
             }
         }
     }
-    public MainPageFragment getCurrentFragment() {
-        ManualEnterFragment manualEnterFragment = (ManualEnterFragment) adapter.getItem(1);
-        ViewPager lvpMain = null;
-        if (manualEnterFragment.getLvpMain() != null)
-            lvpMain = manualEnterFragment.getLvpMain();
-        else
-            lvpMain = new ViewPager(activity);
-        MainPageFragment fragment = (MainPageFragment) getFragmentManager().findFragmentByTag("android:switcher:" + lvpMain + ":" + lvpMain.getCurrentItem());
-        return fragment;
-    }
+
     public void updateAllFragmentsPageChanges() {
         int size = fragmentManager.getFragments().size();
         for (int i = 0; i < size; i++) {
             Fragment fragment = fragmentManager.getFragments().get(i);
             if (fragment != null && fragment.getClass().getName().equals(MainPageFragment.class.getName())) {
                 ((MainPageFragment) fragment).updatePageChanges();
-            }
-        }
-    }
-    public void updateCurrencyChanges() {
-        int size = fragmentManager.getFragments().size();
-        for (int i = 0; i < size; i++) {
-            Fragment fragment = fragmentManager.getFragments().get(i);
-            if (fragment != null && fragment.getClass().getName().equals(ManualEnterFragment.class.getName())) {
-                ((ManualEnterFragment) fragment).refreshCurrencyChanges();
-                break;
             }
         }
     }
@@ -158,6 +117,7 @@ public class PAFragmentManager {
             Fragment fragment = fragmentManager.getFragments().get(i);
             if (fragment != null && fragment.getClass().getName().equals(VoiceRecognizerFragment.class.getName())) {
                 ((VoiceRecognizerFragment) fragment).setDay(day);
+
                 break;
             }
         }
@@ -198,11 +158,46 @@ public class PAFragmentManager {
         }
     }
 
+    public void initializeMainWindow() {
+        if (vpVertical == null && activity != null) {
+            vpVertical = (MyVerticalViewPager) activity.findViewById(R.id.vpVertical);
+            adapter = new VerticalViewPagerAdapter(fragmentManager);
+            vpVertical.setOnTouchListener(null);
+            vpVertical.setAdapter(adapter);
+            int mainSelectedPage = preferences.getInt(PocketAccounterGeneral.VERTICAL_SELECTED_PAGE, 1);
+            vpVertical.setCurrentItem(mainSelectedPage, false);
+            vpVertical.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                }
+
+                @Override
+                public void onPageSelected(int position) {
+                    preferences
+                            .edit()
+                            .putInt(PocketAccounterGeneral.VERTICAL_SELECTED_PAGE, position)
+                            .commit();
+                    if (position == 0)
+                        activity.setToToolbarVoiceMode();
+                    else
+                        activity.setToToolbarManualEnterMode();
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int state) {
+                }
+            });
+        }
+
+    }
+
     public void displayMainWindow() {
         activity.treatToolbar();
         PRESSED = false;
-        activity.findViewById(R.id.mainWhite).setVisibility(View.GONE);
-        activity.findViewById(R.id.change).setVisibility(View.VISIBLE);
+        FrameLayout mainWhite = (FrameLayout) activity.findViewById(R.id.mainWhite);
+        LinearLayout change = (LinearLayout) activity.findViewById(R.id.change);
+        if (mainWhite != null) mainWhite.setVisibility(View.GONE);
+        if (change != null) change.setVisibility(View.VISIBLE);
         for (int i = 0; i < fragmentManager.getFragments().size(); i++) {
             if (fragmentManager.getFragments().get(i) != null && fragmentManager.getFragments().get(i).getClass().getName().equals(MainPageFragment.class.getName())) {
                 MainPageFragment page = (MainPageFragment) fragmentManager.getFragments().get(i);
@@ -213,6 +208,7 @@ public class PAFragmentManager {
         if (fragmentManager.getBackStackEntryCount() > 0)
             fragmentManager.popBackStack();
     }
+
     public void displayFragment(Fragment fragment) {
         if (fragmentManager.findFragmentById(R.id.flMain) != null && fragment.getClass().getName().equals(fragmentManager.findFragmentById(R.id.flMain).getClass().getName()))
             return;
@@ -222,12 +218,6 @@ public class PAFragmentManager {
         PRESSED = true;
         fragmentManager
                 .beginTransaction()
-//                .setCustomAnimations(
-//                        R.anim.slide_left_enter_custom_animation,
-//                        R.anim.slide_left_exit_custom_animation,
-//                        R.anim.slide_left_enter_custom_animation,
-//                        R.anim.slide_left_exit_custom_animation
-//                )
                 .addToBackStack(null)
                 .replace(R.id.flMain, fragment)
                 .commit();
@@ -281,6 +271,7 @@ public class PAFragmentManager {
 
     public void remoteBackPress(DrawerInitializer drawerInitializer) {
         String fragName = getFragmentManager().findFragmentById(R.id.flMain).getClass().getName();
+        Fragment fragment = getFragmentManager().findFragmentById(R.id.flMain);
         int count = getFragmentManager().getBackStackEntryCount();
         while (count > 0) {
             getFragmentManager().popBackStack();
@@ -295,7 +286,9 @@ public class PAFragmentManager {
                     || fragName.equals(PocketClassess.ACCOUNT_FRAG) || fragName.equals(PocketClassess.CREDIT_FRAG)
                     || fragName.equals(PocketClassess.PURPOSE_FRAG) || fragName.equals(PocketClassess.REPORT_ACCOUNT)
                     || fragName.equals(PocketClassess.THEMES) || fragName.equals(PocketClassess.SMS_PARSE_FRAGMENT)
-                    || fragName.equals(PocketClassess.RECORD_DETEIL_FRAGMENT) || fragName.equals(PocketClassess.REPORT)) {
+                    || fragName.equals(PocketClassess.RECORD_DETEIL_FRAGMENT) || fragName.equals(PocketClassess.REPORT)
+                    || fragName.equals(PocketClassess.INFO_DEBTBORROW) && ((InfoDebtBorrowFragment)fragment).getMode() != PocketAccounterGeneral.NO_MODE
+                    || fragName.equals(PocketClassess.ADD_DEBTBORROW) && ((AddBorrowFragment)fragment).getMode() != PocketAccounterGeneral.NO_MODE) {
                 drawerInitializer.inits();
                 displayMainWindow();
             } else if (fragName.equals(PocketClassess.ADD_DEBTBORROW) || fragName.equals(PocketClassess.INFO_DEBTBORROW)) {

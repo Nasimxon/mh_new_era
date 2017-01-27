@@ -210,7 +210,8 @@ public class ReportManager {
                 debtBorrows = debtBorrows == null ? debtBorrowDao.loadAll() : debtBorrows;
                 for (DebtBorrow debtBorrow : debtBorrows) {
                     if (debtBorrow.getTakenDate().compareTo(begin) >= 0 &&
-                            debtBorrow.getTakenDate().compareTo(end) <= 0) {
+                            debtBorrow.getTakenDate().compareTo(end) <= 0 &&
+                            debtBorrow.getCalculate()) {
                         ReportObject reportObject = new ReportObject();
                         if (debtBorrow.getType() == DebtBorrow.BORROW) {
                             reportObject.setDescription(context.getResources().getString(R.string.borrow_statistics));
@@ -233,9 +234,9 @@ public class ReportManager {
                         result.add(reportObject);
                     }
                     for (Recking recking : debtBorrow.getReckings()) {
-                        if(recking.getAccountId() == null || recking.getAccountId().equals("")) continue;
-                         Calendar calendar = recking.getPayDate();
-                        if (calendar.compareTo(begin) >= 0 && calendar.compareTo(end) <= 0) {
+                        Calendar calendar = recking.getPayDate();
+                        if (calendar.compareTo(begin) >= 0 && calendar.compareTo(end) <= 0
+                                && recking.getAccountId() != null && !recking.getAccountId().equals("")) {
                             ReportObject reportObject = new ReportObject();
                             reportObject.setDate(calendar);
                             if (debtBorrow.getType() == DebtBorrow.BORROW) {

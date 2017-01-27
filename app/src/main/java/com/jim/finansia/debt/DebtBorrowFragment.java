@@ -1,6 +1,7 @@
 package com.jim.finansia.debt;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -24,22 +25,19 @@ import com.jim.finansia.database.DebtBorrow;
 import com.jim.finansia.database.DebtBorrowDao;
 import com.jim.finansia.managers.PAFragmentManager;
 import com.jim.finansia.managers.ToolbarManager;
+import com.jim.finansia.utils.PocketAccounterGeneral;
 
 import java.util.ArrayList;
 
 import javax.inject.Inject;
 
 public class DebtBorrowFragment extends Fragment implements View.OnClickListener, ViewPager.OnPageChangeListener {
-    @Inject
-    ToolbarManager toolbarManager;
-    @Inject
-    PAFragmentManager paFragmentManager;
-    @Inject
-    DaoSession daoSession;
+    @Inject ToolbarManager toolbarManager;
+    @Inject PAFragmentManager paFragmentManager;
+    @Inject DaoSession daoSession;
+    @Inject SharedPreferences preferences;
     private DebtBorrowDao debtBorrowDao;
-
     private BorrowFragment archiv;
-
     private final int BORROW_FRAGMENT = 0;
     private final int DEBT_FRAGMENT = 1;
     private TabLayout tabLayout;
@@ -63,8 +61,6 @@ public class DebtBorrowFragment extends Fragment implements View.OnClickListener
         },100);
         tabLayout = (TabLayout) view.findViewById(R.id.tlDebtBorrowFragment);
         viewPager = (DebtBorrowViewPager) view.findViewById(R.id.vpDebtBorrowFragment);
-
-
         fb = (FloatingActionButton) view.findViewById(R.id.fbDebtBorrowFragment);
         fb.setOnClickListener(this);
         return view;
@@ -102,6 +98,8 @@ public class DebtBorrowFragment extends Fragment implements View.OnClickListener
         MyAdapter adapter = new MyAdapter(borrowFragments, ((PocketAccounter) getContext()).getSupportFragmentManager());
         viewPager.setAdapter(adapter);
         viewPager.storeAdapter(adapter);
+        int selectedPos = preferences.getInt(PocketAccounterGeneral.DEBT_BORROW_PAGE, 0);
+        viewPager.setCurrentItem(selectedPos, false);
         if (getArguments() != null) {
             if (getArguments().getInt("type", -1) != -1) {
                 viewPager.setCurrentItem(getArguments().getInt("type", 0));
@@ -140,12 +138,12 @@ public class DebtBorrowFragment extends Fragment implements View.OnClickListener
             switch (viewPager.getCurrentItem()) {
                 case BORROW_FRAGMENT: {
                     paFragmentManager.getFragmentManager().popBackStack();
-                    paFragmentManager.displayFragment(AddBorrowFragment.getInstance(BORROW_FRAGMENT, null));
+                    paFragmentManager.displayFragment(new AddBorrowFragment(null, PocketAccounterGeneral.NO_MODE, 0, DebtBorrow.BORROW));
                     break;
                 }
                 case DEBT_FRAGMENT: {
                     paFragmentManager.getFragmentManager().popBackStack();
-                    paFragmentManager.displayFragment(AddBorrowFragment.getInstance(DEBT_FRAGMENT, null));
+                    paFragmentManager.displayFragment(new AddBorrowFragment(null, PocketAccounterGeneral.NO_MODE, 0, DebtBorrow.DEBT));
                     break;
                 }
             }
@@ -169,6 +167,10 @@ public class DebtBorrowFragment extends Fragment implements View.OnClickListener
 
     @Override
     public void onPageSelected(int position) {
+        preferences
+                .edit()
+                .putInt(PocketAccounterGeneral.DEBT_BORROW_PAGE, position)
+                .commit();
         if (position == 2) {
             archiv.changeList();
             fb.setVisibility(View.GONE);
