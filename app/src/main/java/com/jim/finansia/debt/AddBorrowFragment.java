@@ -98,7 +98,6 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
     @Inject DataCache dataCache;
     @Inject @Named(value = "display_formatter") SimpleDateFormat dateFormat;
     @Inject ReportManager reportManager;
-
     private int mode = PocketAccounterGeneral.NO_MODE;
     private FrameLayout contactBtn;
     private CircleImageView civImage;
@@ -171,13 +170,10 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
                         rvNorify.setLayoutManager(layoutManager);
                         rvNorify.setAdapter(daysAdapter);
                         break;
-
                 }
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
         contactBtn = (FrameLayout) view.findViewById(R.id.btBorrowAddPopupContact);
@@ -469,8 +465,7 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
             }
             currentDebtBorrow.getPerson().setName(etPersonName.getText().toString());
             currentDebtBorrow.getPerson().setPhoneNumber(etPersonNumber.getText().toString());
-            currentDebtBorrow.getPerson().setPhoto(file != null ? file.getAbsolutePath() : personPhotoPath == "" ? "" : personPhotoPath);
-
+            currentDebtBorrow.getPerson().setPhoto(file != null ? file.getAbsolutePath() : personPhotoPath.equals("") ? "" : personPhotoPath);
             currentDebtBorrow.setAmount(Double.parseDouble(etDebtSum.getText().toString()));
             currentDebtBorrow.setCurrency(currency);
             currentDebtBorrow.setInfo(mode + ":" + sequence);
@@ -483,7 +478,6 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
                 logicManager.insertPerson(currentDebtBorrow.getPerson());
                 logicManager.insertDebtBorrow(currentDebtBorrow);
             }
-
         } else {
             Person person = new Person(etPersonName.getText().toString(),
                     etPersonNumber.getText().toString(), file != null ? file.getAbsolutePath() : personPhotoPath == "" ? "" : personPhotoPath);
@@ -504,7 +498,6 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
             }
             currentDebtBorrow.setInfo(mode + ":" + sequence);
             list.add(0, currentDebtBorrow);
-
         }
         logicManager.insertDebtBorrow(currentDebtBorrow);
         BitmapFactory.Options options = new BitmapFactory.Options();
@@ -578,17 +571,13 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
 
     private Bitmap decodeFile(File f) {
         try {
-//            Decode image size
             BitmapFactory.Options o = new BitmapFactory.Options();
             o.inJustDecodeBounds = true;
             BitmapFactory.decodeStream(new FileInputStream(f), null, o);
-//            The new size we want to scale to
             final int REQUIRED_SIZE = 128;
-//            Find the correct scale value. It should be the power of 2.
             int scale = 1;
             while (o.outWidth / scale / 2 >= REQUIRED_SIZE && o.outHeight / scale / 2 >= REQUIRED_SIZE)
                 scale *= 2;
-            //Decode with inSampleSize
             BitmapFactory.Options o2 = new BitmapFactory.Options();
             o2.inSampleSize = scale;
             return BitmapFactory.decodeStream(new FileInputStream(f), null, o2);
@@ -600,7 +589,6 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == PICK_CONTACT && resultCode == RESULT_OK) {
-//             Get the URI and query the content provider for the phone number
             Uri contactUri = data.getData();
             String[] projection = new String[]{ContactsContract.CommonDataKinds.Phone.NUMBER,
                     ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
@@ -749,12 +737,10 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
             }
             selection = new boolean[days.length];
         }
-
         @Override
         public int getItemCount() {
             return days.length;
         }
-
         public void onBindViewHolder(final AddBorrowFragment.ViewHolderDialog view, final int position) {
             if (position % 7 == 0) {
                 view.frameLayout.setVisibility(View.GONE);
@@ -764,12 +750,10 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
             {
                 view.day.setTextColor(ContextCompat.getColor(getContext(), R.color.green_just));
                 view.day.setTypeface(null, Typeface.BOLD);
-
             }
             else {
                 view.day.setTextColor(ContextCompat.getColor(getContext(), R.color.black_for_secondary_text));
                 view.day.setTypeface(null, Typeface.NORMAL);
-
             }
             view.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -787,13 +771,10 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
                 }
             });
         }
-
         public AddBorrowFragment.ViewHolderDialog onCreateViewHolder(ViewGroup parent, int var2) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_dialog_month_layout, parent, false);
             return new AddBorrowFragment.ViewHolderDialog(view);
         }
-
-
     }
 
     public class ViewHolderDialog extends RecyclerView.ViewHolder {

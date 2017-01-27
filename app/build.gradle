@@ -14,6 +14,8 @@ android {
         vectorDrawables.useSupportLibrary = true
         buildConfigField("String", "base64rsa", base64rsa)
         buildConfigField("String", "sms_parsing_sku", sms_parsing_sku)
+        buildConfigField("String", "debt_borrow_sku", debt_borrow_sku)
+        buildConfigField("String", "credit_sku", credit_sku)
         buildConfigField("String", "zero_page_sku", zero_page_sku)
         buildConfigField("String", "first_page_sku", first_page_sku)
         buildConfigField("String", "second_page_sku", second_page_sku)
@@ -50,6 +52,9 @@ android {
         buildConfigField("String", "BLUE_THEME", BLUE_THEME)
         buildConfigField("String", "YELLOW_THEME", YELLOW_THEME)
         buildConfigField("String", "FIOLA_THEME", FIOLA_THEME)
+        buildConfigField("String", "DEBT_BORROW_COUNT_KEY", DEBT_BORROW_COUNT_KEY)
+        buildConfigField("String", "CREDIT_COUNT_KEY", CREDIT_COUNT_KEY)
+        buildConfigField("String", "VOICE_RECOGNITION_COUNT", VOICE_RECOGNITION_COUNT)
     }
     buildTypes {
         debug {

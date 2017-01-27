@@ -37,6 +37,8 @@ public class PocketAccounterGeneral {
 	public static final String CHOOSEN_THEME_NAME_KEY = "CHOOSEN_THEME_NAME_KEY";
 	public class MoneyHolderSkus {
 		public static final String SMS_PARSING_SKU = BuildConfig.sms_parsing_sku;
+		public static final String CREDIT_SKU = BuildConfig.credit_sku;
+		public static final String DEBT_BORROW_SKU = BuildConfig.debt_borrow_sku;
 		public static final String ZERO_PAGE_SKU = BuildConfig.zero_page_sku;
 		public static final String FIRST_PAGE_SKU = BuildConfig.first_page_sku;
 		public static final String SECOND_PAGE_SKU = BuildConfig.second_page_sku;
@@ -55,6 +57,8 @@ public class PocketAccounterGeneral {
 		public static final String VOICE_RECOGNITION_SKU = BuildConfig.voice_recognition_sku;
 		public class SkuPreferenceKeys {
 			public static final String SMS_PARSING_COUNT_KEY = BuildConfig.SMS_PARSING_COUNT_KEY;
+			public static final String DEBT_BORROW_COUNT_KEY = BuildConfig.DEBT_BORROW_COUNT_KEY;
+			public static final String CREDIT_COUNT_KEY = BuildConfig.CREDIT_COUNT_KEY;
 			public static final String ZERO_PAGE_COUNT_KEY = BuildConfig.ZERO_PAGE_COUNT_KEY;
 			public static final String FIRST_PAGE_COUNT_KEY = BuildConfig.FIRST_PAGE_COUNT_KEY;
 			public static final String SECOND_PAGE_COUNT_KEY = BuildConfig.SECOND_PAGE_COUNT_KEY;
@@ -71,7 +75,7 @@ public class PocketAccounterGeneral {
 			public static final String IS_AVAILABLE_CHANGING_OF_FUNCTION = BuildConfig.IS_AVAILABLE_CHANGING_OF_FUNCTION;
 			public static final String IS_AVAILABLE_CHANGING_OF_PAGE = BuildConfig.IS_AVAILABLE_CHANGING_OF_PAGE;
 			public static final String VOICE_RECOGNITION_KEY = BuildConfig.VOICE_RECOGNITION_KEY;
-			public static final String VOICE_RECOGNITION_COUNT = "VOICE_RECOGNITION_COUNT";
+			public static final String VOICE_RECOGNITION_COUNT = BuildConfig.VOICE_RECOGNITION_COUNT;
 			public static final String BLUE_THEME = BuildConfig.BLUE_THEME;
 			public static final String FIOLA_THEME = BuildConfig.FIOLA_THEME;
 			public static final String YELLOW_THEME = BuildConfig.YELLOW_THEME;

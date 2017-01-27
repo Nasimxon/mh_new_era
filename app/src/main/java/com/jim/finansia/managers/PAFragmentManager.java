@@ -222,9 +222,6 @@ public class PAFragmentManager {
                 .replace(R.id.flMain, fragment)
                 .commit();
     }
-    public void updateMain() {
-        dataCache.updateAllPercents();
-    }
     public void displayFragment(Fragment fragment, String tag) {
         if (fragmentManager.findFragmentById(R.id.flMain) != null && fragment.getClass().getName().equals(fragmentManager.findFragmentById(R.id.flMain).getClass().getName()))
             return;

@@ -982,12 +982,12 @@ public class VoiceRecognizerFragment extends Fragment {
                     financeRecord.setSubCategory(subCategory);
                 }
                 daoSession.getFinanceRecordDao().insertOrReplace(financeRecord);
-                paFragmentManager.updateMain();
+                reportManager.clearCache();
+                dataCache.updateAllPercents();
                 paFragmentManager.updateAllFragmentsPageChanges();
                 paFragmentManager.updateAllFragmentsOnViewPager();
                 timer.cancel();
                 timer = null;
-//                tvSpeechModeAdjective.setText("");
                 tvSpeechModeEnteredText.setText("Entered text");
                 tvSpeechAmount.setText("0.0");
                 categoryId = "";

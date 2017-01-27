@@ -126,8 +126,8 @@ public class TextDrawingBoardView extends DecorationBoardView {
                 canvas.drawText(element.getText(), container.left, container.top - rect.height()/3, textPaint);
                 if (element.getAmount() != 0) {
                     String amount = format.format(element.getAmount());
-                    if (amount.length() >= 14)
-                        amount = amount.substring(0, 8) + "...";
+                    if (amount.length() >= 9)
+                        amount = amount.substring(0, 9) + "...";
                     amount += commonOperations.getMainCurrency().getAbbr();
                     textPaint.getTextBounds(amount, 0, amount.length(), rect);
                     if (table == PocketAccounterGeneral.EXPENSE)
