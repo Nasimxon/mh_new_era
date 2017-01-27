@@ -204,6 +204,25 @@ public class AccountFragment extends PABaseListFragment {
 			view.llAccountItemOther.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
+					if (daoSession.getAccountDao().loadAll().size() == 1){
+                        final WarningDialog warningDialog = new WarningDialog(getContext());
+                        warningDialog.setText(getString(R.string.account_list));
+                        warningDialog.setOnYesButtonListener(new OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                paFragmentManager.getFragmentManager().popBackStack();
+                                paFragmentManager.displayFragment(new AccountEditFragment(null));
+                                warningDialog.dismiss();
+                            }
+                        });
+                        warningDialog.setOnNoButtonClickListener(new OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                warningDialog.dismiss();
+                            }
+                        });
+                        warningDialog.show();
+					} else {
 					TransferDialog transferDialog = new TransferDialog(getContext());
 					transferDialog.setAccountOrPurpose(result.get(position).getId(), false);
 					transferDialog.setOnTransferDialogSaveListener(new TransferDialog.OnTransferDialogSaveListener() {
@@ -214,6 +233,7 @@ public class AccountFragment extends PABaseListFragment {
 					});
 					transferDialog.getWindow().setLayout(9 * getResources().getDisplayMetrics().widthPixels/10, RelativeLayout.LayoutParams.WRAP_CONTENT);
 					transferDialog.show();
+					}
 				}
 			});
 			view.llAccountItemPurpose.setOnClickListener(new OnClickListener() {

@@ -549,30 +549,14 @@
     <string name="expanse">El gasto</string>
     <string name="income">El ingreso</string>
     <string name="sub_cat">La subcategoría</string>
-    <string name="cat_name">El nombre</string>
     <string name="sub_cats">La subcategoría</string>
-    <string name="both">Ambos</string>
-    <string name="subcat_name">El nombre de la subcategoría</string>
-    <string name="warning_subcat">Subcategoría con el este nombre es existe.</string>
     <string name="select_icon">Seleccione uno icono</string>
     <string name="cat_type_not_choosen">Seleccione el tipo de categoría</string>
-    <string name="enter_cat_name">Entra el nombre de la categoría</string>
-    <string name="initial_amount">La cantidad inicial: </string>
-    <string name="account_history">Las historias de tranferencias: </string>
     <string name="account">Cuenta</string>
-    <string name="currency_exchange">Tipo de cambio</string>
     <string name="choose_date">Seleccione una fecha</string>
-    <string name="enter_exchange">¡Introduzca el tipo de cambio!</string>
     <string name="main_currency_edit">Divisa base:</string>
     <string name="costs_selected_all_warning">¡La lista debe consistir al menos uno elemento!</string>
     <string name="category">Categorías</string>
-    <string name="divide_null">No se dividir por cero!</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="total_paid">Pago total:</string>
-    <string name="in_this_period_paid">Pago en el período:</string>
-    <string name="this_period_ends">Final del período:</string>
-    <string name="verall_debt">Saldo de crédito:</string>
-    <string name="in_this_month_should_pay">Pagos en el mes:</string>
     <string name="credit_name">Nombre del producto del crédito</string>
     <string name="home">Casa</string>
     <string name="network">Contacto</string>
@@ -889,7 +873,6 @@
     <string name="no_category">no_category</string>
     <string name="no_category_name">No subcategorías</string>
     <string name="records">Entradas</string>
-    <string name="balanse">Balance</string>
     <!-- for google signing -->
     <string name="sign_out">Desconectar</string>
     <string name="disconnect">Desconectar</string>
@@ -913,11 +896,7 @@
     <string name="per_year">Todos los años</string>
     <string name="mont">Mes</string>
     <string name="yearr">Año</string>
-    <string name="weekk">Semana</string>
-    <string name="dayy">Día</string>
-    <string name="this_first_comment">Pagos que antes de usar la aplicación</string>
     <string name="always_remember">Do not forget to make your payments and we are happy to help you save your budget!</string>
-    <string name="date_of_pay">Fecha de pago</string>
     <string name="via">VIA</string>
     <string name="comment">Nota</string>
     <string name="diagram_no_data_text">No hay datos para mostrar!</string>
@@ -930,7 +909,6 @@
     <string name="cancel">Cancelar</string>
     <string name="repaid">Terminado</string>
     <string name="active">Activo</string>
-    <string name="archivee">Archivo</string>
     <string-array name="months">
         <item>Enero</item>
         <item>Febrero</item>
@@ -967,11 +945,6 @@
         <item>Cantidad</item>
         <item>Categoría</item>
     </string-array>
-    <string name="debt_borrow_taken">Tomé prestado</string>
-    <string name="debt_borrow_given">Me endeudé</string>
-    <string name="debt_borrow_taken_recking">Deuda devuelta</string>
-    <string name="debt_borrow_given_recking">Deuda devuelta</string>
-    <string name="detail">Detalles</string>
     <string name="profit">Beneficio</string>
     <string name="loading">Iniciar sesión</string>
     <string name="please_wait">¡Por favor, espera!</string>
@@ -991,7 +964,6 @@
         <item>es</item>
     </string-array>
     <string name="choose_language">Seleccione el idioma</string>
-    <string name="transfer_data">Saldo de transferencia de la última.</string>
     <string name="notifications">Notificaciones</string>
     <bool name="notif_default">true</bool>
     <bool name="secure_default">false</bool>
@@ -1045,7 +1017,6 @@
     <string name="setting_save">Guardar la base de datos en la carpeta raíz</string>
     <string name="save">Guardar</string>
     <string name="setting_repair">Restaurar la base de datos desde la carpeta raíz</string>
-    <string name="repair">Restaurar</string>
     <string name="planning_notif_entry">hora</string>
     <string name="planning_notif_summary">Establecer el tiempo de aviso</string>
     <string name="planning_notif_title">Tiempo de aviso</string>
@@ -1072,20 +1043,12 @@
     <string name="secureInfo">You can synchronize data using your Google account. On all devices, you can recover your data! The data is stored in a very secure Google servers.</string>
     <string name="safeInfo">SYNC</string>
     <string name="flexInfo">FLEXIBLE REPORT</string>
-    <string name="flexinfo">The application will show the statistics of your expenses and income. You will be able to predict costs. A full report on all the information in an understandable way, with the ability to save in EXCEL.</string>
-    <string name="let_s_go">GETTING STARTED!</string>
-    <string name="paythan">You overpay for the sum of:</string>
-    <string name="payza">"Unpaid balance"</string>
-    <string name="imsure"> I agree</string>
     <string name="cancel1">Cancelar</string>
     <string name="try_later">Try again later</string>
     <string name="err_con">Connection Error</string>
     <string name="first_sync_loging">To synchronize data, you must log in with your Google Account. You can download from any device, anywhere. You can restore all the lost data! To restore the data, go to Settings-> Google Sync-> Download Database.</string>
     <string name="sync_message">If you are synchronized, your data will be overwritten.</string>
     <string name="category_name_error">¡El nombre de la categoría no se ha introducido!</string>
-    <string name="sub_cat_name_error">Subcategory name is not entered!</string>
-    <string name="account_name_error">¡Nombre de cuenta está no entró!</string>
-    <string name="info">Info</string>
     <string name="save_to_excel">Guardar en el archivo EXCEL</string>
     <string name="no_datas_for_show">¡No hay datos para mostrar!</string>
     <string name="table">Mesa</string>
@@ -1109,9 +1072,6 @@
     <string name="sync_last_data_sign_up"> Do you want to synchronize data from your account, downloaded the last time?</string>
     <string name="toast_error_connection"> Error de conexión. Inténtalo de nuevo más tarde.</string>
     <string name="sync_short">Sincronizar</string>
-    <string name="exit">Sí</string>
-    <string name="dou_you_want_discard">¿Usted no agregó el crédito, usted quiere salir??</string>
-    <string name="discard">Salir</string>
     <string name="dou_you_want_quit">¿Quieres salir?</string>
     <string name="are_you_sure_for_log_out">¿De verdad quieres salir de tu cuenta? Sin una cuenta, no se puede sincronizar!</string>
     <string name="sync_want_from_data">Sincroniza datos:</string>
@@ -1120,34 +1080,21 @@
     <string name="payment_balans">Balance impago:</string>
     <string name="payment_balance2">\nUsted paga en exceso por la suma:</string>
     <string name="total_credit_value">Cantidad de crédito</string>
-    <string name="left2">plazo de credito:</string>
-    <string name="taken_date">Fecha de pago:</string>
-    <string name="adding_to_archive">Para archivar:</string>
     <string name="should_not_empty">¡Entra el nombre!</string>
     <string name="value_shoud_not_empty">¡Entra la cantidad!</string>
     <string name="procent_should_not_empty">!Entra el percentage!</string>
     <string name="period_should_not_empty">¡Entra el periódo!</string>
     <string name="after_per_choise">Introduzca la fecha</string>
 
-    <string name="total_a">TOTAL:</string>
     <string name="from_transfer_id">from_transfer</string>
-    <string name="income_keywords">Ingreso \nPalabras clave:</string>
-    <string name="expense_keywords">Gasto \nPalabras clave:</string>
-    <string name="to_transfer">Transferir a cuenta</string>
     <string name="to_transfer_id">to_transfer</string>
-    <string name="transfer_icon">icons_25</string>
     <string name="only_income">Sólo ingreso</string>
     <string name="only_expense">Sólo gasto</string>
-    <string name="parse_both">Gasto y Ingreso</string>
     <string name="currency">Divisa</string>
-    <string name="phone_number_warning">¡Entra número de teléfono!</string>
-    <string name="keyword_warning">¡Entra las palabras clave!</string>
     <string name="sms_parse_income">Ingresos de SMS</string>
     <string name="sms_parse_income_id">sms_income</string>
-    <string name="sms_parse_income_icon">icons_20</string>
     <string name="sms_parse_expense">Gastos de SMS</string>
     <string name="sms_parse_expense_id">sms_expense</string>
-    <string name="sms_parse_expense_icon">icons_21</string>
     <string name="ch_cat">Elegir categoría</string>
     <string name="addedit">Añadir / Editar</string>
     <string-array name="balance_mode_titles">
@@ -1158,7 +1105,6 @@
         <item>0</item>
         <item>1</item>
     </string-array>
-    <string name="about_operat">Esta opción para elegir la cuenta de su mensaje SMS</string>
     <string name="sync_and_backup">SINCRONIZAR Y APOYO</string>
 
     <string name="default_settings">¡Se eliminarán todos los datos y configuraciones! ¿Estás de acuerdo?</string>
@@ -1192,7 +1138,6 @@
         <item>50</item>
         <item>60</item>
     </string-array>
-    <string name="set_time_of_secure_title">Tiempo</string>
     <string name="start_money">Suma inicial</string>
     <string name="limit_exceed">Se excedió el límite de cuenta corriente</string>
     <string name="add_comment">Añadir un commentario +</string>
@@ -1200,7 +1145,6 @@
     <string name="current_password">Contraseña actual</string>
     <string name="enter_your_password">Introduzca su contraseña</string>
     <string name="izmenit_parol">Cambia la contraseña</string>
-    <string name="limit">Límite</string>
     <string name="limit_sum">Suma de límite</string>
     <string name="new_password">Nueva contraseña</string>
     <string name="otklyuchit">Desactiva la contraseña</string>
@@ -1209,12 +1153,9 @@
     <string name="please_write_your_current_password">¡Por favor, escribe tu contraseña actual!</string>
     <string name="really_dellete">¿Quiere eleminar?</string>
     <string name="repiat_yout_password">Repita la nueva contraseńa</string>
-    <string name="scetimeet">Establecer límite</string>
     <string name="share_ticket">Share</string>
     <string name="try_one_more">La contraseña ingresada es incorrecta, intétalo nuevo</string>
     <string name="was_four_numbers">Tu contraseña debe consistir de 4 números</string>
-    <string name="start_moneyy">Suma inicial</string>
-    <string name="data_izmenenia">Fecha:</string>
     <string name="securee">Seguridad</string>
     <string-array name="adding_ticket_type">
         <item>De la galería</item>
@@ -1225,23 +1166,18 @@
         <item>Borrar</item>
     </string-array>
     <string name="choesetypeing">Seleccióne foto</string>
-    <string name="savein">SALVAR</string>
     <string name="ok_b">Sí</string>
     <string name="must_be_one_currency">!Debe ser al menos una divisa!</string>
     <string name="replanish">Pagar</string>
-    <string name="limit_not_setted">Límite no establecido</string>
     <string name="transfer">Transferir el dinero</string>
-    <string name="limit_interval">Intervalo de límite</string>
     <string name="such_account_name_exists_error">¡Cuenta con tal nombre existe!</string>
     <string name="none_zero_account">Cuenta no negativa </string>
     <string name="operations">Operaciónes</string>
     <string name="add_subcategory">Añadir subcategoría</string>
     <string name="such_subcat_exist">¡La subcategoría con ese nombre existe!</string>
     <string name="purposes">Propósitos</string>
-    <string name="earn">Caja de dínero</string>
     <string name="period">Período</string>
     <string name="none_minus_account_warning">¡La cuenta no puede ser negativa!</string>
-    <string name="add_category">Ańadir categoría</string>
     <string name="debt_borrow_list_is_empty">Ańadir deuda</string>
     <string name="credit_list_is_empty">Añadir crédito</string>
     <string name="account_deleting_error">¡Debe tener al menos una cuenta!</string>
@@ -1324,7 +1260,6 @@
         <item>icons_412</item>
         <item>icons_413</item>
     </string-array>
-    <string name="accountdo">Cuenta:</string>
     <string name="balance_invis">No mostrar el balance</string>
     <string name="borrow_arch">El préstamo está en archivo</string>
     <string name="borrow_com">¡La deuda está incluido en el balance, pero está en archivo!</string>
@@ -1333,14 +1268,12 @@
     <string name="borrow_comment_not_icl_arch">¡La deuda no está incluido en el balance, pero está en archivo!</string>
     <string name="borrow_reckings_var">Registro de la deuda</string>
     <string name="borrow_var">Préstamo</string>
-    <string name="choose_type_p">Elije el tipo de acción</string>
     <string name="count_pages">Número de páginas</string>
     <string name="cred_arch">Archivo</string>
     <string name="cred_include_bal">Este crédito esta en el balance</string>
     <string name="cred_not_include_bal">Este crédito no esta en el balance</string>
     <string name="credit_reckings_var">Pago de crédito</string>
     <string name="credit_var">Crédito</string>
-    <string name="date_with_two_dots">Fecha:</string>
     <string name="debt_com">La deuda está incluido en el balance, pero está en archivo</string>
     <string name="debt_coment">La deuda está incluido en el balance</string>
     <string name="debt_comment_not_icluded">La deuda no está incluido en el balance, está en archivo</string>
@@ -1357,19 +1290,15 @@
     <string name="limit_page">Límite debe ser de 1 a 10</string>
     <string name="minusable_account">Cuenta puede ser negativa</string>
     <string name="none_minusable_account">No una cuenta negative</string>
-    <string name="not_exist">No existe</string>
-    <string name="not_set">No establecido</string>
     <string name="pages_about">Página de gastos y ingresos</string>
     <string name="simple_recking">Gastos, ingresos</string>
     <string name="some_credit">El crédito no está incluido en el balance y está en archivo</string>
-    <string name="to_earn">Salvar</string>
     <string name="type">Tipo:</string>
     <string name="whole_day_datas_deleting">¡Registros para el día actual van a eleminó!</string>
     <string name="search">Buscar</string>
     <string name="account_for_parsing">Cuenta para analizar:</string>
     <string name="all_expense">Todo gasto:</string>
     <string name="all_incomes">Todos los ingresos:</string>
-    <string name="ammount_of_operation">Cantidad de operatción para el mensaje:</string>
     <string name="income_decide_with_static_word">Seleccione la palabra clave(ingreso)</string>
     <string name="info_toliq">Información</string>
     <string name="it_is_expense">Gasto</string>
@@ -1383,7 +1312,6 @@
     <string name="please_type">Buscar palabra</string>
     <string name="cant_find">No puedo encontar</string>
     <string name="your_purpose">Tu propósito:</string>
-    <string name="enter_the_title">Entre la título</string>
     <string name="accumulation">Accumulación</string>
     <string name="enter_the_amount">Entre la cantidad</string>
     <string name="term_of_purpose">Término de propósito</string>
@@ -1404,37 +1332,23 @@
     <string name="select_word">Seleccione una palabra</string>
     <string name="sms_pars_list_empty">Lista de sms análisis está vacío</string>
     <string name="spend">Gastar</string>
-    <string name="sub_category">Subcategoría</string>
     <string name="sync_failed">Error de sincronización</string>
     <string name="sync_suc">La sincronización es correcta</string>
     <string name="transfer_isnt_done">¡Transferencia fallida!</string>
     <string name="credit_arcive_are_empty">Lista de archivo está vacía</string>
     <string name="credit_are_empty">Añadir crédito</string>
     <string name="choose_different_accounts">Seleccione cuentas de diferencia</string>
-    <string name="chooseroot">Elegir raíz</string>
-    <string name="category_one">Categoría</string>
     <string name="amount_operation">Cuenta para operacion:</string>
     <string name="skip">OMITIR</string>
     <string name="sender">Remitente:</string>
     <string name="repeat">Repitir</string>
-    <string name="repair_">Reparar</string>
-    <string name="reciver_degree">Receptor:</string>
-    <string name="plus_add">+ Añadir</string>
+    <string name="repair">Reparar</string>
     <string name="please_confirm_contact_access">Por favor, confirme el acceso a los contactos</string>
-    <string name="periods">Períodos</string>
-    <string name="period_">Períodos:</string>
-    <string name="pay_upper">PAGAR</string>
-    <string name="parsing_key_words">Analizar palabras clave</string>
-    <string name="operations_will_calculate">Operaciones va a calcular:</string>
     <string name="number_or_name_of_sender">(número o nombre del remitente)</string>
-    <string name="note">Nota</string>
     <string name="not_processed_degree">No procesado:</string>
     <string name="not_identefied_messages">mensajes no identeficado</string>
     <string name="no_message">no mensaje</string>
-    <string name="next">Seguiente</string>
     <string name="nachalo">Comienzo</string>
-    <string name="nachislenie">Efectivo</string>
-    <string name="months">Meses</string>
     <string name="month_days">Días de el mes</string>
     <string name="konets">Final</string>
     <string name="key_words">Palabras clave</string>
@@ -1443,21 +1357,12 @@
     <string name="for_income">Ingreso:</string>
     <string name="for_expance">Gasto:</string>
     <string name="for_amount">Cantidad:</string>
-    <string name="enter_value">Ingresar volar</string>
-    <string name="enter_date">Establecer fecha</string>
     <string name="end_day">Fecha final</string>
     <string name="contact_access_needed">Necesidad de acceso a contactos</string>
-    <string name="comment_eg">Comentario ....</string>
-    <string name="comment_degree">Comentario:</string>
-    <string name="comment_">Comentario</string>
     <string name="choose_category">Seleccione categoría</string>
-    <string name="choise_account">Seleccione cuenta:</string>
     <string name="all_operations">Todas las operaciones</string>
     <string name="add_keywords_in_sms_parsing">Añadir las palabras clave en la sms análisis</string>
-    <string name="add_key_word">(añadir la palabra clave)</string>
     <string name="account_of_operation">Cuenta para operación</string>
-    <string name="account_for_sms_parsing">Cuenta:</string>
-    <string name="account_">Cuenta:</string>
     <string name="week_days">Días de la semana</string>
     <string name="add_auto_operation">Añadir una operación</string>
     <string name="dates_not_choosen_error">Seleccione fecha</string>
@@ -1469,7 +1374,6 @@
     <string name="borrow_is_empty">Añadir deudo</string>
     <string name="start_day">Fecho de inicio</string>
     <string name="such_name_exists">¡Tal nombre ya existe!</string>
-    <string name="summa">Suma</string>
     <string name="widget">Widget</string>
     <string name="sms_not_exist">Mensaje sms no existe</string>
     <string name="main_window">Pagina principal</string>
@@ -1479,14 +1383,12 @@
     <string name="no_parsing">No analizado</string>
     <string name="no_success">No procesado</string>
     <string name="period_of_save">Establecer el período</string>
-    <string name="select_category">Seleccione la categoría</string>
     <string name="expense_decide_with_static_word">Seleccióne la palabra clave(gasto):</string>
     <string name="enter_contact_error">Introduzca el contacto</string>
     <string name="income_keyword_error">Introduzca la palabra clave(ingreso)</string>
     <string name="expense_keyword_error">Introduzca la palabra clave(gasto)</string>
     <string name="amount_keyword_error">Introduzca la palabra clave para definir la cantidad</string>
     <string name="incom_expense_list">Lista de ingresos y gastos</string>
-    <string name="login">Iniciar sesión</string>
     <string name="all">Todo</string>
     <string name="previous">Antrior</string>
     <string name="unlock">Desbloquear</string>
@@ -1497,7 +1399,6 @@
         <item>gasto</item>
     </string-array>
     <string name="account_from">Cuenta de</string>
-    <string name="account_to">Cuenta a</string>
     <string name="add_plus">+ Añadir</string>
     <string name="choise_icon">Seleccióne el icono</string>
     <string name="main_curr">Moneda base</string>
@@ -1509,8 +1410,6 @@
     <string name="select_icons_sb">Seleccióne icono de la subcategoría</string>
     <string name="subcategory_empty">¡El nombre de la subcategría está vacío!</string>
     <string name="to_purpose">Transferir en caja de dinero</string>
-    <string name="reached_max_value">Alcanzó el valor mánimo</string>
-    <string name="reached_min_value">Alcanzó el valor mínimo</string>
     <string-array name="month_abbrs">
         <item>Ene.</item>
         <item>Feb.</item>
@@ -1526,7 +1425,6 @@
         <item>Dec.</item>
     </string-array>
     <string name="history_transfers">Historia de transferencia</string>
-    <string name="summ_transfer">Suma de transferencia</string>
     <string name="january">ENE</string>
     <string name="february">FEB</string>
     <string name="march">MAR</string>
@@ -1545,14 +1443,12 @@
     <string name="average_expense">Gasto promedio: </string>
     <string name="max_expense_in_the_month">Gasto máximo en el mes: </string>
     <string name="min_expense_in_the_month">Ingreso mínimo en el mes: </string>
-    <string name="report_by_income_expense_table">Informe por ingresos y gatos</string>
     <string name="must_restart">¡Para instalar el tema,  tendrá que reiniciar el programa!</string>
     <string name="processed_sms">Sms procesados:</string>
     <string name="category_subcategory">Categoría Subcategoría</string>
     <string name="theme">Temas</string>
     <string name="attention">Atención!</string>
     <string name="buy_voice_text">¡Usted excedió la cuenta de su intento!. ¿Desea activar el servicio?</string>
-    <string name="purpose_delete_warning">¿Realmente desea eliminar el propósito?</string>
     <string-array name="currency_1">
         <item>dolar</item>
     </string-array>
@@ -1597,7 +1493,6 @@
     <string name="cred_managment">Créditos</string>
     <string name="credit_details">Detalles del crédito</string>
     <string name="credit_end_date">Fecha de finalización del crédito</string>
-    <string name="credit_repiad">La liquidación del crédito</string>
     <string name="credit_stat">Estado crediticio</string>
     <string name="credit_type">Tipo de crédito</string>
     <string name="date_of_transfer">Fecha de la transferencia</string>
@@ -1621,4 +1516,5 @@
     <string name="three">tres</string>
     <string name="two">dos</string>
     <string name="zero">cero</string>
+    <string name="amount">Cantidad</string>
 </resources>

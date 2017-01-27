@@ -236,6 +236,7 @@ public class CreditTabLay extends Fragment implements View.OnClickListener, View
         if (toolbarManager != null){
             toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
             toolbarManager.setOnTitleClickListener(null);
+            toolbarManager.setTitle(getString(R.string.cred_managment));
             toolbarManager.setSubtitle("");
             toolbarManager.setSubtitleIconVisibility(View.GONE);
         }

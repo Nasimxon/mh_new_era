@@ -118,10 +118,10 @@ public class CreditFragment extends Fragment {
         super.onResume();
         if (toolbarManager != null)
         {
-            toolbarManager.setTitle(getResources().getString(R.string.cred_managment));
+            toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
             toolbarManager.setSubtitle("");
             toolbarManager.setOnTitleClickListener(null);
-            toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
+            toolbarManager.setSubtitleIconVisibility(View.GONE);
         }
     }
 

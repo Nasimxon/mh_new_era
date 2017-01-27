@@ -93,6 +93,7 @@ public class SMSParseInfoFragment extends Fragment {
             toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
             toolbarManager.setImageToSecondImage(R.drawable.ic_delete_proz);
             toolbarManager.setSubtitle("");
+            toolbarManager.setOnTitleClickListener(null);
             toolbarManager.setOnSecondImageClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

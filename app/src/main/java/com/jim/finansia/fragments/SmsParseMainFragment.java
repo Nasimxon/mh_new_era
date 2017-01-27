@@ -91,6 +91,7 @@ public class SmsParseMainFragment extends Fragment implements View.OnClickListen
         if (toolbarManager != null) {
             toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
             toolbarManager.setTitle(getResources().getString(R.string.sms_parse));
+            toolbarManager.setOnTitleClickListener(null);
             toolbarManager.setSubtitle("");
             toolbarManager.setSubtitleIconVisibility(View.GONE);
         }
