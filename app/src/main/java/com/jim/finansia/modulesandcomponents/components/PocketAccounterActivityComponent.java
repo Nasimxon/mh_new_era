@@ -27,6 +27,7 @@ import com.jim.finansia.fragments.CreditTabLay;
 import com.jim.finansia.fragments.CurrencyChooseFragment;
 import com.jim.finansia.fragments.CurrencyEditFragment;
 import com.jim.finansia.fragments.CurrencyFragment;
+import com.jim.finansia.fragments.FinanceRecordsFragment;
 import com.jim.finansia.fragments.InfoCreditFragment;
 import com.jim.finansia.fragments.InfoCreditFragmentForArchive;
 import com.jim.finansia.fragments.MainPageFragment;
@@ -155,4 +156,5 @@ public interface PocketAccounterActivityComponent {
     void inject(ReportSelectingYearWithMonthsView reportSelectingYearWithMonthsView);
     void inject(ReportByIncomeExpenseDailyTableFragment reportByIncomeExpenseDailyTableFragment);
     void inject(ManualEnterFragment manualEnterFragment);
+    void inject(FinanceRecordsFragment financeRecordsFragment);
 }
