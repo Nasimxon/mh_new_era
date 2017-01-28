@@ -76,18 +76,7 @@ public class RecordDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.finance_record_detail_fragment, container, false);
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
-        vpRecord = (ViewPager) rootView.findViewById(R.id.stViewPager);
-        FinanceRecordsFragment fragment = new FinanceRecordsFragment(Calendar.getInstance());
-        FinanceRecordsFragment fragment1 = new FinanceRecordsFragment(Calendar.getInstance());
-        FinanceRecordsFragment fragment2 = new FinanceRecordsFragment(Calendar.getInstance());
-        FinanceRecordsFragment fragment3 = new FinanceRecordsFragment(Calendar.getInstance());
-        List<Fragment> fragments = new ArrayList<>();
-        fragments.add(fragment);
-        fragments.add(fragment1);
-        fragments.add(fragment2);
-        fragments.add(fragment3);
-        MyAdapter adapter = new MyAdapter(fragments, paFragmentManager.getFragmentManager());;
-        vpRecord.setAdapter(adapter);
+
         return rootView;
     }
     public void onResume() {
