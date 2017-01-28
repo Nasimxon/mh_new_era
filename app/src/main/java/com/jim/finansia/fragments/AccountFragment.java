@@ -110,7 +110,8 @@ public class AccountFragment extends PABaseListFragment {
 						transferAddEditDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
 							@Override
 							public void onDismiss(DialogInterface dialog) {
-								refreshList();
+                                reportManager.clearCache();
+                                refreshList();
 							}
 						});
 						transferAddEditDialog.show();
@@ -166,7 +167,6 @@ public class AccountFragment extends PABaseListFragment {
 			view.tvAccountName.setText(result.get(position).getName());
 			int resId = getResources().getIdentifier(result.get(position).getIcon(), "drawable", getContext().getPackageName());
 			view.ivIconItem.setImageResource(resId);
-			DecimalFormat format = new DecimalFormat("0.##");
 
 			// income expanses balances
 			Map<Currency, List<Double>> map = reportManager.getRemain(result.get(position));

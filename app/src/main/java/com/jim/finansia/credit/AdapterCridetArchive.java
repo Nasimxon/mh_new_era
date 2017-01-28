@@ -190,15 +190,7 @@ public class AdapterCridetArchive extends RecyclerView.Adapter<AdapterCridetArch
             public void onClick(View v) {
                 InfoCreditFragmentForArchive temp = new InfoCreditFragmentForArchive();
                 int pos = cardDetials.indexOf(itemCr);
-                temp.setConteent(itemCr, pos, new ListnerDel() {
-                    @Override
-                    public void delete_item(int position) {
-                        CreditDetials Az = cardDetials.get(position);
-                        logicManager.deleteCredit(Az);
-                        cardDetials.remove(position);
-                        notifyItemRemoved(position);
-                    }
-                });
+                temp.setConteent(itemCr, pos);
                 openFragment(temp, "InfoFragment");
             }
         });

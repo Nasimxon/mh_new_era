@@ -123,6 +123,7 @@ public class CurrencyEditFragment extends PABaseInfoFragment implements OnClickL
     @Override
     void refreshList() {
         currency.resetUserEnteredCalendarses();
+        currency.refreshCosts();
         CurrencyExchangeAdapter adapter = new CurrencyExchangeAdapter(new OpenDialog() {
             @Override
             public void openDialogForDate(CurrencyCost currCost) {
@@ -279,8 +280,9 @@ public class CurrencyEditFragment extends PABaseInfoFragment implements OnClickL
                         if (dateFormat.format(currCost.getDay().getTime()).equals(dateFormat.format(currency.getUserEnteredCalendarses().get(i).getCalendar().getTime()))) {
                             daoSession.delete(currency.getUserEnteredCalendarses().get(i));
                             daoSession.getCurrencyDao().detachAll();
-                            dialog.dismiss();
                             refreshList();
+                            dialog.dismiss();
+
                         }
                     }
                 }

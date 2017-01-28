@@ -108,7 +108,7 @@ public class ScheduleCreditFragment extends PABaseFragment {
                             dataCache.getBoardBitmapsCache().put(daoSession.getBoardButtonDao().queryBuilder()
                                     .where(BoardButtonDao.Properties.CategoryId.eq(Long.toString(currentCredit.getMyCredit_id())))
                                     .list().get(0).getId(), temp);
-                            reportManager.refreshDatas();
+                            reportManager.clearCache();
                             dataCache.updateAllPercents();
                             paFragmentManager.updateAllFragmentsOnViewPager();
                         }
@@ -153,7 +153,7 @@ public class ScheduleCreditFragment extends PABaseFragment {
                                 dataCache.getBoardBitmapsCache().put(boardButton.getId(), temp);
                             }
                         }
-                        reportManager.refreshDatas();
+                        reportManager.clearCache();
                         dataCache.updateAllPercents();
                         paFragmentManager.updateAllFragmentsOnViewPager();
                         toolbarManager.setToolbarIconsVisibility(View.GONE,View.GONE,View.GONE);

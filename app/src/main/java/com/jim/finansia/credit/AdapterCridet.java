@@ -42,6 +42,7 @@ import com.jim.finansia.fragments.ScheduleCreditFragment;
 import com.jim.finansia.managers.CommonOperations;
 import com.jim.finansia.managers.LogicManager;
 import com.jim.finansia.managers.PAFragmentManager;
+import com.jim.finansia.managers.ReportManager;
 import com.jim.finansia.utils.PocketAccounterGeneral;
 import com.jim.finansia.utils.WarningDialog;
 import com.jim.finansia.utils.cache.DataCache;
@@ -76,6 +77,8 @@ public class AdapterCridet extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     DataCache dataCache;
     @Inject
     DecimalFormat formatter;
+    @Inject
+    ReportManager reportManager;
     WarningDialog warningDialog;
     CreditDetialsDao creditDetialsDao;
     AccountDao accountDao;
@@ -110,7 +113,7 @@ public class AdapterCridet extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         DecimalFormatSymbols symbols = new DecimalFormatSymbols();
         symbols.setGroupingSeparator(' ');
         periodFormat = (DecimalFormat) numberFormat;
-        periodFormat.setDecimalFormatSymbols(symbols);;
+        periodFormat.setDecimalFormatSymbols(symbols);
         this.cardDetials=creditDetialsDao.queryBuilder()
                 .where(CreditDetialsDao.Properties.Key_for_archive.eq(false)).orderDesc(CreditDetialsDao.Properties.MyCredit_id).build().list();
         this.context = This;
@@ -235,7 +238,6 @@ public class AdapterCridet extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         } else {
             interval = interval + context.getString(R.string.yearr);
         }
-
         holder.intervalCreditInfo.setText(interval);
 
         int t[] = getDateDifferenceInDDMMYYYY(from, to.getTime());
@@ -282,7 +284,6 @@ public class AdapterCridet extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             }
         }
 
-
         if (itemCr.getValue_of_credit_with_procent() - total_paid <= 0) {
             holder.tvPayAbout.setText(R.string.to_archive);
         } else {
@@ -301,37 +302,15 @@ public class AdapterCridet extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             public void onClick(View v) {
                 final int pos = cardDetials.indexOf(itemCr);
                 InfoCreditFragment temp = new InfoCreditFragment();
-                temp.setConteent(itemCr, pos, new InfoCreditFragment.ConWithFragments() {
-                    @Override
-                    public void change_item(CreditDetials creditDetials, int position) {
-//                        updateList();
-                        double obswiy = 0;
-                         notifyItemChanged(position);
-//                        notifyDataSetChanged();
-                    }
-
-                    @Override
-                    public void to_Archive(int position) {
-
-                        svyaz.itemInsertedToArchive();
-                        notifyItemChanged(position);
-                    }
-
-                    @Override
-                    public void delete_item(int position) {
-                        updateList();
-                        notifyItemRemoved(position);
-                    }
-                });
+                temp.setConteent(itemCr, pos);
                 openFragment(temp, "InfoFragment");
             }
         });
         holder.pay_or_archive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean toArcive = context.getString(R.string.archive).matches(holder.tvPayAbout.getText().toString());
                 int pos = cardDetials.indexOf(itemCr);
-                if (toArcive) {
+                if (holder.tvPayAbout.getText().equals(context.getString(R.string.to_archive))) {
                     CreditDetials toArc = cardDetials.get(position);
                     toArc.setKey_for_archive(true);
                     logicManager.insertCredit(toArc);
@@ -350,7 +329,7 @@ public class AdapterCridet extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
                             }
                     }
-
+                    reportManager.clearCache();
                     dataCache.updateAllPercents();
                     paFragmentManager.updateAllFragmentsOnViewPager();
                     svyaz.itemInsertedToArchive();
@@ -670,6 +649,7 @@ public class AdapterCridet extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 int pos = cardDetials.indexOf(current);
                                 logicManager.insertReckingCredit(rec);
                                 current.resetReckings();
+                                reportManager.clearCache();
                                 dataCache.updateAllPercents();
                                 paFragmentManager.updateAllFragmentsOnViewPager();
                                 notifyItemChanged(position);
@@ -697,6 +677,7 @@ public class AdapterCridet extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         int pos = cardDetials.indexOf(current);
                         logicManager.insertReckingCredit(rec);
                         current.resetReckings();
+                        reportManager.clearCache();
                         dataCache.updateAllPercents();
                         paFragmentManager.updateAllFragmentsOnViewPager();
                         notifyItemChanged(pos);

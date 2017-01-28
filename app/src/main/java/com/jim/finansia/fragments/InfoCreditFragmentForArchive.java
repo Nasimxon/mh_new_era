@@ -49,6 +49,7 @@ import com.jim.finansia.database.ReckingCreditDao;
 import com.jim.finansia.managers.CommonOperations;
 import com.jim.finansia.managers.LogicManager;
 import com.jim.finansia.managers.PAFragmentManager;
+import com.jim.finansia.managers.ReportManager;
 import com.jim.finansia.managers.ToolbarManager;
 import com.jim.finansia.utils.PocketAccounterGeneral;
 import com.jim.finansia.utils.WarningDialog;
@@ -88,6 +89,8 @@ public class InfoCreditFragmentForArchive extends Fragment {
     LogicManager financeManager;
     @Inject
     SharedPreferences sPref;
+    @Inject
+    ReportManager reportManager;
 
     WarningDialog warningDialog;
     SimpleDateFormat sDateFormat = new SimpleDateFormat("dd MMM, yyyy");
@@ -120,7 +123,6 @@ public class InfoCreditFragmentForArchive extends Fragment {
     TextView tvPeriodPaymentTitle;
     TextView tvEndPeriodDayTitle;
     ImageView icon_credit;
-    AdapterCridetArchive.ListnerDel A1;
     PaysCreditAdapter adapRecyc;
     List<ReckingCredit> rcList;
     boolean delete_flag = false;
@@ -151,9 +153,8 @@ public class InfoCreditFragmentForArchive extends Fragment {
         formater=new DecimalFormat("0.##");
         fromSearch=true;
     }
-    public void setConteent(CreditDetials temp, int position, AdapterCridetArchive.ListnerDel A1){
+    public void setConteent(CreditDetials temp, int position){
         currentCredit=temp;
-        this.A1=A1;
         formater=new DecimalFormat("0.##");
         POSITIOn=position;
     }
@@ -283,8 +284,7 @@ public class InfoCreditFragmentForArchive extends Fragment {
                                             logicManager.deleteCredit(currentCredit);
                                             dataCache.updateAllPercents();
                                             paFragmentManager.updateAllFragmentsOnViewPager();
-
-                                            A1.delete_item(currentPOS);
+                                            reportManager.clearCache();
                                         } else if (fromSearch) {
                                             List<BoardButton> boardButtons = daoSession.getBoardButtonDao().loadAll();
                                             for (BoardButton boardButton : boardButtons) {
@@ -301,6 +301,8 @@ public class InfoCreditFragmentForArchive extends Fragment {
                                                     }
                                             }
                                             dataCache.updateAllPercents();
+                                            reportManager.clearCache();
+
                                             paFragmentManager.updateAllFragmentsOnViewPager();
                                             logicManager.deleteCredit(currentCredit);
 
@@ -330,6 +332,8 @@ public class InfoCreditFragmentForArchive extends Fragment {
                                             }
                                             logicManager.deleteCredit(currentCredit);
                                             dataCache.updateAllPercents();
+                                            reportManager.clearCache();
+
                                             paFragmentManager.updateAllFragmentsOnViewPager();
 
                                         }

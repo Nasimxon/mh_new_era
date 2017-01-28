@@ -81,7 +81,7 @@ public class ReportManager {
         smsParseSuccessDao = daoSession.getSmsParseSuccessDao();
     }
 
-    public void refreshDatas() {
+    public void     refreshDatas() {
         accounts = null;
         financeRecords = null;
         creditDetialses = null;
@@ -271,10 +271,13 @@ public class ReportManager {
                     }
                 }
             }
+            //todo QILIW KERE
             if (cl.getName().equals(CreditDetials.class.getName())) {
                 creditDetialses = creditDetialses == null ? creditDetialsDao.loadAll() : creditDetialses;
                 for (CreditDetials creditDetials : creditDetialses) {
-                    if (creditDetials.getKey_for_include()) {
+                    if (creditDetials.getKey_for_include() && creditDetials.getTake_time().compareTo(begin) >= 0 &&
+                            creditDetials.getTake_time().compareTo(end) <= 0 ) {
+
                         ReportObject reportObject = new ReportObject();
                         reportObject.setType(PocketAccounterGeneral.INCOME);
                         reportObject.setDate(creditDetials.getTake_time());
@@ -303,6 +306,8 @@ public class ReportManager {
                         }
                         result.add(reportObject);
                     }
+                    if(creditDetials.getPervonacalniy()>0 && creditDetials.getTake_time().compareTo(begin) >= 0 &&
+                            creditDetials.getTake_time().compareTo(end) <= 0)
                     for (ReckingCredit reckingCredit : creditDetials.getReckings()) {
                         if(reckingCredit.getAccountId() == null || reckingCredit.getAccountId().equals("")) continue;
                         Calendar calendar = reckingCredit.getPayDate();
@@ -517,7 +522,7 @@ public class ReportManager {
             }
         }
         //sms parse records end
-
+        //TODO DALWE BUYODA IW
         //credit begin
         double creditTotalPaid = 0.0;
         List<CreditDetials> temp = daoSession.getCreditDetialsDao()

@@ -735,11 +735,6 @@ public class AddCreditFragment extends Fragment {
             } else if (currentCredit.getProcent_interval() == forYear) {
                 calc.add(Calendar.YEAR, (int) (currentCredit.getPeriod_time() / currentCredit.getPeriod_time_tip()));
             }
-//            else if (currentCredit.getProcent_interval() == forWeek) {
-//                calc.add(Calendar.WEEK_OF_YEAR, (int) (currentCredit.getPeriod_time() / currentCredit.getPeriod_time_tip()));
-//            } else if (currentCredit.getProcent_interval() == forDay) {
-//                calc.add(Calendar.DAY_OF_YEAR, (int) (currentCredit.getPeriod_time() / currentCredit.getPeriod_time_tip()));
-//            }
 
             lastCred.setText(dateFormat.format(calc.getTime()));
             argFirst[0] = currentCredit.getTake_time().get(Calendar.YEAR);

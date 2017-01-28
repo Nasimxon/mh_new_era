@@ -192,20 +192,20 @@ public class TransferDialog extends Dialog implements View.OnClickListener {
         chooseAccountSecondId = accountOperation.getTargetId();
         if (daoSession.getAccountDao().load(chooseAccountFirstId) != null) {
             spTransferFirst.setImageResource(getContext().getResources().getIdentifier(
-                    daoSession.getAccountDao().load(chooseAccountFirstId).getIcon(), "draweble", getContext().getPackageName()));
+                    daoSession.getAccountDao().load(chooseAccountFirstId).getIcon(), "drawable", getContext().getPackageName()));
             fromAccount.setText(daoSession.getAccountDao().load(chooseAccountFirstId).getName());
         } else {
             spTransferFirst.setImageResource(getContext().getResources().getIdentifier(
-                    daoSession.getPurposeDao().load(chooseAccountFirstId).getIcon(), "draweble", getContext().getPackageName()));
+                    daoSession.getPurposeDao().load(chooseAccountFirstId).getIcon(), "drawable", getContext().getPackageName()));
             fromAccount.setText(daoSession.getPurposeDao().load(chooseAccountFirstId).getDescription());
         }
         if (daoSession.getAccountDao().load(chooseAccountSecondId) != null) {
             spTransferSecond.setImageResource(getContext().getResources().getIdentifier(
-                    daoSession.getAccountDao().load(chooseAccountSecondId).getIcon(), "draweble", getContext().getPackageName()));
+                    daoSession.getAccountDao().load(chooseAccountSecondId).getIcon(), "drawable", getContext().getPackageName()));
             toAccount.setText(daoSession.getAccountDao().load(chooseAccountSecondId).getName());
         } else {
             spTransferSecond.setImageResource(getContext().getResources().getIdentifier(
-                    daoSession.getPurposeDao().load(chooseAccountSecondId).getIcon(), "draweble", getContext().getPackageName()));
+                    daoSession.getPurposeDao().load(chooseAccountSecondId).getIcon(), "drawable", getContext().getPackageName()));
             toAccount.setText(daoSession.getPurposeDao().load(chooseAccountSecondId).getDescription());
         }
         etAccountEditName.setText(Double.toString(accountOperation.getAmount()));
@@ -221,7 +221,13 @@ public class TransferDialog extends Dialog implements View.OnClickListener {
 
     public void setAccountOrPurpose(String id, boolean type) {
         if (id != null) {
-            if (!type && daoSession.getPurposeDao().load(id) != null) {
+
+            //type
+            //true - purpose
+            //false - account
+            //ne logichno ne xuya
+
+            if (!type  && daoSession.getPurposeDao().load(id) != null) {
                 chooseAccountSecondId = id;
                 chooseAccountFirstId = daoSession.getAccountDao().queryBuilder().
                         where(AccountDao.Properties.Id.notEq(id)).list().get(0).getId();

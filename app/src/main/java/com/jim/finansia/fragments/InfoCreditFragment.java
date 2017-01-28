@@ -50,6 +50,7 @@ import com.jim.finansia.database.ReckingCreditDao;
 import com.jim.finansia.managers.CommonOperations;
 import com.jim.finansia.managers.LogicManager;
 import com.jim.finansia.managers.PAFragmentManager;
+import com.jim.finansia.managers.ReportManager;
 import com.jim.finansia.managers.ToolbarManager;
 import com.jim.finansia.utils.PocketAccounterGeneral;
 import com.jim.finansia.utils.WarningDialog;
@@ -89,6 +90,8 @@ public class InfoCreditFragment extends Fragment {
     LogicManager financeManager;
     @Inject
     SharedPreferences sPref;
+    @Inject
+    ReportManager reportManager;
     WarningDialog warningDialog;
     SimpleDateFormat sDateFormat = new SimpleDateFormat("dd MMM, yyyy");
     CreditDetialsDao creditDetialsDao;
@@ -120,7 +123,6 @@ public class InfoCreditFragment extends Fragment {
     TextView tvPeriodPaymentTitle;
     TextView tvEndPeriodDayTitle;
     ImageView icon_credit;
-    ConWithFragments A1;
     PaysCreditAdapter adapRecyc;
     List<ReckingCredit> rcList;
     boolean delete_flag = false;
@@ -146,9 +148,8 @@ public class InfoCreditFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public void setConteent(CreditDetials temp, int currentPOS, ConWithFragments A1) {
+    public void setConteent(CreditDetials temp, int currentPOS) {
         currentCredit = temp;
-        this.A1 = A1;
         this.currentPOS = currentPOS;
     }
 
@@ -246,7 +247,6 @@ public class InfoCreditFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //TODO add remove and edit
-
                 popupMenu = new PopupMenu(getContext(), v);
                 popupMenu.inflate(R.menu.toolbar_popup);
                 MenuPopupHelper menuHelper = new MenuPopupHelper(getContext(), (MenuBuilder) popupMenu.getMenu(), v);
@@ -284,6 +284,7 @@ public class InfoCreditFragment extends Fragment {
                                                     }
                                             }
                                             dataCache.updateAllPercents();
+                                            reportManager.clearCache();
                                             paFragmentManager.updateAllFragmentsOnViewPager();
                                             logicManager.deleteCredit(currentCredit);
                                         } else if (fromSearch) {
@@ -302,6 +303,7 @@ public class InfoCreditFragment extends Fragment {
                                                     }
                                             }
                                             dataCache.updateAllPercents();
+                                            reportManager.clearCache();
                                             paFragmentManager.updateAllFragmentsOnViewPager();
                                             logicManager.deleteCredit(currentCredit);
 
@@ -331,6 +333,7 @@ public class InfoCreditFragment extends Fragment {
                                             }
                                             logicManager.deleteCredit(currentCredit);
                                             dataCache.updateAllPercents();
+                                            reportManager.clearCache();
                                             paFragmentManager.updateAllFragmentsOnViewPager();
 
                                         }
@@ -386,7 +389,6 @@ public class InfoCreditFragment extends Fragment {
                     currentCredit.setKey_for_archive(true);
                     logicManager.insertCredit(currentCredit);
                     if (!fromMainWindow) {
-                        A1.to_Archive(currentPOS);
                         paFragmentManager.getFragmentManager().popBackStack();
                         List<BoardButton> boardButtons = daoSession.getBoardButtonDao().loadAll();
                         for (BoardButton boardButton : boardButtons) {
@@ -803,7 +805,7 @@ public class InfoCreditFragment extends Fragment {
                     enterDate.setError(context.getString(R.string.incorrect_date));
                     enterDate.setText(dateFormat.format(currentCredit.getTake_time().getTime()));
                 } else if( unPaidPeriod.getDate().getTimeInMillis()<(new GregorianCalendar(year, monthOfYear, dayOfMonth)).getTimeInMillis()){
-                    Toast.makeText(context, "You can not jump from periods!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, getString(R.string.you_can_jump), Toast.LENGTH_SHORT).show();
                     Calendar calendar = (Calendar) unPaidPeriod.getDate().clone();
                     calendar.set(Calendar.DAY_OF_MONTH,-1);
                     enterDate.setText(dateFormat.format(calendar.getTime()));
@@ -867,6 +869,7 @@ public class InfoCreditFragment extends Fragment {
                                 rcList = currentCredit.getReckings();
                                 adapRecyc.setMyList(rcList);
                                 dataCache.updateAllPercents();
+                                reportManager.clearCache();
                                 paFragmentManager.updateAllFragmentsOnViewPager();
                                 adapRecyc.notifyDataSetChanged();
                                 updateDate();
@@ -874,11 +877,7 @@ public class InfoCreditFragment extends Fragment {
                                 for (int i = 0; i < isCheks.length; i++) {
                                     isCheks[i] = false;
                                 }
-                                if (!fromMainWindow)
-                                    A1.change_item(currentCredit, currentPOS);
-                                else if (fromSearch) {
 
-                                }
                                 dialog.dismiss();
                                 warningDialog.dismiss();
                             }
@@ -904,6 +903,7 @@ public class InfoCreditFragment extends Fragment {
                         currentCredit.resetReckings();
                         rcList = currentCredit.getReckings();
                         adapRecyc.setMyList(rcList);
+                        reportManager.clearCache();
                         dataCache.updateAllPercents();
                         adapRecyc.notifyDataSetChanged();
                         updateDate();
@@ -911,11 +911,7 @@ public class InfoCreditFragment extends Fragment {
                         for (int i = 0; i < isCheks.length; i++) {
                             isCheks[i] = false;
                         }
-                        if (!fromMainWindow)
-                            A1.change_item(currentCredit, currentPOS);
-                        else if (fromSearch) {
 
-                        }
                         paFragmentManager.updateAllFragmentsOnViewPager();
                         dialog.dismiss();
                     }
@@ -1106,8 +1102,7 @@ public class InfoCreditFragment extends Fragment {
                             rcList = currentCredit.getReckings();
                             adapRecyc.setMyList(rcList);
                             adapRecyc.notifyItemRemoved(t);
-                            if (!fromMainWindow)
-                                A1.change_item(currentCredit, currentPOS);
+
                         } else adapRecyc.notifyItemChanged(t);
                     }
                     isCheks = new boolean[rcList.size()];

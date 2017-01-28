@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jim.finansia.PocketAccounter;
@@ -123,6 +124,7 @@ public class TransferAddEditDialog extends Dialog {
                                     refreshList();
                                 }
                             });
+                            transferDialog.getWindow().setLayout(9 * getContext().getResources().getDisplayMetrics().widthPixels/10, RelativeLayout.LayoutParams.WRAP_CONTENT);
                             transferDialog.show();
                             break;
                         }

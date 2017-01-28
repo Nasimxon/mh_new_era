@@ -321,7 +321,7 @@ public class PAFragmentManager {
                     long credit_id = preferences.getLong("CREDIT_ID", 0);
                     if(credit_id != 0){
                         CreditDetials creditDetials = daoSession.getCreditDetialsDao().load(credit_id);
-                        infoCreditFragment.setConteent(creditDetials,0,null);
+                        infoCreditFragment.setConteent(creditDetials,0);
                         displayFragment(infoCreditFragment);
                     }
                     else displayMainWindow();
@@ -331,7 +331,7 @@ public class PAFragmentManager {
                      long credit_id = preferences.getLong("CREDIT_ID", 0);
                      if(credit_id != 0){
                          CreditDetials creditDetials = daoSession.getCreditDetialsDao().load(credit_id);
-                         infoCreditFragmentForArchive.setConteent(creditDetials,0,null);
+                         infoCreditFragmentForArchive.setConteent(creditDetials,0);
                          displayFragment(infoCreditFragmentForArchive);
                      }
                       else displayMainWindow();
