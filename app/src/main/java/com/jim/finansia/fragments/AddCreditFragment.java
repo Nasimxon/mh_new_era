@@ -21,13 +21,16 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.CheckedTextView;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -223,19 +226,16 @@ public class AddCreditFragment extends Fragment {
         adapter2.add(getResources().getString(R.string.even_princ));
         adapter2.add(getResources().getString(R.string.even_total));
 
+        ArrayList adapter22 = new ArrayList<>();
+        adapter22.add(getString(R.string.from_loan_amount));
+        adapter22.add(getResources().getString(R.string.from_balance));
 
-
-        ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(getContext(), R.layout.spiner_gravity_left, adapter);
-        ArrayAdapter<String> adapter22 = new ArrayAdapter<String>(getContext(), R.layout.spiner_gravity_left, adapter2);
-        ArrayAdapter<String> adapter222 = new ArrayAdapter<String>(getContext(), R.layout.spiner_gravity_left,  new String[]{
-               getString(R.string.from_loan_amount),getString(R.string.from_balance)
-        });
-
-        spBankFee.setAdapter(adapter222);
-        spTypeLoan.setAdapter(adapter22);
+        spBankFee.setAdapter(new SpinnerAdapter(getContext(), adapter22));
+        spTypeLoan.setAdapter(new SpinnerAdapter(getContext(), adapter2));
         spTypeLoan.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
                 switch (position) {
                     case 0:
                         tvWhatAboutType.setText(getString(R.string.with_the_even_principal));
@@ -251,7 +251,7 @@ public class AddCreditFragment extends Fragment {
 
             }
         });
-        spNotifMode.setAdapter(adapter1);
+        spNotifMode.setAdapter(new SpinnerAdapter(getContext(), adapter));
         accaunt_AC = (ArrayList<Account>) accountDao.queryBuilder().list();
         String[] accaounts = new String[accaunt_AC.size()];
         for (int i = 0; i < accaounts.length; i++) {
@@ -1175,4 +1175,51 @@ public class AddCreditFragment extends Fragment {
             frameLayout = (FrameLayout) view.findViewById(R.id.flItemDay);
         }
     }
+
+    public class SpinnerAdapter extends BaseAdapter {
+        Context context;
+        ArrayList objects;
+        int checked = 1;
+        int unchecked = 2;
+        public SpinnerAdapter(Context context, ArrayList strings) {
+            this.context = context;
+            this.objects = strings;
+        }
+
+        @Override
+        public int getCount() {
+            return objects.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return objects.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View view, ViewGroup parent) {
+            LayoutInflater inflater = getActivity().getLayoutInflater();
+            View customSpinner = inflater.inflate(R.layout.spiner_gravity_left, parent, false);
+            TextView tvSpinnerItems = (TextView) customSpinner.findViewById(R.id.text1);
+            tvSpinnerItems.setText((CharSequence) objects.get(position));
+            return customSpinner;
+        }
+        @Override
+        public View getDropDownView(int position, View convertView,
+                                    ViewGroup parent) {
+            LayoutInflater inflater = getActivity().getLayoutInflater();
+            View customSpinner = inflater.inflate(R.layout.spinner_dropdown_item, parent, false);
+            TextView tvSpinnerItems = (TextView) customSpinner.findViewById(R.id.tvSpinnerItems);
+            tvSpinnerItems.setText((CharSequence) objects.get(position));
+
+            return customSpinner;
+        }
+
+    }
+
 }

@@ -585,7 +585,7 @@
     <string name="years">years</string>
     <string name="days">days</string>
     <string name="ends">End</string>
-    <string name="archive">Loan to \narchive</string>
+    <string name="archive">To \narchive</string>
     <string name="toritus">This system of credit registration, very flexible. Credit conditions may be different, in this regard, you can customize the application to fit your requirements.</string>
     <string-array name="cat_values">
         <item>home</item>
@@ -1400,7 +1400,7 @@
     <string name="spend">To spend</string>
     <string name="sync_failed">Sync failed</string>
     <string name="sync_suc">Sync is successful</string>
-    <string name="transfer_isnt_done">Transfer failed</string>
+    <string name="transfer_isnt_done">No transfers</string>
     <string name="credit_arcive_are_empty">Archive list is empty</string>
     <string name="credit_are_empty">Add credit</string>
     <string name="choose_different_accounts">Select different accounts</string>
@@ -1550,7 +1550,7 @@
     <string name="do_interval">To</string>
     <string name="financial_transactions_report">Financial transactions</string>
     <string name="for_this_period">For this period:</string>
-    <string name="from_balance">From balance:</string>
+    <string name="from_balance">From balance</string>
     <string name="from_loan_amount">From credit amount</string>
     <string name="have_first_contribution">First contribution</string>
     <string name="info_categories_report">Category and subcategory details for custom period with graphics and percents</string>
@@ -1654,6 +1654,6 @@
     </string-array>
     <string name="sec">sec</string>
     <string name="payment_date">Payment date:</string>
-    <string name="account_list">You have only one account. Add another account?</string>
+    <string name="account_list">You have only one account. Do you want to add?</string>
 
 </resources>

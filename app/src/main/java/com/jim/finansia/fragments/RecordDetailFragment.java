@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -76,7 +77,16 @@ public class RecordDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.finance_record_detail_fragment, container, false);
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
-
+        vpRecord = (ViewPager) rootView.findViewById(R.id.vpRecord);
+        List<Fragment> fragments = new ArrayList<>();
+        fragments.add(new FinanceRecordsFragment(Calendar.getInstance()));
+        fragments.add(new SmsParseMainFragment());
+        fragments.add(new ReportFragment());
+        fragments.add(new CurrencyFragment());
+        TabLayout tabLayout = (TabLayout) rootView.findViewById(R.id.tabLayoutRecords);
+        MyAdapter adapter = new MyAdapter(fragments, paFragmentManager.getFragmentManager());
+        vpRecord.setAdapter(adapter);
+        tabLayout.setupWithViewPager(vpRecord);
         return rootView;
     }
     public void onResume() {
@@ -111,17 +121,17 @@ public class RecordDetailFragment extends Fragment {
         }
 
         public Fragment getItem(int position) {
-            return list.get(list.size() - 1 - position);
+            return list.get(position);
         }
 
         public int getCount() {
-            return 4;
+            return list.size();
         }
 
         public CharSequence getPageTitle(int position) {
             if (position == 0) {
-                return getResources().getString(R.string.finance_record_default);
-            }
+                return getResources().getString(R.string.records);
+            } else
             if (position == 1) {
                 return getResources().getString(R.string.sms_parse);
             }

@@ -99,6 +99,7 @@ dependencies {
     compile 'com.github.castorflex.verticalviewpager:library:19.0.1'
     compile 'com.lantouzi.wheelview:library:1.1.2'
     compile 'com.github.lecho:hellocharts-android:v1.5.8'
+    compile 'com.github.Brioal:BottomTabLayout:1.4'
 }
 apply plugin: 'com.google.gms.google-services'
 

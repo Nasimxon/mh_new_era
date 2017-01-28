@@ -433,6 +433,7 @@
                     android:layout_alignParentTop="true"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="@dimen/sixteen_dp"
+                    android:spinnerMode="dialog"
                     android:gravity="right" />
             </RelativeLayout>
             <RelativeLayout
@@ -479,10 +480,9 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
-
+                    android:spinnerMode="dialog"
                     android:layout_alignParentTop="true"
                     android:layout_gravity="center_vertical"
-
                     />
 
             </RelativeLayout>
@@ -557,11 +557,11 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
-
+                        android:spinnerMode="dialog"
                         android:layout_alignParentTop="true"
                         android:layout_gravity="center_vertical"
-
-                        android:gravity="left" />
+                        android:gravity="left"
+                        />
 
                 </RelativeLayout>
                 <android.support.v7.widget.RecyclerView

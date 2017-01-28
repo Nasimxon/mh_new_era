@@ -1,11 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:clickable="true">
+
     <android.support.v4.view.ViewPager
         android:id="@+id/vpRecord"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tabLayoutRecords"
+        android:background="@android:color/white" />
+
+    <com.brioal.bottomtab.view.BottomLayout
+        android:id="@+id/tabLayoutRecords"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="@color/expp"
+        app:tabBackground="@color/expp"
+        app:tabGravity="fill"
+        app:tabIndicatorColor="?attr/headColor"
+        app:tabMaxWidth="0dp"
+        app:tabMode="fixed"
+        app:tabTextAppearance="@style/MineCustomTabText" />
+
+
 </RelativeLayout>

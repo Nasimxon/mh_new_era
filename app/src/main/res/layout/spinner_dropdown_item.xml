@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+        <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/tvSpinnerItems"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/dropdownListPreferredItemHeight"
+            android:layout_marginBottom="@dimen/three_dp"
+            android:layout_marginLeft="@dimen/eight_dp"
+            android:layout_marginRight="@dimen/eight_dp"
+            android:layout_marginTop="@dimen/three_dp"
+            android:layout_weight="1"
+            android:ellipsize="marquee"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:textAlignment="inherit"
+            android:textColor="@color/black_for_glavniy_text"
+            android:textSize="@dimen/sixteen_dp" />
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/black_for_maykiy_secodary_category" />
+</LinearLayout>
