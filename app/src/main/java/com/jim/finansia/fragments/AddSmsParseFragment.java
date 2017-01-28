@@ -61,7 +61,6 @@ import java.util.regex.Pattern;
  * Created by root on 9/29/16.
  */
 
-@SuppressLint("ValidFragment")
 public class AddSmsParseFragment extends PABaseFragment{
     private EditText etNumber;
     private TextView ivSms;
@@ -92,9 +91,10 @@ public class AddSmsParseFragment extends PABaseFragment{
     private List<TextView> tvList;
     private List<String> splittedBody;
 
-
-    public AddSmsParseFragment(SmsParseObject object) {
-        this.oldObject = object;
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
         incomeKeys = new ArrayList<>();
         expenseKeys = new ArrayList<>();
         amountKeys = new ArrayList<>();
@@ -102,15 +102,14 @@ public class AddSmsParseFragment extends PABaseFragment{
         choosenSms = new ArrayList<>();
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        if (getArguments() != null) {
+            String id = getArguments().getString(SmsParseMainFragment.SMS_PARSE_OBJECT_ID);
+            if (id != null)
+                oldObject = daoSession.load(SmsParseObject.class, id);
+        }
         View rootView = inflater.inflate(R.layout.add_sms_sender, container, false);
         txSize = (int) ((int) (getResources().getDimension(R.dimen.fourteen_dp)) / getResources().getDisplayMetrics().density);
         etNumber = (EditText) rootView.findViewById(R.id.etSmsParseAddNumber);

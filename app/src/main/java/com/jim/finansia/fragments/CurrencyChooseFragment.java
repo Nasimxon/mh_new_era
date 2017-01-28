@@ -28,9 +28,7 @@ public class CurrencyChooseFragment extends PABaseInfoFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.currency_choose_fragment, container, false);
         dialog = new WarningDialog(getContext());
-
         gvCurrencyChoose = (RecyclerView) view.findViewById(R.id.gvCurrencyChoose); // gridview for representing currencies
-
         final String[] baseCurrencies = getResources().getStringArray(R.array.base_currencies); // getting data from resources to creating default currency list
         final String[] baseAbbrs = getResources().getStringArray(R.array.base_abbrs);
         final String[] currIds = getResources().getStringArray(R.array.currency_ids);

@@ -53,6 +53,7 @@ public class SmsParseMainFragment extends Fragment implements View.OnClickListen
     private RecyclerView recyclerView;
     private FloatingActionButton floatingActionButton;
     private TextView ifListEmpty;
+    public static final String SMS_PARSE_OBJECT_ID = "sms_parse_object_id";
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,7 +105,7 @@ public class SmsParseMainFragment extends Fragment implements View.OnClickListen
                 int smsCount = (int) daoSession.getSmsParseObjectDao().count();
                 if (smsCount < accessCount) {
                     paFragmentManager.getFragmentManager().popBackStack();
-                    paFragmentManager.displayFragment(new AddSmsParseFragment(null));
+                    paFragmentManager.displayFragment(new AddSmsParseFragment());
                 }
                 else {
                     purchaseImplementation.buySms();

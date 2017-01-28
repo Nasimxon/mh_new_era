@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Bundle;
 import android.os.Vibrator;
 import android.provider.ContactsContract;
 import android.support.v4.view.GestureDetectorCompat;
@@ -667,7 +668,13 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
                                             isAvailable = sharedPreferences.getBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.IS_AVAILABLE_CHANGING_OF_CATEGORY_KEY, false);
                                             if (isAvailable) {
                                                 buttonsCount = table == PocketAccounterGeneral.INCOME ? INCOME_BUTTONS_COUNT_PER_PAGE : EXPENSE_BUTTONS_COUNT_PER_PAGE;
-                                                paFragmentManager.displayFragment(new RootCategoryEditFragment(null, PocketAccounterGeneral.EXPANSE_MODE, currentPage*buttonsCount+pos, day));
+                                                int mode = table == PocketAccounterGeneral.INCOME ? PocketAccounterGeneral.INCOME_MODE : PocketAccounterGeneral.EXPANSE_MODE;;
+                                                Bundle bundle = new Bundle();
+                                                bundle.putInt(CategoryFragment.MODE, mode);
+                                                bundle.putInt(CategoryFragment.POSITION, currentPage*buttonsCount+pos);
+                                                RootCategoryEditFragment fragment = new RootCategoryEditFragment();
+                                                fragment.setArguments(bundle);
+                                                paFragmentManager.displayFragment(fragment);
                                             } else
                                                 purchaseImplementation.buyChangingPage();
                                             break;
@@ -687,7 +694,12 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
                                                 int mode = table == PocketAccounterGeneral.INCOME ? PocketAccounterGeneral.INCOME_MODE : PocketAccounterGeneral.EXPANSE_MODE;
                                                 int type = table == PocketAccounterGeneral.INCOME ? DebtBorrow.BORROW : DebtBorrow.DEBT;
                                                 buttonsCount = table == PocketAccounterGeneral.INCOME ? INCOME_BUTTONS_COUNT_PER_PAGE : EXPENSE_BUTTONS_COUNT_PER_PAGE;
-                                                AddBorrowFragment fragment = new AddBorrowFragment(null, mode, buttonsCount*currentPage + pos, type);
+                                                Bundle bundle = new Bundle();
+                                                bundle.putInt(DebtBorrowFragment.MODE, mode);
+                                                bundle.putInt(DebtBorrowFragment.POSITION, buttonsCount*currentPage + pos);
+                                                bundle.putInt(DebtBorrowFragment.TYPE, type);
+                                                AddBorrowFragment fragment = new AddBorrowFragment();
+                                                fragment.setArguments(bundle);
                                                 paFragmentManager.displayFragment(fragment);
                                             } else
                                                 purchaseImplementation.buyChangingPage();

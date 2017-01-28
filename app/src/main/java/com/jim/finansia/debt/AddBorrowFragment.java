@@ -130,18 +130,19 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
     private AddBorrowFragment.DaysAdapter daysAdapter;
     private ArrayList<String> adapter;
 
-    public AddBorrowFragment(DebtBorrow debtBorrow, int mode, int position, int type) {
-        this.currentDebtBorrow = debtBorrow;
-        this.mode = mode;
-        this.position = position;
-        this.type = type;
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.add_borrow_fragment_layout_mod, container, false);
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
+        if (getArguments() != null) {
+            String debtBorrowId = getArguments().getString(DebtBorrowFragment.DEBT_BORROW_ID);
+            if (debtBorrowId != null)
+                currentDebtBorrow = daoSession.load(DebtBorrow.class, debtBorrowId);
+            mode = getArguments().getInt(DebtBorrowFragment.MODE);
+            position = getArguments().getInt(DebtBorrowFragment.POSITION);
+            type = getArguments().getInt(DebtBorrowFragment.TYPE);
+        }
         spNotifMode = (Spinner) view.findViewById(R.id.spNotifMode);
         adapter = new ArrayList<>();
         adapter.add(getResources().getString(R.string.notif_everyday));

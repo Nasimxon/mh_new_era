@@ -38,11 +38,11 @@ import javax.inject.Inject;
 
 @SuppressLint("InflateParams")
 public class AccountFragment extends PABaseListFragment {
-	@Inject
-	DecimalFormat formatter;
+	@Inject DecimalFormat formatter;
 	private FloatingActionButton fabAccountAdd;
     private RecyclerView recyclerView;
 	boolean isReportOpen = true;
+	public static final String ACCOUNT_ID = "account_id";
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		final View rootView = inflater.inflate(R.layout.account_layout, container, false);
 		rootView.postDelayed(new Runnable() {
@@ -73,7 +73,7 @@ public class AccountFragment extends PABaseListFragment {
 		fabAccountAdd.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				paFragmentManager.displayFragment(new AccountEditFragment(null));
+				paFragmentManager.displayFragment(new AccountEditFragment());
 			}
 		});
         refreshList();
@@ -200,7 +200,11 @@ public class AccountFragment extends PABaseListFragment {
 			view.mainViewF.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					paFragmentManager.displayFragment(new AccountInfoFragment(result.get(position)));
+					Bundle bundle = new Bundle();
+					bundle.putString(AccountFragment.ACCOUNT_ID, result.get(position).getId());
+					AccountInfoFragment fragment = new AccountInfoFragment();
+					fragment.setArguments(bundle);
+					paFragmentManager.displayFragment(fragment);
 				}
 			});
 			view.llAccountItemOther.setOnClickListener(new OnClickListener() {
@@ -213,7 +217,7 @@ public class AccountFragment extends PABaseListFragment {
                             @Override
                             public void onClick(View v) {
                                 paFragmentManager.getFragmentManager().popBackStack();
-                                paFragmentManager.displayFragment(new AccountEditFragment(null));
+                                paFragmentManager.displayFragment(new AccountEditFragment());
                                 warningDialog.dismiss();
                             }
                         });

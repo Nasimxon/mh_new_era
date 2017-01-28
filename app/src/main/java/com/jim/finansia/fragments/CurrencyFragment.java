@@ -33,7 +33,7 @@ public class CurrencyFragment extends PABaseListFragment implements OnClickListe
 	private RecyclerView lvCurrency;
 	private int mode = PocketAccounterGeneral.NORMAL_MODE;
 	private boolean[] selected;
-
+	public static final String CURRENCY_ID = "currency_id";
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		final View rootView = inflater.inflate(R.layout.currency_fragment, container, false);
 		rootView.postDelayed(new Runnable() {

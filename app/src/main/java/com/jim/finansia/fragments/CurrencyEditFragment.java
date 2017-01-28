@@ -1,6 +1,5 @@
 package com.jim.finansia.fragments;
 
-import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
@@ -43,7 +42,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-@SuppressLint("ValidFragment")
 public class CurrencyEditFragment extends PABaseInfoFragment implements OnClickListener, OnItemClickListener {
     private LinearLayout ivExCurrencyAdd;
     private RecyclerView lvCurrencyEditExchange;
@@ -55,17 +53,17 @@ public class CurrencyEditFragment extends PABaseInfoFragment implements OnClickL
     private Calendar day = Calendar.getInstance();
     private int mode = PocketAccounterGeneral.NORMAL_MODE;
     private boolean[] selected;
-    boolean isCheckedMain = false;
-    WarningDialog dialog;
-
-    public CurrencyEditFragment(Currency currency) {
-        this.currency = currency;
-    }
+    private boolean isCheckedMain = false;
+    private WarningDialog dialog;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        if (getArguments() != null) {
+            String currencyId = getArguments().getString(CurrencyFragment.CURRENCY_ID);
+            if (currencyId != null)
+                currency = daoSession.load(Currency.class, currencyId);
+        }
         View rootView = inflater.inflate(R.layout.currency_edit_modern, container, false);
         dialog = new WarningDialog(getContext());
-
         ivExCurrencyAdd = (LinearLayout) rootView.findViewById(R.id.ivExCurrencyAdd);
         ivExCurrencyAdd.setOnClickListener(new OnClickListener() {
             @Override
@@ -89,7 +87,6 @@ public class CurrencyEditFragment extends PABaseInfoFragment implements OnClickL
         tvAbrValyuti.setText(currency.getAbbr());
         tvNameValyute.setText(currency.getName());
         DecimalFormat decFormat = new DecimalFormat("0.####");
-
         tvCurrentCurrencyRate.setText("1" + currency.getAbbr() +
                 " = " + decFormat.format(currency.getCosts().get(currency.getCosts().size() - 1).getCost()) + commonOperations.getMainCurrency().getAbbr());
         linearLayoutCheck = (LinearLayout) rootView.findViewById(R.id.checkerForClick);

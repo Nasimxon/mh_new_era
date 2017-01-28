@@ -195,14 +195,21 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
         llDebtBOrrowItemEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AddBorrowFragment addBorrowFragment = new AddBorrowFragment(debtBorrow, PocketAccounterGeneral.NO_MODE, 0, debtBorrow.getType());
+                Bundle bundle = new Bundle();
+                bundle.putString(DebtBorrowFragment.DEBT_BORROW_ID, debtBorrow.getId());
+                bundle.putInt(DebtBorrowFragment.MODE, PocketAccounterGeneral.NO_MODE);
+                bundle.putInt(DebtBorrowFragment.POSITION, 0);
+                bundle.putInt(DebtBorrowFragment.TYPE, debtBorrow.getType());
+                AddBorrowFragment fragment = new AddBorrowFragment();
+                fragment.setArguments(bundle);
+                paFragmentManager.displayFragment(fragment);
                 int count = paFragmentManager.getFragmentManager().getBackStackEntryCount();
                 while (count > 0) {
                     paFragmentManager.getFragmentManager().popBackStack();
                     count--;
                 }
                 operationsListDialog.dismiss();
-                paFragmentManager.displayFragment(addBorrowFragment);
+                paFragmentManager.displayFragment(fragment);
             }
         });
 
@@ -390,14 +397,20 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.edit:
-                            AddBorrowFragment addBorrowFragment = new AddBorrowFragment(debtBorrow, PocketAccounterGeneral.NO_MODE, 0, debtBorrow.getType());
-                            int count = paFragmentManager.getFragmentManager().getBackStackEntryCount();
-                            while (count > 0) {
-                                paFragmentManager.getFragmentManager().popBackStack();
-                                count--;
-                            }
-                            operationsListDialog.dismiss();
-                            paFragmentManager.displayFragment(addBorrowFragment);
+                        Bundle bundle = new Bundle();
+                        bundle.putString(DebtBorrowFragment.DEBT_BORROW_ID, debtBorrow.getId());
+                        bundle.putInt(DebtBorrowFragment.MODE, PocketAccounterGeneral.NO_MODE);
+                        bundle.putInt(DebtBorrowFragment.POSITION, 0);
+                        bundle.putInt(DebtBorrowFragment.TYPE, debtBorrow.getType());
+                        AddBorrowFragment fragment = new AddBorrowFragment();
+                        fragment.setArguments(bundle);
+                        int count = paFragmentManager.getFragmentManager().getBackStackEntryCount();
+                        while (count > 0) {
+                            paFragmentManager.getFragmentManager().popBackStack();
+                            count--;
+                        }
+                        operationsListDialog.dismiss();
+                        paFragmentManager.displayFragment(fragment);
                         break;
                     case R.id.delete: {
                         warningDialog.setOnNoButtonClickListener(new View.OnClickListener() {

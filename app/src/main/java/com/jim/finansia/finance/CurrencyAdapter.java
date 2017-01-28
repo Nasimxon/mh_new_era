@@ -2,6 +2,7 @@ package com.jim.finansia.finance;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,7 @@ import com.jim.finansia.R;
 import com.jim.finansia.database.Currency;
 import com.jim.finansia.database.DaoSession;
 import com.jim.finansia.fragments.CurrencyEditFragment;
+import com.jim.finansia.fragments.CurrencyFragment;
 import com.jim.finansia.managers.CommonOperations;
 import com.jim.finansia.managers.LogicManager;
 import com.jim.finansia.managers.PAFragmentManager;
@@ -81,7 +83,11 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.myView
 								Toast.makeText(context, context.getResources().getString(R.string.main_currency_edit), Toast.LENGTH_SHORT).show();
 								return;
 							}
-							paFragmentManager.displayFragment(new CurrencyEditFragment(daoSession.getCurrencyDao().loadAll().get(position)));
+							Bundle bundle = new Bundle();
+							bundle.putString(CurrencyFragment.CURRENCY_ID, daoSession.getCurrencyDao().loadAll().get(position).getId());
+							CurrencyEditFragment fragment = new CurrencyEditFragment();
+							fragment.setArguments(bundle);
+							paFragmentManager.displayFragment(fragment);
 						}
 					}
 				});

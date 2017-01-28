@@ -2,6 +2,7 @@ package com.jim.finansia.fragments;
 
 import android.content.Context;
 import android.graphics.Rect;
+import android.icu.util.ULocale;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.GridLayoutManager;
@@ -38,7 +39,9 @@ public class CategoryFragment extends PABaseListFragment implements OnClickListe
 	private RecyclerView rvCategories;
 	private CheckBox chbCatIncomes, chbCatExpanses;
 	private FloatingActionButton fabCategoryAdd;
-
+	public static final String CATEGORY_ID = "category_id";
+	public static final String MODE = "mode";
+	public static final String POSITION = "position";
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		final View rootView = inflater.inflate(R.layout.category_layout, container, false);
 		rootView.postDelayed(new Runnable() {
@@ -124,7 +127,12 @@ public class CategoryFragment extends PABaseListFragment implements OnClickListe
 	public void onClick(View v) {
 		switch(v.getId()) {
 			case R.id.fabAccountAdd:
-				paFragmentManager.displayFragment(new RootCategoryEditFragment(null, PocketAccounterGeneral.NO_MODE, 0, null));
+				Bundle bundle = new Bundle();
+				bundle.putInt(CategoryFragment.MODE, PocketAccounterGeneral.NO_MODE);
+				bundle.putInt(CategoryFragment.POSITION, 0);
+				RootCategoryEditFragment fragment = new RootCategoryEditFragment();
+				fragment.setArguments(bundle);
+				paFragmentManager.displayFragment(fragment);
 				break;
 		}
 	}
@@ -176,13 +184,23 @@ public class CategoryFragment extends PABaseListFragment implements OnClickListe
 			view.llCategoryListItemEdit.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					paFragmentManager.displayFragment(new RootCategoryEditFragment(result.get(position), PocketAccounterGeneral.NO_MODE, 0, null));
+					Bundle bundle = new Bundle();
+					bundle.putString(CategoryFragment.CATEGORY_ID, result.get(position).getId());;
+					bundle.putInt(CategoryFragment.MODE, PocketAccounterGeneral.NO_MODE);
+					bundle.putInt(CategoryFragment.POSITION, 0);
+					RootCategoryEditFragment fragment = new RootCategoryEditFragment();
+					fragment.setArguments(bundle);
+					paFragmentManager.displayFragment(fragment);
 				}
 			});
 			view.itemView.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					paFragmentManager.displayFragment(new CategoryInfoFragment(result.get(position)));
+					Bundle bundle = new Bundle();
+					bundle.putString(CategoryFragment.CATEGORY_ID, result.get(position).getId());;
+					CategoryInfoFragment fragment = new CategoryInfoFragment();
+					fragment.setArguments(bundle);
+					paFragmentManager.displayFragment(fragment);
 				}
 			});
 		}

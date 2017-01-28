@@ -38,7 +38,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-@SuppressLint({"InflateParams", "ValidFragment"})
+@SuppressLint("InflateParams")
 public class AccountInfoFragment extends PABaseInfoFragment {
 	private DecimalFormat formatter = new DecimalFormat("0.##");
 	private Account account;
@@ -48,14 +48,14 @@ public class AccountInfoFragment extends PABaseInfoFragment {
 	private TextView totalAmount;
 	private SelectorView svCategorySelector;
 
-	@SuppressLint("ValidFragment")
-	public AccountInfoFragment(Account account) {
-		this.account = account;
-	}
-
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		final View rootView = inflater.inflate(R.layout.account_info_modern_layout, container, false);
-
+		if (getArguments() != null) {
+			String accountId = getArguments().getString(AccountFragment.ACCOUNT_ID);
+			if (accountId != null) {
+				account = daoSession.load(Account.class, accountId);
+			}
+		}
 		totalAmount = (TextView) rootView.findViewById(R.id.tvAccountInfoTotal);
 		svCategorySelector = (SelectorView) rootView.findViewById(R.id.svAccountSelector);
 
@@ -170,7 +170,11 @@ public class AccountInfoFragment extends PABaseInfoFragment {
 					}
 					case R.id.edit: {
 						paFragmentManager.getFragmentManager().popBackStack();
-						paFragmentManager.displayFragment(new AccountEditFragment(account));
+						Bundle bundle = new Bundle();
+						bundle.putString(AccountFragment.ACCOUNT_ID, account.getId());
+						AccountEditFragment fragment = new AccountEditFragment();
+						fragment.setArguments(bundle);
+						paFragmentManager.displayFragment(fragment);
 						break;
 					}
 				}

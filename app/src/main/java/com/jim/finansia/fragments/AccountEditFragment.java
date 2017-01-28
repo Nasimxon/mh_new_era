@@ -29,7 +29,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 
-@SuppressLint({"InflateParams", "ValidFragment"})
+@SuppressLint("InflateParams")
 public class AccountEditFragment extends PABaseInfoFragment implements OnClickListener {
     private Account account;
     private EditText etAccountEditName;
@@ -45,13 +45,14 @@ public class AccountEditFragment extends PABaseInfoFragment implements OnClickLi
     private Spinner spStartLimit;
     private String choosenIcon = "add_icon";
 
-    @SuppressLint("ValidFragment")
-    public AccountEditFragment(Account account) {
-        this.account = account;
-    }
-
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.account_edit_layout, container, false);
+        if (getArguments() != null) {
+            String accountId = getArguments().getString(AccountFragment.ACCOUNT_ID);
+            if (accountId != null) {
+                account = daoSession.load(Account.class, accountId);
+            }
+        }
         rootView.postDelayed(new Runnable() {
             @Override
             public void run() {

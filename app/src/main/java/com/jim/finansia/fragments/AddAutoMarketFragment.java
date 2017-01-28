@@ -94,9 +94,6 @@ public class AddAutoMarketFragment extends Fragment {
     private DaysAdapter daysAdapter;
     private RadioGroup radioGroup;
     List<RootCategory> categoryList;
-    public AddAutoMarketFragment() {
-    }
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

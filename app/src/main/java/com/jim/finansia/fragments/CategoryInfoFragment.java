@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.provider.DocumentsContract;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.view.menu.MenuPopupHelper;
@@ -44,7 +45,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-@SuppressLint({"InflateParams", "ValidFragment"})
 public class CategoryInfoFragment extends PABaseInfoFragment {
     @Inject
     DecimalFormat formatter;
@@ -58,12 +58,13 @@ public class CategoryInfoFragment extends PABaseInfoFragment {
     private List<SubCategory> subCategories;
     private PopupMenu popupMenu;
 
-    @SuppressLint("ValidFragment")
-    public CategoryInfoFragment(RootCategory rootCategory) {
-        this.rootCategory = rootCategory;
-    }
-
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        if (getArguments() != null) {
+            String categoryId = getArguments().getString(CategoryFragment.CATEGORY_ID);
+            if (categoryId != null) {
+                rootCategory = daoSession.load(RootCategory.class, categoryId);
+            }
+        }
         final View rootView = inflater.inflate(R.layout.category_info_layout, container, false);
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
         subCategories = new ArrayList<>();
@@ -208,7 +209,13 @@ public class CategoryInfoFragment extends PABaseInfoFragment {
                     }
                     case R.id.edit: {
                         paFragmentManager.getFragmentManager().popBackStack();
-                        paFragmentManager.displayFragment(new RootCategoryEditFragment(rootCategory, PocketAccounterGeneral.NO_MODE, 0, null));
+                        Bundle bundle = new Bundle();
+                        bundle.putString(CategoryFragment.CATEGORY_ID, rootCategory.getId());;
+                        bundle.putInt(CategoryFragment.MODE, PocketAccounterGeneral.NO_MODE);
+                        bundle.putInt(CategoryFragment.POSITION, 0);
+                        RootCategoryEditFragment fragment = new RootCategoryEditFragment();
+                        fragment.setArguments(bundle);
+                        paFragmentManager.displayFragment(fragment);
                         break;
                     }
                 }

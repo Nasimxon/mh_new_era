@@ -47,7 +47,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-@SuppressLint({"InflateParams", "ValidFragment"})
+@SuppressLint("InflateParams")
 public class PurposeEditFragment extends Fragment implements OnClickListener, OnItemClickListener {
     @Inject LogicManager logicManager;
     @Inject ToolbarManager toolbarManager;
@@ -71,11 +71,8 @@ public class PurposeEditFragment extends Fragment implements OnClickListener, On
     private Calendar begCalendar;
     private Calendar endCalendar;
     private TextView etPeriodCount;
-    public PurposeEditFragment(Purpose purpose) {
-        this.purpose = purpose;
-    }
-    SimpleDateFormat simpleDateFormat;
-    boolean forCustomPeriod = false;
+    private SimpleDateFormat simpleDateFormat;
+    private boolean forCustomPeriod = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -91,6 +88,11 @@ public class PurposeEditFragment extends Fragment implements OnClickListener, On
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.purpose_edit_layout
                 , container, false);
+        if (getArguments() != null) {
+            String purposeId = getArguments().getString(PurposeFragment.PURPOSE_ID);
+            if (purposeId != null)
+                purpose = daoSession.load(Purpose.class, purposeId);
+        }
         purposeName = (EditText) rootView.findViewById(R.id.etPurposeEditName);
         iconPurpose = (ImageView) rootView.findViewById(R.id.fabPurposeIcon);
         amountPurpose = (EditText) rootView.findViewById(R.id.etPurposeTotal);

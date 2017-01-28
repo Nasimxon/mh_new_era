@@ -1,6 +1,5 @@
 package com.jim.finansia.fragments;
 
-import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -30,7 +28,6 @@ import com.jim.finansia.R;
 import com.jim.finansia.database.Account;
 import com.jim.finansia.database.AccountDao;
 import com.jim.finansia.database.AccountOperation;
-import com.jim.finansia.database.BoardButton;
 import com.jim.finansia.database.DaoSession;
 import com.jim.finansia.database.Purpose;
 import com.jim.finansia.database.PurposeDao;
@@ -40,8 +37,6 @@ import com.jim.finansia.managers.LogicManagerConstants;
 import com.jim.finansia.managers.PAFragmentManager;
 import com.jim.finansia.managers.ReportManager;
 import com.jim.finansia.managers.ToolbarManager;
-import com.jim.finansia.report.FilterSelectable;
-import com.jim.finansia.utils.FilterDialog;
 import com.jim.finansia.utils.OperationsListDialog;
 import com.jim.finansia.utils.PercentView;
 import com.jim.finansia.utils.PocketAccounterGeneral;
@@ -60,7 +55,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-@SuppressLint("ValidFragment")
 public class PurposeInfoFragment extends Fragment implements View.OnClickListener {
     @Inject ToolbarManager toolbarManager;
     @Inject OperationsListDialog operationsListDialog;
@@ -89,16 +83,18 @@ public class PurposeInfoFragment extends Fragment implements View.OnClickListene
     private PercentView pvPercent;
     PopupMenu popupMenu;
     private DecimalFormat format = new DecimalFormat("0.##");
-    public PurposeInfoFragment(Purpose purpose) {
-        this.purpose = purpose;
-        if (purpose == null) {
-            this.purpose = new Purpose();
-        }
-    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        if (getArguments() != null) {
+            String purposeId = getArguments().getString(PurposeFragment.PURPOSE_ID);
+            if (purposeId != null)
+                purpose = daoSession.load(Purpose.class, purposeId);
+        }
+        if (purpose == null) {
+            this.purpose = new Purpose();
+        }
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
         View rooView = inflater.inflate(R.layout.purpose_info_layout, container, false);
         beginDate = null;
@@ -132,7 +128,11 @@ public class PurposeInfoFragment extends Fragment implements View.OnClickListene
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.edit:
-                                paFragmentManager.displayFragment(new PurposeEditFragment(purpose));
+                                Bundle bundle = new Bundle();
+                                bundle.putString(PurposeFragment.PURPOSE_ID, purpose.getId());
+                                PurposeEditFragment fragment = new PurposeEditFragment();
+                                fragment.setArguments(bundle);
+                                paFragmentManager.displayFragment(fragment);
                                 operationsListDialog.dismiss();
                                 break;
                             case R.id.delete: {

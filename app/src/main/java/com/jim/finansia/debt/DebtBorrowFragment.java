@@ -43,6 +43,10 @@ public class DebtBorrowFragment extends Fragment implements View.OnClickListener
     private TabLayout tabLayout;
     private DebtBorrowViewPager viewPager;
     private FloatingActionButton fb;
+    public static String DEBT_BORROW_ID = "debt_borrow_id";
+    public static String MODE = "mode";
+    public static String POSITION = "position";
+    public static String TYPE = "type";
 
     @Nullable
     @Override
@@ -138,12 +142,24 @@ public class DebtBorrowFragment extends Fragment implements View.OnClickListener
             switch (viewPager.getCurrentItem()) {
                 case BORROW_FRAGMENT: {
                     paFragmentManager.getFragmentManager().popBackStack();
-                    paFragmentManager.displayFragment(new AddBorrowFragment(null, PocketAccounterGeneral.NO_MODE, 0, DebtBorrow.BORROW));
+                    Bundle bundle = new Bundle();
+                    bundle.putInt(DebtBorrowFragment.MODE, PocketAccounterGeneral.NO_MODE);
+                    bundle.putInt(DebtBorrowFragment.POSITION, 0);
+                    bundle.putInt(DebtBorrowFragment.TYPE, DebtBorrow.BORROW);
+                    AddBorrowFragment fragment = new AddBorrowFragment();
+                    fragment.setArguments(bundle);
+                    paFragmentManager.displayFragment(fragment);
                     break;
                 }
                 case DEBT_FRAGMENT: {
                     paFragmentManager.getFragmentManager().popBackStack();
-                    paFragmentManager.displayFragment(new AddBorrowFragment(null, PocketAccounterGeneral.NO_MODE, 0, DebtBorrow.DEBT));
+                    Bundle bundle = new Bundle();
+                    bundle.putInt(DebtBorrowFragment.MODE, PocketAccounterGeneral.NO_MODE);
+                    bundle.putInt(DebtBorrowFragment.POSITION, 0);
+                    bundle.putInt(DebtBorrowFragment.TYPE, DebtBorrow.DEBT);
+                    AddBorrowFragment fragment = new AddBorrowFragment();
+                    fragment.setArguments(bundle);
+                    paFragmentManager.displayFragment(fragment);
                     break;
                 }
             }

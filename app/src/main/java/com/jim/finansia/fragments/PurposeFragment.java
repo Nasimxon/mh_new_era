@@ -45,6 +45,7 @@ import javax.inject.Named;
 public class PurposeFragment extends Fragment{
     private RecyclerView rvPurposes;
     private FloatingActionButton fabPurposesAdd;
+    public static final String PURPOSE_ID = "purpose_id";
     TextView ifListEmpty;
     @Inject ToolbarManager toolbarManager;
     @Inject DrawerInitializer drawerInitializer;
@@ -68,7 +69,7 @@ public class PurposeFragment extends Fragment{
         fabPurposesAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                paFragmentManager.displayFragment(new PurposeEditFragment(null));
+                paFragmentManager.displayFragment(new PurposeEditFragment());
             }
         });
         refreshList();
@@ -134,7 +135,6 @@ public class PurposeFragment extends Fragment{
 
     private class PurposeAdapter extends RecyclerView.Adapter<PurposeFragment.ViewHolder> {
         private List<Purpose> result;
-        private FrameLayout frameLayout;
         public PurposeAdapter(List<Purpose> result) {
             this.result = result;
         }
@@ -151,7 +151,11 @@ public class PurposeFragment extends Fragment{
                 @Override
                 public void onClick(View v) {
                     paFragmentManager.getFragmentManager().popBackStack();
-                    paFragmentManager.displayFragment(new PurposeInfoFragment(item));
+                    Bundle bundle = new Bundle();
+                    bundle.putString(PurposeFragment.PURPOSE_ID, item.getId());;
+                    PurposeInfoFragment fragment = new PurposeInfoFragment();
+                    fragment.setArguments(bundle);
+                    paFragmentManager.displayFragment(fragment);
                 }
             });
             view.llPurposePayIn.setOnClickListener(new View.OnClickListener() {

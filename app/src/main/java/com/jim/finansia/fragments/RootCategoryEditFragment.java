@@ -55,15 +55,17 @@ public class RootCategoryEditFragment extends PABaseInfoFragment implements OnCl
     private String categoryId;
     private int editMode, pos;
 
-    public RootCategoryEditFragment(RootCategory rootCategory, int mode, int pos, Calendar date) {
-        category = rootCategory;
-        editMode = mode;
-        this.pos = pos;
-    }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.cat_edit_layout, container, false);
-
+        if (getArguments() != null) {
+            categoryId = getArguments().getString(CategoryFragment.CATEGORY_ID);
+            if (categoryId != null) {
+                category = daoSession.load(RootCategory.class, categoryId);
+            }
+            pos = getArguments().getInt(CategoryFragment.POSITION);
+            mode = getArguments().getInt(CategoryFragment.MODE);
+        }
         toolbarManager.setOnHomeButtonClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
