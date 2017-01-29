@@ -78,7 +78,6 @@ public class CreditDetials {
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
-    /** Used for active entity operations. */
 
 
     public double getPervonacalniy() {
@@ -96,7 +95,7 @@ public class CreditDetials {
                          double value_of_credit_with_procent, long myCredit_id,String accountID) {
         this.icon_ID=icon_ID;
         this.credit_name = credit_name;
-        this.take_time = take_time;
+        this.take_time = (Calendar) take_time.clone();
         this.procent = procent;
         this.procent_interval = procent_interval;
         this.period_time = period_time;
@@ -111,8 +110,6 @@ public class CreditDetials {
         key_for_archive=false;
 
     }
-
-
 
     @Generated(hash = 1872484294)
     public CreditDetials(double monthly_fee, int type_loan, int monthly_fee_type, String accountID, double pervonacalniy,
@@ -143,6 +140,9 @@ public class CreditDetials {
     @Generated(hash = 189858148)
     public CreditDetials() {
     }
+
+
+
 
 
 
@@ -291,7 +291,7 @@ public class CreditDetials {
 
 
     public void setTake_time(Calendar take_time) {
-        this.take_time = take_time;
+        this.take_time = (Calendar) take_time.clone();
     }
 
 
@@ -461,6 +461,7 @@ public class CreditDetials {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getCreditDetialsDao() : null;
     }
+
 
 
 

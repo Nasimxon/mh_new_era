@@ -71,7 +71,7 @@ public class CreditsSchedule {
         return this.date;
     }
     public void setDate(Calendar date) {
-        this.date = date;
+        this.date =  (Calendar) date.clone();
     }
     public String getParId() {
         return this.parId;

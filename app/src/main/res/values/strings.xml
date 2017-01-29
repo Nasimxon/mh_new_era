@@ -1676,4 +1676,9 @@
     </string-array>
     <string name="date_of_transfer">Date of transfer</string>
     <string name="account_list">You have only one account. Add another account?</string>
+    <string name="you_can_jump">You can not jump from periods!</string>
+    <string name="credir_first_con">Credit first contribution</string>
+    <string name="credit_payment">Credit payment</string>
+    <string name="first_con">First contributed :</string>
+    <string name="to_jump">You can not jump from periods!</string>
 </resources>

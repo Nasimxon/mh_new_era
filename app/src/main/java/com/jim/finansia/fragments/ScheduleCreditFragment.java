@@ -300,7 +300,7 @@ public class ScheduleCreditFragment extends PABaseFragment {
                 crSchedule.setBalance(0);
             } else
                 crSchedule.setBalance(allamount);
-            crSchedule.setDate((Calendar) calendarik.clone());
+            crSchedule.setDate(calendarik);
             creditsSchedule.add(crSchedule);
             if(allamount <= 0.001){
                 break;
@@ -366,7 +366,7 @@ public class ScheduleCreditFragment extends PABaseFragment {
                 calendarikOld.add(Calendar.MONTH,1);
             double amountPayed = 0;
             for (ReckingCredit reckingCredit:creditDetials.getReckings()){
-                if(calendarikOld.getTimeInMillis()<reckingCredit.getPayDate().getTimeInMillis()&&calendarik.getTimeInMillis()>reckingCredit.getPayDate().getTimeInMillis())
+                if(calendarikOld.getTimeInMillis()<=reckingCredit.getPayDate().getTimeInMillis()&&calendarik.getTimeInMillis()>=reckingCredit.getPayDate().getTimeInMillis())
                 {
                     amountPayed += reckingCredit.getAmount();
                 }

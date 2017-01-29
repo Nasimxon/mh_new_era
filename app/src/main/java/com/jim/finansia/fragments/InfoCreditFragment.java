@@ -389,7 +389,6 @@ public class InfoCreditFragment extends Fragment {
                     currentCredit.setKey_for_archive(true);
                     logicManager.insertCredit(currentCredit);
                     if (!fromMainWindow) {
-                        paFragmentManager.getFragmentManager().popBackStack();
                         List<BoardButton> boardButtons = daoSession.getBoardButtonDao().loadAll();
                         for (BoardButton boardButton : boardButtons) {
                             if (boardButton.getCategoryId() != null)
@@ -404,6 +403,7 @@ public class InfoCreditFragment extends Fragment {
                         }
                         dataCache.updateAllPercents();
                         paFragmentManager.updateAllFragmentsOnViewPager();
+                        paFragmentManager.displayFragment(new CreditTabLay());
 
                     } else if (fromSearch) {
 
@@ -707,7 +707,7 @@ public class InfoCreditFragment extends Fragment {
                 currentPeriodi = lastUnPaidPeriod;
                 hozirgi = true;
             }
-            if((int)((lastUnPaidPeriod.getPaymentSum() - lastUnPaidPeriod.getPayed() )*100)==0||lastUnPaidPeriod.getPaymentSum() - lastUnPaidPeriod.getPayed()<=0){
+            if(((int)((lastUnPaidPeriod.getPaymentSum() - lastUnPaidPeriod.getPayed() )*100))==0||lastUnPaidPeriod.getPaymentSum() - lastUnPaidPeriod.getPayed()<=0){
                 continue;
             }
             else {
@@ -781,9 +781,9 @@ public class InfoCreditFragment extends Fragment {
             }
         });
         date = Calendar.getInstance();
-        if(unPaidPeriod.getDate().getTimeInMillis()<date.getTimeInMillis()){
+        if(unPaidPeriod.getDate().getTimeInMillis()/1000/60/60/24<date.getTimeInMillis()/1000/60/60/24){
             date= (Calendar) unPaidPeriod.getDate().clone();
-            date.set(Calendar.DAY_OF_MONTH,-1);
+            date.add(Calendar.DAY_OF_MONTH,-1);
             enterDate.setText(dateFormat.format(date.getTime()));
         }
         else
@@ -801,13 +801,15 @@ public class InfoCreditFragment extends Fragment {
         final DatePickerDialog.OnDateSetListener getDatesetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(android.widget.DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                if (currentCredit.getTake_time().getTimeInMillis() >= (new GregorianCalendar(year, monthOfYear, dayOfMonth)).getTimeInMillis()) {
+                if (currentCredit.getTake_time().getTimeInMillis() > (new GregorianCalendar(year, monthOfYear, dayOfMonth)).getTimeInMillis()) {
                     enterDate.setError(context.getString(R.string.incorrect_date));
+                    date = currentCredit.getTake_time();
                     enterDate.setText(dateFormat.format(currentCredit.getTake_time().getTime()));
                 } else if( unPaidPeriod.getDate().getTimeInMillis()<(new GregorianCalendar(year, monthOfYear, dayOfMonth)).getTimeInMillis()){
                     Toast.makeText(context, getString(R.string.you_can_jump), Toast.LENGTH_SHORT).show();
                     Calendar calendar = (Calendar) unPaidPeriod.getDate().clone();
-                    calendar.set(Calendar.DAY_OF_MONTH,-1);
+                    calendar.add(Calendar.DAY_OF_MONTH,-1);
+                    date = calendar;
                     enterDate.setText(dateFormat.format(calendar.getTime()));
                 }
                 else {
@@ -822,7 +824,7 @@ public class InfoCreditFragment extends Fragment {
                 Calendar calendar = Calendar.getInstance();
                 if(unPaidPeriod.getDate().getTimeInMillis()<calendar.getTimeInMillis()){
                     calendar = (Calendar) unPaidPeriod.getDate().clone();
-                    calendar.set(Calendar.DAY_OF_MONTH,-1);
+                    calendar.add(Calendar.DAY_OF_MONTH,-1);
                 }
                 Dialog mDialog = new DatePickerDialog(context,
                         getDatesetListener, calendar.get(Calendar.YEAR),

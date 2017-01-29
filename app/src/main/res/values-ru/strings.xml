@@ -1580,7 +1580,7 @@
     <string name="monthly_payment">Ежемесячная плата</string>
     <string name="monthly_state_report">Ежемесячный отчет</string>
     <string name="ne_uchitavaetsya">Не учитивается в балансе</string>
-    <string name="not_completed">Не заврешено</string>
+    <string name="not_completed">Не заврешенные</string>
     <string name="not_data">Нет операции</string>
     <string name="overpayment_interest">Переплата по процентам за кредит</string>
     <string name="payment">ОПЛАТА</string>

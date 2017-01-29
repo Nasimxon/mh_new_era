@@ -62,7 +62,7 @@ public class AdapterForSchedule extends RecyclerView.Adapter<RecyclerView.ViewHo
         if(position==0){ type = 1; return type;}
         if(!allPeriods){
             CreditsSchedule crSchedule = (CreditsSchedule) creditsSchedules.get(position);
-            if (decimalFormat.format(crSchedule.getPaymentSum() - crSchedule.getPayed()).equals("0.00")||crSchedule.getPaymentSum() - crSchedule.getPayed() <= 0) type= 3;
+            if (((int)((crSchedule.getPaymentSum() - crSchedule.getPayed() )*100))==0||crSchedule.getPaymentSum() - crSchedule.getPayed() <= 0) type= 3;
         }
 
         return type;
@@ -142,9 +142,9 @@ public class AdapterForSchedule extends RecyclerView.Adapter<RecyclerView.ViewHo
             CreditsSchedule crSchedule = (CreditsSchedule) creditsSchedules.get(position);
             holder.tvCountItemPerios.setText(""+(position));
             holder.tvPeriodEndDate.setText(sDateFormat.format(crSchedule.getDate().getTime()));
-            if(decimalFormat.format(crSchedule.getPaymentSum() - crSchedule.getPayed()).equals("0.00")||crSchedule.getPaymentSum() - crSchedule.getPayed() <= 0){
+            if(((int)((crSchedule.getPaymentSum() - crSchedule.getPayed() )*100))==0||crSchedule.getPaymentSum() - crSchedule.getPayed() <= 0){
                 if(!allPeriods){
-                    holder.mainView.addView(null);
+                    holder.mainView.addView(new View(context));
                     return;
                 }
                 holder.tvTitleSum.setText(R.string.complete);

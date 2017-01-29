@@ -306,8 +306,37 @@ public class ReportManager {
                         }
                         result.add(reportObject);
                     }
-                    if(creditDetials.getPervonacalniy()>0 && creditDetials.getTake_time().compareTo(begin) >= 0 &&
-                            creditDetials.getTake_time().compareTo(end) <= 0)
+//                    if(creditDetials.getPervonacalniy()>0 && creditDetials.getTake_time().compareTo(begin) >= 0 &&
+//                            creditDetials.getTake_time().compareTo(end) <= 0){
+//
+//                        ReportObject reportObject = new ReportObject();
+//                        reportObject.setType(PocketAccounterGeneral.EXPENSE);
+//                        reportObject.setDate(creditDetials.getTake_time());
+//                        reportObject.setDescription(context.getString(R.string.credir_first_con));
+//                        Account account = null;
+//                        for (Account acc : accounts) {
+//                            if (acc.getId().equals(creditDetials.getAccountID())) {
+//                                account = acc;
+//                                break;
+//                            }
+//                        }
+//                        if (account == null)
+//                            throw new RuntimeException("Account not found in class: " +
+//                                    getClass().getName() +
+//                                    ". Method: getRecordObjects();");
+//
+//                        reportObject.setAccount(account);
+//                        if (toMainCurrency) {
+//                            reportObject.setCurrency(commonOperations.getMainCurrency());
+//                            reportObject.setAmount(commonOperations.getCost(creditDetials.getTake_time(),
+//                                    creditDetials.getValyute_currency(), creditDetials.getPervonacalniy()));
+//                        }
+//                        else {
+//                            reportObject.setCurrency(creditDetials.getValyute_currency());
+//                            reportObject.setAmount(creditDetials.getPervonacalniy());
+//                        }
+//                        result.add(reportObject);
+//                    }
                     for (ReckingCredit reckingCredit : creditDetials.getReckings()) {
                         if(reckingCredit.getAccountId() == null || reckingCredit.getAccountId().equals("")) continue;
                         Calendar calendar = reckingCredit.getPayDate();
@@ -315,7 +344,7 @@ public class ReportManager {
                             ReportObject reportObject = new ReportObject();
                             reportObject.setType(PocketAccounterGeneral.EXPENSE);
                             reportObject.setDate(calendar);
-                            reportObject.setDescription(context.getResources().getString(R.string.credit));
+                            reportObject.setDescription(context.getString(R.string.credit_payment));
                             Account account = null;
                             for (Account acc : accounts) {
                                 if (acc.getId().equals(reckingCredit.getAccountId())) {
@@ -522,42 +551,23 @@ public class ReportManager {
             }
         }
         //sms parse records end
-        //TODO DALWE BUYODA IW
-        //credit begin
-        double creditTotalPaid = 0.0;
-        List<CreditDetials> temp = daoSession.getCreditDetialsDao()
-                                            .queryBuilder()
-                                            .where(CreditDetialsDao.Properties.Key_for_include.eq(true))
-                                            .list();
-        List<CreditDetials> credits = new ArrayList<>();
-        for (CreditDetials creditDetials : temp) {
-            for (ReckingCredit reckingCredit : creditDetials.getReckings()) {
-                if (reckingCredit.getPayDate().compareTo(begin)>=0 && reckingCredit.getPayDate().compareTo(end)<=0) {
-                    credits.add(creditDetials);
-                    break;
-                }
-            }
-        }
-
-        for (int i=0; i<credits.size(); i++) {
-            for (int j=0; j<credits.get(i).getReckings().size(); j++) {
-                if (credits.get(i).getReckings().get(j).getPayDate().compareTo(begin)>=0 && credits.get(i).getReckings().get(j).getPayDate().compareTo(end)<=0)
-                    creditTotalPaid = creditTotalPaid
-                            + commonOperations.getCost(credits.get(i).getReckings().get(j).getPayDate(),
-                            credits.get(i).getValyute_currency(), credits.get(i).getReckings().get(j).getAmount());
-            }
-            if (creditTotalPaid != 0) {
-                CategoryDataRow creditDataRow = new CategoryDataRow();
-                RootCategory creditCategory = new RootCategory();
-                creditCategory.setType(PocketAccounterGeneral.EXPENSE);
-                creditCategory.setName(credits.get(i).getCredit_name());
-                creditDataRow.setCategory(creditCategory);
-                creditDataRow.setTotalAmount(creditTotalPaid);
-                result.add(creditDataRow);
-            }
-            creditTotalPaid = 0.0;
-        }
-
+//        //TODO categoryda yoku credit
+//        //credit begin
+//        double creditTotalPaid = 0.0;
+//        List<CreditDetials> temp = daoSession.getCreditDetialsDao()
+//                                            .queryBuilder()
+//                                            .where(CreditDetialsDao.Properties.Key_for_include.eq(true))
+//                                            .list();
+//        List<CreditDetials> credits = new ArrayList<>();
+//        for (CreditDetials creditDetials : temp) {
+//            for (ReckingCredit reckingCredit : creditDetials.getReckings()) {
+//                if (reckingCredit.getPayDate().compareTo(begin)>=0 && reckingCredit.getPayDate().compareTo(end)<=0) {
+//                    credits.add(creditDetials);
+//                    break;
+//                }
+//            }
+//        }
+//
 //        for (int i=0; i<credits.size(); i++) {
 //            for (int j=0; j<credits.get(i).getReckings().size(); j++) {
 //                if (credits.get(i).getReckings().get(j).getPayDate().compareTo(begin)>=0 && credits.get(i).getReckings().get(j).getPayDate().compareTo(end)<=0)
@@ -574,69 +584,88 @@ public class ReportManager {
 //                creditDataRow.setTotalAmount(creditTotalPaid);
 //                result.add(creditDataRow);
 //            }
-////            creditTotalPaid = 0.0;
+//            creditTotalPaid = 0.0;
 //        }
-        //credit end
-
-        //debt borrows begin
-        List<DebtBorrow> debtBorrows = daoSession
-                .getDebtBorrowDao()
-                .queryBuilder()
-                .where(DebtBorrowDao.Properties.Calculate.eq(true), DebtBorrowDao.Properties.TakenDate.eq(dateFormat.format(begin.getTime())))
-                .list();
-        for (int i=0; i<debtBorrows.size(); i++) {
-            RootCategory category = new RootCategory();
-            if (debtBorrows.get(i).getType() == DebtBorrow.BORROW) {
-                category.setType(PocketAccounterGeneral.EXPENSE);
-                category.setName(context.getResources().getString(R.string.borrow_statistics));
-            } else {
-                category.setType(PocketAccounterGeneral.INCOME);
-                category.setName(context.getResources().getString(R.string.debt_statistics));
-            }
-            CategoryDataRow categoryDataRow = new CategoryDataRow();
-            categoryDataRow.setTotalAmount(commonOperations.getCost(debtBorrows.get(i).getTakenDate(), debtBorrows.get(i).getCurrency(), debtBorrows.get(i).getAmount()));
-            categoryDataRow.setCategory(category);
-            result.add(categoryDataRow);
-        }
-        debtBorrows.clear();
-        List<DebtBorrow> temporary = daoSession
-                .getDebtBorrowDao()
-                .queryBuilder()
-                .where(DebtBorrowDao.Properties.Calculate.eq(true))
-                .list();
-        for (int i=0; i<temporary.size(); i++) {
-            for (int j=0; j<temporary.get(i).getReckings().size(); j++) {
-                if (begin.compareTo(temporary.get(i).getReckings().get(j).getPayDate())<=0
-                        && end.compareTo(temporary.get(i).getReckings().get(j).getPayDate())>=0) {
-                    debtBorrows.add(temporary.get(i));
-                    break;
-                }
-            }
-        }
-        for (int i=0; i<debtBorrows.size(); i++) {
-            RootCategory category = new RootCategory();
-            double totalAmount = 0.0;
-            for (int j=0; j<debtBorrows.get(i).getReckings().size(); j++) {
-                if (begin.compareTo(debtBorrows.get(i).getReckings().get(j).getPayDate())<=0
-                        && end.compareTo(debtBorrows.get(i).getReckings().get(j).getPayDate()) >= 0) {
-                    totalAmount = totalAmount + commonOperations.getCost(debtBorrows.get(i).getReckings().get(j).getPayDate(),
-                            debtBorrows.get(i).getCurrency(),
-                            debtBorrows.get(i).getReckings().get(j).getAmount());
-                }
-            }
-            if (debtBorrows.get(i).getType() == DebtBorrow.BORROW) {
-                category.setName(context.getResources().getString(R.string.borrow_recking_statistics));
-                category.setType(PocketAccounterGeneral.INCOME);
-            }
-            else {
-                category.setName(context.getResources().getString(R.string.debt_recking_statistics));
-                category.setType(PocketAccounterGeneral.EXPENSE);
-            }
-            CategoryDataRow categoryDataRow = new CategoryDataRow();
-            categoryDataRow.setCategory(category);
-            categoryDataRow.setTotalAmount(totalAmount);
-            result.add(categoryDataRow);
-        }
+//
+////        for (int i=0; i<credits.size(); i++) {
+////            for (int j=0; j<credits.get(i).getReckings().size(); j++) {
+////                if (credits.get(i).getReckings().get(j).getPayDate().compareTo(begin)>=0 && credits.get(i).getReckings().get(j).getPayDate().compareTo(end)<=0)
+////                    creditTotalPaid = creditTotalPaid
+////                            + commonOperations.getCost(credits.get(i).getReckings().get(j).getPayDate(),
+////                            credits.get(i).getValyute_currency(), credits.get(i).getReckings().get(j).getAmount());
+////            }
+////            if (creditTotalPaid != 0) {
+////                CategoryDataRow creditDataRow = new CategoryDataRow();
+////                RootCategory creditCategory = new RootCategory();
+////                creditCategory.setType(PocketAccounterGeneral.EXPENSE);
+////                creditCategory.setName(credits.get(i).getCredit_name());
+////                creditDataRow.setCategory(creditCategory);
+////                creditDataRow.setTotalAmount(creditTotalPaid);
+////                result.add(creditDataRow);
+////            }
+//////            creditTotalPaid = 0.0;
+////        }
+//        //credit end
+//
+//        //debt borrows begin
+//        List<DebtBorrow> debtBorrows = daoSession
+//                .getDebtBorrowDao()
+//                .queryBuilder()
+//                .where(DebtBorrowDao.Properties.Calculate.eq(true), DebtBorrowDao.Properties.TakenDate.eq(dateFormat.format(begin.getTime())))
+//                .list();
+//        for (int i=0; i<debtBorrows.size(); i++) {
+//            RootCategory category = new RootCategory();
+//            if (debtBorrows.get(i).getType() == DebtBorrow.BORROW) {
+//                category.setType(PocketAccounterGeneral.EXPENSE);
+//                category.setName(context.getResources().getString(R.string.borrow_statistics));
+//            } else {
+//                category.setType(PocketAccounterGeneral.INCOME);
+//                category.setName(context.getResources().getString(R.string.debt_statistics));
+//            }
+//            CategoryDataRow categoryDataRow = new CategoryDataRow();
+//            categoryDataRow.setTotalAmount(commonOperations.getCost(debtBorrows.get(i).getTakenDate(), debtBorrows.get(i).getCurrency(), debtBorrows.get(i).getAmount()));
+//            categoryDataRow.setCategory(category);
+//            result.add(categoryDataRow);
+//        }
+//        debtBorrows.clear();
+//        List<DebtBorrow> temporary = daoSession
+//                .getDebtBorrowDao()
+//                .queryBuilder()
+//                .where(DebtBorrowDao.Properties.Calculate.eq(true))
+//                .list();
+//        for (int i=0; i<temporary.size(); i++) {
+//            for (int j=0; j<temporary.get(i).getReckings().size(); j++) {
+//                if (begin.compareTo(temporary.get(i).getReckings().get(j).getPayDate())<=0
+//                        && end.compareTo(temporary.get(i).getReckings().get(j).getPayDate())>=0) {
+//                    debtBorrows.add(temporary.get(i));
+//                    break;
+//                }
+//            }
+//        }
+//        for (int i=0; i<debtBorrows.size(); i++) {
+//            RootCategory category = new RootCategory();
+//            double totalAmount = 0.0;
+//            for (int j=0; j<debtBorrows.get(i).getReckings().size(); j++) {
+//                if (begin.compareTo(debtBorrows.get(i).getReckings().get(j).getPayDate())<=0
+//                        && end.compareTo(debtBorrows.get(i).getReckings().get(j).getPayDate()) >= 0) {
+//                    totalAmount = totalAmount + commonOperations.getCost(debtBorrows.get(i).getReckings().get(j).getPayDate(),
+//                            debtBorrows.get(i).getCurrency(),
+//                            debtBorrows.get(i).getReckings().get(j).getAmount());
+//                }
+//            }
+//            if (debtBorrows.get(i).getType() == DebtBorrow.BORROW) {
+//                category.setName(context.getResources().getString(R.string.borrow_recking_statistics));
+//                category.setType(PocketAccounterGeneral.INCOME);
+//            }
+//            else {
+//                category.setName(context.getResources().getString(R.string.debt_recking_statistics));
+//                category.setType(PocketAccounterGeneral.EXPENSE);
+//            }
+//            CategoryDataRow categoryDataRow = new CategoryDataRow();
+//            categoryDataRow.setCategory(category);
+//            categoryDataRow.setTotalAmount(totalAmount);
+//            result.add(categoryDataRow);
+//        }
         //debt borrows end
         return result;
     }
@@ -739,98 +768,200 @@ public class ReportManager {
                 .list();
     }
 
-    private void getIncomeExpanceDates(Calendar begin, Calendar end) {
-        incomes = new ArrayList<>();
-        expances = new ArrayList<>();
-        // Finance Record
-        for (FinanceRecord fr : daoSession.getFinanceRecordDao().loadAll()) {
-            if (fr.getDate().compareTo(begin) > 0 && fr.getDate().compareTo(end) < 0) {
-                ReportObject reportObject = new ReportObject();
-                reportObject.setDate(fr.getDate());
-                reportObject.setAmount(fr.getAmount());
-                reportObject.setCurrency(fr.getCurrency());
-                reportObject.setAccount(fr.getAccount());
-                reportObject.setDescription(fr.getCategory().getName());
-                if (fr.getCategory().getType() == PocketAccounterGeneral.INCOME) {
-                    reportObject.setType(PocketAccounterGeneral.INCOME);
-                    incomes.add(reportObject);
-                } else {
-                    reportObject.setType(PocketAccounterGeneral.EXPENSE);
-                    expances.add(reportObject);
-                }
-            }
-        }
-
-        // Debt Borrows
-        for (DebtBorrow db : debtBorrowDao.queryBuilder().list()) {
-            if (db.getTakenDate().compareTo(begin) > 0 && db.getTakenDate().compareTo(end) < 0) {
-                ReportObject reportObject = new ReportObject();
-                reportObject.setAccount(db.getAccount());
-                reportObject.setCurrency(db.getCurrency());
-                reportObject.setAmount(db.getAmount());
-                reportObject.setDate(db.getTakenDate());
-                reportObject.setDescription(context.getResources().getString(R.string.borrow_recking_statistics));
-                if (db.getType() == PocketAccounterGeneral.INCOME) {
-                    reportObject.setType(PocketAccounterGeneral.INCOME);
-                    incomes.add(reportObject);
-                    for (Recking recking : db.getReckings()) {
-                        if (recking.getPayDate().compareTo(begin) > 0 && recking.getPayDate().compareTo(end) < 0) {
-                            ReportObject rerObj = new ReportObject();
-                            rerObj.setDate(recking.getPayDate());
-                            rerObj.setAmount(recking.getAmount());
-                            rerObj.setCurrency(db.getCurrency());
-                            rerObj.setAccount(accountDao.load(recking.getAccountId()));
-                            rerObj.setType(PocketAccounterGeneral.EXPENSE);
-                            rerObj.setDescription(context.getResources().getString(R.string.debt_recking_statistics));
-                            expances.add(rerObj);
-                        }
-                    }
-                } else {
-                    reportObject.setType(PocketAccounterGeneral.EXPENSE);
-                    expances.add(reportObject);
-                    for (Recking recking : db.getReckings()) {
-                        if (recking.getPayDate().compareTo(begin) > 0 && recking.getPayDate().compareTo(end) < 0) {
-                            ReportObject rerObj = new ReportObject();
-                            rerObj.setDate(recking.getPayDate());
-                            rerObj.setAmount(recking.getAmount());
-                            rerObj.setCurrency(db.getCurrency());
-                            rerObj.setAccount(accountDao.load(recking.getAccountId()));
-                            rerObj.setType(PocketAccounterGeneral.INCOME);
-                            rerObj.setDescription(context.getResources().getString(R.string.borrow_recking_statistics));
-                            incomes.add(rerObj);
-                        }
-                    }
-                }
-            }
-        }
-
-        // Credit
-        for (CreditDetials cr : creditDetialsDao.loadAll()) {
-            for (ReckingCredit reckingCredit : cr.getReckings()) {
-                if (reckingCredit.getPayDate().compareTo(begin) > 0 && reckingCredit.getPayDate().compareTo(end) < 0) {
-                    ReportObject reportObject = new ReportObject();
-                    reportObject.setType(PocketAccounterGeneral.EXPENSE);
-                    reportObject.setAmount(reckingCredit.getAmount());
-                    reportObject.setDate(reckingCredit.getPayDate());
-                    reportObject.setCurrency(cr.getValyute_currency());
-                    reportObject.setAccount(accountDao.load(reckingCredit.getAccountId()));
-                    reportObject.setDescription(cr.getCredit_name());
-                    expances.add(reportObject);
-                }
-            }
-        }
-    }
-
-    public List<ReportObject> getIncomes(Calendar begin, Calendar end) {
-        getIncomeExpanceDates(begin, end);
-        return incomes;
-    }
-
-    public List<ReportObject> getExpances(Calendar begin, Calendar end) {
-        getIncomeExpanceDates(begin, end);
-        return expances;
+//    private void getIncomeExpanceDates(Calendar begin, Calendar end) {
+//        incomes = new ArrayList<>();
+//        expances = new ArrayList<>();
+//        // Finance Record
+//        for (FinanceRecord fr : daoSession.getFinanceRecordDao().loadAll()) {
+//            if (fr.getDate().compareTo(begin) > 0 && fr.getDate().compareTo(end) < 0) {
+//                ReportObject reportObject = new ReportObject();
+//                reportObject.setDate(fr.getDate());
+//                reportObject.setAmount(fr.getAmount());
+//                reportObject.setCurrency(fr.getCurrency());
+//                reportObject.setAccount(fr.getAccount());
+//                reportObject.setDescription(fr.getCategory().getName());
+//                if (fr.getCategory().getType() == PocketAccounterGeneral.INCOME) {
+//                    reportObject.setType(PocketAccounterGeneral.INCOME);
+//                    incomes.add(reportObject);
+//                } else {
+//                    reportObject.setType(PocketAccounterGeneral.EXPENSE);
+//                    expances.add(reportObject);
+//                }
+//            }
 //        }
-    }
+//
+//
+//
+//        // Debt Borrows
+//        for (DebtBorrow db : debtBorrowDao.queryBuilder().list()) {
+//            if (db.getTakenDate().compareTo(begin) > 0 && db.getTakenDate().compareTo(end) < 0) {
+//                ReportObject reportObject = new ReportObject();
+//                reportObject.setAccount(db.getAccount());
+//                reportObject.setCurrency(db.getCurrency());
+//                reportObject.setAmount(db.getAmount());
+//                reportObject.setDate(db.getTakenDate());
+//                reportObject.setDescription(context.getResources().getString(R.string.borrow_recking_statistics));
+//                if (db.getType() == PocketAccounterGeneral.INCOME) {
+//                    reportObject.setType(PocketAccounterGeneral.INCOME);
+//                    incomes.add(reportObject);
+//                    for (Recking recking : db.getReckings()) {
+//                        if (recking.getPayDate().compareTo(begin) > 0 && recking.getPayDate().compareTo(end) < 0) {
+//                            ReportObject rerObj = new ReportObject();
+//                            rerObj.setDate(recking.getPayDate());
+//                            rerObj.setAmount(recking.getAmount());
+//                            rerObj.setCurrency(db.getCurrency());
+//                            rerObj.setAccount(accountDao.load(recking.getAccountId()));
+//                            rerObj.setType(PocketAccounterGeneral.EXPENSE);
+//                            rerObj.setDescription(context.getResources().getString(R.string.debt_recking_statistics));
+//                            expances.add(rerObj);
+//                        }
+//                    }
+//                } else {
+//                    reportObject.setType(PocketAccounterGeneral.EXPENSE);
+//                    expances.add(reportObject);
+//                    for (Recking recking : db.getReckings()) {
+//                        if (recking.getPayDate().compareTo(begin) > 0 && recking.getPayDate().compareTo(end) < 0) {
+//                            ReportObject rerObj = new ReportObject();
+//                            rerObj.setDate(recking.getPayDate());
+//                            rerObj.setAmount(recking.getAmount());
+//                            rerObj.setCurrency(db.getCurrency());
+//                            rerObj.setAccount(accountDao.load(recking.getAccountId()));
+//                            rerObj.setType(PocketAccounterGeneral.INCOME);
+//                            rerObj.setDescription(context.getResources().getString(R.string.borrow_recking_statistics));
+//                            incomes.add(rerObj);
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//
+//
+//
+//        creditDetialses = creditDetialses == null ? creditDetialsDao.loadAll() : creditDetialses;
+//        for (CreditDetials creditDetials : creditDetialses) {
+//            if (creditDetials.getKey_for_include() && creditDetials.getTake_time().compareTo(begin) >= 0 &&
+//                    creditDetials.getTake_time().compareTo(end) <= 0 ) {
+//
+//                ReportObject reportObject = new ReportObject();
+//                reportObject.setType(PocketAccounterGeneral.INCOME);
+//                reportObject.setDate(creditDetials.getTake_time());
+//                reportObject.setDescription(context.getResources().getString(R.string.credit));
+//                Account account = null;
+//                for (Account acc : accounts) {
+//                    if (acc.getId().equals(creditDetials.getAccountID())) {
+//                        account = acc;
+//                        break;
+//                    }
+//                }
+//                if (account == null)
+//                    throw new RuntimeException("Account not found in class: " +
+//                            getClass().getName() +
+//                            ". Method: getRecordObjects();");
+//
+//                reportObject.setAccount(account);
+//                if (toMainCurrency) {
+//                    reportObject.setCurrency(commonOperations.getMainCurrency());
+//                    reportObject.setAmount(commonOperations.getCost(creditDetials.getTake_time(),
+//                            creditDetials.getValyute_currency(), creditDetials.getValue_of_credit()));
+//                }
+//                else {
+//                    reportObject.setCurrency(creditDetials.getValyute_currency());
+//                    reportObject.setAmount(creditDetials.getValue_of_credit());
+//                }
+//                result.add(reportObject);
+//            }
+//            if(creditDetials.getPervonacalniy()>0 && creditDetials.getTake_time().compareTo(begin) >= 0 &&
+//                    creditDetials.getTake_time().compareTo(end) <= 0){
+//
+//                ReportObject reportObject = new ReportObject();
+//                reportObject.setType(PocketAccounterGeneral.EXPENSE);
+//                reportObject.setDate(creditDetials.getTake_time());
+//                reportObject.setDescription(context.getString(R.string.credir_first_con));
+//                Account account = null;
+//                for (Account acc : accounts) {
+//                    if (acc.getId().equals(creditDetials.getAccountID())) {
+//                        account = acc;
+//                        break;
+//                    }
+//                }
+//                if (account == null)
+//                    throw new RuntimeException("Account not found in class: " +
+//                            getClass().getName() +
+//                            ". Method: getRecordObjects();");
+//
+//                reportObject.setAccount(account);
+//                if (toMainCurrency) {
+//                    reportObject.setCurrency(commonOperations.getMainCurrency());
+//                    reportObject.setAmount(commonOperations.getCost(creditDetials.getTake_time(),
+//                            creditDetials.getValyute_currency(), creditDetials.getPervonacalniy()));
+//                }
+//                else {
+//                    reportObject.setCurrency(creditDetials.getValyute_currency());
+//                    reportObject.setAmount(creditDetials.getPervonacalniy());
+//                }
+//                result.add(reportObject);
+//            }
+//            for (ReckingCredit reckingCredit : creditDetials.getReckings()) {
+//                if(reckingCredit.getAccountId() == null || reckingCredit.getAccountId().equals("")) continue;
+//                Calendar calendar = reckingCredit.getPayDate();
+//                if (calendar.compareTo(begin) >= 0 && calendar.compareTo(end) <= 0) {
+//                    ReportObject reportObject = new ReportObject();
+//                    reportObject.setType(PocketAccounterGeneral.EXPENSE);
+//                    reportObject.setDate(calendar);
+//                    reportObject.setDescription(context.getString(R.string.credit_payment));
+//                    Account account = null;
+//                    for (Account acc : accounts) {
+//                        if (acc.getId().equals(reckingCredit.getAccountId())) {
+//                            account = acc;
+//                            break;
+//                        }
+//                    }
+//                    if (account == null)
+//                        throw new RuntimeException("Account not found in class: " +
+//                                getClass().getName() +
+//                                ". Method: getRecordObjects();");
+//                    reportObject.setAccount(account);
+//                    if (toMainCurrency) {
+//                        reportObject.setCurrency(commonOperations.getMainCurrency());
+//                        reportObject.setAmount(commonOperations.getCost(calendar,
+//                                creditDetials.getValyute_currency(), reckingCredit.getAmount()));
+//                    }
+//                    else {
+//                        reportObject.setCurrency(creditDetials.getValyute_currency());
+//                        reportObject.setAmount(reckingCredit.getAmount());
+//                    }
+//                    expances.add(reportObject);
+//                }
+//            }
+//        }
+//
+//        // Credit
+//        for (CreditDetials cr : creditDetialsDao.loadAll()) {
+//            for (ReckingCredit reckingCredit : cr.getReckings()) {
+//                if (reckingCredit.getPayDate().compareTo(begin) > 0 && reckingCredit.getPayDate().compareTo(end) < 0) {
+//                    ReportObject reportObject = new ReportObject();
+//                    reportObject.setType(PocketAccounterGeneral.EXPENSE);
+//                    reportObject.setAmount(reckingCredit.getAmount());
+//                    reportObject.setDate(reckingCredit.getPayDate());
+//                    reportObject.setCurrency(cr.getValyute_currency());
+//                    reportObject.setAccount(accountDao.load(reckingCredit.getAccountId()));
+//                    reportObject.setDescription(cr.getCredit_name());
+//                    expances.add(reportObject);
+//                }
+//            }
+//        }
+//    }
+
+//    public List<ReportObject> getIncomes(Calendar begin, Calendar end) {
+//        getIncomeExpanceDates(begin, end);
+//        return incomes;
+//    }
+//
+//    public List<ReportObject> getExpances(Calendar begin, Calendar end) {
+//        getIncomeExpanceDates(begin, end);
+//        return expances;
+////        }
+//    }
 
     public List<IncomeExpanseDataRow> getIncomeExpanceReport(Calendar begin, Calendar end) {
         Calendar recordBegin = (Calendar) begin.clone();
@@ -846,37 +977,42 @@ public class ReportManager {
         ArrayList<IncomeExpanseDataRow> result = new ArrayList<>();
         // Finance Record
         ArrayList<FinanceRecord> records = new ArrayList<>();
-        for (FinanceRecord fr : daoSession.getFinanceRecordDao().loadAll()) {
+        financeRecords = financeRecords == null ? financeRecordDao.loadAll() : financeRecords;
+        for (FinanceRecord fr : financeRecords) {
             if (fr.getDate().compareTo(begin) >= 0 && fr.getDate().compareTo(end) <= 0) {
                 records.add(fr);
             }
         }
-        // Debt Borrows
-        ArrayList<DebtBorrow> debtBorrows = new ArrayList<DebtBorrow>();
-        for (DebtBorrow db : debtBorrowDao.queryBuilder().list()) {
-            if (db.getTakenDate().compareTo(begin) >= 0 && db.getTakenDate().compareTo(end) <= 0 && db.getCalculate()) {
-                debtBorrows.add(db);
-                continue;
-            }
-            for (int j=0; j<db.getReckings().size(); j++) {
-                Recking recking = db.getReckings().get(j);
-                if (recking.getPayDate().compareTo(begin) >= 0 && recking.getPayDate().compareTo(end) <= 0) {
-                    debtBorrows.add(db);
-                    break;
-                }
-            }
-        }
-        // Credit
-        ArrayList<CreditDetials> credits = new ArrayList<CreditDetials>();
-        for (CreditDetials cr : creditDetialsDao.loadAll()) {
-            if (!cr.getKey_for_include()) continue;
-            for (ReckingCredit reckingCredit : cr.getReckings()) {
-                if (reckingCredit.getPayDate().compareTo(begin) >= 0 && reckingCredit.getPayDate().compareTo(end) <= 0) {
-                    credits.add(cr);
-                    break;
-                }
-            }
-        }
+
+
+
+
+//        // Debt Borrows
+//        ArrayList<DebtBorrow> debtBorrows = new ArrayList<DebtBorrow>();
+//        for (DebtBorrow db : debtBorrowDao.queryBuilder().list()) {
+//            if (db.getTakenDate().compareTo(begin) >= 0 && db.getTakenDate().compareTo(end) <= 0 && db.getCalculate()) {
+//                debtBorrows.add(db);
+//                continue;
+//            }
+//            for (int j=0; j<db.getReckings().size(); j++) {
+//                Recking recking = db.getReckings().get(j);
+//                if (recking.getPayDate().compareTo(begin) >= 0 && recking.getPayDate().compareTo(end) <= 0) {
+//                    debtBorrows.add(db);
+//                    break;
+//                }
+//            }
+//        }
+//        // Credit
+//        ArrayList<CreditDetials> credits = new ArrayList<CreditDetials>();
+//        for (CreditDetials cr : creditDetialsDao.loadAll()) {
+//            if (!cr.getKey_for_include()) continue;
+//            for (ReckingCredit reckingCredit : cr.getReckings()) {
+//                if (reckingCredit.getPayDate().compareTo(begin) >= 0 && reckingCredit.getPayDate().compareTo(end) <= 0) {
+//                    credits.add(cr);
+//                    break;
+//                }
+//            }
+//        }
         while(recordBegin.compareTo(recordEnd)<=0) {
             IncomeExpanseDataRow row = new IncomeExpanseDataRow(recordBegin);
             ArrayList<IncomeExpanseDayDetails> details = new ArrayList<IncomeExpanseDayDetails>();
@@ -891,7 +1027,8 @@ public class ReportManager {
             e.set(Calendar.MINUTE, 59);
             e.set(Calendar.SECOND, 59);
             e.set(Calendar.MILLISECOND, 59);
-            for (Account account : accountDao.loadAll()) {
+            accounts = accounts == null ? accountDao.loadAll() : accounts;
+            for (Account account : accounts) {
                 if (account.getAmount() != 0) {
                     if (account.getCalendar().compareTo(b) >= 0 && account.getCalendar().compareTo(e) <= 0) {
                         IncomeExpanseDayDetails detail = new IncomeExpanseDayDetails();
@@ -920,12 +1057,16 @@ public class ReportManager {
                 }
             }
             //accumulate debtborrow mains
-            for (int i=0; i<debtBorrows.size(); i++) {
-                if (debtBorrows.get(i).getTakenDate().compareTo(b) >= 0 &&
-                        debtBorrows.get(i).getTakenDate().compareTo(e) <= 0) {
+            debtBorrows = debtBorrows == null ? debtBorrowDao.loadAll() : debtBorrows;
+
+            for (DebtBorrow debtBorrow : debtBorrows) {
+                if (debtBorrow.getTakenDate().compareTo(b) >= 0 &&
+                        debtBorrow.getTakenDate().compareTo(e) <= 0 &&
+                        debtBorrow.getCalculate()) {
                     IncomeExpanseDayDetails detail = new IncomeExpanseDayDetails();
                     RootCategory category = new RootCategory();
-                    if (debtBorrows.get(i).getType() == DebtBorrow.BORROW) {
+
+                    if (debtBorrow.getType() == DebtBorrow.BORROW) {
                         category.setName(context.getResources().getString(R.string.borrow_statistics));
                         category.setType(PocketAccounterGeneral.EXPENSE);
                     }
@@ -935,60 +1076,68 @@ public class ReportManager {
                     }
                     detail.setCategory(category);
                     detail.setSubCategory(null);
-                    detail.setAmount(debtBorrows.get(i).getAmount());
-                    detail.setCurrency(debtBorrows.get(i).getCurrency());
+                    detail.setAmount(debtBorrow.getAmount());
+                    detail.setCurrency(debtBorrow.getCurrency());
+                    details.add(detail);
+                }
+                for (Recking recking : debtBorrow.getReckings()) {
+                        if (recking.getPayDate().compareTo(b) >= 0 && recking.getPayDate().compareTo(e) <= 0 && recking.getAccountId() != null && !recking.getAccountId().equals("")) {
+                            IncomeExpanseDayDetails detail = new IncomeExpanseDayDetails();
+                            RootCategory category = new RootCategory();
+                            if (debtBorrow.getType() == DebtBorrow.BORROW) {
+                                category.setName(context.getResources().getString(R.string.borrow_recking_statistics));
+                                category.setType(PocketAccounterGeneral.INCOME);
+                            }
+                            else {
+                                category.setName(context.getResources().getString(R.string.debt_recking_statistics));
+                                category.setType(PocketAccounterGeneral.EXPENSE);
+                            }
+                            detail.setCategory(category);
+                            detail.setSubCategory(null);
+                            detail.setAmount(recking.getAmount());
+                            detail.setCurrency(debtBorrow.getCurrency());
+                            details.add(detail);
+                        }
+                    }
+                }
+
+
+
+            creditDetialses = creditDetialses == null ? creditDetialsDao.loadAll() : creditDetialses;
+        for (CreditDetials creditDetials : creditDetialses) {
+            if (creditDetials.getKey_for_include() && creditDetials.getTake_time().compareTo(b) >= 0 &&
+                    creditDetials.getTake_time().compareTo(e) <= 0 && creditDetials.getKey_for_include()) {
+                IncomeExpanseDayDetails detail = new IncomeExpanseDayDetails();
+                RootCategory category = new RootCategory();
+                category.setName(creditDetials.getCredit_name());
+                category.setType(PocketAccounterGeneral.INCOME);
+                detail.setCategory(category);
+                detail.setSubCategory(null);
+                detail.setAmount(creditDetials.getValue_of_credit());
+                detail.setCurrency(creditDetials.getValyute_currency());
+                details.add(detail);
+
+            }
+
+            for (ReckingCredit reckingCredit : creditDetials.getReckings()) {
+                if(reckingCredit.getAccountId() == null || reckingCredit.getAccountId().equals("")) continue;
+                Calendar calendar = reckingCredit.getPayDate();
+                if (calendar.compareTo(b) >= 0 && calendar.compareTo(e) <= 0) {
+
+                    IncomeExpanseDayDetails detail = new IncomeExpanseDayDetails();
+                    RootCategory category = new RootCategory();
+                    category.setName(creditDetials.getCredit_name());
+                    category.setType(PocketAccounterGeneral.EXPENSE);
+                    detail.setCategory(category);
+                    detail.setSubCategory(null);
+                    detail.setAmount(reckingCredit.getAmount());
+                    detail.setCurrency(creditDetials.getValyute_currency());
                     details.add(detail);
                 }
             }
+        }
 
-            //accumulate debtborrow reckings
-            for (int i=0; i<debtBorrows.size(); i++) {
-                for (int j=0; j<debtBorrows.get(i).getReckings().size(); j++) {
-                    Recking recking = debtBorrows.get(i).getReckings().get(j);
-                    Calendar cal = Calendar.getInstance();
-                    try {
-                        cal.setTime(dateFormat.parse(recking.getPayDate().toString()));
-                    } catch (ParseException ex) {
-                        ex.printStackTrace();
-                    }
-                    if (cal.compareTo(b) >= 0 && cal.compareTo(e) <= 0) {
-                        IncomeExpanseDayDetails detail = new IncomeExpanseDayDetails();
-                        RootCategory category = new RootCategory();
-                        if (debtBorrows.get(i).getType() == DebtBorrow.BORROW) {
-                            category.setName(context.getResources().getString(R.string.borrow_recking_statistics));
-                            category.setType(PocketAccounterGeneral.INCOME);
-                        }
-                        else {
-                            category.setName(context.getResources().getString(R.string.debt_recking_statistics));
-                            category.setType(PocketAccounterGeneral.EXPENSE);
-                        }
-                        detail.setCategory(category);
-                        detail.setSubCategory(null);
-                        detail.setAmount(recking.getAmount());
-                        detail.setCurrency(debtBorrows.get(i).getCurrency());
-                        details.add(detail);
-                    }
-                }
-            }
-            //accumulate credits
-            for (int i=0; i<credits.size(); i++) {
-                for (int j=0; j<credits.get(i).getReckings().size(); j++) {
-                    ReckingCredit recking = credits.get(i).getReckings().get(j);
-                    Calendar cal = Calendar.getInstance();
-                    cal.setTimeInMillis(recking.getPayDate().getTimeInMillis());
-                    if (cal.compareTo(b) >= 0 && cal.compareTo(e) <= 0) {
-                        IncomeExpanseDayDetails detail = new IncomeExpanseDayDetails();
-                        RootCategory category = new RootCategory();
-                        category.setName(credits.get(i).getCredit_name());
-                        category.setType(PocketAccounterGeneral.EXPENSE);
-                        detail.setCategory(category);
-                        detail.setSubCategory(null);
-                        detail.setAmount(recking.getAmount());
-                        detail.setCurrency(credits.get(i).getValyute_currency());
-                        details.add(detail);
-                    }
-                }
-            }
+
             row.setDetails(details);
             row.calculate(context);
             result.add(row);

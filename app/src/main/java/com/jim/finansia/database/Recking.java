@@ -39,9 +39,10 @@ public class Recking {
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
 
+
     @Keep
     public Recking(Calendar payDate, double amount, String id, String accountId, String comment) {
-        this.payDate = payDate;
+        this.payDate = (Calendar) payDate.clone();
         this.amount = amount;
         this.debtBorrowsId = id;
         this.accountId = accountId;
@@ -50,7 +51,7 @@ public class Recking {
     }
     @Keep
     public Recking(Calendar payDate, double amount, String id, String comment) {
-        this.payDate = payDate;
+        this.payDate = (Calendar) payDate.clone();
         this.amount = amount;
         this.debtBorrowsId = id;
         this.accountId = "";
@@ -61,6 +62,54 @@ public class Recking {
     public Recking() {
         id = UUID.randomUUID().toString();
     }
+    @Generated(hash = 1526389974)
+    public Recking(String id, Calendar payDate, double amount, String accountId, String debtBorrowsId,
+            String comment) {
+        this.id = id;
+        this.payDate = payDate;
+        this.amount = amount;
+        this.accountId = accountId;
+        this.debtBorrowsId = debtBorrowsId;
+        this.comment = comment;
+    }
+
+    public String getComment() {
+        return this.comment;
+    }
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+    public String getDebtBorrowsId() {
+        return this.debtBorrowsId;
+    }
+    public void setDebtBorrowsId(String debtBorrowsId) {
+        this.debtBorrowsId = debtBorrowsId;
+    }
+    public String getAccountId() {
+        return this.accountId;
+    }
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
+    }
+    public double getAmount() {
+        return this.amount;
+    }
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
+    public Calendar getPayDate() {
+        return this.payDate;
+    }
+    public void setPayDate(Calendar payDate) {
+        this.payDate = (Calendar) payDate.clone();
+    }
+    public String getId() {
+        return this.id;
+    }
+    public void setId(String id) {
+        this.id = id;
+    }
+    /** called by internal mechanisms, do not call yourself. */
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
      * Entity must attached to an entity context.
@@ -94,57 +143,11 @@ public class Recking {
         }
         myDao.delete(this);
     }
-    public String getComment() {
-        return this.comment;
-    }
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-    public String getDebtBorrowsId() {
-        return this.debtBorrowsId;
-    }
-    public void setDebtBorrowsId(String debtBorrowsId) {
-        this.debtBorrowsId = debtBorrowsId;
-    }
-    public String getAccountId() {
-        return this.accountId;
-    }
-    public void setAccountId(String accountId) {
-        this.accountId = accountId;
-    }
-    public double getAmount() {
-        return this.amount;
-    }
-    public void setAmount(double amount) {
-        this.amount = amount;
-    }
-    public Calendar getPayDate() {
-        return this.payDate;
-    }
-    public void setPayDate(Calendar payDate) {
-        this.payDate = payDate;
-    }
-    public String getId() {
-        return this.id;
-    }
-    public void setId(String id) {
-        this.id = id;
-    }
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 1014423750)
     public void __setDaoSession(DaoSession daoSession) {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getReckingDao() : null;
-    }
-    @Generated(hash = 1526389974)
-    public Recking(String id, Calendar payDate, double amount, String accountId, String debtBorrowsId,
-            String comment) {
-        this.id = id;
-        this.payDate = payDate;
-        this.amount = amount;
-        this.accountId = accountId;
-        this.debtBorrowsId = debtBorrowsId;
-        this.comment = comment;
     }
 
 }
