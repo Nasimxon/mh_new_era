@@ -138,6 +138,7 @@
                         android:layout_height="match_parent"
                         android:layout_alignParentRight="true"
                         android:layout_gravity="center_vertical"
+                        android:spinnerMode="dialog"
                         android:layout_marginLeft="@dimen/ten_dp"/>
                 </RelativeLayout>
 
@@ -217,7 +218,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
-
+                        android:spinnerMode="dialog"
                         android:layout_alignParentTop="true"
                         android:layout_gravity="center_vertical"
                         android:layout_toEndOf="@+id/for_period_credit"

@@ -9,5 +9,6 @@
     android:paddingLeft="@dimen/ten_dp"
     android:paddingRight="@dimen/ten_dp"
     android:paddingTop="@dimen/five_dp"
-    android:paddingBottom="@dimen/five_dp" />
+    android:paddingBottom="@dimen/five_dp"
+    android:id="@id/text1"/>
 

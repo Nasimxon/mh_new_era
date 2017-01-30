@@ -41,6 +41,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -63,6 +64,7 @@ import com.jim.finansia.managers.PAFragmentManager;
 import com.jim.finansia.managers.ReportManager;
 import com.jim.finansia.managers.ToolbarManager;
 import com.jim.finansia.photocalc.PhotoAdapter;
+import com.jim.finansia.utils.CurrencyCalcAdapter;
 import com.jim.finansia.utils.GetterAttributColors;
 import com.jim.finansia.utils.OnSubcategorySavingListener;
 import com.jim.finansia.utils.PocketAccounterGeneral;
@@ -131,6 +133,7 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
     private ImageView ivClear;
     private ImageView ivAccountIcon;
     private RelativeLayout rvAccountChoise;
+    private Spinner spRecordEdit;
     boolean keykeboard = false;
     boolean keyForDesideOpenSubCategoryDialog = false;
     private boolean keyForDeleteAllPhotos = true;
@@ -227,6 +230,7 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
         ivAccountIcon = (ImageView) mainView.findViewById(R.id.ivAccountIcon);
         tvAccountName = (TextView) mainView.findViewById(R.id.tvAccountName);
         rvAccountChoise = (RelativeLayout) mainView.findViewById(R.id.rvAccountChoise);
+        spRecordEdit = (Spinner) mainView.findViewById(R.id.spRecordEdit);
 
         final List<Account> accountList = daoSession.getAccountDao().loadAll();
         account = accountList.get(0);
@@ -287,12 +291,15 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
         choosePhoto = (ImageView) mainView.findViewById(R.id.choose_photo);
 
         final List<Currency> currencyList = daoSession.getCurrencyDao().loadAll();
-        final String[] currencies = new String[currencyList.size()];
+        final ArrayList currencies = new ArrayList();
+        final ArrayList currenciesName = new ArrayList();
         for (int i = 0; i < currencyList.size(); i++)
-            currencies[i] = currencyList.get(i).getAbbr();
+        {
+            currencies.add(currencyList.get(i).getAbbr());
+            currenciesName.add(currencyList.get(i).getName());
+        }
         currency = currencyList.get(0);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), R.layout.spinner_single_item_calc, currencies);
-
+        spRecordEdit.setAdapter(new CurrencyCalcAdapter(getContext(), currencies, currenciesName));
         comment = (TextView) mainView.findViewById(R.id.textView18);
         ivCommentButton = (ImageView) mainView.findViewById(R.id.comment_opener);
         comment_add = (EditText) mainView.findViewById(R.id.comment_add);
@@ -548,7 +555,7 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                       ivClear.setColorFilter(ContextCompat.getColor(getContext(),R.color.seriy_calc));
+                        ivClear.setColorFilter(ContextCompat.getColor(getContext(),R.color.seriy_calc));
                     }
                 },100);
                 tvRecordEditDisplay.setText("0");
@@ -1343,7 +1350,7 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
                 dialog.setContentView(dialogView);
                 View v = dialog.getWindow().getDecorView();
                 v.setBackgroundResource(android.R.color.transparent);
-                 categoryList = daoSession.getRootCategoryDao().loadAll();
+                categoryList = daoSession.getRootCategoryDao().loadAll();
                 final TextView tvAllView = (TextView)  dialogView.findViewById(R.id.tvAllView);
                 final TextView tvExpenseView = (TextView)  dialogView.findViewById(R.id.tvExpenseView);
                 final TextView tvIncomeView = (TextView)  dialogView.findViewById(R.id.tvIncomeView);
@@ -1416,7 +1423,7 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
                         categoryList.clear();
                         for (RootCategory rootCategory:daoSession.getRootCategoryDao().loadAll()){
                             if(rootCategory.getType() == PocketAccounterGeneral.EXPENSE)
-                            categoryList.add(rootCategory);
+                                categoryList.add(rootCategory);
                         }
                         choiseCategoryDialoogItemAdapter.setListForRefresh(categoryList);
 
@@ -1572,9 +1579,9 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
         subCategories.add(null);
         dialogView.findViewById(R.id.llToolBars).setVisibility(View.GONE);
 
-         TextView title = (TextView) dialogView.findViewById(R.id.title);
+        TextView title = (TextView) dialogView.findViewById(R.id.title);
         title.setText(R.string.choise_subcategory);
-         RecyclerView rvCategoryChoose = (RecyclerView) dialogView.findViewById(R.id.lvCategoryChoose);
+        RecyclerView rvCategoryChoose = (RecyclerView) dialogView.findViewById(R.id.lvCategoryChoose);
         choiseCategoryDialoogItemAdapter = new ChoiseCategoryDialoogItemAdapter(subCategories, getContext(), new ChoiseCategoryDialoogItemAdapter.OnItemSelected() {
             @Override
             public void itemPressed(String itemID) {
@@ -1590,7 +1597,7 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
                             handler.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                      closeLayout();
+                                    closeLayout();
                                 }
                             }, 200);
 

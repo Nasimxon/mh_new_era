@@ -142,7 +142,8 @@
                     android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true"
                     android:layout_alignBottom="@+id/etStartMoney"
-                    android:layout_alignParentTop="true" />
+                    android:layout_alignParentTop="true"
+                    android:spinnerMode="dialog"/>
             </RelativeLayout>
             <FrameLayout
                 android:layout_width="match_parent"
@@ -222,6 +223,7 @@
                     android:layout_marginLeft="@dimen/sixteen_dp"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true"
+                    android:spinnerMode="dialog"
                     android:layout_alignBottom="@+id/etStartLimit"
                     android:layout_alignParentTop="true" />
             </RelativeLayout>

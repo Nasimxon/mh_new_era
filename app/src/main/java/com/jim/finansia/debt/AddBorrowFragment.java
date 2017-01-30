@@ -64,7 +64,9 @@ import com.jim.finansia.managers.LogicManager;
 import com.jim.finansia.managers.PAFragmentManager;
 import com.jim.finansia.managers.ReportManager;
 import com.jim.finansia.managers.ToolbarManager;
+import com.jim.finansia.utils.CurrencySpinnerAdapter;
 import com.jim.finansia.utils.PocketAccounterGeneral;
+import com.jim.finansia.utils.SpinnerAdapter;
 import com.jim.finansia.utils.cache.DataCache;
 
 import java.io.File;
@@ -148,8 +150,7 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
         adapter.add(getResources().getString(R.string.notif_everyday));
         adapter.add(getResources().getString(R.string.notif_weekly));
         adapter.add(getResources().getString(R.string.notif_monthly));
-        ArrayAdapter<String> spAdapter = new ArrayAdapter<String>(getContext(), R.layout.spiner_gravity_left, adapter);
-        spNotifMode.setAdapter(spAdapter);
+        spNotifMode.setAdapter(new SpinnerAdapter(getContext(), adapter));
         spNotifMode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -192,7 +193,7 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
         llAccountHolder = (LinearLayout) view.findViewById(R.id.llAccountHolder);
         if (type == DebtBorrow.DEBT) {
             etDebtSum.setHint(getResources().getString(R.string.enter_borrow_amoount));
-            ((TextView) view.findViewById(R.id.summ_zayma)).setText(R.string.amount_borrow);
+            ((TextView) view.findViewById(R.id.summ_zayma)).setText(R.string.amount);
         }
         view.findViewById(R.id.checkInclude).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -203,23 +204,19 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
         spDebtBorrowAccount.setOnItemSelectedListener(this);
         spDebtBorrowCurrency.setOnItemSelectedListener(this);
         List<Account> allAccounts = daoSession.loadAll(Account.class);
-        String[] accounts = new String[allAccounts.size()];
-        for (int i = 0; i < accounts.length; i++) {
-            accounts[i] = allAccounts.get(i).getName();
+        ArrayList accounts = new ArrayList();
+        for (int i = 0; i < allAccounts.size(); i++) {
+            accounts.add(allAccounts.get(i).getName());
         }
         List<Currency> allCurrencies = daoSession.loadAll(Currency.class);
-        String[] currencies = new String[allCurrencies.size()];
-        for (int i = 0; i < currencies.length; i++) {
-            currencies[i] = allCurrencies.get(i).getAbbr();
+        ArrayList currencies = new ArrayList();
+        ArrayList currenciesName = new ArrayList();
+        for (int i = 0; i < allCurrencies.size(); i++) {
+            currencies.add(allCurrencies.get(i).getAbbr());
+            currenciesName.add(allCurrencies.get(i).getName());
         }
-        ArrayAdapter<String> accountAdapter = new ArrayAdapter<>(
-                getContext(), R.layout.spiner_gravity_left, accounts);
-        ArrayAdapter<String> currencyAdapter = new ArrayAdapter<>(
-                getContext(), R.layout.spiner_gravity_right, currencies);
-        accountAdapter.setDropDownViewResource(R.layout.spiner_gravity_left);
-        spDebtBorrowAccount.setAdapter(accountAdapter);
-        currencyAdapter.setDropDownViewResource(R.layout.spinner_single_item);
-        spDebtBorrowCurrency.setAdapter(currencyAdapter);
+        spDebtBorrowAccount.setAdapter(new SpinnerAdapter(getContext(), accounts));
+        spDebtBorrowCurrency.setAdapter(new CurrencySpinnerAdapter(getContext(), currencies, currenciesName));
         int posMain = 0;
         for (int i = 0; i < allCurrencies.size(); i++) {
             if (allCurrencies.get(i).getId().equals(commonOperations.getMainCurrency().getId())) {
@@ -378,8 +375,7 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
                 adapter.add(getResources().getString(R.string.notif_weekly));
                 adapter.add(getResources().getString(R.string.notif_monthly));
             }
-            ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(getContext(), R.layout.spiner_gravity_left, adapter);
-            spNotifMode.setAdapter(adapter1);
+            spNotifMode.setAdapter(new SpinnerAdapter(getContext(), adapter));
         }
     };
 

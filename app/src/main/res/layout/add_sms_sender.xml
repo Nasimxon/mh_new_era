@@ -321,7 +321,8 @@
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:layout_toEndOf="@+id/procent_credit"
-                        android:layout_toRightOf="@+id/procent_credit" />
+                        android:layout_toRightOf="@+id/procent_credit"
+                        android:spinnerMode="dialog"/>
 
                 </RelativeLayout>
                 <LinearLayout
@@ -356,7 +357,8 @@
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:layout_toEndOf="@+id/procent_credit"
-                        android:layout_toRightOf="@+id/procent_credit" />
+                        android:layout_toRightOf="@+id/procent_credit"
+                        android:spinnerMode="dialog"/>
 
                 </RelativeLayout>
             </LinearLayout>

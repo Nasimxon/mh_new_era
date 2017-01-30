@@ -44,6 +44,7 @@ import com.jim.finansia.database.SmsParseObject;
 import com.jim.finansia.database.SmsParseSuccess;
 import com.jim.finansia.database.TemplateSms;
 import com.jim.finansia.finance.TransferAccountAdapter;
+import com.jim.finansia.utils.SpinnerAdapter;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -144,9 +145,7 @@ public class AddSmsParseFragment extends PABaseFragment{
                 main_currency_index= currencies.indexOf(cr);
             }
         }
-        ArrayAdapter<String> cursAdapter = new ArrayAdapter<String>(getContext(),
-                R.layout.spiner_gravity_left, cursStrings);
-        spCurrency.setAdapter(cursAdapter);
+        spCurrency.setAdapter(new SpinnerAdapter(getContext(), (ArrayList) cursStrings));
         if(main_currency_index!=-1)
         spCurrency.setSelection(main_currency_index);
         int posMain = 0;

@@ -51,6 +51,35 @@ public class TransferAccountAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
+        View view = inflater.inflate(R.layout.transfer_account, parent, false);
+        ImageView ivTransferItem = (ImageView) view.findViewById(R.id.ivTransferItem);
+        TextView tvTransferItem = (TextView) view.findViewById(R.id.tvTransferItem);
+        String name = "";
+        int resId = 0;
+        String id = result.get(position);
+        List<Account> accounts = daoSession.getAccountDao().loadAll();
+        for (Account account : accounts) {
+            if (id.matches(account.getId())) {
+                name = account.getName();
+                resId = context.getResources().getIdentifier(account.getIcon(), "drawable", context.getPackageName());
+                break;
+            }
+        }
+        List<Purpose> purposes = daoSession.getPurposeDao().loadAll();
+        for (Purpose purpose : purposes) {
+            if (id.matches(purpose.getId())) {
+                name = purpose.getDescription();
+                resId = context.getResources().getIdentifier(purpose.getIcon(), "drawable", context.getPackageName());
+                break;
+            }
+        }
+
+        tvTransferItem.setText(name);
+        ivTransferItem.setImageResource(resId);
+        return view;
+    }
+    @Override
+    public View getDropDownView(final int position, View convertView, ViewGroup parent) {
         View view = inflater.inflate(R.layout.transfer_account_item, parent, false);
         ImageView ivTransferItem = (ImageView) view.findViewById(R.id.ivTransferItem);
         TextView tvTransferItem = (TextView) view.findViewById(R.id.tvTransferItem);

@@ -3,8 +3,6 @@ package com.jim.finansia.fragments;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -21,16 +19,13 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.CheckBox;
-import android.widget.CheckedTextView;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -41,8 +36,6 @@ import com.jim.finansia.PocketAccounterApplication;
 import com.jim.finansia.R;
 import com.jim.finansia.database.Account;
 import com.jim.finansia.database.AccountDao;
-import com.jim.finansia.database.BoardButton;
-import com.jim.finansia.database.BoardButtonDao;
 import com.jim.finansia.database.CreditDetials;
 import com.jim.finansia.database.CreditDetialsDao;
 import com.jim.finansia.database.Currency;
@@ -55,9 +48,11 @@ import com.jim.finansia.managers.CommonOperations;
 import com.jim.finansia.managers.LogicManager;
 import com.jim.finansia.managers.PAFragmentManager;
 import com.jim.finansia.managers.ToolbarManager;
+import com.jim.finansia.utils.CurrencySpinnerAdapter;
 import com.jim.finansia.utils.IconChooseDialog;
 import com.jim.finansia.utils.OnIconPickListener;
 import com.jim.finansia.utils.PocketAccounterGeneral;
+import com.jim.finansia.utils.SpinnerAdapter;
 import com.jim.finansia.utils.cache.DataCache;
 
 import java.text.DecimalFormat;
@@ -253,13 +248,11 @@ public class AddCreditFragment extends Fragment {
         });
         spNotifMode.setAdapter(new SpinnerAdapter(getContext(), adapter));
         accaunt_AC = (ArrayList<Account>) accountDao.queryBuilder().list();
-        String[] accaounts = new String[accaunt_AC.size()];
-        for (int i = 0; i < accaounts.length; i++) {
-            accaounts[i] = accaunt_AC.get(i).getName();
+        ArrayList accounts = new ArrayList();
+        for (int i = 0; i < accaunt_AC.size(); i++) {
+            accounts.add(accaunt_AC.get(i).getName());
         }
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
-                context, R.layout.spiner_gravity_left, accaounts);
-        accountSp.setAdapter(arrayAdapter);
+        accountSp.setAdapter(new SpinnerAdapter(getContext(), accounts));
         V.findViewById(R.id.checkInclude).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -637,31 +630,21 @@ public class AddCreditFragment extends Fragment {
 
         currencies = currencyDao.loadAll();
         valyutes = new String[currencies.size()];
-
+        ArrayList cur = new ArrayList();
+        ArrayList curName = new ArrayList();
         for (int i = 0; i < valyutes.length; i++) {
             valyutes[i] = currencies.get(i).getAbbr();
+            cur.add(valyutes[i]);
+            curName.add(currencies.get(i).getName());
         }
 
-
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
-                R.layout.adapter_spiner,
-                new String[]{
-                        getString(R.string.per_year) ,  getString(R.string.per_month)
-                });
-
-
-        ArrayAdapter<String> adapter_valyuta = new ArrayAdapter<String>(getActivity(),
-                R.layout.adapter_spiner, valyutes);
-
-
-        ArrayAdapter<String> adapter_period = new ArrayAdapter<String>(getActivity(),
-                R.layout.adapter_spiner, new String[]{
-                getString(R.string.yearr) ,  getString(R.string.mont)
-        });
-
-
-        spiner_forValut.setAdapter(adapter_valyuta);
+        ArrayList percent = new ArrayList<>();
+        percent.add(getString(R.string.per_year));
+        percent.add(getResources().getString(R.string.per_month));
+        ArrayList term = new ArrayList<>();
+        term.add(getString(R.string.yearr));
+        term.add(getResources().getString(R.string.mont));
+        spiner_forValut.setAdapter(new CurrencySpinnerAdapter(getContext(), cur, curName));
         int posMain = 0;
         for (int i = 0; i < valyutes.length; i++) {
             if (valyutes[i].equals(commonOperations.getMainCurrency().getAbbr())) {
@@ -669,8 +652,8 @@ public class AddCreditFragment extends Fragment {
             }
         }
         spiner_forValut.setSelection(posMain);
-        spiner_procent.setAdapter(adapter);
-        spinner_peiod.setAdapter(adapter_period);
+        spiner_procent.setAdapter(new SpinnerAdapter(getContext(), percent));
+        spinner_peiod.setAdapter(new SpinnerAdapter(getContext(), term));
 
         spiner_forValut.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -1174,52 +1157,6 @@ public class AddCreditFragment extends Fragment {
             day = (TextView) view.findViewById(R.id.tvItemDay);
             frameLayout = (FrameLayout) view.findViewById(R.id.flItemDay);
         }
-    }
-
-    public class SpinnerAdapter extends BaseAdapter {
-        Context context;
-        ArrayList objects;
-        int checked = 1;
-        int unchecked = 2;
-        public SpinnerAdapter(Context context, ArrayList strings) {
-            this.context = context;
-            this.objects = strings;
-        }
-
-        @Override
-        public int getCount() {
-            return objects.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return objects.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View view, ViewGroup parent) {
-            LayoutInflater inflater = getActivity().getLayoutInflater();
-            View customSpinner = inflater.inflate(R.layout.spiner_gravity_left, parent, false);
-            TextView tvSpinnerItems = (TextView) customSpinner.findViewById(R.id.text1);
-            tvSpinnerItems.setText((CharSequence) objects.get(position));
-            return customSpinner;
-        }
-        @Override
-        public View getDropDownView(int position, View convertView,
-                                    ViewGroup parent) {
-            LayoutInflater inflater = getActivity().getLayoutInflater();
-            View customSpinner = inflater.inflate(R.layout.spinner_dropdown_item, parent, false);
-            TextView tvSpinnerItems = (TextView) customSpinner.findViewById(R.id.tvSpinnerItems);
-            tvSpinnerItems.setText((CharSequence) objects.get(position));
-
-            return customSpinner;
-        }
-
     }
 
 }

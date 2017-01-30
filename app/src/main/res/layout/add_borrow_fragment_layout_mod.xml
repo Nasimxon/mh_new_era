@@ -148,7 +148,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="@dimen/ten_dp"
-                            android:text="@string/debt_amount"
+                            android:text="@string/amount"
                             android:textColor="@color/black_for_glavniy_text"
                             android:textSize="@dimen/fourteen_dp"
                             />
@@ -170,7 +170,8 @@
                             android:layout_alignParentEnd="true"
                             android:layout_alignParentRight="true"
                             android:layout_centerInParent="true"
-                            android:textSize="@dimen/sixteen_dp"/>
+                            android:textSize="@dimen/sixteen_dp"
+                            android:spinnerMode="dialog"/>
                         <EditText
                             android:id="@+id/etBorrowAddPopupSumm"
                             android:layout_width="wrap_content"
@@ -276,7 +277,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginRight="@dimen/ten_dp"
                             android:layout_weight="1"
-                            android:textSize="@dimen/sixteen_dp"/>
+                            android:textSize="@dimen/sixteen_dp"
+                            android:spinnerMode="dialog"/>
                     </LinearLayout>
 
                     <android.support.v7.widget.RecyclerView
@@ -342,7 +344,8 @@
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:layout_centerInParent="true"
-                        android:textSize="@dimen/sixteen_sp"/>
+                        android:textSize="@dimen/sixteen_sp"
+                        android:spinnerMode="dialog"/>
                 </LinearLayout>
 
                 <RelativeLayout

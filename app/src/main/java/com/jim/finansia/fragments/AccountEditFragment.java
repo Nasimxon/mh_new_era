@@ -22,9 +22,11 @@ import com.jim.finansia.database.Account;
 import com.jim.finansia.database.Currency;
 import com.jim.finansia.database.CurrencyDao;
 import com.jim.finansia.managers.LogicManagerConstants;
+import com.jim.finansia.utils.CurrencySpinnerAdapter;
 import com.jim.finansia.utils.IconChooseDialog;
 import com.jim.finansia.utils.OnIconPickListener;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
@@ -61,14 +63,18 @@ public class AccountEditFragment extends PABaseInfoFragment implements OnClickLi
             }
         }, 100);
         List<Currency> currencies = daoSession.getCurrencyDao().loadAll();
-        String[] items = new String[currencies.size()];
+//        String[] items = new String[currencies.size()];
+        ArrayList curName = new ArrayList();
+        ArrayList cur = new ArrayList();
         int mainCurrencyPos = 0;
         for (int i = 0; i < currencies.size(); i++) {
             if (currencies.get(i).getMain())
                 mainCurrencyPos = i;
-            items[i] = currencies.get(i).getAbbr();
+//            items[i] = currencies.get(i).getAbbr();
+            cur.add(currencies.get(i).getAbbr());
+            curName.add(currencies.get(i).getName());
         }
-        ArrayAdapter arrayAdapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, items);
+//        ArrayAdapter arrayAdapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, items);
         etAccountEditName = (EditText) rootView.findViewById(R.id.etAccountEditName); // account name
         fabAccountIcon = (ImageView) rootView.findViewById(R.id.fabAccountIcon); // icon chooser
         int resId = getResources().getIdentifier(choosenIcon, "drawable", getContext().getPackageName());
@@ -117,11 +123,11 @@ public class AccountEditFragment extends PABaseInfoFragment implements OnClickLi
         rlStartSumContainer.setVisibility(View.GONE);
         etStartMoney = (EditText) rootView.findViewById(R.id.etStartMoney); // start money amount
         spStartMoneyCurrency = (Spinner) rootView.findViewById(R.id.spStartMoneyCurrency); //start money currency
-        spStartMoneyCurrency.setAdapter(arrayAdapter);
+        spStartMoneyCurrency.setAdapter(new CurrencySpinnerAdapter(getContext(), cur,curName ));
         spStartMoneyCurrency.setSelection(mainCurrencyPos);
         etStartLimit = (EditText) rootView.findViewById(R.id.etStartLimit); //limit amount
         spStartLimit = (Spinner) rootView.findViewById(R.id.spStartLimitCurrency); //limit currency
-        spStartLimit.setAdapter(arrayAdapter);
+        spStartLimit.setAdapter(new CurrencySpinnerAdapter(getContext(), cur,curName ));
         rootView.findViewById(R.id.checkBoxSum).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {

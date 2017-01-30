@@ -34,12 +34,15 @@ import com.jim.finansia.managers.LogicManager;
 import com.jim.finansia.managers.LogicManagerConstants;
 import com.jim.finansia.managers.PAFragmentManager;
 import com.jim.finansia.managers.ToolbarManager;
+import com.jim.finansia.utils.CurrencySpinnerAdapter;
 import com.jim.finansia.utils.DatePicker;
 import com.jim.finansia.utils.IconChooseDialog;
 import com.jim.finansia.utils.OnIconPickListener;
+import com.jim.finansia.utils.SpinnerAdapter;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -104,8 +107,10 @@ public class PurposeEditFragment extends Fragment implements OnClickListener, On
         etPeriodCount = (EditText) rootView.findViewById(R.id.for_period_credit);
         CurrencyDao currencyDao = daoSession.getCurrencyDao();
         final List<String> curList = new ArrayList<>();
+        final List<String> curName = new ArrayList<>();
         for (Currency c : currencyDao.queryBuilder().list()) {
             curList.add(c.getAbbr());
+            curName.add(c.getName());
         }
         if (purpose != null)
             choosenIcon = purpose.getIcon();
@@ -196,9 +201,7 @@ public class PurposeEditFragment extends Fragment implements OnClickListener, On
         });
         // ------------ end icon set ---------
         // ------------ spinner currency --------
-        ArrayAdapter<String> curAdapter = new ArrayAdapter<String>(getContext(),
-                R.layout.adapter_spiner, curList);
-        curPurpose.setAdapter(curAdapter);
+        curPurpose.setAdapter(new CurrencySpinnerAdapter(getContext(), (ArrayList) curList,(ArrayList) curName));
         int posMain = 0;
         for (int i = 0; i < curList.size(); i++) {
             if (curList.get(i).equals(commonOperations.getMainCurrency().getAbbr())) {
@@ -209,10 +212,8 @@ public class PurposeEditFragment extends Fragment implements OnClickListener, On
         // ------------ end spinner currency -------
         // ------------ period purpose spinner ------
         linearLayoutForGone.setVisibility(View.GONE);
-        String periodList[] = getResources().getStringArray(R.array.period_purpose);
-        ArrayAdapter<String> periodAdapter = new ArrayAdapter<>(getContext(),
-                R.layout.adapter_spiner, periodList);
-        periodPurpose.setAdapter(periodAdapter);
+        ArrayList<String> periodList = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.period_purpose)));
+        periodPurpose.setAdapter(new SpinnerAdapter(getContext(), periodList));
         periodPurpose.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

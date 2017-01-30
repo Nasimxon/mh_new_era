@@ -47,7 +47,9 @@ import com.jim.finansia.managers.LogicManager;
 import com.jim.finansia.managers.LogicManagerConstants;
 import com.jim.finansia.managers.PAFragmentManager;
 import com.jim.finansia.managers.ToolbarManager;
+import com.jim.finansia.utils.CurrencySpinnerAdapter;
 import com.jim.finansia.utils.PocketAccounterGeneral;
+import com.jim.finansia.utils.SpinnerAdapter;
 import com.jim.finansia.utils.SubCatAddEditDialog;
 
 import java.util.ArrayList;
@@ -89,7 +91,6 @@ public class AddAutoMarketFragment extends Fragment {
     private boolean type = false;
     RecyclerView.LayoutManager layoutManager;
     ArrayList<Account> accounts;
-    String[] accs;
     private RecyclerView rvDays;
     private DaysAdapter daysAdapter;
     private RadioGroup radioGroup;
@@ -121,22 +122,19 @@ public class AddAutoMarketFragment extends Fragment {
         rvDays = (RecyclerView) rootView.findViewById(R.id.rvAddAutoMarketPerItems);
 
         final List<String> curs = new ArrayList<>();
+        final List<String> cursName = new ArrayList<>();
         for (Currency cr : currencyDao.loadAll()) {
             curs.add(cr.getAbbr());
+            cursName.add(cr.getName());
         }
 
         accounts = (ArrayList<Account>) accountDao.queryBuilder().list();
-        accs = new String[accounts.size()];
+        ArrayList account = new ArrayList();
         for (int i = 0; i < accounts.size(); i++) {
-            accs[i] = accounts.get(i).getName();
+            account.add(accounts.get(i).getName());
         }
-        ArrayAdapter<String> adapter_scet = new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_spinner_item, accs);
-        ArrayAdapter<String> curAdapter = new ArrayAdapter<String>(getActivity()
-                , R.layout.spiner_gravity_right, curs);
-
-        account_sp.setAdapter(adapter_scet);
-        spCurrency.setAdapter(curAdapter);
+        account_sp.setAdapter(new SpinnerAdapter(getContext(), account));
+        spCurrency.setAdapter(new CurrencySpinnerAdapter(getContext(),(ArrayList) curs, (ArrayList) cursName));
         int posMain = 0;
         for (int i = 0; i < curs.size(); i++) {
             if (curs.get(i).equals(commonOperations.getMainCurrency().getAbbr())) {
