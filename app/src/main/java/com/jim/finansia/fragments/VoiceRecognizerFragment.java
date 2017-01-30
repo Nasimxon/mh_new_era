@@ -65,6 +65,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 import java.util.regex.Matcher;
@@ -130,9 +131,9 @@ public class VoiceRecognizerFragment extends Fragment {
     @Inject ReportManager reportManager;
     @Inject CommonOperations commonOperations;
     @Inject List<TemplateCurrencyVoice> templateCurrencyVoices;
-    @Inject FinansiaFirebaseAnalytics analytics;
     @Inject SharedPreferences preferences;
     @Inject PurchaseImplementation purchaseImplementation;
+    @Inject FinansiaFirebaseAnalytics analytics;
     private String[] curString;
     private String[] accString;
     private CountDownTimer timer;
@@ -225,6 +226,7 @@ public class VoiceRecognizerFragment extends Fragment {
                             dialog.setOnYesButtonListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
+                                    analytics.sendText(Locale.getDefault().getCountry() + " User clicked to buy voice recognition button");
                                     purchaseImplementation.buyVoiceRecognition();
                                     dialog.dismiss();
                                 }
@@ -322,7 +324,7 @@ public class VoiceRecognizerFragment extends Fragment {
         visibilityGoneLR();
         refreshMode(false);
         String fragmentName = getClass().getName();
-        analytics.sendText("User entered: " + fragmentName);
+        analytics.sendText(Locale.getDefault().getCountry() + " User entered: " + fragmentName);
         return rootView;
     }
 
@@ -356,7 +358,7 @@ public class VoiceRecognizerFragment extends Fragment {
         recStartLeft.setAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.right_gone_anim));
         recStartRight.setVisibility(View.GONE);
         recStartLeft.setVisibility(View.GONE);
-        paFragmentManager.setVerticalScrolling(true);
+//        paFragmentManager.setVerticalScrolling(true);
         stopRecognition();
     }
 
@@ -365,7 +367,7 @@ public class VoiceRecognizerFragment extends Fragment {
         recStartLeft.setAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.right_anim));
         recStartRight.setVisibility(View.VISIBLE);
         recStartLeft.setVisibility(View.VISIBLE);
-        paFragmentManager.setVerticalScrolling(false);
+//        paFragmentManager.setVerticalScrolling(false);
     }
 
     private void refreshMode(boolean isRecord) {

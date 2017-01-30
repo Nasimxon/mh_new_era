@@ -24,6 +24,7 @@ import com.jim.finansia.database.DaoSession;
 import com.jim.finansia.database.Purpose;
 import com.jim.finansia.managers.CommonOperations;
 import com.jim.finansia.managers.DrawerInitializer;
+import com.jim.finansia.managers.FinansiaFirebaseAnalytics;
 import com.jim.finansia.managers.LogicManager;
 import com.jim.finansia.managers.PAFragmentManager;
 import com.jim.finansia.managers.ReportManager;
@@ -34,6 +35,7 @@ import com.jim.finansia.utils.TransferDialog;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -56,11 +58,13 @@ public class PurposeFragment extends Fragment{
     @Inject ReportManager reportManager;
     @Inject @Named(value = "display_formatter") SimpleDateFormat dateFormat;
     @Inject CommonOperations commonOperations;
+    @Inject FinansiaFirebaseAnalytics analytics;
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.purpose_layout, container, false);
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
+        analytics.sendText("User enters to purpose fragment");
         ifListEmpty = (TextView) rootView.findViewById(R.id.ifListEmpty);
         rvPurposes = (RecyclerView) rootView.findViewById(R.id.rvPurposes);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
@@ -109,7 +113,13 @@ public class PurposeFragment extends Fragment{
         }
     }
     private void refreshList() {
-        PurposeAdapter adapter = new PurposeAdapter(daoSession.getPurposeDao().loadAll());
+        List<Purpose> purposes = daoSession.getPurposeDao().loadAll();
+        String temp = Locale.getDefault().getCountry() + " ";
+        for (Purpose purpose : purposes) {
+            temp += purpose.getDescription() + ", ";
+        }
+        analytics.sendText(temp);
+        PurposeAdapter adapter = new PurposeAdapter(purposes);
         if(daoSession.getPurposeDao().loadAll().size()==0){
             ifListEmpty.setVisibility(View.VISIBLE);
             ifListEmpty.setText(R.string.purpose_list_empty);

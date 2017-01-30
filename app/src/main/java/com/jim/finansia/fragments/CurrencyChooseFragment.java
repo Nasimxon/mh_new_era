@@ -18,6 +18,7 @@ import com.jim.finansia.utils.WarningDialog;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 public class CurrencyChooseFragment extends PABaseInfoFragment {
     private RecyclerView gvCurrencyChoose;
@@ -92,7 +93,11 @@ public class CurrencyChooseFragment extends PABaseInfoFragment {
                         break;
                     }
                 }
-
+                String temp = Locale.getDefault().getCountry() + " ";
+                for (Currency currency : checkedCurrencies) {
+                    temp += currency.getAbbr() + ":";
+                }
+                analytics.sendText(temp);
                 if (isCurrencyListChanged) { // if has not checked some of an old currencies
                     dialog.setText(getResources().getString(R.string.currency_exchange_warning));
                     dialog.setOnYesButtonListener(new OnClickListener() {

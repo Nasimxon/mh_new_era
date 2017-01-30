@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -35,6 +34,7 @@ import com.jim.finansia.managers.PAFragmentManager;
 import com.jim.finansia.managers.ToolbarManager;
 import com.jim.finansia.photocalc.PhotoAdapter;
 import com.jim.finansia.utils.PocketAccounterGeneral;
+import com.jim.finansia.utils.SpaceTabLayout;
 import com.jim.finansia.utils.WarningDialog;
 import com.jim.finansia.utils.cache.DataCache;
 
@@ -47,47 +47,70 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-@SuppressLint("ValidFragment")
 public class RecordDetailFragment extends Fragment {
-    private Calendar date;
-    private RecyclerView rvRecordDetail;
-    private int mode = PocketAccounterGeneral.NORMAL_MODE;
-    private ArrayList<FinanceRecord> records;
-    private boolean[] selections;
-    private boolean onNoPressed = false;
-    Context context;
-    @Inject
-    DaoSession daoSession;
-    @Inject
-    ToolbarManager toolbarManager;
-    @Inject
-    PAFragmentManager paFragmentManager;
-    @Inject
-    LogicManager logicManager;
-    @Inject
-    DataCache dataCache;
-
-
-
+    public static String DATE = "date";
+    public static String PARENT = "parent";
+    public static String CATEGORY_ID = "category_id";
+    public static String RECORD_ID = "record_id";
+    private String date = "";
+    @Inject DaoSession daoSession;
+    @Inject ToolbarManager toolbarManager;
+    @Inject PAFragmentManager paFragmentManager;
+    @Inject LogicManager logicManager;
+    @Inject DataCache dataCache;
+    private SpaceTabLayout tabLayout;
+    private SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
     private ViewPager vpRecord;
-    @SuppressLint("ValidFragment")
-    public RecordDetailFragment(Calendar date) {
-        this.date = (Calendar) date.clone();
-    }
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.finance_record_detail_fragment, container, false);
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
+        if (getArguments() != null)
+            date = getArguments().getString(DATE);
+        //add the fragments you want to display in a List
+        Bundle bundle = new Bundle();
+        bundle.putString(DATE, date);
+        List<Fragment> fragmentList = new ArrayList<>();
+        DetailedCreditsFragment credits = new DetailedCreditsFragment();
+        credits.setArguments(bundle);
+        DetailedDebtBorrowsFragment debtBorrows = new DetailedDebtBorrowsFragment();
+        debtBorrows.setArguments(bundle);
+        FinanceRecordsFragment financeRecords = new FinanceRecordsFragment();
+        financeRecords.setArguments(bundle);
+        DetailedSmsSuccessesFragment smsSuccesses = new DetailedSmsSuccessesFragment();
+        smsSuccesses.setArguments(bundle);
+        fragmentList.add(financeRecords);
+        fragmentList.add(smsSuccesses);
+        fragmentList.add(debtBorrows);
+        fragmentList.add(credits);
         vpRecord = (ViewPager) rootView.findViewById(R.id.vpRecord);
-        List<Fragment> fragments = new ArrayList<>();
-        fragments.add(new FinanceRecordsFragment(Calendar.getInstance()));
-        fragments.add(new SmsParseMainFragment());
-        fragments.add(new ReportFragment());
-        fragments.add(new CurrencyFragment());
-        TabLayout tabLayout = (TabLayout) rootView.findViewById(R.id.tabLayoutRecords);
-        MyAdapter adapter = new MyAdapter(fragments, paFragmentManager.getFragmentManager());
-        vpRecord.setAdapter(adapter);
-        tabLayout.setupWithViewPager(vpRecord);
+        vpRecord.setOffscreenPageLimit(0);
+        vpRecord.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+            @Override
+            public void onPageSelected(int position) {
+                if (position == 0)
+                    toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
+                else
+                    toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {}
+        });
+        toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
+        tabLayout = (SpaceTabLayout) rootView.findViewById(R.id.spaceTabLayout);
+        //we need the savedInstanceState to get the position
+        tabLayout.initialize(vpRecord, paFragmentManager.getFragmentManager(),
+                fragmentList, savedInstanceState);
         return rootView;
+    }
+
+    //we need the outState to save the position
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        tabLayout.saveState(outState);
+        super.onSaveInstanceState(outState);
     }
     public void onResume() {
         super.onResume();
@@ -108,37 +131,7 @@ public class RecordDetailFragment extends Fragment {
                 }
             });
             toolbarManager.setTitle(getResources().getString(R.string.records));
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd,LLL yyyy");
-            toolbarManager.setSubtitle(dateFormat.format(date.getTime()));
-        }
-    }
-    private class MyAdapter extends FragmentStatePagerAdapter {
-        List<Fragment> list;
-
-        public MyAdapter(List<Fragment> list, FragmentManager fm) {
-            super(fm);
-            this.list = list;
-        }
-
-        public Fragment getItem(int position) {
-            return list.get(position);
-        }
-
-        public int getCount() {
-            return list.size();
-        }
-
-        public CharSequence getPageTitle(int position) {
-            if (position == 0) {
-                return getResources().getString(R.string.records);
-            } else
-            if (position == 1) {
-                return getResources().getString(R.string.sms_parse);
-            }
-            if (position == 2) {
-                return getResources().getString(R.string.debts);
-            }
-            return getResources().getString(R.string.credit);
+            toolbarManager.setSubtitle(date);
         }
     }
 }

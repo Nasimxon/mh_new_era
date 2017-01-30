@@ -9,6 +9,7 @@ import com.jim.finansia.PocketAccounterApplication;
 import com.jim.finansia.database.DaoSession;
 import com.jim.finansia.managers.CommonOperations;
 import com.jim.finansia.managers.DrawerInitializer;
+import com.jim.finansia.managers.FinansiaFirebaseAnalytics;
 import com.jim.finansia.managers.LogicManager;
 import com.jim.finansia.managers.PAFragmentManager;
 import com.jim.finansia.managers.ReportManager;
@@ -35,6 +36,7 @@ public abstract class PABaseFragment extends Fragment {
     @Inject @Named(value = "display_formatter") SimpleDateFormat dateFormat;
     @Inject ReportManager reportManager;
     @Inject SharedPreferences preferences;
+    @Inject FinansiaFirebaseAnalytics analytics;
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);

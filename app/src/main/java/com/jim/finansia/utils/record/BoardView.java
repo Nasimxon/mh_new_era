@@ -53,6 +53,7 @@ import com.jim.finansia.fragments.CreditTabLay;
 import com.jim.finansia.fragments.CurrencyFragment;
 import com.jim.finansia.fragments.InfoCreditFragment;
 import com.jim.finansia.fragments.PurposeFragment;
+import com.jim.finansia.fragments.RecordDetailFragment;
 import com.jim.finansia.fragments.RecordEditFragment;
 import com.jim.finansia.fragments.ReportByAccountFragment;
 import com.jim.finansia.fragments.ReportByCategory;
@@ -141,7 +142,14 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
                                     category = categoryList.get(0);
                             }
                             paFragmentManager.setMainReturn(true);
-                            paFragmentManager.displayFragment(new RecordEditFragment(category, day, null, PocketAccounterGeneral.MAIN));
+                            Bundle bundle = new Bundle();
+                            SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+                            bundle.putString(RecordDetailFragment.DATE, format.format(day.getTime()));
+                            bundle.putString(RecordDetailFragment.CATEGORY_ID, category.getId());
+                            bundle.putInt(RecordDetailFragment.PARENT, PocketAccounterGeneral.MAIN);
+                            RecordEditFragment fragment = new RecordEditFragment();
+                            fragment.setArguments(bundle);
+                            paFragmentManager.displayFragment(fragment);
                         }
                         else if (button.getType() == PocketAccounterGeneral.CREDIT) {
                             CreditDetials item=daoSession.getCreditDetialsDao().load(Long.parseLong(button.getCategoryId()));
@@ -153,10 +161,12 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
 
                         }
                         else if (button.getType() == PocketAccounterGeneral.DEBT_BORROW) {
-                            int mode = table == PocketAccounterGeneral.INCOME ? PocketAccounterGeneral.INCOME_MODE : PocketAccounterGeneral.EXPANSE_MODE;
-                            InfoDebtBorrowFragment fragment = new InfoDebtBorrowFragment(button.getCategoryId(), mode);
+                            Bundle bundle = new Bundle();
+                            bundle.putString(DebtBorrowFragment.DEBT_BORROW_ID, button.getCategoryId());
+                            bundle.putInt(DebtBorrowFragment.MODE, table == PocketAccounterGeneral.INCOME ? PocketAccounterGeneral.INCOME_MODE : PocketAccounterGeneral.EXPANSE_MODE);
+                            InfoDebtBorrowFragment fragment = new InfoDebtBorrowFragment();
+                            fragment.setArguments(bundle);
                             fragment.setMainItems (currentPage*16+position);
-                            paFragmentManager.setMainReturn(true);
                             paFragmentManager.displayFragment(fragment);
                         }
                         else if (button.getType() == PocketAccounterGeneral.PAGE) {
@@ -615,7 +625,15 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
         lvDialog.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                paFragmentManager.displayFragment(new RecordEditFragment(records.get(position).getCategory(), day, records.get(position), PocketAccounterGeneral.MAIN));
+                Bundle bundle = new Bundle();
+                SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+                bundle.putString(RecordDetailFragment.DATE, format.format(day.getTime()));
+                bundle.putString(RecordDetailFragment.CATEGORY_ID, records.get(position).getCategory().getId());
+                bundle.putString(RecordDetailFragment.RECORD_ID, records.get(position).getRecordId());
+                bundle.putInt(RecordDetailFragment.PARENT, PocketAccounterGeneral.MAIN);
+                RecordEditFragment fragment = new RecordEditFragment();
+                fragment.setArguments(bundle);
+                paFragmentManager.displayFragment(fragment);
                 releasePress();
                 PocketAccounter.PRESSED = false;
                 dialog.dismiss();
@@ -675,8 +693,10 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
                                                 RootCategoryEditFragment fragment = new RootCategoryEditFragment();
                                                 fragment.setArguments(bundle);
                                                 paFragmentManager.displayFragment(fragment);
-                                            } else
-                                                purchaseImplementation.buyChangingPage();
+                                            } else {
+                                                analytics.sendText("User wants to buy service, which changes button to page");
+                                                purchaseImplementation.buyChangingCategory();
+                                            }
                                             break;
                                         case 1:
                                             paFragmentManager.setMainReturn(true);
@@ -684,8 +704,10 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
                                             if (isAvailable) {
                                                 buttonsCount = table == PocketAccounterGeneral.INCOME ? INCOME_BUTTONS_COUNT_PER_PAGE : EXPENSE_BUTTONS_COUNT_PER_PAGE;
                                                 paFragmentManager.displayFragment((new AddCreditFragment()).setDateFormatModes(PocketAccounterGeneral.EXPANSE_MODE,currentPage*buttonsCount+pos));
-                                            } else
-                                                purchaseImplementation.buyChangingPage();
+                                            } else {
+                                                analytics.sendText("User wants to buy service, which changes button to credit");
+                                                purchaseImplementation.buyChanchingCredit();
+                                            }
                                             break;
                                         case 2:
                                             paFragmentManager.setMainReturn(true);
@@ -701,8 +723,10 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
                                                 AddBorrowFragment fragment = new AddBorrowFragment();
                                                 fragment.setArguments(bundle);
                                                 paFragmentManager.displayFragment(fragment);
-                                            } else
-                                                purchaseImplementation.buyChangingPage();
+                                            } else {
+                                                analytics.sendText("User wants to buy service, which changes button to debt or borrow");
+                                                purchaseImplementation.buyChangingDebtBorrow();
+                                            }
                                             break;
                                     }
                                     break;
@@ -763,8 +787,10 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
                     init();
                     paFragmentManager.updateAllFragmentsOnViewPager();
                     dataCache.updateOneDay(day);
-                } else
+                } else {
+                    analytics.sendText("User wants to buy changing page service");
                     purchaseImplementation.buyChangingPage();
+                }
                 PocketAccounter.PRESSED = false;
                 dialog.dismiss();
             }
@@ -807,8 +833,10 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
                     paFragmentManager.updateAllFragmentsOnViewPager();
                     dataCache.updateOneDay(day);
                 }
-                else
+                else {
+                    analytics.sendText("User wants to buy change button to function service");
                     purchaseImplementation.buyChangingFunction();
+                }
                 PocketAccounter.PRESSED = false;
                 dialog.dismiss();
             }
@@ -856,8 +884,10 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
                         paFragmentManager.updateAllFragmentsOnViewPager();
                         paFragmentManager.updateAllFragmentsPageChanges();
                     }
-                    else
+                    else {
+                        analytics.sendText("User wants to buy changing button to category");
                         purchaseImplementation.buyChangingCategory();
+                    }
                 } else {
                     int buttonsCount = table == PocketAccounterGeneral.INCOME ? INCOME_BUTTONS_COUNT_PER_PAGE : EXPENSE_BUTTONS_COUNT_PER_PAGE;
                     logicManager.changeBoardButton(table, currentPage*buttonsCount+pos, categories.get(position).getId());
@@ -911,8 +941,10 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
                         paFragmentManager.updateAllFragmentsOnViewPager();
                         dataCache.updateOneDay(day);
                     }
-                    else
+                    else {
+                        analytics.sendText("User wants to buy changing button to debt or borrow");
                         purchaseImplementation.buyChangingDebtBorrow();
+                    }
                     PocketAccounter.PRESSED = false;
                     dialog.dismiss();
                 }
@@ -966,8 +998,10 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
                         paFragmentManager.updateAllFragmentsOnViewPager();
                         dataCache.updateOneDay(day);
                     }
-                    else
+                    else {
+                        analytics.sendText("User wants to buy changing button to credit");
                         purchaseImplementation.buyChanchingCredit();
+                    }
                     PocketAccounter.PRESSED = false;
                     dialog.dismiss();
                 }

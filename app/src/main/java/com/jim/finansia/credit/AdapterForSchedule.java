@@ -192,7 +192,6 @@ public class AdapterForSchedule extends RecyclerView.Adapter<RecyclerView.ViewHo
             tvPeriodPayed = (TextView) itemView.findViewById(R.id.tvPeriodPayed);
             tvBalance = (TextView) itemView.findViewById(R.id.tvBalance);
             mainView = (LinearLayout) itemView.findViewById(R.id.mainView);
-
         }
     }
 

@@ -473,9 +473,11 @@ public class DrawerInitializer {
                 @Override
                 public void onClick(View view) {
                     if (fragmentManager.getFragmentManager().getBackStackEntryCount() == 0 && position == 0) {
-                        pocketAccounter.findViewById(R.id.change).setVisibility(View.VISIBLE);
+                        if (pocketAccounter.findViewById(R.id.change) != null)
+                            pocketAccounter.findViewById(R.id.change).setVisibility(View.VISIBLE);
                     } else {
-                        pocketAccounter.findViewById(R.id.change).setVisibility(View.GONE);
+                        if (pocketAccounter.findViewById(R.id.change) != null)
+                            pocketAccounter.findViewById(R.id.change).setVisibility(View.GONE);
                     }
                     oldPosition = position;
 

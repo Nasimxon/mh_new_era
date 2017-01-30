@@ -36,7 +36,7 @@ public class PocketAccounterActivityModule {
     private Toolbar toolbar;
     private LogicManager logicManager;
     private PurchaseImplementation purchaseImplementation;
-    private FinansiaFirebaseAnalytics finansiaFiregbaseAnalytics;
+
     public PocketAccounterActivityModule(PocketAccounter pocketAccounter, Toolbar toolbar) {
         this.pocketAccounter = pocketAccounter;
         this.toolbar = toolbar;
@@ -44,7 +44,7 @@ public class PocketAccounterActivityModule {
         paFragmentManager = new PAFragmentManager(pocketAccounter);
         drawerInitializer = new DrawerInitializer(this.pocketAccounter, paFragmentManager);
         logicManager = new LogicManager(pocketAccounter);
-        finansiaFiregbaseAnalytics = new FinansiaFirebaseAnalytics(pocketAccounter);
+
     }
 
     @Provides
@@ -119,11 +119,5 @@ public class PocketAccounterActivityModule {
         return purchaseImplementation;
 
     }
-    @Provides
-    public FinansiaFirebaseAnalytics getFinansiaFiregbaseAnalytics() {
-        if (finansiaFiregbaseAnalytics == null)
-            finansiaFiregbaseAnalytics = new FinansiaFirebaseAnalytics(pocketAccounter);
-        return finansiaFiregbaseAnalytics;
 
-    }
 }

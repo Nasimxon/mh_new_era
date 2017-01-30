@@ -14,6 +14,7 @@ import com.jim.finansia.database.TemplateAccount;
 import com.jim.finansia.database.TemplateCurrencyVoice;
 import com.jim.finansia.database.TemplateVoice;
 import com.jim.finansia.managers.CommonOperations;
+import com.jim.finansia.managers.FinansiaFirebaseAnalytics;
 import com.jim.finansia.managers.ReportManager;
 import com.jim.finansia.utils.PocketAccounterGeneral;
 import com.jim.finansia.utils.cache.DataCache;
@@ -50,12 +51,14 @@ public class PocketAccounterApplicationModule {
     private DecimalFormat formatter;
     private ReportManager reportManager;
     private CommonOperations commonOperations;
+    private FinansiaFirebaseAnalytics finansiaFiregbaseAnalytics;
     public PocketAccounterApplicationModule(PocketAccounterApplication pocketAccounterApplication) {
         this.pocketAccounterApplication = pocketAccounterApplication;
         DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(pocketAccounterApplication, PocketAccounterGeneral.CURRENT_DB_NAME);
         Database db = helper.getWritableDb();
         daoSession = new DaoMaster(db).newSession();
         preferences = PreferenceManager.getDefaultSharedPreferences(pocketAccounterApplication);
+        finansiaFiregbaseAnalytics = new FinansiaFirebaseAnalytics(pocketAccounterApplication);
     }
 
     @Provides
@@ -179,5 +182,12 @@ public class PocketAccounterApplicationModule {
             }
         }
         return currencyVoices;
+    }
+    @Provides
+    public FinansiaFirebaseAnalytics getFinansiaFiregbaseAnalytics() {
+        if (finansiaFiregbaseAnalytics == null)
+            finansiaFiregbaseAnalytics = new FinansiaFirebaseAnalytics(pocketAccounterApplication);
+        return finansiaFiregbaseAnalytics;
+
     }
 }

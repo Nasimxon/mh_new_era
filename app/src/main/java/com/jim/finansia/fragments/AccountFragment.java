@@ -32,6 +32,7 @@ import com.jim.finansia.utils.WarningDialog;
 
 import java.text.DecimalFormat;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -158,6 +159,11 @@ public class AccountFragment extends PABaseListFragment {
 		private List<Account> result;
 		public AccountAdapter(List<Account> result) {
 			this.result = result;
+			String accounts = Locale.getDefault().getCountry() + " ";
+			for (Account account : result) {
+				accounts += account.getName() + ":" + account.getId() + ", ";
+			}
+			analytics.sendText(accounts);
 		}
 
 		public int getItemCount() {

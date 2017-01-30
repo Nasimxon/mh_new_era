@@ -47,6 +47,7 @@ import com.jim.finansia.database.DaoSession;
 import com.jim.finansia.database.DebtBorrow;
 import com.jim.finansia.database.DebtBorrowDao;
 import com.jim.finansia.database.Recking;
+import com.jim.finansia.fragments.RecordDetailFragment;
 import com.jim.finansia.managers.CommonOperations;
 import com.jim.finansia.managers.LogicManager;
 import com.jim.finansia.managers.LogicManagerConstants;
@@ -115,16 +116,15 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
     private RelativeLayout rlInfo;
     private PopupMenu popupMenu;
 
-    public InfoDebtBorrowFragment(String id, int mode) {
-        this.id = id;
-        this.mode = mode;
-    }
-
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.modern_debt_borrow_info, container, false);
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
+        if (getArguments() != null) {
+            id = getArguments().getString(DebtBorrowFragment.DEBT_BORROW_ID);
+            mode = getArguments().getInt(DebtBorrowFragment.MODE);
+        }
         warningDialog = new WarningDialog(getContext());
         numberFormat = NumberFormat.getNumberInstance();
         numberFormat.setMinimumFractionDigits(2);
@@ -402,7 +402,7 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
                         bundle.putInt(DebtBorrowFragment.MODE, PocketAccounterGeneral.NO_MODE);
                         bundle.putInt(DebtBorrowFragment.POSITION, 0);
                         bundle.putInt(DebtBorrowFragment.TYPE, debtBorrow.getType());
-                        AddBorrowFragment fragment = new AddBorrowFragment();
+                        final AddBorrowFragment fragment = new AddBorrowFragment();
                         fragment.setArguments(bundle);
                         int count = paFragmentManager.getFragmentManager().getBackStackEntryCount();
                         while (count > 0) {
@@ -428,9 +428,17 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
                                         break;
                                     }
                                     case LogicManagerConstants.DELETED_SUCCESSFUL: {
-                                        if (paFragmentManager.isMainReturn()) {
+                                        if (mode == PocketAccounterGeneral.INCOME_MODE || mode == PocketAccounterGeneral.EXPANSE_MODE) {
                                             paFragmentManager.displayMainWindow();
-                                        } else {
+                                        } else if (mode == PocketAccounterGeneral.DETAIL){
+                                            Bundle bundle = new Bundle();
+                                            SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+                                            bundle.putString(RecordDetailFragment.DATE, format.format(dataCache.getEndDate().getTime()));
+                                            RecordDetailFragment fragment = new RecordDetailFragment();
+                                            fragment.setArguments(bundle);
+                                            paFragmentManager.getFragmentManager().popBackStack();
+                                            paFragmentManager.displayFragment(new DebtBorrowFragment());
+                                        } else if (mode == PocketAccounterGeneral.NO_MODE) {
                                             DebtBorrowFragment fragment = new DebtBorrowFragment();
                                             Bundle bundle = new Bundle();
                                             bundle.putInt("pos", debtBorrow.getTo_archive() ? 2 : debtBorrow.getType());

@@ -28,6 +28,7 @@ import com.jim.finansia.credit.notificat.NotificationManagerCredit;
 import com.jim.finansia.database.DaoSession;
 import com.jim.finansia.debt.PocketClassess;
 import com.jim.finansia.fragments.ChangeColorOfStyleFragment;
+import com.jim.finansia.fragments.MainFragment;
 import com.jim.finansia.fragments.RecordEditFragment;
 import com.jim.finansia.intropage.IntroIndicator;
 import com.jim.finansia.managers.CommonOperations;
@@ -134,7 +135,8 @@ public class PocketAccounter extends AppCompatActivity {
         //init toolbar
         treatToolbar();
         //initializing main window elements and show them
-        paFragmentManager.initializeMainWindow();
+//        paFragmentManager.setDrawerInitializerToBackstackListener(drawerInitializer);
+        paFragmentManager.initMainWindow();
         //secure layer configuring
         pwPassword = (PasswordWindow) findViewById(R.id.pwPassword);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -167,7 +169,8 @@ public class PocketAccounter extends AppCompatActivity {
             })).start();
         }
         //switching toolbar for two modes
-        if (paFragmentManager.getSelectedMode() == 0)
+        int mode = preferences.getInt(PocketAccounterGeneral.VERTICAL_SELECTED_PAGE, 1);
+        if (mode == 0)
             setToToolbarVoiceMode();
         else
             setToToolbarManualEnterMode();
@@ -298,14 +301,17 @@ public class PocketAccounter extends AppCompatActivity {
                 paFragmentManager.getFragmentManager().findFragmentById(R.id.flMain).
                         getClass().getName().equals(PocketClassess.RECORD_EDIT_FRAGMENT) && isCalcLayoutOpen) {
             ((RecordEditFragment) paFragmentManager.getFragmentManager().findFragmentById(R.id.flMain)).closeLayout();
-        } else if (paFragmentManager.getFragmentManager().getBackStackEntryCount() > 0) {
-            if (paFragmentManager.getFragmentManager().findFragmentById(R.id.flMain) != null &&
+        }
+        else if (paFragmentManager.getFragmentManager().findFragmentById(R.id.flMain) != null &&
+                !paFragmentManager.getFragmentManager().findFragmentById(R.id.flMain).getClass().getName().equals(MainFragment.class.getName())) {
+
+                paFragmentManager.remoteBackPress(drawerInitializer);
+        } else if (paFragmentManager.getFragmentManager().findFragmentById(R.id.flMain) != null &&
                     paFragmentManager.getFragmentManager().findFragmentById(R.id.flMain).
                             getClass().getName().equals(PocketClassess.SEARCH_FRAGMENT)) {
                 toolbarManager.closeSearchTools();
-            } else
-                paFragmentManager.remoteBackPress(drawerInitializer);
-        } else {
+        }
+        else if (paFragmentManager.getFragmentManager().findFragmentById(R.id.flMain) == null){
             final WarningDialog warningDialog = new WarningDialog(this);
             warningDialog.setMyTitle(getResources().getString(R.string.warning));
             warningDialog.setText(getResources().getString(R.string.dou_you_want_quit));
@@ -314,6 +320,7 @@ public class PocketAccounter extends AppCompatActivity {
                 public void onClick(View v) {
                     warningDialog.dismiss();
                     PocketAccounter.super.onBackPressed();
+                    finish();
                 }
             });
             warningDialog.setOnNoButtonClickListener(new View.OnClickListener() {

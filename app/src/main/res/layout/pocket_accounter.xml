@@ -75,7 +75,6 @@
                 android:layout_height="@dimen/thirty_dp"
                 android:visibility="gone" />
         </LinearLayout>
-
         <EditText
             android:id="@+id/editToolbar"
             android:layout_width="match_parent"
@@ -85,12 +84,11 @@
             android:hint="@string/search"
             android:textSize="@dimen/eightteen_dp"
             android:visibility="gone" />
-
     </android.support.v7.widget.Toolbar>
-    <com.jim.finansia.helper.MyVerticalViewPager
+    <FrameLayout
+        android:id="@+id/flMainWindow"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/vpVertical"
         android:layout_below="@+id/toolbar" />
     <FrameLayout
         android:id="@+id/mainWhite"

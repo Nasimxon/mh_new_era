@@ -19,7 +19,6 @@ import com.jim.finansia.PocketAccounter;
 import com.jim.finansia.PocketAccounterApplication;
 import com.jim.finansia.R;
 import com.jim.finansia.managers.CommonOperations;
-import com.jim.finansia.managers.FinansiaFirebaseAnalytics;
 import com.jim.finansia.managers.PAFragmentManager;
 import com.jim.finansia.managers.ReportManager;
 import com.jim.finansia.managers.ToolbarManager;
@@ -31,6 +30,7 @@ import com.jim.finansia.utils.record.BalanceStripe;
 import com.jim.finansia.utils.record.BoardView;
 import com.jim.finansia.utils.record.PageChangeListener;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -43,8 +43,8 @@ import static com.jim.finansia.PocketAccounter.PRESSED;
 @SuppressLint("ValidFragment")
 public class MainPageFragment extends Fragment {
     private LinearLayout llMainPageBackground;
-    private Calendar day;
-    private PocketAccounter pocketAccounter;
+    private Calendar day = Calendar.getInstance();
+    private int position = 0;
     private boolean keyboardVisible = false;
     private RelativeLayout rlMainPageContainer;
     private BalanceStripe balanceStripe;
@@ -59,14 +59,7 @@ public class MainPageFragment extends Fragment {
     @Inject @Named(value = "begin") Calendar begin;
     @Inject @Named(value = "end") Calendar end;
     @Inject SharedPreferences preferences;
-    @Inject FinansiaFirebaseAnalytics analytics;
     private boolean infosVisibility;
-    public MainPageFragment(Context context, Calendar day) {
-        this.day = (Calendar) day.clone();
-        this.pocketAccounter = (PocketAccounter) context;
-        pocketAccounter.component((PocketAccounterApplication) pocketAccounter.getApplicationContext()).inject(this);
-    }
-
     @Override
     public void onStart() {
         super.onStart();
@@ -75,13 +68,24 @@ public class MainPageFragment extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.main_page_fragment, container, false);
-        pocketAccounter.findViewById(R.id.main).setVisibility(View.VISIBLE);
+        ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
+        ((PocketAccounter) getContext()).findViewById(R.id.main).setVisibility(View.VISIBLE);
+        if (getArguments() != null) {
+            try {
+                SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+                day.setTime(format.parse(getArguments().getString(MainFragment.DATE)));
+                position = getArguments().getInt(MainFragment.POSITION);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
         //is keyboard panel opened?
-        pocketAccounter.findViewById(R.id.main).getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+        ((PocketAccounter) getContext()).findViewById(R.id.main).getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                int heightDiff = pocketAccounter.findViewById(R.id.main).getRootView().getHeight() - pocketAccounter.findViewById(R.id.main).getHeight();
-                if (heightDiff > dpToPx(pocketAccounter, 200)) { // if more than 200 dp, it's probably a keyboard...
+                if (getContext()== null) return;
+                int heightDiff = ((PocketAccounter) getContext()).findViewById(R.id.main).getRootView().getHeight() - ((PocketAccounter) getContext()).findViewById(R.id.main).getHeight();
+                if (heightDiff > dpToPx(getContext(), 200)) { // if more than 200 dp, it's probably a keyboard...
                     keyboardVisible = true;
                 } else {
                     keyboardVisible = false;
@@ -89,9 +93,9 @@ public class MainPageFragment extends Fragment {
             }
         });
         if (keyboardVisible) {
-            InputMethodManager imm = (InputMethodManager) pocketAccounter.getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(pocketAccounter.findViewById(R.id.main).getWindowToken(), 0);
-            pocketAccounter.findViewById(R.id.main).postDelayed(new Runnable() {
+            InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(((PocketAccounter) getContext()).findViewById(R.id.main).getWindowToken(), 0);
+            ((PocketAccounter) getContext()).findViewById(R.id.main).postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     keyboardVisible=false;
@@ -102,7 +106,7 @@ public class MainPageFragment extends Fragment {
         llMainPageBackground = (LinearLayout) rootView.findViewById(R.id.llMainPageBackground);
         rlMainPageContainer = (RelativeLayout) rootView.findViewById(R.id.rlMainPageContainer);
         //balance stripe
-        balanceStripe = new BalanceStripe(pocketAccounter, day, begin, end, preferences, reportManager, dataCache, commonOperations);
+        balanceStripe = new BalanceStripe(getContext(), day, begin, end, preferences, reportManager, dataCache, commonOperations);
         ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         balanceStripe.setLayoutParams(lp);
         PRESSED = false;
@@ -110,13 +114,16 @@ public class MainPageFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (PRESSED) return;
-                paFragmentManager.displayFragment(new RecordDetailFragment(dataCache.getEndDate()));
+                Bundle bundle = new Bundle();
+                SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+                bundle.putString(RecordDetailFragment.DATE, format.format(dataCache.getEndDate().getTime()));
+                RecordDetailFragment fragment = new RecordDetailFragment();
+                fragment.setArguments(bundle);
+                paFragmentManager.displayFragment(fragment);
                 PRESSED = true;
             }
         });
         initialize();
-        String fragmentName = getClass().getName();
-        analytics.sendText("User listed: " + fragmentName + " " + simpleDateFormat.format(day.getTime()));
         return rootView;
     }
 
@@ -175,7 +182,7 @@ public class MainPageFragment extends Fragment {
     }
 
     public void initialize() {
-        DisplayMetrics dm = pocketAccounter.getResources().getDisplayMetrics();
+        DisplayMetrics dm = getResources().getDisplayMetrics();
         double width = (double) dm.widthPixels;
         double height = (double) dm.heightPixels;
         double ratio = height/width;
@@ -254,7 +261,7 @@ public class MainPageFragment extends Fragment {
         lpBalance.addRule(RelativeLayout.BELOW, R.id.main_expense);
         lpBalance.addRule(RelativeLayout.ABOVE, R.id.main_income);
         if (balanceStripe == null) {
-            balanceStripe = new BalanceStripe(pocketAccounter, day, begin, end, preferences, reportManager, dataCache, commonOperations);
+            balanceStripe = new BalanceStripe(getContext(), day, begin, end, preferences, reportManager, dataCache, commonOperations);
             ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             balanceStripe.setLayoutParams(lp);
             PRESSED = false;
@@ -262,7 +269,12 @@ public class MainPageFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     if (PRESSED) return;
-                    paFragmentManager.displayFragment(new RecordDetailFragment(dataCache.getEndDate()));
+                    Bundle bundle = new Bundle();
+                    SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+                    bundle.putString(RecordDetailFragment.DATE, format.format(dataCache.getEndDate().getTime()));
+                    RecordDetailFragment fragment = new RecordDetailFragment();
+                    fragment.setArguments(bundle);
+                    paFragmentManager.displayFragment(fragment);
                     PRESSED = true;
                 }
             });
@@ -376,6 +388,9 @@ public class MainPageFragment extends Fragment {
                 .putBoolean(PocketAccounterGeneral.INFO_VISIBILITY, infosVisibility)
                 .commit();
 
+    }
+    public int getPosition() {
+        return position;
     }
     public void hideClouds() {
         lockView.hideClouds();

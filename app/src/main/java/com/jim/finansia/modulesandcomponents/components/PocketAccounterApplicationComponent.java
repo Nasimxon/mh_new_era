@@ -12,6 +12,7 @@ import com.jim.finansia.finance.CurrencyChooseAdapter;
 import com.jim.finansia.finance.TransferAccountAdapter;
 import com.jim.finansia.fragments.ReportByIncomExpenseMonthDetailedByDaysFragment;
 import com.jim.finansia.managers.CommonOperations;
+import com.jim.finansia.managers.FinansiaFirebaseAnalytics;
 import com.jim.finansia.managers.LogicManager;
 import com.jim.finansia.managers.PAFragmentManager;
 import com.jim.finansia.managers.ReportManager;
@@ -56,6 +57,7 @@ public interface PocketAccounterApplicationComponent {
     List<TemplateAccount> getTemplateAccounts();
     List<TemplateCurrencyVoice> getCurrencyVoices();
     DecimalFormat getFormatter();
+    FinansiaFirebaseAnalytics getFinansiaFiregbaseAnalytics();
     @Named(value = "begin") Calendar getBegin();
     @Named(value = "end") Calendar getEnd();
     @Named(value = "common_formatter") SimpleDateFormat getCommonFormatter();

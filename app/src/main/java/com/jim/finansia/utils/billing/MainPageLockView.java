@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.jim.finansia.PocketAccounter;
 import com.jim.finansia.PocketAccounterApplication;
 import com.jim.finansia.R;
+import com.jim.finansia.managers.FinansiaFirebaseAnalytics;
 
 import javax.inject.Inject;
 
@@ -31,8 +32,8 @@ public class MainPageLockView extends RelativeLayout{
     private LockViewButtonClickListener buttonClickListener;
     private TextView tvLockPage;
     private RelativeLayout lockRoot, rightClick, leftClick;
-
     @Inject PurchaseImplementation purchaseImplementation;
+    @Inject FinansiaFirebaseAnalytics analytics;
     public MainPageLockView(Context context, int page) {
         super(context);
         init(context, page);
@@ -59,6 +60,7 @@ public class MainPageLockView extends RelativeLayout{
         lockRoot.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+                analytics.sendText("User wants to buy page, number is " + MainPageLockView.this.page);
                 purchaseImplementation.buyPage(MainPageLockView.this.page);
             }
         });

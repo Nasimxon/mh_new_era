@@ -10,6 +10,7 @@ import com.jim.finansia.PocketAccounter;
 import com.jim.finansia.PocketAccounterApplication;
 import com.jim.finansia.database.DaoSession;
 import com.jim.finansia.managers.CommonOperations;
+import com.jim.finansia.managers.FinansiaFirebaseAnalytics;
 import com.jim.finansia.managers.LogicManager;
 import com.jim.finansia.managers.PAFragmentManager;
 import com.jim.finansia.managers.ReportManager;
@@ -39,6 +40,7 @@ public abstract class BaseBoardView extends View {
     @Inject @Named(value = "end") Calendar end;
     @Inject @Named(value = "common_formatter") SimpleDateFormat simpleDateFormat;
     @Inject PurchaseImplementation purchaseImplementation;
+    @Inject FinansiaFirebaseAnalytics analytics;
     protected int INCOME_BUTTONS_COUNT_PER_PAGE = 4;
     protected int EXPENSE_BUTTONS_COUNT_PER_PAGE = 16;
     protected int setCount = 4;

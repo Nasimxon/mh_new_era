@@ -462,7 +462,7 @@ public class AdapterCridet extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     public void openFragment(Fragment fragment, String tag) {
         if (fragment != null) {
-            if (tag.matches("Addcredit"))
+            if (tag.equals("Addcredit"))
                 ((AddCreditFragment) fragment).addEventLis(new CreditFragment.EventFromAdding() {
                     @Override
                     public void addedCredit() {

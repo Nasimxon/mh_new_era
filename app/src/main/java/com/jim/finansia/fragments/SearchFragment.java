@@ -42,6 +42,7 @@ import com.jim.finansia.database.RootCategory;
 import com.jim.finansia.database.RootCategoryDao;
 import com.jim.finansia.database.SubCategory;
 import com.jim.finansia.database.SubCategoryDao;
+import com.jim.finansia.debt.DebtBorrowFragment;
 import com.jim.finansia.debt.InfoDebtBorrowFragment;
 import com.jim.finansia.managers.CommonOperations;
 import com.jim.finansia.managers.PAFragmentManager;
@@ -464,7 +465,14 @@ public class SearchFragment extends Fragment {
                                         }
                                     });
                                     toolbarManager.setVisiblityEditSearch();
-                                    paFragmentManager.displayFragment(new RecordEditFragment(null, ((FinanceRecord) item.getParrentObject()).getDate(), ((FinanceRecord) item.getParrentObject()), PocketAccounterGeneral.DETAIL));
+                                    Bundle bundle = new Bundle();
+                                    SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+                                    bundle.putString(RecordDetailFragment.DATE, format.format(((FinanceRecord) item.getParrentObject()).getDate().getTime()));
+                                    bundle.putString(RecordDetailFragment.RECORD_ID, ((FinanceRecord) item.getParrentObject()).getRecordId());
+                                    bundle.putInt(RecordDetailFragment.PARENT, PocketAccounterGeneral.DETAIL);
+                                    RecordEditFragment fragment = new RecordEditFragment();
+                                    fragment.setArguments(bundle);
+                                    paFragmentManager.displayFragment(fragment);
 
                                 }
                             }, 500);
@@ -548,10 +556,13 @@ public class SearchFragment extends Fragment {
                             hand.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Fragment infoDebtBorrowFragment = new InfoDebtBorrowFragment(((DebtBorrow) item.getParrentObject()).getId(),
-                                            PocketAccounterGeneral.NO_MODE);
+                                    Bundle bundle = new Bundle();
+                                    bundle.putString(DebtBorrowFragment.DEBT_BORROW_ID, ((DebtBorrow) item.getParrentObject()).getId());
+                                    bundle.putInt(DebtBorrowFragment.MODE, PocketAccounterGeneral.NO_MODE);
+                                    InfoDebtBorrowFragment fragment = new InfoDebtBorrowFragment();
+                                    fragment.setArguments(bundle);
                                     toolbarManager.closeSearchFragment();
-                                    paFragmentManager.displayFragment(infoDebtBorrowFragment);
+                                    paFragmentManager.displayFragment(fragment);
                                 }
                             }, 500);
 
@@ -574,9 +585,12 @@ public class SearchFragment extends Fragment {
                                 public void run() {
                                     Recking recking = (Recking) item.getParrentObject();
                                     toolbarManager.closeSearchFragment();
-                                    Fragment infoDebtBorrowFragment = new InfoDebtBorrowFragment(recking.getDebtBorrowsId(),
-                                            PocketAccounterGeneral.NO_MODE);
-                                    paFragmentManager.displayFragment(infoDebtBorrowFragment);
+                                    Bundle bundle = new Bundle();
+                                    bundle.putString(DebtBorrowFragment.DEBT_BORROW_ID, recking.getDebtBorrowsId());
+                                    bundle.putInt(DebtBorrowFragment.MODE, PocketAccounterGeneral.NO_MODE);
+                                    InfoDebtBorrowFragment fragment = new InfoDebtBorrowFragment();
+                                    fragment.setArguments(bundle);
+                                    paFragmentManager.displayFragment(fragment);
 
                                 }
                             }, 500);

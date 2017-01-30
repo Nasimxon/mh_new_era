@@ -33,6 +33,7 @@ import com.jim.finansia.database.AutoMarketDao;
 import com.jim.finansia.database.DaoSession;
 import com.jim.finansia.database.FinanceRecord;
 import com.jim.finansia.database.FinanceRecordDao;
+import com.jim.finansia.managers.FinansiaFirebaseAnalytics;
 import com.jim.finansia.managers.LogicManager;
 import com.jim.finansia.managers.PAFragmentManager;
 import com.jim.finansia.managers.ToolbarManager;
@@ -63,6 +64,8 @@ public class AutoMarketFragment extends Fragment implements View.OnClickListener
     ToolbarManager toolbarManager;
     @Inject
     DecimalFormat formatter;
+    @Inject
+    FinansiaFirebaseAnalytics analytics;
     private RecyclerView recyclerView;
     private FloatingActionButton floatingActionButton;
     private AutoMarketDao autoMarketDao;
@@ -120,6 +123,11 @@ public class AutoMarketFragment extends Fragment implements View.OnClickListener
 
         public AutoAdapter() {
             list = (ArrayList<AutoMarket>) autoMarketDao.loadAll();
+            String temp = "AutoMarket records: ";
+            for (AutoMarket autoMarket : list) {
+                temp += autoMarket.getRootCategory().getName() + ", ";
+            }
+            analytics.sendText(temp);
             if (list.size() == 0) {
                 ifListEmpty.setVisibility(View.VISIBLE);
                 ifListEmpty.setText(R.string.auto_op_is_empty);

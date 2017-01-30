@@ -25,6 +25,7 @@ import com.jim.finansia.database.FinanceRecord;
 import com.jim.finansia.database.PhotoDetails;
 import com.jim.finansia.managers.LogicManager;
 import com.jim.finansia.managers.PAFragmentManager;
+import com.jim.finansia.managers.ReportManager;
 import com.jim.finansia.managers.ToolbarManager;
 import com.jim.finansia.photocalc.PhotoAdapter;
 import com.jim.finansia.utils.PocketAccounterGeneral;
@@ -33,6 +34,7 @@ import com.jim.finansia.utils.cache.DataCache;
 
 import java.io.File;
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -47,8 +49,7 @@ public class FinanceRecordsFragment extends Fragment implements View.OnClickList
     private int mode = PocketAccounterGeneral.NORMAL_MODE;
     private ArrayList<FinanceRecord> records;
     private boolean[] selections;
-    private boolean onNoPressed = false;
-    Context context;
+    private SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
     @Inject
     DaoSession daoSession;
     @Inject
@@ -59,14 +60,20 @@ public class FinanceRecordsFragment extends Fragment implements View.OnClickList
     LogicManager logicManager;
     @Inject
     DataCache dataCache;
-
-
-    public FinanceRecordsFragment(Calendar date) {
-        this.date = (Calendar) date.clone();
-    }
+    @Inject
+    ReportManager reportManager;
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.record_detail_layout, container, false);
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
+        date = Calendar.getInstance();
+        if (getArguments() != null) {
+            String tempDate = getArguments().getString(RecordDetailFragment.DATE);
+            try {
+                date.setTime(format.parse(tempDate));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
 
         rvRecordDetail = (RecyclerView) rootView.findViewById(R.id.rvRecordDetail);
         refreshList();
@@ -77,7 +84,6 @@ public class FinanceRecordsFragment extends Fragment implements View.OnClickList
         super.onResume();
         if (toolbarManager != null)
         {
-            toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
             toolbarManager.setImageToSecondImage(R.drawable.pencil);
             toolbarManager.setOnSecondImageClickListener(this);
             toolbarManager.setImageToHomeButton(R.drawable.ic_back_button);
@@ -86,9 +92,8 @@ public class FinanceRecordsFragment extends Fragment implements View.OnClickList
                 public void onClick(View v) {
                     int size = 0;
                     size = paFragmentManager.getFragmentManager().getBackStackEntryCount();
-                    for (int i = 0; i < size; i++) {
-                        ((PocketAccounter)getContext()).getSupportFragmentManager().popBackStack();
-                    }
+                    for (int i = 0; i < size; i++)
+                        paFragmentManager.getFragmentManager().popBackStack();
                     paFragmentManager.displayMainWindow();
                 }
             });
@@ -158,6 +163,9 @@ public class FinanceRecordsFragment extends Fragment implements View.OnClickList
                                 adapter.removeItems();
                                 mode = PocketAccounterGeneral.NORMAL_MODE;
                                 setMode(mode);
+                                reportManager.clearCache();
+                                dataCache.updateAllPercents();
+                                paFragmentManager.updateAllFragmentsPageChanges();
                                 warningDialog.dismiss();
                             }
                         });
@@ -170,6 +178,9 @@ public class FinanceRecordsFragment extends Fragment implements View.OnClickList
                             }
                         });
                         warningDialog.show();
+                    } else {
+                        mode = PocketAccounterGeneral.NORMAL_MODE;
+                        setMode(mode);
                     }
                 } else {
                     mode = PocketAccounterGeneral.EDIT_MODE;
@@ -283,8 +294,14 @@ public class FinanceRecordsFragment extends Fragment implements View.OnClickList
                 public void onClick(View v) {
                     if (mode == PocketAccounterGeneral.NORMAL_MODE) {
                         paFragmentManager.getFragmentManager().popBackStack();
-                        paFragmentManager.displayFragment(new RecordEditFragment(null,
-                                financeRecord.getDate(), financeRecord, PocketAccounterGeneral.DETAIL));
+                        Bundle bundle = new Bundle();
+                        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+                        bundle.putString(RecordDetailFragment.DATE, format.format(financeRecord.getDate().getTime()));
+                        bundle.putString(RecordDetailFragment.RECORD_ID, financeRecord.getRecordId());
+                        bundle.putInt(RecordDetailFragment.PARENT, PocketAccounterGeneral.DETAIL);
+                        RecordEditFragment fragment = new RecordEditFragment();
+                        fragment.setArguments(bundle);
+                        paFragmentManager.displayFragment(fragment);
                     }
                     else {
                         holder.chbRecordDetail.setChecked(!holder.chbRecordDetail.isChecked());

@@ -690,8 +690,12 @@ public class BorrowFragment extends Fragment {
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void addNextFragment(DebtBorrow debtBorrow, ImageView squareBlue, boolean overlap) {
-        Fragment fragment = new InfoDebtBorrowFragment(debtBorrow.getId(), PocketAccounterGeneral.NO_MODE);
-
+        Bundle bundle = new Bundle();
+        bundle.putString(DebtBorrowFragment.DEBT_BORROW_ID, debtBorrow.getId());
+        bundle.putInt(DebtBorrowFragment.MODE, PocketAccounterGeneral.NO_MODE);
+        InfoDebtBorrowFragment fragment = new InfoDebtBorrowFragment();
+        fragment.setArguments(bundle);
+        paFragmentManager.displayFragment(fragment);
         Fade slideTransition = new Fade(Gravity.LEFT);
         slideTransition.setMode(Visibility.MODE_IN);
         ChangeBounds changeBoundsTransition = new ChangeBounds();

@@ -156,7 +156,7 @@ public class ToolbarManager {
                 }
             });
         }
-        fragmentManager.displayFragment(searchFragment, "salom");
+        fragmentManager.displayFragment(searchFragment);
         final InputMethodManager inputMethodManager = (InputMethodManager) context
                 .getSystemService(Context.INPUT_METHOD_SERVICE);
         if(inputMethodManager==null)

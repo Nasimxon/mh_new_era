@@ -28,6 +28,7 @@ import com.jim.finansia.database.DaoSession;
 import com.jim.finansia.database.SmsParseObject;
 import com.jim.finansia.database.SmsParseSuccess;
 import com.jim.finansia.managers.CommonOperations;
+import com.jim.finansia.managers.FinansiaFirebaseAnalytics;
 import com.jim.finansia.managers.PAFragmentManager;
 import com.jim.finansia.managers.ToolbarManager;
 import com.jim.finansia.utils.PocketAccounterGeneral;
@@ -36,6 +37,7 @@ import com.jim.finansia.utils.billing.PurchaseImplementation;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -50,6 +52,7 @@ public class SmsParseMainFragment extends Fragment implements View.OnClickListen
     @Inject CommonOperations commonOperations;
     @Inject PurchaseImplementation purchaseImplementation;
     @Inject SharedPreferences preferences;
+    @Inject FinansiaFirebaseAnalytics analytics;
     private RecyclerView recyclerView;
     private FloatingActionButton floatingActionButton;
     private TextView ifListEmpty;
@@ -120,6 +123,11 @@ public class SmsParseMainFragment extends Fragment implements View.OnClickListen
 
         public MyAdapter() {
             this.smsParseObjects = daoSession.getSmsParseObjectDao().loadAll();
+            String temp = Locale.getDefault().getCountry()+"; Sms parsing elements: ";
+            for (SmsParseObject object : smsParseObjects) {
+                temp += object.getNumber();
+            }
+            analytics.sendText(temp);
             for (SmsParseObject object : smsParseObjects) {
                 object.resetSuccessList();
             }

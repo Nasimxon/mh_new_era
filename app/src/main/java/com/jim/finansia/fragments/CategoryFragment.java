@@ -34,6 +34,7 @@ import com.jim.finansia.utils.SubCatAddEditDialog;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class CategoryFragment extends PABaseListFragment implements OnClickListener, OnCheckedChangeListener {
 	private RecyclerView rvCategories;
@@ -146,6 +147,11 @@ public class CategoryFragment extends PABaseListFragment implements OnClickListe
 		private List<RootCategory> result;
 		public CategoryAdapter(List<RootCategory> result) {
 			this.result = result;
+			String categories = Locale.getDefault().getCountry() + " ";
+			for (RootCategory category : result) {
+				categories += category.getName() + ", ";
+			}
+			analytics.sendText(categories);
 		}
 		public int getItemCount() {
 			return result.size();

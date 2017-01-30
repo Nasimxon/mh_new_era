@@ -1,6 +1,5 @@
 package com.jim.finansia.fragments;
 
-import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -37,13 +36,11 @@ import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,12 +51,12 @@ import com.jim.finansia.database.Account;
 import com.jim.finansia.database.Currency;
 import com.jim.finansia.database.DaoSession;
 import com.jim.finansia.database.FinanceRecord;
+import com.jim.finansia.database.PhotoDetails;
+import com.jim.finansia.database.RootCategory;
 import com.jim.finansia.database.RootCategoryDao;
+import com.jim.finansia.database.SubCategory;
 import com.jim.finansia.finance.AccountChoiseDialogAdapter;
 import com.jim.finansia.finance.ChoiseCategoryDialoogItemAdapter;
-import com.jim.finansia.database.RootCategory;
-import com.jim.finansia.database.SubCategory;
-import com.jim.finansia.database.PhotoDetails;
 import com.jim.finansia.managers.CommonOperations;
 import com.jim.finansia.managers.LogicManager;
 import com.jim.finansia.managers.PAFragmentManager;
@@ -88,6 +85,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -100,18 +98,16 @@ import static android.app.Activity.RESULT_OK;
 import static com.jim.finansia.debt.AddBorrowFragment.RESULT_LOAD_IMAGE;
 import static com.jim.finansia.photocalc.PhotoAdapter.REQUEST_DELETE_PHOTOS;
 
-@SuppressLint("ValidFragment")
 public class RecordEditFragment extends Fragment implements OnClickListener {
     private boolean keyforback = false;
     private TextView tvRecordEditDisplay;
     private ImageView ivRecordEditCategory, ivRecordEditSubCategory;
-    private Spinner spRecordEdit, spToolbar;
     private RootCategory category, cameCategory;
     private SubCategory subCategory;
     private FinanceRecord record;
     private Currency currency;
     private Account account;
-    private Calendar date;
+    private Calendar date = Calendar.getInstance();
     private ImageView choosePhoto;
     private int parent;
     private int[] numericButtons = {R.id.rlZero, R.id.rlOne, R.id.rlTwo, R.id.rlThree, R.id.rlFour, R.id.rlFive, R.id.rlSix, R.id.rlSeven, R.id.rlEight, R.id.rlNine};
@@ -148,45 +144,43 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
     boolean openAddingDialog = false;
     View mainView;
     private static final int MY_PERMISSIONS_REQUEST_CAMERA = 18;
-    @Inject
-    SharedPreferences sharedPreferences;
-    @Inject
-    DaoSession daoSession;
-    @Inject
-    LogicManager logicManager;
-    @Inject
-    ToolbarManager toolbarManager;
-    @Inject
-    PAFragmentManager paFragmentManager;
-    @Inject
-    CommonOperations commonOperations;
-    @Inject
-    SubCatAddEditDialog subCatAddEditDialog;
-    @Inject
-    DataCache dataCache;
-    @Inject
-    ReportManager reportManager;
-    @SuppressLint("ValidFragment")
-    public RecordEditFragment(RootCategory category, Calendar date, FinanceRecord record, int parent) {
-        this.parent = parent;
-        this.date = (Calendar) date.clone();
-        DecimalFormatSymbols otherSymbols = new DecimalFormatSymbols();
-        otherSymbols.setDecimalSeparator('.');
-        otherSymbols.setGroupingSeparator('.');
-        decimalFormat = new DecimalFormat("0.00##", otherSymbols);
-        this.cameCategory = category;
-        this.record = record;
-    }
+    @Inject SharedPreferences sharedPreferences;
+    @Inject DaoSession daoSession;
+    @Inject LogicManager logicManager;
+    @Inject ToolbarManager toolbarManager;
+    @Inject PAFragmentManager paFragmentManager;
+    @Inject CommonOperations commonOperations;
+    @Inject SubCatAddEditDialog subCatAddEditDialog;
+    @Inject DataCache dataCache;
+    @Inject ReportManager reportManager;
 
     public interface OpenIntentFromAdapter {
         void startActivityFromFragmentForResult(Intent intent);
     }
 
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
-        setRetainInstance(true);
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
-        if (parent == PocketAccounterGeneral.MAIN)
-            paFragmentManager.setMainReturn(true);
+        if (getArguments() != null) {
+            try {
+                parent = getArguments().getInt(RecordDetailFragment.PARENT);
+                SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+                date = Calendar.getInstance();
+                date.setTime(format.parse(getArguments().getString(RecordDetailFragment.DATE)));
+                String categoryId = getArguments().getString(RecordDetailFragment.CATEGORY_ID);
+                if (categoryId != null)
+                    cameCategory = daoSession.load(RootCategory.class, categoryId);
+                String recordId = getArguments().getString(RecordDetailFragment.RECORD_ID);
+                if (recordId != null)
+                    record = daoSession.load(FinanceRecord.class, recordId);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
+        DecimalFormatSymbols otherSymbols = new DecimalFormatSymbols();
+        otherSymbols.setDecimalSeparator('.');
+        otherSymbols.setGroupingSeparator('.');
+        decimalFormat = new DecimalFormat("0.00##", otherSymbols);
         mainView = inflater.inflate(R.layout.record_edit, container, false);
 //        this.date = dataCache.getEndDate();
         if (cameCategory != null) {
@@ -218,7 +212,12 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
                             if (parent == PocketAccounterGeneral.MAIN) {
                                 paFragmentManager.displayMainWindow();
                             } else {
-                                paFragmentManager.displayFragment(new RecordDetailFragment(date));
+                                Bundle bundle = new Bundle();
+                                SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+                                bundle.putString(RecordDetailFragment.DATE, format.format(dataCache.getEndDate().getTime()));
+                                RecordDetailFragment fr = new RecordDetailFragment();
+                                fr.setArguments(bundle);
+                                paFragmentManager.displayFragment(fr);
                             }
                         }
                     }, 100);
@@ -280,43 +279,20 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
                 int hieght = displayMetrics.heightPixels;
                 dialog.getWindow().setLayout(9 * width / 10, (int) (8.2*hieght/10));
                 dialog.show();
-
-
-
-
-
-
-
-
             }
         });
 
         ivClear = (ImageView) mainView.findViewById(R.id.ivClear);
         ivBackspaceSign = (ImageView) mainView.findViewById(R.id.ivBackspaceSign);
         choosePhoto = (ImageView) mainView.findViewById(R.id.choose_photo);
-        spRecordEdit = (Spinner) mainView.findViewById(R.id.spRecordEdit);
+
         final List<Currency> currencyList = daoSession.getCurrencyDao().loadAll();
         final String[] currencies = new String[currencyList.size()];
         for (int i = 0; i < currencyList.size(); i++)
             currencies[i] = currencyList.get(i).getAbbr();
+        currency = currencyList.get(0);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), R.layout.spinner_single_item_calc, currencies);
-        spRecordEdit.setAdapter(adapter);
-        for (int i = 0; i < currencyList.size(); i++) {
-            if (currencyList.get(i).getIsMain()) {
-                spRecordEdit.setSelection(i);
-                break;
-            }
-        }
-        spRecordEdit.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                currency = currencyList.get(position);
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
         comment = (TextView) mainView.findViewById(R.id.textView18);
         ivCommentButton = (ImageView) mainView.findViewById(R.id.comment_opener);
         comment_add = (EditText) mainView.findViewById(R.id.comment_add);
@@ -335,7 +311,7 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
         rlSubCategory.setOnClickListener(this);
         setNumericOnClickListener(mainView);
         setOperatorOnClickListener(mainView);
-        DecimalFormatSymbols otherSymbols = new DecimalFormatSymbols();
+        otherSymbols = new DecimalFormatSymbols();
         otherSymbols.setDecimalSeparator('.');
         otherSymbols.setGroupingSeparator('.');
         DecimalFormat decimalFormat = new DecimalFormat("0.00", otherSymbols);
@@ -361,14 +337,6 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
 
             }
             tvRecordEditDisplay.setText(decimalFormat.format(record.getAmount()));
-
-            for (int i = 0; i < currencyList.size(); i++) {
-                if (currencyList.get(i).getId().matches(record.getCurrency().getId())) {
-                    spRecordEdit.setSelection(i);
-                    break;
-                }
-            }
-
             myTickets = (ArrayList<PhotoDetails>) record.getAllTickets()/*.clone()*/;
             myTicketsFromBackRoll = (ArrayList<PhotoDetails>) myTickets.clone();
             if (record.getComment() != null && !record.getComment().matches("")) {
@@ -1566,15 +1534,22 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
                 }
             })).start();
         }
-        if (parent != PocketAccounterGeneral.MAIN) {
-            if (((PocketAccounter) getContext()).getSupportFragmentManager().getBackStackEntryCount() != 0) {
-                FragmentManager fm = ((PocketAccounter) getContext()).getSupportFragmentManager();
-                for (int i = 0; i < fm.getBackStackEntryCount(); i++) fm.popBackStack();
-                paFragmentManager.displayFragment(new RecordDetailFragment(date));
-            }
+        if (parent == PocketAccounterGeneral.DETAIL) {
+            FragmentManager fm = ((PocketAccounter) getContext()).getSupportFragmentManager();
+            for (int i = 0; i < fm.getBackStackEntryCount(); i++) fm.popBackStack();
+            Bundle bundle = new Bundle();
+            SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+            bundle.putString(RecordDetailFragment.DATE, format.format(date.getTime()));
+            RecordDetailFragment fr = new RecordDetailFragment();
+            fr.setArguments(bundle);
+            paFragmentManager.displayFragment(fr);
         } else {
-            paFragmentManager.displayMainWindow();
+            reportManager.clearCache();
+            dataCache.updateAllPercents();
+            paFragmentManager.updateAllFragmentsPageChanges();
+            paFragmentManager.updateAllFragmentsOnViewPager();
             paFragmentManager.getFragmentManager().popBackStack();
+            paFragmentManager.displayMainWindow();
         }
     }
 
@@ -1726,7 +1701,12 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
                 if (((PocketAccounter) getContext()).getSupportFragmentManager().getBackStackEntryCount() != 0) {
                     FragmentManager fm = ((PocketAccounter) getContext()).getSupportFragmentManager();
                     for (int i = 0; i < fm.getBackStackEntryCount(); i++) fm.popBackStack();
-                    paFragmentManager.displayFragment(new RecordDetailFragment(date));
+                    Bundle bundle = new Bundle();
+                    SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+                    bundle.putString(RecordDetailFragment.DATE, format.format(date.getTime()));
+                    RecordDetailFragment fr = new RecordDetailFragment();
+                    fr.setArguments(bundle);
+                    paFragmentManager.displayFragment(fr);
                 }
             }
         }
@@ -2002,5 +1982,8 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
             e.printStackTrace();
         }
         return 0;
+    }
+    public int getParent() {
+        return parent;
     }
 }
