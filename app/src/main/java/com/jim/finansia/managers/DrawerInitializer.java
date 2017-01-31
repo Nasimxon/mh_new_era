@@ -451,7 +451,6 @@ public class DrawerInitializer {
         }
         @Override
         public void onBindViewHolder(final ViewHolder holder, final int position) {
-
             if(position==oldPosition){
                 holder.tvTitle.setTextColor(GetterAttributColors.fetchHeadAccedentColor(pocketAccounter));
                 holder.ivIcon.setColorFilter(GetterAttributColors.fetchHeadAccedentColor(pocketAccounter));
@@ -480,45 +479,54 @@ public class DrawerInitializer {
                             pocketAccounter.findViewById(R.id.change).setVisibility(View.GONE);
                     }
                     oldPosition = position;
-
                     drawer.closeLeftSide();
                     notifyDataSetChanged();
                     drawer.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            pocketAccounter.findViewById(R.id.mainWhite).setVisibility(View.VISIBLE);
+
                             switch (position) {
                                 case 0:
                                     fragmentManager.displayMainWindow();
                                     break;
                                 case 1:
+                                    pocketAccounter.findViewById(R.id.mainWhite).setVisibility(View.VISIBLE);
                                     fragmentManager.displayFragment(new CurrencyFragment());
                                     break;
                                 case 2:
+                                    pocketAccounter.findViewById(R.id.mainWhite).setVisibility(View.VISIBLE);
                                     fragmentManager.displayFragment(new CategoryFragment());
                                     break;
                                 case 3:
+                                    pocketAccounter.findViewById(R.id.mainWhite).setVisibility(View.VISIBLE);
                                     fragmentManager.displayFragment(new AccountFragment());
                                     break;
                                 case 4:
+                                    pocketAccounter.findViewById(R.id.mainWhite).setVisibility(View.VISIBLE);
                                     fragmentManager.displayFragment(new PurposeFragment());
                                     break;
                                 case 5:
+                                    pocketAccounter.findViewById(R.id.mainWhite).setVisibility(View.VISIBLE);
                                     fragmentManager.displayFragment(new AutoMarketFragment());
                                     break;
                                 case 6:
+                                    pocketAccounter.findViewById(R.id.mainWhite).setVisibility(View.VISIBLE);
                                     fragmentManager.displayFragment(new CreditTabLay());
                                     break;
                                 case 7:
+                                    pocketAccounter.findViewById(R.id.mainWhite).setVisibility(View.VISIBLE);
                                     fragmentManager.displayFragment(new DebtBorrowFragment());
                                     break;
                                 case 8:
+                                    pocketAccounter.findViewById(R.id.mainWhite).setVisibility(View.VISIBLE);
                                     fragmentManager.displayFragment(new SmsParseMainFragment());
                                     break;
                                 case 9:
+                                    pocketAccounter.findViewById(R.id.mainWhite).setVisibility(View.VISIBLE);
                                     fragmentManager.displayFragment(new ReportFragment());
                                     break;
                                 case 10:
+                                    pocketAccounter.findViewById(R.id.mainWhite).setVisibility(View.VISIBLE);
                                     fragmentManager.displayFragment(new ChangeColorOfStyleFragment());
                                     break;
                                 case 11:

@@ -66,24 +66,19 @@ import javax.inject.Inject;
 import static com.jim.finansia.utils.ContenerStaticSearchVariables.*;
 
 public class SearchFragment extends Fragment {
-    RecyclerView rvSearchItems;
-    RVAdapterSearch rvAdapterSearch = new RVAdapterSearch();
-    String prevSearchString = "";
-    SimpleDateFormat dateformarter;
-    DecimalFormat formater;
-    @Inject
-    DaoSession daoSession;
-    @Inject
-    CommonOperations comonOperation;
-    @Inject
-    PAFragmentManager paFragmentManager;
-    @Inject
-    ToolbarManager toolbarManager;
-    @Inject
-    DecimalFormat formatter;
-    TextView textViewSearch;
-    List<SearchResultConten> searchItemsToSend;
-    List<SearchResultConten> searchItemsToSendForUse;
+    private RecyclerView rvSearchItems;
+    private RVAdapterSearch rvAdapterSearch = new RVAdapterSearch();
+    private String prevSearchString = "";
+    private SimpleDateFormat dateformarter;
+    private DecimalFormat formater;
+    @Inject DaoSession daoSession;
+    @Inject CommonOperations comonOperation;
+    @Inject PAFragmentManager paFragmentManager;
+    @Inject ToolbarManager toolbarManager;
+    @Inject DecimalFormat formatter;
+    private TextView textViewSearch;
+    private List<SearchResultConten> searchItemsToSend;
+    private List<SearchResultConten> searchItemsToSendForUse;
 
 
     public SearchFragment() {
@@ -119,9 +114,7 @@ public class SearchFragment extends Fragment {
     String[] tempIcons;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, final ViewGroup container,
-                             Bundle savedInstanceState) {
-//        setRetainInstance(true);
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
         rvSearchItems = (RecyclerView) view.findViewById(R.id.recyc_item_search);
         textViewSearch = (TextView) view.findViewById(R.id.textViewSearch);
@@ -141,24 +134,18 @@ public class SearchFragment extends Fragment {
                 return false;
             }
         });
-
-
         return view;
     }
 
     public void changeListForResult(String searchSt) {
-
-
         if (searchItemsToSend == null) {
             searchItemsToSend = new ArrayList<>();
         }
         if (searchItemsToSendForUse == null) {
             searchItemsToSendForUse = new ArrayList<>();
         }
-
         if (searchSt.length() == 1) {
             searchItemsToSend.clear();
-
             /*Credit Search*/
             QueryBuilder<CreditDetials> queryBuilderCred = daoSession.getCreditDetialsDao().queryBuilder();
             queryBuilderCred.whereOr(
@@ -469,7 +456,7 @@ public class SearchFragment extends Fragment {
                                     SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
                                     bundle.putString(RecordDetailFragment.DATE, format.format(((FinanceRecord) item.getParrentObject()).getDate().getTime()));
                                     bundle.putString(RecordDetailFragment.RECORD_ID, ((FinanceRecord) item.getParrentObject()).getRecordId());
-                                    bundle.putInt(RecordDetailFragment.PARENT, PocketAccounterGeneral.DETAIL);
+                                    bundle.putInt(RecordDetailFragment.PARENT, PocketAccounterGeneral.SEARCH_MODE);
                                     RecordEditFragment fragment = new RecordEditFragment();
                                     fragment.setArguments(bundle);
                                     paFragmentManager.displayFragment(fragment);

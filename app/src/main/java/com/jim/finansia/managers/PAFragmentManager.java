@@ -9,6 +9,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
@@ -36,6 +38,7 @@ import com.jim.finansia.fragments.RecordDetailFragment;
 import com.jim.finansia.fragments.RecordEditFragment;
 import com.jim.finansia.fragments.ReportFragment;
 import com.jim.finansia.fragments.SMSParseInfoFragment;
+import com.jim.finansia.fragments.SearchFragment;
 import com.jim.finansia.fragments.SmsParseMainFragment;
 import com.jim.finansia.fragments.VoiceRecognizerFragment;
 import com.jim.finansia.helper.MyVerticalViewPager;
@@ -211,6 +214,7 @@ public class PAFragmentManager {
         fragmentManager
                 .beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out, android.R.anim.fade_in, android.R.anim.fade_out)
                 .addToBackStack(null)
                 .add(R.id.flMain, fragment, tag)
                 .commit();
@@ -267,16 +271,19 @@ public class PAFragmentManager {
         } else if (fragName.equals(PocketClassess.INFO_PURPOSE) || fragName.equals(PocketClassess.ADD_PURPOSE)) {
             displayFragment(new PurposeFragment());
         } else if (fragName.equals(PocketClassess.RECORD_EDIT_FRAGMENT)) {
-            if (((RecordEditFragment)fragment).getParent() == PocketAccounterGeneral.DETAIL) {
+            int parent = ((RecordEditFragment)fragment).getParent();
+            if (parent == PocketAccounterGeneral.DETAIL) {
+                activity.findViewById(R.id.mainWhite).setVisibility(View.VISIBLE);
                 Bundle bundle = new Bundle();
                 SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
                 bundle.putString(RecordDetailFragment.DATE, format.format(dataCache.getEndDate().getTime()));
                 RecordDetailFragment fr = new RecordDetailFragment();
                 fr.setArguments(bundle);
                 displayFragment(fr);
-            } else {
+            } else if (parent == PocketAccounterGeneral.MAIN){
                 displayMainWindow();
-            }
+            } else if (parent == PocketAccounterGeneral.SEARCH_MODE)
+                displayFragment(new SearchFragment());
         } else if (fragName.equals(PocketClassess.ADD_SMS_PARSE_FRAGMENT) || fragName.equals(PocketClassess.INFO_SMS_PARSE_FRAGMENT)) {
             displayFragment(new SmsParseMainFragment());
         } else if (fragName.equals(PocketClassess.CREDIT_SCHEDULE)) {

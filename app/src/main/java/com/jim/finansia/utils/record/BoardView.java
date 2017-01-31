@@ -155,7 +155,7 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
                             CreditDetials item=daoSession.getCreditDetialsDao().load(Long.parseLong(button.getCategoryId()));
                             InfoCreditFragment temp = new InfoCreditFragment();
                             int buttonsCount = table == PocketAccounterGeneral.INCOME ? INCOME_BUTTONS_COUNT_PER_PAGE : EXPENSE_BUTTONS_COUNT_PER_PAGE;
-                            temp.setContentFromMainWindow(item,currentPage * buttonsCount + position,PocketAccounterGeneral.EXPANSE_MODE);
+                            temp.setContentFromMainWindow(item,currentPage * buttonsCount + position, PocketAccounterGeneral.MAIN);
                             paFragmentManager.setMainReturn(true);
                             paFragmentManager.displayFragment(temp);
 
@@ -163,7 +163,7 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
                         else if (button.getType() == PocketAccounterGeneral.DEBT_BORROW) {
                             Bundle bundle = new Bundle();
                             bundle.putString(DebtBorrowFragment.DEBT_BORROW_ID, button.getCategoryId());
-                            bundle.putInt(DebtBorrowFragment.MODE, table == PocketAccounterGeneral.INCOME ? PocketAccounterGeneral.INCOME_MODE : PocketAccounterGeneral.EXPANSE_MODE);
+                            bundle.putInt(DebtBorrowFragment.MODE, PocketAccounterGeneral.MAIN);
                             InfoDebtBorrowFragment fragment = new InfoDebtBorrowFragment();
                             fragment.setArguments(bundle);
                             fragment.setMainItems (currentPage*16+position);

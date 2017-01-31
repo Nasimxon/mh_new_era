@@ -293,6 +293,7 @@ public class FinanceRecordsFragment extends Fragment implements View.OnClickList
                 @Override
                 public void onClick(View v) {
                     if (mode == PocketAccounterGeneral.NORMAL_MODE) {
+                        ((PocketAccounter) getContext()).findViewById(R.id.change).setVisibility(View.VISIBLE);
                         paFragmentManager.getFragmentManager().popBackStack();
                         Bundle bundle = new Bundle();
                         SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");

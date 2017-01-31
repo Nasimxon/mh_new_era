@@ -36,6 +36,7 @@ import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -133,20 +134,20 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
     private ImageView ivClear;
     private ImageView ivAccountIcon;
     private RelativeLayout rvAccountChoise;
-    private Spinner spRecordEdit;
     boolean keykeboard = false;
     boolean keyForDesideOpenSubCategoryDialog = false;
     private boolean keyForDeleteAllPhotos = true;
     static final int REQUEST_IMAGE_CAPTURE = 112;
     private String uid_code;
-    RecyclerView myListPhoto;
-    ArrayList<PhotoDetails> myTickets;
-    ArrayList<PhotoDetails> myTicketsFromBackRoll;
-    PhotoAdapter myTickedAdapter;
+    private RecyclerView myListPhoto;
+    private ArrayList<PhotoDetails> myTickets;
+    private ArrayList<PhotoDetails> myTicketsFromBackRoll;
+    private PhotoAdapter myTickedAdapter;
     boolean fromEdit = false;
     boolean openAddingDialog = false;
-    View mainView;
+    private View mainView;
     private static final int MY_PERMISSIONS_REQUEST_CAMERA = 18;
+    private Spinner spRecordEdit;
     @Inject SharedPreferences sharedPreferences;
     @Inject DaoSession daoSession;
     @Inject LogicManager logicManager;
@@ -156,11 +157,9 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
     @Inject SubCatAddEditDialog subCatAddEditDialog;
     @Inject DataCache dataCache;
     @Inject ReportManager reportManager;
-
     public interface OpenIntentFromAdapter {
         void startActivityFromFragmentForResult(Intent intent);
     }
-
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
         if (getArguments() != null) {
@@ -185,9 +184,7 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
         otherSymbols.setGroupingSeparator('.');
         decimalFormat = new DecimalFormat("0.00##", otherSymbols);
         mainView = inflater.inflate(R.layout.record_edit, container, false);
-//        this.date = dataCache.getEndDate();
         if (cameCategory != null) {
-
             Query<RootCategory> query = daoSession.getRootCategoryDao().queryBuilder()
                     .where(RootCategoryDao.Properties.Id.eq(cameCategory.getId())).build();
             if (!query.list().isEmpty())
@@ -197,7 +194,6 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
             this.category = record.getCategory();
             this.subCategory = record.getSubCategory();
         }
-
         toolbarManager.setOnHomeButtonClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -231,18 +227,14 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
         tvAccountName = (TextView) mainView.findViewById(R.id.tvAccountName);
         rvAccountChoise = (RelativeLayout) mainView.findViewById(R.id.rvAccountChoise);
         spRecordEdit = (Spinner) mainView.findViewById(R.id.spRecordEdit);
-
         final List<Account> accountList = daoSession.getAccountDao().loadAll();
         account = accountList.get(0);
         int resId2 = getResources().getIdentifier(account.getIcon(), "drawable", getContext().getPackageName());
         ivAccountIcon.setImageResource(resId2);
         tvAccountName.setText(account.getName());
-
-
         rvAccountChoise.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 final Dialog dialog = new Dialog(getActivity());
                 View dialogView = getActivity().getLayoutInflater().inflate(R.layout.category_choose_list, null);
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -285,11 +277,9 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
                 dialog.show();
             }
         });
-
         ivClear = (ImageView) mainView.findViewById(R.id.ivClear);
         ivBackspaceSign = (ImageView) mainView.findViewById(R.id.ivBackspaceSign);
         choosePhoto = (ImageView) mainView.findViewById(R.id.choose_photo);
-
         final List<Currency> currencyList = daoSession.getCurrencyDao().loadAll();
         final ArrayList currencies = new ArrayList();
         final ArrayList currenciesName = new ArrayList();
@@ -298,15 +288,23 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
             currencies.add(currencyList.get(i).getAbbr());
             currenciesName.add(currencyList.get(i).getName());
         }
-        currency = currencyList.get(0);
+        currency = commonOperations.getMainCurrency();
         spRecordEdit.setAdapter(new CurrencyCalcAdapter(getContext(), currencies, currenciesName));
+        spRecordEdit.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                currency = currencyList.get(i);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {}
+        });
+        spRecordEdit.setSelection(currencyList.indexOf(commonOperations.getMainCurrency()));
         comment = (TextView) mainView.findViewById(R.id.textView18);
         ivCommentButton = (ImageView) mainView.findViewById(R.id.comment_opener);
         comment_add = (EditText) mainView.findViewById(R.id.comment_add);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         uid_code = "record_" + UUID.randomUUID().toString();
         buttonClick = AnimationUtils.loadAnimation(getContext(), R.anim.button_click);
-
         ivRecordEditCategory = (ImageView) mainView.findViewById(R.id.ivRecordEditCategory);
         ivRecordEditSubCategory = (ImageView) mainView.findViewById(R.id.ivRecordEditSubCategory);
         tvRecordEditDisplay = (TextView) mainView.findViewById(R.id.tvRecordEditDisplay);
@@ -356,8 +354,7 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
             myTickets = new ArrayList<>();
         if (myTicketsFromBackRoll == null)
             myTicketsFromBackRoll = new ArrayList<>();
-        LinearLayoutManager layoutManager
-                = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         myListPhoto = (RecyclerView) mainView.findViewById(R.id.recycler_calc);
         myListPhoto.setLayoutManager(layoutManager);
         myTickedAdapter = new PhotoAdapter(myTickets, getContext(), new OpenIntentFromAdapter() {
@@ -431,7 +428,6 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
                 }
                 lastNumeric = true;
                 lastOperator = false;
-//                lastDot = false;
             }
         };
         for (int id : numericButtons)
@@ -555,7 +551,7 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        ivClear.setColorFilter(ContextCompat.getColor(getContext(),R.color.seriy_calc));
+                       ivClear.setColorFilter(ContextCompat.getColor(getContext(),R.color.seriy_calc));
                     }
                 },100);
                 tvRecordEditDisplay.setText("0");
@@ -717,10 +713,7 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
                     PocketAccounter.isCalcLayoutOpen = false;
                     cus.addListener(new Transition.TransitionListener() {
                         @Override
-                        public void onTransitionStart(Transition transition) {
-
-                        }
-
+                        public void onTransitionStart(Transition transition) {}
                         @Override
                         public void onTransitionEnd(Transition transition) {
                             if (mainView == null) {
@@ -742,19 +735,11 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
                         }
 
                         @Override
-                        public void onTransitionCancel(Transition transition) {
-
-                        }
-
+                        public void onTransitionCancel(Transition transition) {}
                         @Override
-                        public void onTransitionPause(Transition transition) {
-
-                        }
-
+                        public void onTransitionPause(Transition transition) {}
                         @Override
-                        public void onTransitionResume(Transition transition) {
-
-                        }
+                        public void onTransitionResume(Transition transition) {}
                     });
                     cus.setDuration(200);
                     cus.setStartDelay(0);
@@ -879,16 +864,7 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
                             handler.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-//                                    AutoTransition cus = new AutoTransition();
-//                                    cus.setDuration(300);
-//                                    cus.setStartDelay(0);
-//                                    LinearLayout linbutview = (LinearLayout) view.findViewById(R.id.numbersbut);
-//                                    TransitionManager.beginDelayedTransition(linbutview, cus);
-//                                    TransitionManager.beginDelayedTransition(myListPhoto);
-//                                    myListPhoto.setVisibility(View.VISIBLE);
-//                                    linbutview.setVisibility(View.VISIBLE);
                                     closeLayout();
-
                                 }
                             }, 200);
                         }
@@ -968,10 +944,7 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
                     PocketAccounter.isCalcLayoutOpen = false;
                     cus.addListener(new Transition.TransitionListener() {
                         @Override
-                        public void onTransitionStart(Transition transition) {
-
-                        }
-
+                        public void onTransitionStart(Transition transition) {}
                         @Override
                         public void onTransitionEnd(Transition transition) {
                             if (mainView == null) {
@@ -991,21 +964,12 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
                                 }
                             }, 120);
                         }
-
                         @Override
-                        public void onTransitionCancel(Transition transition) {
-
-                        }
-
+                        public void onTransitionCancel(Transition transition) {}
                         @Override
-                        public void onTransitionPause(Transition transition) {
-
-                        }
-
+                        public void onTransitionPause(Transition transition) {}
                         @Override
-                        public void onTransitionResume(Transition transition) {
-
-                        }
+                        public void onTransitionResume(Transition transition) {}
                     });
                     cus.setDuration(200);
                     cus.setStartDelay(0);
@@ -1022,7 +986,6 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
                     } else {
                         comment.setText(getString(R.string.with_out_comment));
                     }
-
                     headermain.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) commonOperations.convertDpToPixel((getResources().getDimension(R.dimen.hundred_fivety_four) / getResources().getDisplayMetrics().density))));
                 } else {
                     RelativeLayout headermain = (RelativeLayout) view.findViewById(R.id.headermain);
@@ -1030,10 +993,7 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
                     keyforback = true;
                     cus.addListener(new Transition.TransitionListener() {
                         @Override
-                        public void onTransitionStart(Transition transition) {
-
-                        }
-
+                        public void onTransitionStart(Transition transition) {}
                         @Override
                         public void onTransitionEnd(Transition transition) {
                             if (mainView == null) {
@@ -1054,21 +1014,12 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
                             }
 
                         }
-
                         @Override
-                        public void onTransitionCancel(Transition transition) {
-
-                        }
-
+                        public void onTransitionCancel(Transition transition) {}
                         @Override
-                        public void onTransitionPause(Transition transition) {
-
-                        }
-
+                        public void onTransitionPause(Transition transition) {}
                         @Override
-                        public void onTransitionResume(Transition transition) {
-
-                        }
+                        public void onTransitionResume(Transition transition) {}
                     });
                     cus.setDuration(200);
                     cus.setStartDelay(0);
@@ -1215,11 +1166,11 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
                 String path = android.os.Environment
                         .getExternalStorageDirectory()
                         + File.separator
-                        + "MoneyHolder" + File.separator + "Tickets";
+                        + "Finansia" + File.separator + "Tickets";
                 String path_cache = android.os.Environment
                         .getExternalStorageDirectory()
                         + File.separator
-                        + "MoneyHolder" + File.separator + ".cache";
+                        + "Finansia" + File.separator + ".cache";
                 File pathik = new File(path);
                 if (!pathik.exists()) {
                     pathik.mkdirs();
@@ -1285,11 +1236,11 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
                 String path = android.os.Environment
                         .getExternalStorageDirectory()
                         + File.separator
-                        + "MoneyHolder" + File.separator + "Tickets";
+                        + "Finansia" + File.separator + "Tickets";
                 String path_cache = android.os.Environment
                         .getExternalStorageDirectory()
                         + File.separator
-                        + "MoneyHolder" + File.separator + ".cache";
+                        + "Finansia" + File.separator + ".cache";
                 fileDir.delete();
                 File pathik = new File(path);
                 if (!pathik.exists()) {
@@ -1350,7 +1301,7 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
                 dialog.setContentView(dialogView);
                 View v = dialog.getWindow().getDecorView();
                 v.setBackgroundResource(android.R.color.transparent);
-                categoryList = daoSession.getRootCategoryDao().loadAll();
+                 categoryList = daoSession.getRootCategoryDao().loadAll();
                 final TextView tvAllView = (TextView)  dialogView.findViewById(R.id.tvAllView);
                 final TextView tvExpenseView = (TextView)  dialogView.findViewById(R.id.tvExpenseView);
                 final TextView tvIncomeView = (TextView)  dialogView.findViewById(R.id.tvIncomeView);
@@ -1402,15 +1353,11 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
                         tvAllView.setTextColor(ContextCompat.getColor(getContext(),R.color.black_for_myagkiy_glavniy));
                         tvExpenseView.setTextColor(ContextCompat.getColor(getContext(),R.color.black_for_secondary_text));
                         tvIncomeView.setTextColor(ContextCompat.getColor(getContext(),R.color.black_for_secondary_text));
-
                         categoryList.clear();
                         categoryList = daoSession.getRootCategoryDao().loadAll();
                         choiseCategoryDialoogItemAdapter.setListForRefresh(categoryList);
                         choiseCategoryDialoogItemAdapter.toBackedToCategory(false);
                         choiseCategoryDialoogItemAdapter.notifyDataSetChanged();
-
-
-
                     }
                 });
                 tvExpenseView.setOnClickListener(new OnClickListener() {
@@ -1423,7 +1370,7 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
                         categoryList.clear();
                         for (RootCategory rootCategory:daoSession.getRootCategoryDao().loadAll()){
                             if(rootCategory.getType() == PocketAccounterGeneral.EXPENSE)
-                                categoryList.add(rootCategory);
+                            categoryList.add(rootCategory);
                         }
                         choiseCategoryDialoogItemAdapter.setListForRefresh(categoryList);
 
@@ -1468,7 +1415,6 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
             case R.id.rlSubcategory:
                 openSubCategoryDialog();
                 break;
-
         }
     }
 
@@ -1502,7 +1448,9 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
             savingRecord.setSubCategory(subCategory);
             savingRecord.setDate(date);
             savingRecord.setAccount(account);
+
             savingRecord.setCurrency(currency);
+
             savingRecord.setAmount(Math.abs(Double.parseDouble(tvRecordEditDisplay.getText().toString())));
             if (record != null)
                 savingRecord.setRecordId(record.getRecordId());
@@ -1515,8 +1463,10 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
             }
             daoSession.getPhotoDetailsDao().insertInTx(myTickets);
             logicManager.insertRecord(savingRecord);
-            reportManager.refreshDatas();
-            dataCache.updateOneDay(date);
+            reportManager.clearCache();
+            dataCache.updateAllPercents();
+            paFragmentManager.updateAllFragmentsPageChanges();
+            paFragmentManager.updateAllFragmentsOnViewPager();
             paFragmentManager.updateVoiceRecognizePage(date);
         } else {
             if (fromEdit) {
@@ -1579,9 +1529,9 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
         subCategories.add(null);
         dialogView.findViewById(R.id.llToolBars).setVisibility(View.GONE);
 
-        TextView title = (TextView) dialogView.findViewById(R.id.title);
+         TextView title = (TextView) dialogView.findViewById(R.id.title);
         title.setText(R.string.choise_subcategory);
-        RecyclerView rvCategoryChoose = (RecyclerView) dialogView.findViewById(R.id.lvCategoryChoose);
+         RecyclerView rvCategoryChoose = (RecyclerView) dialogView.findViewById(R.id.lvCategoryChoose);
         choiseCategoryDialoogItemAdapter = new ChoiseCategoryDialoogItemAdapter(subCategories, getContext(), new ChoiseCategoryDialoogItemAdapter.OnItemSelected() {
             @Override
             public void itemPressed(String itemID) {
@@ -1597,7 +1547,7 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
                             handler.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    closeLayout();
+                                      closeLayout();
                                 }
                             }, 200);
 
@@ -1703,13 +1653,13 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
             })).start();
         }
         if (weNeedUpdate) {
-            //TODO NASIMXON YORDAM
             if (parent != PocketAccounterGeneral.MAIN) {
                 if (((PocketAccounter) getContext()).getSupportFragmentManager().getBackStackEntryCount() != 0) {
                     FragmentManager fm = ((PocketAccounter) getContext()).getSupportFragmentManager();
                     for (int i = 0; i < fm.getBackStackEntryCount(); i++) fm.popBackStack();
                     Bundle bundle = new Bundle();
                     SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+                    ((PocketAccounter)getContext()).findViewById(R.id.mainWhite).setVisibility(View.VISIBLE);
                     bundle.putString(RecordDetailFragment.DATE, format.format(date.getTime()));
                     RecordDetailFragment fr = new RecordDetailFragment();
                     fr.setArguments(bundle);
@@ -1915,8 +1865,7 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
             case MY_PERMISSIONS_REQUEST_CAMERA: {
                 if (grantResults.length > 0
@@ -1947,6 +1896,7 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
             o2.inSampleSize = scale;
             return BitmapFactory.decodeStream(new FileInputStream(f), null, o2);
         } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
         return null;
     }
@@ -1968,9 +1918,9 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
         return null;
     }
 
-    public static int neededRotation(File ff) {
+    public static int neededRotation(File file) {
         try {
-            ExifInterface exif = new ExifInterface(ff.getAbsolutePath());
+            ExifInterface exif = new ExifInterface(file.getAbsolutePath());
             int orientation = exif.getAttributeInt(
                     ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
             if (orientation == ExifInterface.ORIENTATION_ROTATE_270) {

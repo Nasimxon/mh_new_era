@@ -13,8 +13,7 @@ public class PocketAccounterGeneral {
 
 	public static final int EXPENSE_BUTTONS_COUNT = 16;
 	public static final int INCOME_BUTTONS_COUNT = 4;
-	public static final int NO_MODE = 0, EXPANSE_MODE = 1, INCOME_MODE = 2;
-	public static final int MAIN = 0, DETAIL = 1;
+	public static final int NO_MODE = 0, EXPANSE_MODE = 1, INCOME_MODE = 2, MAIN = 3, DETAIL = 4, SEARCH_MODE = 5;
 	public static final int SMS_ONLY_EXPENSE = 0, SMS_ONLY_INCOME = 1, SMS_BOTH = 2;
 
 	public static final String EXPENSE_BOARD_KEYS_COUNT = "EXPENSE_BOARD_KEYS_COUNT";

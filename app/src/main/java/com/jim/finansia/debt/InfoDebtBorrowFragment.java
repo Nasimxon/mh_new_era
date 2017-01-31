@@ -203,13 +203,7 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
                 AddBorrowFragment fragment = new AddBorrowFragment();
                 fragment.setArguments(bundle);
                 paFragmentManager.displayFragment(fragment);
-                int count = paFragmentManager.getFragmentManager().getBackStackEntryCount();
-                while (count > 0) {
-                    paFragmentManager.getFragmentManager().popBackStack();
-                    count--;
-                }
                 operationsListDialog.dismiss();
-                paFragmentManager.displayFragment(fragment);
             }
         });
 
@@ -893,6 +887,7 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
             for (int i = 0; i < isCheks.length; i++) {
                 isCheks[i] = false;
             }
+            reportManager.clearCache();
             dataCache.updateAllPercents();
             paFragmentManager.updateAllFragmentsOnViewPager();
         }

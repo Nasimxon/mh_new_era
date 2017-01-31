@@ -114,6 +114,7 @@ public class MainPageFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (PRESSED) return;
+                ((PocketAccounter) getContext()).findViewById(R.id.mainWhite).setVisibility(View.VISIBLE);
                 Bundle bundle = new Bundle();
                 SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
                 bundle.putString(RecordDetailFragment.DATE, format.format(dataCache.getEndDate().getTime()));
@@ -329,6 +330,7 @@ public class MainPageFragment extends Fragment {
             expenseView.lockPage();
         }
         lockView.setPage(expenseView.getCurrentPage()+1);
+        balanceStripe.calculateBalance();
         expenseView.refreshPagesCount();
         expenseView.init();
         expenseView.invalidate();
