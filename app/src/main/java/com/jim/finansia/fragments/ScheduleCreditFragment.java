@@ -11,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.jim.finansia.PocketAccounter;
+import com.jim.finansia.PocketAccounterApplication;
 import com.jim.finansia.R;
 import com.jim.finansia.credit.AdapterForSchedule;
 import com.jim.finansia.credit.HeaderData;
@@ -32,50 +34,64 @@ import java.util.List;
 
 
 public class ScheduleCreditFragment extends PABaseFragment {
+
+
     RecyclerView recyclerView;
     AdapterForSchedule adapterForSchedule;
     CreditDetials currentCredit;
     ArrayList<Object> creditsSchedule;
-    LogicManager logicManager;
-    int modeFromMain;
+    int modeFromMain = PocketAccounterGeneral.NO_MODE;
     boolean isEdit = false;
     boolean fromAdding = false;
-    boolean fromMainWindow = false;
-    PAFragmentManager  paFragmentManager;
-    DaoSession daoSession;
     int posFromMain;
-    public ScheduleCreditFragment() {
-        // Required empty public constructor
 
-    }
-    public void isFromAdding(){
-        fromAdding = true;
-    }
-    public void setCreditObject(CreditDetials creditObject){
-        currentCredit = creditObject;
-        creditsSchedule = new ArrayList<>();
+    final static String FROM_ADDING = "from_adding";
 
-    }
-    public void isFromWindow(boolean isEdit, LogicManager logicManager, int modeFromMain , PAFragmentManager  paFragmentManager, DaoSession daoSession, int posFromMain){
-        fromMainWindow = true;
-        this.logicManager = logicManager;
-        this.modeFromMain = modeFromMain;
-        this.isEdit = isEdit;
-        this.paFragmentManager = paFragmentManager;
-        this.daoSession = daoSession;
-        this.posFromMain = posFromMain ;
-    }
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_schedule_credit, container, false);
+
+        if(getArguments()!=null){
+            modeFromMain = getArguments().getInt(CreditTabLay.MODE);
+            posFromMain = getArguments().getInt(CreditTabLay.POSITION);
+            if(getArguments().getBoolean(FROM_ADDING,false)){
+                fromAdding = true;
+                Bundle bundle = getArguments();
+                isEdit = bundle.getBoolean(AddCreditFragment.FROM_EDIT);
+                CreditDetials creditDetials = new CreditDetials();
+                creditDetials.setMyCredit_id(bundle.getLong(AddCreditFragment.CREDIT_ID));
+                creditDetials.setIcon_ID(bundle.getString(AddCreditFragment.ICON_ID));
+                creditDetials.setCredit_name(bundle.getString(AddCreditFragment.CREDIT_NAME));
+                Calendar cal = Calendar.getInstance();
+                cal.setTimeInMillis(bundle.getLong(AddCreditFragment.TAKE_TIME));
+                creditDetials.setTake_time(cal);
+                creditDetials.setProcent(bundle.getDouble(AddCreditFragment.PROCENT));
+                creditDetials.setProcent_interval(bundle.getDouble(AddCreditFragment.PROCENT_INTERVAL));
+                creditDetials.setPeriod_time(bundle.getLong(AddCreditFragment.PERIOD_TIME));
+                creditDetials.setValue_of_credit(bundle.getDouble(AddCreditFragment.VALUE_OF_CREDIT));
+                creditDetials.setCurrencyId(bundle.getString(AddCreditFragment.CURRENCY_ID));
+                creditDetials.setValue_of_credit_with_procent(bundle.getDouble(AddCreditFragment.VALUE_OF_CREDIT_WITH_PROCENT));
+                creditDetials.setPeriod_time_tip(bundle.getLong(AddCreditFragment.PERIOD_TIME_TIP));
+                creditDetials.setKey_for_include(bundle.getBoolean(AddCreditFragment.KEY_FOR_INCLUDE));
+                creditDetials.setAccountID(bundle.getString(AddCreditFragment.ACCOUNT_ID));
+                creditDetials.__setDaoSession(daoSession);
+                currentCredit = creditDetials;
+            }
+            else {
+                currentCredit = daoSession.load(CreditDetials.class,getArguments().getLong(CreditTabLay.CREDIT_ID));
+            }
+        }
         recyclerView = (RecyclerView) view.findViewById(R.id.scheduleMain);
+        creditsSchedule = new ArrayList<>();
+
         if(currentCredit.getType_loan()== CommonOperations.ANUTETNIY)  {
             HeaderData headerData = calculetAnutetniy(currentCredit,creditsSchedule);
             creditsSchedule.add(0,headerData);
@@ -95,7 +111,7 @@ public class ScheduleCreditFragment extends PABaseFragment {
                     logicManager.insertReckingCredit(reckingCredit);
                     logicManager.insertCredit(currentCredit);
 
-                    if (isEdit&&!fromMainWindow) {
+                    if (isEdit&&modeFromMain==PocketAccounterGeneral.NO_MODE) {
 
                         if(!daoSession.getBoardButtonDao().queryBuilder()
                                 .where(BoardButtonDao.Properties.CategoryId.eq(Long.toString(currentCredit.getMyCredit_id())))
@@ -113,12 +129,10 @@ public class ScheduleCreditFragment extends PABaseFragment {
                             paFragmentManager.updateAllFragmentsOnViewPager();
                         }
                         toolbarManager.setToolbarIconsVisibility(View.GONE,View.GONE,View.GONE);
-                        paFragmentManager.getFragmentManager().popBackStack();
-                        paFragmentManager.getFragmentManager().popBackStack();
                         paFragmentManager.displayFragment(new CreditTabLay());
 
 
-                    } else if (fromMainWindow) {
+                    } else if (modeFromMain != PocketAccounterGeneral.NO_MODE && modeFromMain !=PocketAccounterGeneral.DETAIL && modeFromMain!= PocketAccounterGeneral.SEARCH_MODE) {
                         Log.d("testttt", "fromMainWindow");
                         if(isEdit) {
                             List<BoardButton> boardButtons = daoSession.getBoardButtonDao().loadAll();
@@ -136,7 +150,7 @@ public class ScheduleCreditFragment extends PABaseFragment {
                             }
                         }
                         else {
-                            if (modeFromMain == PocketAccounterGeneral.EXPENSE)
+                            if (modeFromMain == PocketAccounterGeneral.EXPANSE_MODE)
                                 logicManager.changeBoardButton(PocketAccounterGeneral.EXPENSE, posFromMain, Long.toString(currentCredit.getMyCredit_id()));
                             else
                                 logicManager.changeBoardButton(PocketAccounterGeneral.INCOME,posFromMain,Long.toString(currentCredit.getMyCredit_id()));

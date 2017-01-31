@@ -53,7 +53,8 @@ public class AdapterForSchedule extends RecyclerView.Adapter<RecyclerView.ViewHo
         } else if (viewType == 3) {
             View v = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.null_lay, parent, false);
-            vh = new AdapterCridet.Fornull(v);}
+            vh = new Fornull(v);
+        }
         return  vh;
     }
     @Override
@@ -76,7 +77,7 @@ public class AdapterForSchedule extends RecyclerView.Adapter<RecyclerView.ViewHo
         DecimalFormatSymbols symbols = formatter.getDecimalFormatSymbols();
         symbols.setGroupingSeparator(' ');
         formatter.setDecimalFormatSymbols(symbols);
-        if (holdeer instanceof AdapterCridet.Fornull) {
+        if (holdeer instanceof Fornull) {
             return;
         }
         if (holdeer instanceof HeaderViewHolder) {
@@ -162,6 +163,11 @@ public class AdapterForSchedule extends RecyclerView.Adapter<RecyclerView.ViewHo
             holder.tvPeriodPayed.setText(formatter.format(crSchedule.getPayed())+currency.getAbbr());
             holder.tvBalance.setText(formatter.format(crSchedule.getBalance())+currency.getAbbr());}
     }
+    public class Fornull extends RecyclerView.ViewHolder {
+        public Fornull(View v) {
+            super(v);
+        }
+    }
 
     @Override
     public int getItemCount() {
@@ -217,11 +223,6 @@ public class AdapterForSchedule extends RecyclerView.Adapter<RecyclerView.ViewHo
             chbAllPeriods = (CheckBox) itemView.findViewById(R.id.chbAllPeriods);
 
 
-        }
-        public class Fornull extends RecyclerView.ViewHolder {
-            public Fornull(View v) {
-                super(v);
-            }
         }
 
     }

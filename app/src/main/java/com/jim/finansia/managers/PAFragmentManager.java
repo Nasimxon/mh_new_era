@@ -294,8 +294,6 @@ public class PAFragmentManager {
         } else if (fragName.equals(PocketClassess.INFO_CREDIT) || fragName.equals(PocketClassess.ADD_CREDIT)) {
             displayFragment(new CreditTabLay());
         } else if (fragName.equals(PocketClassess.INFO_CREDIT_ARCHIVE)) {
-            CreditTabLay creditTabL = new CreditTabLay();
-            creditTabL.setArchivePosition();
             displayFragment(new CreditTabLay());
         } else if (fragName.equals(PocketClassess.INFO_PURPOSE) || fragName.equals(PocketClassess.ADD_PURPOSE)) {
             displayFragment(new PurposeFragment());
@@ -320,8 +318,9 @@ public class PAFragmentManager {
                 InfoCreditFragment infoCreditFragment = new InfoCreditFragment();
                 long credit_id = preferences.getLong("CREDIT_ID", 0);
                 if(credit_id != 0){
-                    CreditDetials creditDetials = daoSession.getCreditDetialsDao().load(credit_id);
-                    infoCreditFragment.setConteent(creditDetials,0);
+                    Bundle bundle = new Bundle();
+                    bundle.putLong(CreditTabLay.CREDIT_ID,credit_id);
+                    infoCreditFragment.setArguments(bundle);
                     displayFragment(infoCreditFragment);
                 }
                 else displayMainWindow();
@@ -330,14 +329,13 @@ public class PAFragmentManager {
                 InfoCreditFragmentForArchive infoCreditFragmentForArchive = new InfoCreditFragmentForArchive();
                  long credit_id = preferences.getLong("CREDIT_ID", 0);
                  if(credit_id != 0){
-                     CreditDetials creditDetials = daoSession.getCreditDetialsDao().load(credit_id);
-                     infoCreditFragmentForArchive.setConteent(creditDetials,0);
+                     Bundle bundle = new Bundle();
+                     bundle.putLong(CreditTabLay.CREDIT_ID,credit_id);
+                     infoCreditFragmentForArchive.setArguments(bundle);
                      displayFragment(infoCreditFragmentForArchive);
                  }
                   else displayMainWindow();
             } else if (preferences.getInt("FRAG_ID", 0) == 3){
-                CreditTabLay creditTabL = new CreditTabLay();
-                creditTabL.setArchivePosition();
                 displayFragment(new CreditTabLay());
             }
         }

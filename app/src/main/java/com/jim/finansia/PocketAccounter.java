@@ -3,7 +3,6 @@ package com.jim.finansia;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.appwidget.AppWidgetManager;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -16,18 +15,13 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.TextView;
 
 import com.jim.finansia.credit.notificat.NotificationManagerCredit;
 import com.jim.finansia.database.DaoSession;
 import com.jim.finansia.debt.PocketClassess;
-import com.jim.finansia.fragments.ChangeColorOfStyleFragment;
 import com.jim.finansia.fragments.MainFragment;
 import com.jim.finansia.fragments.RecordEditFragment;
 import com.jim.finansia.intropage.IntroIndicator;
@@ -52,15 +46,12 @@ import com.jim.finansia.widget.WidgetProvider;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import static com.jim.finansia.R.id.dp;
-import static com.jim.finansia.R.id.visibleIfCommentHave;
 import static com.jim.finansia.utils.billing.PurchaseImplementation.BILLING_RESPONSE_RESULT_OK;
 import static com.jim.finansia.utils.billing.PurchaseImplementation.REQUEST_CODE_BUY;
 

@@ -317,8 +317,6 @@ public class AutoMarketFragment extends Fragment implements View.OnClickListener
                 public void onClick(View view) {
                     PopupMenu popupMenu = new PopupMenu(getContext(), view);
                     popupMenu.inflate(R.menu.toolbar_popup);
-                    MenuPopupHelper menuHelper = new MenuPopupHelper(getContext(), (MenuBuilder) popupMenu.getMenu(), view);
-                    menuHelper.setForceShowIcon(true);
                     popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                         @Override
                         public boolean onMenuItemClick(MenuItem item) {

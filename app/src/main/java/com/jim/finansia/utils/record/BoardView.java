@@ -155,7 +155,11 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
                             CreditDetials item=daoSession.getCreditDetialsDao().load(Long.parseLong(button.getCategoryId()));
                             InfoCreditFragment temp = new InfoCreditFragment();
                             int buttonsCount = table == PocketAccounterGeneral.INCOME ? INCOME_BUTTONS_COUNT_PER_PAGE : EXPENSE_BUTTONS_COUNT_PER_PAGE;
-                            temp.setContentFromMainWindow(item,currentPage * buttonsCount + position, PocketAccounterGeneral.MAIN);
+                            Bundle bundle = new Bundle();
+                            bundle.putLong(CreditTabLay.CREDIT_ID,item.getMyCredit_id());
+                            bundle.putInt(CreditTabLay.MODE,PocketAccounterGeneral.MAIN);
+                            bundle.putInt(CreditTabLay.POSITION,currentPage * buttonsCount + position);
+                            temp.setArguments(bundle);
                             paFragmentManager.setMainReturn(true);
                             paFragmentManager.displayFragment(temp);
 
@@ -703,7 +707,11 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
                                             isAvailable = sharedPreferences.getBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.IS_AVAILABLE_CHANGING_OF_CREDIT_KEY, false);
                                             if (isAvailable) {
                                                 buttonsCount = table == PocketAccounterGeneral.INCOME ? INCOME_BUTTONS_COUNT_PER_PAGE : EXPENSE_BUTTONS_COUNT_PER_PAGE;
-                                                paFragmentManager.displayFragment((new AddCreditFragment()).setDateFormatModes(PocketAccounterGeneral.EXPANSE_MODE,currentPage*buttonsCount+pos));
+                                                AddCreditFragment addCreditFragment = new AddCreditFragment();
+                                                Bundle bundle = new Bundle();
+                                                bundle.putInt(CreditTabLay.MODE,PocketAccounterGeneral.EXPANSE_MODE);
+                                                bundle.putInt(CreditTabLay.POSITION,currentPage*buttonsCount+pos);
+                                                paFragmentManager.displayFragment(addCreditFragment);
                                             } else {
                                                 analytics.sendText("User wants to buy service, which changes button to credit");
                                                 purchaseImplementation.buyChanchingCredit();

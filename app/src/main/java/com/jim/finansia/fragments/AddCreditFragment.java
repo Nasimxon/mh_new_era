@@ -110,49 +110,45 @@ public class AddCreditFragment extends Fragment {
     Context context;
     int argFirst[] = new int[3];
     int argLast[] = new int[3];
-//    long forDay = 1000L * 60L * 60L * 24L;
     long forMoth = 1000L * 60L * 60L * 24L * 30L;
-//    long forWeek = 1000L * 60L * 60L * 24L * 7L;
     long forYear = 1000L * 60L * 60L * 24L * 365L;
     List<Currency> currencies;
-    CreditFragment.EventFromAdding eventLis;
-    AddCreditFragment ThisFragment;
-//    SwitchCompat isOpkey;
     SwitchCompat isHaveFirstPay;
     public static final String OPENED_TAG = "Addcredit";
     public static boolean to_open_dialog = false;
     CreditDetials currentCredit;
-//    private FrameLayout btnDetalization;
     private String mode = PocketAccounterGeneral.EVERY_DAY, sequence = "";
     private Spinner spNotifMode;
     private ArrayList<String> adapter;
     SwitchCompat keyForBalance;
     boolean fromMainWindow = false;
-    int modeFromMain;
+    int modeFromMain = PocketAccounterGeneral.NO_MODE;
     RecyclerView.LayoutManager layoutManager;
-    int posFromMain;
+    int posFromMain ;
     String sequence2 = "";
     RelativeLayout relativeLayoutStart;
-//    RelativeLayout checkInclude;
     private AddCreditFragment.DaysAdapter daysAdapter;
     private RecyclerView rvDays;
     ArrayList<Account> accaunt_AC;
     SimpleDateFormat sDateFormat = new SimpleDateFormat("dd MMM, yyyy");
-    public AddCreditFragment() {
-        // Required empty public constructor
-        ThisFragment = this;
-    }
 
-    public AddCreditFragment setDateFormatModes(int mode, int pos) {
-        fromMainWindow = true;
-        this.modeFromMain = mode;
-        this.posFromMain = pos;
-        return this;
-    }
+    final static String CREDIT_ID = "CREDID";
+    final static String ICON_ID = "ICON_ID";
+    final static String CREDIT_NAME = "CREDNAME";
+    final static String TAKE_TIME = "TAKETIME";
+    final static String PROCENT = "PROCENT";
+    final static String PROCENT_INTERVAL = "PROCENT_INTERVAL";
+    final static String PERIOD_TIME = "PERIOD_TIME";
+    final static String VALUE_OF_CREDIT = "VALUE_OF_CREDIT";
+    final static String CURRENCY_ID = "CURRENCY_ID";
+    final static String VALUE_OF_CREDIT_WITH_PROCENT = "VALUE_OF_CREDIT_WITH_PROCENT";
+    final static String PERIOD_TIME_TIP = "PERIOD_TIME_TIP";
+    final static String KEY_FOR_INCLUDE = "KEY_FOR_INCLUDE";
+    final static String ACCOUNT_ID = "ACCOUNT_ID";
+    final static String FROM_EDIT = "FROM_EDIT";
 
-    public void shareForEdit(CreditDetials currentCredit) {
-        this.currentCredit = currentCredit;
-    }
+
+
 
     public boolean isEdit() {
         return currentCredit != null;
@@ -174,6 +170,17 @@ public class AddCreditFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View V = inflater.inflate(R.layout.fragment_add_credit, container, false);
+        if(getArguments()!=null){
+            Long creditId = getArguments().getLong(CreditTabLay.CREDIT_ID);
+            if(creditId!=null){
+                currentCredit = daoSession.load(CreditDetials.class,creditId);
+            }
+            modeFromMain = getArguments().getInt(CreditTabLay.MODE);
+            posFromMain = getArguments().getInt(CreditTabLay.POSITION);
+
+
+        }
+
         if (fromMainWindow) {
             paFragmentManager.setMainReturn(true);
         }
@@ -1038,15 +1045,30 @@ public class AddCreditFragment extends Fragment {
 
         //logicManager.insertCredit(A1);
 
-
-
-
         onSucsessed = true;
 
         ScheduleCreditFragment scheduleCreditFragment = new ScheduleCreditFragment();
-        scheduleCreditFragment.setCreditObject(A1);
-        scheduleCreditFragment.isFromAdding();
-        scheduleCreditFragment.isFromWindow(isEdit(),logicManager,modeFromMain,paFragmentManager,daoSession,posFromMain);
+        Bundle bundle = new Bundle();
+
+        bundle.putBoolean(ScheduleCreditFragment.FROM_ADDING,true);
+        bundle.putLong(CREDIT_ID,A1.getMyCredit_id());
+        bundle.putString(ICON_ID,A1.getIcon_ID());
+        bundle.putString(CREDIT_NAME,A1.getCredit_name());
+        bundle.putLong(TAKE_TIME,A1.getTake_time().getTimeInMillis());
+        bundle.putDouble(PROCENT,A1.getProcent());
+        bundle.putDouble(PROCENT_INTERVAL,A1.getProcent_interval());
+        bundle.putLong(PERIOD_TIME,A1.getPeriod_time());
+        bundle.putDouble(VALUE_OF_CREDIT,A1.getValue_of_credit());
+        bundle.putString(CURRENCY_ID,A1.getCurrencyId());
+        bundle.putDouble(VALUE_OF_CREDIT_WITH_PROCENT,A1.getValue_of_credit_with_procent());
+        bundle.putLong(PERIOD_TIME_TIP,A1.getPeriod_time_tip());
+        bundle.putBoolean(KEY_FOR_INCLUDE,A1.getKey_for_include());
+        bundle.putString(ACCOUNT_ID,A1.getAccountID());
+        bundle.putInt(CreditTabLay.MODE,modeFromMain);
+        bundle.putInt(CreditTabLay.POSITION,posFromMain);
+
+        bundle.putBoolean(FROM_EDIT,isEdit());
+        scheduleCreditFragment.setArguments(bundle);
         paFragmentManager.displayFragment(scheduleCreditFragment);
 
     }
@@ -1055,30 +1077,8 @@ public class AddCreditFragment extends Fragment {
 
 
 
-    public void addEventLis(CreditFragment.EventFromAdding even) {
-        eventLis = even;
-    }
 
-    public String parseToWithoutNull(double A) {
-        if (A == (int) A)
-            return Integer.toString((int) A);
-        else {
-            DecimalFormat format = new DecimalFormat("0.##");
-            return format.format(A).replace(",", ".");
-        }
-    }
 
-    @Override
-    public void onDetach() {
-        if(!fromMainWindow){
-            if (!onSucsessed && currentCredit == null)
-                eventLis.canceledAdding();
-            else if (currentCredit == null) {
-                eventLis.addedCredit();
-            }
-        }
-        super.onDetach();
-    }
 
     private class DaysAdapter extends RecyclerView.Adapter<AddCreditFragment.ViewHolderDialog> {
         private String[] days;
@@ -1095,36 +1095,11 @@ public class AddCreditFragment extends Fragment {
                 }
             }
             tek = new boolean[days.length];
-//            if (currentCredit != null) {
-//                String [] dates = currentCredit.get().split(",");
-//                for (int i = 0; i < days.length; i++) {
-//                    for (String date : dates) {
-//                        if (days[i].matches(date)) {
-//                            tek[i] = true;
-//                            break;
-//                        }
-//                    }
-//                }
-//            }
         }
 
-        public void getResult() {
-            for (int i = 0; i < tek.length; i++) {
-                if (tek[i]) {
-                    sequence2 = sequence2 + days[i] + ",";
-                }
-            }
-        }
 
-        public String posDays() {
-            String posDay = "";
-            for (int i = 0; i < tek.length; i++) {
-                if (tek[i]) {
-                    posDay +=i + ",";
-                }
-            }
-            return posDay;
-        }
+
+
 
         @Override
         public int getItemCount() {

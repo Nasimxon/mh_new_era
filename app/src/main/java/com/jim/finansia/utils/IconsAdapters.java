@@ -6,11 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.jim.finansia.R;
-import com.jim.finansia.credit.AdapterCridet;
 
 /**
  * Created by developer on 17.01.2017.

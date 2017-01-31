@@ -69,8 +69,8 @@ public class SearchFragment extends Fragment {
     private RecyclerView rvSearchItems;
     private RVAdapterSearch rvAdapterSearch = new RVAdapterSearch();
     private String prevSearchString = "";
-    private SimpleDateFormat dateformarter;
-    private DecimalFormat formater;
+    private SimpleDateFormat dateformarter= new SimpleDateFormat("dd.MM.yyyy");
+    private DecimalFormat formater= new DecimalFormat("0.00##");
     @Inject DaoSession daoSession;
     @Inject CommonOperations comonOperation;
     @Inject PAFragmentManager paFragmentManager;
@@ -83,8 +83,6 @@ public class SearchFragment extends Fragment {
 
     public SearchFragment() {
         // Required empty public constructor
-        dateformarter = new SimpleDateFormat("dd.MM.yyyy");
-        formater = new DecimalFormat("0.00##");
 
     }
 
@@ -480,13 +478,19 @@ public class SearchFragment extends Fragment {
                                     toolbarManager.closeSearchFragment();
                                     if(((CreditDetials) item.getParrentObject()).getKey_for_archive()){
                                         InfoCreditFragmentForArchive temp = new InfoCreditFragmentForArchive();
-                                        temp.setConteentFragment((CreditDetials) item.getParrentObject());
+                                        Bundle bundle = new Bundle();
+                                        bundle.putLong(CreditTabLay.CREDIT_ID,((CreditDetials) item.getParrentObject()).getMyCredit_id());
+                                        bundle.putInt(CreditTabLay.MODE,PocketAccounterGeneral.SEARCH_MODE);
+                                        temp.setArguments(bundle);
                                         toolbarManager.closeSearchFragment();
                                         paFragmentManager.displayFragment(temp);
                                     }
                                     else {
                                         InfoCreditFragment temp = new InfoCreditFragment();
-                                        temp.setDefaultContent(((CreditDetials) item.getParrentObject()));
+                                        Bundle bundle = new Bundle();
+                                        bundle.putLong(CreditTabLay.CREDIT_ID,((CreditDetials) item.getParrentObject()).getMyCredit_id());
+                                        bundle.putInt(CreditTabLay.MODE,PocketAccounterGeneral.SEARCH_MODE);
+                                        temp.setArguments(bundle);
                                         toolbarManager.closeSearchFragment();
                                         paFragmentManager.displayFragment(temp);
                                     }
@@ -513,13 +517,19 @@ public class SearchFragment extends Fragment {
                                     CreditDetials parentCreditDetials = daoSession.getCreditDetialsDao().load(reckingCredit.getMyCredit_id());
                                     if(parentCreditDetials.getKey_for_archive()){
                                         InfoCreditFragmentForArchive temp = new InfoCreditFragmentForArchive();
-                                        temp.setConteentFragment(parentCreditDetials);
+                                        Bundle bundle = new Bundle();
+                                        bundle.putLong(CreditTabLay.CREDIT_ID,((CreditDetials) item.getParrentObject()).getMyCredit_id());
+                                        bundle.putInt(CreditTabLay.MODE,PocketAccounterGeneral.SEARCH_MODE);
+                                        temp.setArguments(bundle);
                                         paFragmentManager.displayFragment(temp);
                                         toolbarManager.closeSearchFragment();
                                     }
                                     else {
                                         InfoCreditFragment temp = new InfoCreditFragment();
-                                        temp.setDefaultContent(parentCreditDetials);
+                                        Bundle bundle = new Bundle();
+                                        bundle.putLong(CreditTabLay.CREDIT_ID,((CreditDetials) item.getParrentObject()).getMyCredit_id());
+                                        bundle.putInt(CreditTabLay.MODE,PocketAccounterGeneral.SEARCH_MODE);
+                                        temp.setArguments(bundle);
                                         paFragmentManager.displayFragment(temp);
                                         toolbarManager.closeSearchFragment();
                                     }

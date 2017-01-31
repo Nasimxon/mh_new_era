@@ -1,6 +1,7 @@
 package com.jim.finansia.fragments;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -9,7 +10,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +19,6 @@ import android.view.inputmethod.InputMethodManager;
 import com.jim.finansia.PocketAccounter;
 import com.jim.finansia.PocketAccounterApplication;
 import com.jim.finansia.R;
-import com.jim.finansia.credit.AdapterCridetArchive;
 import com.jim.finansia.managers.DrawerInitializer;
 import com.jim.finansia.managers.PAFragmentManager;
 import com.jim.finansia.managers.ToolbarManager;
@@ -36,17 +35,29 @@ public class CreditTabLay extends Fragment implements View.OnClickListener, View
     ToolbarManager toolbarManager;
     @Inject
     DrawerInitializer drawerInitializer;
+    @Inject
+    SharedPreferences sharedPreferences;
 
-    ForFab A1;
-    FloatingActionButton fb;
-    SvyazkaFragmentov svyaz;
+    public static final String CREDIT_ID = "credit_id";
+    public static final String POSITION = "credit_position";
+    public static final String MODE = "credit_mode";
+    public static final String DEFAULT_POSITION = "default_position";
+
+
+    private FloatingActionButton fb;
     private ArrayList<Fragment> list;
-    public static int pos = 0;
     private ViewPager viewPager;
-    private int position = 0;
-    public CreditTabLay() {
-        Log.d("gogogo", "CreditTabLay: ");
-        // Required empty public constructor
+    private PagerAdapter adapter;
+
+    public void updateArchive(){
+        if(adapter!=null){
+            for(int i = 0;i<adapter.getCount();i++){
+                if(adapter.getItem(i).getClass().getName().equals(CreditArchiveFragment.class.getName())){
+                    ((CreditArchiveFragment) adapter.getItem(i)).updateList();
+                    break;
+                }
+            }
+        }
     }
 
     @Override
@@ -54,9 +65,7 @@ public class CreditTabLay extends Fragment implements View.OnClickListener, View
         super.onCreate(savedInstanceState);
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
     }
-    public void setArchivePosition(){
-        position=1;
-    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -73,28 +82,27 @@ public class CreditTabLay extends Fragment implements View.OnClickListener, View
         },100);
 
         TabLayout tabLayout = (TabLayout) V.findViewById(R.id.sliding_tabs);
-        fb=(FloatingActionButton) V.findViewById(R.id.fbDebtBorrowFragment);
+        fb = (FloatingActionButton) V.findViewById(R.id.fbDebtBorrowFragment);
         fb.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                A1.pressedFab();
+            public void onClick(View view) {
+                paFragmentManager.displayFragment(new AddCreditFragment());
             }
         });
+
 
         viewPager = (ViewPager) V.findViewById(R.id.viewpager);
         list = new ArrayList<>();
         CreditFragment creditFragment = new CreditFragment();
-        creditFragment.setCreditTabLay(this);
         CreditArchiveFragment creditArchiveFragment = new CreditArchiveFragment();
         list.add(creditFragment);
         list.add(creditArchiveFragment);
-        final PagerAdapter adapter = new PagerAdapter
-                (getActivity().getSupportFragmentManager(), list);
+        adapter = new PagerAdapter(paFragmentManager.getFragmentManager(), list);
         viewPager.setAdapter(adapter);
+        viewPager.setCurrentItem(sharedPreferences.getInt(DEFAULT_POSITION,0));
         viewPager.addOnPageChangeListener(this);
-        viewPager.setCurrentItem(position
-        );
-        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
@@ -152,7 +160,8 @@ public class CreditTabLay extends Fragment implements View.OnClickListener, View
         else{
             fb.setVisibility(View.VISIBLE);
         }
-        pos = position;
+        sharedPreferences.edit().putInt(DEFAULT_POSITION,position).apply();
+
     }
 
     @Override
@@ -176,7 +185,6 @@ public class CreditTabLay extends Fragment implements View.OnClickListener, View
         }
     }
 
-    AdapterCridetArchive.GoCredFragForNotify svyazForNotifyFromArchAdap;
     public class PagerAdapter extends FragmentStatePagerAdapter {
         private ArrayList<Fragment> list;
         public PagerAdapter(FragmentManager fm, ArrayList<Fragment> list) {
@@ -186,27 +194,7 @@ public class CreditTabLay extends Fragment implements View.OnClickListener, View
 
         @Override
         public Fragment getItem(int position) {
-            switch (position) {
-                case 0:
-                    CreditFragment credA= (CreditFragment) list.get(position);
-                    A1=credA.getEvent();
-                    credA.setSvyaz(new SvyazkaFragmentov() {
-                        @Override
-                        public void itemInsertedToArchive() {
-                            svyaz.itemInsertedToArchive();
-                        }
-                    });
-                    svyazForNotifyFromArchAdap=credA.getInterfaceNotify();
-                    return credA;
-                case 1:
-                    CreditArchiveFragment arch= (CreditArchiveFragment) list.get(position);
-                    svyaz=arch.getSvyaz();
-                    arch.setSvyazToAdapter(svyazForNotifyFromArchAdap);
-                    return arch;
-
-                default:
-                    return null;
-            }
+            return list.get(position);
         }
 
         @Override
@@ -223,12 +211,6 @@ public class CreditTabLay extends Fragment implements View.OnClickListener, View
         }
     }
 
-    public interface ForFab{
-        public void pressedFab();
-    }
-    public interface SvyazkaFragmentov{
-        public void itemInsertedToArchive();
-    }
 
     @Override
     public void onResume() {

@@ -92,13 +92,12 @@ public class InfoCreditFragment extends Fragment {
     SharedPreferences sPref;
     @Inject
     ReportManager reportManager;
+
     WarningDialog warningDialog;
     SimpleDateFormat sDateFormat = new SimpleDateFormat("dd MMM, yyyy");
     CreditDetialsDao creditDetialsDao;
     ReckingCreditDao reckingCreditDao;
     AccountDao accountDao;
-    FinanceRecordDao financeRecordDao;
-    DebtBorrowDao debtBorrowDao;
     ArrayList<CreditsSchedule> creditsSchedules;
     ImageView expandableBut;
     ImageView cancel_button;
@@ -137,34 +136,12 @@ public class InfoCreditFragment extends Fragment {
     DecimalFormat decimalFormat;
     NumberFormat numberFormat;
     TextView myPay;
-//    ImageView myDelete;
-    boolean fromMainWindow = false;
     private boolean[] isCheks;
     private int positionOfBourdMain;
-    private int modeOfMain;
-    boolean fromSearch = false;
+    private int modeOfMain = PocketAccounterGeneral.NO_MODE;
     PopupMenu popupMenu;
-    public InfoCreditFragment() {
-        // Required empty public constructor
-    }
 
-    public void setConteent(CreditDetials temp, int currentPOS) {
-        currentCredit = temp;
-        this.currentPOS = currentPOS;
-    }
 
-    public void setContentFromMainWindow(CreditDetials temp, int positionOfBourd, int modeOfMain) {
-        fromMainWindow = true;
-
-        currentCredit = temp;
-        this.positionOfBourdMain = positionOfBourd;
-        this.modeOfMain = modeOfMain;
-    }
-
-    public void setDefaultContent(CreditDetials temp) {
-        currentCredit = temp;
-        fromSearch = true;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -182,11 +159,8 @@ public class InfoCreditFragment extends Fragment {
         decimalFormat = (DecimalFormat) numberFormat;
         decimalFormat.setDecimalFormatSymbols(symbols);
         context = getActivity();
-        warningDialog = new WarningDialog(context);
-        if (currentCredit != null)
-        {
-            sPref.edit().putLong("CREDIT_ID", currentCredit.getMyCredit_id()).commit();
-        }
+
+
     }
 
 
@@ -194,15 +168,20 @@ public class InfoCreditFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View V = inflater.inflate(R.layout.fragment_info_credit_modern, container, false);
+        if(getArguments()!=null){
+            currentCredit = daoSession.load(CreditDetials.class,getArguments().getLong(CreditTabLay.CREDIT_ID));
+            modeOfMain = getArguments().getInt(CreditTabLay.MODE);
+            positionOfBourdMain = getArguments().getInt(CreditTabLay.POSITION);
+            if (currentCredit != null){
+                sPref.edit().putLong("CREDIT_ID", currentCredit.getMyCredit_id()).apply();
+            }
+        }
         Date dateForSimpleDate = (new Date());
-        if (fromMainWindow)
-            paFragmentManager.setMainReturn(true);
         expandableBut = (ImageView) V.findViewById(R.id.wlyuzik_opener);
         expandablePanel = (RelativeLayout) V.findViewById(R.id.shlyuzik);
         myCreditName = (TextView) V.findViewById(R.id.name_of_credit);
         myLefAmount = (TextView) V.findViewById(R.id.value_credit_all);
         myProcent = (TextView) V.findViewById(R.id.procentCredInfo);
-//        myLefDate = (TextView) V.findViewById(R.id.leftDateInfo);
         myPeriodOfCredit = (TextView) V.findViewById(R.id.intervalCreditInfo);
         myTakedCredTime = (TextView) V.findViewById(R.id.takedtimeInfo);
         myTakedValue = (TextView) V.findViewById(R.id.takedValueInfo);
@@ -219,17 +198,11 @@ public class InfoCreditFragment extends Fragment {
         icon_credit = (ImageView) V.findViewById(R.id.icon_creditt);
         cancel_button = (ImageView) V.findViewById(R.id.cancel_button);
         rlBottom = (RelativeLayout) V.findViewById(R.id.rlBottom);
-        V.findViewById(R.id.moainnnn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-            }
-        });
         rcList = currentCredit.getReckings();
         currentCredit.resetReckings();
         adapRecyc = new PaysCreditAdapter(rcList);
         myPay = (TextView) V.findViewById(R.id.paybut);
-//        myDelete = (ImageView) V.findViewById(R.id.deleterbut);
         LinearLayoutManager llm = new LinearLayoutManager(context);
         tranact_recyc.setLayoutManager(llm);
         V.findViewById(R.id.llDebtBOrrowItemEdit).setOnClickListener(new View.OnClickListener() {
@@ -238,7 +211,9 @@ public class InfoCreditFragment extends Fragment {
                 SharedPreferences.Editor editor = sPref.edit();
                 editor.putInt("FRAG_ID", 1).commit();
                 ScheduleCreditFragment scheduleCreditFragment  = new ScheduleCreditFragment();
-                scheduleCreditFragment.setCreditObject(currentCredit);
+                Bundle bundle = new Bundle();
+                bundle.putLong(CreditTabLay.CREDIT_ID,currentCredit.getMyCredit_id());
+                scheduleCreditFragment.setArguments(bundle);
                 paFragmentManager.displayFragment(scheduleCreditFragment);
             }
         });
@@ -258,17 +233,21 @@ public class InfoCreditFragment extends Fragment {
                             case R.id.edit:
                                 paFragmentManager.getFragmentManager().popBackStack();
                                 AddCreditFragment forEdit = new AddCreditFragment();
-                                if (fromMainWindow)
-                                    forEdit.setDateFormatModes(modeOfMain, positionOfBourdMain);
-                                forEdit.shareForEdit(currentCredit);
+                                Bundle bundle = new Bundle();
+                                if (modeOfMain != PocketAccounterGeneral.NO_MODE){
+                                    bundle.putInt(CreditTabLay.MODE,modeOfMain);
+                                    bundle.putInt(CreditTabLay.POSITION,positionOfBourdMain);
+                                }
+                                bundle.putLong(CreditTabLay.CREDIT_ID,currentCredit.getMyCredit_id());
+                                forEdit.setArguments(bundle);
                                 paFragmentManager.displayFragment(forEdit);
                                 break;
                             case R.id.delete: {
-
+                                warningDialog = new WarningDialog(context);
                                 warningDialog.setOnYesButtonListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        if (!fromMainWindow) {
+                                        if (modeOfMain == PocketAccounterGeneral.NO_MODE ) {
                                             List<BoardButton> boardButtons = daoSession.getBoardButtonDao().loadAll();
                                             for (BoardButton boardButton : boardButtons) {
                                                 if (boardButton.getCategoryId() != null)
@@ -287,7 +266,7 @@ public class InfoCreditFragment extends Fragment {
                                             reportManager.clearCache();
                                             paFragmentManager.updateAllFragmentsOnViewPager();
                                             logicManager.deleteCredit(currentCredit);
-                                        } else if (fromSearch) {
+                                        } else if (modeOfMain == PocketAccounterGeneral.SEARCH_MODE) {
                                             List<BoardButton> boardButtons = daoSession.getBoardButtonDao().loadAll();
                                             for (BoardButton boardButton : boardButtons) {
                                                 if (boardButton.getCategoryId() != null)
@@ -308,7 +287,7 @@ public class InfoCreditFragment extends Fragment {
                                             logicManager.deleteCredit(currentCredit);
 
                                         } else {
-                                            if (modeOfMain == PocketAccounterGeneral.EXPENSE) {
+                                            if (modeOfMain == PocketAccounterGeneral.EXPANSE_MODE) {
                                                 logicManager.changeBoardButton(PocketAccounterGeneral.EXPENSE, positionOfBourdMain, null);
                                             } else {
                                                 logicManager.changeBoardButton(PocketAccounterGeneral.INCOME, positionOfBourdMain, null);
@@ -337,15 +316,12 @@ public class InfoCreditFragment extends Fragment {
                                             paFragmentManager.updateAllFragmentsOnViewPager();
 
                                         }
-                                        if (fromMainWindow)
+                                        if (modeOfMain != PocketAccounterGeneral.NO_MODE && modeOfMain !=PocketAccounterGeneral.DETAIL && modeOfMain!= PocketAccounterGeneral.SEARCH_MODE){
                                             dataCache.updateOneDay(dataCache.getEndDate());
-                                        if (fromMainWindow) {
                                             getActivity().getSupportFragmentManager().popBackStack();
                                             paFragmentManager.displayMainWindow();
                                         } else {
-
                                             getActivity().getSupportFragmentManager().popBackStack();
-
                                             paFragmentManager.displayFragment(new CreditTabLay());
                                         }
                                         warningDialog.dismiss();
@@ -374,13 +350,11 @@ public class InfoCreditFragment extends Fragment {
         });
 
         tranact_recyc.setAdapter(adapRecyc);
-
         double total_paid = 0;
         for (ReckingCredit item : rcList) {
             total_paid += item.getAmount();
         }
         creditsSchedules = new ArrayList<>();
-
         adapRecyc.notifyDataSetChanged();
         V.findViewById(R.id.frameLayout2).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -388,7 +362,7 @@ public class InfoCreditFragment extends Fragment {
                 if (toArcive && !delete_flag) {
                     currentCredit.setKey_for_archive(true);
                     logicManager.insertCredit(currentCredit);
-                    if (!fromMainWindow) {
+                    if (modeOfMain == PocketAccounterGeneral.NO_MODE) {
                         List<BoardButton> boardButtons = daoSession.getBoardButtonDao().loadAll();
                         for (BoardButton boardButton : boardButtons) {
                             if (boardButton.getCategoryId() != null)
@@ -405,7 +379,7 @@ public class InfoCreditFragment extends Fragment {
                         paFragmentManager.updateAllFragmentsOnViewPager();
                         paFragmentManager.displayFragment(new CreditTabLay());
 
-                    } else if (fromSearch) {
+                    } else if (modeOfMain == PocketAccounterGeneral.SEARCH_MODE) {
 
                         List<BoardButton> boardButtons = daoSession.getBoardButtonDao().loadAll();
                         for (BoardButton boardButton : boardButtons) {
@@ -424,7 +398,7 @@ public class InfoCreditFragment extends Fragment {
 
                         paFragmentManager.getFragmentManager().popBackStack();
                     } else {
-                        if (modeOfMain == PocketAccounterGeneral.EXPENSE)
+                        if (modeOfMain == PocketAccounterGeneral.EXPANSE_MODE)
                             logicManager.changeBoardButton(PocketAccounterGeneral.EXPENSE, positionOfBourdMain, null);
                         else
                             logicManager.changeBoardButton(PocketAccounterGeneral.INCOME, positionOfBourdMain, null);
@@ -857,6 +831,7 @@ public class InfoCreditFragment extends Fragment {
                             }
                         }}
                     if (Double.parseDouble(amount) > currentCredit.getValue_of_credit_with_procent() - total_paid) {
+                        warningDialog = new WarningDialog(context);
                         warningDialog.setOnYesButtonListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -928,16 +903,6 @@ public class InfoCreditFragment extends Fragment {
 
     }
 
-    public void openFragment(Fragment fragment) {
-        if (fragment != null) {
-            final android.support.v4.app.FragmentTransaction ft = ((PocketAccounter) context)
-                    .getSupportFragmentManager().beginTransaction()
-                    .setTransition(android.support.v4.app.FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-//            ft.add(R.id.flMain);
-            ft.commit();
-        }
-    }
-
     public void updateDate() {
         double total_paid = 0;
         for (ReckingCredit item : rcList)
@@ -1000,14 +965,14 @@ public class InfoCreditFragment extends Fragment {
                 tvPeriodPayment.setTextColor(ContextCompat.getColor(context,R.color.credit_och_yashil));
             }
         }
-        //exep
+
         myTakedValue.setText(decimalFormat.format(currentCredit.getValue_of_credit()) + currentCredit.getValyute_currency().getAbbr());
         myReturnValue.setText(decimalFormat.format(headerData.getTotalLoanWithInterest()) + currentCredit.getValyute_currency().getAbbr());
         tvBalancePer.setText(decimalFormat.format(headerData.getTotalPayedAmount())+currentCredit.getValyute_currency().getAbbr());
         Calendar to;
         if(!prosrecenniy)
-            to = (Calendar) currentPeriod.getDate();
-        else to = (Calendar) Calendar.getInstance();
+            to =  currentPeriod.getDate();
+        else to =  Calendar.getInstance();
         long period_tip = currentCredit.getPeriod_time_tip();
         long period_voqt = currentCredit.getPeriod_time();
         int voqt_soni = (int) (period_voqt / period_tip);
@@ -1094,6 +1059,7 @@ public class InfoCreditFragment extends Fragment {
         }
         delete_flag = false;
         if (keyfor) {
+            warningDialog = new WarningDialog(context);
             warningDialog.setOnYesButtonListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -1129,7 +1095,7 @@ public class InfoCreditFragment extends Fragment {
             adapRecyc.notifyDataSetChanged();
         }
         cancel_button.setVisibility(View.GONE);
-//        myPay.setText(getString(R.string.pay));
+
     }
 
     @Override
