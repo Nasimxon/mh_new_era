@@ -3,6 +3,7 @@ package com.jim.finansia.fragments;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -85,6 +86,8 @@ public class AddCreditFragment extends Fragment {
     IconChooseDialog iconChooseDialog;
     @Inject
     DataCache dataCache;
+    @Inject
+    SharedPreferences preferences;
     CreditDetialsDao creditDetialsDao;
     CurrencyDao currencyDao;
     AccountDao accountDao;
@@ -253,6 +256,28 @@ public class AddCreditFragment extends Fragment {
             accounts.add(accaunt_AC.get(i).getName());
         }
         accountSp.setAdapter(new SpinnerAdapter(getContext(), accounts));
+        String lastAccountId = preferences.getString("CHOSEN_ACCOUNT_ID",  "");
+        if (lastAccountId != null && !lastAccountId.isEmpty()) {
+            int position = 0;
+            for (int i = 0; i < accaunt_AC.size(); i++) {
+                if (accaunt_AC.get(i).getId().equals(lastAccountId)) {
+                    position = i;
+                    break;
+                }
+            }
+            accountSp.setSelection(position);
+        }
+        accountSp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                preferences.edit().putString("CHOSEN_ACCOUNT_ID", accaunt_AC.get(i).getId()).commit();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
         V.findViewById(R.id.checkInclude).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

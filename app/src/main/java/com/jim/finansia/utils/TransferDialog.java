@@ -87,18 +87,18 @@ public class TransferDialog extends Dialog implements View.OnClickListener {
         toAccount = (TextView) dialogView.findViewById(R.id.tvAccountTransferDialogTo);
         date = (TextView) dialogView.findViewById(R.id.tvAccountDialogDate);
         currencies = daoSession.getCurrencyDao().loadAll();
-        String[] currs = new String[currencies.size()];
+        ArrayList currs = new ArrayList();
+        ArrayList currsName = new ArrayList();
         int main_currency_index = -1;
         for (int i = 0; i < currencies.size(); i++){
-            currs[i] = currencies.get(i).getAbbr();
+            currs.add(currencies.get(i).getAbbr());
             if(currencies.get(i).getIsMain()){
                 main_currency_index = i;
             }
+            currsName.add(currencies.get(i).getName());
         }
-
-        ArrayAdapter<String> currencyAdapter = new ArrayAdapter<String>(getContext(), R.layout.spiner_gravity_right_transfer, currs);
         spAccManDialog.getBackground().setColorFilter(ContextCompat.getColor(context, R.color.grey_ochrang), PorterDuff.Mode.SRC_ATOP);
-        spAccManDialog.setAdapter(currencyAdapter);
+        spAccManDialog.setAdapter(new CurrencySpinnerAdapter(getContext(),currs, currsName));
         if (main_currency_index!=-1){
         spAccManDialog.setSelection(main_currency_index);
         }

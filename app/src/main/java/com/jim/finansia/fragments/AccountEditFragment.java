@@ -128,6 +128,7 @@ public class AccountEditFragment extends PABaseInfoFragment implements OnClickLi
         etStartLimit = (EditText) rootView.findViewById(R.id.etStartLimit); //limit amount
         spStartLimit = (Spinner) rootView.findViewById(R.id.spStartLimitCurrency); //limit currency
         spStartLimit.setAdapter(new CurrencySpinnerAdapter(getContext(), cur,curName ));
+        spStartLimit.setSelection(mainCurrencyPos);
         rootView.findViewById(R.id.checkBoxSum).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {

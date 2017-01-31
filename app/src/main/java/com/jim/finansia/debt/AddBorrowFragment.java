@@ -9,6 +9,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -100,6 +101,7 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
     @Inject DataCache dataCache;
     @Inject @Named(value = "display_formatter") SimpleDateFormat dateFormat;
     @Inject ReportManager reportManager;
+    @Inject SharedPreferences preferences;
     private int mode = PocketAccounterGeneral.NO_MODE;
     private FrameLayout contactBtn;
     private CircleImageView civImage;
@@ -203,8 +205,8 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
         });
         spDebtBorrowAccount.setOnItemSelectedListener(this);
         spDebtBorrowCurrency.setOnItemSelectedListener(this);
-        List<Account> allAccounts = daoSession.loadAll(Account.class);
-        ArrayList accounts = new ArrayList();
+        final List<Account> allAccounts = daoSession.loadAll(Account.class);
+        final ArrayList accounts = new ArrayList();
         for (int i = 0; i < allAccounts.size(); i++) {
             accounts.add(allAccounts.get(i).getName());
         }
@@ -217,6 +219,28 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
         }
         spDebtBorrowAccount.setAdapter(new SpinnerAdapter(getContext(), accounts));
         spDebtBorrowCurrency.setAdapter(new CurrencySpinnerAdapter(getContext(), currencies, currenciesName));
+        String lastAccountId = preferences.getString("CHOSEN_ACCOUNT_ID",  "");
+        if (lastAccountId != null && !lastAccountId.isEmpty()) {
+            int position = 0;
+            for (int i = 0; i < allAccounts.size(); i++) {
+                if (allAccounts.get(i).getId().equals(lastAccountId)) {
+                    position = i;
+                    break;
+                }
+            }
+            spDebtBorrowAccount.setSelection(position);
+        }
+        spDebtBorrowAccount.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                preferences.edit().putString("CHOSEN_ACCOUNT_ID", allAccounts.get(i).getId()).commit();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
         int posMain = 0;
         for (int i = 0; i < allCurrencies.size(); i++) {
             if (allCurrencies.get(i).getId().equals(commonOperations.getMainCurrency().getId())) {

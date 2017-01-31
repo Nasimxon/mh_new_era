@@ -217,7 +217,7 @@
                     android:layout_height="match_parent"
                     android:src="@drawable/finance_calendar"
 
-                    android:spinnerMode="dropdown"
+                    android:spinnerMode="dialog"
                     />
 
             </LinearLayout>

@@ -1,6 +1,7 @@
 package com.jim.finansia.fragments;
 
 import android.app.Dialog;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -74,6 +75,8 @@ public class AddAutoMarketFragment extends Fragment {
     SubCatAddEditDialog subCatAddEditDialog;
     @Inject
     CommonOperations commonOperations;
+    @Inject
+    SharedPreferences preferences;
 
     private AccountDao accountDao;
     private CurrencyDao currencyDao;
@@ -134,6 +137,28 @@ public class AddAutoMarketFragment extends Fragment {
             account.add(accounts.get(i).getName());
         }
         account_sp.setAdapter(new SpinnerAdapter(getContext(), account));
+        String lastAccountId = preferences.getString("CHOSEN_ACCOUNT_ID",  "");
+        if (lastAccountId != null && !lastAccountId.isEmpty()) {
+            int position = 0;
+            for (int i = 0; i < accounts.size(); i++) {
+                if (accounts.get(i).getId().equals(lastAccountId)) {
+                    position = i;
+                    break;
+                }
+            }
+            account_sp.setSelection(position);
+        }
+        account_sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                preferences.edit().putString("CHOSEN_ACCOUNT_ID", accounts.get(i).getId()).commit();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
         spCurrency.setAdapter(new CurrencySpinnerAdapter(getContext(),(ArrayList) curs, (ArrayList) cursName));
         int posMain = 0;
         for (int i = 0; i < curs.size(); i++) {

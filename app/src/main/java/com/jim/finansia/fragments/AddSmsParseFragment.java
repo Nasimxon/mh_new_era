@@ -23,6 +23,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -136,6 +137,29 @@ public class AddSmsParseFragment extends PABaseFragment{
         }
         final TransferAccountAdapter transferAccountAdapter = new TransferAccountAdapter(getContext(), accStrings);
         spAccount.setAdapter(transferAccountAdapter);
+        final List<Account> allAccounts = daoSession.loadAll(Account.class);
+        String lastAccountId = preferences.getString("CHOSEN_ACCOUNT_ID",  "");
+        if (lastAccountId != null && !lastAccountId.isEmpty()) {
+            int position = 0;
+            for (int i = 0; i < allAccounts.size(); i++) {
+                if (allAccounts.get(i).getId().equals(lastAccountId)) {
+                    position = i;
+                    break;
+                }
+            }
+            spAccount.setSelection(position);
+        }
+        spAccount.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                preferences.edit().putString("CHOSEN_ACCOUNT_ID", allAccounts.get(i).getId()).commit();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
         final List<String> cursStrings = new ArrayList<>();
         List<Currency> currencies = daoSession.getCurrencyDao().loadAll();
         int main_currency_index = -1;
@@ -148,13 +172,6 @@ public class AddSmsParseFragment extends PABaseFragment{
         spCurrency.setAdapter(new SpinnerAdapter(getContext(), (ArrayList) cursStrings));
         if(main_currency_index!=-1)
         spCurrency.setSelection(main_currency_index);
-        int posMain = 0;
-        for (int i = 0; i < cursStrings.size(); i++) {
-            if (cursStrings.get(i).equals(commonOperations.getMainCurrency().getAbbr())) {
-                posMain = i;
-            }
-        }
-        spCurrency.setSelection(posMain);
         myAdapter = new MyAdapter(null);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext()) {
             @Override
