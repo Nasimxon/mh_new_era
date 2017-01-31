@@ -242,14 +242,43 @@ public class PAFragmentManager {
                 || fragName.equals(PocketClassess.ACCOUNT_FRAG) || fragName.equals(PocketClassess.CREDIT_FRAG)
                 || fragName.equals(PocketClassess.PURPOSE_FRAG) || fragName.equals(PocketClassess.REPORT_ACCOUNT)
                 || fragName.equals(PocketClassess.THEMES) || fragName.equals(PocketClassess.SMS_PARSE_FRAGMENT)
-                || fragName.equals(PocketClassess.RECORD_DETEIL_FRAGMENT) || fragName.equals(PocketClassess.REPORT)
-                || fragName.equals(PocketClassess.INFO_DEBTBORROW) && ((InfoDebtBorrowFragment)fragment).getMode() != PocketAccounterGeneral.NO_MODE
-                || fragName.equals(PocketClassess.ADD_DEBTBORROW) && ((AddBorrowFragment)fragment).getMode() != PocketAccounterGeneral.NO_MODE) {
+                || fragName.equals(PocketClassess.RECORD_DETEIL_FRAGMENT) || fragName.equals(PocketClassess.REPORT)) {
             drawerInitializer.inits();
             displayMainWindow();
-        } else if (fragName.equals(PocketClassess.ADD_DEBTBORROW) || fragName.equals(PocketClassess.INFO_DEBTBORROW)) {
-            displayFragment(new DebtBorrowFragment());
-        } else if (fragName.equals(PocketClassess.ADD_AUTOMARKET) || fragName.equals(PocketClassess.INFO_DEBTBORROW)) {
+        } else if (fragName.equals(PocketClassess.ADD_DEBTBORROW)) {
+            int mode = ((AddBorrowFragment) fragment).getMode();
+            if (mode == PocketAccounterGeneral.NO_MODE)
+                displayFragment(new DebtBorrowFragment());
+            else if (mode == PocketAccounterGeneral.DETAIL) {
+                SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+                Bundle bundle = new Bundle();
+                bundle.putString(RecordDetailFragment.DATE, format.format(dataCache.getEndDate().getTime()));
+                RecordDetailFragment fr = new RecordDetailFragment();
+                fr.setArguments(bundle);
+                displayFragment(fr);
+            } else if (mode == PocketAccounterGeneral.MAIN) {
+                displayMainWindow();
+            } else if (mode == PocketAccounterGeneral.SEARCH_MODE) {
+                //TODO CODE FOR OPENING SEARCH_MODE
+            }
+        }
+        else if (fragName.equals(PocketClassess.INFO_DEBTBORROW)) {
+            int mode = ((InfoDebtBorrowFragment) fragment).getMode();
+            if (mode == PocketAccounterGeneral.NO_MODE)
+                displayFragment(new DebtBorrowFragment());
+            else if (mode == PocketAccounterGeneral.DETAIL) {
+                SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+                Bundle bundle = new Bundle();
+                bundle.putString(RecordDetailFragment.DATE, format.format(dataCache.getEndDate().getTime()));
+                RecordDetailFragment fr = new RecordDetailFragment();
+                fr.setArguments(bundle);
+                displayFragment(fr);
+            } else if (mode == PocketAccounterGeneral.MAIN) {
+                displayMainWindow();
+            } else if (mode == PocketAccounterGeneral.SEARCH_MODE) {
+                //TODO CODE FOR OPENING SEARCH_MODE
+            }
+        } else if (fragName.equals(PocketClassess.ADD_AUTOMARKET)) {
             displayFragment(new AutoMarketFragment());
         } else if (fragName.equals(PocketClassess.REPORT_CATEGORY) || fragName.equals(PocketClassess.REPORT_DAILY_TABLE)
                 || fragName.equals(PocketClassess.REPORT_DAILY) || fragName.equals(PocketClassess.REPORT_MONTHLY)) {

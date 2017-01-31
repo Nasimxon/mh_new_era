@@ -1979,7 +1979,7 @@ public class CommonOperations {
             CreditDetials credit = daoSession.getCreditDetialsDao().load(Long.parseLong(categoryId));
             if (credit != null) return PocketAccounterGeneral.CREDIT;
         }
-        catch (Exception e) { Log.e("sss", "print stack"); }
+        catch (Exception e) { e.printStackTrace(); }
         DebtBorrow debtBorrow = daoSession.getDebtBorrowDao().load(categoryId);
         if (debtBorrow != null) return PocketAccounterGeneral.DEBT_BORROW;
         String[] operationIds = context.getResources().getStringArray(R.array.operation_ids);

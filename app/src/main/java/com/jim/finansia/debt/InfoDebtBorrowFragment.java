@@ -102,7 +102,6 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
     private ImageView pastgaOcil;
     private ImageView cancel_button;
     private int deletingMode = 1;
-
     private CircleImageView circleImageView;
     private android.support.v7.widget.RecyclerView recyclerView;
     private PeysAdapter peysAdapter;
@@ -115,7 +114,6 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
     private int posMain = 0;
     private RelativeLayout rlInfo;
     private PopupMenu popupMenu;
-
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -197,7 +195,7 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
             public void onClick(View view) {
                 Bundle bundle = new Bundle();
                 bundle.putString(DebtBorrowFragment.DEBT_BORROW_ID, debtBorrow.getId());
-                bundle.putInt(DebtBorrowFragment.MODE, PocketAccounterGeneral.NO_MODE);
+                bundle.putInt(DebtBorrowFragment.MODE, mode);
                 bundle.putInt(DebtBorrowFragment.POSITION, 0);
                 bundle.putInt(DebtBorrowFragment.TYPE, debtBorrow.getType());
                 AddBorrowFragment fragment = new AddBorrowFragment();

@@ -17,6 +17,7 @@ package com.jim.finansia.utils;
  */
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.PorterDuff;
@@ -24,6 +25,7 @@ import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.LayoutRes;
@@ -75,11 +77,19 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.jim.finansia.PocketAccounterApplication;
 import com.jim.finansia.R;
 import com.jim.finansia.debt.BorrowFragment;
+import com.jim.finansia.fragments.RecordDetailFragment;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
+
+import jxl.read.biff.Record;
+
+import static com.jim.finansia.fragments.RecordDetailFragment.SELECTED_POSITION;
 
 
 public class SpaceTabLayout extends RelativeLayout {
@@ -143,7 +153,6 @@ public class SpaceTabLayout extends RelativeLayout {
     private boolean SCROLL_STATE_DRAGGING = false;
 
     private static final String CURRENT_POSITION_SAVE_STATE = "buttonPosition";
-
     public SpaceTabLayout(Context context) {
         super(context);
         this.context = context;
@@ -328,9 +337,6 @@ public class SpaceTabLayout extends RelativeLayout {
                         else getViewTreeObserver().removeOnGlobalLayoutListener(this);
                     }
                 });
-
-
-        viewPager.setCurrentItem(startingPosition);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {

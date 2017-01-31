@@ -20,6 +20,7 @@ import com.jim.finansia.modulesandcomponents.modules.PocketAccounterApplicationM
 import com.jim.finansia.report.IncomeExpanseDataRow;
 import com.jim.finansia.syncbase.SyncBase;
 import com.jim.finansia.utils.SmsService;
+import com.jim.finansia.utils.SpaceTabLayout;
 import com.jim.finansia.utils.SubcatAdapterCircles;
 import com.jim.finansia.utils.SubcatItemChecker;
 import com.jim.finansia.utils.cache.DataCache;
@@ -83,4 +84,5 @@ public interface PocketAccounterApplicationComponent {
     void inject(ReportByIncomExpenseMonthDetailedByDaysFragment reportByIncomExpenseMonthDetailedByDaysFragment);
     void inject(CategoryAndSubcategoryChooserView categoryAndSubcategoryChooserView);
     void inject(OneYearWithMonthsFragment oneYearWithMonthsFragment);
+    void inject(SpaceTabLayout spaceTabLayout);
 }
