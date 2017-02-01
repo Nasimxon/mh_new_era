@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -44,6 +45,7 @@ import com.jim.finansia.managers.PAFragmentManager;
 import com.jim.finansia.managers.ReportManager;
 import com.jim.finansia.managers.ToolbarManager;
 import com.jim.finansia.utils.PocketAccounterGeneral;
+import com.jim.finansia.utils.SpinnerAdapter;
 import com.jim.finansia.utils.WarningDialog;
 import com.jim.finansia.utils.cache.DataCache;
 
@@ -84,6 +86,8 @@ public class CreditFragment extends Fragment {
     SimpleDateFormat dateFormat;
     @Inject
     DecimalFormat decimalFormatter;
+    @Inject
+    SharedPreferences preferences;
 
 
     private DecimalFormat formater = new DecimalFormat("0.00");
@@ -555,14 +559,33 @@ public class CreditFragment extends Fragment {
 
             }
             accaunt_AC = (ArrayList<Account>) accountDao.queryBuilder().list();
-            String[] accaounts = new String[accaunt_AC.size()];
-            for (int i = 0; i < accaounts.length; i++) {
-                accaounts[i] = accaunt_AC.get(i).getName();
+            ArrayList accounts = new ArrayList();
+            for (int i = 0; i < accaunt_AC.size(); i++) {
+                accounts.add(accaunt_AC.get(i).getName());
             }
-            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
-                    getContext(), R.layout.spiner_gravity_left, accaounts);
-            accountSp.setAdapter(arrayAdapter);
+            accountSp.setAdapter(new SpinnerAdapter(getContext(),accounts));
+            String lastAccountId = preferences.getString("CHOSEN_ACCOUNT_ID",  "");
+            if (lastAccountId != null && !lastAccountId.isEmpty()) {
+                int pos = 0;
+                for (int i = 0; i < accaunt_AC.size(); i++) {
+                    if (accaunt_AC.get(i).getId().equals(lastAccountId)) {
+                        pos = i;
+                        break;
+                    }
+                }
+                accountSp.setSelection(pos);
+            }
+            accountSp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                    preferences.edit().putString("CHOSEN_ACCOUNT_ID", accaunt_AC.get(i).getId()).commit();
+                }
 
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+
+                }
+            });
             keyForInclude.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

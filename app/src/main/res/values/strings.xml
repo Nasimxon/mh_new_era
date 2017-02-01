@@ -1518,7 +1518,7 @@
     <string name="total_payed">Total paid: </string>
     <string name="period_payments">Period payments</string>
     <string name="period_end_after">Period end after:</string>
-    <string name="complete">COMPLETE</string>
+    <string name="complete">COMPLETED</string>
 
     <string-array name="currency_1">
         <item>доллар</item>

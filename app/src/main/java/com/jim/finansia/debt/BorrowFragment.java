@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -28,6 +29,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -55,6 +57,7 @@ import com.jim.finansia.managers.PAFragmentManager;
 import com.jim.finansia.managers.ReportManager;
 import com.jim.finansia.utils.DatePicker;
 import com.jim.finansia.utils.PocketAccounterGeneral;
+import com.jim.finansia.utils.SpinnerAdapter;
 import com.jim.finansia.utils.WarningDialog;
 import com.jim.finansia.utils.cache.DataCache;
 
@@ -94,6 +97,8 @@ public class BorrowFragment extends Fragment {
     DecimalFormat formatter;
     @Inject
     ReportManager reportManager;
+    @Inject
+    SharedPreferences preferences;
     WarningDialog warningDialog;
     DebtBorrowDao debtBorrowDao;
     AccountDao accountDao;
@@ -390,15 +395,34 @@ public class BorrowFragment extends Fragment {
                         abbrrAmount.setText(person.getCurrency().getAbbr());
 
 
-                        final String[] accaounts = new String[accountDao.queryBuilder().list().size()];
-                        for (int i = 0; i < accaounts.length; i++) {
-                            accaounts[i] = accountDao.queryBuilder().list().get(i).getName();
+                        ArrayList accounts = new ArrayList();
+                        for (int i = 0; i < accountDao.queryBuilder().list().size(); i++) {
+                            accounts.add(accountDao.queryBuilder().list().get(i).getName());
                         }
                         tvResidue.setText(getString(R.string.left)+":");
-                        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
-                                getContext(), R.layout.spiner_gravity_left, accaounts);
+                        accountSp.setAdapter(new SpinnerAdapter(getContext(),accounts));
+                        String lastAccountId = preferences.getString("CHOSEN_ACCOUNT_ID",  "");
+                        if (lastAccountId != null && !lastAccountId.isEmpty()) {
+                            int pos = 0;
+                            for (int i = 0; i < accountDao.queryBuilder().list().size(); i++) {
+                                if (accountDao.queryBuilder().list().get(i).getId().equals(lastAccountId)) {
+                                    pos = i;
+                                    break;
+                                }
+                            }
+                            accountSp.setSelection(pos);
+                        }
+                        accountSp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                preferences.edit().putString("CHOSEN_ACCOUNT_ID", accountDao.queryBuilder().list().get(i).getId()).commit();
+                            }
 
-                        accountSp.setAdapter(arrayAdapter);
+                            @Override
+                            public void onNothingSelected(AdapterView<?> adapterView) {
+
+                            }
+                        });
                         keyForInclude.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                             @Override
                             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
