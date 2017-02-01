@@ -24,6 +24,7 @@ import com.jim.finansia.database.DaoSession;
 import com.jim.finansia.debt.PocketClassess;
 import com.jim.finansia.fragments.MainFragment;
 import com.jim.finansia.fragments.RecordEditFragment;
+import com.jim.finansia.fragments.SearchFragment;
 import com.jim.finansia.intropage.IntroIndicator;
 import com.jim.finansia.managers.CommonOperations;
 import com.jim.finansia.managers.DrawerInitializer;
@@ -178,6 +179,7 @@ public class PocketAccounter extends AppCompatActivity {
                 }
             }
         };
+
     }
 
     public void setToToolbarVoiceMode() {
@@ -217,6 +219,12 @@ public class PocketAccounter extends AppCompatActivity {
         toolbarManager.setTitle(getResources().getString(R.string.app_name));
         toolbarManager.setSubtitle(format.format(dataCache.getEndDate().getTime()));
         toolbarManager.setSubtitleIconVisibility(View.VISIBLE);
+        toolbarManager.setOnSearchButtonClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                paFragmentManager.displayFragment(new SearchFragment());
+            }
+        });
         toolbarManager.setOnHomeButtonClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -224,11 +232,9 @@ public class PocketAccounter extends AppCompatActivity {
             }
         });
         toolbarManager.setToolbarIconsVisibility(View.VISIBLE, View.GONE, View.VISIBLE);
-        toolbarManager.setSearchView(drawerInitializer, format, paFragmentManager, findViewById(R.id.main));
         toolbarManager.setImageToSecondImage(R.drawable.ic_info_outline_black_48dp);
-        toolbarManager.setSearchView(drawerInitializer, format, paFragmentManager, findViewById(R.id.main));
         toolbarManager.setImageToStartImage(R.drawable.ic_search_black_24dp);
-         getDatesetListener = new DatePickerDialog.OnDateSetListener() {
+        getDatesetListener = new DatePickerDialog.OnDateSetListener() {
             public void onDateSet(DatePicker arg0, int arg1, int arg2, int arg3) {
                Calendar calend = new GregorianCalendar(arg1, arg2, arg3);
                  String key = preferences.getString("balance_solve", "0");
@@ -300,7 +306,7 @@ public class PocketAccounter extends AppCompatActivity {
         } else if (paFragmentManager.getFragmentManager().findFragmentById(R.id.flMain) != null &&
                     paFragmentManager.getFragmentManager().findFragmentById(R.id.flMain).
                             getClass().getName().equals(PocketClassess.SEARCH_FRAGMENT)) {
-                toolbarManager.closeSearchTools();
+                toolbarManager.disableSearchMode();
         }
         else if (paFragmentManager.getFragmentManager().findFragmentById(R.id.flMain) == null){
             final WarningDialog warningDialog = new WarningDialog(this);

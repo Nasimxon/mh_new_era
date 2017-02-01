@@ -4,20 +4,14 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.jim.finansia.PocketAccounter;
 import com.jim.finansia.PocketAccounterApplication;
 import com.jim.finansia.R;
-import com.jim.finansia.database.CreditDetials;
 import com.jim.finansia.database.DaoSession;
 import com.jim.finansia.debt.AddBorrowFragment;
 import com.jim.finansia.debt.DebtBorrowFragment;
@@ -41,13 +35,11 @@ import com.jim.finansia.fragments.SMSParseInfoFragment;
 import com.jim.finansia.fragments.SearchFragment;
 import com.jim.finansia.fragments.SmsParseMainFragment;
 import com.jim.finansia.fragments.VoiceRecognizerFragment;
-import com.jim.finansia.helper.MyVerticalViewPager;
 import com.jim.finansia.utils.PocketAccounterGeneral;
 import com.jim.finansia.utils.cache.DataCache;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -61,12 +53,7 @@ import static com.jim.finansia.PocketAccounter.PRESSED;
 public class PAFragmentManager {
     private PocketAccounter activity;
     private FragmentManager fragmentManager;
-    private MainFragment mainFragment;
     private int lastCount = 0;
-    private boolean isMainReturn = false;
-    public void setMainReturn(boolean mainReturn) {
-        isMainReturn = mainReturn;
-    }
     @Inject ReportManager reportManager;
     @Inject CommonOperations commonOperations;
     @Inject DataCache dataCache;
@@ -178,9 +165,11 @@ public class PAFragmentManager {
         if (change != null) change.setVisibility(View.VISIBLE);
         int count = fragmentManager.getBackStackEntryCount();
         while (count > 0) {
-            fragmentManager.popBackStackImmediate();
+            fragmentManager.popBackStack();
             count--;
         }
+        updateAllFragmentsOnViewPager();
+        updateAllFragmentsPageChanges();
     }
 
     public void displayFragment(Fragment fragment) {
@@ -237,12 +226,18 @@ public class PAFragmentManager {
     public void remoteBackPress(DrawerInitializer drawerInitializer) {
         Fragment fragment = fragmentManager.findFragmentById(R.id.flMain);
         String fragName = fragment.getClass().getName();
-        if (fragName.equals(PocketClassess.DEBTBORROW_FRAG) || fragName.equals(PocketClassess.AUTOMARKET_FRAG)
-                || fragName.equals(PocketClassess.CURRENCY_FRAG) || fragName.equals(PocketClassess.CATEGORY_FRAG)
-                || fragName.equals(PocketClassess.ACCOUNT_FRAG) || fragName.equals(PocketClassess.CREDIT_FRAG)
-                || fragName.equals(PocketClassess.PURPOSE_FRAG) || fragName.equals(PocketClassess.REPORT_ACCOUNT)
-                || fragName.equals(PocketClassess.THEMES) || fragName.equals(PocketClassess.SMS_PARSE_FRAGMENT)
-                || fragName.equals(PocketClassess.RECORD_DETEIL_FRAGMENT) || fragName.equals(PocketClassess.REPORT)) {
+        if (fragName.equals(PocketClassess.DEBTBORROW_FRAG)
+                || fragName.equals(PocketClassess.AUTOMARKET_FRAG)
+                || fragName.equals(PocketClassess.CURRENCY_FRAG)
+                || fragName.equals(PocketClassess.CATEGORY_FRAG)
+                || fragName.equals(PocketClassess.ACCOUNT_FRAG)
+                || fragName.equals(PocketClassess.CREDIT_FRAG)
+                || fragName.equals(PocketClassess.PURPOSE_FRAG)
+                || fragName.equals(PocketClassess.THEMES)
+                || fragName.equals(PocketClassess.SMS_PARSE_FRAGMENT)
+                || fragName.equals(PocketClassess.RECORD_DETEIL_FRAGMENT)
+                || fragName.equals(PocketClassess.REPORT)
+                || fragName.equals(PocketClassess.SEARCH_FRAGMENT)) {
             drawerInitializer.inits();
             displayMainWindow();
         } else if (fragName.equals(PocketClassess.ADD_DEBTBORROW)) {
@@ -259,7 +254,7 @@ public class PAFragmentManager {
             } else if (mode == PocketAccounterGeneral.MAIN) {
                 displayMainWindow();
             } else if (mode == PocketAccounterGeneral.SEARCH_MODE) {
-                //TODO CODE FOR OPENING SEARCH_MODE
+                displayFragment(new SearchFragment());
             }
         }
         else if (fragName.equals(PocketClassess.INFO_DEBTBORROW)) {
@@ -276,7 +271,7 @@ public class PAFragmentManager {
             } else if (mode == PocketAccounterGeneral.MAIN) {
                 displayMainWindow();
             } else if (mode == PocketAccounterGeneral.SEARCH_MODE) {
-                //TODO CODE FOR OPENING SEARCH_MODE
+                displayFragment(new SearchFragment());
             }
         } else if (fragName.equals(PocketClassess.ADD_AUTOMARKET)) {
             displayFragment(new AutoMarketFragment());

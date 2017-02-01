@@ -11,6 +11,8 @@ import android.os.Handler;
 import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -57,6 +59,7 @@ import org.greenrobot.greendao.query.QueryBuilder;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -71,49 +74,21 @@ public class SearchFragment extends Fragment {
     private String prevSearchString = "";
     private SimpleDateFormat dateformarter= new SimpleDateFormat("dd.MM.yyyy");
     private DecimalFormat formater= new DecimalFormat("0.00##");
+    private TextView textViewSearch;
+    private List<SearchResultConten> searchItemsToSend;
+    private List<SearchResultConten> searchItemsToSendForUse;
+    private String[] tempIcons;
+
     @Inject DaoSession daoSession;
     @Inject CommonOperations comonOperation;
     @Inject PAFragmentManager paFragmentManager;
     @Inject ToolbarManager toolbarManager;
     @Inject DecimalFormat formatter;
-    private TextView textViewSearch;
-    private List<SearchResultConten> searchItemsToSend;
-    private List<SearchResultConten> searchItemsToSendForUse;
-
-
-    public SearchFragment() {
-        // Required empty public constructor
-
-    }
-
-    public TextChangeListnerW getListnerChange() {
-        return new TextChangeListnerW() {
-            @Override
-            public void onTextChange(String searchString) {
-                if (!prevSearchString.equals(searchString)) {
-                    changeListForResult(searchString);
-                    prevSearchString = searchString;
-
-                }
-            }
-        };
-    }
-
-    public interface TextChangeListnerW {
-        void onTextChange(String searchString);
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
-    }
-
-    String[] tempIcons;
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
+        ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
         rvSearchItems = (RecyclerView) view.findViewById(R.id.recyc_item_search);
         textViewSearch = (TextView) view.findViewById(R.id.textViewSearch);
         textViewSearch.setVisibility(View.VISIBLE);
@@ -132,8 +107,35 @@ public class SearchFragment extends Fragment {
                 return false;
             }
         });
+        toolbarManager.enableSearchMode();
+        toolbarManager.getToolbarSearch().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (getContext() != null) {
+                    String searchString = toolbarManager.getToolbarSearch().getText().toString();
+                    changeListForResult(searchString);
+                    prevSearchString = searchString;
+
+                }
+            }
+        });
+        toolbarManager.getToolbarSearch().requestFocus();
+        toolbarManager.setOnHomeButtonClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                paFragmentManager.getFragmentManager().popBackStack();
+                paFragmentManager.displayMainWindow();
+            }
+        });
+        prevSearchString = toolbarManager.getToolbarSearch().getText().toString();
+        changeListForResult(prevSearchString);
         return view;
     }
+
 
     public void changeListForResult(String searchSt) {
         if (searchItemsToSend == null) {
@@ -285,7 +287,6 @@ public class SearchFragment extends Fragment {
                         return con2.getMyDate().compareTo(con1.getMyDate());
                     }
                 });
-            searchItemsToSend.size();
             if(searchItemsToSend.size()==0){
                 textViewSearch.setVisibility(View.VISIBLE);
                 textViewSearch.setText(getString(R.string.cant_find)+" \""+searchSt+"\"");
@@ -342,12 +343,13 @@ public class SearchFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+        toolbarManager.disableSearchMode();
     }
 
     private class RVAdapterSearch extends RecyclerView.Adapter<RVAdapterSearch.SearchItemViewHolder> {
-        List<SearchResultConten> searchItems;
-        Context context;
-        String seq;
+        private List<SearchResultConten> searchItems;
+        private Context context;
+        private String seq;
         private final String COLOR_SEQ = "#D8EAC6";
 
         public void setDataList(List<SearchResultConten> searchItems, Context context, String seq) {
@@ -431,7 +433,6 @@ public class SearchFragment extends Fragment {
             }
 
             /*Set Onclick Listner*/
-            paFragmentManager.setMainReturn(true);
             switch (item.getStTypeSearch()) {
                 case SIMPLE_RECKING:
                     holder.mainItemView.setOnClickListener(new View.OnClickListener() {
@@ -475,14 +476,14 @@ public class SearchFragment extends Fragment {
                             hand.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    toolbarManager.closeSearchFragment();
+                                    toolbarManager.disableSearchMode();
                                     if(((CreditDetials) item.getParrentObject()).getKey_for_archive()){
                                         InfoCreditFragmentForArchive temp = new InfoCreditFragmentForArchive();
                                         Bundle bundle = new Bundle();
                                         bundle.putLong(CreditTabLay.CREDIT_ID,((CreditDetials) item.getParrentObject()).getMyCredit_id());
                                         bundle.putInt(CreditTabLay.MODE,PocketAccounterGeneral.SEARCH_MODE);
                                         temp.setArguments(bundle);
-                                        toolbarManager.closeSearchFragment();
+                                        toolbarManager.disableSearchMode();
                                         paFragmentManager.displayFragment(temp);
                                     }
                                     else {
@@ -491,7 +492,7 @@ public class SearchFragment extends Fragment {
                                         bundle.putLong(CreditTabLay.CREDIT_ID,((CreditDetials) item.getParrentObject()).getMyCredit_id());
                                         bundle.putInt(CreditTabLay.MODE,PocketAccounterGeneral.SEARCH_MODE);
                                         temp.setArguments(bundle);
-                                        toolbarManager.closeSearchFragment();
+                                        toolbarManager.disableSearchMode();
                                         paFragmentManager.displayFragment(temp);
                                     }
                                 }
@@ -513,7 +514,7 @@ public class SearchFragment extends Fragment {
                                 @Override
                                 public void run() {
                                     ReckingCredit reckingCredit=(ReckingCredit) item.getParrentObject();
-                                    toolbarManager.closeSearchFragment();
+                                    toolbarManager.disableSearchMode();
                                     CreditDetials parentCreditDetials = daoSession.getCreditDetialsDao().load(reckingCredit.getMyCredit_id());
                                     if(parentCreditDetials.getKey_for_archive()){
                                         InfoCreditFragmentForArchive temp = new InfoCreditFragmentForArchive();
@@ -522,7 +523,7 @@ public class SearchFragment extends Fragment {
                                         bundle.putInt(CreditTabLay.MODE,PocketAccounterGeneral.SEARCH_MODE);
                                         temp.setArguments(bundle);
                                         paFragmentManager.displayFragment(temp);
-                                        toolbarManager.closeSearchFragment();
+                                        toolbarManager.disableSearchMode();
                                     }
                                     else {
                                         InfoCreditFragment temp = new InfoCreditFragment();
@@ -531,7 +532,7 @@ public class SearchFragment extends Fragment {
                                         bundle.putInt(CreditTabLay.MODE,PocketAccounterGeneral.SEARCH_MODE);
                                         temp.setArguments(bundle);
                                         paFragmentManager.displayFragment(temp);
-                                        toolbarManager.closeSearchFragment();
+                                        toolbarManager.disableSearchMode();
                                     }
 
                                 }
@@ -555,10 +556,10 @@ public class SearchFragment extends Fragment {
                                 public void run() {
                                     Bundle bundle = new Bundle();
                                     bundle.putString(DebtBorrowFragment.DEBT_BORROW_ID, ((DebtBorrow) item.getParrentObject()).getId());
-                                    bundle.putInt(DebtBorrowFragment.MODE, PocketAccounterGeneral.NO_MODE);
+                                    bundle.putInt(DebtBorrowFragment.MODE, PocketAccounterGeneral.SEARCH_MODE);
                                     InfoDebtBorrowFragment fragment = new InfoDebtBorrowFragment();
                                     fragment.setArguments(bundle);
-                                    toolbarManager.closeSearchFragment();
+                                    toolbarManager.disableSearchMode();
                                     paFragmentManager.displayFragment(fragment);
                                 }
                             }, 500);
@@ -581,10 +582,10 @@ public class SearchFragment extends Fragment {
                                 @Override
                                 public void run() {
                                     Recking recking = (Recking) item.getParrentObject();
-                                    toolbarManager.closeSearchFragment();
+                                    toolbarManager.disableSearchMode();
                                     Bundle bundle = new Bundle();
                                     bundle.putString(DebtBorrowFragment.DEBT_BORROW_ID, recking.getDebtBorrowsId());
-                                    bundle.putInt(DebtBorrowFragment.MODE, PocketAccounterGeneral.NO_MODE);
+                                    bundle.putInt(DebtBorrowFragment.MODE, PocketAccounterGeneral.SEARCH_MODE);
                                     InfoDebtBorrowFragment fragment = new InfoDebtBorrowFragment();
                                     fragment.setArguments(bundle);
                                     paFragmentManager.displayFragment(fragment);
@@ -644,7 +645,6 @@ public class SearchFragment extends Fragment {
             TextView type;
             TextView date;
             TextView comment;
-//            FrameLayout forgoneLine;
             LinearLayout relativeLayout;
             LinearLayout mainItemView;
             TextView accountName;
@@ -659,7 +659,6 @@ public class SearchFragment extends Fragment {
                 date = (TextView) itemView.findViewById(R.id.dateToSearch);
                 comment = (TextView) itemView.findViewById(R.id.tvComment);
                 accountName = (TextView) itemView.findViewById(R.id.accountName);
-//                forgoneLine = (FrameLayout) itemView.findViewById(R.id.for_gone_a);
                 mainItemView = (LinearLayout) itemView.findViewById(R.id.mainview);
                 relativeLayout = (LinearLayout) itemView.findViewById(R.id.visibleIfCommentHave);
                 ifNotHaveAccount = (LinearLayout) itemView.findViewById(R.id.relativeLayout6);
