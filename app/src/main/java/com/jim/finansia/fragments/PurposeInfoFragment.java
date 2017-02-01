@@ -87,6 +87,8 @@ public class PurposeInfoFragment extends Fragment implements View.OnClickListene
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
+        View rooView = inflater.inflate(R.layout.purpose_info_layout, container, false);
         if (getArguments() != null) {
             String purposeId = getArguments().getString(PurposeFragment.PURPOSE_ID);
             if (purposeId != null)
@@ -95,13 +97,10 @@ public class PurposeInfoFragment extends Fragment implements View.OnClickListene
         if (purpose == null) {
             this.purpose = new Purpose();
         }
-        ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
-        View rooView = inflater.inflate(R.layout.purpose_info_layout, container, false);
         beginDate = null;
         endDate = null;
         filterDialog = new IntervalPickDialog(getContext());
         forGoneLeftDate = (RelativeLayout) rooView.findViewById(R.id.forGoneLeftDate);
-//        deleteOpertions = (ImageView) rooView.findViewById(R.id.ivPurposeInfoDelete);
         filterOpertions = (ImageView) rooView.findViewById(R.id.ivPurposeInfoFilter);
         cashAdd = (LinearLayout) rooView.findViewById(R.id.tvPurposeInfoToCash);
         cashSend = (LinearLayout) rooView.findViewById(R.id.tvPurposeInfoReplanish);
