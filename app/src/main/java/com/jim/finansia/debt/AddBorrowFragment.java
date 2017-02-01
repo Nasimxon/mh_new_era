@@ -549,7 +549,6 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
             dataCache.updateAllPercents();
             paFragmentManager.updateAllFragmentsPageChanges();
             paFragmentManager.displayMainWindow();
-            paFragmentManager.setMainReturn(false);
         }
         else {
             List<BoardButton> buttons = daoSession

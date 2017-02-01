@@ -76,7 +76,7 @@
                 android:visibility="gone" />
         </LinearLayout>
         <EditText
-            android:id="@+id/editToolbar"
+            android:id="@+id/etToolbarSearch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/ten_dp"

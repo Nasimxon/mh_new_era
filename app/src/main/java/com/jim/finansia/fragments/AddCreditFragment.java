@@ -180,10 +180,6 @@ public class AddCreditFragment extends Fragment {
 
 
         }
-
-        if (fromMainWindow) {
-            paFragmentManager.setMainReturn(true);
-        }
         context = getActivity();
 
         spiner_forValut = (Spinner) V.findViewById(R.id.spinner);

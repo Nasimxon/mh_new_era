@@ -39,6 +39,7 @@ import javax.inject.Named;
 
 import static android.util.TypedValue.COMPLEX_UNIT_DIP;
 import static com.jim.finansia.PocketAccounter.PRESSED;
+import static com.jim.finansia.PocketAccounter.toolbar;
 
 @SuppressLint("ValidFragment")
 public class MainPageFragment extends Fragment {
@@ -183,6 +184,7 @@ public class MainPageFragment extends Fragment {
     }
 
     public void initialize() {
+        toolbarManager.setTitle(getResources().getString(R.string.app_name));
         DisplayMetrics dm = getResources().getDisplayMetrics();
         double width = (double) dm.widthPixels;
         double height = (double) dm.heightPixels;
@@ -312,6 +314,7 @@ public class MainPageFragment extends Fragment {
             expenseView.lockPage();
         }
         lockView.setPage(expenseView.getCurrentPage()+1);
+
         toolbarManager.setSubtitle(simpleDateFormat.format(day.getTime()));
         balanceStripe.calculateBalance();
         incomeView.updateText();
@@ -329,6 +332,7 @@ public class MainPageFragment extends Fragment {
             lockView.setVisibility(View.VISIBLE);
             expenseView.lockPage();
         }
+        toolbarManager.setTitle(getResources().getString(R.string.app_name));
         lockView.setPage(expenseView.getCurrentPage()+1);
         balanceStripe.calculateBalance();
         expenseView.refreshPagesCount();

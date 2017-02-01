@@ -141,7 +141,6 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
                                 if (!categoryList.isEmpty())
                                     category = categoryList.get(0);
                             }
-                            paFragmentManager.setMainReturn(true);
                             Bundle bundle = new Bundle();
                             SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
                             bundle.putString(RecordDetailFragment.DATE, format.format(day.getTime()));
@@ -160,7 +159,6 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
                             bundle.putInt(CreditTabLay.MODE,PocketAccounterGeneral.MAIN);
                             bundle.putInt(CreditTabLay.POSITION,currentPage * buttonsCount + position);
                             temp.setArguments(bundle);
-                            paFragmentManager.setMainReturn(true);
                             paFragmentManager.displayFragment(temp);
 
                         }
@@ -184,51 +182,38 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
                             }
                             switch (pos) {
                                 case 0:
-                                    paFragmentManager.setMainReturn(true);
                                     paFragmentManager.displayFragment(new CurrencyFragment());
                                     break;
                                 case 1:
-                                    paFragmentManager.setMainReturn(true);
                                     paFragmentManager.displayFragment(new CategoryFragment());
                                     break;
                                 case 2:
-                                    paFragmentManager.setMainReturn(true);
                                     paFragmentManager.displayFragment(new AccountFragment());
 
                                     break;
                                 case 3:
-                                    paFragmentManager.setMainReturn(true);
                                     paFragmentManager.displayFragment(new PurposeFragment());
-
                                     break;
                                 case 4:
-                                    paFragmentManager.setMainReturn(true);
                                     paFragmentManager.displayFragment(new AutoMarketFragment());
 
                                     break;
                                 case 5:
-                                    paFragmentManager.setMainReturn(true);
                                     paFragmentManager.displayFragment(new CreditTabLay());
-
                                     break;
                                 case 6:
-                                    paFragmentManager.setMainReturn(true);
                                     paFragmentManager.displayFragment(new DebtBorrowFragment());
                                     break;
                                 case 7:
-                                    paFragmentManager.setMainReturn(true);
                                     paFragmentManager.displayFragment(new ReportByAccountFragment());
                                     break;
                                 case 8:
-                                    paFragmentManager.setMainReturn(true);
                                     paFragmentManager.displayFragment(new TableBarFragment());
                                     break;
                                 case 9:
-                                    paFragmentManager.setMainReturn(true);
                                     paFragmentManager.displayFragment(new ReportByCategory());
                                     break;
                                 case 10:
-                                    paFragmentManager.setMainReturn(true);
                                     paFragmentManager.displayFragment(new SmsParseMainFragment());
                                     break;
                                 case 11:
@@ -686,7 +671,6 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
                                 case 1:
                                     switch (position) {
                                         case 0:
-                                            paFragmentManager.setMainReturn(true);
                                             isAvailable = sharedPreferences.getBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.IS_AVAILABLE_CHANGING_OF_CATEGORY_KEY, false);
                                             if (isAvailable) {
                                                 buttonsCount = table == PocketAccounterGeneral.INCOME ? INCOME_BUTTONS_COUNT_PER_PAGE : EXPENSE_BUTTONS_COUNT_PER_PAGE;
@@ -703,7 +687,6 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
                                             }
                                             break;
                                         case 1:
-                                            paFragmentManager.setMainReturn(true);
                                             isAvailable = sharedPreferences.getBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.IS_AVAILABLE_CHANGING_OF_CREDIT_KEY, false);
                                             if (isAvailable) {
                                                 buttonsCount = table == PocketAccounterGeneral.INCOME ? INCOME_BUTTONS_COUNT_PER_PAGE : EXPENSE_BUTTONS_COUNT_PER_PAGE;
@@ -718,7 +701,6 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
                                             }
                                             break;
                                         case 2:
-                                            paFragmentManager.setMainReturn(true);
                                             isAvailable = sharedPreferences.getBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.IS_AVAILABLE_CHANGING_OF_DEBT_BORROW_KEY, false);
                                             if (isAvailable) {
                                                 int mode = table == PocketAccounterGeneral.INCOME ? PocketAccounterGeneral.INCOME_MODE : PocketAccounterGeneral.EXPANSE_MODE;
