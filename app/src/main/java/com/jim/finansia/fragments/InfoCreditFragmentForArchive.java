@@ -292,10 +292,17 @@ public class InfoCreditFragmentForArchive extends Fragment {
                                             getActivity().getSupportFragmentManager().popBackStack();
                                             paFragmentManager.displayMainWindow();
                                         } else {
-
                                             getActivity().getSupportFragmentManager().popBackStack();
-
-                                            paFragmentManager.displayFragment(new CreditTabLay());
+                                            for (Fragment fragment : paFragmentManager.getFragmentManager().getFragments()) {
+                                                if (fragment.getClass().getName().equals(CreditFragment.class.getName())) {
+                                                    ((CreditFragment)fragment).updateList();
+                                                    break;
+                                                }
+                                                if (fragment.getClass().getName().equals(CreditArchiveFragment.class.getName())) {
+                                                    ((CreditArchiveFragment)fragment).updateList();
+                                                    break;
+                                                }
+                                            }
                                         }
                                         warningDialog.dismiss();
                                     }

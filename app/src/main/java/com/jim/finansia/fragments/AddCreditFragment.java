@@ -762,6 +762,68 @@ public class AddCreditFragment extends Fragment {
         return V;
     }
 
+    public void toolbarBackupMethod() {
+        if (toolbarManager == null) return;
+        toolbarManager.setOnTitleClickListener(null);
+        toolbarManager.setImageToSecondImage(R.drawable.check_sign);
+        toolbarManager.setOnSecondImageClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean isMojno = true;
+                if (nameCred.getText().toString().equals("")) {
+                    nameCred.setError(getString(R.string.should_not_empty));
+                    isMojno = false;
+                } else
+                    nameCred.setHintTextColor(ContextCompat.getColor(context, R.color.black_for_secondary_text));
+                if (valueCred.getText().toString().equals("")) {
+                    valueCred.setError(getString(R.string.value_shoud_not_empty));
+                    isMojno = false;
+                } else {
+                    try {
+                        if (!(Double.parseDouble(valueCred.getText().toString()) > 0)) {
+                            valueCred.setError(getString(R.string.incorrect_value));
+                            isMojno = false;
+                        }
+                    } catch (Exception o) {
+                    }
+                    try {
+                        Double.parseDouble(valueCred.getText().toString());
+                    } catch (Exception e) {
+                        valueCred.setError(getString(R.string.wrong_input_type));
+                        return;
+                    }
+                }
+                if (procentCred.getText().toString().equals("")) {
+                    procentCred.setError(getString(R.string.procent_should_not_empty));
+                    isMojno = false;
+                }
+
+                if (periodCred.getText().toString().equals("")) {
+                    periodCred.setError(getString(R.string.period_should_not_empty));
+                    isMojno = false;
+                } else {
+                    try {
+                        if (!(Integer.parseInt(periodCred.getText().toString()) > 0)) {
+                            periodCred.setError(getString(R.string.incorrect_value));
+                            isMojno = false;
+                        }
+                    } catch (Exception o) {
+                    }
+                }
+
+                if (firstCred.getText().toString().equals("")) {
+                    firstCred.setError(getString(R.string.after_per_choise));
+                    isMojno = false;
+                }
+
+                //TODO first transaction
+                if (isMojno) {
+                    creditBuildAndSend();
+                }
+            }
+        });
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -1066,6 +1128,7 @@ public class AddCreditFragment extends Fragment {
         bundle.putDouble(MONTHLY_FEE,A1.getMonthly_fee());
         bundle.putInt(TYPE_LOAN,A1.getType_loan());
         bundle.putInt(MONTHLY_FEE_TYPE,A1.getMonthly_fee_type());
+        bundle.putInt(CreditTabLay.LOCAL_APPEREANCE, CreditTabLay.LOCAL_EDIT);
         bundle.putDouble(PERVONACALNIY,A1.getPervonacalniy());
 
 
@@ -1073,7 +1136,7 @@ public class AddCreditFragment extends Fragment {
         bundle.putInt(CreditTabLay.MODE,modeFromMain);
         bundle.putInt(CreditTabLay.POSITION,posFromMain);
 
-        bundle.putBoolean(FROM_EDIT,isEdit());
+        bundle.putBoolean(FROM_EDIT, isEdit());
         scheduleCreditFragment.setArguments(bundle);
         paFragmentManager.displayFragment(scheduleCreditFragment);
 

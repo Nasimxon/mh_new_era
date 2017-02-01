@@ -29,26 +29,22 @@ import javax.inject.Inject;
 
 
 public class CreditTabLay extends Fragment implements View.OnClickListener, ViewPager.OnPageChangeListener{
-    @Inject
-    PAFragmentManager paFragmentManager;
-    @Inject
-    ToolbarManager toolbarManager;
-    @Inject
-    DrawerInitializer drawerInitializer;
-    @Inject
-    SharedPreferences sharedPreferences;
+    @Inject PAFragmentManager paFragmentManager;
+    @Inject ToolbarManager toolbarManager;
+    @Inject DrawerInitializer drawerInitializer;
+    @Inject SharedPreferences sharedPreferences;
 
     public static final String CREDIT_ID = "credit_id";
     public static final String POSITION = "credit_position";
     public static final String MODE = "credit_mode";
     public static final String DEFAULT_POSITION = "default_position";
-
-
+    public static final String LOCAL_APPEREANCE = "local_appereance";
+    public static final int LOCAL_MAIN = 0, LOCAL_INFO = 1, LOCAL_EDIT = 2;
     private FloatingActionButton fb;
     private ArrayList<Fragment> list;
     private ViewPager viewPager;
     private PagerAdapter adapter;
-
+    private TabLayout tabLayout;
     public void updateArchive(){
         if(adapter!=null){
             for(int i = 0;i<adapter.getCount();i++){
@@ -81,7 +77,7 @@ public class CreditTabLay extends Fragment implements View.OnClickListener, View
             }
         },100);
 
-        TabLayout tabLayout = (TabLayout) V.findViewById(R.id.sliding_tabs);
+        tabLayout = (TabLayout) V.findViewById(R.id.sliding_tabs);
         fb = (FloatingActionButton) V.findViewById(R.id.fbDebtBorrowFragment);
         fb.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,7 +150,7 @@ public class CreditTabLay extends Fragment implements View.OnClickListener, View
 
     @Override
     public void onPageSelected(int position) {
-        if(position==1){
+        if(position==1) {
             fb.setVisibility(View.GONE);
         }
         else{
@@ -163,15 +159,10 @@ public class CreditTabLay extends Fragment implements View.OnClickListener, View
         sharedPreferences.edit().putInt(DEFAULT_POSITION,position).apply();
 
     }
-
     @Override
-    public void onPageScrollStateChanged(int state) {
-    }
-
+    public void onPageScrollStateChanged(int state) {}
     @Override
-    public void onClick(View v) {
-    }
-
+    public void onClick(View v) {}
     private boolean show = false;
     public void onScrolledList(boolean k) {
         if (k) {
@@ -191,17 +182,14 @@ public class CreditTabLay extends Fragment implements View.OnClickListener, View
             super(fm);
             this.list = list;
         }
-
         @Override
         public Fragment getItem(int position) {
             return list.get(position);
         }
-
         @Override
         public int getCount() {
             return 2;
         }
-
         @Override
         public CharSequence getPageTitle(int position) {
             if (position == 0) {
@@ -210,7 +198,6 @@ public class CreditTabLay extends Fragment implements View.OnClickListener, View
             return getResources().getString(R.string.archiveee);
         }
     }
-
 
     @Override
     public void onResume() {

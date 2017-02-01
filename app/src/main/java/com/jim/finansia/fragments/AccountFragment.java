@@ -258,7 +258,7 @@ public class AccountFragment extends PABaseListFragment {
 							@Override
 							public void onClick(View v) {
 								paFragmentManager.getFragmentManager().popBackStack();
-								paFragmentManager.displayFragment(new PurposeFragment());
+								paFragmentManager.displayFragment(new PurposeEditFragment());
 								warningDialog.dismiss();
 							}
 						});

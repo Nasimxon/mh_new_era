@@ -3,7 +3,6 @@ package com.jim.finansia.debt;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -41,13 +40,12 @@ import com.jim.finansia.PocketAccounter;
 import com.jim.finansia.PocketAccounterApplication;
 import com.jim.finansia.R;
 import com.jim.finansia.database.Account;
-import com.jim.finansia.database.AccountDao;
 import com.jim.finansia.database.BoardButton;
 import com.jim.finansia.database.DaoSession;
 import com.jim.finansia.database.DebtBorrow;
-import com.jim.finansia.database.DebtBorrowDao;
 import com.jim.finansia.database.Recking;
 import com.jim.finansia.fragments.RecordDetailFragment;
+import com.jim.finansia.fragments.SearchFragment;
 import com.jim.finansia.managers.CommonOperations;
 import com.jim.finansia.managers.LogicManager;
 import com.jim.finansia.managers.LogicManagerConstants;
@@ -437,7 +435,8 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
                                             fragment.setArguments(bundle);
                                             paFragmentManager.getFragmentManager().popBackStack();
                                             paFragmentManager.displayFragment(new DebtBorrowFragment());
-                                        }
+                                        } else if (mode == PocketAccounterGeneral.SEARCH_MODE)
+                                            paFragmentManager.displayFragment(new SearchFragment());
                                         List<BoardButton> boardButtons = daoSession.getBoardButtonDao().loadAll();
                                         for (BoardButton boardButton : boardButtons) {
                                             if (boardButton.getCategoryId() != null)

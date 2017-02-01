@@ -167,13 +167,21 @@ public class CreditFragment extends Fragment {
 
 
 
-    private void updateList(){
+    public void updateList(){
+        toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
+        toolbarManager.setSubtitle("");
+        toolbarManager.setOnTitleClickListener(null);
+        toolbarManager.setSubtitleIconVisibility(View.GONE);
         List<CreditDetials> creditDetialses = creditDetialsDao
                 .queryBuilder()
                 .where(CreditDetialsDao.Properties.Key_for_archive.eq(false))
                 .orderDesc(CreditDetialsDao.Properties.MyCredit_id)
                 .build()
                 .list();
+        if (creditDetialses.isEmpty())
+            ifListEmpty.setVisibility(View.VISIBLE);
+        else
+            ifListEmpty.setVisibility(View.GONE);
         AdapterCridet adapterCridet = new AdapterCridet(creditDetialses);
         if(crRV!=null) crRV.setAdapter(adapterCridet);
     }
@@ -255,10 +263,6 @@ public class CreditFragment extends Fragment {
             else {
                 headerData = ScheduleCreditFragment.calculetDeferinsial(itemCr,creditsSchedules);
             }
-
-
-
-
             Date from = new Date();
             CreditsSchedule currentPeriod = null;
             boolean yestDolg=false;
@@ -273,10 +277,8 @@ public class CreditFragment extends Fragment {
                     unPaidPeriod = creditsSchedule;
                 }
             }
-
             if(currentPeriod == null)
                 prosrecenniy = true;
-
             if(yestDolg){
                 holder.tvForThisPeriodTitle.setText(getString(R.string.you_have_debt)+":");
                 holder.tvForThisPeriod.setText(sDateFormat.format(unPaidPeriod.getDate().getTime()));
@@ -378,6 +380,7 @@ public class CreditFragment extends Fragment {
                     ScheduleCreditFragment scheduleCreditFragment = new ScheduleCreditFragment();
                     Bundle bundle = new Bundle();
                     bundle.putLong(CreditTabLay.CREDIT_ID,itemCr.getMyCredit_id());
+                    bundle.putInt(CreditTabLay.LOCAL_APPEREANCE, CreditTabLay.LOCAL_MAIN);
                     scheduleCreditFragment.setArguments(bundle);
                     paFragmentManager.displayFragment(scheduleCreditFragment);
                 }
@@ -438,9 +441,6 @@ public class CreditFragment extends Fragment {
         public int getItemCount() {
             return cardDetials.size();
         }
-
-
-
 
 
         @Override

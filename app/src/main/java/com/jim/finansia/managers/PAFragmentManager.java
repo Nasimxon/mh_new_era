@@ -4,7 +4,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -18,8 +17,11 @@ import com.jim.finansia.debt.DebtBorrowFragment;
 import com.jim.finansia.debt.InfoDebtBorrowFragment;
 import com.jim.finansia.debt.PocketClassess;
 import com.jim.finansia.fragments.AccountFragment;
+import com.jim.finansia.fragments.AddCreditFragment;
 import com.jim.finansia.fragments.AutoMarketFragment;
 import com.jim.finansia.fragments.CategoryFragment;
+import com.jim.finansia.fragments.CreditArchiveFragment;
+import com.jim.finansia.fragments.CreditFragment;
 import com.jim.finansia.fragments.CreditTabLay;
 import com.jim.finansia.fragments.CurrencyFragment;
 import com.jim.finansia.fragments.InfoCreditFragment;
@@ -32,6 +34,7 @@ import com.jim.finansia.fragments.RecordDetailFragment;
 import com.jim.finansia.fragments.RecordEditFragment;
 import com.jim.finansia.fragments.ReportFragment;
 import com.jim.finansia.fragments.SMSParseInfoFragment;
+import com.jim.finansia.fragments.ScheduleCreditFragment;
 import com.jim.finansia.fragments.SearchFragment;
 import com.jim.finansia.fragments.SmsParseMainFragment;
 import com.jim.finansia.fragments.VoiceRecognizerFragment;
@@ -45,10 +48,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import static com.jim.finansia.PocketAccounter.PRESSED;
-
-/**
- * Created by DEV on 27.08.2016.
- */
 
 public class PAFragmentManager {
     private PocketAccounter activity;
@@ -173,14 +172,8 @@ public class PAFragmentManager {
     }
 
     public void displayFragment(Fragment fragment) {
-        if (fragmentManager.findFragmentById(R.id.flMain) != null
-                && fragment.getClass().getName().equals(fragmentManager.findFragmentById(R.id.flMain).getClass().getName()))
+        if (fragmentManager.findFragmentById(R.id.flMain) != null && fragment.getClass().getName().equals(fragmentManager.findFragmentById(R.id.flMain).getClass().getName()))
             return;
-        int count = fragmentManager.getBackStackEntryCount();
-        while (count > 0) {
-            fragmentManager.popBackStackImmediate();
-            count--;
-        }
         PRESSED = true;
         fragmentManager
                 .beginTransaction()
@@ -196,20 +189,6 @@ public class PAFragmentManager {
                 .commit();
     }
 
-    public void displayFragment(Fragment fragment, String tag) {
-        if (fragmentManager.findFragmentById(R.id.flMain) != null && fragment.getClass().getName().equals(fragmentManager.findFragmentById(R.id.flMain).getClass().getName()))
-            return;
-        PRESSED = true;
-        fragmentManager
-                .beginTransaction()
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out, android.R.anim.fade_in, android.R.anim.fade_out)
-                .addToBackStack(null)
-                .add(R.id.flMain, fragment, tag)
-                .commit();
-    }
-
-
     public void updateSmsFragmentChanges() {
         int size = fragmentManager.getFragments().size();
         for (int i = 0; i < size; i++) {
@@ -224,6 +203,7 @@ public class PAFragmentManager {
     }
 
     public void remoteBackPress(DrawerInitializer drawerInitializer) {
+        fragmentManager.popBackStack();
         Fragment fragment = fragmentManager.findFragmentById(R.id.flMain);
         String fragName = fragment.getClass().getName();
         if (fragName.equals(PocketClassess.DEBTBORROW_FRAG)
@@ -259,20 +239,18 @@ public class PAFragmentManager {
         }
         else if (fragName.equals(PocketClassess.INFO_DEBTBORROW)) {
             int mode = ((InfoDebtBorrowFragment) fragment).getMode();
-            if (mode == PocketAccounterGeneral.NO_MODE)
-                displayFragment(new DebtBorrowFragment());
-            else if (mode == PocketAccounterGeneral.DETAIL) {
+            if (mode == PocketAccounterGeneral.DETAIL) {
                 SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
                 Bundle bundle = new Bundle();
                 bundle.putString(RecordDetailFragment.DATE, format.format(dataCache.getEndDate().getTime()));
                 RecordDetailFragment fr = new RecordDetailFragment();
                 fr.setArguments(bundle);
                 displayFragment(fr);
-            } else if (mode == PocketAccounterGeneral.MAIN) {
-                displayMainWindow();
-            } else if (mode == PocketAccounterGeneral.SEARCH_MODE) {
-                displayFragment(new SearchFragment());
             }
+            else if (mode == PocketAccounterGeneral.MAIN)
+                displayMainWindow();
+            else if (mode == PocketAccounterGeneral.SEARCH_MODE)
+                displayFragment(new SearchFragment());
         } else if (fragName.equals(PocketClassess.ADD_AUTOMARKET)) {
             displayFragment(new AutoMarketFragment());
         } else if (fragName.equals(PocketClassess.REPORT_CATEGORY) || fragName.equals(PocketClassess.REPORT_DAILY_TABLE)
@@ -287,9 +265,25 @@ public class PAFragmentManager {
         } else if (fragName.equals(PocketClassess.ADD_AUTOMARKET)) {
             displayFragment(new AutoMarketFragment());
         } else if (fragName.equals(PocketClassess.INFO_CREDIT) || fragName.equals(PocketClassess.ADD_CREDIT)) {
-            displayFragment(new CreditTabLay());
-        } else if (fragName.equals(PocketClassess.INFO_CREDIT_ARCHIVE)) {
-            displayFragment(new CreditTabLay());
+            boolean found = false;
+            for (Fragment frag : fragmentManager.getFragments()) {
+                if (frag == null) continue;
+                if (frag.getClass().getName().equals(CreditFragment.class.getName())) {
+                    CreditFragment creditTabLay = (CreditFragment) frag;
+                    if (creditTabLay != null) {
+                        creditTabLay.updateList();
+                        found = true;
+                    }
+                }
+                if (frag.getClass().getName().equals(CreditArchiveFragment.class.getName())) {
+                    CreditArchiveFragment creditTabLay = (CreditArchiveFragment) frag;
+                    if (creditTabLay != null) {
+                        creditTabLay.updateList();
+                        found = true;
+                    }
+                }
+            }
+            if (!found) displayFragment(new CreditTabLay());
         } else if (fragName.equals(PocketClassess.INFO_PURPOSE) || fragName.equals(PocketClassess.ADD_PURPOSE)) {
             displayFragment(new PurposeFragment());
         } else if (fragName.equals(PocketClassess.RECORD_EDIT_FRAGMENT)) {
@@ -309,30 +303,49 @@ public class PAFragmentManager {
         } else if (fragName.equals(PocketClassess.ADD_SMS_PARSE_FRAGMENT) || fragName.equals(PocketClassess.INFO_SMS_PARSE_FRAGMENT)) {
             displayFragment(new SmsParseMainFragment());
         } else if (fragName.equals(PocketClassess.CREDIT_SCHEDULE)) {
-            if(preferences.getInt("FRAG_ID",0) == 1) {
-                InfoCreditFragment infoCreditFragment = new InfoCreditFragment();
-                long credit_id = preferences.getLong("CREDIT_ID", 0);
-                if(credit_id != 0){
-                    Bundle bundle = new Bundle();
-                    bundle.putLong(CreditTabLay.CREDIT_ID,credit_id);
-                    infoCreditFragment.setArguments(bundle);
-                    displayFragment(infoCreditFragment);
+            ScheduleCreditFragment scheduleCreditFragment = (ScheduleCreditFragment) fragment;
+            if (scheduleCreditFragment.getLocalAppereance() == CreditTabLay.LOCAL_EDIT) {
+                for (Fragment fr : fragmentManager.getFragments()) {
+                    if (fr.getClass().getName().equals(AddCreditFragment.class.getName())) {
+                        ((AddCreditFragment) fr).toolbarBackupMethod();
+                        break;
+                    }
                 }
-                else displayMainWindow();
             }
-            else if (preferences.getInt("FRAG_ID",0) == 2){
-                InfoCreditFragmentForArchive infoCreditFragmentForArchive = new InfoCreditFragmentForArchive();
-                 long credit_id = preferences.getLong("CREDIT_ID", 0);
-                 if(credit_id != 0){
-                     Bundle bundle = new Bundle();
-                     bundle.putLong(CreditTabLay.CREDIT_ID,credit_id);
-                     infoCreditFragmentForArchive.setArguments(bundle);
-                     displayFragment(infoCreditFragmentForArchive);
-                 }
-                  else displayMainWindow();
-            } else if (preferences.getInt("FRAG_ID", 0) == 3){
-                displayFragment(new CreditTabLay());
-            }
+//            if(preferences.getInt("FRAG_ID",0) == 1) {
+//
+//            }
+//            else if (preferences.getInt("FRAG_ID",0) == 2){
+//                InfoCreditFragmentForArchive infoCreditFragmentForArchive = new InfoCreditFragmentForArchive();
+//                 long credit_id = preferences.getLong("CREDIT_ID", 0);
+//                 if(credit_id != 0){
+//                     Bundle bundle = new Bundle();
+//                     bundle.putLong(CreditTabLay.CREDIT_ID,credit_id);
+//                     infoCreditFragmentForArchive.setArguments(bundle);
+//                     displayFragment(infoCreditFragmentForArchive);
+//                 }
+//                  else displayMainWindow();
+//            } else if (preferences.getInt("FRAG_ID", 0) == 3){
+//                boolean found = false;
+//                for (Fragment frag : fragmentManager.getFragments()) {
+//                    if (frag == null) continue;
+//                    if (frag.getClass().getName().equals(CreditFragment.class.getName())) {
+//                        CreditFragment creditTabLay = (CreditFragment) frag;
+//                        if (creditTabLay != null) {
+//                            creditTabLay.updateList();
+//                            found = true;
+//                        }
+//                    }
+//                    if (frag.getClass().getName().equals(CreditArchiveFragment.class.getName())) {
+//                        CreditArchiveFragment creditTabLay = (CreditArchiveFragment) frag;
+//                        if (creditTabLay != null) {
+//                            creditTabLay.updateList();
+//                            found = true;
+//                        }
+//                    }
+//                }
+//                if (!found) displayFragment(new CreditTabLay());
+//            }
         }
     }
 }

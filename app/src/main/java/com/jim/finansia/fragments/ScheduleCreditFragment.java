@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -34,8 +35,6 @@ import java.util.List;
 
 
 public class ScheduleCreditFragment extends PABaseFragment {
-
-
     RecyclerView recyclerView;
     AdapterForSchedule adapterForSchedule;
     CreditDetials currentCredit;
@@ -44,25 +43,20 @@ public class ScheduleCreditFragment extends PABaseFragment {
     boolean isEdit = false;
     boolean fromAdding = false;
     int posFromMain;
-
     final static String FROM_ADDING = "from_adding";
-
-
-
+    private int localAppereance = CreditTabLay.LOCAL_MAIN;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_schedule_credit, container, false);
-
         if(getArguments()!=null){
             modeFromMain = getArguments().getInt(CreditTabLay.MODE);
             posFromMain = getArguments().getInt(CreditTabLay.POSITION);
-            if(getArguments().getBoolean(FROM_ADDING,false)){
+            localAppereance = getArguments().getInt(CreditTabLay.LOCAL_APPEREANCE);
+            if(getArguments().getBoolean(FROM_ADDING, false)){
                 fromAdding = true;
                 Bundle bundle = getArguments();
                 isEdit = bundle.getBoolean(AddCreditFragment.FROM_EDIT);
@@ -116,11 +110,9 @@ public class ScheduleCreditFragment extends PABaseFragment {
                     logicManager.insertCredit(currentCredit);
 
                     if (isEdit&&modeFromMain==PocketAccounterGeneral.NO_MODE) {
-
                         if(!daoSession.getBoardButtonDao().queryBuilder()
                                 .where(BoardButtonDao.Properties.CategoryId.eq(Long.toString(currentCredit.getMyCredit_id())))
                                 .list().isEmpty()) {
-
                             BitmapFactory.Options options = new BitmapFactory.Options();
                             options.inPreferredConfig = Bitmap.Config.RGB_565;
                             Bitmap temp = BitmapFactory.decodeResource(getResources(), getResources().getIdentifier(currentCredit.getIcon_ID(), "drawable", getContext().getPackageName()), options);
@@ -133,11 +125,22 @@ public class ScheduleCreditFragment extends PABaseFragment {
                             paFragmentManager.updateAllFragmentsOnViewPager();
                         }
                         toolbarManager.setToolbarIconsVisibility(View.GONE,View.GONE,View.GONE);
-                        paFragmentManager.displayFragment(new CreditTabLay());
-
-
+                        for (Fragment fragment : paFragmentManager.getFragmentManager().getFragments()) {
+                            if (fragment == null) continue;
+                            if (fragment.getClass().getName().equals(CreditFragment.class.getName())) {
+                                CreditFragment creditTabLay = (CreditFragment) fragment;
+                                if (creditTabLay != null)
+                                    creditTabLay.updateList();
+                            }
+                            if (fragment.getClass().getName().equals(CreditArchiveFragment.class.getName())) {
+                                CreditArchiveFragment creditTabLay = (CreditArchiveFragment) fragment;
+                                if (creditTabLay != null)
+                                    creditTabLay.updateList();
+                            }
+                        }
+                        paFragmentManager.getFragmentManager().popBackStack();
+                        paFragmentManager.getFragmentManager().popBackStack();
                     } else if (modeFromMain != PocketAccounterGeneral.NO_MODE && modeFromMain !=PocketAccounterGeneral.DETAIL && modeFromMain!= PocketAccounterGeneral.SEARCH_MODE) {
-                        Log.d("testttt", "fromMainWindow");
                         if(isEdit) {
                             List<BoardButton> boardButtons = daoSession.getBoardButtonDao().loadAll();
                             for (BoardButton boardButton : boardButtons) {
@@ -179,9 +182,21 @@ public class ScheduleCreditFragment extends PABaseFragment {
                     }
                     else {
                         toolbarManager.setToolbarIconsVisibility(View.GONE,View.GONE,View.GONE);
+                        for (Fragment fragment : paFragmentManager.getFragmentManager().getFragments()) {
+                            if (fragment.getClass().getName().equals(CreditFragment.class.getName())) {
+                                CreditFragment creditTabLay = (CreditFragment) fragment;
+                                if (creditTabLay != null)
+                                    creditTabLay.updateList();
+                            }
+                            if (fragment.getClass().getName().equals(CreditArchiveFragment.class.getName())) {
+                                CreditArchiveFragment creditTabLay = (CreditArchiveFragment) fragment;
+                                if (creditTabLay != null)
+                                    creditTabLay.updateList();
+                            }
+                        }
+                        paFragmentManager.getFragmentManager().popBackStack();
                         paFragmentManager.getFragmentManager().popBackStack();
                     }
-                    paFragmentManager.displayFragment(new CreditTabLay());
                 }
             });
         }
@@ -195,6 +210,11 @@ public class ScheduleCreditFragment extends PABaseFragment {
         recyclerView.setAdapter(adapterForSchedule);
         return view;
     }
+
+    public int getMode() {
+        return modeFromMain;
+    }
+
     public static  double calculatePayment(CreditDetials creditDetials) {
         long forMoth = 1000L * 60L * 60L * 24L * 30L;
         long forYear = 1000L * 60L * 60L * 24L * 365L;
@@ -216,6 +236,9 @@ public class ScheduleCreditFragment extends PABaseFragment {
         double kofietsent = (procent*Math.pow(1+procent,period))/(Math.pow(1+procent,period)-1);
         double rezultat = creditDetials.getValue_of_credit() * kofietsent;
         return rezultat;
+    }
+    public int getLocalAppereance() {
+        return localAppereance;
     }
     public void onResume() {
         super.onResume();
@@ -464,8 +487,15 @@ public class ScheduleCreditFragment extends PABaseFragment {
 
     @Override
     public void onDetach() {
-        super.onDetach();
+        switch (localAppereance) {
+            case CreditTabLay.LOCAL_INFO:
+                toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
+                break;
+            case CreditTabLay.LOCAL_EDIT:
 
+                break;
+        }
+        super.onDetach();
     }
 
 

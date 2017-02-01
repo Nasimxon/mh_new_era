@@ -208,9 +208,11 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
                         @Override
                         public void run() {
                             ((PocketAccounter) getContext()).getSupportFragmentManager().popBackStack();
-                            if (parent == PocketAccounterGeneral.MAIN) {
+                            if (parent == PocketAccounterGeneral.MAIN)
                                 paFragmentManager.displayMainWindow();
-                            } else {
+                            else if (parent == PocketAccounterGeneral.MAIN)
+                                paFragmentManager.displayFragment(new SearchFragment());
+                            else {
                                 Bundle bundle = new Bundle();
                                 SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
                                 bundle.putString(RecordDetailFragment.DATE, format.format(dataCache.getEndDate().getTime()));
@@ -1500,13 +1502,15 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
             RecordDetailFragment fr = new RecordDetailFragment();
             fr.setArguments(bundle);
             paFragmentManager.displayFragment(fr);
-        } else {
+        } else if (parent == PocketAccounterGeneral.MAIN){
             reportManager.clearCache();
             dataCache.updateAllPercents();
             paFragmentManager.updateAllFragmentsPageChanges();
             paFragmentManager.updateAllFragmentsOnViewPager();
             paFragmentManager.getFragmentManager().popBackStack();
             paFragmentManager.displayMainWindow();
+        } else if (parent == PocketAccounterGeneral.SEARCH_MODE) {
+            paFragmentManager.displayFragment(new SearchFragment());
         }
     }
 

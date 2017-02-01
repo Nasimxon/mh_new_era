@@ -73,41 +73,26 @@ import javax.inject.Named;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-/**
- * Created by user on 6/4/2016.
- */
-
 public class BorrowFragment extends Fragment {
-    @Inject
-    DatePicker datePicker;
-    @Inject
-    @Named(value = "display_formatter")
-    SimpleDateFormat dateFormat;
-    @Inject
-    PAFragmentManager paFragmentManager;
-    @Inject
-    LogicManager logicManager;
-    @Inject
-    CommonOperations commonOperations;
-    @Inject
-    DaoSession daoSession;
-    @Inject
-    DataCache dataCache;
-    @Inject
-    DecimalFormat formatter;
-    @Inject
-    ReportManager reportManager;
-    @Inject
-    SharedPreferences preferences;
-    WarningDialog warningDialog;
-    DebtBorrowDao debtBorrowDao;
-    AccountDao accountDao;
-    TextView ifListEmpty;
+    @Inject DatePicker datePicker;
+    @Inject @Named(value = "display_formatter") SimpleDateFormat dateFormat;
+    @Inject PAFragmentManager paFragmentManager;
+    @Inject LogicManager logicManager;
+    @Inject CommonOperations commonOperations;
+    @Inject DaoSession daoSession;
+    @Inject DataCache dataCache;
+    @Inject DecimalFormat formatter;
+    @Inject ReportManager reportManager;
+    @Inject SharedPreferences preferences;
+    private WarningDialog warningDialog;
+    private DebtBorrowDao debtBorrowDao;
+    private AccountDao accountDao;
+    private TextView ifListEmpty;
     private RecyclerView recyclerView;
     private LinearLayoutManager mLayoutManager;
     private MyAdapter myAdapter;
-    DecimalFormat formater;
-    Context context;
+    private DecimalFormat formater;
+    private Context context;
     private DebtBorrowFragment debtBorrowFragment;
     private int TYPE = 0;
 
@@ -190,8 +175,7 @@ public class BorrowFragment extends Fragment {
             if (persons.size() != 0) {
                 ifListEmpty.setVisibility(View.GONE);
             } else {
-                //TODO Har bittasini zapisi bomi yomi tekshirish kere
-                String isEmpty = "";
+                String isEmpty;
                 if (TYPE == DebtBorrow.BORROW) isEmpty = getString(R.string.borrow_is_empty);
                 else if (TYPE == DebtBorrow.DEBT) isEmpty = getString(R.string.debt_is_empty);
                 else isEmpty = getString(R.string.archive_is_empty);
@@ -335,8 +319,6 @@ public class BorrowFragment extends Fragment {
                     }
                 }
             });
-
-//            String ss = (person.getAmount() - qq) == (int) (person.getAmount() - qq) ? "" + (int) (person.getAmount() - qq) : "" + (person.getAmount() - qq);
             if (person.getTo_archive() || qq >= person.getAmount()) {
                 view.tvItemDebtBorrowLeft.setText(getResources().getString(R.string.repaid));
             } else
@@ -346,9 +328,6 @@ public class BorrowFragment extends Fragment {
                 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                 @Override
                 public void onClick(View v) {
-//                    Fragment fragment = InfoDebtBorrowFragment.getInstance(persons.get(Math.abs(t - position)).getId(), TYPE);
-//                    paFragmentManager.getFragmentManager().popBackStack();
-//                    paFragmentManager.displayFragment(fragment);
                     addNextFragment(person, view.BorrowPersonPhotoPath, false);
                 }
             });
@@ -712,7 +691,6 @@ public class BorrowFragment extends Fragment {
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void addNextFragment(DebtBorrow debtBorrow, ImageView squareBlue, boolean overlap) {
         Bundle bundle = new Bundle();
         bundle.putString(DebtBorrowFragment.DEBT_BORROW_ID, debtBorrow.getId());
@@ -720,27 +698,6 @@ public class BorrowFragment extends Fragment {
         InfoDebtBorrowFragment fragment = new InfoDebtBorrowFragment();
         fragment.setArguments(bundle);
         paFragmentManager.displayFragment(fragment);
-        Fade slideTransition = new Fade(Gravity.LEFT);
-        slideTransition.setMode(Visibility.MODE_IN);
-        ChangeBounds changeBoundsTransition = new ChangeBounds();
-        slideTransition.setDuration(150);
-        changeBoundsTransition.setDuration(150);
-        fragment.setEnterTransition(slideTransition);
-        fragment.setAllowEnterTransitionOverlap(overlap);
-        fragment.setAllowReturnTransitionOverlap(overlap);
-        fragment.setSharedElementEnterTransition(changeBoundsTransition);
-
-        int count = getActivity().getSupportFragmentManager().getBackStackEntryCount();
-        while (count > 0) {
-            getActivity().getSupportFragmentManager().popBackStack();
-            count--;
-        }
-
-        getActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.flMain, fragment)
-                .addToBackStack(null)
-                .addSharedElement(squareBlue, "imageView")
-                .commit();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

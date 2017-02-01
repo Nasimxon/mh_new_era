@@ -222,7 +222,7 @@ public class PocketAccounter extends AppCompatActivity {
         toolbarManager.setOnSearchButtonClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                findViewById(R.id.mainWhite).setVisibility(View.VISIBLE);
                 paFragmentManager.displayFragment(new SearchFragment());
             }
         });

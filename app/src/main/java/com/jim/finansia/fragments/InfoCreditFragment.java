@@ -213,6 +213,7 @@ public class InfoCreditFragment extends Fragment {
                 ScheduleCreditFragment scheduleCreditFragment  = new ScheduleCreditFragment();
                 Bundle bundle = new Bundle();
                 bundle.putLong(CreditTabLay.CREDIT_ID,currentCredit.getMyCredit_id());
+                bundle.putInt(CreditTabLay.LOCAL_APPEREANCE, CreditTabLay.LOCAL_INFO);
                 scheduleCreditFragment.setArguments(bundle);
                 paFragmentManager.displayFragment(scheduleCreditFragment);
             }
@@ -235,8 +236,8 @@ public class InfoCreditFragment extends Fragment {
                                 AddCreditFragment forEdit = new AddCreditFragment();
                                 Bundle bundle = new Bundle();
                                 if (modeOfMain != PocketAccounterGeneral.NO_MODE){
-                                    bundle.putInt(CreditTabLay.MODE,modeOfMain);
-                                    bundle.putInt(CreditTabLay.POSITION,positionOfBourdMain);
+                                    bundle.putInt(CreditTabLay.MODE, modeOfMain);
+                                    bundle.putInt(CreditTabLay.POSITION, positionOfBourdMain);
                                 }
                                 bundle.putLong(CreditTabLay.CREDIT_ID,currentCredit.getMyCredit_id());
                                 forEdit.setArguments(bundle);
@@ -321,8 +322,17 @@ public class InfoCreditFragment extends Fragment {
                                             getActivity().getSupportFragmentManager().popBackStack();
                                             paFragmentManager.displayMainWindow();
                                         } else {
+                                            for (Fragment fragment : paFragmentManager.getFragmentManager().getFragments()) {
+                                                if (fragment.getClass().getName().equals(CreditFragment.class.getName())) {
+                                                    ((CreditFragment)fragment).updateList();
+                                                    break;
+                                                }
+                                                if (fragment.getClass().getName().equals(CreditArchiveFragment.class.getName())) {
+                                                    ((CreditArchiveFragment)fragment).updateList();
+                                                    break;
+                                                }
+                                            }
                                             getActivity().getSupportFragmentManager().popBackStack();
-                                            paFragmentManager.displayFragment(new CreditTabLay());
                                         }
                                         warningDialog.dismiss();
                                     }
@@ -377,7 +387,17 @@ public class InfoCreditFragment extends Fragment {
                         }
                         dataCache.updateAllPercents();
                         paFragmentManager.updateAllFragmentsOnViewPager();
-                        paFragmentManager.displayFragment(new CreditTabLay());
+                        for (Fragment fragment : paFragmentManager.getFragmentManager().getFragments()) {
+                            if (fragment.getClass().getName().equals(CreditFragment.class.getName())) {
+                                ((CreditFragment)fragment).updateList();
+                                break;
+                            }
+                            if (fragment.getClass().getName().equals(CreditArchiveFragment.class.getName())) {
+                                ((CreditArchiveFragment)fragment).updateList();
+                                break;
+                            }
+                        }
+                        paFragmentManager.getFragmentManager().popBackStack();
 
                     } else if (modeOfMain == PocketAccounterGeneral.SEARCH_MODE) {
 
@@ -624,13 +644,6 @@ public class InfoCreditFragment extends Fragment {
         return V;
     }
 
-    public String parseToWithoutNull(double A) {
-        if (A == (int) A)
-            return Integer.toString((int) A);
-        else
-            return formater.format(A);
-    }
-
     public static int[] getDateDifferenceInDDMMYYYY(Date from, Date to) {
         Calendar fromDate = Calendar.getInstance();
         Calendar toDate = Calendar.getInstance();
@@ -658,14 +671,6 @@ public class InfoCreditFragment extends Fragment {
 
         year = toDate.get(Calendar.YEAR) - (fromDate.get(Calendar.YEAR) + increment);
         return new int[]{year, month, day};
-    }
-
-    public interface ConWithFragments {
-        void change_item(CreditDetials creditDetials, int position);
-
-        void to_Archive(int position);
-
-        void delete_item(int position);
     }
 
     ArrayList<Account> accaunt_AC;
