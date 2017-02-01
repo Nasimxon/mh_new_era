@@ -43,6 +43,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -77,10 +78,12 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.github.mikephil.charting.utils.Utils;
 import com.jim.finansia.PocketAccounterApplication;
 import com.jim.finansia.R;
 import com.jim.finansia.debt.BorrowFragment;
 import com.jim.finansia.fragments.RecordDetailFragment;
+import com.jim.finansia.managers.CommonOperations;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -426,11 +429,21 @@ public class SpaceTabLayout extends RelativeLayout {
             if (numberOfTabs > 3) tabs.add(tabFour);
             if (numberOfTabs > 4) tabs.add(tabFive);
 
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            lp.setMargins((int) Utils.convertDpToPixel(getResources().getDimension(R.dimen.twelve_dp)), (int) Utils.convertDpToPixel(getResources().getDimension(R.dimen.twelve_dp)),
+                    (int) Utils.convertDpToPixel(getResources().getDimension(R.dimen.twelve_dp)),(int) Utils.convertDpToPixel(getResources().getDimension(R.dimen.twelve_dp)));
+
             tabOneImageView = (ImageView) tabOne.getCustomView().findViewById(eu.long1.spacetablayout.R.id.tabImageView);
+
+            tabOneImageView.setLayoutParams(lp);
             tabTwoImageView = (ImageView) tabTwo.getCustomView().findViewById(eu.long1.spacetablayout.R.id.tabImageView);
+            tabTwoImageView.setLayoutParams(lp);
             tabThreeImageView = (ImageView) tabThree.getCustomView().findViewById(eu.long1.spacetablayout.R.id.tabImageView);
-            if (numberOfTabs > 3)
+            tabThreeImageView.setLayoutParams(lp);
+            if (numberOfTabs > 3){
                 tabFourImageView = (ImageView) tabFour.getCustomView().findViewById(eu.long1.spacetablayout.R.id.tabImageView);
+                tabFourImageView.setLayoutParams(lp);
+            }
             if (numberOfTabs > 4)
                 tabFiveImageView = (ImageView) tabFive.getCustomView().findViewById(eu.long1.spacetablayout.R.id.tabImageView);
         }

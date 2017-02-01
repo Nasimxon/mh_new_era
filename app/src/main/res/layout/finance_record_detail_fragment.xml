@@ -16,11 +16,10 @@
         android:layout_height="wrap_content"
         app:number_of_tabs="four"
         app:starting_position="one"
-        app:tab_color="@color/colorPrimary"
-        app:button_color="@color/colorAccent"
-        app:text_color="#61FFFFFF"
-        app:icon_one="@drawable/pencil"
-        app:icon_two="@drawable/goal"
-        app:icon_three="@drawable/ic_excel"
-        app:icon_four="@drawable/ic_auto"/>
+        app:tab_color="?attr/headColor"
+        app:button_color="?attr/headAccedent"
+        app:icon_one="@drawable/record_dailly"
+        app:icon_two="@drawable/record_dailly_sms"
+        app:icon_three="@drawable/record_dailly_debt"
+        app:icon_four="@drawable/record_dailly_credit"/>
 </RelativeLayout>
