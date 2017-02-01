@@ -760,6 +760,11 @@ public class InfoCreditFragment extends Fragment {
             date.add(Calendar.DAY_OF_MONTH,-1);
             enterDate.setText(dateFormat.format(date.getTime()));
         }
+        else if (currentCredit.getTake_time().getTimeInMillis() > date.getTimeInMillis()) {
+            date = (Calendar) currentCredit.getTake_time().clone();
+            date.add(Calendar.DAY_OF_MONTH,+1);
+            enterDate.setText(dateFormat.format(date.getTime()));
+        }
         else
             enterDate.setText(dateFormat.format(date.getTime()));
 
@@ -777,8 +782,9 @@ public class InfoCreditFragment extends Fragment {
             public void onDateSet(android.widget.DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 if (currentCredit.getTake_time().getTimeInMillis() > (new GregorianCalendar(year, monthOfYear, dayOfMonth)).getTimeInMillis()) {
                     enterDate.setError(context.getString(R.string.incorrect_date));
-                    date = currentCredit.getTake_time();
-                    enterDate.setText(dateFormat.format(currentCredit.getTake_time().getTime()));
+                    date = (Calendar) currentCredit.getTake_time().clone();
+                    date.add(Calendar.DAY_OF_MONTH,+1);
+                    enterDate.setText(dateFormat.format(date.getTime()));
                 } else if( unPaidPeriod.getDate().getTimeInMillis()<(new GregorianCalendar(year, monthOfYear, dayOfMonth)).getTimeInMillis()){
                     Toast.makeText(context, getString(R.string.you_can_jump), Toast.LENGTH_SHORT).show();
                     Calendar calendar = (Calendar) unPaidPeriod.getDate().clone();
@@ -830,7 +836,7 @@ public class InfoCreditFragment extends Fragment {
                                 return;
                             }
                         }}
-                    if (Double.parseDouble(amount) > currentCredit.getValue_of_credit_with_procent() - total_paid) {
+                    if (Double.parseDouble(amount) > currentCredit.getValue_of_credit_with_procent() - total_paid+1) {
                         warningDialog = new WarningDialog(context);
                         warningDialog.setOnYesButtonListener(new View.OnClickListener() {
                             @Override

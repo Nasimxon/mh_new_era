@@ -268,7 +268,7 @@ public class CreditFragment extends Fragment {
                     currentPeriod = creditsSchedule;
                     break;
                 }
-                else if(!((int)((creditsSchedule.getPaymentSum() - creditsSchedule.getPayed() )*100)==0||creditsSchedule.getPaymentSum() - creditsSchedule.getPayed()<=0)&&creditsSchedule.getDate().getTimeInMillis()<from.getTime()&&!yestDolg){
+                else if(!(((int)((creditsSchedule.getPaymentSum() - creditsSchedule.getPayed() )*100))==0||creditsSchedule.getPaymentSum() - creditsSchedule.getPayed()<=0)&&creditsSchedule.getDate().getTimeInMillis()<from.getTime()&&!yestDolg){
                     yestDolg = true;
                     unPaidPeriod = creditsSchedule;
                 }
@@ -283,7 +283,7 @@ public class CreditFragment extends Fragment {
             }
             else {
                 if(!prosrecenniy)
-                    if(formater.format(currentPeriod.getPaymentSum() - currentPeriod.getPayed()).equals("0")|| currentPeriod.getPaymentSum() - currentPeriod.getPayed()<= 0){
+                    if(((int)((currentPeriod.getPaymentSum() - currentPeriod.getPayed() )*100))==0|| currentPeriod.getPaymentSum() - currentPeriod.getPayed()<= 0){
                         if(headerData.getTotalLoanWithInterest()<=headerData.getTotalPayedAmount())
                             holder.tvForThisPeriodTitle.setText(getString(R.string.credit_stat));
                         else
@@ -426,6 +426,7 @@ public class CreditFragment extends Fragment {
                             }
                         }
                         creditTabLay.updateArchive();
+                        updateList();
                     } else
                         openDialog(itemCr, position,creditsSchedules);
                 }
@@ -612,6 +613,11 @@ public class CreditFragment extends Fragment {
                 date.add(Calendar.DAY_OF_MONTH,-1);
                 enterDate.setText(dateFormat.format(date.getTime()));
             }
+            else if (current.getTake_time().getTimeInMillis() > date.getTimeInMillis()) {
+                date = (Calendar) current.getTake_time().clone();
+                date.add(Calendar.DAY_OF_MONTH,+1);
+                enterDate.setText(dateFormat.format(date.getTime()));
+            }
             else
                 enterDate.setText(dateFormat.format(date.getTime()));
 
@@ -629,8 +635,9 @@ public class CreditFragment extends Fragment {
                 public void onDateSet(android.widget.DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                     if (current.getTake_time().getTimeInMillis() > (new GregorianCalendar(year, monthOfYear, dayOfMonth)).getTimeInMillis()) {
                         enterDate.setError(getContext().getString(R.string.incorrect_date));
-                        date = current.getTake_time();
-                        enterDate.setText(dateFormat.format(current.getTake_time().getTime()));
+                        date = (Calendar) current.getTake_time().clone();
+                        date.add(Calendar.DAY_OF_MONTH,+1);
+                        enterDate.setText(dateFormat.format(date.getTime()));
                     } else if( unPaidPeriod.getDate().getTimeInMillis()<(new GregorianCalendar(year, monthOfYear, dayOfMonth)).getTimeInMillis()){
                         Toast.makeText(getContext(), getString(R.string.you_can_jump), Toast.LENGTH_SHORT).show();
                         Calendar calendar = (Calendar) unPaidPeriod.getDate().clone();
@@ -682,7 +689,7 @@ public class CreditFragment extends Fragment {
                                     return;
                                 }
                             }}
-                        if (Double.parseDouble(amount) > current.getValue_of_credit_with_procent() - total_paid) {
+                        if (Double.parseDouble(amount) > current.getValue_of_credit_with_procent() - total_paid+1) {
                             warningDialog.setOnYesButtonListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {

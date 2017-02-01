@@ -146,6 +146,10 @@ public class AddCreditFragment extends Fragment {
     final static String KEY_FOR_INCLUDE = "KEY_FOR_INCLUDE";
     final static String ACCOUNT_ID = "ACCOUNT_ID";
     final static String FROM_EDIT = "FROM_EDIT";
+    final static String MONTHLY_FEE = "MONTHLY_FEE";
+    final static String TYPE_LOAN = "TYPE_LOAN";
+    final static String MONTHLY_FEE_TYPE = "MONTHLY_FEE_TYPE";
+    final static String PERVONACALNIY = "PERVONACALNIY";
 
 
 
@@ -1043,7 +1047,6 @@ public class AddCreditFragment extends Fragment {
 
         A1.setInfo(mode + ":" + sequence);
 
-        //logicManager.insertCredit(A1);
 
         onSucsessed = true;
 
@@ -1064,6 +1067,13 @@ public class AddCreditFragment extends Fragment {
         bundle.putLong(PERIOD_TIME_TIP,A1.getPeriod_time_tip());
         bundle.putBoolean(KEY_FOR_INCLUDE,A1.getKey_for_include());
         bundle.putString(ACCOUNT_ID,A1.getAccountID());
+        bundle.putDouble(MONTHLY_FEE,A1.getMonthly_fee());
+        bundle.putInt(TYPE_LOAN,A1.getType_loan());
+        bundle.putInt(MONTHLY_FEE_TYPE,A1.getMonthly_fee_type());
+        bundle.putDouble(PERVONACALNIY,A1.getPervonacalniy());
+
+
+
         bundle.putInt(CreditTabLay.MODE,modeFromMain);
         bundle.putInt(CreditTabLay.POSITION,posFromMain);
 

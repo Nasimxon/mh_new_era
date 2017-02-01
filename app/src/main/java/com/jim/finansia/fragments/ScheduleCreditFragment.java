@@ -82,6 +82,10 @@ public class ScheduleCreditFragment extends PABaseFragment {
                 creditDetials.setPeriod_time_tip(bundle.getLong(AddCreditFragment.PERIOD_TIME_TIP));
                 creditDetials.setKey_for_include(bundle.getBoolean(AddCreditFragment.KEY_FOR_INCLUDE));
                 creditDetials.setAccountID(bundle.getString(AddCreditFragment.ACCOUNT_ID));
+                creditDetials.setMonthly_fee(bundle.getDouble(AddCreditFragment.MONTHLY_FEE));
+                creditDetials.setType_loan(bundle.getInt(AddCreditFragment.TYPE_LOAN));
+                creditDetials.setMonthly_fee_type(bundle.getInt(AddCreditFragment.MONTHLY_FEE_TYPE));
+                creditDetials.setPervonacalniy(bundle.getDouble(AddCreditFragment.PERVONACALNIY));
                 creditDetials.__setDaoSession(daoSession);
                 currentCredit = creditDetials;
             }
