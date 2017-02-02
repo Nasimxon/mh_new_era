@@ -1670,7 +1670,8 @@
     <string name="account_list">У вас только один счет. Добавить новый?</string>
     <string name="payment_to">Оплата по</string>
     <string name="credit_info">Взятый кредит</string>
-    <string name="sender1">Sender</string>
-    <string name="taken_debt">Taken debt</string>
+    <string name="sender1">Отправитель</string>
+    <string name="taken_debt">Взятый долг</string>
+    <string name="debtor">Должник</string>
 </resources>
 

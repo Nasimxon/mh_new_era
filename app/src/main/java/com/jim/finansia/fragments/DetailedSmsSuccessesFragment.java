@@ -108,15 +108,15 @@ public class DetailedSmsSuccessesFragment extends Fragment {
             holder.tvDetailedSmsName.setText(result.get(position).getNumber());
             holder.tvSmsParsingDate.setText(format.format(result.get(position).getDate().getTime()));
             if (result.get(position).getType() == PocketAccounterGeneral.EXPENSE) {
-                holder.tvSmsAmount.setTextColor(ContextCompat.getColor(context, R.color.record_red));
+                holder.tvSmsAmount.setTextColor(ContextCompat.getColor(getContext(), R.color.record_red));
                 sign = "-";
             }
             else {
-                holder.tvSmsAmount.setTextColor(ContextCompat.getColor(context, R.color.record_green));
+                holder.tvSmsAmount.setTextColor(ContextCompat.getColor(getContext(), R.color.record_green));
                 sign = "+";
             }
-            holder.tvSmsAmount.setText(sign + (result.get(position).getAmount()) + " " + result.get(position).getCurrencyId());
-            holder.tvSmsAccount.setText(sign + result.get(position).getAccountId());
+            holder.tvSmsAmount.setText(sign + (result.get(position).getAmount()) + " " + result.get(position).getCurrency().getAbbr());
+            holder.tvSmsAccount.setText(result.get(position).getAccount().getName());
         }
 
         @Override

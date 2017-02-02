@@ -1685,4 +1685,5 @@
     <string name="credit_info">Taken credit</string>
     <string name="sender1">Sender</string>
     <string name="taken_debt">Taken debt</string>
+    <string name="debtor">Debtor</string>
 </resources>

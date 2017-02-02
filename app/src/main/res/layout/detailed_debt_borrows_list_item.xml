@@ -65,7 +65,7 @@ android:orientation="vertical">
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/debtor_name"
+                android:text="@string/debtor"
                 android:textColor="#3a3a3a"
                 android:textSize="@dimen/sixteen_dp"
                 android:textStyle="bold" />
@@ -141,7 +141,7 @@ android:orientation="vertical">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Comment:"
+                android:text="@string/comment"
                 android:textColor="#a6a6a6"
                 android:textSize="@dimen/fourteen_dp" />
 
