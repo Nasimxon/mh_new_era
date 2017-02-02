@@ -1673,5 +1673,8 @@
     <string name="sender1">Отправитель</string>
     <string name="taken_debt">Взятый долг</string>
     <string name="debtor">Должник</string>
+    <string name="took_from">Взял долг у</string>
+    <string name="returned_debt">Вернули</string>
+    <string name="i_returned">Вернул</string>
 </resources>
 

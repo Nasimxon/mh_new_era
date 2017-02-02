@@ -95,6 +95,11 @@ public class DetailedDebtBorrowsFragment extends Fragment{
         list.addAll(debtBorrows);
         list.addAll(reckings);
         DetailedDebtBorrowsAdapter adapter = new DetailedDebtBorrowsAdapter(list);
+        if (list.isEmpty()) {
+            rvDetailedDebtBorrows.setVisibility(View.GONE);
+        } else {
+            rvDetailedDebtBorrows.setVisibility(View.VISIBLE);
+        }
         rvDetailedDebtBorrows.setAdapter(adapter);
     }
 
@@ -140,9 +145,11 @@ public class DetailedDebtBorrowsFragment extends Fragment{
                     if (debtBorrow.getType() == PocketAccounterGeneral.EXPENSE) {
                         holder.tvDebtAmount.setTextColor(ContextCompat.getColor(context, R.color.record_red));
                         sign = "-";
+                        holder.tvDebtName.setText(R.string.i_returned);
                     } else {
                         holder.tvDebtAmount.setTextColor(ContextCompat.getColor(context, R.color.record_green));
                         sign = "+";
+                        holder.tvDebtName.setText(R.string.returned_debt);
                     }
                     if(!debtBorrow.getPerson().getPhoto().isEmpty() && !debtBorrow.getPerson().getPhoto().equals("0")){
                         try {
@@ -174,7 +181,6 @@ public class DetailedDebtBorrowsFragment extends Fragment{
                     holder.visibleIfCommentHaveDebt.setVisibility(View.VISIBLE);
                 }
                 holder.tvDebtAmount.setText(sign + " " + formatter.format(recking.getAmount()) + cur);
-                holder.tvDebtName.setText(R.string.payment_to);
                 holder.view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -191,12 +197,14 @@ public class DetailedDebtBorrowsFragment extends Fragment{
                 holder.tvDetailedDebtBorrowsName.setText(debtBorrow.getPerson().getName());
                 String sign = "";
                 if (debtBorrow.getType() == PocketAccounterGeneral.EXPENSE) {
-                    holder.tvDebtAmount.setTextColor(ContextCompat.getColor(context, R.color.record_red));
-                    sign = "-";
-                }
-                else {
                     holder.tvDebtAmount.setTextColor(ContextCompat.getColor(context, R.color.record_green));
                     sign = "+";
+                    holder.tvDebtName.setText(R.string.took_from);
+                }
+                else {
+                    holder.tvDebtAmount.setTextColor(ContextCompat.getColor(context, R.color.record_red));
+                    sign = "-";
+                    holder.tvDebtName.setText(R.string.debtor);
                 }
                 for (int i = 0; i < allAccounts.size(); i++) {
                     if (allAccounts.get(i).getId().equals(debtBorrow.getAccountId()))

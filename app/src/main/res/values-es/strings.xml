@@ -1517,4 +1517,5 @@
     <string name="two">dos</string>
     <string name="zero">cero</string>
     <string name="amount">Cantidad</string>
+    <string name="took_from">Took from</string>
 </resources>

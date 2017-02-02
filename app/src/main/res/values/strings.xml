@@ -1686,4 +1686,7 @@
     <string name="sender1">Sender</string>
     <string name="taken_debt">Taken debt</string>
     <string name="debtor">Debtor</string>
+    <string name="took_from">Took from</string>
+    <string name="returned_debt">Returned</string>
+    <string name="i_returned">Returned</string>
 </resources>

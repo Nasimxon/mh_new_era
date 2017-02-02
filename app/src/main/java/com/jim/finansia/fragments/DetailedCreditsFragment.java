@@ -99,6 +99,11 @@ public class DetailedCreditsFragment extends Fragment {
         list.addAll(credits);
         list.addAll(reckings);
         DetailedCreditsAdapter adapter = new DetailedCreditsAdapter(list);
+        if (list.isEmpty()) {
+            rvDetailedCredits.setVisibility(View.GONE);
+        } else {
+            rvDetailedCredits.setVisibility(View.VISIBLE);
+        }
         rvDetailedCredits.setAdapter(adapter);
     }
 

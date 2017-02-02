@@ -74,6 +74,11 @@ public class DetailedSmsSuccessesFragment extends Fragment {
                         SmsParseSuccessDao.Properties.IsSuccess.eq(true))
                 .list();
         DetailedDebtBorrowsAdapter adapter = new DetailedDebtBorrowsAdapter(smses);
+        if (smses.isEmpty()) {
+            rvDetailedSms.setVisibility(View.GONE);
+        } else {
+            rvDetailedSms.setVisibility(View.VISIBLE);
+        }
         rvDetailedSms.setAdapter(adapter);
     }
 

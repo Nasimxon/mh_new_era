@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#f2f3f5"
+    android:orientation="vertical"
     android:clickable="true"
     >
     <android.support.v7.widget.RecyclerView
@@ -12,4 +13,19 @@
         android:paddingTop="@dimen/five_dp"
         android:clipToPadding="false"
         android:id="@+id/rvDetailedCredits"/>
-</RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="10">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="4"
+            android:gravity="center_horizontal|bottom"
+            android:text="@string/there_is_no_operations_for_today"
+            android:textColor="@color/toolbar_color"
+            android:textSize="@dimen/fourteen_dp" />
+    </LinearLayout>
+</LinearLayout>

@@ -76,29 +76,34 @@ public class RecordDetailFragment extends Fragment {
                 {
                     case 0:
                         toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
+                        toolbarManager.setOnTitleClickListener(null);
                         toolbarManager.setTitle(getResources().getString(R.string.records));
-                        toolbarManager.setSubtitle(date);
+                        toolbarManager.setSubtitle("");
                         break;
 
                     case 1:
                         toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
+                        toolbarManager.setOnTitleClickListener(null);
                         toolbarManager.setTitle(getResources().getString(R.string.sms_parse));
-                        toolbarManager.setSubtitle(date);
+                        toolbarManager.setSubtitle("");
                         break;
                     case 2:
                         toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
+                        toolbarManager.setOnTitleClickListener(null);
                         toolbarManager.setTitle(getResources().getString(R.string.debts_title));
-                        toolbarManager.setSubtitle(date);
+                        toolbarManager.setSubtitle("");
                         break;
                     case 3:
                         toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
                         toolbarManager.setTitle(getResources().getString(R.string.credit));
-                        toolbarManager.setSubtitle(date);
+                        toolbarManager.setOnTitleClickListener(null);
+                        toolbarManager.setSubtitle("");
                         break;
                     default:
                         toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
                         toolbarManager.setTitle("");
                         toolbarManager.setSubtitle("");
+                        toolbarManager.setOnTitleClickListener(null);
                         break;
 
                 }
@@ -184,7 +189,7 @@ public class RecordDetailFragment extends Fragment {
                     paFragmentManager.displayMainWindow();
                 }
             });
-            toolbarManager.setSubtitle(date);
+            toolbarManager.setSubtitle("");
         }
     }
 }
