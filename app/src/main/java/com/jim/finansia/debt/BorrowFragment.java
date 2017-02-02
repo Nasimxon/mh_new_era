@@ -149,13 +149,16 @@ public class BorrowFragment extends Fragment {
     }
 
 
-    public void setDebtBorrowFragment(DebtBorrowFragment debtBorrowFragment) {
-        this.debtBorrowFragment = debtBorrowFragment;
+    public void refreshList() {
+        if (recyclerView != null) {
+            myAdapter = new MyAdapter();
+            recyclerView.setLayoutManager(mLayoutManager);
+            recyclerView.setAdapter(myAdapter);
+        }
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
+    public void setDebtBorrowFragment(DebtBorrowFragment debtBorrowFragment) {
+        this.debtBorrowFragment = debtBorrowFragment;
     }
 
     private class MyAdapter extends RecyclerView.Adapter<ViewHolder> {
@@ -328,7 +331,7 @@ public class BorrowFragment extends Fragment {
                 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                 @Override
                 public void onClick(View v) {
-                    addNextFragment(person, view.BorrowPersonPhotoPath, false);
+                    addNextFragment(person);
                 }
             });
             if (TYPE == 2) {
@@ -691,7 +694,7 @@ public class BorrowFragment extends Fragment {
         }
     }
 
-    private void addNextFragment(DebtBorrow debtBorrow, ImageView squareBlue, boolean overlap) {
+    private void addNextFragment(DebtBorrow debtBorrow) {
         Bundle bundle = new Bundle();
         bundle.putString(DebtBorrowFragment.DEBT_BORROW_ID, debtBorrow.getId());
         bundle.putInt(DebtBorrowFragment.MODE, PocketAccounterGeneral.NO_MODE);

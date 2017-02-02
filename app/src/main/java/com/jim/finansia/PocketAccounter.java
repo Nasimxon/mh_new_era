@@ -95,7 +95,7 @@ public class PocketAccounter extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(null);
+        super.onCreate(savedInstanceState);
         //init theme begin
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String themeName = prefs.getString(PocketAccounterGeneral.CHOOSEN_THEME_NAME_KEY, PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.BLUE_THEME);
@@ -127,7 +127,6 @@ public class PocketAccounter extends AppCompatActivity {
         //init toolbar
         treatToolbar();
         //initializing main window elements and show them
-//        paFragmentManager.setDrawerInitializerToBackstackListener(drawerInitializer);
         paFragmentManager.initMainWindow();
         //secure layer configuring
         pwPassword = (PasswordWindow) findViewById(R.id.pwPassword);
@@ -239,7 +238,7 @@ public class PocketAccounter extends AppCompatActivity {
             public void onDateSet(DatePicker arg0, int arg1, int arg2, int arg3) {
                Calendar calend = new GregorianCalendar(arg1, arg2, arg3);
                  String key = preferences.getString("balance_solve", "0");
-                Calendar begin, end = Calendar.getInstance();
+                Calendar begin, end;
                 if (key.equals("0")) {
                     Calendar firstDay = commonOperations.getFirstDay();
                     if (firstDay == null)
@@ -345,8 +344,8 @@ public class PocketAccounter extends AppCompatActivity {
 
     @Override
     protected void onStop() {
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
         super.onStop();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
         boolean notif = sharedPreferences.getBoolean("general_notif", true);
         if (notif) {
             try {

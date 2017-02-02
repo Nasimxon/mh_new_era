@@ -415,7 +415,7 @@ public class ReportByIncomeExpenseDailyTableFragment extends Fragment {
             toolbarManager.setSubtitle(null);
             toolbarManager.setOnTitleClickListener(null);
             toolbarManager.setImageToSecondImage(R.drawable.ic_filter);
-//        toolbarManager.setTitle(getString(R.string.report_by_income_expense_table));
+            toolbarManager.setTitle(getString(R.string.financial_transactions_report));
             toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
         }
     }

@@ -89,6 +89,26 @@ public class CurrencyFragment extends PABaseListFragment implements OnClickListe
 		refreshList();
 	}
 
+	public void updateToolbar() {
+		if (toolbarManager != null)
+		{
+			toolbarManager.setTitle(getResources().getString(R.string.currencies));
+			toolbarManager.setOnTitleClickListener(null);
+			toolbarManager.setSubtitle(getResources().getString(R.string.main_currency)+" "+ commonOperations.getMainCurrency().getAbbr());
+			toolbarManager.setSubtitleIconVisibility(View.GONE);
+			toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
+			toolbarManager.setImageToSecondImage(R.drawable.pencil);
+			toolbarManager.setOnSecondImageClickListener(this);
+			toolbarManager.setImageToHomeButton(R.drawable.ic_drawer);
+			toolbarManager.setOnHomeButtonClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					drawerInitializer.getDrawer().openLeftSide();
+				}
+			});
+		}
+	}
+
 	private void setCurrencyListMode() {
 		mode = PocketAccounterGeneral.NORMAL_MODE;
 		toolbarManager.setImageToSecondImage(R.drawable.pencil);
@@ -166,7 +186,7 @@ public class CurrencyFragment extends PABaseListFragment implements OnClickListe
 	}
 
 	@Override
-	void refreshList() {
+	public void refreshList() {
 		CurrencyAdapter adapter = new CurrencyAdapter(getActivity(), daoSession.getCurrencyDao().loadAll(), selected, mode);
 		RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
 		lvCurrency.setLayoutManager(layoutManager);

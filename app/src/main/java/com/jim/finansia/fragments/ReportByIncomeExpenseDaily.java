@@ -61,8 +61,6 @@ public class ReportByIncomeExpenseDaily extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
         View rootView = inflater.inflate(R.layout.report_by_income_and_expense_daily, container, false);
-        toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
-        toolbarManager.setOnTitleClickListener(null);
         ivReportExpense = (ImageView) rootView.findViewById(R.id.ivReportExpense);
         ivReportIncome = (ImageView) rootView.findViewById(R.id.ivReportIncome);
 
@@ -159,6 +157,16 @@ public class ReportByIncomeExpenseDaily extends Fragment {
         });
 
         return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (toolbarManager != null) {
+            toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
+            toolbarManager.setOnTitleClickListener(null);
+            toolbarManager.setTitle(getResources().getString(R.string.daily_operations_report));
+        }
     }
 
     private List<DayData> generateDatas(int month, int year) {

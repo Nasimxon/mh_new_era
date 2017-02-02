@@ -133,6 +133,7 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
     RecyclerView.LayoutManager layoutManager;
     private AddBorrowFragment.DaysAdapter daysAdapter;
     private ArrayList<String> adapter;
+    private int localAppereance = DebtBorrowFragment.FROM_MAIN;
 
     @Nullable
     @Override
@@ -146,6 +147,7 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
             mode = getArguments().getInt(DebtBorrowFragment.MODE);
             position = getArguments().getInt(DebtBorrowFragment.POSITION);
             type = getArguments().getInt(DebtBorrowFragment.TYPE);
+            localAppereance = getArguments().getInt(DebtBorrowFragment.LOCAL_APPEREANCE);
         }
         spNotifMode = (Spinner) view.findViewById(R.id.spNotifMode);
         adapter = new ArrayList<>();
@@ -565,8 +567,35 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
             dataCache.updateAllPercents();
             paFragmentManager.updateAllFragmentsPageChanges();
             paFragmentManager.updateSmsFragmentChanges();
-            paFragmentManager.displayFragment(new DebtBorrowFragment());
+            for (Fragment fragment : paFragmentManager.getFragmentManager().getFragments()) {
+                if (fragment.getClass().getName().equals(BorrowFragment.class.getName())) {
+                    BorrowFragment borrowFragment = (BorrowFragment) fragment;
+                    if (borrowFragment != null)
+                        borrowFragment.refreshList();
+                }
+            }
+            paFragmentManager.getFragmentManager().popBackStack();
+            if (localAppereance == DebtBorrowFragment.FROM_INFO) {
+                paFragmentManager.getFragmentManager().popBackStack();
+                for (Fragment fragment : paFragmentManager.getFragmentManager().getFragments()) {
+                    if (fragment == null) continue;
+                    if (fragment.getClass().getName().equals(BorrowFragment.class.getName())) {
+                        BorrowFragment borrowFragment = (BorrowFragment) fragment;
+                        if (borrowFragment != null)
+                            borrowFragment.refreshList();
+                    }
+                    if (fragment.getClass().getName().equals(DebtBorrowFragment.class.getName())) {
+                        DebtBorrowFragment borrowFragment = (DebtBorrowFragment) fragment;
+                        if (borrowFragment != null)
+                            borrowFragment.updateToolbar();
+                    }
+                }
+            }
         }
+    }
+
+    public int getLocalAppereance() {
+        return localAppereance;
     }
 
     private boolean isLimiteAccess() {

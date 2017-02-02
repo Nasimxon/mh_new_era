@@ -947,7 +947,13 @@ public class LogicManager {
         if (query.list().isEmpty()) {
             return LogicManagerConstants.REQUESTED_OBJECT_NOT_FOUND;
         }
+        daoSession
+                .getReckingDao()
+                .queryBuilder()
+                .where(ReckingDao.Properties.DebtBorrowsId.eq(debtBorrow.getId()))
+                .buildDelete();
         debtBorrowDao.delete(debtBorrow);
+
         return LogicManagerConstants.DELETED_SUCCESSFUL;
     }
 

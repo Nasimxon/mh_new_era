@@ -1,6 +1,7 @@
 package com.jim.finansia.fragments;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -143,9 +144,18 @@ public class CurrencyChooseFragment extends PABaseInfoFragment {
                             }
                             logicManager.deleteCurrency(currencies);
                             dialog.dismiss();
+                            for (Fragment frag : paFragmentManager.getFragmentManager().getFragments()) {
+                                if (frag == null) continue;
+                                if (frag.getClass().getName().equals(CurrencyFragment.class.getName())) {
+                                    CurrencyFragment currencyFragment = (CurrencyFragment) frag;
+                                    if (currencyFragment != null) {
+                                        currencyFragment.updateToolbar();
+                                        currencyFragment.refreshList();
+                                    }
+                                    break;
+                                }
+                            }
                             paFragmentManager.getFragmentManager().popBackStack();
-                            paFragmentManager.displayFragment(new CurrencyFragment());
-
                         }
                     });
                     dialog.setOnNoButtonClickListener(new OnClickListener() {
@@ -181,8 +191,18 @@ public class CurrencyChooseFragment extends PABaseInfoFragment {
                             logicManager.generateCurrencyCosts(Calendar.getInstance(), Double.parseDouble(costs[pos]), currency);
                         }
                     }
+                    for (Fragment frag : paFragmentManager.getFragmentManager().getFragments()) {
+                        if (frag == null) continue;
+                        if (frag.getClass().getName().equals(CurrencyFragment.class.getName())) {
+                            CurrencyFragment currencyFragment = (CurrencyFragment) frag;
+                            if (currencyFragment != null) {
+                                currencyFragment.updateToolbar();
+                                currencyFragment.refreshList();
+                            }
+                            break;
+                        }
+                    }
                     paFragmentManager.getFragmentManager().popBackStack();
-                    paFragmentManager.displayFragment(new CurrencyFragment());
             }
             }
         });
@@ -200,7 +220,15 @@ public class CurrencyChooseFragment extends PABaseInfoFragment {
             toolbarManager.setOnHomeButtonClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    paFragmentManager.displayFragment(new CurrencyFragment());
+                    paFragmentManager.getFragmentManager().popBackStack();
+                    for (Fragment frag : paFragmentManager.getFragmentManager().getFragments()) {
+                        if (frag == null) continue;
+                        if (frag.getClass().getName().equals(CurrencyFragment.class.getName())) {
+                            CurrencyFragment currencyFragment = (CurrencyFragment) frag;
+                            if (currencyFragment != null) currencyFragment.updateToolbar();
+                            break;
+                        }
+                    }
                 }
             });
             toolbarManager.setImageToSecondImage(R.drawable.check_sign);

@@ -79,18 +79,13 @@ public class DetailedCreditsFragment extends Fragment {
                 e.printStackTrace();
             }
         }
-        initDatas();
-        List<Object> list = new ArrayList<>();
-        list.addAll(credits);
-        list.addAll(reckings);
         rvDetailedCredits = (RecyclerView) rootView.findViewById(R.id.rvDetailedCredits);
         rvDetailedCredits.setLayoutManager(new LinearLayoutManager(getContext()));
-        DetailedCreditsAdapter adapter = new DetailedCreditsAdapter(list);
-        rvDetailedCredits.setAdapter(adapter);
+        refreshList();
         return rootView;
     }
 
-    private void initDatas() {
+    public void refreshList() {
         credits = daoSession
                 .queryBuilder(CreditDetials.class)
                 .where(CreditDetialsDao.Properties.Take_time.eq(format.format(date.getTime())), CreditDetialsDao.Properties.Key_for_include.eq(true))
@@ -100,7 +95,11 @@ public class DetailedCreditsFragment extends Fragment {
                         ReckingCreditDao.Properties.AccountId.isNotNull(),
                         ReckingCreditDao.Properties.AccountId.notEq(""))
                 .list();
-
+        List<Object> list = new ArrayList<>();
+        list.addAll(credits);
+        list.addAll(reckings);
+        DetailedCreditsAdapter adapter = new DetailedCreditsAdapter(list);
+        rvDetailedCredits.setAdapter(adapter);
     }
 
     public void onResume() {

@@ -1494,14 +1494,13 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
             })).start();
         }
         if (parent == PocketAccounterGeneral.DETAIL) {
-            FragmentManager fm = ((PocketAccounter) getContext()).getSupportFragmentManager();
-            for (int i = 0; i < fm.getBackStackEntryCount(); i++) fm.popBackStack();
-            Bundle bundle = new Bundle();
-            SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
-            bundle.putString(RecordDetailFragment.DATE, format.format(date.getTime()));
-            RecordDetailFragment fr = new RecordDetailFragment();
-            fr.setArguments(bundle);
-            paFragmentManager.displayFragment(fr);
+            for (Fragment fragment : paFragmentManager.getFragmentManager().getFragments()) {
+                if (fragment.getClass().getName().equals(RecordDetailFragment.class.getName())) {
+                    ((RecordDetailFragment)fragment).updateFragments();
+                    break;
+                }
+            }
+            paFragmentManager.getFragmentManager().popBackStack();
         } else if (parent == PocketAccounterGeneral.MAIN){
             reportManager.clearCache();
             dataCache.updateAllPercents();

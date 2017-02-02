@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.SlidingPaneLayout.LayoutParams;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -139,7 +140,16 @@ public class CurrencyEditFragment extends PABaseInfoFragment implements OnClickL
             toolbarManager.setOnHomeButtonClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    paFragmentManager.displayFragment(new CurrencyFragment());
+                    for (Fragment frag : paFragmentManager.getFragmentManager().getFragments()) {
+                        if (frag == null) continue;
+                        if (frag.getClass().getName().equals(CurrencyFragment.class.getName())) {
+                            CurrencyFragment currencyFragment = (CurrencyFragment) frag;
+                            if (currencyFragment != null) {
+                                currencyFragment.updateToolbar();
+                            }
+                            break;
+                        }
+                    }
                 }
             });
             toolbarManager.setTitle(currency.getName());
@@ -176,7 +186,18 @@ public class CurrencyEditFragment extends PABaseInfoFragment implements OnClickL
                 dataCache.updateAllPercents();
                 paFragmentManager.updateAllFragmentsPageChanges();
                 paFragmentManager.updateVoiceRecognizePageCurrencyChanges();
-                paFragmentManager.displayFragment(new CurrencyFragment());
+                for (Fragment frag : paFragmentManager.getFragmentManager().getFragments()) {
+                    if (frag == null) continue;
+                    if (frag.getClass().getName().equals(CurrencyFragment.class.getName())) {
+                        CurrencyFragment currencyFragment = (CurrencyFragment) frag;
+                        if (currencyFragment != null) {
+                            currencyFragment.updateToolbar();
+                            currencyFragment.refreshList();
+                        }
+                        break;
+                    }
+                }
+                paFragmentManager.getFragmentManager().popBackStack();
                 break;
         }
     }
@@ -359,19 +380,5 @@ public class CurrencyEditFragment extends PABaseInfoFragment implements OnClickL
     public interface OpenDialog {
         void openDialogForDate(CurrencyCost currCost);
     }
-
-    private void deleteCosts() {
-        List<UserEnteredCalendars> currencyCostList = new ArrayList<>();
-        for (int i = 0; i < selected.length; i++) {
-            if (selected[i]) {
-                currencyCostList.add(currency.getUserEnteredCalendarses().get(i));
-            }
-        }
-        if (currencyCostList.isEmpty() || currencyCostList == null) return;
-        if (logicManager.deleteCurrencyCosts(currencyCostList, currency) == LogicManagerConstants.LIST_IS_EMPTY)
-            Toast.makeText(getActivity(), getResources().getString(R.string.costs_selected_all_warning), Toast.LENGTH_SHORT).show();
-        refreshList();
-    }
-
 
 }

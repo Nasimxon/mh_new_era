@@ -66,5 +66,15 @@ public class ReportFragment extends Fragment {
             toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
         }
     }
+    public void updateToolbar() {
+        if (toolbarManager != null)
+        {
+            toolbarManager.setTitle(getResources().getString(R.string.report_by_account_title));
+            toolbarManager.setOnTitleClickListener(null);
+            toolbarManager.setSubtitle("");
+            toolbarManager.setSubtitleIconVisibility(View.GONE);
+            toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
+        }
+    }
 }
 

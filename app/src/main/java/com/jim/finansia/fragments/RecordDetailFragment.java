@@ -116,6 +116,48 @@ public class RecordDetailFragment extends Fragment {
         return rootView;
     }
 
+    public void updateFragments() {
+        toolbarManager.setTitle(getResources().getString(R.string.records));
+        toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
+        toolbarManager.setImageToSecondImage(R.drawable.pencil);
+        toolbarManager.setImageToHomeButton(R.drawable.ic_back_button);
+        toolbarManager.setOnHomeButtonClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int size = 0;
+                size = paFragmentManager.getFragmentManager().getBackStackEntryCount();
+                for (int i = 0; i < size; i++) {
+                    ((PocketAccounter)getContext()).getSupportFragmentManager().popBackStack();
+                }
+                paFragmentManager.displayMainWindow();
+            }
+        });
+        toolbarManager.setSubtitle(date);
+        for (Fragment fragment : paFragmentManager.getFragmentManager().getFragments()) {
+            if (fragment == null) continue;
+            if (fragment.getClass().getName().equals(FinanceRecordsFragment.class.getName())) {
+                FinanceRecordsFragment f = (FinanceRecordsFragment) fragment;
+                if (f != null)
+                    f.refreshList();
+            }
+            if (fragment.getClass().getName().equals(DetailedSmsSuccessesFragment.class.getName())) {
+                DetailedSmsSuccessesFragment f = (DetailedSmsSuccessesFragment) fragment;
+                if (f != null)
+                    f.refreshList();
+            }
+            if (fragment.getClass().getName().equals(DetailedDebtBorrowsFragment.class.getName())) {
+                DetailedDebtBorrowsFragment f = (DetailedDebtBorrowsFragment) fragment;
+                if (f != null)
+                    f.refreshList();
+            }
+            if (fragment.getClass().getName().equals(DetailedCreditsFragment.class.getName())) {
+                DetailedCreditsFragment f = (DetailedCreditsFragment) fragment;
+                if (f != null)
+                    f.refreshList();
+            }
+        }
+    }
+
     //we need the outState to save the position
     @Override
     public void onSaveInstanceState(Bundle outState) {

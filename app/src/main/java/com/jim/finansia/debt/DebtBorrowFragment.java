@@ -47,7 +47,8 @@ public class DebtBorrowFragment extends Fragment implements View.OnClickListener
     public static String MODE = "mode";
     public static String POSITION = "position";
     public static String TYPE = "type";
-
+    public static String LOCAL_APPEREANCE = "local_appereance";
+    public static int FROM_MAIN = 0, FROM_INFO = 1;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -67,6 +68,7 @@ public class DebtBorrowFragment extends Fragment implements View.OnClickListener
         viewPager = (DebtBorrowViewPager) view.findViewById(R.id.vpDebtBorrowFragment);
         fb = (FloatingActionButton) view.findViewById(R.id.fbDebtBorrowFragment);
         fb.setOnClickListener(this);
+        restartAdapter();
         return view;
     }
     public void onResume() {
@@ -81,12 +83,23 @@ public class DebtBorrowFragment extends Fragment implements View.OnClickListener
 
         }
     }
+
+    public void updateToolbar() {
+        if (toolbarManager != null)
+        {
+            toolbarManager.setTitle(getResources().getString(R.string.debts_title));
+            toolbarManager.setSubtitle("");
+            toolbarManager.setOnTitleClickListener(null);
+            toolbarManager.setSubtitleIconVisibility(View.GONE);
+            toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
+
+        }
+    }
+
     @Override
     public void onStart() {
         super.onStart();
-        restartAdapter();
         tabLayout.setupWithViewPager(viewPager);
-        viewPager.addOnPageChangeListener(this);
     }
 
     public void restartAdapter() {
@@ -102,7 +115,12 @@ public class DebtBorrowFragment extends Fragment implements View.OnClickListener
         MyAdapter adapter = new MyAdapter(borrowFragments, ((PocketAccounter) getContext()).getSupportFragmentManager());
         viewPager.setAdapter(adapter);
         viewPager.storeAdapter(adapter);
+        viewPager.addOnPageChangeListener(this);
         int selectedPos = preferences.getInt(PocketAccounterGeneral.DEBT_BORROW_PAGE, 0);
+        if (selectedPos == 2)
+            fb.setVisibility(View.GONE);
+        else
+            fb.setVisibility(View.VISIBLE);
         viewPager.setCurrentItem(selectedPos, false);
         if (getArguments() != null) {
             if (getArguments().getInt("type", -1) != -1) {
@@ -141,22 +159,22 @@ public class DebtBorrowFragment extends Fragment implements View.OnClickListener
         if (v.getId() == R.id.fbDebtBorrowFragment) {
             switch (viewPager.getCurrentItem()) {
                 case BORROW_FRAGMENT: {
-                    paFragmentManager.getFragmentManager().popBackStack();
                     Bundle bundle = new Bundle();
                     bundle.putInt(DebtBorrowFragment.MODE, PocketAccounterGeneral.NO_MODE);
                     bundle.putInt(DebtBorrowFragment.POSITION, 0);
                     bundle.putInt(DebtBorrowFragment.TYPE, DebtBorrow.BORROW);
+                    bundle.putInt(DebtBorrowFragment.LOCAL_APPEREANCE, DebtBorrowFragment.FROM_MAIN);
                     AddBorrowFragment fragment = new AddBorrowFragment();
                     fragment.setArguments(bundle);
                     paFragmentManager.displayFragment(fragment);
                     break;
                 }
                 case DEBT_FRAGMENT: {
-                    paFragmentManager.getFragmentManager().popBackStack();
                     Bundle bundle = new Bundle();
                     bundle.putInt(DebtBorrowFragment.MODE, PocketAccounterGeneral.NO_MODE);
                     bundle.putInt(DebtBorrowFragment.POSITION, 0);
                     bundle.putInt(DebtBorrowFragment.TYPE, DebtBorrow.DEBT);
+                    bundle.putInt(DebtBorrowFragment.LOCAL_APPEREANCE, DebtBorrowFragment.FROM_MAIN);
                     AddBorrowFragment fragment = new AddBorrowFragment();
                     fragment.setArguments(bundle);
                     paFragmentManager.displayFragment(fragment);

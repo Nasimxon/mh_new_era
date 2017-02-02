@@ -47,16 +47,11 @@ import java.util.regex.Pattern;
 import javax.inject.Inject;
 @SuppressLint({"InflateParams", "ValidFragment"})
 public class SMSParseInfoFragment extends Fragment {
-    @Inject
-    DaoSession daoSession;
-    @Inject
-    PAFragmentManager paFragmentManager;
-    @Inject
-    ToolbarManager toolbarManager;
-    @Inject
-    LogicManager logicManager;
-    @Inject
-    CommonOperations commonOperations;
+    @Inject DaoSession daoSession;
+    @Inject PAFragmentManager paFragmentManager;
+    @Inject ToolbarManager toolbarManager;
+    @Inject LogicManager logicManager;
+    @Inject CommonOperations commonOperations;
     WarningDialog warningDialog;
 
     private SmsParseObject object;

@@ -96,6 +96,7 @@ public class CreditTabLay extends Fragment implements View.OnClickListener, View
         adapter = new PagerAdapter(paFragmentManager.getFragmentManager(), list);
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(sharedPreferences.getInt(DEFAULT_POSITION,0));
+        //TODO hide or show fab according to viewpagers position
         viewPager.addOnPageChangeListener(this);
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

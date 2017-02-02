@@ -75,18 +75,13 @@ public class DetailedDebtBorrowsFragment extends Fragment{
                 e.printStackTrace();
             }
         }
-        initDatas();
-        List<Object> list = new ArrayList<>();
-        list.addAll(debtBorrows);
-        list.addAll(reckings);
         rvDetailedDebtBorrows = (RecyclerView) rootView.findViewById(R.id.rvDetailedDebtBorrows);
         rvDetailedDebtBorrows.setLayoutManager(new LinearLayoutManager(getContext()));
-        DetailedDebtBorrowsAdapter adapter = new DetailedDebtBorrowsAdapter(list);
-        rvDetailedDebtBorrows.setAdapter(adapter);
+        refreshList();
         return rootView;
     }
 
-    private void initDatas() {
+    public void refreshList() {
         debtBorrows = daoSession
                 .queryBuilder(DebtBorrow.class)
                 .where(DebtBorrowDao.Properties.TakenDate.eq(format.format(date.getTime())), DebtBorrowDao.Properties.Calculate.eq(true))
@@ -96,6 +91,11 @@ public class DetailedDebtBorrowsFragment extends Fragment{
                         ReckingDao.Properties.AccountId.isNotNull(),
                         ReckingDao.Properties.AccountId.notEq(""))
                 .list();
+        List<Object> list = new ArrayList<>();
+        list.addAll(debtBorrows);
+        list.addAll(reckings);
+        DetailedDebtBorrowsAdapter adapter = new DetailedDebtBorrowsAdapter(list);
+        rvDetailedDebtBorrows.setAdapter(adapter);
     }
 
     public void onResume() {

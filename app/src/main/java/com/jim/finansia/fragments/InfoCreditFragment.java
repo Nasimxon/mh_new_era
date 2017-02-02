@@ -163,6 +163,9 @@ public class InfoCreditFragment extends Fragment {
 
     }
 
+    public int getMode() {
+        return modeOfMain;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

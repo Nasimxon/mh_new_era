@@ -61,20 +61,20 @@ public class DetailedSmsSuccessesFragment extends Fragment {
                 e.printStackTrace();
             }
         }
-        initDatas();
         rvDetailedSms = (RecyclerView) rootView.findViewById(R.id.rvDetailedSms);
         rvDetailedSms.setLayoutManager(new LinearLayoutManager(getContext()));
-        DetailedDebtBorrowsAdapter adapter = new DetailedDebtBorrowsAdapter(smses);
-        rvDetailedSms.setAdapter(adapter);
+        refreshList();
         return rootView;
     }
 
-    private void initDatas() {
+    public void refreshList() {
         smses = daoSession
                 .queryBuilder(SmsParseSuccess.class)
                 .where(SmsParseSuccessDao.Properties.Date.eq(format.format(date.getTime())),
                         SmsParseSuccessDao.Properties.IsSuccess.eq(true))
                 .list();
+        DetailedDebtBorrowsAdapter adapter = new DetailedDebtBorrowsAdapter(smses);
+        rvDetailedSms.setAdapter(adapter);
     }
 
     public void onResume() {

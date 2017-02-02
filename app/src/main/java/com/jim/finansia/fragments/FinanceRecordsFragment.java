@@ -99,7 +99,7 @@ public class FinanceRecordsFragment extends Fragment implements View.OnClickList
         }
     }
 
-    private void refreshList() {
+    public void refreshList() {
         records = new ArrayList<>();
         List<FinanceRecord> allrecords = daoSession.getFinanceRecordDao().loadAll();
         int size = allrecords.size();

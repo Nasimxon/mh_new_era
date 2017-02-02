@@ -112,6 +112,7 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
     private int posMain = 0;
     private RelativeLayout rlInfo;
     private PopupMenu popupMenu;
+    private int localAppereance = DebtBorrowFragment.FROM_MAIN;
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -120,6 +121,7 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
         if (getArguments() != null) {
             id = getArguments().getString(DebtBorrowFragment.DEBT_BORROW_ID);
             mode = getArguments().getInt(DebtBorrowFragment.MODE);
+            localAppereance = getArguments().getInt(DebtBorrowFragment.LOCAL_APPEREANCE);
         }
         warningDialog = new WarningDialog(getContext());
         numberFormat = NumberFormat.getNumberInstance();
@@ -159,7 +161,7 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
             }
         }
         isCheks = new boolean[debtBorrow.getReckings().size()];
-        toolbarManager.setImageToSecondImage(R.drawable.ic_more_vert_black_48dp);
+
         cancel_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -196,6 +198,7 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
                 bundle.putInt(DebtBorrowFragment.MODE, mode);
                 bundle.putInt(DebtBorrowFragment.POSITION, 0);
                 bundle.putInt(DebtBorrowFragment.TYPE, debtBorrow.getType());
+                bundle.putInt(DebtBorrowFragment.LOCAL_APPEREANCE, DebtBorrowFragment.FROM_INFO);
                 AddBorrowFragment fragment = new AddBorrowFragment();
                 fragment.setArguments(bundle);
                 paFragmentManager.displayFragment(fragment);
@@ -377,9 +380,29 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
         return view;
     }
 
+    public void updateToolbar() {
+        if (toolbarManager != null) {
+            toolbarManager.setOnTitleClickListener(null);
+            toolbarManager.setTitle(getResources().getString(R.string.debts_title));
+            toolbarManager.setSubtitleIconVisibility(View.GONE);
+            toolbarManager.setImageToSecondImage(R.drawable.ic_more_vert_black_48dp);
+            toolbarManager.setOnSecondImageClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showOperationsList(v);
+                    }
+            });
+            toolbarManager.setImageToHomeButton(R.drawable.ic_drawer);
+            toolbarManager.setSubtitle("");
+        }
+    }
+
     private void showOperationsList(View v) {
         popupMenu = new PopupMenu(getContext(), v);
-        popupMenu.inflate(R.menu.toolbar_popup_debt);
+        if (debtBorrow.getTo_archive())
+            popupMenu.inflate(R.menu.toolbar_popup_without_delete);
+        else
+            popupMenu.inflate(R.menu.toolbar_popup_debt);
         MenuPopupHelper menuHelper = new MenuPopupHelper(getContext(), (MenuBuilder) popupMenu.getMenu(), v);
         menuHelper.setForceShowIcon(true);
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -392,13 +415,9 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
                         bundle.putInt(DebtBorrowFragment.MODE, PocketAccounterGeneral.NO_MODE);
                         bundle.putInt(DebtBorrowFragment.POSITION, 0);
                         bundle.putInt(DebtBorrowFragment.TYPE, debtBorrow.getType());
+                        bundle.putInt(DebtBorrowFragment.LOCAL_APPEREANCE, DebtBorrowFragment.FROM_INFO);
                         final AddBorrowFragment fragment = new AddBorrowFragment();
                         fragment.setArguments(bundle);
-                        int count = paFragmentManager.getFragmentManager().getBackStackEntryCount();
-                        while (count > 0) {
-                            paFragmentManager.getFragmentManager().popBackStack();
-                            count--;
-                        }
                         operationsListDialog.dismiss();
                         paFragmentManager.displayFragment(fragment);
                         break;
@@ -427,16 +446,21 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
                                             RecordDetailFragment fragment = new RecordDetailFragment();
                                             fragment.setArguments(bundle);
                                             paFragmentManager.getFragmentManager().popBackStack();
-                                            paFragmentManager.displayFragment(new DebtBorrowFragment());
                                         } else if (mode == PocketAccounterGeneral.NO_MODE) {
                                             DebtBorrowFragment fragment = new DebtBorrowFragment();
                                             Bundle bundle = new Bundle();
                                             bundle.putInt("pos", debtBorrow.getTo_archive() ? 2 : debtBorrow.getType());
                                             fragment.setArguments(bundle);
+                                            for (Fragment frag : paFragmentManager.getFragmentManager().getFragments()) {
+                                                if (frag.getClass().getName().equals(BorrowFragment.class.getName())) {
+                                                    BorrowFragment borrowFragment = (BorrowFragment) frag;
+                                                    if (borrowFragment != null)
+                                                        borrowFragment.refreshList();
+                                                }
+                                            }
                                             paFragmentManager.getFragmentManager().popBackStack();
-                                            paFragmentManager.displayFragment(new DebtBorrowFragment());
-                                        } else if (mode == PocketAccounterGeneral.SEARCH_MODE)
-                                            paFragmentManager.displayFragment(new SearchFragment());
+
+                                        }
                                         List<BoardButton> boardButtons = daoSession.getBoardButtonDao().loadAll();
                                         for (BoardButton boardButton : boardButtons) {
                                             if (boardButton.getCategoryId() != null)
@@ -481,6 +505,8 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
         {
             toolbarManager.setOnTitleClickListener(null);
             toolbarManager.setSubtitleIconVisibility(View.GONE);
+            toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
+            toolbarManager.setImageToSecondImage(R.drawable.ic_more_vert_black_48dp);
             toolbarManager.setOnSecondImageClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -717,12 +743,14 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
         } else {
             debtBorrow.setTo_archive(true);
             logicManager.insertDebtBorrow(debtBorrow);
-            int count = paFragmentManager.getFragmentManager().getBackStackEntryCount();
-            while (count > 0) {
-                paFragmentManager.getFragmentManager().popBackStack();
-                count--;
+            for (Fragment frag : paFragmentManager.getFragmentManager().getFragments()) {
+                if (frag.getClass().getName().equals(BorrowFragment.class.getName())) {
+                    BorrowFragment borrowFragment = (BorrowFragment) frag;
+                    if (borrowFragment != null)
+                        borrowFragment.refreshList();
+                }
             }
-            paFragmentManager.displayFragment(new DebtBorrowFragment());
+            paFragmentManager.getFragmentManager().popBackStack();
             List<BoardButton> boardButtons = daoSession.getBoardButtonDao().loadAll();
             for (BoardButton boardButton : boardButtons) {
                 if (boardButton.getCategoryId() != null)
@@ -736,6 +764,7 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
                     }
             }
             paFragmentManager.updateAllFragmentsOnViewPager();
+            paFragmentManager.updateAllFragmentsPageChanges();
             dataCache.updateAllPercents();
         }
     }
@@ -909,5 +938,8 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
     }
     public int getMode() {
         return mode;
+    }
+    public int getLocalAppereance() {
+        return localAppereance;
     }
 }

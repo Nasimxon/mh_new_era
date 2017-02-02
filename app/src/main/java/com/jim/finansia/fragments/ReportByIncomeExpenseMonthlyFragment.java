@@ -170,6 +170,7 @@ public class ReportByIncomeExpenseMonthlyFragment extends Fragment {
         if (toolbarManager != null)
         {
             toolbarManager.setOnTitleClickListener(null);
+            toolbarManager.setTitle(getResources().getString(R.string.monthly_state_report));
             toolbarManager.setSubtitle("");
             toolbarManager.setSubtitleIconVisibility(View.GONE);
         }

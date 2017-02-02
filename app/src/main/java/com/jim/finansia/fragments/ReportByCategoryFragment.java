@@ -291,7 +291,7 @@ public class ReportByCategoryFragment extends Fragment {
                 toolbarManager.setOnTitleClickListener(null);
                 toolbarManager.setSubtitle("");
                 toolbarManager.setSubtitleIconVisibility(View.GONE);
-
+                toolbarManager.setTitle(getResources().getString(R.string.categories_report));
         }
     }
     //adapter percent subcategory
