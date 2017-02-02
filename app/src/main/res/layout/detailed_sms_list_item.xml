@@ -1,11 +1,139 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <TextView
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:layout_marginBottom="@dimen/three_dp"
+android:layout_marginLeft="@dimen/ten_dp"
+android:layout_marginRight="@dimen/ten_dp"
+android:layout_marginTop="@dimen/three_dp"
+android:background="@drawable/carditem"
+android:clickable="true"
+android:orientation="vertical">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="horizontal">
+
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/ten_dp"
-        android:textSize="@dimen/sixteen_dp"
-        android:id="@+id/tvDetailedSmsName"/>
+        android:layout_marginLeft="@dimen/fifteen_dp"
+        android:layout_marginRight="@dimen/fifteen_dp"
+        android:layout_marginTop="@dimen/ten_dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/sender1"
+                android:textColor="#3a3a3a"
+                android:textSize="@dimen/sixteen_dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvDetailedSmsName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+ 99890 1383986"
+                android:textColor="#3a3a3a"
+                android:textSize="@dimen/sixteen_dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/amount"
+                android:textColor="#3a3a3a"
+                android:textSize="@dimen/sixteen_dp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/tvSmsAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+ 50 000$"
+                android:textColor="#8cc156"
+                android:textSize="@dimen/sixteen_dp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:layout_marginTop="@dimen/five_dp"
+            android:layout_marginBottom="@dimen/five_dp"
+            android:background="#f2f3f5"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/account"
+                android:textColor="#3a3a3a"
+                android:textSize="@dimen/sixteen_dp" />
+
+            <TextView
+                android:id="@+id/tvSmsAccountName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Visa bank"
+                android:textColor="#3a3a3a"
+                android:textSize="@dimen/sixteen_dp" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/date"
+                android:textColor="#3a3a3a"
+                android:textSize="@dimen/sixteen_dp" />
+
+            <TextView
+                android:id="@+id/tvSmsParsingDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="27.02.2017"
+                android:textColor="#3a3a3a"
+                android:textSize="@dimen/sixteen_dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
+
 </LinearLayout>

@@ -67,14 +67,41 @@ public class RecordDetailFragment extends Fragment {
 
         vpRecord.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
             @Override
             public void onPageSelected(int position) {
-                if (position == 0)
-                    toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
-                else
-                    toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
+                switch (position)
+                {
+                    case 0:
+                        toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
+                        toolbarManager.setTitle(getResources().getString(R.string.records));
+                        toolbarManager.setSubtitle(date);
+                        break;
 
+                    case 1:
+                        toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
+                        toolbarManager.setTitle(getResources().getString(R.string.sms_parse));
+                        toolbarManager.setSubtitle(date);
+                        break;
+                    case 2:
+                        toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
+                        toolbarManager.setTitle(getResources().getString(R.string.debts_title));
+                        toolbarManager.setSubtitle(date);
+                        break;
+                    case 3:
+                        toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
+                        toolbarManager.setTitle(getResources().getString(R.string.credit));
+                        toolbarManager.setSubtitle(date);
+                        break;
+                    default:
+                        toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
+                        toolbarManager.setTitle("");
+                        toolbarManager.setSubtitle("");
+                        break;
+
+                }
             }
             @Override
             public void onPageScrollStateChanged(int state) {}
@@ -99,6 +126,8 @@ public class RecordDetailFragment extends Fragment {
         super.onResume();
         if (toolbarManager != null)
         {
+
+            toolbarManager.setTitle(getResources().getString(R.string.records));
             toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
             toolbarManager.setImageToSecondImage(R.drawable.pencil);
             toolbarManager.setImageToHomeButton(R.drawable.ic_back_button);
@@ -113,7 +142,6 @@ public class RecordDetailFragment extends Fragment {
                     paFragmentManager.displayMainWindow();
                 }
             });
-            toolbarManager.setTitle(getResources().getString(R.string.records));
             toolbarManager.setSubtitle(date);
         }
     }

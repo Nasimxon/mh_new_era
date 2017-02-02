@@ -1,11 +1,163 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <TextView
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:layout_marginBottom="@dimen/three_dp"
+android:layout_marginLeft="@dimen/ten_dp"
+android:layout_marginRight="@dimen/ten_dp"
+android:layout_marginTop="@dimen/three_dp"
+android:background="@drawable/carditem"
+android:clickable="true"
+android:orientation="vertical">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="@dimen/sixty_dp"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/five_dp"
+        android:layout_marginRight="@dimen/five_dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/ivDebtImage"
+            android:layout_width="@dimen/thirtyfive_dp"
+            android:layout_height="@dimen/thirtyfive_dp"
+            android:src="@drawable/no_photo" />
+
+        <CheckBox
+            android:id="@+id/chbDebtDetail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="2px"
+        android:layout_height="match_parent"
+        android:background="#f2f3f5" />
+
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/ten_dp"
-        android:textSize="@dimen/sixteen_dp"
-        android:id="@+id/tvDetailedDebtBorrowsName"/>
+        android:layout_marginLeft="@dimen/fifteen_dp"
+        android:layout_marginRight="@dimen/fifteen_dp"
+        android:layout_marginTop="@dimen/ten_dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvDebtName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/debtor_name"
+                android:textColor="#3a3a3a"
+                android:textSize="@dimen/sixteen_dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvDetailedDebtBorrowsName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Alex"
+                android:textColor="#3a3a3a"
+                android:textSize="@dimen/sixteen_dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/amount"
+                android:textColor="#3a3a3a"
+                android:textSize="@dimen/sixteen_dp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/tvDebtAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+ 50 000$"
+                android:textColor="#8cc156"
+                android:textSize="@dimen/sixteen_dp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/account"
+                android:textColor="#3a3a3a"
+                android:textSize="@dimen/sixteen_dp" />
+
+            <TextView
+                android:id="@+id/tvDebtAccountName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Visa bank"
+                android:textColor="#3a3a3a"
+                android:textSize="@dimen/sixteen_dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/visibleIfCommentHaveDebt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/five_dp"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Comment:"
+                android:textColor="#a6a6a6"
+                android:textSize="@dimen/fourteen_dp" />
+
+            <TextView
+                android:id="@+id/tvDebtComment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor"
+                android:textColor="#a6a6a6"
+                android:textSize="@dimen/fourteen_dp" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>
+
 </LinearLayout>

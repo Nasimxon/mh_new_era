@@ -1543,7 +1543,7 @@
     <string name="you_have_debt">Debt for period</string>
     <string name="credit_stat">Credit status:</string>
     <string name="credit_end_date">Credit end date</string>
-    <string name="debtor_name">Name of the debtor</string>
+    <string name="debtor_name">Debtor</string>
     <string name="borrower_name">Name of borrower</string>
     <string name="to_archive">To archive</string>
     <string name="archiveee">ARCHIVE</string>
@@ -1681,4 +1681,8 @@
     <string name="credit_payment">Credit payment</string>
     <string name="first_con">First contributed :</string>
     <string name="to_jump">You can not jump from periods!</string>
+    <string name="payment_to">Payment to </string>
+    <string name="credit_info">Taken credit</string>
+    <string name="sender1">Sender</string>
+    <string name="taken_debt">Taken debt</string>
 </resources>

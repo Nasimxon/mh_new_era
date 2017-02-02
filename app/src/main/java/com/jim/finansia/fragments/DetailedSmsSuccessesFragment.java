@@ -3,6 +3,7 @@ package com.jim.finansia.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -91,9 +92,6 @@ public class DetailedSmsSuccessesFragment extends Fragment {
                     paFragmentManager.displayMainWindow();
                 }
             });
-            toolbarManager.setTitle(getResources().getString(R.string.records));
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd,LLL yyyy");
-            toolbarManager.setSubtitle(dateFormat.format(date.getTime()));
         }
     }
 
@@ -106,7 +104,19 @@ public class DetailedSmsSuccessesFragment extends Fragment {
         }
         @Override
         public void onBindViewHolder(final DetailedDebtBorrowsAdapter.DetailViewHolder holder, final int position) {
-            holder.tvDetailedSmsName.setText("Sms: " + result.get(position).getNumber() + " Date: " + format.format(result.get(position).getDate().getTime()));
+            String sign = "";
+            holder.tvDetailedSmsName.setText(result.get(position).getNumber());
+            holder.tvSmsParsingDate.setText(format.format(result.get(position).getDate().getTime()));
+            if (result.get(position).getType() == PocketAccounterGeneral.EXPENSE) {
+                holder.tvSmsAmount.setTextColor(ContextCompat.getColor(context, R.color.record_red));
+                sign = "-";
+            }
+            else {
+                holder.tvSmsAmount.setTextColor(ContextCompat.getColor(context, R.color.record_green));
+                sign = "+";
+            }
+            holder.tvSmsAmount.setText(sign + (result.get(position).getAmount()) + " " + result.get(position).getCurrencyId());
+            holder.tvSmsAccount.setText(sign + result.get(position).getAccountId());
         }
 
         @Override
@@ -122,10 +132,16 @@ public class DetailedSmsSuccessesFragment extends Fragment {
 
         public class DetailViewHolder extends RecyclerView.ViewHolder {
             TextView tvDetailedSmsName;
+            TextView tvSmsAmount;
+            TextView tvSmsParsingDate;
+            TextView tvSmsAccount;
             View view;
             public DetailViewHolder(View view) {
                 super(view);
                 tvDetailedSmsName = (TextView) view.findViewById(R.id.tvDetailedSmsName);
+                tvSmsAmount = (TextView) view.findViewById(R.id.tvSmsAmount);
+                tvSmsParsingDate = (TextView) view.findViewById(R.id.tvSmsParsingDate);
+                tvSmsAccount = (TextView) view.findViewById(R.id.tvSmsAccountName);
                 this.view = view;
             }
         }

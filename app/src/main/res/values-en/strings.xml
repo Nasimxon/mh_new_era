@@ -1546,7 +1546,7 @@
     <string name="credit_end_date">Credit end date</string>
     <string name="credit_stat">Credit status:</string>
     <string name="daily_operations_report">Daily operations</string>
-    <string name="debtor_name">Name of the debtor</string>
+    <string name="debtor_name">Debtor</string>
     <string name="do_interval">To</string>
     <string name="financial_transactions_report">Financial transactions</string>
     <string name="for_this_period">For this period:</string>
@@ -1655,5 +1655,9 @@
     <string name="sec">sec</string>
     <string name="payment_date">Payment date:</string>
     <string name="account_list">You have only one account. Do you want to add?</string>
+    <string name="payment_to">"Payment to "</string>
+    <string name="credit_info">Taken credit</string>
+    <string name="sender1">Sender</string>
+    <string name="taken_debt">Taken debt</string>
 
 </resources>

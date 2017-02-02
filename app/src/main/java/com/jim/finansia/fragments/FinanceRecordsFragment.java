@@ -84,7 +84,6 @@ public class FinanceRecordsFragment extends Fragment implements View.OnClickList
         super.onResume();
         if (toolbarManager != null)
         {
-            toolbarManager.setImageToSecondImage(R.drawable.pencil);
             toolbarManager.setOnSecondImageClickListener(this);
             toolbarManager.setImageToHomeButton(R.drawable.ic_back_button);
             toolbarManager.setOnHomeButtonClickListener(new View.OnClickListener() {
@@ -97,9 +96,6 @@ public class FinanceRecordsFragment extends Fragment implements View.OnClickList
                     paFragmentManager.displayMainWindow();
                 }
             });
-            toolbarManager.setTitle(getResources().getString(R.string.records));
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd,LLL yyyy");
-            toolbarManager.setSubtitle(dateFormat.format(date.getTime()));
         }
     }
 
