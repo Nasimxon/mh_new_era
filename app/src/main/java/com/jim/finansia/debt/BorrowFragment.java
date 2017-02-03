@@ -492,7 +492,6 @@ public class BorrowFragment extends Fragment {
                                         if (keyForInclude.isChecked() && isMumkin(person, ac, Double.parseDouble(enterPay.getText().toString())))
                                             tek = true;
                                         if (!keyForInclude.isChecked()) tek = true;
-
                                         final String finalAc = ac;
                                         warningDialog.setOnYesButtonListener(new View.OnClickListener() {
                                             @Override
@@ -543,6 +542,8 @@ public class BorrowFragment extends Fragment {
                                                 warningDialog.dismiss();
                                             }
                                         });
+                                        double pay = Double.parseDouble(enterPay.getText().toString()) - leftAmount;
+                                        warningDialog.setText(getString(R.string.payment_balans) + " " + formatter.format(leftAmount) + getString(R.string.payment_balance2) + " " + formatter.format(pay) + person.getCurrency().getAbbr());
                                         if (tek) {
                                             warningDialog.show();
                                         }

@@ -6,60 +6,6 @@
     android:clickable="true"
     android:orientation="vertical">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/btnReportByCategory"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginLeft="@dimen/ten_dp"
-        android:layout_marginRight="@dimen/ten_dp"
-        android:layout_marginTop="@dimen/ten_dp"
-        android:layout_weight="1"
-        android:background="@drawable/carditem"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:paddingTop="@dimen/five_dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#fff"
-            android:orientation="horizontal"
-            android:paddingBottom="@dimen/fifteen_dp"
-            android:paddingTop="@dimen/fifteen_dp">
-
-            <ImageView
-                android:layout_width="@dimen/eighty_dp"
-                android:layout_height="@dimen/eighty_dp"
-                android:layout_marginLeft="@dimen/twenty_dp"
-                android:layout_marginRight="@dimen/twenty_dp"
-                android:src="@drawable/icon1" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/fifteen_dp"
-                android:orientation="vertical">
-
-                <TextView
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/categories_report"
-                    android:textColor="#3a3a3a"
-                    android:textSize="@dimen/sixteen_dp" />
-
-                <TextView
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/info_categories_report"
-                    android:textColor="#a2a2a2"
-                    android:textSize="@dimen/fourteen_dp" />
-
-            </LinearLayout>
-
-        </LinearLayout>
-    </LinearLayout>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/btnReportByIncomeAndExpenseGraphic"
@@ -67,7 +13,7 @@
         android:layout_height="0dp"
         android:layout_marginLeft="@dimen/ten_dp"
         android:layout_marginRight="@dimen/ten_dp"
-        android:layout_marginTop="@dimen/five_dp"
+        android:layout_marginTop="@dimen/ten_dp"
         android:layout_weight="1"
         android:background="@drawable/carditem"
         android:gravity="center"
@@ -168,6 +114,62 @@
 
         </LinearLayout>
     </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/btnReportByCategory"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginLeft="@dimen/ten_dp"
+        android:layout_marginRight="@dimen/ten_dp"
+        android:layout_marginTop="@dimen/five_dp"
+        android:layout_weight="1"
+        android:background="@drawable/carditem"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/five_dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#fff"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/fifteen_dp"
+            android:paddingTop="@dimen/fifteen_dp">
+
+            <ImageView
+                android:layout_width="@dimen/eighty_dp"
+                android:layout_height="@dimen/eighty_dp"
+                android:layout_marginLeft="@dimen/twenty_dp"
+                android:layout_marginRight="@dimen/twenty_dp"
+                android:src="@drawable/icon1" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/fifteen_dp"
+                android:orientation="vertical">
+
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/categories_report"
+                    android:textColor="#3a3a3a"
+                    android:textSize="@dimen/sixteen_dp" />
+
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/info_categories_report"
+                    android:textColor="#a2a2a2"
+                    android:textSize="@dimen/fourteen_dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/btnReportByIncomeAndExpenseMonthly"

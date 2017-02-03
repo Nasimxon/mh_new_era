@@ -1118,8 +1118,8 @@
     <string name="sync_want_from_data">Synchronize data:</string>
     <string name="notif_credit">Check your credits!</string>
     <string name="notif_debt">Check your debts!</string>
-    <string name="payment_balans">"Unpaid balance:"</string>
-    <string name="payment_balance2">"\nYou overpay for the sum:"</string>
+    <string name="payment_balans">Unpaid:</string>
+    <string name="payment_balance2">"\nYou overpay for the sum:</string>
     <string name="total_credit_value">Credit amount</string>
     <string name="should_not_empty">Enter the name</string>
     <string name="value_shoud_not_empty">Enter the amount</string>
