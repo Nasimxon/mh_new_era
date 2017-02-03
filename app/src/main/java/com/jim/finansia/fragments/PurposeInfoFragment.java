@@ -267,7 +267,7 @@ public class PurposeInfoFragment extends Fragment implements View.OnClickListene
         if (amountPurpose != null)
             amountPurpose.setText(format.format(leftAmount) + purpose.getCurrency().getAbbr());
         DecimalFormat format = new DecimalFormat("0.##");
-        String abbr = commonOperations.getMainCurrency().getAbbr();
+        String abbr = purpose.getCurrency().getAbbr();
         String bottomText;
         if(leftAmount > 0)
             bottomText = getString(R.string.left_acomuleted) + " " + format.format(leftAmount) + abbr;

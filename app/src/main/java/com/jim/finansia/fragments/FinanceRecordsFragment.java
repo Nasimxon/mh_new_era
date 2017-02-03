@@ -85,6 +85,7 @@ public class FinanceRecordsFragment extends Fragment implements View.OnClickList
         if (toolbarManager != null)
         {
             toolbarManager.setOnSecondImageClickListener(this);
+            toolbarManager.setOnTitleClickListener(null);
             toolbarManager.setImageToHomeButton(R.drawable.ic_back_button);
             toolbarManager.setOnHomeButtonClickListener(new View.OnClickListener() {
                 @Override

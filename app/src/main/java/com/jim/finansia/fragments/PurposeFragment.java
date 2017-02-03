@@ -201,7 +201,7 @@ public class PurposeFragment extends Fragment{
             double paid = allAmmount - leftAmmountdb;
             view.tvTotalAmount.setText(getResources().getString(R.string.purpose_ammount) + " "+parseToWithoutNull(allAmmount) + result.get(position).getCurrency().getAbbr());
             DecimalFormat format = new DecimalFormat("0.##");
-            String abbr = commonOperations.getMainCurrency().getAbbr();
+            String abbr = result.get(position).getCurrency().getAbbr();
             String topText = getString(R.string.saved_money) + " " + format.format(paid) + abbr;
             String bottomText;
             if(leftAmmountdb >= 0)
@@ -237,8 +237,8 @@ public class PurposeFragment extends Fragment{
         double qoldiq = 0;
         for (AccountOperation accountOperation: reportManager.getAccountOpertions(purpose)) {
             if (accountOperation.getTargetId().equals(purpose.getId()))
-            qoldiq += commonOperations.getCost(accountOperation.getDate(), accountOperation.getCurrency(), accountOperation.getAmount());
-            else qoldiq -= commonOperations.getCost(accountOperation.getDate(), accountOperation.getCurrency(), accountOperation.getAmount());;
+            qoldiq += commonOperations.getCost(accountOperation.getDate(), accountOperation.getCurrency(), purpose.getCurrency(),accountOperation.getAmount());
+            else qoldiq -= commonOperations.getCost(accountOperation.getDate(), accountOperation.getCurrency(),purpose.getCurrency(), accountOperation.getAmount());
         }
         return purpose.getPurpose() - qoldiq;
     }
