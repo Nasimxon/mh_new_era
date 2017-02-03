@@ -67,28 +67,16 @@ import javax.inject.Named;
 
 
 public class InfoCreditFragmentForArchive extends Fragment {
-    @Inject
-    @Named(value = "display_formatter")
-    SimpleDateFormat dateFormat;
-    @Inject
-    PAFragmentManager paFragmentManager;
-    @Inject
-    DaoSession daoSession;
-    @Inject
-    DataCache dataCache;
-    @Inject
-    ToolbarManager toolbarManager;
-    @Inject
-    CommonOperations commonOperations;
-    @Inject
-    LogicManager logicManager;
-    @Inject
-    LogicManager financeManager;
-    @Inject
-    SharedPreferences sPref;
-    @Inject
-    ReportManager reportManager;
-
+    @Inject @Named(value = "display_formatter") SimpleDateFormat dateFormat;
+    @Inject PAFragmentManager paFragmentManager;
+    @Inject DaoSession daoSession;
+    @Inject DataCache dataCache;
+    @Inject ToolbarManager toolbarManager;
+    @Inject CommonOperations commonOperations;
+    @Inject LogicManager logicManager;
+    @Inject LogicManager financeManager;
+    @Inject SharedPreferences sPref;
+    @Inject ReportManager reportManager;
     private WarningDialog warningDialog;
     private SimpleDateFormat sDateFormat = new SimpleDateFormat("dd MMM, yyyy");
     private AccountDao accountDao;
@@ -128,8 +116,6 @@ public class InfoCreditFragmentForArchive extends Fragment {
     private boolean[] isCheks;
     private int positionOfBourdMain;
     private int modeOfMain;
-
-
 
      @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -230,7 +216,6 @@ public class InfoCreditFragmentForArchive extends Fragment {
 
                                                     }
                                             }
-
                                             logicManager.deleteCredit(currentCredit);
                                             dataCache.updateAllPercents();
                                             paFragmentManager.updateAllFragmentsOnViewPager();
@@ -252,7 +237,6 @@ public class InfoCreditFragmentForArchive extends Fragment {
                                             }
                                             dataCache.updateAllPercents();
                                             reportManager.clearCache();
-
                                             paFragmentManager.updateAllFragmentsOnViewPager();
                                             logicManager.deleteCredit(currentCredit);
 

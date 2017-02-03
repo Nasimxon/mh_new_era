@@ -105,13 +105,9 @@ public class BorrowFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-    }
-
-    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
         TYPE = getArguments().getInt("type", 0);
         formater = new DecimalFormat("0.00");
         context=getContext();
@@ -122,7 +118,6 @@ public class BorrowFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.borrow_fragment_layout, container, false);
-        ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
         debtBorrowDao = daoSession.getDebtBorrowDao();
         accountDao = daoSession.getAccountDao();
         recyclerView = (RecyclerView) view.findViewById(R.id.lvBorrowFragment);
@@ -725,10 +720,5 @@ public class BorrowFragment extends Fragment {
             BorrowPersonPhotoPath = (CircleImageView) view.findViewById(R.id.imBorrowPerson);
             pay = (TextView) view.findViewById(R.id.btBorrowPersonPay);
         }
-    }
-
-    public void changeList() {
-        MyAdapter adapter = new MyAdapter();
-        recyclerView.setAdapter(adapter);
     }
 }

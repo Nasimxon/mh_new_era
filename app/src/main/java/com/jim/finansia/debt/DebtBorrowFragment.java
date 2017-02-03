@@ -114,7 +114,6 @@ public class DebtBorrowFragment extends Fragment implements View.OnClickListener
         borrowFragments.add(borrow);
         MyAdapter adapter = new MyAdapter(borrowFragments, ((PocketAccounter) getContext()).getSupportFragmentManager());
         viewPager.setAdapter(adapter);
-        viewPager.storeAdapter(adapter);
         viewPager.addOnPageChangeListener(this);
         int selectedPos = preferences.getInt(PocketAccounterGeneral.DEBT_BORROW_PAGE, 0);
         if (selectedPos == 2)
@@ -122,24 +121,6 @@ public class DebtBorrowFragment extends Fragment implements View.OnClickListener
         else
             fb.setVisibility(View.VISIBLE);
         viewPager.setCurrentItem(selectedPos, false);
-        if (getArguments() != null) {
-            if (getArguments().getInt("type", -1) != -1) {
-                viewPager.setCurrentItem(getArguments().getInt("type", 0));
-            } else {
-                if (getArguments().getInt("pos", -1) != -1) {
-                    viewPager.setCurrentItem(getArguments().getInt("pos", 0));
-                } else {
-                    if (getArguments().getString("id") != null) {
-                        for (DebtBorrow db : debtBorrowDao.queryBuilder().list()) {
-                            if (db.getId().matches(getArguments().getString("id"))) {
-                                viewPager.setCurrentItem(db.getType());
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-        }
     }
     private boolean show = false;
     public void onScrolledList(boolean k) {
@@ -206,7 +187,6 @@ public class DebtBorrowFragment extends Fragment implements View.OnClickListener
                 .putInt(PocketAccounterGeneral.DEBT_BORROW_PAGE, position)
                 .commit();
         if (position == 2) {
-            archiv.changeList();
             fb.setVisibility(View.GONE);
         } else fb.setVisibility(View.VISIBLE);
     }

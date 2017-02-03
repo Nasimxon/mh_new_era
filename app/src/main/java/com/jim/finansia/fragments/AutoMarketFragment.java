@@ -54,18 +54,12 @@ import javax.inject.Inject;
  * Created by root on 9/15/16.
  */
 public class AutoMarketFragment extends Fragment implements View.OnClickListener {
-    @Inject
-    DaoSession daoSession;
-    @Inject
-    LogicManager logicManager;
-    @Inject
-    PAFragmentManager paFragmentManager;
-    @Inject
-    ToolbarManager toolbarManager;
-    @Inject
-    DecimalFormat formatter;
-    @Inject
-    FinansiaFirebaseAnalytics analytics;
+    @Inject DaoSession daoSession;
+    @Inject LogicManager logicManager;
+    @Inject PAFragmentManager paFragmentManager;
+    @Inject ToolbarManager toolbarManager;
+    @Inject DecimalFormat formatter;
+    @Inject FinansiaFirebaseAnalytics analytics;
     private RecyclerView recyclerView;
     private FloatingActionButton floatingActionButton;
     private AutoMarketDao autoMarketDao;
