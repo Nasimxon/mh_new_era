@@ -478,13 +478,18 @@ public class DrawerInitializer {
                         if (pocketAccounter.findViewById(R.id.change) != null)
                             pocketAccounter.findViewById(R.id.change).setVisibility(View.GONE);
                     }
+
                     oldPosition = position;
                     drawer.closeLeftSide();
                     notifyDataSetChanged();
                     drawer.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-
+                            int count = pocketAccounter.getSupportFragmentManager().getBackStackEntryCount();
+                            while (count > 0) {
+                                pocketAccounter.getSupportFragmentManager().popBackStack();
+                                count--;
+                            }
                             switch (position) {
                                 case 0:
                                     fragmentManager.displayMainWindow();
@@ -560,7 +565,6 @@ public class DrawerInitializer {
                                             pocketAccounter.getString(R.string.feedback_content));
                                     break;
                             }
-
                         }
                     }, 170);
                 }

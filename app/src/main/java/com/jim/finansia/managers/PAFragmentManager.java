@@ -288,7 +288,7 @@ public class PAFragmentManager {
             displayFragment(new AccountFragment());
         } else if (fragName.equals(PocketClassess.ADD_AUTOMARKET)) {
             displayFragment(new AutoMarketFragment());
-        } else if (fragName.equals(PocketClassess.INFO_CREDIT) || fragName.equals(PocketClassess.ADD_CREDIT)) {
+        } else if (fragName.equals(PocketClassess.INFO_CREDIT)) {
             InfoCreditFragment infoCreditFragment = (InfoCreditFragment) fragment;
             if (infoCreditFragment.getMode() == PocketAccounterGeneral.NO_MODE) {
                 boolean found = false;

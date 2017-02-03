@@ -205,7 +205,7 @@ public class InfoCreditFragmentForArchive extends Fragment {
             public void onClick(View v) {
 
                 popupMenu = new PopupMenu(getContext(), v);
-                popupMenu.inflate(R.menu.toolbar_popup_debt);
+                popupMenu.inflate(R.menu.toolbar_popup_without_delete);
                 MenuPopupHelper menuHelper = new MenuPopupHelper(getContext(), (MenuBuilder) popupMenu.getMenu(), v);
                 menuHelper.setForceShowIcon(true);
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
