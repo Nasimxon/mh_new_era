@@ -45,6 +45,7 @@ import com.jim.finansia.database.DaoSession;
 import com.jim.finansia.database.DebtBorrowDao;
 import com.jim.finansia.database.FinanceRecordDao;
 import com.jim.finansia.database.ReckingCredit;
+import com.jim.finansia.finance.TransferAccountAdapter;
 import com.jim.finansia.managers.CommonOperations;
 import com.jim.finansia.managers.LogicManager;
 import com.jim.finansia.managers.PAFragmentManager;
@@ -260,9 +261,9 @@ public class AddCreditFragment extends Fragment {
         accaunt_AC = (ArrayList<Account>) accountDao.queryBuilder().list();
         ArrayList accounts = new ArrayList();
         for (int i = 0; i < accaunt_AC.size(); i++) {
-            accounts.add(accaunt_AC.get(i).getName());
+            accounts.add(accaunt_AC.get(i).getId());
         }
-        accountSp.setAdapter(new SpinnerAdapter(getContext(), accounts));
+        accountSp.setAdapter(new TransferAccountAdapter(getContext(), accounts));
         String lastAccountId = preferences.getString("CHOSEN_ACCOUNT_ID",  "");
         if (lastAccountId != null && !lastAccountId.isEmpty()) {
             int position = 0;

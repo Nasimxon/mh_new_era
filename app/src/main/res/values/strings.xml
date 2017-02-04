@@ -1689,4 +1689,5 @@
     <string name="took_from">Took from</string>
     <string name="returned_debt">Returned</string>
     <string name="i_returned">Returned</string>
+    <string name="no_sub_cat">No subcategory</string>
 </resources>

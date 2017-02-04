@@ -1453,7 +1453,7 @@
     <string name="such_name_exists">Такое название уже существует</string>
     <string name="widget">Виджет</string>
     <string name="sms_not_exist">Смс сообщения отсутсвуют</string>
-    <string name="there_is_no_operations_for_today">Сегодня не было никаких операций</string>
+    <string name="there_is_no_operations_for_today">Сегодня не было операций</string>
     <string name="main_window">Главное окно</string>
     <string name="cancelb">Отмена</string>
     <string name="choose_amount">Сумма не выбрана</string>
@@ -1676,5 +1676,6 @@
     <string name="took_from">Взял долг у</string>
     <string name="returned_debt">Вернули</string>
     <string name="i_returned">Вернул</string>
+    <string name="no_sub_cat">No subcategory</string>
 </resources>
 

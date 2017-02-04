@@ -19,7 +19,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -45,6 +44,7 @@ import com.jim.finansia.finance.ChoiseCategoryDialoogItemAdapter;
 import com.jim.finansia.finance.IconAdapterCategory;
 import com.jim.finansia.finance.RecordCategoryAdapter;
 import com.jim.finansia.finance.RecordSubCategoryAdapter;
+import com.jim.finansia.finance.TransferAccountAdapter;
 import com.jim.finansia.managers.CommonOperations;
 import com.jim.finansia.managers.LogicManager;
 import com.jim.finansia.managers.LogicManagerConstants;
@@ -136,9 +136,9 @@ public class AddAutoMarketFragment extends Fragment {
         accounts = (ArrayList<Account>) accountDao.queryBuilder().list();
         ArrayList account = new ArrayList();
         for (int i = 0; i < accounts.size(); i++) {
-            account.add(accounts.get(i).getName());
+            account.add(accounts.get(i).getId());
         }
-        account_sp.setAdapter(new SpinnerAdapter(getContext(), account));
+        account_sp.setAdapter(new TransferAccountAdapter(getContext(), account));
         String lastAccountId = preferences.getString("CHOSEN_ACCOUNT_ID",  "");
         if (lastAccountId != null && !lastAccountId.isEmpty()) {
             int position = 0;
@@ -380,7 +380,9 @@ public class AddAutoMarketFragment extends Fragment {
 
         if (autoMarket != null) {
             categoryName.setText(autoMarket.getRootCategory().getName());
+            if (autoMarket.getSubCategory() != null && !autoMarket.getSubCategory().getName().isEmpty())
             subCategoryName.setText(autoMarket.getSubCategory().getName());
+            else  subCategoryName.setText(R.string.no_sub_cat);
             ivCategory.setImageResource(getResources().getIdentifier(autoMarket.getRootCategory().getIcon(), "drawable", getActivity().getPackageName()));
             amount.setText("" + autoMarket.getAmount());
             type = autoMarket.getType();

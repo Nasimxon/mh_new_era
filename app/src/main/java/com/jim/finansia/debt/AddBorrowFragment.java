@@ -60,6 +60,7 @@ import com.jim.finansia.database.DebtBorrow;
 import com.jim.finansia.database.DebtBorrowDao;
 import com.jim.finansia.database.Person;
 import com.jim.finansia.database.Recking;
+import com.jim.finansia.finance.TransferAccountAdapter;
 import com.jim.finansia.managers.CommonOperations;
 import com.jim.finansia.managers.LogicManager;
 import com.jim.finansia.managers.PAFragmentManager;
@@ -210,7 +211,7 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
         final List<Account> allAccounts = daoSession.loadAll(Account.class);
         final ArrayList accounts = new ArrayList();
         for (int i = 0; i < allAccounts.size(); i++) {
-            accounts.add(allAccounts.get(i).getName());
+            accounts.add(allAccounts.get(i).getId());
         }
         List<Currency> allCurrencies = daoSession.loadAll(Currency.class);
         ArrayList currencies = new ArrayList();
@@ -219,7 +220,7 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
             currencies.add(allCurrencies.get(i).getAbbr());
             currenciesName.add(allCurrencies.get(i).getName());
         }
-        spDebtBorrowAccount.setAdapter(new SpinnerAdapter(getContext(), accounts));
+        spDebtBorrowAccount.setAdapter(new TransferAccountAdapter(getContext(), accounts));
         spDebtBorrowCurrency.setAdapter(new CurrencySpinnerAdapter(getContext(), currencies, currenciesName));
         String lastAccountId = preferences.getString("CHOSEN_ACCOUNT_ID",  "");
         if (lastAccountId != null && !lastAccountId.isEmpty()) {

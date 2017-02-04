@@ -51,6 +51,7 @@ import com.jim.finansia.database.DaoSession;
 import com.jim.finansia.database.DebtBorrow;
 import com.jim.finansia.database.DebtBorrowDao;
 import com.jim.finansia.database.Recking;
+import com.jim.finansia.finance.TransferAccountAdapter;
 import com.jim.finansia.managers.CommonOperations;
 import com.jim.finansia.managers.LogicManager;
 import com.jim.finansia.managers.PAFragmentManager;
@@ -374,10 +375,10 @@ public class BorrowFragment extends Fragment {
 
                         ArrayList accounts = new ArrayList();
                         for (int i = 0; i < accountDao.queryBuilder().list().size(); i++) {
-                            accounts.add(accountDao.queryBuilder().list().get(i).getName());
+                            accounts.add(accountDao.queryBuilder().list().get(i).getId());
                         }
                         tvResidue.setText(getString(R.string.left)+":");
-                        accountSp.setAdapter(new SpinnerAdapter(getContext(),accounts));
+                        accountSp.setAdapter(new TransferAccountAdapter(getContext(),accounts));
                         String lastAccountId = preferences.getString("CHOSEN_ACCOUNT_ID",  "");
                         if (lastAccountId != null && !lastAccountId.isEmpty()) {
                             int pos = 0;

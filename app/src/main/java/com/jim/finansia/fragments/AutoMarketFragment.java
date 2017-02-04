@@ -158,7 +158,10 @@ public class AutoMarketFragment extends Fragment implements View.OnClickListener
             currentDay.add(Calendar.DAY_OF_MONTH, 1);
             int [] positions = new int[days.length];
             for (int i = 0; i < days.length; i++) {
-                positions[i] = Integer.parseInt(days[i]) + 1;
+                positions[i] = Integer.parseInt(days[i]) + 2;
+                if(positions[i]==8){
+                    positions[i]=1;
+                }
             }
             boolean tek = false;
             while (true) {
@@ -188,7 +191,7 @@ public class AutoMarketFragment extends Fragment implements View.OnClickListener
             view.llAutoMarketItemSwitchMode.setVisibility(View.GONE);
             view.llAutoMarketItemDefaultMode.setVisibility(View.VISIBLE);
             view.subCatName.setText(list.get(position).getSubCategory() != null ?
-                    list.get(position).getSubCategory().getName() : "no sub categry");
+                    list.get(position).getSubCategory().getName() : getResources().getString(R.string.no_sub_cat));
             if (list.get(position).getSubCategory() == null)
                 view.catIcon.setImageResource(getResources().getIdentifier(list.get(position).getRootCategory().getIcon(), "drawable", getActivity().getPackageName()));
             else
