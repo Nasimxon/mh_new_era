@@ -1,10 +1,9 @@
 package com.jim.finansia.fragments;
 
-import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.provider.DocumentsContract;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.view.menu.MenuPopupHelper;
@@ -16,9 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.jim.finansia.PocketAccounter;
@@ -46,8 +43,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 public class CategoryInfoFragment extends PABaseInfoFragment {
-    @Inject
-    DecimalFormat formatter;
+    @Inject DecimalFormat formatter;
     private WarningDialog warningDialog;
     private RootCategory rootCategory;
     private RecyclerView rvCategoryInfoOperations, rvCatInfoSubcats;
@@ -57,6 +53,14 @@ public class CategoryInfoFragment extends PABaseInfoFragment {
     private boolean[] subcatChecked;
     private List<SubCategory> subCategories;
     private PopupMenu popupMenu;
+
+    public static CategoryInfoFragment newInstance(RootCategory category) {
+        CategoryInfoFragment fragment = new CategoryInfoFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(CategoryFragment.CATEGORY_ID, category.getId());
+        fragment.setArguments(bundle);
+        return fragment;
+    }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (getArguments() != null) {
@@ -198,7 +202,6 @@ public class CategoryInfoFragment extends PABaseInfoFragment {
                                 }
                                 logicManager.deleteRootCategory(rootCategory);
                                 dataCache.updateAllPercents();
-
                                 paFragmentManager.getFragmentManager().popBackStack();
                                 paFragmentManager.displayFragment(new CategoryFragment());
                                 warningDialog.dismiss();
@@ -209,13 +212,8 @@ public class CategoryInfoFragment extends PABaseInfoFragment {
                     }
                     case R.id.edit: {
                         paFragmentManager.getFragmentManager().popBackStack();
-                        Bundle bundle = new Bundle();
-                        bundle.putString(CategoryFragment.CATEGORY_ID, rootCategory.getId());;
-                        bundle.putInt(CategoryFragment.MODE, PocketAccounterGeneral.NO_MODE);
-                        bundle.putInt(CategoryFragment.POSITION, 0);
-                        RootCategoryEditFragment fragment = new RootCategoryEditFragment();
-                        fragment.setArguments(bundle);
-                        paFragmentManager.displayFragment(fragment);
+                        paFragmentManager
+                                .displayFragment(RootCategoryEditFragment.newInstance(rootCategory, 0, PocketAccounterGeneral.NO_MODE));
                         break;
                     }
                 }

@@ -45,7 +45,6 @@ import com.jim.finansia.database.DaoSession;
 import com.jim.finansia.database.DebtBorrow;
 import com.jim.finansia.database.Recking;
 import com.jim.finansia.fragments.RecordDetailFragment;
-import com.jim.finansia.fragments.SearchFragment;
 import com.jim.finansia.managers.CommonOperations;
 import com.jim.finansia.managers.LogicManager;
 import com.jim.finansia.managers.LogicManagerConstants;
@@ -72,10 +71,6 @@ import javax.inject.Named;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-/**
- * Created by user on 6/7/2016.
- */
-@SuppressLint("ValidFragment")
 public class InfoDebtBorrowFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
     @Inject DatePicker datePicker;
     @Inject OperationsListDialog operationsListDialog;
@@ -451,14 +446,21 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
                                             Bundle bundle = new Bundle();
                                             bundle.putInt("pos", debtBorrow.getTo_archive() ? 2 : debtBorrow.getType());
                                             fragment.setArguments(bundle);
+                                            boolean found = false;
                                             for (Fragment frag : paFragmentManager.getFragmentManager().getFragments()) {
                                                 if (frag.getClass().getName().equals(BorrowFragment.class.getName())) {
                                                     BorrowFragment borrowFragment = (BorrowFragment) frag;
-                                                    if (borrowFragment != null)
+                                                    if (borrowFragment != null) {
                                                         borrowFragment.refreshList();
+                                                        found = true;
+                                                    }
                                                 }
                                             }
                                             paFragmentManager.getFragmentManager().popBackStack();
+                                            if (!found) {
+                                                paFragmentManager.getFragmentManager().popBackStack();
+                                                paFragmentManager.displayFragment(new DebtBorrowFragment());
+                                            }
 
                                         }
                                         List<BoardButton> boardButtons = daoSession.getBoardButtonDao().loadAll();
@@ -743,14 +745,21 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
         } else {
             debtBorrow.setTo_archive(true);
             logicManager.insertDebtBorrow(debtBorrow);
+            boolean found = false;
             for (Fragment frag : paFragmentManager.getFragmentManager().getFragments()) {
                 if (frag.getClass().getName().equals(BorrowFragment.class.getName())) {
                     BorrowFragment borrowFragment = (BorrowFragment) frag;
-                    if (borrowFragment != null)
+                    if (borrowFragment != null) {
                         borrowFragment.refreshList();
+                        found = true;
+                    }
                 }
             }
             paFragmentManager.getFragmentManager().popBackStack();
+            if (!found) {
+                paFragmentManager.getFragmentManager().popBackStack();
+                paFragmentManager.displayFragment(new DebtBorrowFragment());
+            }
             List<BoardButton> boardButtons = daoSession.getBoardButtonDao().loadAll();
             for (BoardButton boardButton : boardButtons) {
                 if (boardButton.getCategoryId() != null)
@@ -773,14 +782,10 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
     public void onClick(View v) {
         openDialog();
     }
-
     @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-    }
-
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {}
     @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-    }
+    public void onNothingSelected(AdapterView<?> parent) {}
     public  int[] getDateDifferenceInDDMMYYYY(Date from, Date to) {
         Calendar fromDate = Calendar.getInstance();
         Calendar toDate = Calendar.getInstance();

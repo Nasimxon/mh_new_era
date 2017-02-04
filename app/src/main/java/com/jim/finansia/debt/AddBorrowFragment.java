@@ -538,7 +538,7 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
             temp = BitmapFactory.decodeResource(getResources(), R.drawable.no_photo, options);
         temp = Bitmap.createScaledBitmap(temp, (int) getResources().getDimension(R.dimen.thirty_dp), (int) getResources().getDimension(R.dimen.thirty_dp), false);
 
-        if (mode != PocketAccounterGeneral.NO_MODE) {
+        if (mode == PocketAccounterGeneral.MAIN || mode == PocketAccounterGeneral.EXPANSE_MODE || mode == PocketAccounterGeneral.INCOME_MODE) {
             paFragmentManager.getFragmentManager().popBackStack();
             int table = mode == PocketAccounterGeneral.INCOME_MODE ? PocketAccounterGeneral.INCOME : PocketAccounterGeneral.EXPENSE;
             logicManager.changeBoardButton(table, position, currentDebtBorrow.getId());
@@ -577,19 +577,28 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
             }
             paFragmentManager.getFragmentManager().popBackStack();
             if (localAppereance == DebtBorrowFragment.FROM_INFO) {
-                paFragmentManager.getFragmentManager().popBackStack();
+                boolean found = false;
                 for (Fragment fragment : paFragmentManager.getFragmentManager().getFragments()) {
                     if (fragment == null) continue;
-                    if (fragment.getClass().getName().equals(BorrowFragment.class.getName())) {
+                    if (fragment instanceof  BorrowFragment) {
                         BorrowFragment borrowFragment = (BorrowFragment) fragment;
-                        if (borrowFragment != null)
+                        if (borrowFragment != null) {
                             borrowFragment.refreshList();
+                            found = true;
+                        }
                     }
-                    if (fragment.getClass().getName().equals(DebtBorrowFragment.class.getName())) {
+                    if (fragment instanceof DebtBorrowFragment) {
                         DebtBorrowFragment borrowFragment = (DebtBorrowFragment) fragment;
-                        if (borrowFragment != null)
+                        if (borrowFragment != null) {
                             borrowFragment.updateToolbar();
+                            found = true;
+                        }
                     }
+                }
+                paFragmentManager.getFragmentManager().popBackStack();
+                if (!found) {
+                    paFragmentManager.getFragmentManager().popBackStack();
+                    paFragmentManager.displayFragment(new DebtBorrowFragment());
                 }
             }
         }

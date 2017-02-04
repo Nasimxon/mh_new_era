@@ -50,7 +50,7 @@ public class ScheduleCreditFragment extends PABaseFragment {
         super.onCreate(savedInstanceState);
     }
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_schedule_credit, container, false);
         if(getArguments()!=null){
             modeFromMain = getArguments().getInt(CreditTabLay.MODE);
@@ -125,21 +125,30 @@ public class ScheduleCreditFragment extends PABaseFragment {
                             paFragmentManager.updateAllFragmentsOnViewPager();
                         }
                         toolbarManager.setToolbarIconsVisibility(View.GONE,View.GONE,View.GONE);
+                        boolean found = false;
                         for (Fragment fragment : paFragmentManager.getFragmentManager().getFragments()) {
                             if (fragment == null) continue;
                             if (fragment.getClass().getName().equals(CreditFragment.class.getName())) {
                                 CreditFragment creditTabLay = (CreditFragment) fragment;
-                                if (creditTabLay != null)
+                                if (creditTabLay != null) {
                                     creditTabLay.updateList();
+                                    found = true;
+                                }
                             }
                             if (fragment.getClass().getName().equals(CreditArchiveFragment.class.getName())) {
                                 CreditArchiveFragment creditTabLay = (CreditArchiveFragment) fragment;
-                                if (creditTabLay != null)
+                                if (creditTabLay != null) {
                                     creditTabLay.updateList();
+                                    found = true;
+                                }
                             }
                         }
                         paFragmentManager.getFragmentManager().popBackStack();
                         paFragmentManager.getFragmentManager().popBackStack();
+                        if (!found) {
+                            paFragmentManager.getFragmentManager().popBackStack();
+                            paFragmentManager.displayFragment(new CreditTabLay());
+                        }
                     } else if (modeFromMain != PocketAccounterGeneral.NO_MODE && modeFromMain !=PocketAccounterGeneral.DETAIL && modeFromMain!= PocketAccounterGeneral.SEARCH_MODE) {
                         if(isEdit) {
                             List<BoardButton> boardButtons = daoSession.getBoardButtonDao().loadAll();
@@ -182,20 +191,30 @@ public class ScheduleCreditFragment extends PABaseFragment {
                     }
                     else {
                         toolbarManager.setToolbarIconsVisibility(View.GONE,View.GONE,View.GONE);
+                        boolean found = false;
                         for (Fragment fragment : paFragmentManager.getFragmentManager().getFragments()) {
+                            if (fragment == null) continue;
                             if (fragment.getClass().getName().equals(CreditFragment.class.getName())) {
                                 CreditFragment creditTabLay = (CreditFragment) fragment;
-                                if (creditTabLay != null)
+                                if (creditTabLay != null) {
                                     creditTabLay.updateList();
+                                    found = true;
+                                }
                             }
                             if (fragment.getClass().getName().equals(CreditArchiveFragment.class.getName())) {
                                 CreditArchiveFragment creditTabLay = (CreditArchiveFragment) fragment;
-                                if (creditTabLay != null)
+                                if (creditTabLay != null) {
                                     creditTabLay.updateList();
+                                    found = true;
+                                }
                             }
                         }
                         paFragmentManager.getFragmentManager().popBackStack();
                         paFragmentManager.getFragmentManager().popBackStack();
+                        if (!found) {
+                            paFragmentManager.getFragmentManager().popBackStack();
+                            paFragmentManager.displayFragment(new CreditTabLay());
+                        }
                     }
                 }
             });

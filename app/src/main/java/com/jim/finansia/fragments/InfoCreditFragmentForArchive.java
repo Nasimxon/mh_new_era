@@ -1,7 +1,5 @@
 package com.jim.finansia.fragments;
 
-import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -13,20 +11,14 @@ import android.support.v7.view.menu.MenuPopupHelper;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.jim.finansia.PocketAccounter;
 import com.jim.finansia.PocketAccounterApplication;
@@ -37,12 +29,8 @@ import com.jim.finansia.database.Account;
 import com.jim.finansia.database.AccountDao;
 import com.jim.finansia.database.BoardButton;
 import com.jim.finansia.database.CreditDetials;
-import com.jim.finansia.database.CreditDetialsDao;
 import com.jim.finansia.database.DaoSession;
-import com.jim.finansia.database.DebtBorrowDao;
-import com.jim.finansia.database.FinanceRecordDao;
 import com.jim.finansia.database.ReckingCredit;
-import com.jim.finansia.database.ReckingCreditDao;
 import com.jim.finansia.managers.CommonOperations;
 import com.jim.finansia.managers.LogicManager;
 import com.jim.finansia.managers.PAFragmentManager;
@@ -59,7 +47,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -276,16 +263,21 @@ public class InfoCreditFragmentForArchive extends Fragment {
                                             getActivity().getSupportFragmentManager().popBackStack();
                                             paFragmentManager.displayMainWindow();
                                         } else {
-                                            getActivity().getSupportFragmentManager().popBackStack();
+                                            boolean found = false;
                                             for (Fragment fragment : paFragmentManager.getFragmentManager().getFragments()) {
-                                                if (fragment.getClass().getName().equals(CreditFragment.class.getName())) {
+                                                if (fragment instanceof CreditFragment) {
                                                     ((CreditFragment)fragment).updateList();
-                                                    break;
+                                                    found = true;
                                                 }
-                                                if (fragment.getClass().getName().equals(CreditArchiveFragment.class.getName())) {
+                                                if (fragment instanceof CreditArchiveFragment) {
                                                     ((CreditArchiveFragment)fragment).updateList();
-                                                    break;
+                                                    found = true;
                                                 }
+                                            }
+                                            paFragmentManager.getFragmentManager().popBackStack();
+                                            if (!found) {
+                                                paFragmentManager.getFragmentManager().popBackStack();
+                                                paFragmentManager.displayFragment(new CreditTabLay());
                                             }
                                         }
                                         warningDialog.dismiss();
@@ -531,20 +523,6 @@ public class InfoCreditFragmentForArchive extends Fragment {
         return new int[]{year, month, day};
     }
     Calendar date;
-
-
-
-
-    @Override
-    public void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-
-    }
 
     private class PaysCreditAdapter extends RecyclerView.Adapter<ViewHolder> {
         private List<ReckingCredit> list;

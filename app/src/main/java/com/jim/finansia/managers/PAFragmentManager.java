@@ -240,6 +240,7 @@ public class PAFragmentManager {
                 if (((InfoDebtBorrowFragment) fragment).getLocalAppereance() == DebtBorrowFragment.FROM_MAIN) {
                     for (Fragment frag : fragmentManager.getFragments()) {
                         if (frag == null) continue;
+
                         if (frag.getClass().getName().equals(BorrowFragment.class.getName())) {
                             BorrowFragment f = (BorrowFragment) frag;
                             if (f != null) f.refreshList();

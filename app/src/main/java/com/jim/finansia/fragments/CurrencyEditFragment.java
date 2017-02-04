@@ -55,7 +55,15 @@ public class CurrencyEditFragment extends PABaseInfoFragment implements OnClickL
     private int mode = PocketAccounterGeneral.NORMAL_MODE;
     private boolean[] selected;
     private boolean isCheckedMain = false;
-    private WarningDialog dialog;
+
+    public static CurrencyEditFragment newInstance(Currency currrency) {
+        Bundle bundle = new Bundle();
+        if (currrency != null)
+            bundle.putString(CurrencyFragment.CURRENCY_ID, currrency.getId());
+        CurrencyEditFragment fragment = new CurrencyEditFragment();
+        fragment.setArguments(bundle);
+        return fragment;
+    }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (getArguments() != null) {
@@ -64,7 +72,6 @@ public class CurrencyEditFragment extends PABaseInfoFragment implements OnClickL
                 currency = daoSession.load(Currency.class, currencyId);
         }
         View rootView = inflater.inflate(R.layout.currency_edit_modern, container, false);
-        dialog = new WarningDialog(getContext());
         ivExCurrencyAdd = (LinearLayout) rootView.findViewById(R.id.ivExCurrencyAdd);
         ivExCurrencyAdd.setOnClickListener(new OnClickListener() {
             @Override
@@ -186,6 +193,7 @@ public class CurrencyEditFragment extends PABaseInfoFragment implements OnClickL
                 dataCache.updateAllPercents();
                 paFragmentManager.updateAllFragmentsPageChanges();
                 paFragmentManager.updateVoiceRecognizePageCurrencyChanges();
+                boolean found = false;
                 for (Fragment frag : paFragmentManager.getFragmentManager().getFragments()) {
                     if (frag == null) continue;
                     if (frag.getClass().getName().equals(CurrencyFragment.class.getName())) {
@@ -193,11 +201,16 @@ public class CurrencyEditFragment extends PABaseInfoFragment implements OnClickL
                         if (currencyFragment != null) {
                             currencyFragment.updateToolbar();
                             currencyFragment.refreshList();
+                            found = true;
                         }
                         break;
                     }
                 }
                 paFragmentManager.getFragmentManager().popBackStack();
+                if (!found) {
+                    paFragmentManager.getFragmentManager().popBackStack();
+                    paFragmentManager.displayFragment(new CurrencyFragment());
+                }
                 break;
         }
     }

@@ -675,12 +675,8 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
                                             if (isAvailable) {
                                                 buttonsCount = table == PocketAccounterGeneral.INCOME ? INCOME_BUTTONS_COUNT_PER_PAGE : EXPENSE_BUTTONS_COUNT_PER_PAGE;
                                                 int mode = table == PocketAccounterGeneral.INCOME ? PocketAccounterGeneral.INCOME_MODE : PocketAccounterGeneral.EXPANSE_MODE;;
-                                                Bundle bundle = new Bundle();
-                                                bundle.putInt(CategoryFragment.MODE, mode);
-                                                bundle.putInt(CategoryFragment.POSITION, currentPage*buttonsCount+pos);
-                                                RootCategoryEditFragment fragment = new RootCategoryEditFragment();
-                                                fragment.setArguments(bundle);
-                                                paFragmentManager.displayFragment(fragment);
+                                                paFragmentManager
+                                                        .displayFragment(RootCategoryEditFragment.newInstance(null, currentPage*buttonsCount + pos, mode));
                                             } else {
                                                 analytics.sendText("User wants to buy service, which changes button to page");
                                                 purchaseImplementation.buyChangingCategory();

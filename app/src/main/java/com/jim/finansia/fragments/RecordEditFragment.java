@@ -1494,13 +1494,18 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
             })).start();
         }
         if (parent == PocketAccounterGeneral.DETAIL) {
+            boolean found = false;
             for (Fragment fragment : paFragmentManager.getFragmentManager().getFragments()) {
                 if (fragment.getClass().getName().equals(RecordDetailFragment.class.getName())) {
                     ((RecordDetailFragment)fragment).updateFragments();
+                    found = true;
                     break;
                 }
             }
             paFragmentManager.getFragmentManager().popBackStack();
+            if (!found) {
+                //TODO
+            }
         } else if (parent == PocketAccounterGeneral.MAIN){
             reportManager.clearCache();
             dataCache.updateAllPercents();

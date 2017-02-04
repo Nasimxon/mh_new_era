@@ -23,7 +23,6 @@ import com.jim.finansia.R;
 import com.jim.finansia.database.Currency;
 import com.jim.finansia.database.DaoSession;
 import com.jim.finansia.fragments.CurrencyEditFragment;
-import com.jim.finansia.fragments.CurrencyFragment;
 import com.jim.finansia.managers.CommonOperations;
 import com.jim.finansia.managers.LogicManager;
 import com.jim.finansia.managers.PAFragmentManager;
@@ -83,11 +82,8 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.myView
 								Toast.makeText(context, context.getResources().getString(R.string.main_currency_edit), Toast.LENGTH_SHORT).show();
 								return;
 							}
-							Bundle bundle = new Bundle();
-							bundle.putString(CurrencyFragment.CURRENCY_ID, daoSession.getCurrencyDao().loadAll().get(position).getId());
-							CurrencyEditFragment fragment = new CurrencyEditFragment();
-							fragment.setArguments(bundle);
-							paFragmentManager.displayFragment(fragment);
+							paFragmentManager
+									.displayFragment(CurrencyEditFragment.newInstance(daoSession.getCurrencyDao().loadAll().get(position)));
 						}
 					}
 				});

@@ -1,14 +1,13 @@
 package com.jim.finansia.fragments;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -35,11 +34,9 @@ import com.jim.finansia.utils.SubCatAddEditDialog;
 import com.jim.finansia.utils.WarningDialog;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 
-@SuppressLint({"InflateParams", "ValidFragment"})
 public class RootCategoryEditFragment extends PABaseInfoFragment implements OnClickListener {
     private EditText etCatEditName;
     private CheckBox chbCatEditExpanse, chbCatEditIncome;
@@ -55,6 +52,16 @@ public class RootCategoryEditFragment extends PABaseInfoFragment implements OnCl
     private String categoryId;
     private int editMode, pos;
 
+    public static RootCategoryEditFragment newInstance(RootCategory category, int position, int mode) {
+        RootCategoryEditFragment fragment = new RootCategoryEditFragment();
+        Bundle bundle = new Bundle();
+        if (category != null)
+            bundle.putString(CategoryFragment.CATEGORY_ID, category.getId());
+        bundle.putInt(CategoryFragment.POSITION, position);
+        bundle.putInt(CategoryFragment.MODE, mode);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.cat_edit_layout, container, false);
@@ -82,13 +89,7 @@ public class RootCategoryEditFragment extends PABaseInfoFragment implements OnCl
                 v.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        if (editMode == PocketAccounterGeneral.NO_MODE) {
-                            paFragmentManager.getFragmentManager().popBackStack();
-                            paFragmentManager.displayFragment(new CategoryFragment());
-                        } else {
-                            paFragmentManager.getFragmentManager().popBackStack();
-                            paFragmentManager.displayMainWindow();
-                        }
+                        paFragmentManager.getFragmentManager().popBackStack();
                     }
                 }, 50);
             }
@@ -370,8 +371,18 @@ public class RootCategoryEditFragment extends PABaseInfoFragment implements OnCl
                     paFragmentManager.updateTemplatesInVoiceRecognitionFragment();
                 }
                 if (editMode == PocketAccounterGeneral.NO_MODE) {
+                    boolean found = false;
+                    for (Fragment fragment : paFragmentManager.getFragmentManager().getFragments()) {
+                        if (fragment instanceof CategoryFragment) {
+                            ((CategoryFragment) fragment).refreshList();
+                            found = true;
+                        }
+                    }
                     paFragmentManager.getFragmentManager().popBackStack();
-                    paFragmentManager.displayFragment(new CategoryFragment());
+                    if (!found) {
+                        paFragmentManager.getFragmentManager().popBackStack();
+                        paFragmentManager.displayFragment(new CategoryFragment());
+                    }
                 } else {
                     logicManager.changeBoardButton(rootCategory.getType(),
                             pos, categoryId);
