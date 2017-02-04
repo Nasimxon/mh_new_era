@@ -12,7 +12,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -37,7 +36,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -70,9 +68,9 @@ import com.jim.finansia.utils.GetterAttributColors;
 import com.jim.finansia.utils.OnSubcategorySavingListener;
 import com.jim.finansia.utils.PocketAccounterGeneral;
 import com.jim.finansia.utils.SubCatAddEditDialog;
+import com.jim.finansia.utils.TransactionEnd;
 import com.jim.finansia.utils.cache.DataCache;
 import com.transitionseverywhere.AutoTransition;
-import com.transitionseverywhere.Transition;
 import com.transitionseverywhere.TransitionManager;
 
 import net.objecthunter.exp4j.Expression;
@@ -618,6 +616,8 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
                         ivCommentButton.setColorFilter(ContextCompat.getColor(getContext(),R.color.seriy_calc));
                     }
                 },100);
+
+                // GONE BUTTONS AND COMMAND OPEN KEYBOARD
                 LinearLayout linbutview = (LinearLayout) view.findViewById(R.id.numbersbut);
                 TransitionManager.beginDelayedTransition(linbutview);
                 linbutview.setVisibility(View.GONE);
@@ -645,79 +645,16 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
             @Override
             public void onClick(final View v) {
                 openAddingDialog = false;
-                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.HONEYCOMB) {
-                    if (keykeboard) {
-                        RelativeLayout headermain = (RelativeLayout) view.findViewById(R.id.headermain);
-                        keyforback = true;
-                        (new Handler()).postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                                    if (imm == null)
-                                        return;
-                                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                                } catch (Exception o) {
-                                    o.printStackTrace();
-                                }
-                            }
-                        }, 120);
-                        PocketAccounter.isCalcLayoutOpen = false;
-                        comment.setVisibility(View.VISIBLE);
-                        view.findViewById(R.id.addphotopanel).setVisibility(View.VISIBLE);
-                        view.findViewById(R.id.pasdigi).setVisibility(View.VISIBLE);
-                        view.findViewById(R.id.scroleditext).setVisibility(View.GONE);
-                        view.findViewById(R.id.commenee).setVisibility(View.GONE);
-                        view.findViewById(R.id.savepanel).setVisibility(View.GONE);
-                        oraliqComment = comment_add.getText().toString();
-                        if (!oraliqComment.matches("")) {
-                            comment.setText(oraliqComment);
-                        } else {
-                            comment.setText(getString(R.string.with_out_comment));
-                        }
-                        headermain.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) commonOperations.convertDpToPixel((getResources().getDimension(R.dimen.hundred_fivety_four) / getResources().getDisplayMetrics().density))));
-                    } else {
-                        RelativeLayout headermain = (RelativeLayout) view.findViewById(R.id.headermain);
-                        keyforback = true;
-                        (new Handler()).postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    LinearLayout linbutview = (LinearLayout) view.findViewById(R.id.numbersbut);
-                                    myListPhoto.setVisibility(View.VISIBLE);
-                                    linbutview.setVisibility(View.VISIBLE);
-                                } catch (Exception o) {
-                                    o.printStackTrace();
-                                }
+                keyforback = true;
 
-                            }
-                        }, 120);
-                        comment.setVisibility(View.VISIBLE);
-                        view.findViewById(R.id.addphotopanel).setVisibility(View.VISIBLE);
-                        view.findViewById(R.id.pasdigi).setVisibility(View.VISIBLE);
-                        view.findViewById(R.id.scroleditext).setVisibility(View.GONE);
-                        view.findViewById(R.id.commenee).setVisibility(View.GONE);
-                        view.findViewById(R.id.savepanel).setVisibility(View.GONE);
-                        oraliqComment = commentBackRoll;
-                        if (!oraliqComment.matches("")) {
-                            comment.setText(oraliqComment);
-                            comment_add.setText(oraliqComment);
-                        } else {
-                            comment_add.setText("");
-                            comment.setText(getString(R.string.with_out_comment));
-                        }
-                        headermain.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) commonOperations.convertDpToPixel((getResources().getDimension(R.dimen.hundred_fivety_four) / getResources().getDisplayMetrics().density))));
-                    }
-                } else if (keykeboard) {
+                if (keykeboard) {
                     RelativeLayout headermain = (RelativeLayout) view.findViewById(R.id.headermain);
                     AutoTransition cus = new AutoTransition();
                     keyforback = true;
                     PocketAccounter.isCalcLayoutOpen = false;
-                    cus.addListener(new Transition.TransitionListener() {
+                    cus.addListener(new TransactionEnd(new TransactionEnd.Listner() {
                         @Override
-                        public void onTransitionStart(Transition transition) {}
-                        @Override
-                        public void onTransitionEnd(Transition transition) {
+                        public void onTransitionEnd() {
                             if (mainView == null) {
                                 return;
                             }
@@ -735,23 +672,12 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
                                 }
                             }, 120);
                         }
+                    }));
 
-                        @Override
-                        public void onTransitionCancel(Transition transition) {}
-                        @Override
-                        public void onTransitionPause(Transition transition) {}
-                        @Override
-                        public void onTransitionResume(Transition transition) {}
-                    });
                     cus.setDuration(200);
                     cus.setStartDelay(0);
                     TransitionManager.beginDelayedTransition(headermain, cus);
-                    comment.setVisibility(View.VISIBLE);
-                    view.findViewById(R.id.addphotopanel).setVisibility(View.VISIBLE);
-                    view.findViewById(R.id.pasdigi).setVisibility(View.VISIBLE);
-                    view.findViewById(R.id.scroleditext).setVisibility(View.GONE);
-                    view.findViewById(R.id.commenee).setVisibility(View.GONE);
-                    view.findViewById(R.id.savepanel).setVisibility(View.GONE);
+                    goneViewsWhenCommentClose();
                     oraliqComment = commentBackRoll;
                     if (!oraliqComment.matches("")) {
                         comment.setText(oraliqComment);
@@ -760,63 +686,30 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
                         comment_add.setText("");
                         comment.setText(getString(R.string.with_out_comment));
                     }
-
                     headermain.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) commonOperations.convertDpToPixel((getResources().getDimension(R.dimen.hundred_fivety_four) / getResources().getDisplayMetrics().density))));
                 } else {
                     RelativeLayout headermain = (RelativeLayout) view.findViewById(R.id.headermain);
                     AutoTransition cus = new AutoTransition();
                     keyforback = true;
-                    cus.addListener(new Transition.TransitionListener() {
+                    cus.addListener(new TransactionEnd(new TransactionEnd.Listner() {
                         @Override
-                        public void onTransitionStart(Transition transition) {
-
-                        }
-
-                        @Override
-                        public void onTransitionEnd(Transition transition) {
+                        public void onTransitionEnd() {
                             if (mainView == null) {
                                 return;
                             }
                             try {
 
-                                AutoTransition cus = new AutoTransition();
-                                cus.setDuration(300);
-                                cus.setStartDelay(0);
-                                LinearLayout linbutview = (LinearLayout) view.findViewById(R.id.numbersbut);
-                                TransitionManager.beginDelayedTransition(myListPhoto);
-                                myListPhoto.setVisibility(View.VISIBLE);
-                                TransitionManager.beginDelayedTransition(linbutview, cus);
-                                linbutview.setVisibility(View.VISIBLE);
+                                visibleLayoutsWhenCommentClose();
                             } catch (Exception o) {
                                 o.printStackTrace();
                             }
-
                         }
+                    }));
 
-                        @Override
-                        public void onTransitionCancel(Transition transition) {
-
-                        }
-
-                        @Override
-                        public void onTransitionPause(Transition transition) {
-
-                        }
-
-                        @Override
-                        public void onTransitionResume(Transition transition) {
-
-                        }
-                    });
                     cus.setDuration(200);
                     cus.setStartDelay(0);
                     TransitionManager.beginDelayedTransition(headermain, cus);
-                    comment.setVisibility(View.VISIBLE);
-                    view.findViewById(R.id.addphotopanel).setVisibility(View.VISIBLE);
-                    view.findViewById(R.id.pasdigi).setVisibility(View.VISIBLE);
-                    view.findViewById(R.id.scroleditext).setVisibility(View.GONE);
-                    view.findViewById(R.id.commenee).setVisibility(View.GONE);
-                    view.findViewById(R.id.savepanel).setVisibility(View.GONE);
+                    goneViewsWhenCommentClose();
                     oraliqComment = commentBackRoll;
                     if (!oraliqComment.matches("")) {
                         comment.setText(oraliqComment);
@@ -827,50 +720,45 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
                     }
                     headermain.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) commonOperations.convertDpToPixel((getResources().getDimension(R.dimen.hundred_fivety_four) / getResources().getDisplayMetrics().density))));
                 }
+
+
             }
         });
-
+         // TODO
         view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                int heightDiff = view.getRootView().getHeight() - view.getHeight();
+
+                    int heightDiff = view.getRootView().getHeight() - view.getHeight();
                 if (heightDiff > commonOperations.convertDpToPixel(200)) {
-                    if (!keykeboard) {
+                    if (!keykeboard ) {
                         keykeboard = true;
+                        if(keyForDesideOpenSubCategoryDialog){
+                            LinearLayout linbutview = (LinearLayout) view.findViewById(R.id.numbersbut);
+                            linbutview.setVisibility(View.GONE);
+//                            openLayout();
+                        }else {
                         final Handler handler = new Handler();
                         handler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                RelativeLayout headermain = (RelativeLayout) view.findViewById(R.id.headermain);
-                                AutoTransition cus = new AutoTransition();
-                                cus.setDuration(200);
-                                cus.setStartDelay(0);
-                                TransitionManager.beginDelayedTransition(headermain, cus);
-                                headermain.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
-                                comment.setVisibility(View.GONE);
-                                view.findViewById(R.id.addphotopanel).setVisibility(View.GONE);
-                                view.findViewById(R.id.pasdigi).setVisibility(View.GONE);
-                                myListPhoto.setVisibility(View.GONE);
-                                view.findViewById(R.id.scroleditext).setVisibility(View.VISIBLE);
-                                view.findViewById(R.id.commenee).setVisibility(View.VISIBLE);
-                                view.findViewById(R.id.savepanel).setVisibility(View.VISIBLE);
+                                openLayout();
                             }
-                        }, 50);
+                        }, 200);}
                     }
-                } else {
-                    if (keykeboard) {
-                        keykeboard = false;
+                } else if (keykeboard ) {
+                    keykeboard = false;
+                    if (keyforback||keyForDesideOpenSubCategoryDialog) {
+                        final Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+//                            closeLayout();
+                                visibleLayoutsWhenCommentClose();
+                            }
+                        }, 200);
+                    }
 
-                        if (keyforback||keyForDesideOpenSubCategoryDialog) {
-                            final Handler handler = new Handler();
-                            handler.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    closeLayout();
-                                }
-                            }, 200);
-                        }
-                    }
                 }
             }
         });
@@ -878,110 +766,39 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
             @Override
             public void onClick(View v) {
                 openAddingDialog = false;
-                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.HONEYCOMB) {
-                    if (keykeboard) {
-                        RelativeLayout headermain = (RelativeLayout) view.findViewById(R.id.headermain);
-                        keyforback = true;
-                        (new Handler()).postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                                    if (imm == null)
-                                        return;
-                                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                                } catch (Exception o) {
-                                    o.printStackTrace();
-                                }
-                            }
-                        }, 120);
-                        PocketAccounter.isCalcLayoutOpen = false;
-                        comment.setVisibility(View.VISIBLE);
-                        view.findViewById(R.id.addphotopanel).setVisibility(View.VISIBLE);
-                        view.findViewById(R.id.pasdigi).setVisibility(View.VISIBLE);
-                        view.findViewById(R.id.scroleditext).setVisibility(View.GONE);
-                        view.findViewById(R.id.commenee).setVisibility(View.GONE);
-                        view.findViewById(R.id.savepanel).setVisibility(View.GONE);
-                        oraliqComment = comment_add.getText().toString();
-                        if (!oraliqComment.matches("")) {
-                            comment.setText(oraliqComment);
-                        } else {
-                            comment.setText(getString(R.string.with_out_comment));
-                        }
-                        headermain.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) commonOperations.convertDpToPixel((getResources().getDimension(R.dimen.hundred_fivety_four) / getResources().getDisplayMetrics().density))));
-                    } else {
-                        RelativeLayout headermain = (RelativeLayout) view.findViewById(R.id.headermain);
-                        keyforback = true;
-                        (new Handler()).postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    LinearLayout linbutview = (LinearLayout) view.findViewById(R.id.numbersbut);
-                                    myListPhoto.setVisibility(View.VISIBLE);
-                                    linbutview.setVisibility(View.VISIBLE);
-                                } catch (Exception o) {
-                                    o.printStackTrace();
-                                }
+                keyforback = true;
 
-                            }
-                        }, 120);
-                        comment.setVisibility(View.VISIBLE);
-                        view.findViewById(R.id.addphotopanel).setVisibility(View.VISIBLE);
-                        view.findViewById(R.id.pasdigi).setVisibility(View.VISIBLE);
-                        view.findViewById(R.id.scroleditext).setVisibility(View.GONE);
-                        view.findViewById(R.id.commenee).setVisibility(View.GONE);
-                        view.findViewById(R.id.savepanel).setVisibility(View.GONE);
-                        oraliqComment = comment_add.getText().toString();
-                        if (!oraliqComment.matches("")) {
-                            comment.setText(oraliqComment);
-                        } else {
-                            comment.setText(getString(R.string.with_out_comment));
-                        }
-                        headermain.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) commonOperations.convertDpToPixel((getResources().getDimension(R.dimen.hundred_fivety_four) / getResources().getDisplayMetrics().density))));
-                    }
-                } else if (keykeboard) {
+                if (keykeboard) {
                     RelativeLayout headermain = (RelativeLayout) view.findViewById(R.id.headermain);
                     AutoTransition cus = new AutoTransition();
                     keyforback = true;
                     PocketAccounter.isCalcLayoutOpen = false;
-                    cus.addListener(new Transition.TransitionListener() {
-                        @Override
-                        public void onTransitionStart(Transition transition) {}
-                        @Override
-                        public void onTransitionEnd(Transition transition) {
-                            if (mainView == null) {
-                                return;
-                            }
-                            (new Handler()).postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    try {
-                                        InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                                        if (imm == null) return;
-                                        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                     cus.addListener(new TransactionEnd(new TransactionEnd.Listner() {
+                         @Override
+                         public void onTransitionEnd() {
+                             if (mainView == null) {
+                                 return;
+                             }
+                             (new Handler()).postDelayed(new Runnable() {
+                                 @Override
+                                 public void run() {
+                                     try {
+                                         InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                                         if (imm == null) return;
+                                         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
 
-                                    } catch (Exception o) {
-                                        o.printStackTrace();
-                                    }
-                                }
-                            }, 120);
-                        }
-                        @Override
-                        public void onTransitionCancel(Transition transition) {}
-                        @Override
-                        public void onTransitionPause(Transition transition) {}
-                        @Override
-                        public void onTransitionResume(Transition transition) {}
-                    });
+                                     } catch (Exception o) {
+                                         o.printStackTrace();
+                                     }
+                                 }
+                             }, 120);
+                         }
+                     }));
+
                     cus.setDuration(200);
                     cus.setStartDelay(0);
                     TransitionManager.beginDelayedTransition(headermain, cus);
-                    comment.setVisibility(View.VISIBLE);
-                    view.findViewById(R.id.addphotopanel).setVisibility(View.VISIBLE);
-                    view.findViewById(R.id.pasdigi).setVisibility(View.VISIBLE);
-                    view.findViewById(R.id.scroleditext).setVisibility(View.GONE);
-                    view.findViewById(R.id.commenee).setVisibility(View.GONE);
-                    view.findViewById(R.id.savepanel).setVisibility(View.GONE);
+                     goneViewsWhenCommentClose();
                     oraliqComment = comment_add.getText().toString();
                     if (!oraliqComment.matches("")) {
                         comment.setText(oraliqComment);
@@ -993,45 +810,25 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
                     RelativeLayout headermain = (RelativeLayout) view.findViewById(R.id.headermain);
                     AutoTransition cus = new AutoTransition();
                     keyforback = true;
-                    cus.addListener(new Transition.TransitionListener() {
-                        @Override
-                        public void onTransitionStart(Transition transition) {}
-                        @Override
-                        public void onTransitionEnd(Transition transition) {
-                            if (mainView == null) {
-                                return;
-                            }
-                            try {
+                     cus.addListener(new TransactionEnd(new TransactionEnd.Listner() {
+                         @Override
+                         public void onTransitionEnd() {
+                             if (mainView == null) {
+                                 return;
+                             }
+                             try {
 
-                                AutoTransition cus = new AutoTransition();
-                                cus.setDuration(300);
-                                cus.setStartDelay(0);
-                                LinearLayout linbutview = (LinearLayout) view.findViewById(R.id.numbersbut);
-                                TransitionManager.beginDelayedTransition(myListPhoto);
-                                myListPhoto.setVisibility(View.VISIBLE);
-                                TransitionManager.beginDelayedTransition(linbutview, cus);
-                                linbutview.setVisibility(View.VISIBLE);
-                            } catch (Exception o) {
-                                o.printStackTrace();
-                            }
+                                 visibleLayoutsWhenCommentClose();
+                             } catch (Exception o) {
+                                 o.printStackTrace();
+                             }
+                         }
+                     }));
 
-                        }
-                        @Override
-                        public void onTransitionCancel(Transition transition) {}
-                        @Override
-                        public void onTransitionPause(Transition transition) {}
-                        @Override
-                        public void onTransitionResume(Transition transition) {}
-                    });
                     cus.setDuration(200);
                     cus.setStartDelay(0);
                     TransitionManager.beginDelayedTransition(headermain, cus);
-                    comment.setVisibility(View.VISIBLE);
-                    view.findViewById(R.id.addphotopanel).setVisibility(View.VISIBLE);
-                    view.findViewById(R.id.pasdigi).setVisibility(View.VISIBLE);
-                    view.findViewById(R.id.scroleditext).setVisibility(View.GONE);
-                    view.findViewById(R.id.commenee).setVisibility(View.GONE);
-                    view.findViewById(R.id.savepanel).setVisibility(View.GONE);
+                     goneViewsWhenCommentClose();
                     oraliqComment = comment_add.getText().toString();
                     if (!oraliqComment.matches("")) {
                         comment.setText(oraliqComment);
@@ -1555,7 +1352,7 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
                             handler.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                      closeLayout();
+                                      visibleLayoutsWhenCommentClose();
                                 }
                             }, 200);
 
@@ -1621,6 +1418,12 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
                 dialog.dismiss();
             }
         });
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                visibleLayoutsWhenCommentClose();
+            }
+        });
         rvCategoryChoose.setLayoutManager(new GridLayoutManager(getContext(),3));
         rvCategoryChoose.setHasFixedSize(true);
         rvCategoryChoose.setAdapter(choiseCategoryDialoogItemAdapter);
@@ -1678,86 +1481,55 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
         PocketAccounter.isCalcLayoutOpen = false;
         mainView = null;
     }
-
+    public void visibleLayoutsWhenCommentClose(){
+        AutoTransition cus = new AutoTransition();
+        cus.setDuration(300);
+        cus.setStartDelay(0);
+        LinearLayout linbutview = (LinearLayout) mainView.findViewById(R.id.numbersbut);
+        TransitionManager.beginDelayedTransition(myListPhoto);
+        myListPhoto.setVisibility(View.VISIBLE);
+        TransitionManager.beginDelayedTransition(linbutview, cus);
+        linbutview.setVisibility(View.VISIBLE);
+    }
+    public void goneViewsWhenCommentClose(){
+        comment.setVisibility(View.VISIBLE);
+        mainView.findViewById(R.id.addphotopanel).setVisibility(View.VISIBLE);
+        mainView.findViewById(R.id.pasdigi).setVisibility(View.VISIBLE);
+        mainView.findViewById(R.id.scroleditext).setVisibility(View.GONE);
+        mainView.findViewById(R.id.commenee).setVisibility(View.GONE);
+        mainView.findViewById(R.id.savepanel).setVisibility(View.GONE);
+    }
+    public void openLayout(){
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                RelativeLayout headermain = (RelativeLayout) mainView.findViewById(R.id.headermain);
+                AutoTransition cus = new AutoTransition();
+                cus.setDuration(200);
+                cus.setStartDelay(0);
+                TransitionManager.beginDelayedTransition(headermain, cus);
+                headermain.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+                comment.setVisibility(View.GONE);
+                mainView.findViewById(R.id.addphotopanel).setVisibility(View.GONE);
+                mainView.findViewById(R.id.pasdigi).setVisibility(View.GONE);
+                myListPhoto.setVisibility(View.GONE);
+                mainView.findViewById(R.id.scroleditext).setVisibility(View.VISIBLE);
+                mainView.findViewById(R.id.commenee).setVisibility(View.VISIBLE);
+                mainView.findViewById(R.id.savepanel).setVisibility(View.VISIBLE);
+            }
+        }, 50);
+    }
     public void closeLayout() {
         openAddingDialog = false;
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.HONEYCOMB) {
-            if (keykeboard) {
-                RelativeLayout headermain = (RelativeLayout) mainView.findViewById(R.id.headermain);
-                keyforback = true;
-                PocketAccounter.isCalcLayoutOpen = false;
-                (new Handler()).postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                            if (imm == null)
-                                return;
-                            imm.hideSoftInputFromWindow(mainView.getWindowToken(), 0);
 
-                        } catch (Exception o) {
-                            o.printStackTrace();
-                        }
-
-
-                    }
-                }, 300);
-                comment.setVisibility(View.VISIBLE);
-                mainView.findViewById(R.id.addphotopanel).setVisibility(View.VISIBLE);
-                mainView.findViewById(R.id.pasdigi).setVisibility(View.VISIBLE);
-                mainView.findViewById(R.id.scroleditext).setVisibility(View.GONE);
-                mainView.findViewById(R.id.commenee).setVisibility(View.GONE);
-                mainView.findViewById(R.id.savepanel).setVisibility(View.GONE);
-                comment_add.setText(oraliqComment);
-                if (!oraliqComment.matches("")) {
-                    comment.setText(oraliqComment);
-                } else {
-                    comment.setText(getString(R.string.with_out_comment));
-                }
-                headermain.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) commonOperations.convertDpToPixel((getResources().getDimension(R.dimen.hundred_fivety_four) / getResources().getDisplayMetrics().density))));
-            } else {
-                RelativeLayout headermain = (RelativeLayout) mainView.findViewById(R.id.headermain);
-                keyforback = true;
-                PocketAccounter.isCalcLayoutOpen = false;
-                (new Handler()).postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            LinearLayout linbutview = (LinearLayout) mainView.findViewById(R.id.numbersbut);
-                            myListPhoto.setVisibility(View.VISIBLE);
-                            linbutview.setVisibility(View.VISIBLE);
-                        } catch (Exception o) {
-                            o.printStackTrace();
-                        }
-                    }
-                }, 300);
-                comment.setVisibility(View.VISIBLE);
-                mainView.findViewById(R.id.addphotopanel).setVisibility(View.VISIBLE);
-                mainView.findViewById(R.id.pasdigi).setVisibility(View.VISIBLE);
-                mainView.findViewById(R.id.scroleditext).setVisibility(View.GONE);
-                mainView.findViewById(R.id.commenee).setVisibility(View.GONE);
-                mainView.findViewById(R.id.savepanel).setVisibility(View.GONE);
-                comment_add.setText(oraliqComment);
-                if (!oraliqComment.matches("")) {
-                    comment.setText(oraliqComment);
-                } else {
-                    comment.setText(getString(R.string.with_out_comment));
-                }
-                headermain.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) commonOperations.convertDpToPixel((getResources().getDimension(R.dimen.hundred_fivety_four) / getResources().getDisplayMetrics().density))));
-            }
-        } else {
             if (keykeboard) {
                 RelativeLayout headermain = (RelativeLayout) mainView.findViewById(R.id.headermain);
                 AutoTransition cus = new AutoTransition();
-                keyforback = true;
                 PocketAccounter.isCalcLayoutOpen = false;
-                cus.addListener(new Transition.TransitionListener() {
+                cus.addListener(new TransactionEnd(new TransactionEnd.Listner() {
                     @Override
-                    public void onTransitionStart(Transition transition) {
-                    }
-
-                    @Override
-                    public void onTransitionEnd(Transition transition) {
+                    public void onTransitionEnd() {
                         if (mainView == null) {
                             return;
                         }
@@ -1775,22 +1547,7 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
                             }
                         }, 100);
                     }
-
-                    @Override
-                    public void onTransitionCancel(Transition transition) {
-
-                    }
-
-                    @Override
-                    public void onTransitionPause(Transition transition) {
-
-                    }
-
-                    @Override
-                    public void onTransitionResume(Transition transition) {
-
-                    }
-                });
+                }));
                 cus.setDuration(200);
                 cus.setStartDelay(0);
                 TransitionManager.beginDelayedTransition(headermain, cus);
@@ -1811,47 +1568,20 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
             } else {
                 RelativeLayout headermain = (RelativeLayout) mainView.findViewById(R.id.headermain);
                 AutoTransition cus = new AutoTransition();
-                keyforback = true;
                 PocketAccounter.isCalcLayoutOpen = false;
-                cus.addListener(new Transition.TransitionListener() {
+                cus.addListener(new TransactionEnd(new TransactionEnd.Listner() {
                     @Override
-                    public void onTransitionStart(Transition transition) {
-
-                    }
-
-                    @Override
-                    public void onTransitionEnd(Transition transition) {
+                    public void onTransitionEnd() {
                         if (mainView == null) {
                             return;
                         }
                         try {
-                            AutoTransition cus = new AutoTransition();
-                            cus.setDuration(300);
-                            cus.setStartDelay(0);
-                            LinearLayout linbutview = (LinearLayout) mainView.findViewById(R.id.numbersbut);
-                            TransitionManager.beginDelayedTransition(myListPhoto);
-                            myListPhoto.setVisibility(View.VISIBLE);
-                            TransitionManager.beginDelayedTransition(linbutview, cus);
-                            linbutview.setVisibility(View.VISIBLE);
+                            visibleLayoutsWhenCommentClose();
                         } catch (Exception o) {
                             o.printStackTrace();
                         }
                     }
-
-                    @Override
-                    public void onTransitionCancel(Transition transition) {
-                    }
-
-                    @Override
-                    public void onTransitionPause(Transition transition) {
-
-                    }
-
-                    @Override
-                    public void onTransitionResume(Transition transition) {
-
-                    }
-                });
+                }));
                 cus.setDuration(200);
                 cus.setStartDelay(0);
                 TransitionManager.beginDelayedTransition(headermain, cus);
@@ -1869,7 +1599,88 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
                 }
                 headermain.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) commonOperations.convertDpToPixel((getResources().getDimension(R.dimen.hundred_fivety_four) / getResources().getDisplayMetrics().density))));
             }
+
+    }
+    public void closeLayoutBack() {
+        openAddingDialog = false;
+
+        if (keykeboard) {
+            RelativeLayout headermain = (RelativeLayout) mainView.findViewById(R.id.headermain);
+            AutoTransition cus = new AutoTransition();
+            PocketAccounter.isCalcLayoutOpen = false;
+            cus.addListener(new TransactionEnd(new TransactionEnd.Listner() {
+                @Override
+                public void onTransitionEnd() {
+                    if (mainView == null) {
+                        return;
+                    }
+                    (new Handler()).postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                                if (imm == null)
+                                    return;
+                                imm.hideSoftInputFromWindow(mainView.getWindowToken(), 0);
+                            } catch (Exception o) {
+                                o.printStackTrace();
+                            }
+                        }
+                    }, 100);
+                }
+            }));
+            cus.setDuration(200);
+            cus.setStartDelay(0);
+            TransitionManager.beginDelayedTransition(headermain, cus);
+            comment.setVisibility(View.VISIBLE);
+            mainView.findViewById(R.id.addphotopanel).setVisibility(View.VISIBLE);
+            mainView.findViewById(R.id.pasdigi).setVisibility(View.VISIBLE);
+            mainView.findViewById(R.id.scroleditext).setVisibility(View.GONE);
+            mainView.findViewById(R.id.commenee).setVisibility(View.GONE);
+            mainView.findViewById(R.id.savepanel).setVisibility(View.GONE);
+            comment_add.setText(oraliqComment);
+            if (!oraliqComment.matches("")) {
+                comment.setText(oraliqComment);
+            } else {
+                comment.setText(getString(R.string.with_out_comment));
+            }
+
+            headermain.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) commonOperations.convertDpToPixel((getResources().getDimension(R.dimen.hundred_fivety_four) / getResources().getDisplayMetrics().density))));
+        } else {
+            RelativeLayout headermain = (RelativeLayout) mainView.findViewById(R.id.headermain);
+            AutoTransition cus = new AutoTransition();
+            PocketAccounter.isCalcLayoutOpen = false;
+            cus.addListener(new TransactionEnd(new TransactionEnd.Listner() {
+                @Override
+                public void onTransitionEnd() {
+                    if (mainView == null) {
+                        return;
+                    }
+                    try {
+                        visibleLayoutsWhenCommentClose();
+                    } catch (Exception o) {
+                        o.printStackTrace();
+                    }
+                }
+            }));
+            cus.setDuration(200);
+            cus.setStartDelay(0);
+            TransitionManager.beginDelayedTransition(headermain, cus);
+            comment.setVisibility(View.VISIBLE);
+            mainView.findViewById(R.id.addphotopanel).setVisibility(View.VISIBLE);
+            mainView.findViewById(R.id.pasdigi).setVisibility(View.VISIBLE);
+            mainView.findViewById(R.id.scroleditext).setVisibility(View.GONE);
+            mainView.findViewById(R.id.commenee).setVisibility(View.GONE);
+            mainView.findViewById(R.id.savepanel).setVisibility(View.GONE);
+            comment_add.setText(oraliqComment);
+            if (!oraliqComment.matches("")) {
+                comment.setText(oraliqComment);
+            } else {
+                comment.setText(getString(R.string.with_out_comment));
+            }
+            headermain.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) commonOperations.convertDpToPixel((getResources().getDimension(R.dimen.hundred_fivety_four) / getResources().getDisplayMetrics().density))));
         }
+
     }
 
     @Override
