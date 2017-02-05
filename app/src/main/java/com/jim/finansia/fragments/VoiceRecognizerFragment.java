@@ -134,6 +134,7 @@ public class VoiceRecognizerFragment extends Fragment {
     @Inject SharedPreferences preferences;
     @Inject PurchaseImplementation purchaseImplementation;
     @Inject FinansiaFirebaseAnalytics analytics;
+    @Inject DecimalFormat formatter;
     private String[] curString;
     private String[] accString;
     private CountDownTimer timer;
@@ -646,7 +647,7 @@ public class VoiceRecognizerFragment extends Fragment {
                 if (matcher.group(secondOrGroup) != null)
                     summ = Double.parseDouble(matcher.group(secondOrGroup).replace(',','.'));
             }
-            tvSpeechAmount.setText(Double.toString(summ));
+            tvSpeechAmount.setText(formatter.format(summ));
             if (accountId != null && !accountId.isEmpty()) {
                 Account account = daoSession.getAccountDao().load(accountId);
                 for (int i = 0; i < accString.length; i++) {
@@ -904,7 +905,7 @@ public class VoiceRecognizerFragment extends Fragment {
             if (matcher.group(secondOrGroup) != null)
                 summ = Double.parseDouble(matcher.group(secondOrGroup).replace(',','.'));
         }
-        tvSpeechAmount.setText(Double.toString(summ));
+        tvSpeechAmount.setText(formatter.format(summ));
         if (accountId != null && !accountId.isEmpty()) {
             Account account = daoSession.getAccountDao().load(accountId);
             for (int i = 0; i < accString.length; i++) {

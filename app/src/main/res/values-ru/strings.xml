@@ -114,6 +114,7 @@
         <item>Бат</item>
         <item>Лира</item>
         <item>Афгани</item>
+        <item>Дирхам ОАЭ</item>
     </string-array>
     <string-array name="base_abbrs">
         <item>$</item>
@@ -159,6 +160,7 @@
         <item>฿</item>
         <item>₺</item>
         <item>؋</item>
+        <item>.د.إ</item>
     </string-array>
     <string-array name="currency_ids">
         <item>currency_1</item>
@@ -209,6 +211,7 @@
         <item>1.0</item>
         <item>0.0154</item>
         <item>0.9</item>
+        <item>1.0</item>
         <item>1.0</item>
         <item>1.0</item>
         <item>1.0</item>
@@ -947,7 +950,7 @@
     <string-array name="account_icons">
         <item>icons_30</item>
         <item>icons_6</item>
-        <item>icons_29</item>
+        <item>icons_16</item>
     </string-array>
     <string-array name="report_by_account_titles">
         <item>Операция</item>
@@ -1632,8 +1635,8 @@
     <string name="operation_ndays">Дни \nопераций</string>
     <string name="select_days">Выбрать дни</string>
     <string name="next_operations">Следующия операция</string>
-    <string name="set_color">Установить тему</string>
-    <string name="buy_color">Купить тему</string>
+    <string name="set_color">Установить цвет для фона</string>
+    <string name="buy_color">Купить цвет для фона</string>
     <string name="total_with_interest">Общая сумма оплаты</string>
     <string name="current_rate">Установленный курс</string>
     <string name="rate">Курс</string>

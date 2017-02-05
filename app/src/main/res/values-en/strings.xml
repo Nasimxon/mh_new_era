@@ -54,7 +54,7 @@
         <item> The Belarusian ruble </item>
         <item> Armenian Dram </item>
         <item> Shekel </item>
-        <item> The yen </item>
+        <item> Yen </item>
         <item> Vaughan </item>
         <item> Moldavian lei </item>
         <item> Lek </item>
@@ -70,7 +70,7 @@
         <item> Danish Krone </item>
         <item> Egyptian pound </item>
         <item> Cedi </item>
-        <item> The forint </item>
+        <item> The Forint </item>
         <item> Indian Rupee </item>
         <item> Indonesian rupiah </item>
         <item> The Iranian Rial </item>
@@ -86,6 +86,7 @@
         <item> The Serbian Dinar </item>
         <item> Bath </item>
         <item> Lear </item>
+        <item> UAE Dirham</item>
     </string-array>
     <string-array name="base_abbrs">
         <item>$</item>
@@ -130,6 +131,7 @@
         <item>din</item>
         <item>฿</item>
         <item>₺</item>
+        <item>.د.إ</item>
     </string-array>
     <string-array name="currency_ids">
         <item>currency_1</item>
@@ -174,11 +176,13 @@
         <item>currency_40</item>
         <item>currency_41</item>
         <item>currency_42</item>
+        <item>currency_43</item>
     </string-array>
     <string-array name="currency_costs">
         <item>1.0</item>
         <item>0.0154</item>
         <item>0.9</item>
+        <item>1.0</item>
         <item>1.0</item>
         <item>1.0</item>
         <item>1.0</item>
@@ -938,7 +942,7 @@
     <string-array name="account_icons">
         <item>icons_30</item>
         <item>icons_6</item>
-        <item>icons_29</item>
+        <item>icons_16</item>
     </string-array>
     <string-array name="report_by_account_titles">
         <item>Operation</item>
@@ -1619,8 +1623,8 @@
     <string name="operation_ndays">Operation \ndays</string>
     <string name="select_days">Select days</string>
     <string name="next_operations">Next operation</string>
-    <string name="set_color">"Set color to theme "</string>
-    <string name="buy_color">Buy color for theme</string>
+    <string name="set_color">Set color to the background</string>
+    <string name="buy_color">Buy color for the background</string>
     <string name="total_with_interest">Total with interest</string>
     <string name="current_rate">Current rate</string>
     <string name="change_ch">Change</string>
