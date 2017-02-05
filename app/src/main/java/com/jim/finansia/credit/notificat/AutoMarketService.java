@@ -73,13 +73,18 @@ public class AutoMarketService extends Service {
                 String dayString [] = au.getPosDays().split(",");
                 int positionDays [] = new int[dayString.length];
                 for (int i = 0; i < dayString.length; i++) {
-                    positionDays[i] = Integer.parseInt(dayString[i]);
+                    Log.d("akakakak", "do: "+dayString[i]);
+
+                    positionDays[i] = Integer.parseInt(dayString[i])+2;
+                    if(positionDays[i]==8){
+                        positionDays[i]=1;
+                    }
                 }
                 for (int pos : positionDays) {
                     if (pos == currentDay.get(Calendar.DAY_OF_WEEK)) {
                         boolean tek = false;
                         for (FinanceRecord fn : daoSession.getFinanceRecordDao().loadAll()) {
-                            if (fn.getDate().get(Calendar.DAY_OF_MONTH) == currentDay.get(Calendar.DAY_OF_MONTH)
+                            if (fn.getDate().get(Calendar.DAY_OF_YEAR) == currentDay.get(Calendar.DAY_OF_YEAR)
                                     && fn.getRecordId().startsWith("auto")
                                     && fn.getCategory().getId().matches(au.getCatId())
                                     && fn.getSubCategory().getId().matches(au.getCatSubId())) {

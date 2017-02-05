@@ -196,7 +196,82 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
             @Override
             public void onClick(View v) {
                 if (openAddingDialog) {
-                    closeLayout();
+                    openAddingDialog = false;
+                    keyforback = true;
+
+                    if (keykeboard) {
+                        RelativeLayout headermain = (RelativeLayout) mainView.findViewById(R.id.headermain);
+                        AutoTransition cus = new AutoTransition();
+                        keyforback = true;
+                        PocketAccounter.isCalcLayoutOpen = false;
+                        cus.addListener(new TransactionEnd(new TransactionEnd.Listner() {
+                            @Override
+                            public void onTransitionEnd() {
+                                if (mainView == null) {
+                                    return;
+                                }
+                                (new Handler()).postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        try {
+                                            InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                                            if (imm == null) return;
+                                            imm.hideSoftInputFromWindow(mainView.getWindowToken(), 0);
+
+                                        } catch (Exception o) {
+                                            o.printStackTrace();
+                                        }
+                                    }
+                                }, 120);
+                            }
+                        }));
+
+                        cus.setDuration(200);
+                        cus.setStartDelay(0);
+                        TransitionManager.beginDelayedTransition(headermain, cus);
+                        goneViewsWhenCommentClose();
+                        oraliqComment = commentBackRoll;
+                        if (!oraliqComment.matches("")) {
+                            comment.setText(oraliqComment);
+                            comment_add.setText(oraliqComment);
+                        } else {
+                            comment_add.setText("");
+                            comment.setText(getString(R.string.with_out_comment));
+                        }
+                        headermain.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) commonOperations.convertDpToPixel((getResources().getDimension(R.dimen.hundred_fivety_four) / getResources().getDisplayMetrics().density))));
+                    } else {
+                        RelativeLayout headermain = (RelativeLayout) mainView.findViewById(R.id.headermain);
+                        AutoTransition cus = new AutoTransition();
+                        keyforback = true;
+                        cus.addListener(new TransactionEnd(new TransactionEnd.Listner() {
+                            @Override
+                            public void onTransitionEnd() {
+                                if (mainView == null) {
+                                    return;
+                                }
+                                try {
+
+                                    visibleLayoutsWhenCommentClose();
+                                } catch (Exception o) {
+                                    o.printStackTrace();
+                                }
+                            }
+                        }));
+
+                        cus.setDuration(200);
+                        cus.setStartDelay(0);
+                        TransitionManager.beginDelayedTransition(headermain, cus);
+                        goneViewsWhenCommentClose();
+                        oraliqComment = commentBackRoll;
+                        if (!oraliqComment.matches("")) {
+                            comment.setText(oraliqComment);
+                            comment_add.setText(oraliqComment);
+                        } else {
+                            comment_add.setText("");
+                            comment.setText(getString(R.string.with_out_comment));
+                        }
+                        headermain.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) commonOperations.convertDpToPixel((getResources().getDimension(R.dimen.hundred_fivety_four) / getResources().getDisplayMetrics().density))));
+                    }
                     return;
                 } else {
                     InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
