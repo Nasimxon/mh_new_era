@@ -601,6 +601,30 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
                     paFragmentManager.displayFragment(new DebtBorrowFragment());
                 }
             }
+            if (localAppereance == DebtBorrowFragment.FROM_MAIN)
+            {
+                boolean found = false;
+                for (Fragment fragment : paFragmentManager.getFragmentManager().getFragments()) {
+                    if (fragment == null) continue;
+                    if (fragment instanceof  BorrowFragment) {
+                        BorrowFragment borrowFragment = (BorrowFragment) fragment;
+                        if (borrowFragment != null) {
+                            borrowFragment.refreshList();
+                            found = true;
+                        }
+                    }
+                    if (fragment instanceof DebtBorrowFragment) {
+                        DebtBorrowFragment borrowFragment = (DebtBorrowFragment) fragment;
+                        if (borrowFragment != null) {
+                            borrowFragment.updateToolbar();
+                            found = true;
+                        }
+                    }
+                }
+                if (!found) {
+                    paFragmentManager.displayFragment(new DebtBorrowFragment());
+                }
+            }
         }
     }
 

@@ -227,9 +227,27 @@ public class PAFragmentManager {
                     if (frag == null) continue;
                     if (frag.getClass().getName().equals(InfoDebtBorrowFragment.class.getName())) {
                         InfoDebtBorrowFragment infoDebtBorrowFragment = (InfoDebtBorrowFragment) frag;
-                        if (infoDebtBorrowFragment != null)
+                        if (infoDebtBorrowFragment != null) {
                             infoDebtBorrowFragment.updateToolbar();
+                        }
                     }
+                }
+            }
+            if (localAppereance == DebtBorrowFragment.FROM_MAIN) {
+                boolean found = false;
+                for (Fragment frag : fragmentManager.getFragments()) {
+                    if (frag == null) continue;
+                    if (frag.getClass().getName().equals(DebtBorrowFragment.class.getName())) {
+                        DebtBorrowFragment debtBorrowFragment = (DebtBorrowFragment) frag;
+                        if (debtBorrowFragment != null){
+                            debtBorrowFragment.updateToolbar();
+                            found = true;
+                        }
+                    }
+                }
+                if (!found)
+                {
+                    displayFragment(new DebtBorrowFragment());
                 }
             }
 
