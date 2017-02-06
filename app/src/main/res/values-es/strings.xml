@@ -1518,4 +1518,5 @@
     <string name="zero">cero</string>
     <string name="amount">Cantidad</string>
     <string name="took_from">Took from</string>
+    <string name="voice_network_error">Включите интернет или установите пакет для распознования речи!</string>
 </resources>

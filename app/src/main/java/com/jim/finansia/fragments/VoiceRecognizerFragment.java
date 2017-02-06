@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -12,6 +13,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.speech.RecognizerIntent;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -1011,6 +1013,7 @@ public class VoiceRecognizerFragment extends Fragment {
         public MyAfterSavedAdapter() {
             financeRecords = daoSession.getFinanceRecordDao().queryBuilder()
                     .where(FinanceRecordDao.Properties.Date.eq(simpleDateFormat.format(day.getTime()))).list();
+            Collections.reverse(financeRecords);
             Map<String, Double> balance = reportManager.calculateBalance(dataCache.getBeginDate(), dataCache.getEndDate());
             DecimalFormat decFormat = new DecimalFormat("0.00");
             String abbr = commonOperations.getMainCurrency().getAbbr();
@@ -1085,13 +1088,7 @@ public class VoiceRecognizerFragment extends Fragment {
             itemCatName = (TextView) itemView.findViewById(R.id.tvItemAfterSavedCatName);
         }
     }
-
     private final int PERMISSION_REQUEST_RECORD = 0;
-
-    public void askForContactPermission() {
-
-    }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {

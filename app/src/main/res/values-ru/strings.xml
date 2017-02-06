@@ -1121,7 +1121,7 @@
     <string name="amount">Сумма</string>
     <string name="enter_amount">Введите сумму</string>
     <string name="borrows">Мне должны</string>
-    <string name="debts">Мой долг</string>
+    <string name="debts">Я должен</string>
     <string name="connection_faild">Пожалуйста, проверьте интернет соединение и повторите попытку!</string>
     <string name="download">Загрузка</string>
     <string name="cheking_user">Проверка пользователя</string>
@@ -1680,5 +1680,6 @@
     <string name="returned_debt">Вернули</string>
     <string name="i_returned">Вернул</string>
     <string name="no_sub_cat">No subcategory</string>
+    <string name="voice_network_error">Включите интернет или установите пакет для распознования речи!</string>
 </resources>
 

@@ -83,6 +83,11 @@ public class SmsParseMainFragment extends Fragment implements View.OnClickListen
     }
 
     public void refreshList() {
+        toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
+        toolbarManager.setTitle(getResources().getString(R.string.sms_parse));
+        toolbarManager.setOnTitleClickListener(null);
+        toolbarManager.setSubtitle("");
+        toolbarManager.setSubtitleIconVisibility(View.GONE);
         if (recyclerView != null) {
             MyAdapter myAdapter = new MyAdapter();
             recyclerView.setAdapter(myAdapter);

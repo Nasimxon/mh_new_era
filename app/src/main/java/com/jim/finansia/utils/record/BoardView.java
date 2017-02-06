@@ -20,6 +20,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -572,7 +573,9 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
                                 FinanceRecordDao.Properties.CategoryId.eq(id));
                 List<FinanceRecord> deletingRecords = financeRecordQueryBuilder.list();
                 daoSession.getFinanceRecordDao().deleteInTx(deletingRecords);
-                dataCache.updateOneDay(dataCache.getEndDate());
+                reportManager.clearCache();
+                dataCache.updateAllPercents();
+                paFragmentManager.updateAllFragmentsPageChanges();
                 paFragmentManager.updateAllFragmentsOnViewPager();
                 releasePress();
                 PocketAccounter.PRESSED = false;
@@ -699,16 +702,46 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
                                         case 2:
                                             isAvailable = sharedPreferences.getBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.IS_AVAILABLE_CHANGING_OF_DEBT_BORROW_KEY, false);
                                             if (isAvailable) {
-                                                int mode = table == PocketAccounterGeneral.INCOME ? PocketAccounterGeneral.INCOME_MODE : PocketAccounterGeneral.EXPANSE_MODE;
-                                                int type = table == PocketAccounterGeneral.INCOME ? DebtBorrow.BORROW : DebtBorrow.DEBT;
-                                                buttonsCount = table == PocketAccounterGeneral.INCOME ? INCOME_BUTTONS_COUNT_PER_PAGE : EXPENSE_BUTTONS_COUNT_PER_PAGE;
-                                                Bundle bundle = new Bundle();
-                                                bundle.putInt(DebtBorrowFragment.MODE, mode);
-                                                bundle.putInt(DebtBorrowFragment.POSITION, buttonsCount*currentPage + pos);
-                                                bundle.putInt(DebtBorrowFragment.TYPE, type);
-                                                AddBorrowFragment fragment = new AddBorrowFragment();
-                                                fragment.setArguments(bundle);
-                                                paFragmentManager.displayFragment(fragment);
+                                                final Dialog dialog=new Dialog(getContext());
+                                                View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_with_listview, null);
+                                                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                                                dialog.setContentView(dialogView);
+                                                String[] list = new String[2];
+                                                list[0] = getResources().getString(R.string.debts);
+                                                list[1] = getResources().getString(R.string.borrows);
+                                                ArrayAdapter adapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, list);
+                                                ListView lvDialog = (ListView) dialogView.findViewById(R.id.lvDialog);
+                                                lvDialog.setAdapter(adapter);
+                                                lvDialog.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                                    @Override
+                                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                                        int type = -1;
+                                                        if (position == 0)
+                                                            type = DebtBorrow.DEBT;
+                                                        else
+                                                            type = DebtBorrow.BORROW;
+                                                        int mode = table == PocketAccounterGeneral.INCOME ? PocketAccounterGeneral.INCOME_MODE : PocketAccounterGeneral.EXPANSE_MODE;
+                                                        int count = table == PocketAccounterGeneral.INCOME ? INCOME_BUTTONS_COUNT_PER_PAGE : EXPENSE_BUTTONS_COUNT_PER_PAGE;
+                                                        Bundle bundle = new Bundle();
+                                                        bundle.putInt(DebtBorrowFragment.MODE, mode);
+                                                        bundle.putInt(DebtBorrowFragment.POSITION, count*currentPage + pos);
+                                                        bundle.putInt(DebtBorrowFragment.TYPE, type);
+                                                        AddBorrowFragment fragment = new AddBorrowFragment();
+                                                        fragment.setArguments(bundle);
+                                                        paFragmentManager.displayFragment(fragment);
+                                                        PocketAccounter.PRESSED = false;
+                                                        dialog.dismiss();
+                                                    }
+                                                });
+                                                dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                                                    @Override
+                                                    public void onDismiss(DialogInterface dialogInterface) {
+                                                        releasePress();
+                                                        PocketAccounter.PRESSED = false;
+                                                    }
+                                                });
+                                                dialog.show();
+
                                             } else {
                                                 analytics.sendText("User wants to buy service, which changes button to debt or borrow");
                                                 purchaseImplementation.buyChangingDebtBorrow();

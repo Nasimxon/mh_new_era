@@ -1694,4 +1694,5 @@
     <string name="returned_debt">Returned</string>
     <string name="i_returned">Returned</string>
     <string name="no_sub_cat">No subcategory</string>
+    <string name="voice_network_error">Включите интернет или установите пакет для распознования речи!</string>
 </resources>

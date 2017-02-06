@@ -121,9 +121,12 @@ public class TextDrawingBoardView extends DecorationBoardView {
                 textPaint.setColor(color);
                 textPaint.setAlpha((int)(0x80*(execFrame-0.5f)/0.5f));
                 textPaint.setTextSize(getResources().getDimension(R.dimen.twelve_dp));
+                String name = element.getText();
+                if (name.length() >= 9)
+                    name = name.substring(0, 9) + "...";
                 Rect rect = new Rect();
-                textPaint.getTextBounds(element.getText(), 0, element.getText().length(), rect);
-                canvas.drawText(element.getText(), container.left, container.top - rect.height()/3, textPaint);
+                textPaint.getTextBounds(name, 0, name.length(), rect);
+                canvas.drawText(name, container.left, container.top - rect.height()/3, textPaint);
                 if (element.getAmount() != 0) {
                     String amount = format.format(element.getAmount());
                     if (amount.length() >= 9)

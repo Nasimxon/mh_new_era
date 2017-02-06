@@ -19,6 +19,7 @@ import com.jim.finansia.debt.InfoDebtBorrowFragment;
 import com.jim.finansia.debt.PocketClassess;
 import com.jim.finansia.fragments.AccountFragment;
 import com.jim.finansia.fragments.AddCreditFragment;
+import com.jim.finansia.fragments.AddSmsParseFragment;
 import com.jim.finansia.fragments.AutoMarketFragment;
 import com.jim.finansia.fragments.CategoryFragment;
 import com.jim.finansia.fragments.CreditArchiveFragment;
@@ -358,10 +359,21 @@ public class PAFragmentManager {
                 displayMainWindow();
             } else if (parent == PocketAccounterGeneral.SEARCH_MODE)
                 displayFragment(new SearchFragment());
-        } else if (fragName.equals(PocketClassess.INFO_SMS_PARSE_FRAGMENT)) {
-
-            displayFragment(new SmsParseMainFragment());
-        } else if (fragName.equals(PocketClassess.CREDIT_SCHEDULE)) {
+        } else if (fragName.equals(PocketClassess.INFO_SMS_PARSE_FRAGMENT)
+                || fragName.equals(AddSmsParseFragment.class.getName())) {
+            boolean found = false;
+            for (Fragment frag : fragmentManager.getFragments()) {
+                if (frag == null) continue;
+                if (frag instanceof SmsParseMainFragment) {
+                    if (frag != null) {
+                        ((SmsParseMainFragment) frag).refreshList();
+                        found = true;
+                    }
+                }
+            }
+            if (!found) displayFragment(new SmsParseMainFragment());
+        }
+        else if (fragName.equals(PocketClassess.CREDIT_SCHEDULE)) {
             ScheduleCreditFragment scheduleCreditFragment = (ScheduleCreditFragment) fragment;
             if (scheduleCreditFragment.getLocalAppereance() == CreditTabLay.LOCAL_EDIT) {
                 for (Fragment fr : fragmentManager.getFragments()) {

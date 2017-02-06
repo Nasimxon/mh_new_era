@@ -8,8 +8,10 @@ import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.jim.finansia.PocketAccounter;
+import com.jim.finansia.R;
 
 import java.util.List;
 import java.util.TimerTask;
@@ -130,6 +132,7 @@ public class PASpeechRecognizer implements RecognitionListener {
                 break;
             case SpeechRecognizer.ERROR_NETWORK:
                 message = "Network error";
+                Toast.makeText(context, R.string.voice_network_error, Toast.LENGTH_SHORT).show();
                 break;
             case SpeechRecognizer.ERROR_NETWORK_TIMEOUT:
                 message = "Network timeout";
