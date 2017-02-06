@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import com.jim.finansia.PocketAccounter;
 import com.jim.finansia.PocketAccounterApplication;
 import com.jim.finansia.R;
+import com.jim.finansia.database.CreditDetials;
 import com.jim.finansia.database.DaoSession;
 import com.jim.finansia.debt.AddBorrowFragment;
 import com.jim.finansia.debt.BorrowFragment;
@@ -381,6 +382,45 @@ public class PAFragmentManager {
                         ((AddCreditFragment) fr).toolbarBackupMethod();
                         break;
                     }
+                }
+            }
+        } else if (fragName.equals(PocketClassess.ADD_CREDIT)) {
+            AddCreditFragment creditFragment = (AddCreditFragment)fragment;
+            if (creditFragment.isEdit()) {
+                boolean found = false;
+                for (Fragment frag : fragmentManager.getFragments()) {
+                    if (frag == null) continue;
+                    if (frag instanceof InfoCreditFragment) {
+                        ((InfoCreditFragment)frag).updateToolbar();
+                        found = true;
+                    }
+                }
+                if (!found) {
+                    Bundle bundle = new Bundle();
+                    bundle.putLong(CreditTabLay.CREDIT_ID, creditFragment.getCreditId());
+                    bundle.putInt(CreditTabLay.MODE, creditFragment.getModeFromMain());
+                    bundle.putInt(CreditTabLay.POSITION, creditFragment.getPosFromMain());
+                    InfoCreditFragment infoCreditFragment = new InfoCreditFragment();
+                    infoCreditFragment.setArguments(bundle);
+                    displayFragment(infoCreditFragment);
+                }
+            } else if (creditFragment.getModeFromMain() == PocketAccounterGeneral.MAIN ||
+                    creditFragment.getModeFromMain() == PocketAccounterGeneral.INCOME_MODE ||
+                    creditFragment.getModeFromMain() == PocketAccounterGeneral.EXPANSE_MODE){
+                displayMainWindow();
+            }
+            else {
+                boolean found = false;
+                for (Fragment frag : fragmentManager.getFragments()) {
+                    if (frag == null) continue;
+                    if (frag instanceof CreditTabLay) {
+                        ((CreditTabLay)frag).backupToolbar();
+                        found = true;
+                    }
+                }
+                if (!found) {
+                    fragmentManager.popBackStack();
+                    displayFragment(new CreditTabLay());
                 }
             }
         }

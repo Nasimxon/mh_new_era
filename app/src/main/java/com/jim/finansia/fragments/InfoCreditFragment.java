@@ -166,7 +166,6 @@ public class InfoCreditFragment extends Fragment {
     public int getMode() {
         return modeOfMain;
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -1170,6 +1169,17 @@ public class InfoCreditFragment extends Fragment {
 
     public void onResume() {
         super.onResume();
+        if (toolbarManager != null)
+        {
+            toolbarManager.setImageToSecondImage(R.drawable.ic_more_vert_black_48dp);
+            toolbarManager.setOnTitleClickListener(null);
+            toolbarManager.setSubtitle("");
+            toolbarManager.setSubtitleIconVisibility(View.GONE);
+            toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
+        }
+    }
+
+    public void updateToolbar() {
         if (toolbarManager != null)
         {
             toolbarManager.setImageToSecondImage(R.drawable.ic_more_vert_black_48dp);

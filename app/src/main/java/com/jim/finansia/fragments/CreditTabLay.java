@@ -45,6 +45,7 @@ public class CreditTabLay extends Fragment implements View.OnClickListener, View
     private ViewPager viewPager;
     private PagerAdapter adapter;
     private TabLayout tabLayout;
+
     public void updateArchive(){
         if(adapter!=null){
             for(int i = 0;i<adapter.getCount();i++){
@@ -55,7 +56,15 @@ public class CreditTabLay extends Fragment implements View.OnClickListener, View
             }
         }
     }
-
+    public void backupToolbar() {
+        if (toolbarManager != null){
+            toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
+            toolbarManager.setOnTitleClickListener(null);
+            toolbarManager.setTitle(getString(R.string.cred_managment));
+            toolbarManager.setSubtitle("");
+            toolbarManager.setSubtitleIconVisibility(View.GONE);
+        }
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -211,4 +220,5 @@ public class CreditTabLay extends Fragment implements View.OnClickListener, View
             toolbarManager.setSubtitleIconVisibility(View.GONE);
         }
     }
+
 }

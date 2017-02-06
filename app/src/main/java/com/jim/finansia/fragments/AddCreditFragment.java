@@ -171,6 +171,8 @@ public class AddCreditFragment extends Fragment {
         debtBorrowDao = daoSession.getDebtBorrowDao();
     }
 
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -1143,12 +1145,17 @@ public class AddCreditFragment extends Fragment {
 
     }
 
+    public Long getCreditId() {
+        if (currentCredit == null)
+            return 0L;
+        else
+            return currentCredit.getMyCredit_id();
+    }
 
 
-
-
-
-
+    public int getPosFromMain() {
+        return posFromMain;
+    }
 
     private class DaysAdapter extends RecyclerView.Adapter<AddCreditFragment.ViewHolderDialog> {
         private String[] days;
@@ -1215,6 +1222,10 @@ public class AddCreditFragment extends Fragment {
         }
 
 
+    }
+
+    public int getModeFromMain() {
+        return modeFromMain;
     }
 
     public class ViewHolderDialog extends RecyclerView.ViewHolder {
