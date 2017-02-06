@@ -76,9 +76,11 @@
         <item>Евро</item>
         <item>Гривна</item>
         <item>Фунт стерлингов</item>
+        <item>Лира</item>
         <item>Лев</item>
         <item>Тенге</item>
         <item>Белорусский рубль</item>
+        <item>Малазийский Ринггит</item>
         <item>Армянский драм</item>
         <item>Шекель</item>
         <item>Иена</item>
@@ -112,9 +114,11 @@
         <item>Швейцарский франк</item>
         <item>Сербский динар</item>
         <item>Бат</item>
-        <item>Лира</item>
-        <item>Афгани</item>
         <item>Дирхам ОАЭ</item>
+        <item>Аргентинское Песо</item>
+        <item>Боливар</item>
+        <item>Лари</item>
+        <item>Сом</item>
     </string-array>
     <string-array name="base_abbrs">
         <item>$</item>
@@ -122,9 +126,11 @@
         <item>€</item>
         <item>₴</item>
         <item>£</item>
+        <item>₺</item>
         <item>лв</item>
         <item>₸</item>
         <item>BYN</item>
+        <item>RM</item>
         <item>РА</item>
         <item>₪</item>
         <item>¥</item>
@@ -158,9 +164,11 @@
         <item>₣</item>
         <item>din</item>
         <item>฿</item>
-        <item>₺</item>
-        <item>؋</item>
         <item>.د.إ</item>
+        <item>$</item>
+        <item>Bs</item>
+        <item>₾</item>
+        <item>с</item>
     </string-array>
     <string-array name="currency_ids">
         <item>currency_1</item>
@@ -207,11 +215,19 @@
         <item>currency_42</item>
         <item>currency_43</item>
         <item>currency_44</item>
+        <item>currency_45</item>
+        <item>currency_46</item>
+        <item>currency_47</item>
+        <item>currency_48</item>
     </string-array>
     <string-array name="currency_costs">
         <item>1.0</item>
         <item>0.0154</item>
         <item>0.9</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
         <item>1.0</item>
         <item>1.0</item>
         <item>1.0</item>
@@ -1481,7 +1497,7 @@
     <string name="account_from">С счета</string>
     <string name="add_plus">+ Добавить</string>
     <string name="choise_icon">Выберите иконку</string>
-    <string name="main_curr">Основной курс</string>
+    <string name="main_curr">Основная валюта</string>
     <string name="name_of_category">Name of category</string>
     <string name="name_of_subcategory">Имя подкатегории</string>
     <string name="scet_imeet_nacalniy_sum">Счет имеет начальную сумму</string>

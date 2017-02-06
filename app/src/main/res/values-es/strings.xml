@@ -49,9 +49,11 @@
         <item>Euro</item>
         <item>Hryvnia</item>
         <item>Esterlina</item>
+        <item>Lear</item>
         <item>Leo</item>
         <item>Tenge</item>
         <item>Rublo Bielorusso</item>
+        <item> Malaysian Ringgit</item>
         <item>Dram Armenio</item>
         <item>Siclo</item>
         <item>Yenes</item>
@@ -85,7 +87,12 @@
         <item>Franco Suizo</item>
         <item>Dinar Serbio</item>
         <item>Bath</item>
-        <item>Lear</item>
+        <item>UAE Dirham</item>
+        <item> Argentine Peso</item>
+        <item> Convertible Mark</item>
+        <item> Bolivar</item>
+        <item> Lari</item>
+        <item> Som</item>
     </string-array>
     <string-array name="base_abbrs">
         <item>$</item>
@@ -93,9 +100,11 @@
         <item>€</item>
         <item>₴</item>
         <item>£</item>
+        <item>₺</item>
         <item>лв</item>
         <item>₸</item>
         <item>BYN</item>
+        <item>RM</item>
         <item>РА</item>
         <item>₪</item>
         <item>¥</item>
@@ -129,7 +138,12 @@
         <item>₣</item>
         <item>din</item>
         <item>฿</item>
-        <item>₺</item>
+        <item>.د.إ</item>
+        <item>$</item>
+        <item>KM</item>
+        <item>Bs</item>
+        <item>₾</item>
+        <item>с</item>
     </string-array>
     <string-array name="currency_ids">
         <item>currency_1</item>
@@ -174,11 +188,25 @@
         <item>currency_40</item>
         <item>currency_41</item>
         <item>currency_42</item>
+        <item>currency_43</item>
+        <item>currency_44</item>
+        <item>currency_45</item>
+        <item>currency_46</item>
+        <item>currency_47</item>
+        <item>currency_48</item>
+        <item>currency_49</item>
     </string-array>
     <string-array name="currency_costs">
         <item>1.0</item>
         <item>0.0154</item>
         <item>0.9</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
         <item>1.0</item>
         <item>1.0</item>
         <item>1.0</item>

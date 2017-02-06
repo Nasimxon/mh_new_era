@@ -25,6 +25,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -48,10 +49,12 @@ import com.jim.finansia.database.SubCategory;
 import com.jim.finansia.database.TemplateAccount;
 import com.jim.finansia.database.TemplateCurrencyVoice;
 import com.jim.finansia.database.TemplateVoice;
+import com.jim.finansia.finance.TransferAccountAdapter;
 import com.jim.finansia.managers.CommonOperations;
 import com.jim.finansia.managers.FinansiaFirebaseAnalytics;
 import com.jim.finansia.managers.PAFragmentManager;
 import com.jim.finansia.managers.ReportManager;
+import com.jim.finansia.utils.CurrencySpinnerAdapter;
 import com.jim.finansia.utils.GetterAttributColors;
 import com.jim.finansia.utils.PocketAccounterGeneral;
 import com.jim.finansia.utils.WarningDialog;
@@ -170,20 +173,41 @@ public class VoiceRecognizerFragment extends Fragment {
         tvSpeechModeAdjective = (TextView) rootView.findViewById(R.id.tvSpeechModeAdjective);
         autoSave = (TextView) rootView.findViewById(R.id.tvAutoSaveVoice);
         initVoices();
-        curString = new String[daoSession.getCurrencyDao().loadAll().size()];
-        for (int i = 0; i < curString.length; i++) {
-            curString[i] = daoSession.getCurrencyDao().loadAll().get(i).getAbbr();
+        final List<String> curs = new ArrayList<>();
+        final List<String> cursName = new ArrayList<>();
+        for (Currency cr : daoSession.getCurrencyDao().loadAll()) {
+            curs.add(cr.getAbbr());
+            cursName.add(cr.getName());
         }
-        ArrayAdapter<String> curAdapter = new ArrayAdapter<>(getContext(),
-                R.layout.spinner_item, curString);
-        spSpeechCurrency.setAdapter(curAdapter);
-        accString = new String[daoSession.getAccountDao().loadAll().size()];
-        for (int i = 0; i < accString.length; i++) {
-            accString[i] = daoSession.getAccountDao().loadAll().get(i).getName();
+        spSpeechCurrency.setAdapter(new CurrencySpinnerAdapter(getContext(), (ArrayList) curs,(ArrayList) cursName));
+        List<String> accStrings = new ArrayList<>();
+        for (Account ac : daoSession.getAccountDao().loadAll()) {
+            accStrings.add(ac.getId());
         }
-        final ArrayAdapter<String> accAdapter = new ArrayAdapter<>(getContext(),
-                R.layout.spiner_gravity_right5, accString);
-        spSpeechAccount.setAdapter(accAdapter);
+        spSpeechAccount.setAdapter(new TransferAccountAdapter(getContext(),accStrings));
+        final List<Account> allAccounts = daoSession.loadAll(Account.class);
+        String lastAccountId = preferences.getString("CHOSEN_ACCOUNT_ID",  "");
+        if (lastAccountId != null && !lastAccountId.isEmpty()) {
+            int position = 0;
+            for (int i = 0; i < allAccounts.size(); i++) {
+                if (allAccounts.get(i).getId().equals(lastAccountId)) {
+                    position = i;
+                    break;
+                }
+            }
+            spSpeechAccount.setSelection(position);
+        }
+        spSpeechAccount.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                preferences.edit().putString("CHOSEN_ACCOUNT_ID", allAccounts.get(i).getId()).commit();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
         rlCenterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
