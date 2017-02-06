@@ -16,7 +16,11 @@ import com.jim.finansia.utils.PocketAccounterGeneral;
 
 import org.greenrobot.greendao.database.Database;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -38,111 +42,70 @@ public class AutoMarketService extends Service {
         autoMarketDao = daoSession.getAutoMarketDao();
         financeRecordDao = daoSession.getFinanceRecordDao();
         Calendar currentDay = Calendar.getInstance();
-
-        for (AutoMarket au : autoMarketDao.loadAll()) {
-            if (au.getType()) {
-                String[] days = au.getDates().split(",");
-                for (String day : days) {
-                    if (au.getType() && Integer.parseInt(day) == currentDay.get(Calendar.DAY_OF_MONTH)) {
-                        // sanalar uchun
-                        boolean tek = false;
-                        for (FinanceRecord fn : daoSession.getFinanceRecordDao().loadAll()) {
-                            if (fn.getDate().get(Calendar.DAY_OF_MONTH) == currentDay.get(Calendar.DAY_OF_MONTH)
-                                    && fn.getRecordId().startsWith("auto")
-                                    && fn.getCategory().getId().matches(au.getCatId())
-                                    && fn.getSubCategory().getId().matches(au.getCatSubId())) {
-                                tek = true;
-                                break;
-                            }
-                        }
-                        FinanceRecord financeRecord = new FinanceRecord();
-                        financeRecord.setRecordId("auto" + UUID.randomUUID().toString());
-                        financeRecord.setCategory(au.getRootCategory());
-                        financeRecord.setSubCategory(au.getSubCategory());
-                        financeRecord.setCurrency(au.getCurrency());
-                        financeRecord.setAccount(au.getAccount());
-                        financeRecord.setAmount(au.getAmount());
-                        financeRecord.setDate(currentDay);
-                        if (!tek) {
-                            daoSession.getFinanceRecordDao().insertOrReplace(financeRecord);
-                            Log.d("sss", "te = ");
-                        }
-                    }
-                }
-            } else {
-                String dayString [] = au.getPosDays().split(",");
-                int positionDays [] = new int[dayString.length];
-                for (int i = 0; i < dayString.length; i++) {
-                    Log.d("akakakak", "do: "+dayString[i]);
-
-                    positionDays[i] = Integer.parseInt(dayString[i])+2;
-                    if(positionDays[i]==8){
-                        positionDays[i]=1;
-                    }
-                }
-                for (int pos : positionDays) {
-                    if (pos == currentDay.get(Calendar.DAY_OF_WEEK)) {
-                        boolean tek = false;
-                        for (FinanceRecord fn : daoSession.getFinanceRecordDao().loadAll()) {
-                            if (fn.getDate().get(Calendar.DAY_OF_YEAR) == currentDay.get(Calendar.DAY_OF_YEAR)
-                                    && fn.getRecordId().startsWith("auto")
-                                    && fn.getCategory().getId().matches(au.getCatId())
-                                    && fn.getSubCategory().getId().matches(au.getCatSubId())) {
-                                tek = true;
-                                break;
-                            }
-                        }
-                        FinanceRecord financeRecord = new FinanceRecord();
-                        financeRecord.setRecordId("auto" + UUID.randomUUID().toString());
-                        financeRecord.setCategory(au.getRootCategory());
-                        financeRecord.setSubCategory(au.getSubCategory());
-                        financeRecord.setCurrency(au.getCurrency());
-                        financeRecord.setAccount(au.getAccount());
-                        financeRecord.setAmount(au.getAmount());
-                        financeRecord.setDate(currentDay);
-                        if (!tek) {
-                            daoSession.getFinanceRecordDao().insertOrReplace(financeRecord);
-                            Log.d("sss", "te = ");
+        List<FinanceRecord> financeRecords = daoSession.queryBuilder(FinanceRecord.class).where(FinanceRecordDao.Properties.RecordId.like("auto%")).list();
+        Collections.sort(financeRecords, new Comparator<FinanceRecord>() {
+            @Override
+            public int compare(FinanceRecord financeRecord, FinanceRecord t1) {
+                return t1.getDate().compareTo(financeRecord.getDate());
+            }
+        });
+        Calendar lastRecord = Calendar.getInstance();
+        if(!financeRecords.isEmpty()){
+            lastRecord = (Calendar) financeRecords.get(0).getDate().clone();
+            lastRecord.add(Calendar.DAY_OF_MONTH, 1);
+        }
+        lastRecord.set(Calendar.HOUR_OF_DAY,0);
+        lastRecord.set(Calendar.MINUTE,0);
+        lastRecord.set(Calendar.SECOND,0);
+        lastRecord.set(Calendar.MILLISECOND,0);
+        List<AutoMarket> allAutoOperations  = autoMarketDao.loadAll();
+        while (lastRecord.compareTo(currentDay) <= 0) {
+            for (AutoMarket autoMarket : allAutoOperations) {
+                if (autoMarket.getType()) {
+                    String[] days = autoMarket.getDates().split(",");
+                    for (String day : days) {
+                        int d = Integer.parseInt(day);
+                        if (d == lastRecord.get(Calendar.DAY_OF_MONTH)) {
+                            FinanceRecord financeRecord = new FinanceRecord();
+                            financeRecord.setRecordId("auto" + UUID.randomUUID().toString());
+                            financeRecord.setCategory(autoMarket.getRootCategory());
+                            financeRecord.setSubCategory(autoMarket.getSubCategory());
+                            financeRecord.setCurrency(autoMarket.getCurrency());
+                            financeRecord.setAccount(autoMarket.getAccount());
+                            financeRecord.setAmount(autoMarket.getAmount());
+                            financeRecord.setDate(lastRecord);
+                            daoSession.insertOrReplace(financeRecord);
                         }
                     }
                 }
+                else {
+                    String dayString [] = autoMarket.getPosDays().split(",");
+                    int positionDays [] = new int[dayString.length];
+                    for (int i = 0; i < dayString.length; i++) {
+                        positionDays[i] = Integer.parseInt(dayString[i])+2;
+                        if(positionDays[i]==8){
+                            positionDays[i]=1;
+                        }
+                    }
+                    for (int i : positionDays) {
+                        if (lastRecord.get(Calendar.DAY_OF_WEEK) == i) {
+                            FinanceRecord financeRecord = new FinanceRecord();
+                            financeRecord.setRecordId("auto" + UUID.randomUUID().toString());
+                            financeRecord.setCategory(autoMarket.getRootCategory());
+                            financeRecord.setSubCategory(autoMarket.getSubCategory());
+                            financeRecord.setCurrency(autoMarket.getCurrency());
+                            financeRecord.setAccount(autoMarket.getAccount());
+                            financeRecord.setAmount(autoMarket.getAmount());
+                            financeRecord.setDate(lastRecord);
+                            daoSession.insertOrReplace(financeRecord);
+                        }
+                    }
+                }
+                lastRecord.add(Calendar.DAY_OF_MONTH, 1);
             }
         }
         db.close();
         return super.onStartCommand(intent, flags, startId);
-    }
-
-    private void chekAutoMarket(AutoMarket au) {
-        FinanceRecord financeRecord = new FinanceRecord();
-        financeRecord.setRecordId("auto" + UUID.randomUUID().toString());
-        financeRecord.setCategory(au.getRootCategory());
-        financeRecord.setSubCategory(au.getSubCategory());
-        financeRecord.setCurrency(au.getCurrency());
-        financeRecord.setAccount(au.getAccount());
-        financeRecord.setAmount(au.getAmount());
-        financeRecord.setDate(Calendar.getInstance());
-        switch (insertFinanceRecord(financeRecord)) {
-            case HAVE_SUCH_CATEGORY_RECORD: {
-                Log.d("sss", "have to Category");
-                break;
-            }
-            case SAVE_CATEGORY_RECORD: {
-                Log.d("sss", "saved finance record");
-                break;
-            }
-        }
-    }
-
-    private int insertFinanceRecord(FinanceRecord financeRecord) {
-        for (FinanceRecord fn : financeRecordDao.loadAll()) {
-            if (fn.getDate().compareTo(financeRecord.getDate()) == 0 && fn.getRecordId().startsWith("auto")
-                    && fn.getCategory().getId().matches(financeRecord.getCategory().getId()) &&
-                    fn.getSubCategory().getId().matches(financeRecord.getSubCategory().getId())) {
-                return HAVE_SUCH_CATEGORY_RECORD;
-            }
-        }
-        financeRecordDao.insertOrReplace(financeRecord);
-        return SAVE_CATEGORY_RECORD;
     }
 
     @Nullable

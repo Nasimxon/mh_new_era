@@ -65,7 +65,7 @@ public class AutoMarketFragment extends Fragment implements View.OnClickListener
     private AutoMarketDao autoMarketDao;
     private AutoAdapter autoAdapter;
     private TextView ifListEmpty;
-
+//    private List<>
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -118,6 +118,7 @@ public class AutoMarketFragment extends Fragment implements View.OnClickListener
         public AutoAdapter() {
             list = (ArrayList<AutoMarket>) autoMarketDao.loadAll();
             String temp = "AutoMarket records: ";
+
             for (AutoMarket autoMarket : list) {
                 temp += autoMarket.getRootCategory().getName() + ", ";
             }
@@ -127,27 +128,31 @@ public class AutoMarketFragment extends Fragment implements View.OnClickListener
                 ifListEmpty.setText(R.string.auto_op_is_empty);
             } else {
                 ifListEmpty.setVisibility(View.GONE);
+                openedShlyuzDatePicker = new boolean[list.size()];
             }
         }
 
         public int checkCalculateLeftDayForDate (String [] days) {
-            int current = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+            Calendar calendar = Calendar.getInstance();
+            int current = calendar.get(Calendar.DAY_OF_MONTH);
             for (String day : days) {
-                if (current < Integer.parseInt(day) + 1) {
+                int i = Integer.parseInt(day) + 1;
+                if(i<calendar.getActualMaximum(Calendar.DAY_OF_MONTH))
+                    if (current < i) {
                     current = Integer.parseInt(day) + 1;
                     break;
                 }
             }
-            if (current == Calendar.getInstance().get(Calendar.DAY_OF_MONTH)) {
+            if (current == calendar.get(Calendar.DAY_OF_MONTH)) {
                 if (days.length == 1) {
                     // left one month
-                    current = Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH);
+                    current = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
                 } else {
-                    current = Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH)
+                    current = calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
                             - current + Integer.parseInt(days[0]) + 1;
                 }
             } else {
-                current = current - Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+                current = current - calendar.get(Calendar.DAY_OF_MONTH);
             }
             return current;
         }
@@ -184,7 +189,7 @@ public class AutoMarketFragment extends Fragment implements View.OnClickListener
 
         private DaysAdapter daysAdapter;
         private RecordAdapter recordAdapter;
-
+        boolean openedShlyuzDatePicker[];
         public void onBindViewHolder(final ViewHolder view, final int position) {
             view.catName.setText(list.get(position).getRootCategory().getName());
             view.recyclerView.setVisibility(View.GONE);
@@ -207,6 +212,33 @@ public class AutoMarketFragment extends Fragment implements View.OnClickListener
                         +  " " + formatter.format(list.get(position).getAmount()) + list.get(position).getCurrency().getAbbr());
             }
             view.account.setText(list.get(position).getAccount().getName());
+            if(openedShlyuzDatePicker[position]){
+
+
+                    view.linlayOpertaionList.setVisibility(View.GONE);
+                    view.recyclerViewWeeks.setVisibility(View.VISIBLE);
+                    view.ivCalendar.setColorFilter(Color.BLACK);
+                    view.tvOperation.setTextColor(Color.BLACK);
+                    view.ivClock.setColorFilter(Color.parseColor("#c8c8c8"));
+                    view.nextDay.setTextColor(Color.parseColor("#c8c8c8"));
+                    daysAdapter = new DaysAdapter(list.get(position));
+                    view.recyclerViewWeeks.setVisibility(View.VISIBLE);
+                    view.llAutoMarketItemSwitchMode.setVisibility(View.VISIBLE);
+                    view.llAutoMarketItemDefaultMode.setVisibility(View.GONE);
+                    view.deleteOperationItem.setVisibility(View.GONE);
+                    view.rvTitle.setText(R.string.select_days);
+                    RecyclerView.LayoutManager layoutManager;
+                    if (list.get(position).getType()) {
+                        // todo It's numbers
+                        layoutManager = new StaggeredGridLayoutManager(7, StaggeredGridLayoutManager.VERTICAL);
+                    } else {
+                        // todo It's weeks
+                        layoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL);
+                    }
+                    view.recyclerViewWeeks.setLayoutManager(layoutManager);
+                    view.recyclerViewWeeks.setAdapter(daysAdapter);
+
+            }
             view.llAutoMarketItemDays.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -361,7 +393,16 @@ public class AutoMarketFragment extends Fragment implements View.OnClickListener
                 view.nextDay.setText(getResources().getString(R.string.next_operations)+":\n" + checkCalculateLeftDayForWeeks(list.get(position).getPosDays().split(",")) + " " + getResources().getString(R.string.day));
             }
         }
-
+        public void updateLeftDate(AutoMarket autoMarket){
+            int position = list.indexOf(autoMarket);
+            openedShlyuzDatePicker[position]=true;
+            this.notifyItemChanged(position);
+//            if (autoMarket.getType()) {
+//                 viewMain.nextDay.setText(getResources().getString(R.string.next_operations)+":\n" + checkCalculateLeftDayForDate(autoMarket.getPosDays().split(",")) + " " + getResources().getString(R.string.day));
+//            } else {
+//                viewMain.nextDay.setText(getResources().getString(R.string.next_operations)+":\n" + checkCalculateLeftDayForWeeks(autoMarket.getPosDays().split(",")) + " " + getResources().getString(R.string.day));
+//            }
+        }
         public ViewHolder onCreateViewHolder(ViewGroup parent, int var2) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.auto_market_item_layout, parent, false);
             return new ViewHolder(view);
@@ -496,6 +537,8 @@ public class AutoMarketFragment extends Fragment implements View.OnClickListener
                     autoMarket.setPosDays(posDays());
                     autoMarket.setDates(sequence);
                     daoSession.getAutoMarketDao().insertOrReplace(autoMarket);
+
+                    autoAdapter.updateLeftDate(autoMarket);
                 }
             });
         }
@@ -563,21 +606,24 @@ public class AutoMarketFragment extends Fragment implements View.OnClickListener
         public int getItemCount() {
             return financeRecordList.size() + 1;
         }
-
+        Calendar calendar;
         @Override
         public void onBindViewHolder(final ViewHolderRecord view, final int position) {
+            calendar = Calendar.getInstance();
             if (position == 0) {
                 Calendar nextOperation = Calendar.getInstance();
                 String[] days = autoMarket.getPosDays().split(",");
                 if (autoMarket.getType()) {
-                    int current = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+                    int current = calendar.get(Calendar.DAY_OF_MONTH);
                     for (String day : days) {
-                        if (current < Integer.parseInt(day) + 1) {
-                            current = Integer.parseInt(day) + 1;
+                        int i = Integer.parseInt(day) + 1;
+                        if(i<calendar.getActualMaximum(Calendar.DAY_OF_MONTH))
+                        if (current < i) {
+                            current = i;
                             break;
                         }
                     }
-                    if (current == Calendar.getInstance().get(Calendar.DAY_OF_MONTH)) {
+                    if (current == calendar.get(Calendar.DAY_OF_MONTH)) {
                         if (days.length == 1) {
                             // left one month
                             nextOperation.add(Calendar.MONTH, 1);

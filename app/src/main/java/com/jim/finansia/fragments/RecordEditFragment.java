@@ -146,6 +146,7 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
     private View mainView;
     private static final int MY_PERMISSIONS_REQUEST_CAMERA = 18;
     private Spinner spRecordEdit;
+    private LinearLayout linbutview;
     @Inject SharedPreferences sharedPreferences;
     @Inject DaoSession daoSession;
     @Inject LogicManager logicManager;
@@ -280,7 +281,7 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
                     (new Handler()).postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            ((PocketAccounter) getContext()).getSupportFragmentManager().popBackStack();
+                            paFragmentManager.getFragmentManager().popBackStack();
                             if (parent == PocketAccounterGeneral.MAIN)
                                 paFragmentManager.displayMainWindow();
                             else if (parent == PocketAccounterGeneral.MAIN)
@@ -300,6 +301,7 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
         });
         ivAccountIcon = (ImageView) mainView.findViewById(R.id.ivAccountIcon);
         tvAccountName = (TextView) mainView.findViewById(R.id.tvAccountName);
+        linbutview = (LinearLayout) mainView.findViewById(R.id.numbersbut);
         rvAccountChoise = (RelativeLayout) mainView.findViewById(R.id.rvAccountChoise);
         spRecordEdit = (Spinner) mainView.findViewById(R.id.spRecordEdit);
         final List<Account> accountList = daoSession.getAccountDao().loadAll();
@@ -693,7 +695,6 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
                 },100);
 
                 // GONE BUTTONS AND COMMAND OPEN KEYBOARD
-                LinearLayout linbutview = (LinearLayout) view.findViewById(R.id.numbersbut);
                 TransitionManager.beginDelayedTransition(linbutview);
                 linbutview.setVisibility(View.GONE);
                 keyforback = false;
@@ -809,7 +810,6 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
                     if (!keykeboard ) {
                         keykeboard = true;
                         if(keyForDesideOpenSubCategoryDialog){
-                            LinearLayout linbutview = (LinearLayout) view.findViewById(R.id.numbersbut);
                             linbutview.setVisibility(View.GONE);
 //                            openLayout();
                         }else {
@@ -1560,7 +1560,6 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
         AutoTransition cus = new AutoTransition();
         cus.setDuration(300);
         cus.setStartDelay(0);
-        LinearLayout linbutview = (LinearLayout) mainView.findViewById(R.id.numbersbut);
         TransitionManager.beginDelayedTransition(myListPhoto);
         myListPhoto.setVisibility(View.VISIBLE);
         TransitionManager.beginDelayedTransition(linbutview, cus);
