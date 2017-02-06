@@ -107,7 +107,7 @@ public class CreditFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         View V=inflater.inflate(R.layout.fragment_credit, container, false);
 //        editor.putInt("FRAG_ID", 3).commit();
@@ -134,6 +134,7 @@ public class CreditFragment extends Fragment {
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 if(creditTabLay==null) {
                     for (Fragment fragment : paFragmentManager.getFragmentManager().getFragments()){
+                        if (fragment == null) continue;
                         if (fragment.getClass().getName().equals(CreditTabLay.class.getName())){
                             creditTabLay = (CreditTabLay) fragment;
                             break;
@@ -423,6 +424,7 @@ public class CreditFragment extends Fragment {
                         paFragmentManager.updateAllFragmentsOnViewPager();
                         if(creditTabLay==null) {
                             for (Fragment fragment : paFragmentManager.getFragmentManager().getFragments()){
+                                if (fragment == null) continue;
                                 if (fragment.getClass().getName().equals(CreditTabLay.class.getName())){
                                     creditTabLay = (CreditTabLay) fragment;
                                     break;

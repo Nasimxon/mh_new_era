@@ -67,11 +67,10 @@ public class RootCategoryEditFragment extends PABaseInfoFragment implements OnCl
         View rootView = inflater.inflate(R.layout.cat_edit_layout, container, false);
         if (getArguments() != null) {
             categoryId = getArguments().getString(CategoryFragment.CATEGORY_ID);
-            if (categoryId != null) {
+            if (categoryId != null)
                 category = daoSession.load(RootCategory.class, categoryId);
-            }
             pos = getArguments().getInt(CategoryFragment.POSITION);
-            mode = getArguments().getInt(CategoryFragment.MODE);
+            editMode = getArguments().getInt(CategoryFragment.MODE);
         }
         toolbarManager.setOnHomeButtonClickListener(new OnClickListener() {
             @Override
@@ -89,7 +88,23 @@ public class RootCategoryEditFragment extends PABaseInfoFragment implements OnCl
                 v.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        paFragmentManager.getFragmentManager().popBackStack();
+                        if (editMode == PocketAccounterGeneral.MAIN || editMode == PocketAccounterGeneral.EXPANSE_MODE || editMode == PocketAccounterGeneral.INCOME_MODE) {
+                            paFragmentManager.displayMainWindow();
+                        } else {
+                            boolean found = false;
+                            for (Fragment fragment : paFragmentManager.getFragmentManager().getFragments()) {
+                                if (fragment instanceof CategoryFragment) {
+                                    ((CategoryFragment) fragment).refreshList();
+                                    found = true;
+                                }
+                            }
+                            paFragmentManager.getFragmentManager().popBackStack();
+                            if (!found) {
+                                paFragmentManager.getFragmentManager().popBackStack();
+                                paFragmentManager.displayFragment(new CategoryFragment());
+
+                            }
+                        }
                     }
                 }, 50);
             }

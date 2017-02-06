@@ -331,6 +331,7 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
                 AccountChoiseDialogAdapter adapter = new AccountChoiseDialogAdapter(accountList, getContext(), new AccountChoiseDialogAdapter.OnItemSelectListner() {
                     @Override
                     public void onItemSelect(Account fromDialog) {
+                        if (getContext() == null) return;
                         int resId = getResources().getIdentifier(fromDialog.getIcon(), "drawable", getContext().getPackageName());
                         ivAccountIcon.setImageResource(resId);
                         tvAccountName.setText(fromDialog.getName());
@@ -1368,6 +1369,7 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
         if (parent == PocketAccounterGeneral.DETAIL) {
             boolean found = false;
             for (Fragment fragment : paFragmentManager.getFragmentManager().getFragments()) {
+                if (fragment == null) continue;
                 if (fragment.getClass().getName().equals(RecordDetailFragment.class.getName())) {
                     ((RecordDetailFragment)fragment).updateFragments();
                     found = true;
@@ -1376,7 +1378,12 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
             }
             paFragmentManager.getFragmentManager().popBackStack();
             if (!found) {
-                //TODO
+                SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+                Bundle bundle = new Bundle();
+                bundle.putString(RecordDetailFragment.DATE, format.format(date.getTime()));
+                RecordDetailFragment fragment = new RecordDetailFragment();
+                fragment.setArguments(bundle);
+                paFragmentManager.displayFragment(fragment);
             }
         } else if (parent == PocketAccounterGeneral.MAIN){
             reportManager.clearCache();
@@ -1409,9 +1416,9 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
         subCategories.add(null);
         dialogView.findViewById(R.id.llToolBars).setVisibility(View.GONE);
 
-         TextView title = (TextView) dialogView.findViewById(R.id.title);
+        TextView title = (TextView) dialogView.findViewById(R.id.title);
         title.setText(R.string.choise_subcategory);
-         RecyclerView rvCategoryChoose = (RecyclerView) dialogView.findViewById(R.id.lvCategoryChoose);
+        RecyclerView rvCategoryChoose = (RecyclerView) dialogView.findViewById(R.id.lvCategoryChoose);
         choiseCategoryDialoogItemAdapter = new ChoiseCategoryDialoogItemAdapter(subCategories, getContext(), new ChoiseCategoryDialoogItemAdapter.OnItemSelected() {
             @Override
             public void itemPressed(String itemID) {
@@ -1510,6 +1517,18 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
 
 
 
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        Log.d("sss", "onAttach: ");
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        Log.d("sss", "onDetach: ");
     }
 
     @Override
