@@ -74,6 +74,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 import javax.inject.Inject;
@@ -856,13 +857,16 @@ public class CommonOperations {
         String[] currencyIds = context.getResources().getStringArray(R.array.currency_ids);
         String[] currencyCostAmounts = context.getResources().getStringArray(R.array.currency_costs);
         String[] currencySigns = context.getResources().getStringArray(R.array.base_abbrs);
-
+        int defaultMainCurrencyPosition = 0;
+        String language = Locale.getDefault().getLanguage();
+        if (language.equals("ru"))
+            defaultMainCurrencyPosition = 1;
         Calendar momentDay = Calendar.getInstance();
         for (int i = 0; i < 3; i++) {
             Currency currency = new Currency();
             currency.setName(currencyNames[i]);
             currency.setId(currencyIds[i]);
-            currency.setMain(i == 0);
+            currency.setMain(i == defaultMainCurrencyPosition);
             currency.setAbbr(currencySigns[i]);
             daoSession.getCurrencyDao().insertOrReplace(currency);
             UserEnteredCalendars userEnteredCalendars = new UserEnteredCalendars();

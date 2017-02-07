@@ -432,7 +432,7 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
                                         break;
                                     }
                                     case LogicManagerConstants.DELETED_SUCCESSFUL: {
-                                        if (mode == PocketAccounterGeneral.INCOME_MODE || mode == PocketAccounterGeneral.EXPANSE_MODE) {
+                                        if (mode == PocketAccounterGeneral.MAIN) {
                                             paFragmentManager.displayMainWindow();
                                         } else if (mode == PocketAccounterGeneral.DETAIL){
                                             Bundle bundle = new Bundle();
@@ -448,10 +448,17 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
                                             fragment.setArguments(bundle);
                                             boolean found = false;
                                             for (Fragment frag : paFragmentManager.getFragmentManager().getFragments()) {
-                                                if (frag.getClass().getName().equals(BorrowFragment.class.getName())) {
+                                                if (frag instanceof  BorrowFragment) {
                                                     BorrowFragment borrowFragment = (BorrowFragment) frag;
                                                     if (borrowFragment != null) {
                                                         borrowFragment.refreshList();
+                                                        found = true;
+                                                    }
+                                                }
+                                                if (frag instanceof  DebtBorrowFragment) {
+                                                    DebtBorrowFragment DebtBorrowFragment = (DebtBorrowFragment) frag;
+                                                    if (DebtBorrowFragment != null) {
+                                                        DebtBorrowFragment.updateToolbar();
                                                         found = true;
                                                     }
                                                 }
@@ -461,7 +468,6 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
                                                 paFragmentManager.getFragmentManager().popBackStack();
                                                 paFragmentManager.displayFragment(new DebtBorrowFragment());
                                             }
-
                                         }
                                         List<BoardButton> boardButtons = daoSession.getBoardButtonDao().loadAll();
                                         for (BoardButton boardButton : boardButtons) {

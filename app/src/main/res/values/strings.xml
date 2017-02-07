@@ -1298,7 +1298,7 @@
         <item>Credits</item>
         <item>Debts</item>
         <item>Functions</item>
-        <item>Pages</item>
+        <item>Sections</item>
     </string-array>
     <string-array name="operation_names">
         <item>Sync with Google</item>
@@ -1332,9 +1332,7 @@
         <item>Auto operations</item>
         <item>Credits</item>
         <item>Debts</item>
-        <item>Report by account</item>
-        <item>Report by income and expense</item>
-        <item>Report by category</item>
+        <item>Report</item>
         <item>SMS Parsing</item>
         <item>Settings</item>
     </string-array>
@@ -1346,9 +1344,7 @@
         <item>auto_page</item>
         <item>credit_page</item>
         <item>debtborrow_page</item>
-        <item>report_by_account_page</item>
-        <item>report_by_income_expense_page</item>
-        <item>report_by_category_page</item>
+        <item>report</item>
         <item>sms_parsing_page</item>
         <item>settings_page</item>
     </string-array>

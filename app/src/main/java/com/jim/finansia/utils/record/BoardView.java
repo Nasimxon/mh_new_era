@@ -58,6 +58,7 @@ import com.jim.finansia.fragments.RecordDetailFragment;
 import com.jim.finansia.fragments.RecordEditFragment;
 import com.jim.finansia.fragments.ReportByAccountFragment;
 import com.jim.finansia.fragments.ReportByCategory;
+import com.jim.finansia.fragments.ReportFragment;
 import com.jim.finansia.fragments.RootCategoryEditFragment;
 import com.jim.finansia.fragments.SmsParseMainFragment;
 import com.jim.finansia.fragments.TableBarFragment;
@@ -206,18 +207,12 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
                                     paFragmentManager.displayFragment(new DebtBorrowFragment());
                                     break;
                                 case 7:
-                                    paFragmentManager.displayFragment(new ReportByAccountFragment());
+                                    paFragmentManager.displayFragment(new ReportFragment());
                                     break;
                                 case 8:
-                                    paFragmentManager.displayFragment(new TableBarFragment());
-                                    break;
-                                case 9:
-                                    paFragmentManager.displayFragment(new ReportByCategory());
-                                    break;
-                                case 10:
                                     paFragmentManager.displayFragment(new SmsParseMainFragment());
                                     break;
-                                case 11:
+                                case 9:
                                     Intent intent = new Intent(getContext(), SettingsActivity.class);
                                     getContext().startActivity(intent);
                                     break;

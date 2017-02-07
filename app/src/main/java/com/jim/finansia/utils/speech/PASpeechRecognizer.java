@@ -145,6 +145,7 @@ public class PASpeechRecognizer implements RecognitionListener {
                 break;
             case SpeechRecognizer.ERROR_SERVER:
                 message = "error from server";
+                Toast.makeText(context, R.string.voice_network_error, Toast.LENGTH_SHORT).show();
                 break;
             case SpeechRecognizer.ERROR_SPEECH_TIMEOUT:
                 message = "No speech input";

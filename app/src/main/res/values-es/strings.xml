@@ -1220,7 +1220,7 @@
         <item>Créditos</item>
         <item>Deudas</item>
         <item>Función</item>
-        <item>Páginas</item>
+        <item>Secciónes</item>
     </string-array>
     <string-array name="operation_names">
         <item>Sincronizar con GOOGLE</item>
@@ -1254,9 +1254,7 @@
         <item>Auto operaciónes</item>
         <item>Créditos</item>
         <item>Deudas</item>
-        <item>Informe por cuenta</item>
-        <item>Informe por ingroso y gastoo</item>
-        <item>Informe por categoría</item>
+        <item>Informes</item>
         <item>SMS Análisis</item>
         <item>Ajustes</item>
     </string-array>
@@ -1268,9 +1266,7 @@
         <item>auto_page</item>
         <item>credit_page</item>
         <item>debtborrow_page</item>
-        <item>report_by_account_page</item>
-        <item>report_by_income_expense_page</item>
-        <item>report_by_category_page</item>
+        <item>report</item>
         <item>sms_parsing_page</item>
         <item>settings_page</item>
     </string-array>
