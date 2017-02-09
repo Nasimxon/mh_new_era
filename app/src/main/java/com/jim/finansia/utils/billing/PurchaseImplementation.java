@@ -250,11 +250,42 @@ public class PurchaseImplementation {
                             .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.IS_AVAILABLE_CHANGING_OF_FUNCTION, true)
                             .commit();
                     break;
-                case PocketAccounterGeneral.MoneyHolderSkus.SMS_PARSING_SKU:
+                case PocketAccounterGeneral.MoneyHolderSkus.DEBT_BORROW_SKU:
                     try {
+                        int count = preferences.getInt(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.DEBT_BORROW_COUNT_KEY, 0);
+                        count++;
+                        preferences.
+                                edit()
+                                .putInt(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.DEBT_BORROW_COUNT_KEY, count)
+                                .commit();
                         consumePurchase(purchaseToken);
                     } catch (Exception e) {
-                        Log.d("sss", "Error consuming gas. Another async operation in progress.");
+                        return;
+                    }
+                    break;
+                case PocketAccounterGeneral.MoneyHolderSkus.CREDIT_SKU:
+                    try {
+                        int count = preferences.getInt(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.CREDIT_COUNT_KEY, 0);
+                        count++;
+                        preferences.
+                                edit()
+                                .putInt(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.CREDIT_COUNT_KEY, count)
+                                .commit();
+                        consumePurchase(purchaseToken);
+                    } catch (Exception e) {
+                        return;
+                    }
+                    break;
+                case PocketAccounterGeneral.MoneyHolderSkus.SMS_PARSING_SKU:
+                    try {
+                        int count = preferences.getInt(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.SMS_PARSING_COUNT_KEY, 1);
+                        count++;
+                        preferences.
+                                edit()
+                                .putInt(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.SMS_PARSING_COUNT_KEY, count)
+                                .commit();
+                        consumePurchase(purchaseToken);
+                    } catch (Exception e) {
                         return;
                     }
                     break;
@@ -425,34 +456,25 @@ public class PurchaseImplementation {
         }
     }
 
+    public void buyAddingCredit() {
+        try {
+            InAppProduct product = new InAppProduct();
+            product.productId = PocketAccounterGeneral.MoneyHolderSkus.CREDIT_SKU;
+            product.isSubscription = false;
+            purchaseProduct(product);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
-    /** Verifies the developer payload of a purchase. */
-    boolean verifyDeveloperPayload(Purchase p) {
-        String payload = p.getDeveloperPayload();
-
-        /*
-         * TODO: verify that the developer payload of the purchase is correct. It will be
-         * the same one that you sent when initiating the purchase.
-         *
-         * WARNING: Locally generating a random string when starting a purchase and
-         * verifying it here might seem like a good approach, but this will fail in the
-         * case where the user purchases an item on one device and then uses your app on
-         * a different device, because on the other device you will not have access to the
-         * random string you originally generated.
-         *
-         * So a good developer payload has these characteristics:
-         *
-         * 1. If two different users purchase an item, the payload is different between them,
-         *    so that one user's purchase can't be replayed to another user.
-         *
-         * 2. The payload must be such that you can verify it even when the app wasn't the
-         *    one who initiated the purchase flow (so that items purchased by the user on
-         *    one device work on other devices owned by the user).
-         *
-         * Using your own server to store and verify developer payloads across app
-         * installations is recommended.
-         */
-
-        return true;
+    public void buyDebtBorrow() {
+        try {
+            InAppProduct product = new InAppProduct();
+            product.productId = PocketAccounterGeneral.MoneyHolderSkus.DEBT_BORROW_SKU;
+            product.isSubscription = false;
+            purchaseProduct(product);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

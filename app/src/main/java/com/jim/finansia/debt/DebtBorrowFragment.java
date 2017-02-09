@@ -26,6 +26,7 @@ import com.jim.finansia.database.DebtBorrowDao;
 import com.jim.finansia.managers.PAFragmentManager;
 import com.jim.finansia.managers.ToolbarManager;
 import com.jim.finansia.utils.PocketAccounterGeneral;
+import com.jim.finansia.utils.billing.PurchaseImplementation;
 
 import java.util.ArrayList;
 
@@ -36,6 +37,7 @@ public class DebtBorrowFragment extends Fragment implements View.OnClickListener
     @Inject PAFragmentManager paFragmentManager;
     @Inject DaoSession daoSession;
     @Inject SharedPreferences preferences;
+    @Inject PurchaseImplementation purchaseImplementation;
     private DebtBorrowDao debtBorrowDao;
     private BorrowFragment archiv;
     private final int BORROW_FRAGMENT = 0;

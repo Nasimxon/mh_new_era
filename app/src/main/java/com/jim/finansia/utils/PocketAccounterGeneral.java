@@ -30,11 +30,12 @@ public class PocketAccounterGeneral {
 			UP_RIGHT_SIMPLE_PRESSED = 17, UP_WORKSPACE_SHADER = 18, ICONS_NO_CATEGORY = 19,
 			DOWN_WORKSPACE_SHADER = 20, DOWN_MOST_LEFT = 21, DOWN_SIMPLE = 22, DOWN_MOST_RIGHT = 23,
 			DOWN_MOST_LEFT_PRESSED = 24, DOWN_SIMPLE_PRESSED = 25, DOWN_MOST_RIGHT_PRESSED = 26;
-
 	public static final String INFO_VISIBILITY = "INFO_VISIBILITY", VERTICAL_SELECTED_PAGE = "MAIN_SELECTED_PAGE", ACCOUNT_INFO_ENABLED_KEY = "ACCOUNT_INFO_ENABLED_KEY";
 	public static final String HEAD_COLOR = "HEAD_COLOR", HELPER_COLOR = "HELPER_COLOR";
 	public static final String BASE64RSA = BuildConfig.base64rsa;
 	public static final String CHOOSEN_THEME_NAME_KEY = "CHOOSEN_THEME_NAME_KEY";
+	public static final String FIRST_DEBT_BORROW = "FIRST_DEBT_BORROW";
+	public static final String FIRST_CREDIT = "FIRST_CREDIT";
 	public class MoneyHolderSkus {
 		public static final String SMS_PARSING_SKU = BuildConfig.sms_parsing_sku;
 		public static final String CREDIT_SKU = BuildConfig.credit_sku;
