@@ -28,6 +28,7 @@ public class CurrencyChooseFragment extends PABaseInfoFragment {
     private WarningDialog dialog;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.currency_choose_fragment, container, false);
         if (toolbarManager != null){
             toolbarManager.setTitle(getResources().getString(R.string.choose_currencies)); // toolbar settings

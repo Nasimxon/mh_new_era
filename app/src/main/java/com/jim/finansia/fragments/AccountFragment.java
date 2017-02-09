@@ -45,6 +45,7 @@ public class AccountFragment extends PABaseListFragment {
 	boolean isReportOpen = true;
 	public static final String ACCOUNT_ID = "account_id";
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		super.onCreateView(inflater, container, savedInstanceState);
 		final View rootView = inflater.inflate(R.layout.account_layout, container, false);
 		if (toolbarManager != null) {
 			toolbarManager.setOnHomeButtonClickListener(new OnClickListener() {

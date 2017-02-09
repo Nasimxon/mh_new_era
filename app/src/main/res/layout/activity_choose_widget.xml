@@ -9,7 +9,7 @@
         android:id="@+id/llCategoryCheckboxes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/toolbar_color"
+        android:background="?attr/headColor"
         android:orientation="horizontal"
         android:clickable="true">
 

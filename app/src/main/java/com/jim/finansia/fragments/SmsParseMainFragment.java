@@ -57,16 +57,13 @@ public class SmsParseMainFragment extends Fragment implements View.OnClickListen
     private FloatingActionButton floatingActionButton;
     private TextView ifListEmpty;
     public static final String SMS_PARSE_OBJECT_ID = "sms_parse_object_id";
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
-    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_sms_tab_lay, container, false);
+        ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
+
         if (toolbarManager != null) {
             toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
             toolbarManager.setTitle(getResources().getString(R.string.sms_parse));

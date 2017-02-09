@@ -48,6 +48,7 @@ public class AccountEditFragment extends PABaseInfoFragment implements OnClickLi
     private String choosenIcon = "add_icon";
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater,container,savedInstanceState);
         final View rootView = inflater.inflate(R.layout.account_edit_layout, container, false);
         if (toolbarManager != null) {
             toolbarManager.setOnHomeButtonClickListener(new OnClickListener() {

@@ -99,17 +99,14 @@ public class CreditFragment extends Fragment {
     private CreditTabLay creditTabLay;
 
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
-        creditDetialsDao = daoSession.getCreditDetialsDao();
-    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         View V=inflater.inflate(R.layout.fragment_credit, container, false);
+        ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
+        creditDetialsDao = daoSession.getCreditDetialsDao();
         if (toolbarManager != null)
         {
             toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);

@@ -66,18 +66,15 @@ public class AutoMarketFragment extends Fragment implements View.OnClickListener
     private AutoAdapter autoAdapter;
     private TextView ifListEmpty;
 //    private List<>
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
-        autoMarketDao = daoSession.getAutoMarketDao();
-    }
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setRetainInstance(false);
         View rootView = inflater.inflate(R.layout.auto_market_layout, container, false);
+        ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
+        autoMarketDao = daoSession.getAutoMarketDao();
         if (toolbarManager != null) {
             toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
             toolbarManager.setTitle(getResources().getString(R.string.auto_operations));

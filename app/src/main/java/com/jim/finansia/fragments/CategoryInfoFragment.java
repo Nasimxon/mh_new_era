@@ -63,6 +63,7 @@ public class CategoryInfoFragment extends PABaseInfoFragment {
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
         if (getArguments() != null) {
             String categoryId = getArguments().getString(CategoryFragment.CATEGORY_ID);
             if (categoryId != null) {

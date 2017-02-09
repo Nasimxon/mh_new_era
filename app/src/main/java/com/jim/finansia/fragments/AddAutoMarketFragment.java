@@ -100,9 +100,12 @@ public class AddAutoMarketFragment extends Fragment {
     private DaysAdapter daysAdapter;
     private RadioGroup radioGroup;
     List<RootCategory> categoryList;
+
+
+    @Nullable
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.add_auto_market_layout_modern, container, false);
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
         accountDao = daoSession.getAccountDao();
         currencyDao = daoSession.getCurrencyDao();
@@ -111,12 +114,6 @@ public class AddAutoMarketFragment extends Fragment {
             this.autoMarket = autoMarketDao.load(null == getArguments().getString("key") ? "" : getArguments().getString("key"));
         } catch (NullPointerException e) {
         }
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.add_auto_market_layout_modern, container, false);
         amount = (EditText) rootView.findViewById(R.id.etAddAutoMarketAmount);
         ivCategory = (ImageView) rootView.findViewById(R.id.ivAddAutoMarketCategory);
         spCurrency = (Spinner) rootView.findViewById(R.id.spAddAutoMarketCurrency);

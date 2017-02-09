@@ -35,6 +35,7 @@ public class CurrencyFragment extends PABaseListFragment implements OnClickListe
 	private boolean[] selected;
 	public static final String CURRENCY_ID = "currency_id";
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		super.onCreateView(inflater, container, savedInstanceState);
 		final View rootView = inflater.inflate(R.layout.currency_fragment, container, false);
 		if (toolbarManager != null)
 		{

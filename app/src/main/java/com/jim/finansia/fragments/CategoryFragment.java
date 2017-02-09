@@ -45,6 +45,7 @@ public class CategoryFragment extends PABaseListFragment implements OnClickListe
 	public static final String MODE = "mode";
 	public static final String POSITION = "position";
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		super.onCreateView(inflater, container, savedInstanceState);
 		final View rootView = inflater.inflate(R.layout.category_layout, container, false);
 		if (toolbarManager != null) {
 			toolbarManager.setSubtitleIconVisibility(View.GONE);
@@ -115,6 +116,13 @@ public class CategoryFragment extends PABaseListFragment implements OnClickListe
 		toolbarManager.setSubtitle("");
 		toolbarManager.setOnTitleClickListener(null);
 		toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
+		toolbarManager.setImageToHomeButton(R.drawable.ic_drawer);
+		toolbarManager.setOnHomeButtonClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				drawerInitializer.getDrawer().openLeftSide();
+			}
+		});
 		ArrayList<RootCategory> categories = new ArrayList<RootCategory>();
 		List<RootCategory> rootCategories = daoSession.getRootCategoryDao().queryBuilder().orderAsc(RootCategoryDao.Properties.Name).list();
 		for (RootCategory rootCategory : rootCategories) {

@@ -47,6 +47,7 @@ public class ScheduleCreditFragment extends PABaseFragment {
     private int localAppereance = CreditTabLay.LOCAL_MAIN;
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_schedule_credit, container, false);
         if (toolbarManager != null)
         {

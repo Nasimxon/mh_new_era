@@ -72,16 +72,14 @@ public class CreditTabLay extends Fragment implements View.OnClickListener, View
             toolbarManager.setSubtitleIconVisibility(View.GONE);
         }
     }
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
+
         final View V=inflater.inflate(R.layout.fragment_credit_tab_lay, container, false);
+
         if (toolbarManager != null){
             toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
             toolbarManager.setOnTitleClickListener(null);

@@ -376,7 +376,7 @@
             <RelativeLayout
                 android:id="@+id/rlSeven"
                 android:layout_width="0dp"
-                android:background="@drawable/opeation_frame_white"
+                android:background="@drawable/opeation_frame"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
                 <LinearLayout
@@ -408,7 +408,7 @@
                 android:id="@+id/rlEight"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:background="@drawable/opeation_frame_white"
+                android:background="@drawable/opeation_frame"
                 android:layout_weight="1">
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -439,7 +439,7 @@
                 android:id="@+id/rlNine"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:background="@drawable/opeation_frame_white"
+                android:background="@drawable/opeation_frame"
                 android:layout_weight="1">
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -470,7 +470,7 @@
                 android:id="@+id/rvAccountChoise"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:background="@drawable/opeation_frame_white"
+                android:background="@drawable/opeation_frame_greyy"
                 android:layout_weight="1">
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -493,10 +493,11 @@
                             android:layout_height="wrap_content"
                             android:text="eightsadasdsdasdasasdasdasdasd"
                             android:maxWidth="@dimen/sixty_seven_dp"
-                            android:maxLines="1"
+                            android:maxLines="2"
                             android:ellipsize="end"
-                            android:textSize="@dimen/fourteen_dp"
-                            android:textColor="@color/seriy_calc"
+                            android:gravity="center"
+                            android:textSize="@dimen/twelve_dp"
+                            android:textColor="@color/black_for_myagkiy_glavniy"
                         />
                 </LinearLayout>
             </RelativeLayout>
@@ -516,7 +517,7 @@
                 android:id="@+id/rlFour"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:background="@drawable/opeation_frame_white"
+                android:background="@drawable/opeation_frame"
                 android:layout_weight="1">
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -547,7 +548,7 @@
                 android:id="@+id/rlFive"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:background="@drawable/opeation_frame_white"
+                android:background="@drawable/opeation_frame"
                 android:layout_weight="1">
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -578,7 +579,7 @@
                 android:id="@+id/rlSix"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:background="@drawable/opeation_frame_white"
+                android:background="@drawable/opeation_frame"
                 android:layout_weight="1">
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -609,7 +610,7 @@
                 android:id="@+id/rlCategory"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:background="@drawable/opeation_frame_white"
+                android:background="@drawable/opeation_frame_greyy"
 
                 android:layout_weight="1">
                 <LinearLayout
@@ -631,11 +632,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="eight"
+                        android:gravity="center"
                         android:maxWidth="@dimen/sixty_seven_dp"
-                        android:maxLines="1"
+                        android:maxLines="2"
                         android:ellipsize="end"
-                        android:textSize="@dimen/fourteen_dp"
-                        android:textColor="@color/seriy_calc"
+                        android:textSize="@dimen/twelve_dp"
+                        android:textColor="@color/black_for_myagkiy_glavniy"
                         />
                 </LinearLayout>
             </RelativeLayout>
@@ -655,7 +657,7 @@
                 android:id="@+id/rlOne"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:background="@drawable/opeation_frame_white"
+                android:background="@drawable/opeation_frame"
                 android:layout_weight="1">
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -685,7 +687,7 @@
             <RelativeLayout
                 android:id="@+id/rlTwo"
                 android:layout_width="0dp"
-                android:background="@drawable/opeation_frame_white"
+                android:background="@drawable/opeation_frame"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
                 <LinearLayout
@@ -715,7 +717,7 @@
                 android:background="@color/seriy_calc_line"/>
             <RelativeLayout
                 android:id="@+id/rlThree"
-                android:background="@drawable/opeation_frame_white"
+                android:background="@drawable/opeation_frame"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
@@ -748,7 +750,7 @@
                 android:id="@+id/rlSubcategory"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:background="@drawable/opeation_frame_white"
+                android:background="@drawable/opeation_frame_greyy"
                 android:layout_weight="1">
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -770,10 +772,11 @@
                         android:layout_height="wrap_content"
                         android:text="eight"
                         android:maxWidth="@dimen/sixty_seven_dp"
-                        android:maxLines="1"
+                        android:maxLines="2"
                         android:ellipsize="end"
-                        android:textSize="@dimen/fourteen_dp"
-                        android:textColor="@color/seriy_calc"
+                        android:gravity="center"
+                        android:textSize="@dimen/twelve_dp"
+                        android:textColor="@color/black_for_myagkiy_glavniy"
                         />
                 </LinearLayout>
             </RelativeLayout>
@@ -791,7 +794,7 @@
             android:orientation="horizontal">
             <RelativeLayout
                 android:id="@+id/rlDot"
-                android:background="@drawable/opeation_frame_white"
+                android:background="@drawable/opeation_frame"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
@@ -824,7 +827,7 @@
             <RelativeLayout
                 android:id="@+id/rlZero"
                 android:layout_width="0dp"
-                android:background="@drawable/opeation_frame_white"
+                android:background="@drawable/opeation_frame"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
                 <LinearLayout
@@ -856,7 +859,7 @@
             <RelativeLayout
                 android:id="@+id/rlEqualSign"
                 android:layout_width="0dp"
-                android:background="@drawable/opeation_frame_white"
+                android:background="@drawable/opeation_frame"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
                 <LinearLayout
@@ -887,7 +890,7 @@
             <RelativeLayout
                 android:id="@+id/imOKBut"
                 android:layout_width="0dp"
-                android:background="@drawable/opeation_frame_white"
+                android:background="@drawable/opeation_frame"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
                 <LinearLayout
@@ -902,14 +905,15 @@
                         android:layout_marginBottom="@dimen/sevent_dp"
                         android:layout_marginTop="@dimen/nine_dp"
                         android:src="@drawable/checkboxx"
-                        android:tint="?attr/colorAccent"
+                        android:tint="?attr/headAccedent"
                         />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/add"
                         android:textSize="@dimen/fourteen_dp"
-                        android:textColor="?attr/colorAccent"
+                        android:gravity="center"
+                        android:textColor="?attr/headAccedent"
                         />
                 </LinearLayout>
             </RelativeLayout>

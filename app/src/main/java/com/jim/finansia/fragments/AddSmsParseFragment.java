@@ -93,20 +93,18 @@ public class AddSmsParseFragment extends PABaseFragment{
     private List<TextView> tvList;
     private List<String> splittedBody;
 
+
+
+    @Nullable
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        super.onCreateView(inflater,container,savedInstanceState);
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
         incomeKeys = new ArrayList<>();
         expenseKeys = new ArrayList<>();
         amountKeys = new ArrayList<>();
         templates = new ArrayList<>();
         choosenSms = new ArrayList<>();
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (getArguments() != null) {
             String id = getArguments().getString(SmsParseMainFragment.SMS_PARSE_OBJECT_ID);
             if (id != null)

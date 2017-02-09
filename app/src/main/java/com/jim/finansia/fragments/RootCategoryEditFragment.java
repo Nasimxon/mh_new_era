@@ -64,6 +64,7 @@ public class RootCategoryEditFragment extends PABaseInfoFragment implements OnCl
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
         View rootView = inflater.inflate(R.layout.cat_edit_layout, container, false);
         if (toolbarManager != null)
         {
@@ -94,9 +95,7 @@ public class RootCategoryEditFragment extends PABaseInfoFragment implements OnCl
                         }
                     }
                 }
-                v.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
+
                         if (editMode == PocketAccounterGeneral.MAIN || editMode == PocketAccounterGeneral.EXPANSE_MODE || editMode == PocketAccounterGeneral.INCOME_MODE) {
                             paFragmentManager.displayMainWindow();
                         } else {
@@ -114,8 +113,7 @@ public class RootCategoryEditFragment extends PABaseInfoFragment implements OnCl
 
                             }
                         }
-                    }
-                }, 50);
+
             }
         });
         etCatEditName = (EditText) rootView.findViewById(R.id.etAccountEditName);

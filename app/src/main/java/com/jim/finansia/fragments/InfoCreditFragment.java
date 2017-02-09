@@ -143,9 +143,15 @@ public class InfoCreditFragment extends Fragment {
 
 
 
+
+
+    public int getMode() {
+        return modeOfMain;
+    }
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View V = inflater.inflate(R.layout.fragment_info_credit_modern, container, false);
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
         creditDetialsDao = daoSession.getCreditDetialsDao();
         reckingCreditDao = daoSession.getReckingCreditDao();
@@ -159,17 +165,6 @@ public class InfoCreditFragment extends Fragment {
         decimalFormat = (DecimalFormat) numberFormat;
         decimalFormat.setDecimalFormatSymbols(symbols);
         context = getActivity();
-
-
-    }
-
-    public int getMode() {
-        return modeOfMain;
-    }
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View V = inflater.inflate(R.layout.fragment_info_credit_modern, container, false);
         if (toolbarManager != null)
         {
             toolbarManager.setImageToSecondImage(R.drawable.ic_more_vert_black_48dp);

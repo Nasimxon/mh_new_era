@@ -53,16 +53,14 @@ public class CreditArchiveFragment extends Fragment {
     public CreditArchiveFragment() {
 
     }
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
-    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View V=inflater.inflate(R.layout.fragment_credit, container, false);
+        ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
+
         ifListEmpty=(TextView) V.findViewById(R.id.ifListEmpty);
         if(daoSession.getCreditDetialsDao().queryBuilder()
                 .where(CreditDetialsDao.Properties.Key_for_archive.eq(true)).build().list().size()==0){

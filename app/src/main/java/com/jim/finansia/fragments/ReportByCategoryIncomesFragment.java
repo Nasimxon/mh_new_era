@@ -51,8 +51,8 @@ public class ReportByCategoryIncomesFragment extends Fragment implements OnChart
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
         View rootView = inflater.inflate(R.layout.report_by_category_expanse, container, false);
+        ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
         llReportByCategory = (LinearLayout) rootView.findViewById(R.id.llReportByCategory);
         init();
         categoryReportView = new CategoryReportView(getContext(), PocketAccounterGeneral.INCOME, begin, end);

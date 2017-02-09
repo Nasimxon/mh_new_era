@@ -77,13 +77,7 @@ public class PurposeEditFragment extends Fragment implements OnClickListener, On
     private SimpleDateFormat simpleDateFormat;
     private boolean forCustomPeriod = false;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
-        begCalendar = Calendar.getInstance();
-        endCalendar = Calendar.getInstance();
-    }
+
 
     boolean keyb = true;
     DatePickerDialog.OnDateSetListener getDatesetListener2;
@@ -91,6 +85,9 @@ public class PurposeEditFragment extends Fragment implements OnClickListener, On
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.purpose_edit_layout
                 , container, false);
+        ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
+        begCalendar = Calendar.getInstance();
+        endCalendar = Calendar.getInstance();
         if (toolbarManager != null)
         {
             toolbarManager.setImageToSecondImage(R.drawable.check_sign);

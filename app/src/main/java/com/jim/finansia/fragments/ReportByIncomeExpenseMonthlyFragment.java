@@ -66,8 +66,8 @@ public class ReportByIncomeExpenseMonthlyFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
         View rootView = inflater.inflate(R.layout.report_by_income_expense_monthly, container, false);
+        ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
         toolbarManager.setOnTitleClickListener(null);
         tvJanuary = (TextView) rootView.findViewById(R.id.tvJanuary);
         tvFebruary = (TextView) rootView.findViewById(R.id.tvFebruary);

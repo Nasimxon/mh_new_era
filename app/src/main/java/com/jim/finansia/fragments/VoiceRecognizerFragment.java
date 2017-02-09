@@ -144,17 +144,21 @@ public class VoiceRecognizerFragment extends Fragment {
     private String[] accString;
     private CountDownTimer timer;
     private Calendar day;
+    static final String DATA_CACHE = "dayfromout";
 
 
-    public VoiceRecognizerFragment(Calendar day) {
-        this.day = (Calendar) day.clone();
-    }
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View rootView = LayoutInflater.from(getContext()).inflate(R.layout.voice_recognizer, container, false);
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
+        if(getArguments()!=null){
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(getArguments().getLong(DATA_CACHE,calendar.getTimeInMillis()));
+            this.day =calendar;
+        }
         rlCenterButton = (RelativeLayout) rootView.findViewById(R.id.rlCenterButton);
         ivCenterButton = (ImageView) rootView.findViewById(R.id.ivCenterButton);
         llSpeechMode = (RelativeLayout) rootView.findViewById(R.id.llSpeechMode);

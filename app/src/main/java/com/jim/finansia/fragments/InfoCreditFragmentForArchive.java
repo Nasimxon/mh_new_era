@@ -104,9 +104,12 @@ public class InfoCreditFragmentForArchive extends Fragment {
     private int positionOfBourdMain;
     private int modeOfMain;
 
-     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View V = inflater.inflate(R.layout.fragment_info_credit_archive, container, false);
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
         accountDao = daoSession.getAccountDao();
         numberFormat = NumberFormat.getNumberInstance();
@@ -118,13 +121,6 @@ public class InfoCreditFragmentForArchive extends Fragment {
         decimalFormat.setDecimalFormatSymbols(symbols);
         context = getActivity();
         warningDialog = new WarningDialog(context);
-     }
-
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View V = inflater.inflate(R.layout.fragment_info_credit_archive, container, false);
         if (toolbarManager != null)
         {
             toolbarManager.setImageToSecondImage(R.drawable.ic_more_vert_black_48dp);

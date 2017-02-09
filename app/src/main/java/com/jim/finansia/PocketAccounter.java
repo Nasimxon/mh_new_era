@@ -54,6 +54,7 @@ import java.util.Locale;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import static com.jim.finansia.managers.DrawerInitializer.KEY_INIT_POS;
 import static com.jim.finansia.utils.billing.PurchaseImplementation.BILLING_RESPONSE_RESULT_OK;
 import static com.jim.finansia.utils.billing.PurchaseImplementation.REQUEST_CODE_BUY;
 
@@ -98,6 +99,7 @@ public class PocketAccounter extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         //init theme begin
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String themeName = prefs.getString(PocketAccounterGeneral.CHOOSEN_THEME_NAME_KEY, PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.BLUE_THEME);
@@ -107,8 +109,10 @@ public class PocketAccounter extends AppCompatActivity {
         setContentView(R.layout.pocket_accounter);
         //injecting all necessary variables
         component((PocketAccounterApplication) getApplication()).inject(this);
+
         //display measurement(for all types of device displays
         initDisplaySettings();
+
         //initing languaga
         String lang = preferences.getString("language", getResources().getString(R.string.language_default));
         if (lang.matches(getResources().getString(R.string.language_default)))
@@ -181,8 +185,17 @@ public class PocketAccounter extends AppCompatActivity {
             }
         };
 
-    }
+        if (savedInstanceState != null) {
+            drawerInitializer.setCursorToFragment(savedInstanceState.getInt(KEY_INIT_POS,0));
+        }
 
+    }
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if(outState!=null)
+        outState.putInt(KEY_INIT_POS,drawerInitializer.getCursorPosition());
+    }
     public void setToToolbarVoiceMode() {
         if (toolbarManager != null)
             toolbarManager.setToolbarIconsVisibility(View.VISIBLE, View.GONE, View.GONE);

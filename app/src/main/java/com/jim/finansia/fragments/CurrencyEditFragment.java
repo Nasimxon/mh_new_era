@@ -66,6 +66,7 @@ public class CurrencyEditFragment extends PABaseInfoFragment implements OnClickL
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
         if (getArguments() != null) {
             String currencyId = getArguments().getString(CurrencyFragment.CURRENCY_ID);
             if (currencyId != null)
@@ -82,6 +83,7 @@ public class CurrencyEditFragment extends PABaseInfoFragment implements OnClickL
                             CurrencyFragment currencyFragment = (CurrencyFragment) frag;
                             if (currencyFragment != null) {
                                 currencyFragment.updateToolbar();
+                                paFragmentManager.getFragmentManager().popBackStack();
                             }
                             break;
                         }

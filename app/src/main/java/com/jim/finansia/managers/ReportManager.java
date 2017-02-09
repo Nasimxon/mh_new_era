@@ -876,7 +876,7 @@ public class ReportManager {
 //                ReportObject reportObject = new ReportObject();
 //                reportObject.setType(PocketAccounterGeneral.EXPENSE);
 //                reportObject.setDate(creditDetials.getTake_time());
-//                reportObject.setDescription(context.getString(R.string.credir_first_con));
+//                reportObject.setDescription(context.getString(R.string.credir_    first_con));
 //                Account account = null;
 //                for (Account acc : accounts) {
 //                    if (acc.getId().equals(creditDetials.getAccountID())) {

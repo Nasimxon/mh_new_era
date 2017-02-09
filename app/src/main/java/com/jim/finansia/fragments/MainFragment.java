@@ -74,8 +74,14 @@ public class MainFragment extends Fragment {
         @Override
         public Fragment getItem(int position) {
             Fragment fragment;
-            if (position == 0)
-                fragment = new VoiceRecognizerFragment(dataCache.getEndDate());
+            if (position == 0){
+                VoiceRecognizerFragment voiceRecognizerFragment = new VoiceRecognizerFragment();
+                Bundle bundle = new Bundle();
+                bundle.putLong(VoiceRecognizerFragment.DATA_CACHE,dataCache.getEndDate().getTimeInMillis());
+                voiceRecognizerFragment.setArguments(bundle);
+                fragment = voiceRecognizerFragment;
+
+            }
             else {
                 fragment = new ManualEnterFragment();
             }

@@ -105,20 +105,16 @@ public class BorrowFragment extends Fragment {
         return fragment;
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
-        TYPE = getArguments().getInt("type", 0);
-        formater = new DecimalFormat("0.00");
-        context=getContext();
-        warningDialog = new WarningDialog(getContext());
-    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.borrow_fragment_layout, container, false);
+        ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
+        TYPE = getArguments().getInt("type", 0);
+        formater = new DecimalFormat("0.00");
+        context=getContext();
+        warningDialog = new WarningDialog(getContext());
         debtBorrowDao = daoSession.getDebtBorrowDao();
         accountDao = daoSession.getAccountDao();
         recyclerView = (RecyclerView) view.findViewById(R.id.lvBorrowFragment);

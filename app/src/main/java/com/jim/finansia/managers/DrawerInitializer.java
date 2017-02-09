@@ -13,8 +13,11 @@ import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Handler;
+import android.preference.PreferenceManager;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,12 +82,12 @@ public class DrawerInitializer {
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReferenceFromUrl("gs://pocket-accounter.appspot.com");
     DownloadImageTask imagetask;
-    private AnimationDrawable mAnimationDrawable;
+    public static final String KEY_INIT_POS = "keyinit";
     public static SignInGoogleMoneyHold reg;
     public DrawerInitializer(PocketAccounter pocketAccounter, PAFragmentManager fragmentManager) {
         this.pocketAccounter = pocketAccounter;
         this.fragmentManager = fragmentManager;
-
+        Log.d("sasasas", "DrawerInitializer: ");
         drawer = new LeftSideDrawer(pocketAccounter);
         drawer.setLeftBehindContentView(R.layout.activity_behind_left_simple);
         rvLeftMenu = (RecyclerView) pocketAccounter.findViewById(R.id.rvLeftMenu);
@@ -429,11 +432,19 @@ public class DrawerInitializer {
         }
     }
     public void inits(){
-        oldPosition =0;
+//        oldPosition =  spref.getInt(KEY_OLD_POSITION,0);
+        oldPosition = 0;
         adapter.notifyDataSetChanged();
     }
     int oldPosition=0;
 
+    public void setCursorToFragment(int pos){
+        oldPosition = pos;
+        adapter.notifyDataSetChanged();
+    }
+    public int getCursorPosition(){
+        return oldPosition;
+    }
     public class LeftMenuAdapter extends RecyclerView.Adapter<LeftMenuAdapter.ViewHolder>{
 
         ArrayList<LeftMenuItem> result;
@@ -451,6 +462,7 @@ public class DrawerInitializer {
         }
         @Override
         public void onBindViewHolder(final ViewHolder holder, final int position) {
+
             if(position==oldPosition){
                 holder.tvTitle.setTextColor(GetterAttributColors.fetchHeadAccedentColor(pocketAccounter));
                 holder.ivIcon.setColorFilter(GetterAttributColors.fetchHeadAccedentColor(pocketAccounter));
@@ -471,6 +483,12 @@ public class DrawerInitializer {
             holder.llMenuItems.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    if(oldPosition == position)
+                    {
+                        drawer.closeLeftSide();
+                        return;
+                    }
+
                     if (fragmentManager.getFragmentManager().getBackStackEntryCount() == 0 && position == 0) {
                         if (pocketAccounter.findViewById(R.id.change) != null)
                             pocketAccounter.findViewById(R.id.change).setVisibility(View.VISIBLE);
@@ -564,6 +582,10 @@ public class DrawerInitializer {
                                             pocketAccounter.getString(R.string.feedback_subject),
                                             pocketAccounter.getString(R.string.feedback_content));
                                     break;
+                            }
+                            if(oldPosition>=11){
+                                oldPosition = 0;
+                                notifyDataSetChanged();
                             }
                         }
                     }, 170);

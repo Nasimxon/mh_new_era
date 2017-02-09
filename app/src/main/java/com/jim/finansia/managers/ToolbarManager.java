@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -65,6 +66,7 @@ public class ToolbarManager {
     public ToolbarManager(Context context, Toolbar toolbar) {
         this.context = context;
         this.toolbar = toolbar;
+        Log.d("tolbartest", "ToolbarManager: " +toolbar==null?"Toolbar is null":"Toolbar not null");
         ivToolbarFirst = (ImageView) toolbar.findViewById(R.id.ivToolbarExcel);
         ivToolbarSecond = (ImageView) toolbar.findViewById(R.id.ivToolbarMostRight);
         ivToolbarStart = (ImageView) toolbar.findViewById(R.id.ivToolbarSearch);
