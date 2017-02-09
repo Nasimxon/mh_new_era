@@ -36,6 +36,16 @@ public class CurrencyFragment extends PABaseListFragment implements OnClickListe
 	public static final String CURRENCY_ID = "currency_id";
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		final View rootView = inflater.inflate(R.layout.currency_fragment, container, false);
+		if (toolbarManager != null)
+		{
+			toolbarManager.setTitle(getResources().getString(R.string.currencies));
+			toolbarManager.setOnTitleClickListener(null);
+			toolbarManager.setSubtitle(getResources().getString(R.string.main_currency)+" "+ commonOperations.getMainCurrency().getAbbr());
+			toolbarManager.setSubtitleIconVisibility(View.GONE);
+			toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
+			toolbarManager.setImageToSecondImage(R.drawable.pencil);
+			toolbarManager.setOnSecondImageClickListener(this);
+		}
 		rootView.postDelayed(new Runnable() {
 			@Override
 			public void run() {
@@ -50,19 +60,6 @@ public class CurrencyFragment extends PABaseListFragment implements OnClickListe
 		lvCurrency = (RecyclerView) rootView.findViewById(R.id.lvCurrency);
 		refreshList();
 		return rootView;
-	}
-	public void onResume() {
-		super.onResume();
-		if (toolbarManager != null)
-		{
-			toolbarManager.setTitle(getResources().getString(R.string.currencies));
-			toolbarManager.setOnTitleClickListener(null);
-			toolbarManager.setSubtitle(getResources().getString(R.string.main_currency)+" "+ commonOperations.getMainCurrency().getAbbr());
-			toolbarManager.setSubtitleIconVisibility(View.GONE);
-			toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
-			toolbarManager.setImageToSecondImage(R.drawable.pencil);
-			toolbarManager.setOnSecondImageClickListener(this);
-		}
 	}
 
 	private void setEditMode() {

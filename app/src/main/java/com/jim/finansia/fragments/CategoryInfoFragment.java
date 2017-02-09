@@ -70,6 +70,27 @@ public class CategoryInfoFragment extends PABaseInfoFragment {
             }
         }
         final View rootView = inflater.inflate(R.layout.category_info_layout, container, false);
+        if (toolbarManager != null) {
+            toolbarManager.setImageToSecondImage(R.drawable.ic_more_vert_black_48dp);
+            toolbarManager.setTitle(getResources().getString(R.string.category));
+            toolbarManager.setOnTitleClickListener(null);
+            toolbarManager.setSubtitle(rootCategory.getName());
+            toolbarManager.setSubtitleIconVisibility(View.GONE);
+            toolbarManager.setOnHomeButtonClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    paFragmentManager.getFragmentManager().popBackStack();
+                    paFragmentManager.displayFragment(new CategoryFragment());
+                }
+            });
+
+            toolbarManager.setOnSecondImageClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showOperationsList(v);
+                }
+            });
+        }
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
         subCategories = new ArrayList<>();
         SubCategory all = new SubCategory();
@@ -125,32 +146,6 @@ public class CategoryInfoFragment extends PABaseInfoFragment {
         tvCategoryInfoTotal = (TextView) rootView.findViewById(R.id.tvCategoryInfoTotal);
         refreshOperationsList(commonOperations.getFirstDay(), Calendar.getInstance());
         return rootView;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (toolbarManager != null) {
-            toolbarManager.setImageToSecondImage(R.drawable.ic_more_vert_black_48dp);
-            toolbarManager.setTitle(getResources().getString(R.string.category));
-            toolbarManager.setOnTitleClickListener(null);
-            toolbarManager.setSubtitle(rootCategory.getName());
-            toolbarManager.setSubtitleIconVisibility(View.GONE);
-            toolbarManager.setOnHomeButtonClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    paFragmentManager.getFragmentManager().popBackStack();
-                    paFragmentManager.displayFragment(new CategoryFragment());
-                }
-            });
-
-            toolbarManager.setOnSecondImageClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    showOperationsList(v);
-                }
-            });
-        }
     }
 
     private void refreshSubcatItems() {

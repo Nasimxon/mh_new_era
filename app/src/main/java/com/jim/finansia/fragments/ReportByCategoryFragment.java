@@ -50,7 +50,6 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-@SuppressLint("ValidFragment")
 public class ReportByCategoryFragment extends Fragment {
     @Inject ReportManager reportManager;
     @Inject DataCache dataCache;

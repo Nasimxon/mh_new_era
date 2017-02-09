@@ -29,6 +29,7 @@ import com.jim.finansia.intropage.IntroIndicator;
 import com.jim.finansia.managers.CommonOperations;
 import com.jim.finansia.managers.DrawerInitializer;
 import com.jim.finansia.managers.PAFragmentManager;
+import com.jim.finansia.managers.ReportManager;
 import com.jim.finansia.managers.SettingsManager;
 import com.jim.finansia.managers.ToolbarManager;
 import com.jim.finansia.modulesandcomponents.components.DaggerPocketAccounterActivityComponent;
@@ -81,6 +82,7 @@ public class PocketAccounter extends AppCompatActivity {
     @Inject DataCache dataCache;
     @Inject SharedPreferences sharedPreferences;
     @Inject PurchaseImplementation purchaseImplementation;
+    @Inject ReportManager reportManager;
     PocketAccounterActivityComponent component;
     public PocketAccounterActivityComponent component(PocketAccounterApplication application) {
         if (component == null) {
@@ -338,8 +340,9 @@ public class PocketAccounter extends AppCompatActivity {
         LocalBroadcastManager.getInstance(this).registerReceiver((receiver),
                 new IntentFilter(SmsService.PA_RESULT)
         );
+        reportManager.clearCache();
         dataCache.updateAllPercents();
-        paFragmentManager.updateAllFragmentsOnViewPager();
+        paFragmentManager.updateAllFragmentsPageChanges();
     }
 
     @Override

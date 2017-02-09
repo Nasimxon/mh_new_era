@@ -46,12 +46,21 @@ public class ScheduleCreditFragment extends PABaseFragment {
     final static String FROM_ADDING = "from_adding";
     private int localAppereance = CreditTabLay.LOCAL_MAIN;
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-    @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_schedule_credit, container, false);
+        if (toolbarManager != null)
+        {
+            if(fromAdding){
+                toolbarManager.setToolbarIconsVisibility(View.GONE,View.GONE,View.VISIBLE);
+                toolbarManager.setImageToSecondImage(R.drawable.ic_save_black_48dp);
+                toolbarManager.setSubtitle("");
+                toolbarManager.setSubtitleIconVisibility(View.GONE);
+            } else {
+                toolbarManager.setSubtitle("");
+                toolbarManager.setSubtitleIconVisibility(View.GONE);
+                toolbarManager.setToolbarIconsVisibility(View.GONE,View.GONE,View.GONE);
+            }
+        }
         if(getArguments()!=null){
             modeFromMain = getArguments().getInt(CreditTabLay.MODE);
             posFromMain = getArguments().getInt(CreditTabLay.POSITION);
@@ -258,22 +267,6 @@ public class ScheduleCreditFragment extends PABaseFragment {
     }
     public int getLocalAppereance() {
         return localAppereance;
-    }
-    public void onResume() {
-        super.onResume();
-        if (toolbarManager != null)
-        {
-            if(fromAdding){
-                toolbarManager.setToolbarIconsVisibility(View.GONE,View.GONE,View.VISIBLE);
-                toolbarManager.setImageToSecondImage(R.drawable.ic_save_black_48dp);
-                toolbarManager.setSubtitle("");
-                toolbarManager.setSubtitleIconVisibility(View.GONE);
-            } else {
-                toolbarManager.setSubtitle("");
-                toolbarManager.setSubtitleIconVisibility(View.GONE);
-                toolbarManager.setToolbarIconsVisibility(View.GONE,View.GONE,View.GONE);
-            }
-        }
     }
     public static HeaderData calculetAnutetniy(CreditDetials creditDetials,ArrayList creditsSchedule){
         long forMoth = 1000L * 60L * 60L * 24L * 30L;

@@ -49,6 +49,21 @@ public class AccountEditFragment extends PABaseInfoFragment implements OnClickLi
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.account_edit_layout, container, false);
+        if (toolbarManager != null) {
+            toolbarManager.setOnHomeButtonClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    paFragmentManager.getFragmentManager().popBackStack();
+                    paFragmentManager.displayFragment(new AccountFragment());
+                }
+            });
+            toolbarManager.setTitle(getResources().getString(R.string.addedit));
+            toolbarManager.setSubtitle("");
+            toolbarManager.setOnTitleClickListener(null);
+            toolbarManager.setSubtitleIconVisibility(View.GONE);
+            toolbarManager.setImageToSecondImage(R.drawable.check_sign);
+            toolbarManager.setOnSecondImageClickListener(this);
+        }
         if (getArguments() != null) {
             String accountId = getArguments().getString(AccountFragment.ACCOUNT_ID);
             if (accountId != null) {
@@ -179,26 +194,6 @@ public class AccountEditFragment extends PABaseInfoFragment implements OnClickLi
             }
         }
         return rootView;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (toolbarManager != null) {
-            toolbarManager.setOnHomeButtonClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    paFragmentManager.getFragmentManager().popBackStack();
-                    paFragmentManager.displayFragment(new AccountFragment());
-                }
-            });
-            toolbarManager.setTitle(getResources().getString(R.string.addedit));
-            toolbarManager.setSubtitle("");
-            toolbarManager.setOnTitleClickListener(null);
-            toolbarManager.setSubtitleIconVisibility(View.GONE);
-            toolbarManager.setImageToSecondImage(R.drawable.check_sign);
-            toolbarManager.setOnSecondImageClickListener(this);
-        }
     }
 
     @Override

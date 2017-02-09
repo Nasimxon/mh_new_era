@@ -91,6 +91,14 @@ public class PurposeEditFragment extends Fragment implements OnClickListener, On
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.purpose_edit_layout
                 , container, false);
+        if (toolbarManager != null)
+        {
+            toolbarManager.setImageToSecondImage(R.drawable.check_sign);
+            toolbarManager.setOnTitleClickListener(null);
+            toolbarManager.setSubtitle("");
+            toolbarManager.setSubtitleIconVisibility(View.GONE);
+            toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
+        }
         if (getArguments() != null) {
             String purposeId = getArguments().getString(PurposeFragment.PURPOSE_ID);
             if (purposeId != null)
@@ -440,17 +448,6 @@ public class PurposeEditFragment extends Fragment implements OnClickListener, On
             etPeriodCount.setText("" + purpose.getPeriodSize());
         }
         return rootView;
-    }
-    public void onResume() {
-        super.onResume();
-        if (toolbarManager != null)
-        {
-            toolbarManager.setImageToSecondImage(R.drawable.check_sign);
-            toolbarManager.setOnTitleClickListener(null);
-            toolbarManager.setSubtitle("");
-            toolbarManager.setSubtitleIconVisibility(View.GONE);
-            toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
-        }
     }
     public void forDateSyncFirst() {
         if (!forCustomPeriod) {

@@ -72,6 +72,28 @@ public class CurrencyEditFragment extends PABaseInfoFragment implements OnClickL
                 currency = daoSession.load(Currency.class, currencyId);
         }
         View rootView = inflater.inflate(R.layout.currency_edit_modern, container, false);
+        if (toolbarManager != null) {
+            toolbarManager.setOnHomeButtonClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    for (Fragment frag : paFragmentManager.getFragmentManager().getFragments()) {
+                        if (frag == null) continue;
+                        if (frag.getClass().getName().equals(CurrencyFragment.class.getName())) {
+                            CurrencyFragment currencyFragment = (CurrencyFragment) frag;
+                            if (currencyFragment != null) {
+                                currencyFragment.updateToolbar();
+                            }
+                            break;
+                        }
+                    }
+                }
+            });
+            toolbarManager.setTitle(currency.getName());
+            toolbarManager.setSubtitle(getResources().getString(R.string.edit));
+            toolbarManager.setOnTitleClickListener(null);
+            toolbarManager.setSubtitleIconVisibility(View.GONE);
+            toolbarManager.setOnSecondImageClickListener(this);
+        }
         ivExCurrencyAdd = (LinearLayout) rootView.findViewById(R.id.ivExCurrencyAdd);
         ivExCurrencyAdd.setOnClickListener(new OnClickListener() {
             @Override
@@ -139,32 +161,6 @@ public class CurrencyEditFragment extends PABaseInfoFragment implements OnClickL
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         lvCurrencyEditExchange.setLayoutManager(layoutManager);
         lvCurrencyEditExchange.setAdapter(adapter);
-    }
-
-    public void onResume() {
-        super.onResume();
-        if (toolbarManager != null) {
-            toolbarManager.setOnHomeButtonClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    for (Fragment frag : paFragmentManager.getFragmentManager().getFragments()) {
-                        if (frag == null) continue;
-                        if (frag.getClass().getName().equals(CurrencyFragment.class.getName())) {
-                            CurrencyFragment currencyFragment = (CurrencyFragment) frag;
-                            if (currencyFragment != null) {
-                                currencyFragment.updateToolbar();
-                            }
-                            break;
-                        }
-                    }
-                }
-            });
-            toolbarManager.setTitle(currency.getName());
-            toolbarManager.setSubtitle(getResources().getString(R.string.edit));
-            toolbarManager.setOnTitleClickListener(null);
-            toolbarManager.setSubtitleIconVisibility(View.GONE);
-            toolbarManager.setOnSecondImageClickListener(this);
-        }
     }
 
     @Override

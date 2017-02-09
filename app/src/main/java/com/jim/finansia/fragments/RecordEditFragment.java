@@ -161,6 +161,13 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
     }
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
+        if (toolbarManager != null)
+        {
+            toolbarManager.setImageToHomeButton(R.drawable.ic_back_button);
+            toolbarManager.setTitle("");
+            toolbarManager.setSubtitle("");
+            toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
+        }
         if (getArguments() != null) {
             try {
                 parent = getArguments().getInt(RecordDetailFragment.PARENT);
@@ -444,16 +451,6 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
         });
         myListPhoto.setAdapter(myTickedAdapter);
         return mainView;
-    }
-    public void onResume() {
-        super.onResume();
-        if (toolbarManager != null)
-        {
-            toolbarManager.setImageToHomeButton(R.drawable.ic_back_button);
-            toolbarManager.setTitle("");
-            toolbarManager.setSubtitle("");
-            toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
-        }
     }
     private void setNumericOnClickListener(View view) {
         OnClickListener listener = new OnClickListener() {

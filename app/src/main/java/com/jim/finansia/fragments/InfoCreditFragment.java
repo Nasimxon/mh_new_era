@@ -170,6 +170,14 @@ public class InfoCreditFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View V = inflater.inflate(R.layout.fragment_info_credit_modern, container, false);
+        if (toolbarManager != null)
+        {
+            toolbarManager.setImageToSecondImage(R.drawable.ic_more_vert_black_48dp);
+            toolbarManager.setOnTitleClickListener(null);
+            toolbarManager.setSubtitle("");
+            toolbarManager.setSubtitleIconVisibility(View.GONE);
+            toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
+        }
         if(getArguments()!=null){
             currentCredit = daoSession.load(CreditDetials.class,getArguments().getLong(CreditTabLay.CREDIT_ID));
             modeOfMain = getArguments().getInt(CreditTabLay.MODE);
@@ -1164,18 +1172,6 @@ public class InfoCreditFragment extends Fragment {
             infoSumm = (TextView) view.findViewById(R.id.paid_value);
             forDelete = (CheckBox) view.findViewById(R.id.for_delete_check_box);
             glav = view;
-        }
-    }
-
-    public void onResume() {
-        super.onResume();
-        if (toolbarManager != null)
-        {
-            toolbarManager.setImageToSecondImage(R.drawable.ic_more_vert_black_48dp);
-            toolbarManager.setOnTitleClickListener(null);
-            toolbarManager.setSubtitle("");
-            toolbarManager.setSubtitleIconVisibility(View.GONE);
-            toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
         }
     }
 

@@ -65,24 +65,6 @@ public class SMSParseInfoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
         View rootView = inflater.inflate(R.layout.sms_parse_info, container, false);
-        warningDialog = new WarningDialog(getContext());
-
-        ifListEmpty = (TextView) rootView.findViewById(R.id.ifListEmpty);
-        recyclerView = (RecyclerView) rootView.findViewById(R.id.rvSmsParseInfo);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(layoutManager);
-        MyAdapter myAdapter = new MyAdapter();
-        recyclerView.setAdapter(myAdapter);
-        return rootView;
-    }
-    public void refresh() {
-        if (recyclerView != null) {
-            MyAdapter myAdapter = new MyAdapter();
-            recyclerView.setAdapter(myAdapter);
-        }
-    }
-    public void onResume() {
-        super.onResume();
         if (toolbarManager != null)
         {
             toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
@@ -113,6 +95,21 @@ public class SMSParseInfoFragment extends Fragment {
                     warningDialog.show();
                 }
             });
+        }
+        warningDialog = new WarningDialog(getContext());
+
+        ifListEmpty = (TextView) rootView.findViewById(R.id.ifListEmpty);
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.rvSmsParseInfo);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
+        MyAdapter myAdapter = new MyAdapter();
+        recyclerView.setAdapter(myAdapter);
+        return rootView;
+    }
+    public void refresh() {
+        if (recyclerView != null) {
+            MyAdapter myAdapter = new MyAdapter();
+            recyclerView.setAdapter(myAdapter);
         }
     }
     private class MyAdapter extends RecyclerView.Adapter<SMSParseInfoFragment.ViewHolder> implements View.OnClickListener {

@@ -21,7 +21,6 @@ import com.jim.finansia.fragments.PurposeFragment;
 import com.jim.finansia.fragments.PurposeInfoFragment;
 import com.jim.finansia.fragments.RecordDetailFragment;
 import com.jim.finansia.fragments.RecordEditFragment;
-import com.jim.finansia.fragments.ReportByAccountFragment;
 import com.jim.finansia.fragments.ReportByCategoryFragment;
 import com.jim.finansia.fragments.ReportByIncomeExpenseDaily;
 import com.jim.finansia.fragments.ReportByIncomeExpenseDailyTableFragment;
@@ -32,7 +31,6 @@ import com.jim.finansia.fragments.SMSParseInfoFragment;
 import com.jim.finansia.fragments.ScheduleCreditFragment;
 import com.jim.finansia.fragments.SearchFragment;
 import com.jim.finansia.fragments.SmsParseMainFragment;
-import com.jim.finansia.fragments.TableBarFragment;
 
 /**
  * Created by user on 6/16/2016.
@@ -81,9 +79,7 @@ public interface PocketClassess {
     String ADD_PURPOSE = PurposeEditFragment.class.getName();
 
     // Report by Account
-    String REPORT_ACCOUNT = ReportByAccountFragment.class.getName();
     String REPORT_CATEGORY = ReportByCategoryFragment.class.getName();
-    String REPORT_BY_INCOME_EXPANCE = TableBarFragment.class.getName();
     String REPORT = ReportFragment.class.getName();
     String REPORT_DAILY_TABLE = ReportByIncomeExpenseDailyTableFragment.class.getName();
     String REPORT_DAILY = ReportByIncomeExpenseDaily.class.getName();

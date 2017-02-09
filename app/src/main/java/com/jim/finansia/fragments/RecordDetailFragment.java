@@ -44,6 +44,26 @@ public class RecordDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.finance_record_detail_fragment, container, false);
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
+        if (toolbarManager != null)
+        {
+
+            toolbarManager.setTitle(getResources().getString(R.string.records));
+            toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
+            toolbarManager.setImageToSecondImage(R.drawable.pencil);
+            toolbarManager.setImageToHomeButton(R.drawable.ic_back_button);
+            toolbarManager.setOnHomeButtonClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int size = 0;
+                    size = paFragmentManager.getFragmentManager().getBackStackEntryCount();
+                    for (int i = 0; i < size; i++) {
+                        ((PocketAccounter)getContext()).getSupportFragmentManager().popBackStack();
+                    }
+                    paFragmentManager.displayMainWindow();
+                }
+            });
+            toolbarManager.setSubtitle("");
+        }
         if (getArguments() != null)
             date = getArguments().getString(DATE);
         //add the fragments you want to display in a List
@@ -168,28 +188,5 @@ public class RecordDetailFragment extends Fragment {
     public void onSaveInstanceState(Bundle outState) {
         tabLayout.saveState(outState);
         super.onSaveInstanceState(outState);
-    }
-    public void onResume() {
-        super.onResume();
-        if (toolbarManager != null)
-        {
-
-            toolbarManager.setTitle(getResources().getString(R.string.records));
-            toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
-            toolbarManager.setImageToSecondImage(R.drawable.pencil);
-            toolbarManager.setImageToHomeButton(R.drawable.ic_back_button);
-            toolbarManager.setOnHomeButtonClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int size = 0;
-                    size = paFragmentManager.getFragmentManager().getBackStackEntryCount();
-                    for (int i = 0; i < size; i++) {
-                        ((PocketAccounter)getContext()).getSupportFragmentManager().popBackStack();
-                    }
-                    paFragmentManager.displayMainWindow();
-                }
-            });
-            toolbarManager.setSubtitle("");
-        }
     }
 }

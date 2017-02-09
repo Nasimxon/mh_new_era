@@ -107,10 +107,6 @@ public class DetailedCreditsFragment extends Fragment {
         rvDetailedCredits.setAdapter(adapter);
     }
 
-    public void onResume() {
-        super.onResume();
-    }
-
     public class DetailedCreditsAdapter extends RecyclerView.Adapter<DetailedCreditsAdapter.DetailViewHolder>{
         List<Object> result;
         Context context;

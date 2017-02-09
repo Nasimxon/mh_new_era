@@ -52,6 +52,20 @@ public class DetailedSmsSuccessesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.detailed_sms_fragment, container, false);
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
+        if (toolbarManager != null)
+        {
+            toolbarManager.setImageToHomeButton(R.drawable.ic_back_button);
+            toolbarManager.setOnHomeButtonClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int size = 0;
+                    size = paFragmentManager.getFragmentManager().getBackStackEntryCount();
+                    for (int i = 0; i < size; i++)
+                        paFragmentManager.getFragmentManager().popBackStack();
+                    paFragmentManager.displayMainWindow();
+                }
+            });
+        }
         date = Calendar.getInstance();
         if (getArguments() != null) {
             String tempDate = getArguments().getString(RecordDetailFragment.DATE);
@@ -80,24 +94,6 @@ public class DetailedSmsSuccessesFragment extends Fragment {
             rvDetailedSms.setVisibility(View.VISIBLE);
         }
         rvDetailedSms.setAdapter(adapter);
-    }
-
-    public void onResume() {
-        super.onResume();
-        if (toolbarManager != null)
-        {
-            toolbarManager.setImageToHomeButton(R.drawable.ic_back_button);
-            toolbarManager.setOnHomeButtonClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int size = 0;
-                    size = paFragmentManager.getFragmentManager().getBackStackEntryCount();
-                    for (int i = 0; i < size; i++)
-                        paFragmentManager.getFragmentManager().popBackStack();
-                    paFragmentManager.displayMainWindow();
-                }
-            });
-        }
     }
 
     public class DetailedDebtBorrowsAdapter extends RecyclerView.Adapter<DetailedDebtBorrowsAdapter.DetailViewHolder>{

@@ -57,6 +57,13 @@ public class ChangeColorOfStyleFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.change_color_of_style_fragment, container, false);
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
+        if (toolbarManager != null) {
+            toolbarManager.setTitle(getResources().getString(R.string.theme));
+            toolbarManager.setOnTitleClickListener(null);
+            toolbarManager.setSubtitle("");
+            toolbarManager.setSubtitleIconVisibility(View.GONE);
+            toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
+        }
         choosenThemeName = preferences.getString(PocketAccounterGeneral.CHOOSEN_THEME_NAME_KEY,
                 PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.BLUE_THEME);
         llBuyColorButton = (LinearLayout) rootView.findViewById(R.id.llBuyColorButton);
@@ -120,18 +127,6 @@ public class ChangeColorOfStyleFragment extends Fragment {
             }
         });
         return rootView;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (toolbarManager != null) {
-            toolbarManager.setTitle(getResources().getString(R.string.theme));
-            toolbarManager.setOnTitleClickListener(null);
-            toolbarManager.setSubtitle("");
-            toolbarManager.setSubtitleIconVisibility(View.GONE);
-            toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
-        }
     }
 
     private void generateColorDatas() {

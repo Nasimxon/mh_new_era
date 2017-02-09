@@ -65,6 +65,15 @@ public class RootCategoryEditFragment extends PABaseInfoFragment implements OnCl
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.cat_edit_layout, container, false);
+        if (toolbarManager != null)
+        {
+            toolbarManager.setTitle(getResources().getString(R.string.category));
+            toolbarManager.setSubtitle(getResources().getString(R.string.edit));
+            toolbarManager.setImageToSecondImage(R.drawable.check_sign);
+            toolbarManager.setOnSecondImageClickListener(this);
+            toolbarManager.setOnTitleClickListener(null);
+            toolbarManager.setSubtitleIconVisibility(View.GONE);
+        }
         if (getArguments() != null) {
             categoryId = getArguments().getString(CategoryFragment.CATEGORY_ID);
             if (categoryId != null)
@@ -203,18 +212,6 @@ public class RootCategoryEditFragment extends PABaseInfoFragment implements OnCl
                     i--;
                 }
             }
-        }
-    }
-    public void onResume() {
-        super.onResume();
-        if (toolbarManager != null)
-        {
-            toolbarManager.setTitle(getResources().getString(R.string.category));
-            toolbarManager.setSubtitle(getResources().getString(R.string.edit));
-            toolbarManager.setImageToSecondImage(R.drawable.check_sign);
-            toolbarManager.setOnSecondImageClickListener(this);
-            toolbarManager.setOnTitleClickListener(null);
-            toolbarManager.setSubtitleIconVisibility(View.GONE);
         }
     }
     @Override

@@ -75,8 +75,13 @@ public class CreditTabLay extends Fragment implements View.OnClickListener, View
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View V=inflater.inflate(R.layout.fragment_credit_tab_lay, container, false);
-
-
+        if (toolbarManager != null){
+            toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
+            toolbarManager.setOnTitleClickListener(null);
+            toolbarManager.setTitle(getString(R.string.cred_managment));
+            toolbarManager.setSubtitle("");
+            toolbarManager.setSubtitleIconVisibility(View.GONE);
+        }
         V.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -209,16 +214,5 @@ public class CreditTabLay extends Fragment implements View.OnClickListener, View
         }
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (toolbarManager != null){
-            toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
-            toolbarManager.setOnTitleClickListener(null);
-            toolbarManager.setTitle(getString(R.string.cred_managment));
-            toolbarManager.setSubtitle("");
-            toolbarManager.setSubtitleIconVisibility(View.GONE);
-        }
-    }
 
 }

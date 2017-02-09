@@ -187,6 +187,11 @@ public class AddCreditFragment extends Fragment {
 
 
         }
+        toolbarManager.setImageToSecondImage(R.drawable.check_sign);
+        toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
+        toolbarManager.setOnTitleClickListener(null);
+        toolbarManager.setSubtitleIconVisibility(View.GONE);
+        toolbarManager.setTitle(getResources().getString(R.string.credit));
         context = getActivity();
 
         spiner_forValut = (Spinner) V.findViewById(R.id.spinner);
@@ -831,11 +836,7 @@ public class AddCreditFragment extends Fragment {
     public void onResume() {
         super.onResume();
         if (toolbarManager != null) {
-            toolbarManager.setImageToSecondImage(R.drawable.check_sign);
-            toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
-            toolbarManager.setOnTitleClickListener(null);
-            toolbarManager.setSubtitleIconVisibility(View.GONE);
-            toolbarManager.setTitle(getResources().getString(R.string.credit));
+
         }
     }
 

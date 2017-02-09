@@ -46,6 +46,57 @@ public class AccountFragment extends PABaseListFragment {
 	public static final String ACCOUNT_ID = "account_id";
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		final View rootView = inflater.inflate(R.layout.account_layout, container, false);
+		if (toolbarManager != null) {
+			toolbarManager.setOnHomeButtonClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					drawerInitializer.getDrawer().openLeftSide();
+				}
+			});
+			toolbarManager.setTitle(getResources().getString(R.string.accounts));
+			toolbarManager.setSubtitle("");
+			toolbarManager.setOnTitleClickListener(null);
+			toolbarManager.setSubtitleIconVisibility(View.GONE);
+			toolbarManager.setToolbarIconsVisibility(View.GONE, View.VISIBLE, View.VISIBLE);
+			toolbarManager.setImageToSecondImage(R.drawable.ic_info_outline_black_48dp);
+			toolbarManager.setImageToFirstImage(R.drawable.ic_history_black_48dp);
+
+			toolbarManager.setOnFirstImageClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if (!daoSession.getAccountOperationDao().loadAll().isEmpty()) {
+						final TransferAddEditDialog transferAddEditDialog = new TransferAddEditDialog(getContext());
+						int width = getResources().getDisplayMetrics().widthPixels;
+						int height = getResources().getDisplayMetrics().heightPixels;
+						transferAddEditDialog.getWindow().setLayout(12*width/13, 9*height/10);
+						transferAddEditDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+							@Override
+							public void onDismiss(DialogInterface dialog) {
+								reportManager.clearCache();
+								refreshList();
+							}
+						});
+						transferAddEditDialog.show();
+					} else
+						Toast.makeText(getContext(), R.string.transfer_isnt_done, Toast.LENGTH_SHORT).show();
+				}
+			});
+			isReportOpen = preferences.getBoolean(PocketAccounterGeneral.ACCOUNT_INFO_ENABLED_KEY, true);
+			toolbarManager.setOnSecondImageClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if(isReportOpen){
+						isReportOpen=false	;
+						refreshList();
+					}
+					else {
+						isReportOpen=true;
+						refreshList();
+					}
+					preferences.edit().putBoolean(PocketAccounterGeneral.ACCOUNT_INFO_ENABLED_KEY, isReportOpen).commit();
+				}
+			});
+		}
 		rootView.postDelayed(new Runnable() {
 			@Override
 			public void run() {
@@ -80,62 +131,6 @@ public class AccountFragment extends PABaseListFragment {
         refreshList();
 
 		return rootView;
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
-		if (toolbarManager != null) {
-			toolbarManager.setOnHomeButtonClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					drawerInitializer.getDrawer().openLeftSide();
-				}
-			});
-			toolbarManager.setTitle(getResources().getString(R.string.accounts));
-			toolbarManager.setSubtitle("");
-			toolbarManager.setOnTitleClickListener(null);
-			toolbarManager.setSubtitleIconVisibility(View.GONE);
-			toolbarManager.setToolbarIconsVisibility(View.GONE, View.VISIBLE, View.VISIBLE);
-			toolbarManager.setImageToSecondImage(R.drawable.ic_info_outline_black_48dp);
-			toolbarManager.setImageToFirstImage(R.drawable.ic_history_black_48dp);
-
-			toolbarManager.setOnFirstImageClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					if (!daoSession.getAccountOperationDao().loadAll().isEmpty()) {
-						final TransferAddEditDialog transferAddEditDialog = new TransferAddEditDialog(getContext());
-						int width = getResources().getDisplayMetrics().widthPixels;
-						int height = getResources().getDisplayMetrics().heightPixels;
-						transferAddEditDialog.getWindow().setLayout(12*width/13, 9*height/10);
-						transferAddEditDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-							@Override
-							public void onDismiss(DialogInterface dialog) {
-                                reportManager.clearCache();
-                                refreshList();
-							}
-						});
-						transferAddEditDialog.show();
-					} else
-						Toast.makeText(getContext(), R.string.transfer_isnt_done, Toast.LENGTH_SHORT).show();
-				}
-			});
-			isReportOpen = preferences.getBoolean(PocketAccounterGeneral.ACCOUNT_INFO_ENABLED_KEY, true);
-			toolbarManager.setOnSecondImageClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					if(isReportOpen){
-						isReportOpen=false	;
-						refreshList();
-					}
-					else {
-						isReportOpen=true;
-						refreshList();
-					}
-					preferences.edit().putBoolean(PocketAccounterGeneral.ACCOUNT_INFO_ENABLED_KEY, isReportOpen).commit();
-				}
-			});
-		}
 	}
 
 	private boolean show = false;

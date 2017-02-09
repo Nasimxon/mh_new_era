@@ -110,7 +110,13 @@ public class CreditFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         View V=inflater.inflate(R.layout.fragment_credit, container, false);
-//        editor.putInt("FRAG_ID", 3).commit();
+        if (toolbarManager != null)
+        {
+            toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
+            toolbarManager.setSubtitle("");
+            toolbarManager.setOnTitleClickListener(null);
+            toolbarManager.setSubtitleIconVisibility(View.GONE);
+        }
         ifListEmpty=(TextView) V.findViewById(R.id.ifListEmpty);
 
         if(creditDetialsDao.queryBuilder()
@@ -146,18 +152,6 @@ public class CreditFragment extends Fragment {
             }
         });
         return V;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (toolbarManager != null)
-        {
-            toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
-            toolbarManager.setSubtitle("");
-            toolbarManager.setOnTitleClickListener(null);
-            toolbarManager.setSubtitleIconVisibility(View.GONE);
-        }
     }
 
 

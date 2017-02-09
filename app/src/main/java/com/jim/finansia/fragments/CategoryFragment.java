@@ -46,6 +46,13 @@ public class CategoryFragment extends PABaseListFragment implements OnClickListe
 	public static final String POSITION = "position";
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		final View rootView = inflater.inflate(R.layout.category_layout, container, false);
+		if (toolbarManager != null) {
+			toolbarManager.setSubtitleIconVisibility(View.GONE);
+			toolbarManager.setTitle(getResources().getString(R.string.category));
+			toolbarManager.setSubtitle("");
+			toolbarManager.setOnTitleClickListener(null);
+			toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
+		}
 		rootView.postDelayed(new Runnable() {
 			@Override
 			public void run() {
@@ -86,13 +93,7 @@ public class CategoryFragment extends PABaseListFragment implements OnClickListe
 	@Override
 	public void onResume() {
 		super.onResume();
-		if (toolbarManager != null) {
-			toolbarManager.setSubtitleIconVisibility(View.GONE);
-			toolbarManager.setTitle(getResources().getString(R.string.category));
-			toolbarManager.setSubtitle("");
-			toolbarManager.setOnTitleClickListener(null);
-			toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
-		}
+
 	}
 
 	private boolean show = false;

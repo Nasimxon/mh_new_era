@@ -65,23 +65,6 @@ public class FinanceRecordsFragment extends Fragment implements View.OnClickList
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.record_detail_layout, container, false);
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
-        date = Calendar.getInstance();
-        if (getArguments() != null) {
-            String tempDate = getArguments().getString(RecordDetailFragment.DATE);
-            try {
-                date.setTime(format.parse(tempDate));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
-
-        rvRecordDetail = (RecyclerView) rootView.findViewById(R.id.rvRecordDetail);
-        refreshList();
-        setMode(mode);
-        return rootView;
-    }
-    public void onResume() {
-        super.onResume();
         if (toolbarManager != null)
         {
             toolbarManager.setOnSecondImageClickListener(this);
@@ -98,6 +81,20 @@ public class FinanceRecordsFragment extends Fragment implements View.OnClickList
                 }
             });
         }
+        date = Calendar.getInstance();
+        if (getArguments() != null) {
+            String tempDate = getArguments().getString(RecordDetailFragment.DATE);
+            try {
+                date.setTime(format.parse(tempDate));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
+        rvRecordDetail = (RecyclerView) rootView.findViewById(R.id.rvRecordDetail);
+        refreshList();
+        setMode(mode);
+        return rootView;
     }
 
     public void refreshList() {

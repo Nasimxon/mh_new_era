@@ -67,10 +67,17 @@ public class SmsParseMainFragment extends Fragment implements View.OnClickListen
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_sms_tab_lay, container, false);
-        toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
-        toolbarManager.setTitle(getResources().getString(R.string.sms_parse));
-        toolbarManager.setSubtitle("");
-        toolbarManager.setSubtitleIconVisibility(View.GONE);
+        if (toolbarManager != null) {
+            toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
+            toolbarManager.setTitle(getResources().getString(R.string.sms_parse));
+            toolbarManager.setOnTitleClickListener(null);
+            toolbarManager.setSubtitle("");
+            toolbarManager.setSubtitleIconVisibility(View.GONE);
+            toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
+            toolbarManager.setTitle(getResources().getString(R.string.sms_parse));
+            toolbarManager.setSubtitle("");
+            toolbarManager.setSubtitleIconVisibility(View.GONE);
+        }
         recyclerView = (RecyclerView) rootView.findViewById(R.id.rvSmsParseAllList);
         ifListEmpty = (TextView) rootView.findViewById(R.id.ifListEmpty);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
@@ -94,17 +101,6 @@ public class SmsParseMainFragment extends Fragment implements View.OnClickListen
         }
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (toolbarManager != null) {
-            toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
-            toolbarManager.setTitle(getResources().getString(R.string.sms_parse));
-            toolbarManager.setOnTitleClickListener(null);
-            toolbarManager.setSubtitle("");
-            toolbarManager.setSubtitleIconVisibility(View.GONE);
-        }
-    }
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

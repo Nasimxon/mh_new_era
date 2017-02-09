@@ -29,6 +29,27 @@ public class CurrencyChooseFragment extends PABaseInfoFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.currency_choose_fragment, container, false);
+        if (toolbarManager != null){
+            toolbarManager.setTitle(getResources().getString(R.string.choose_currencies)); // toolbar settings
+            toolbarManager.setSubtitle("");
+            toolbarManager.setOnTitleClickListener(null);
+            toolbarManager.setSubtitleIconVisibility(View.GONE);
+            toolbarManager.setOnHomeButtonClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    paFragmentManager.getFragmentManager().popBackStack();
+                    for (Fragment frag : paFragmentManager.getFragmentManager().getFragments()) {
+                        if (frag == null) continue;
+                        if (frag.getClass().getName().equals(CurrencyFragment.class.getName())) {
+                            CurrencyFragment currencyFragment = (CurrencyFragment) frag;
+                            if (currencyFragment != null) currencyFragment.updateToolbar();
+                            break;
+                        }
+                    }
+                }
+            });
+            toolbarManager.setImageToSecondImage(R.drawable.check_sign);
+        }
         dialog = new WarningDialog(getContext());
         gvCurrencyChoose = (RecyclerView) view.findViewById(R.id.gvCurrencyChoose); // gridview for representing currencies
         final String[] baseCurrencies = getResources().getStringArray(R.array.base_currencies); // getting data from resources to creating default currency list
@@ -207,32 +228,6 @@ public class CurrencyChooseFragment extends PABaseInfoFragment {
             }
         });
         return view;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (toolbarManager != null){
-            toolbarManager.setTitle(getResources().getString(R.string.choose_currencies)); // toolbar settings
-            toolbarManager.setSubtitle("");
-            toolbarManager.setOnTitleClickListener(null);
-            toolbarManager.setSubtitleIconVisibility(View.GONE);
-            toolbarManager.setOnHomeButtonClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    paFragmentManager.getFragmentManager().popBackStack();
-                    for (Fragment frag : paFragmentManager.getFragmentManager().getFragments()) {
-                        if (frag == null) continue;
-                        if (frag.getClass().getName().equals(CurrencyFragment.class.getName())) {
-                            CurrencyFragment currencyFragment = (CurrencyFragment) frag;
-                            if (currencyFragment != null) currencyFragment.updateToolbar();
-                            break;
-                        }
-                    }
-                }
-            });
-            toolbarManager.setImageToSecondImage(R.drawable.check_sign);
-        }
     }
 
     @Override

@@ -78,7 +78,13 @@ public class AutoMarketFragment extends Fragment implements View.OnClickListener
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setRetainInstance(false);
         View rootView = inflater.inflate(R.layout.auto_market_layout, container, false);
-        ifListEmpty = (TextView) rootView.findViewById(R.id.ifListEmpty);
+        if (toolbarManager != null) {
+            toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
+            toolbarManager.setTitle(getResources().getString(R.string.auto_operations));
+            toolbarManager.setOnTitleClickListener(null);
+            toolbarManager.setSubtitleIconVisibility(View.GONE);
+            toolbarManager.setSubtitle("");
+        }        ifListEmpty = (TextView) rootView.findViewById(R.id.ifListEmpty);
         recyclerView = (RecyclerView) rootView.findViewById(R.id.rvAutoMarketFragment);
         autoAdapter = new AutoAdapter();
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
@@ -87,18 +93,6 @@ public class AutoMarketFragment extends Fragment implements View.OnClickListener
         floatingActionButton = (FloatingActionButton) rootView.findViewById(R.id.fbAutoMarketAdd);
         floatingActionButton.setOnClickListener(this);
         return rootView;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (toolbarManager != null) {
-            toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
-            toolbarManager.setTitle(getResources().getString(R.string.auto_operations));
-            toolbarManager.setOnTitleClickListener(null);
-            toolbarManager.setSubtitleIconVisibility(View.GONE);
-            toolbarManager.setSubtitle("");
-        }
     }
 
     @Override

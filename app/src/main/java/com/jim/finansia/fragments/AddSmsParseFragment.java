@@ -181,6 +181,12 @@ public class AddSmsParseFragment extends PABaseFragment{
         };
         toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
         toolbarManager.setImageToSecondImage(R.drawable.check_sign);
+        toolbarManager.setOnTitleClickListener(null);
+        toolbarManager.setTitle(getResources().getString(R.string.sms_parse));
+        toolbarManager.setSubtitle("");
+        toolbarManager.setSubtitleIconVisibility(View.GONE);
+        toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
+        toolbarManager.setImageToSecondImage(R.drawable.check_sign);
         toolbarManager.setOnSecondImageClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -399,20 +405,6 @@ public class AddSmsParseFragment extends PABaseFragment{
             }
         }
         return rootView;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (toolbarManager != null) {
-            toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
-            toolbarManager.setImageToSecondImage(R.drawable.check_sign);
-            toolbarManager.setOnTitleClickListener(null);
-            toolbarManager.setTitle(getResources().getString(R.string.sms_parse));
-            toolbarManager.setSubtitle("");
-            toolbarManager.setSubtitleIconVisibility(View.GONE);
-
-        }
     }
 
     @Override
