@@ -188,7 +188,6 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
                                     break;
                                 case 2:
                                     paFragmentManager.displayFragment(new AccountFragment());
-
                                     break;
                                 case 3:
                                     paFragmentManager.displayFragment(new PurposeFragment());
@@ -680,13 +679,27 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
                                         case 1:
                                             isAvailable = sharedPreferences.getBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.IS_AVAILABLE_CHANGING_OF_CREDIT_KEY, false);
                                             if (isAvailable) {
-                                                buttonsCount = table == PocketAccounterGeneral.INCOME ? INCOME_BUTTONS_COUNT_PER_PAGE : EXPENSE_BUTTONS_COUNT_PER_PAGE;
-                                                AddCreditFragment addCreditFragment = new AddCreditFragment();
-                                                Bundle bundle = new Bundle();
-                                                bundle.putInt(CreditTabLay.MODE,table==PocketAccounterGeneral.EXPENSE?PocketAccounterGeneral.EXPANSE_MODE:PocketAccounterGeneral.INCOME_MODE);
-                                                bundle.putInt(CreditTabLay.POSITION,currentPage*buttonsCount+pos);
-                                                addCreditFragment.setArguments(bundle);
-                                                paFragmentManager.displayFragment(addCreditFragment);
+                                                boolean isAccess = sharedPreferences.getBoolean(PocketAccounterGeneral.FIRST_CREDIT, true);
+                                                if (!isAccess) {
+                                                    List<CreditDetials> list = daoSession
+                                                            .queryBuilder(CreditDetials.class)
+                                                            .where(CreditDetialsDao.Properties.Key_for_archive.eq(false))
+                                                            .list();
+                                                    int count = sharedPreferences.getInt(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.CREDIT_COUNT_KEY, 0);
+                                                    isAccess = list.size() < count;
+                                                }
+                                                if (isAccess) {
+                                                    buttonsCount = table == PocketAccounterGeneral.INCOME ? INCOME_BUTTONS_COUNT_PER_PAGE : EXPENSE_BUTTONS_COUNT_PER_PAGE;
+                                                    AddCreditFragment addCreditFragment = new AddCreditFragment();
+                                                    Bundle bundle = new Bundle();
+                                                    bundle.putInt(CreditTabLay.MODE,table==PocketAccounterGeneral.EXPENSE?PocketAccounterGeneral.EXPANSE_MODE:PocketAccounterGeneral.INCOME_MODE);
+                                                    bundle.putInt(CreditTabLay.POSITION,currentPage*buttonsCount+pos);
+                                                    addCreditFragment.setArguments(bundle);
+                                                    paFragmentManager.displayFragment(addCreditFragment);
+                                                }
+                                                else
+                                                    purchaseImplementation.buyAddingCredit();
+
                                             } else {
                                                 analytics.sendText("User wants to buy service, which changes button to credit");
                                                 purchaseImplementation.buyChanchingCredit();
@@ -708,20 +721,31 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
                                                 lvDialog.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                                     @Override
                                                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                                        int type = -1;
-                                                        if (position == 0)
-                                                            type = DebtBorrow.DEBT;
-                                                        else
-                                                            type = DebtBorrow.BORROW;
-                                                        int mode = table == PocketAccounterGeneral.INCOME ? PocketAccounterGeneral.INCOME_MODE : PocketAccounterGeneral.EXPANSE_MODE;
-                                                        int count = table == PocketAccounterGeneral.INCOME ? INCOME_BUTTONS_COUNT_PER_PAGE : EXPENSE_BUTTONS_COUNT_PER_PAGE;
-                                                        Bundle bundle = new Bundle();
-                                                        bundle.putInt(DebtBorrowFragment.MODE, mode);
-                                                        bundle.putInt(DebtBorrowFragment.POSITION, count*currentPage + pos);
-                                                        bundle.putInt(DebtBorrowFragment.TYPE, type);
-                                                        AddBorrowFragment fragment = new AddBorrowFragment();
-                                                        fragment.setArguments(bundle);
-                                                        paFragmentManager.displayFragment(fragment);
+                                                        boolean isAccess = sharedPreferences.getBoolean(PocketAccounterGeneral.FIRST_DEBT_BORROW, true);
+                                                        if (!isAccess) {
+                                                            int count = sharedPreferences.getInt(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.DEBT_BORROW_COUNT_KEY, 0);
+                                                            List<DebtBorrow> list = daoSession.queryBuilder(DebtBorrow.class)
+                                                                    .where(DebtBorrowDao.Properties.To_archive.eq(false))
+                                                                    .list();
+                                                            isAccess = list.size() < count;
+                                                        }
+                                                        if (isAccess) {
+                                                            int type = -1;
+                                                            if (position == 0)
+                                                                type = DebtBorrow.DEBT;
+                                                            else
+                                                                type = DebtBorrow.BORROW;
+                                                            int mode = table == PocketAccounterGeneral.INCOME ? PocketAccounterGeneral.INCOME_MODE : PocketAccounterGeneral.EXPANSE_MODE;
+                                                            int count = table == PocketAccounterGeneral.INCOME ? INCOME_BUTTONS_COUNT_PER_PAGE : EXPENSE_BUTTONS_COUNT_PER_PAGE;
+                                                            Bundle bundle = new Bundle();
+                                                            bundle.putInt(DebtBorrowFragment.MODE, mode);
+                                                            bundle.putInt(DebtBorrowFragment.POSITION, count*currentPage + pos);
+                                                            bundle.putInt(DebtBorrowFragment.TYPE, type);
+                                                            AddBorrowFragment fragment = new AddBorrowFragment();
+                                                            fragment.setArguments(bundle);
+                                                            paFragmentManager.displayFragment(fragment);
+                                                        } else
+                                                            purchaseImplementation.buyDebtBorrow();
                                                         PocketAccounter.PRESSED = false;
                                                         dialog.dismiss();
                                                     }

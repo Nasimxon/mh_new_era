@@ -29,6 +29,7 @@ import com.jim.finansia.utils.PocketAccounterGeneral;
 import com.jim.finansia.utils.billing.PurchaseImplementation;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -140,30 +141,42 @@ public class DebtBorrowFragment extends Fragment implements View.OnClickListener
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.fbDebtBorrowFragment) {
-            switch (viewPager.getCurrentItem()) {
-                case BORROW_FRAGMENT: {
-                    Bundle bundle = new Bundle();
-                    bundle.putInt(DebtBorrowFragment.MODE, PocketAccounterGeneral.NO_MODE);
-                    bundle.putInt(DebtBorrowFragment.POSITION, 0);
-                    bundle.putInt(DebtBorrowFragment.TYPE, DebtBorrow.BORROW);
-                    bundle.putInt(DebtBorrowFragment.LOCAL_APPEREANCE, DebtBorrowFragment.FROM_MAIN);
-                    AddBorrowFragment fragment = new AddBorrowFragment();
-                    fragment.setArguments(bundle);
-                    paFragmentManager.displayFragment(fragment);
-                    break;
-                }
-                case DEBT_FRAGMENT: {
-                    Bundle bundle = new Bundle();
-                    bundle.putInt(DebtBorrowFragment.MODE, PocketAccounterGeneral.NO_MODE);
-                    bundle.putInt(DebtBorrowFragment.POSITION, 0);
-                    bundle.putInt(DebtBorrowFragment.TYPE, DebtBorrow.DEBT);
-                    bundle.putInt(DebtBorrowFragment.LOCAL_APPEREANCE, DebtBorrowFragment.FROM_MAIN);
-                    AddBorrowFragment fragment = new AddBorrowFragment();
-                    fragment.setArguments(bundle);
-                    paFragmentManager.displayFragment(fragment);
-                    break;
-                }
+            boolean isAccess = preferences.getBoolean(PocketAccounterGeneral.FIRST_DEBT_BORROW, true);
+            if (!isAccess) {
+                int count = preferences.getInt(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.DEBT_BORROW_COUNT_KEY, 0);
+                List<DebtBorrow> list = daoSession.queryBuilder(DebtBorrow.class)
+                        .where(DebtBorrowDao.Properties.To_archive.eq(false))
+                        .list();
+                isAccess = list.size() < count;
             }
+            if (isAccess) {
+                switch (viewPager.getCurrentItem()) {
+                    case BORROW_FRAGMENT: {
+                        Bundle bundle = new Bundle();
+                        bundle.putInt(DebtBorrowFragment.MODE, PocketAccounterGeneral.NO_MODE);
+                        bundle.putInt(DebtBorrowFragment.POSITION, 0);
+                        bundle.putInt(DebtBorrowFragment.TYPE, DebtBorrow.BORROW);
+                        bundle.putInt(DebtBorrowFragment.LOCAL_APPEREANCE, DebtBorrowFragment.FROM_MAIN);
+                        AddBorrowFragment fragment = new AddBorrowFragment();
+                        fragment.setArguments(bundle);
+                        paFragmentManager.displayFragment(fragment);
+                        break;
+                    }
+                    case DEBT_FRAGMENT: {
+                        Bundle bundle = new Bundle();
+                        bundle.putInt(DebtBorrowFragment.MODE, PocketAccounterGeneral.NO_MODE);
+                        bundle.putInt(DebtBorrowFragment.POSITION, 0);
+                        bundle.putInt(DebtBorrowFragment.TYPE, DebtBorrow.DEBT);
+                        bundle.putInt(DebtBorrowFragment.LOCAL_APPEREANCE, DebtBorrowFragment.FROM_MAIN);
+                        AddBorrowFragment fragment = new AddBorrowFragment();
+                        fragment.setArguments(bundle);
+                        paFragmentManager.displayFragment(fragment);
+                        break;
+                    }
+                }
+            } else
+                purchaseImplementation.buyDebtBorrow();
+
         }
     }
 

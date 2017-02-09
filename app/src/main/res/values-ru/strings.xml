@@ -61,7 +61,7 @@
         <item>Долги</item>
         <item>Смс парсинг</item>
         <item>Отчеты</item>
-        <item>Темы</item>
+        <item>Фон</item>
         <item>Настройки</item>
         <item>Оценить приложения</item>
         <item>Поделиться</item>
@@ -1339,18 +1339,16 @@
         <item>settings_page</item>
     </string-array>
     <string-array name="page_icons">
-        <item>icons_402</item>
-        <item>icons_403</item>
-        <item>icons_404</item>
-        <item>icons_405</item>
-        <item>icons_406</item>
-        <item>icons_407</item>
-        <item>icons_408</item>
-        <item>icons_409</item>
-        <item>icons_410</item>
-        <item>icons_411</item>
-        <item>icons_412</item>
-        <item>icons_413</item>
+        <item>ic_currency</item>
+        <item>ic_categories</item>
+        <item>ic_accounts</item>
+        <item>ic_purpose</item>
+        <item>ic_auto</item>
+        <item>ic_loans</item>
+        <item>ic_debt</item>
+        <item>ic_report</item>
+        <item>ic_sms</item>
+        <item>ic_settings</item>
     </string-array>
     <string name="balance_invis">Не показывать баланс</string>
     <string name="borrow_arch">Долг в архиве</string>
@@ -1551,11 +1549,11 @@
     <string name="min_expense_in_the_month">Минимальный расход:</string>
     <string name="total_expense">Общий расход</string>
     <string name="total_income">Общая прибыль</string>
-    <string name="must_restart">Для установки темы понадобится перезапуск программы</string>
+    <string name="must_restart">Для установки цвета фона понадобится перезапуск программы</string>
     <string name="daily_operations">Голосовой ввод</string>
     <string name="category_subcategory">Категория Подкатегория</string>
     <string name="processed_sms">Обработанный смс:</string>
-    <string name="theme">Темы</string>
+    <string name="theme">Фон</string>
     <string name="attention">Внимание!</string>
     <string name="buy_voice_text">Вы превысили количество попыток. Хотите активировать услугу?</string>
     <string name="about_notifications">*Уведомление будет напоминать вам об оплате выбранный период</string>
@@ -1693,5 +1691,14 @@
     <string name="i_returned">Вернул</string>
     <string name="no_sub_cat">No subcategory</string>
     <string name="voice_network_error">Включите интернет или установите пакет для распознования речи!</string>
+    <string name="franclins_cytate">Если хотите быть богатым, научитесь не только зарабатывать, но и быть экономным.</string>
+    <string name="you_can_jump">Сначала погасите за предыдущий период!</string>
+    <string name="to_jump">Сначала погасите за предыдущий период!</string>
+    <string name="move_to">Перейти</string>
+    <string name="delete_all_records">Удалить все записи</string>
+    <string name="credit_payment">Оплата кредита</string>
+    <string name="credir_first_con">Первоначальная оплата</string>
+    <string name="records_will_be_deleted">Записи будут удалены</string>
+    <string name="first_con">Первоначальная сумма:</string>
 </resources>
 

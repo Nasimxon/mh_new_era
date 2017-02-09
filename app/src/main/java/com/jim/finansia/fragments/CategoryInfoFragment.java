@@ -196,7 +196,10 @@ public class CategoryInfoFragment extends PABaseInfoFragment {
                                     }
                                 }
                                 logicManager.deleteRootCategory(rootCategory);
+                                reportManager.clearCache();
                                 dataCache.updateAllPercents();
+                                paFragmentManager.updateAllFragmentsPageChanges();
+                                paFragmentManager.updateTemplatesInVoiceRecognitionFragment();
                                 paFragmentManager.getFragmentManager().popBackStack();
                                 paFragmentManager.displayFragment(new CategoryFragment());
                                 warningDialog.dismiss();

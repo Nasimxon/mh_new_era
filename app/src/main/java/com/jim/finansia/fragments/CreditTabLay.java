@@ -19,11 +19,17 @@ import android.view.inputmethod.InputMethodManager;
 import com.jim.finansia.PocketAccounter;
 import com.jim.finansia.PocketAccounterApplication;
 import com.jim.finansia.R;
+import com.jim.finansia.database.CreditDetials;
+import com.jim.finansia.database.CreditDetialsDao;
+import com.jim.finansia.database.DaoSession;
 import com.jim.finansia.managers.DrawerInitializer;
 import com.jim.finansia.managers.PAFragmentManager;
 import com.jim.finansia.managers.ToolbarManager;
+import com.jim.finansia.utils.PocketAccounterGeneral;
+import com.jim.finansia.utils.billing.PurchaseImplementation;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -33,7 +39,8 @@ public class CreditTabLay extends Fragment implements View.OnClickListener, View
     @Inject ToolbarManager toolbarManager;
     @Inject DrawerInitializer drawerInitializer;
     @Inject SharedPreferences sharedPreferences;
-
+    @Inject DaoSession daoSession;
+    @Inject PurchaseImplementation purchaseImplementation;
     public static final String CREDIT_ID = "credit_id";
     public static final String POSITION = "credit_position";
     public static final String MODE = "credit_mode";
@@ -96,7 +103,19 @@ public class CreditTabLay extends Fragment implements View.OnClickListener, View
         fb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                paFragmentManager.displayFragment(new AddCreditFragment());
+                boolean isAccess = sharedPreferences.getBoolean(PocketAccounterGeneral.FIRST_CREDIT, true);
+                if (!isAccess) {
+                    List<CreditDetials> list = daoSession
+                            .queryBuilder(CreditDetials.class)
+                            .where(CreditDetialsDao.Properties.Key_for_archive.eq(false))
+                            .list();
+                    int count = sharedPreferences.getInt(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.CREDIT_COUNT_KEY, 0);
+                    isAccess = list.size() < count;
+                }
+                if (isAccess)
+                    paFragmentManager.displayFragment(new AddCreditFragment());
+                else
+                    purchaseImplementation.buyAddingCredit();
             }
         });
 

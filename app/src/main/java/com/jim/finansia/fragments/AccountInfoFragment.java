@@ -50,6 +50,12 @@ public class AccountInfoFragment extends PABaseInfoFragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		final View rootView = inflater.inflate(R.layout.account_info_modern_layout, container, false);
+		if (getArguments() != null) {
+			String accountId = getArguments().getString(AccountFragment.ACCOUNT_ID);
+			if (accountId != null) {
+				account = daoSession.load(Account.class, accountId);
+			}
+		}
 		if (toolbarManager != null) {
 			toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
 			toolbarManager.setImageToSecondImage(R.drawable.ic_more_vert_black_48dp);
@@ -71,12 +77,6 @@ public class AccountInfoFragment extends PABaseInfoFragment {
 					showOperationsList(v);
 				}
 			});
-		}
-		if (getArguments() != null) {
-			String accountId = getArguments().getString(AccountFragment.ACCOUNT_ID);
-			if (accountId != null) {
-				account = daoSession.load(Account.class, accountId);
-			}
 		}
 		totalAmount = (TextView) rootView.findViewById(R.id.tvAccountInfoTotal);
 		svCategorySelector = (SelectorView) rootView.findViewById(R.id.svAccountSelector);
@@ -150,7 +150,10 @@ public class AccountInfoFragment extends PABaseInfoFragment {
 									paFragmentManager.getFragmentManager().popBackStack();
 									paFragmentManager.displayFragment(new AccountFragment());
 								}
+								reportManager.clearCache();
 								dataCache.updateAllPercents();
+								paFragmentManager.updateAllFragmentsPageChanges();
+								paFragmentManager.updateTemplatesInVoiceRecognitionFragment();
 								dialog.dismiss();
 							}
 						});

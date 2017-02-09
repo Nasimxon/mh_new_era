@@ -114,6 +114,10 @@ public class ScheduleCreditFragment extends PABaseFragment {
             toolbarManager.setOnSecondImageClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    preferences
+                            .edit()
+                            .putBoolean(PocketAccounterGeneral.FIRST_CREDIT, false)
+                            .commit();
                     for(ReckingCredit reckingCredit:currentCredit.getReckings() )
                     logicManager.insertReckingCredit(reckingCredit);
                     logicManager.insertCredit(currentCredit);

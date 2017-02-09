@@ -44,7 +44,7 @@ public class CategoryAdapterForDialog extends BaseAdapter {
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		View view = inflater.inflate(R.layout.icon_with_name, parent, false);
 		ImageView ivCategoryListIcon = (ImageView) view.findViewById(R.id.ivIconWithName);
-		if (result.get(position).getIcon().startsWith("icon")) {
+		if (result.get(position).getIcon().startsWith("icon") || result.get(position).getIcon().startsWith("ic_")) {
 			int resId = context.getResources().getIdentifier(result.get(position).getIcon(), "drawable", context.getPackageName());
 			ivCategoryListIcon.setImageResource(resId);
 		}

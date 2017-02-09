@@ -84,7 +84,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Если хотите быть богатым, научитесь не только зарабатывать, но и быть экономным."
+                        android:text="@string/franclins_cytate"
                         android:textColor="@color/black_for_myagkiy_glavniy"
                         android:gravity="center"
                         android:textStyle="bold"

@@ -20,7 +20,7 @@
         <item>Deudas</item>
         <item>Sms anàlisis</item>
         <item>Informes</item>
-        <item>Temas</item>
+        <item>Fondo</item>
         <item>Configuraciones</item>
         <item>Rate app</item>
         <item>Share app</item>
@@ -1119,9 +1119,9 @@
     <string name="only_income">Sólo ingreso</string>
     <string name="only_expense">Sólo gasto</string>
     <string name="currency">Divisa</string>
-    <string name="sms_parse_income">Ingresos de SMS</string>
+    <string name="sms_parse_income">Ingresos de mensaje</string>
     <string name="sms_parse_income_id">sms_income</string>
-    <string name="sms_parse_expense">Gastos de SMS</string>
+    <string name="sms_parse_expense">Gastos de Mensaje</string>
     <string name="sms_parse_expense_id">sms_expense</string>
     <string name="ch_cat">Elegir categoría</string>
     <string name="addedit">Añadir / Editar</string>
@@ -1271,18 +1271,16 @@
         <item>settings_page</item>
     </string-array>
     <string-array name="page_icons">
-        <item>icons_402</item>
-        <item>icons_403</item>
-        <item>icons_404</item>
-        <item>icons_405</item>
-        <item>icons_406</item>
-        <item>icons_407</item>
-        <item>icons_408</item>
-        <item>icons_409</item>
-        <item>icons_410</item>
-        <item>icons_411</item>
-        <item>icons_412</item>
-        <item>icons_413</item>
+        <item>ic_currency</item>
+        <item>ic_categories</item>
+        <item>ic_accounts</item>
+        <item>ic_purpose</item>
+        <item>ic_auto</item>
+        <item>ic_loans</item>
+        <item>ic_debt</item>
+        <item>ic_report</item>
+        <item>ic_sms</item>
+        <item>ic_settings</item>
     </string-array>
     <string name="balance_invis">No mostrar el balance</string>
     <string name="borrow_arch">El préstamo está en archivo</string>
@@ -1467,10 +1465,10 @@
     <string name="average_expense">Gasto promedio: </string>
     <string name="max_expense_in_the_month">Gasto máximo en el mes: </string>
     <string name="min_expense_in_the_month">Ingreso mínimo en el mes: </string>
-    <string name="must_restart">¡Para instalar el tema,  tendrá que reiniciar el programa!</string>
+    <string name="must_restart">¡Para instalar el color,  tendrá que reiniciar el programa!</string>
     <string name="processed_sms">Sms procesados:</string>
     <string name="category_subcategory">Categoría Subcategoría</string>
-    <string name="theme">Temas</string>
+    <string name="theme">Fondo</string>
     <string name="attention">Atención!</string>
     <string name="buy_voice_text">¡Usted excedió la cuenta de su intento!. ¿Desea activar el servicio?</string>
     <string-array name="currency_1">
@@ -1498,12 +1496,12 @@
     <string name="operation_ndays">Días de \noperación</string>
     <string name="select_days">Selecciònar días</string>
     <string name="next_operations">Siguiente operacion</string>
-    <string name="set_color">Establecer el color del tema</string>
-    <string name="even_princ"></string>
+    <string name="set_color">Establecer el color del fondo</string>
+    <string name="even_princ">Incluso pagos principales</string>
     <string name="daily_operations">La entrada de voz</string>
     <string name="all_periods">Todos los periodos</string>
     <string name="c_interval">De</string>
-    <string name="buy_color">Comprar el color para el tema</string>
+    <string name="buy_color">Comprar el color para el fondo</string>
     <string name="borrower_name">Nombre del prestatario</string>
     <string name="categories_report">Categorías</string>
     <string name="change_ch">Cambio</string>
@@ -1531,7 +1529,7 @@
     <string name="financial_transactions_report">Transacciones financieras</string>
     <string name="five">cinco</string>
     <string name="for_this_period">Para este período:</string>
-    <string name="from_balance"></string>
+    <string name="from_balance">desde el balance</string>
     <string name="four">cuatro</string>
     <string name="nine">nueve</string>
     <string name="one">uno</string>
@@ -1543,4 +1541,153 @@
     <string name="amount">Cantidad</string>
     <string name="took_from">Took from</string>
     <string name="voice_network_error">Включите интернет или установите пакет для распознования речи!</string>
+    <string name="franclins_cytate">Если хотите быть богатым, научитесь не только зарабатывать, но и быть экономным.</string>
+    <string name="za_period">En el periodo:</string>
+    <string name="you_have_debt">Deuda por período</string>
+    <string name="you_can_jump">Primero pague por el período anterior!</string>
+    <string name="wrong_input_type">Tipo de entrada es incorrecta!</string>
+    <string name="word_for_decide_income">Palabra para definir ingresos</string>
+    <string name="word_for_decide_expence">Palabra para definir gastos</string>
+    <string name="word_do_sifri">Introduzca la palabra que precede al dígito</string>
+    <string name="about_notifications">*La notificación le recordará sobre el periódo de pago elegido</string>
+    <string name="accept_delete_reck">¿Desea eleminar todos los registros?</string>
+    <string name="account_list">Tiene una cuenta. Añadir nueva?</string>
+    <string name="add_the_loan_in_the_balance">Incluir el cantidad de crédito en el balance</string>
+    <string name="ammount_of_debt_include_the_balance">Incluir el cantidad de deuda en el balance</string>
+    <string name="amount_borrow">Cantidad de crédito</string>
+    <string name="balance_summary">Seleccione el método para calcular de balance</string>
+    <string name="balance_title">Mostrar balance</string>
+    <string name="begin_date">Fecha de inicio</string>
+    <string name="between_dates">Seleccione uno periodo</string>
+    <string name="borrows">Deuda a mi</string>
+    <string name="by">Vía:</string>
+    <string name="calc_in_balance">Calcular en el balance</string>
+    <string name="calculaed">En el balance</string>
+    <string name="call">Llamar</string>
+    <string name="cheking_user">Verificación de usuario</string>
+    <string name="clear_records">Limpiar</string>
+    <string name="clear_warning">Registros con esta categoría se eliminará</string>
+    <string name="connection_faild">Por favor, comprobar la conexión a Internet</string>
+    <string name="credir_first_con">Primera contribución</string>
+    <string name="credit_amount">Cantidad de crédito</string>
+    <string name="credit_begin_date">Comenzar</string>
+    <string name="credit_info">Crédito tomado</string>
+    <string name="credit_payment">Pago de crédito</string>
+    <string name="credit_return_date">Fin</string>
+    <string name="debt_amount">Cantidad</string>
+    <string name="debtor">Deudor</string>
+    <string name="debts">Mi deuda</string>
+    <string name="debts_title">Deudas</string>
+    <string name="delete">Eliminar</string>
+    <string name="delete_all_records">Eliminar todos los registros</string>
+    <string name="delete_credit">¿Desea eliminar el registro?</string>
+    <string name="download">Cargando</string>
+    <string name="end_time">Fecha final</string>
+    <string name="enter_amount">Entra la cantidad</string>
+    <string name="enter_amount_error">Entra la cantidad</string>
+    <string name="enter_borrow_amoount">Entra la cantidad</string>
+    <string name="enter_debt_amoount">Entra la cantidad</string>
+    <string name="enter_name_error">Entra la nombre</string>
+    <string name="enter_pay_value">Entra la cantidad de pago</string>
+    <string name="enter_phone_number">Entre el número de teléfono o el título de sms</string>
+    <string name="enter_takendate_error">Seleccione fecha de inicio</string>
+    <string name="even_about_total">* The even total payment schedule is comprised of a decreasing interest payment and an increasing principal payment. The decrease in the size of the interest payment is matched by an increase in the size of the principal payment so that the size of the total loan payment remains constant over the life of the loan.</string>
+    <string name="even_total">Incluso los pagos totales</string>
+    <string name="first_con">Primera contribución</string>
+    <string name="first_enter_period">¡Introduzca el plazo de crédito!</string>
+    <string name="flexiinfo">Informe flexible y detallado de sus gastos e ingresos con posibilidad de exportar en archivo EXCEL</string>
+    <string name="from_contact">desde los contactos</string>
+    <string name="from_loan_amount">Del monto del crédito</string>
+    <string name="have_first_contribution">Primera contribución</string>
+    <string name="hide_details">Ocultar detalles</string>
+    <string name="i_returned">Devuelto</string>
+    <string name="in_the_balance">En el balance</string>
+    <string name="include_credit_in_balance">Pago considerar en el balance</string>
+    <string name="incorrect_date">Fecha incorrecta</string>
+    <string name="incorrect_pay">Usted paga más de lo necesario.</string>
+    <string name="info_categories_report">Detalles de categoría y subcategoría para el período personalizado con gráficos y porcentajes</string>
+    <string name="info_daily_operations_report">Gráficos para la declaración mensual y estado diario de ingresos, gastos y balance</string>
+    <string name="info_financial_transactions_report">Tabla de ingresos y gastos de estado diario para el intervalo personalizado con detalles</string>
+    <string name="info_monthly_state_report">Gráfico de estado mensual de ingresos o gastos e información general de cada mes</string>
+    <string name="interest">Interes</string>
+    <string name="interval">Periodo</string>
+    <string name="invalide_format">Formato inválido</string>
+    <string name="left">Residuo</string>
+    <string name="left_date">Salido:</string>
+    <string name="left_date_debts">Salido(año, mes, día):</string>
+    <string name="loan_name">Nombre de crédito</string>
+    <string name="mes">mensajes</string>
+    <string name="mes2">mensaje</string>
+    <string name="monthly_fee">cuota mensual</string>
+    <string name="monthly_payment">Pago mensual</string>
+    <string name="monthly_state_report">Estado mensual</string>
+    <string name="move_to">Mover a</string>
+    <string name="name">Nombre</string>
+    <string name="ne_uchitavaetsya">No en el balance</string>
+    <string name="no_calc_in_balance">No en el balance</string>
+    <string name="no_date_selected">No con fecha de regroso</string>
+    <string name="no_sub_cat">No subcategoría</string>
+    <string name="not_calc">No en el balance</string>
+    <string name="not_completed">sin completar</string>
+    <string name="not_data">No operaciónes</string>
+    <string name="notif_everyday">Diariamente</string>
+    <string name="notif_monthly">Mensual</string>
+    <string name="notif_setting">Configuración de las notificaciones*</string>
+    <string name="notif_weekly">Semanal</string>
+    <string name="ok">Sí</string>
+    <string name="overpayment_interest">Interés de pago excesivo</string>
+    <string name="paid_amount">Monto de pago:</string>
+    <string name="payment">Pago</string>
+    <string name="payment_date">Fecha de pago:</string>
+    <string name="payment_period">Periodo de pago</string>
+    <string name="payment_to">Pago a</string>
+    <string name="payy">Pagar</string>
+    <string name="percent">Por ciento</string>
+    <string name="percent_fee">Cuota por ciento</string>
+    <string name="period_end_after">Final del período después:</string>
+    <string name="period_ends">Fin del período actual</string>
+    <string name="period_of_credit">Plazo de credito</string>
+    <string name="period_of_credit2">Periodo de credito</string>
+    <string name="period_payment">Periodo de pago</string>
+    <string name="period_payments">Periodo de pago</string>
+    <string name="press_button_nand_speak">Hablar</string>
+    <string name="preview_all_details">Ver todos los detalles</string>
+    <string name="principal">Director</string>
+    <string name="procent_of_credit">Porcentaje de crédito</string>
+    <string name="rate">Tarifa</string>
+    <string name="records_will_be_deleted">Los registros se eliminarán</string>
+    <string name="repeat_every">Repite cada</string>
+    <string name="report_by_categories">Informe por Categoría</string>
+    <string name="residue">Residuo</string>
+    <string name="residue1">Residuo</string>
+    <string name="return_deadline">Fecha de regroso</string>
+    <string name="returned_debt">Devuelto</string>
+    <string name="schedule">SCHEDULE</string>
+    <string name="sender1">Remitente</string>
+    <string name="set_to_main">Establecer en principal</string>
+    <string name="sms">Mensaje</string>
+    <string name="sms_parse">Análisis de mensaje</string>
+    <string name="success">Éxito</string>
+    <string name="taked_date">Fecha tomado</string>
+    <string name="taked_value">Valor tomado</string>
+    <string name="taken_debt">Deuda tomada</string>
+    <string name="tel_number">Número de teléfono</string>
+    <string name="to_archive">A archivo</string>
+    <string name="to_edit">Editar</string>
+    <string name="to_jump">Primero pague por el período anterior!</string>
+    <string name="toritus">This system of credit registration, very flexible. Credit conditions may be different, in this regard, you can customize the application to fit your requirements.</string>
+    <string name="total_expense">Gasto total</string>
+    <string name="total_income">Ingresos totales</string>
+    <string name="total_payed">Total pagado:</string>
+    <string name="transaction">Transacción</string>
+    <string name="total_with_interest">Total with interest</string>
+    <string name="transfer_to">Transferir</string>
+    <string name="transitions_list">Lista de transiciones</string>
+    <string name="value_of_contribution">Valor de la contribución</string>
+    <string name="value_percent">Porcentaje de valor</string>
+    <string name="waiting">Esperando</string>
+    <string name="widget_settings">Configuración del widget</string>
+    <string name="with_interest">Con interés</string>
+    <string name="with_out_comment">Sin comentarios</string>
+    <string name="with_the_even_principal">* With the even principal payment schedule, the size of the principal payment is the same for every payment. It is computed by dividing the amount of the original loan by the number of payments</string>
 </resources>

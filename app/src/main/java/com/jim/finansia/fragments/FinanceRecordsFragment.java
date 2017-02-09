@@ -160,6 +160,7 @@ public class FinanceRecordsFragment extends Fragment implements View.OnClickList
                                 reportManager.clearCache();
                                 dataCache.updateAllPercents();
                                 paFragmentManager.updateAllFragmentsPageChanges();
+                                paFragmentManager.updateTemplatesInVoiceRecognitionFragment();
                                 warningDialog.dismiss();
                             }
                         });

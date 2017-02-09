@@ -20,7 +20,7 @@
         <item>Debts</item>
         <item>Sms parsing</item>
         <item>Reports</item>
-        <item>Themes</item>
+        <item>Background</item>
         <item>Settings</item>
         <item>Rate app</item>
         <item>Share app</item>
@@ -581,7 +581,7 @@
     <string name="main_currency_edit">Base currency</string>
     <string name="costs_selected_all_warning">In the list should remain one element</string>
     <string name="category">Categories</string>
-    <string name="credit_name">Credit product Name</string>
+    <string name="credit_name">Credit product name</string>
     <string name="home">Home</string>
     <string name="network">Contact</string>
     <string name="clothes">Clothing</string>
@@ -610,6 +610,7 @@
     <string name="days">days</string>
     <string name="ends">End</string>
     <string name="archive">To \narchive</string>
+    <string name="flexiinfo">Flexible, detailed report of your expenses and income with possibility to export in EXCEL file</string>
     <string name="toritus">This system of credit registration, very flexible. Credit conditions may be different, in this regard, you can customize the application to fit your requirements.</string>
     <string-array name="cat_values">
         <item>home</item>
@@ -1060,13 +1061,13 @@
     <string name="report_income_expanse_aver_profit">Average profit:</string>
     <string name="please_sign">Please sign in</string>
     <string name="and_sync_your_data">for sync data</string>
-    <string name="introAppInfo">App much detail and conveniently control your daily income and expenses. For those who would like to save your budget carefully. We are happy to assist you!!</string>
-    <string name="quickInfo">Quick Access Icons will help you to save your time. Just click on the desired category, and enter your expenses or income, and the rest of the app will do for you!</string>
-    <string name="clear_desgn">Simple, but at the same time user-friendly interface. Our goal in the design of the application is not brilliance and convenience. We have tried to do everything so that the interface was clear to all, without exception. </string>
+    <string name="introAppInfo">Handy app for finance accounting, debts, credits, loans!</string>
+    <string name="quickInfo">Voice input helps you in necessary case</string>
+    <string name="clear_desgn">All your finance tools in your hand</string>
     <string name="appInfoTitel">FINANSIA</string>
     <string name="quickInfp">QUICK ACCESS</string>
     <string name="designInfo">CLEAR DESIGN</string>
-    <string name="secureInfo">You can synchronize data using your Google account. On all devices, you can recover your data! The data is stored in a very secure Google servers.</string>
+    <string name="secureInfo">The application will help you to fully control the spending and income at bank cards.</string>
     <string name="safeInfo">SYNC</string>
     <string name="flexInfo">FLEXIBLE REPORT</string>
     <string name="cancel1">Cancel</string>
@@ -1113,7 +1114,7 @@
     <string name="enter_debt_amoount">Enter the amount of debt</string>
     <string name="enter_borrow_amoount">Enter the amount of borrow</string>
     <string name="begin_date">Start date</string>
-    <string name="end_time">Deadline</string>
+    <string name="end_time">End date</string>
     <string name="no_date_selected">Without return date</string>
     <string name="incorrect_date">incorrect date</string>
     <string name="incorrect_pay">You pay more than is necessary.</string>
@@ -1172,13 +1173,13 @@
     <string name="only_income">Only income</string>
     <string name="only_expense">Only expense</string>
     <string name="currency">Currency</string>
-    <string name="sms_parse_income">SMS income</string>
+    <string name="sms_parse_income">Message income</string>
     <string name="sms_parse_income_id">sms_income</string>
-    <string name="sms_parse_expense">SMS expense</string>
+    <string name="sms_parse_expense">Message expense</string>
     <string name="sms_parse_expense_id">sms_expense</string>
     <string name="ch_cat">Choose category</string>
     <string name="addedit">Add/Edit</string>
-    <string name="sms_parse">SMS Parsing</string>
+    <string name="sms_parse">Message Parsing</string>
     <string name="widget_settings">Widget Settings</string>
     <string name="word_do_sifri">Enter the word preceding the digit </string>
     <string name="word_for_decide_expence">Keyword for defining \"expense\"</string>
@@ -1335,18 +1336,16 @@
         <item>settings_page</item>
     </string-array>
     <string-array name="page_icons">
-        <item>icons_402</item>
-        <item>icons_403</item>
-        <item>icons_404</item>
-        <item>icons_405</item>
-        <item>icons_406</item>
-        <item>icons_407</item>
-        <item>icons_408</item>
-        <item>icons_409</item>
-        <item>icons_410</item>
-        <item>icons_411</item>
-        <item>icons_412</item>
-        <item>icons_413</item>
+        <item>ic_currency</item>
+        <item>ic_categories</item>
+        <item>ic_accounts</item>
+        <item>ic_purpose</item>
+        <item>ic_auto</item>
+        <item>ic_loans</item>
+        <item>ic_debt</item>
+        <item>ic_report</item>
+        <item>ic_sms</item>
+        <item>ic_settings</item>
     </string-array>
     <string name="balance_invis">Don\'t show balance</string>
     <string name="borrow_arch">BORROW in Archive</string>
@@ -1418,7 +1417,7 @@
     <string name="income_expance_title">Incomes and expenses</string>
     <string name="key_for_type">Select keyword for defining type(income or expense):</string>
     <string name="select_word">Select a word</string>
-    <string name="sms_pars_list_empty">Sms parsing list is empty</string>
+    <string name="sms_pars_list_empty">Message parsing list is empty</string>
     <string name="spend">To spend</string>
     <string name="sync_failed">Sync failed</string>
     <string name="sync_suc">Sync is successful</string>
@@ -1462,7 +1461,7 @@
     <string name="start_day">Start date</string>
     <string name="such_name_exists">Such name is already exist</string>
     <string name="widget">Widget</string>
-    <string name="sms_not_exist">SMS messages is not exist</string>
+    <string name="sms_not_exist">Messages is not exist</string>
     <string name="main_window">Main page</string>
     <string name="cancelb">Cancel</string>
     <string name="there_is_no_operations_for_today">There is no operations for today</string>
@@ -1530,11 +1529,11 @@
     <string name="average_expense">Average expense: </string>
     <string name="max_expense_in_the_month">"Maximum expense in the month: "</string>
     <string name="min_expense_in_the_month">"Minimum income in the month: "</string>
-    <string name="must_restart">Restart application to set theme</string>
+    <string name="must_restart">Restart application to set the color</string>
     <string name="processed_sms">Processed sms:</string>
     <string name="daily_operations">Voice input</string>
     <string name="category_subcategory">Category SubCategory</string>
-    <string name="theme">Themes</string>
+    <string name="theme">Backgrounds</string>
     <string name="attention">Attention!</string>
     <string name="buy_voice_text">You have exceeded the number of attempts. Do you want to activate the service?</string>
     <string-array name="currency_1">
@@ -1612,7 +1611,7 @@
     <string name="with_out_comment">No comments</string>
     <string name="wrong_input_type">Wrong input type</string>
     <string name="you_have_debt">Debt for period</string>
-    <string name="za_period">During the period:</string>
+    <string name="za_period">In the period:</string>
     <string name="transfer_to_another_acc">Transfer to another account</string>
     <string name="acc_state">Account state</string>
     <string name="transfer_to">Transfer</string>
@@ -1655,7 +1654,7 @@
     <string name="waiting">Waiting</string>
     <string name="success">Success</string>
     <string name="residue1">Residue</string>
-    <string name="sms">SMS</string>
+    <string name="sms">Message</string>
     <string name="return_deadline">Return deadline</string>
     <string name="credit_details">Credit Details</string>
     <string name="paid_amount">Paid amount:</string>
@@ -1686,5 +1685,14 @@
     <string name="i_returned">Returned</string>
     <string name="no_sub_cat">No subcategory</string>
     <string name="voice_network_error">Включите интернет или установите пакет для распознования речи!</string>
+    <string name="franclins_cytate">If you would be wealthy, think of saving as well as getting.</string>
+    <string name="you_can_jump">First repay for previous period!</string>
+    <string name="credir_first_con">Credit first contribution</string>
+    <string name="credit_payment">Credit payment</string>
+    <string name="delete_all_records">Delete all records</string>
+    <string name="move_to">Move to</string>
+    <string name="records_will_be_deleted">Records will be deleted</string>
+    <string name="to_jump">First repay for previous period!</string>
+    <string name="first_con">First contributed :</string>
 
 </resources>

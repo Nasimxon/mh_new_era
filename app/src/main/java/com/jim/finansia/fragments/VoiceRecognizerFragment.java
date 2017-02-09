@@ -1033,7 +1033,7 @@ public class VoiceRecognizerFragment extends Fragment {
     private class MyAfterSavedAdapter extends RecyclerView.Adapter<MyViewHolder> {
         private List<FinanceRecord> financeRecords;
         private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
-
+        private DecimalFormat format = new DecimalFormat("0.##");
         public MyAfterSavedAdapter() {
             financeRecords = daoSession.getFinanceRecordDao().queryBuilder()
                     .where(FinanceRecordDao.Properties.Date.eq(simpleDateFormat.format(day.getTime()))).list();
@@ -1064,9 +1064,9 @@ public class VoiceRecognizerFragment extends Fragment {
                         + " " + financeRecords.get(position).getSubCategory().getName());
                 holder.itemIcon.setImageResource(getResources().getIdentifier(financeRecords.get(position)
                         .getSubCategory().getIcon(), "drawable", getContext().getPackageName()));
-                holder.itemAmount.setText("-" + "" +financeRecords.get(position).getAmount() +
+                holder.itemAmount.setText("-" + "" +format.format(financeRecords.get(position).getAmount()) +
                         financeRecords.get(position).getCurrency().getAbbr());
-                holder.itemAmount.setTextColor(getResources().getColor(R.color.record_red));
+                holder.itemAmount.setTextColor(ContextCompat.getColor(getContext(), R.color.record_red));
             } else {
 
                 holder.itemCatName.setText(financeRecords.get(position).getCategory().getName());
@@ -1075,15 +1075,15 @@ public class VoiceRecognizerFragment extends Fragment {
             }
             if(financeRecords.get(position).getCategory().getType() == 0)
             {
-                holder.itemAmount.setTextColor(getResources().getColor(R.color.record_green));
-                holder.itemAmount.setText("+" + "" +financeRecords.get(position).getAmount() +
+                holder.itemAmount.setTextColor(ContextCompat.getColor(getContext(), R.color.record_green));
+                holder.itemAmount.setText("+" + "" +format.format(financeRecords.get(position).getAmount()) +
                         financeRecords.get(position).getCurrency().getAbbr());
             }
             else if (financeRecords.get(position).getCategory().getType() == 1)
             {
-                holder.itemAmount.setText("-" + "" +financeRecords.get(position).getAmount() +
+                holder.itemAmount.setText("-" + "" +format.format(financeRecords.get(position).getAmount()) +
                         financeRecords.get(position).getCurrency().getAbbr());
-                holder.itemAmount.setTextColor(getResources().getColor(R.color.record_red));
+                holder.itemAmount.setTextColor(ContextCompat.getColor(getContext(), R.color.record_red));
             }
 
         }
