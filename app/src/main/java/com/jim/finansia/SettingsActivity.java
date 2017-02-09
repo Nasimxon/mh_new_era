@@ -581,21 +581,8 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
                         return;
                 }
 
-                final SQLiteDatabase current = SQLiteDatabase.openDatabase(currentDB.getAbsolutePath(), null, SQLiteDatabase.OPEN_READONLY);
-                SQLiteDatabase received = SQLiteDatabase.openDatabase(backupDB.getAbsolutePath(), null, SQLiteDatabase.OPEN_READWRITE);
-                if (current.getVersion() > received.getVersion()) {
-                    DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, PocketAccounterGeneral.CURRENT_DB_NAME, null);
-                    Database sqLiteDatabase= helper.getWritableDb();
-                    DaoMaster daoMaster= new DaoMaster(sqLiteDatabase);
-                    daoSession= daoMaster.newSession();
-                    daoMaster.dropAllTables(sqLiteDatabase, true);
-                    daoMaster.createAllTables(sqLiteDatabase, true);
-                    CommonOperations.migrateDatabase(this,backupDB.getAbsolutePath(), daoSession, sharedPreferences);
-                    for (AbstractDao abstractDao : daoSession.getAllDaos())
-                        abstractDao.detachAll();
 
-                }
-                else {
+
                     File currentDB1 = new File(backupDB.getAbsolutePath());
                     File backupDB1 = new File(currentDB.getAbsolutePath());
                     FileChannel src = null, dst = null;
@@ -608,7 +595,7 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                }
+
                 dataCache.getBoardBitmapsCache().evictAll();
                 dataCache.updateAllPercents();
                 dataCache.clearAllCaches();

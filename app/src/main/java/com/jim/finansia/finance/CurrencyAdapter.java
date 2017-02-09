@@ -116,7 +116,7 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.myView
 				}
 			});
 		}
-		setAnimation(holder.llCurrencyListItemRoot,position);
+//		setAnimation(holder.llCurrencyListItemRoot,position);
 	}
 	int lastPosition = -1;
 	private void setAnimation(View viewToAnimate, int position)

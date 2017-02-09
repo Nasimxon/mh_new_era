@@ -35,6 +35,7 @@ public class IntroIndicator extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(R.style.BlueTheme);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_intro_indicator);
@@ -118,8 +119,8 @@ public class IntroIndicator extends AppCompatActivity {
         fragments=new ArrayList<>();
 
         //Sozdaniya i otpravka data v fragmentam
-        IntroFrame appInfo=new IntroFrame();
-        appInfo.shareData(new DataIntro(getString(R.string.appInfoTitel),getString(R.string.introAppInfo),R.drawable.emp));
+        IntroFirstFrame appInfo=new IntroFirstFrame();
+        appInfo.shareData(new DataIntro(getString(R.string.appInfoTitel),getString(R.string.introAppInfo),R.drawable.bagicon));
         fragments.add(appInfo);
 
         IntroFrame smsIntro=new IntroFrame();

@@ -683,8 +683,9 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
                                                 buttonsCount = table == PocketAccounterGeneral.INCOME ? INCOME_BUTTONS_COUNT_PER_PAGE : EXPENSE_BUTTONS_COUNT_PER_PAGE;
                                                 AddCreditFragment addCreditFragment = new AddCreditFragment();
                                                 Bundle bundle = new Bundle();
-                                                bundle.putInt(CreditTabLay.MODE,PocketAccounterGeneral.EXPANSE_MODE);
+                                                bundle.putInt(CreditTabLay.MODE,table==PocketAccounterGeneral.EXPENSE?PocketAccounterGeneral.EXPANSE_MODE:PocketAccounterGeneral.INCOME_MODE);
                                                 bundle.putInt(CreditTabLay.POSITION,currentPage*buttonsCount+pos);
+                                                addCreditFragment.setArguments(bundle);
                                                 paFragmentManager.displayFragment(addCreditFragment);
                                             } else {
                                                 analytics.sendText("User wants to buy service, which changes button to credit");

@@ -41,9 +41,7 @@ public class PocketAccounterApplication extends Application {
         if (!(new File(oldDbPath).exists()) && !sharedPreferences.getBoolean(PocketAccounterGeneral.DB_ONCREATE_ENTER, false)) {
                 CommonOperations.createDefaultDatas(sharedPreferences, getApplicationContext(), daoSession);
         }
-        else if (new File(oldDbPath).exists()) {
-                CommonOperations.migrateDatabase(getApplicationContext(), oldDbPath, daoSession, sharedPreferences);
-        }
+
         fullBought(true);
     }
     public PocketAccounterApplicationComponent component() {

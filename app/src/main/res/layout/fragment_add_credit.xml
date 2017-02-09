@@ -253,7 +253,7 @@
                     android:ems="10"
                     android:hint="@string/payment_period"
                     android:inputType="number"
-                    android:maxLength="6"
+                    android:maxLength="2"
                     android:textColor="@color/black_for_glavniy_text"
                     android:textSize="@dimen/sixteen_dp"
                     android:layout_alignParentTop="true"

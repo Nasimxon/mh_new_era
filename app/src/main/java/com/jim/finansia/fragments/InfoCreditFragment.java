@@ -279,17 +279,23 @@ public class InfoCreditFragment extends Fragment {
 
                                         logicManager.deleteCredit(currentCredit);
                                         if (modeOfMain == PocketAccounterGeneral.NO_MODE) {
+                                            boolean found = false;
                                             for (Fragment fragment : paFragmentManager.getFragmentManager().getFragments()) {
-                                                if (fragment.getClass().getName().equals(CreditFragment.class.getName())) {
+                                                if(fragment==null) continue;
+                                                if (fragment instanceof CreditFragment) {
                                                     ((CreditFragment)fragment).updateList();
-                                                    break;
+                                                    found = true;
                                                 }
-                                                if (fragment.getClass().getName().equals(CreditArchiveFragment.class.getName())) {
+                                                if (fragment instanceof CreditArchiveFragment) {
                                                     ((CreditArchiveFragment)fragment).updateList();
-                                                    break;
+                                                    found = true;
                                                 }
                                             }
                                             paFragmentManager.getFragmentManager().popBackStack();
+                                            if (!found) {
+                                                paFragmentManager.getFragmentManager().popBackStack();
+                                                paFragmentManager.displayFragment(new CreditTabLay());
+                                            }
                                         } else if (modeOfMain == PocketAccounterGeneral.SEARCH_MODE) {
                                             paFragmentManager.getFragmentManager().popBackStack();
                                             paFragmentManager.displayFragment(new SearchFragment());

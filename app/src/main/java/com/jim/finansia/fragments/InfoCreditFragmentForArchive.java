@@ -273,6 +273,7 @@ public class InfoCreditFragmentForArchive extends Fragment {
                                         } else {
                                             boolean found = false;
                                             for (Fragment fragment : paFragmentManager.getFragmentManager().getFragments()) {
+                                                if(fragment==null) continue;
                                                 if (fragment instanceof CreditFragment) {
                                                     ((CreditFragment)fragment).updateList();
                                                     found = true;

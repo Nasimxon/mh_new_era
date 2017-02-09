@@ -74,16 +74,19 @@
 
     <style name="BlueTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="headColor">#bccfcf</item>
-        <item name="colorPrimaryDark">#a8bebe</item>
-        <item name="headAccedent">#3d8787</item>
+        <item name="headColor">#b9cfcf</item>
 
-        <item name="colorPrimary">#a8bebe</item>
-        <item name="colorAccent">#3d8787</item>
-        <item name="customStatusBarColor">#a8bebe</item>
+        <item name="customStatusBarColor">#a6c0c0</item>
+        <item name="colorPrimaryDark">#a6c0c0</item>
+        <item name="colorPrimary">#a6c0c0</item>
+
+
+        <item name="headAccedent">#218080</item>
+        <item name="colorAccent">#218080</item>
+        <item name="colorControlActivated">#218080</item>
+
         <item name="android:typeface">serif</item>
         <item name="colorControlNormal">@color/forlines</item>
-        <item name="colorControlActivated">#3d8787</item>
         <item name="colorControlHighlight">@color/forlines</item>
         <item name="android:preferenceCategoryStyle">@style/PreferenceCategoryStyle</item>
         <item name="android:popupMenuStyle">@style/PopupMenu</item>

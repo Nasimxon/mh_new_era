@@ -51,8 +51,8 @@ public class SyncBase {
     private static String DB_NAME;
     private static String PATH_FOR_INPUT;
     private static String META_KEY="CreatAT";
-    private static String FINANSIA_META_KEY="typeapp";
-    private static String FINANSIA_META_KEY_VALUE="finansia";
+//    private static String FINANSIA_META_KEY="typeapp";
+//    private static String FINANSIA_META_KEY_VALUE="finansia";
     StorageReference refStorage;
     Context context;
     ChangeStateLis eventer;
@@ -98,7 +98,7 @@ public class SyncBase {
             StorageMetadata metadata = new StorageMetadata.Builder()
                     .setContentType("sqlite/db")
                     .setCustomMetadata(META_KEY, Long.toString(System.currentTimeMillis()))
-                    .setCustomMetadata(FINANSIA_META_KEY,FINANSIA_META_KEY_VALUE)
+//                    .setCustomMetadata(FINANSIA_META_KEY,FINANSIA_META_KEY_VALUE)
                     .build();
             InputStream stream = new FileInputStream(new File(PATH_FOR_INPUT));
             refStorage.child(auth_uid + "/" + PocketAccounterGeneral.OLD_DB_NAME).putStream(stream, metadata).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -121,7 +121,6 @@ public class SyncBase {
 
 
     }
-    boolean isFinansia = false;
    public boolean downloadLast(final String auth_uid, final ChangeStateLis even){
 
        final ProgressDialog A1=new ProgressDialog(context);
@@ -131,79 +130,51 @@ public class SyncBase {
        try {
            final File file = new File(PATH_FOR_INPUT);
            final File fileDirectory = new File(context.getFilesDir(),DB_NAME) ;
-           final SQLiteDatabase current = SQLiteDatabase.openDatabase(file.getAbsolutePath(), null, SQLiteDatabase.OPEN_READONLY);
-           refStorage.child(auth_uid+"/"+PocketAccounterGeneral.OLD_DB_NAME).getMetadata().addOnSuccessListener(new OnSuccessListener<StorageMetadata>() {
+
+           refStorage.child(auth_uid+"/"+PocketAccounterGeneral.OLD_DB_NAME).getFile(fileDirectory).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                @Override
-               public void onSuccess(StorageMetadata storageMetadata) {
-                   String key = storageMetadata.getCustomMetadata(FINANSIA_META_KEY);
-
-                   isFinansia = key!=null&&!key.isEmpty()&&key.equals(FINANSIA_META_KEY_VALUE);
+               public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
 
 
-                       refStorage.child(auth_uid+"/"+PocketAccounterGeneral.OLD_DB_NAME).getFile(fileDirectory).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                           @Override
-                           public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                               SQLiteDatabase received = SQLiteDatabase.openDatabase(fileDirectory.getAbsolutePath(), null, SQLiteDatabase.OPEN_READWRITE);
-                               if (!isFinansia) {
-                                   //TODO Buyoda money holderdan otiw yoziladi
-                                   DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(context, "pocketaccounter-db", null);
-                                   Database sqLiteDatabase= helper.getWritableDb();
-                                   DaoMaster daoMaster= new DaoMaster(sqLiteDatabase);
-                                   daoSession= daoMaster.newSession();
-                                   daoMaster.dropAllTables(sqLiteDatabase, true);
-                                   daoMaster.createAllTables(sqLiteDatabase, true);
 
-                                   CommonOperations.migrateDatabase(context,fileDirectory.getAbsolutePath(),daoSession,sharedPreferences);
-                                   daoSession.clear();
+                       File currentDB = new File(fileDirectory.getAbsolutePath());
+                       File backupDB = new File(file.getAbsolutePath());
+                       FileChannel src = null, dst = null;
+                       try {
+                           src = new FileInputStream(currentDB).getChannel();
+                           dst = new FileOutputStream(backupDB).getChannel();
+                           dst.transferFrom(src, 0, src.size());
+                           src.close();
+                           dst.close();
+                       } catch (IOException e) {
+                           e.printStackTrace();
+                       }
 
-                               }
-                               else {
-                                   File currentDB = new File(fileDirectory.getAbsolutePath());
-                                   File backupDB = new File(file.getAbsolutePath());
-                                   FileChannel src = null, dst = null;
-                                   try {
-                                       src = new FileInputStream(currentDB).getChannel();
-                                       dst = new FileOutputStream(backupDB).getChannel();
-                                       dst.transferFrom(src, 0, src.size());
-                                       src.close();
-                                       dst.close();
-                                   } catch (IOException e) {
-                                       e.printStackTrace();
-                                   }
-                               }
-                               if (!context.getClass().getName().equals(SettingsActivity.class.getName())) {
-                                   PAFragmentManager paFragmentManager=new PAFragmentManager( ((PocketAccounter) context));
-                                   reportManager.clearCache();
-                                   dataCache.clearAllCaches();
-                                   dataCache.updateAllPercents();
-                                   paFragmentManager.updateAllFragmentsOnViewPager();
-                                   paFragmentManager.updateAllFragmentsPageChanges();
-                                   even.onSuccses();
+                   if (!context.getClass().getName().equals(SettingsActivity.class.getName())) {
+                       PAFragmentManager paFragmentManager=new PAFragmentManager( ((PocketAccounter) context));
+                       reportManager.clearCache();
+                       dataCache.clearAllCaches();
+                       dataCache.updateAllPercents();
+                       paFragmentManager.updateAllFragmentsOnViewPager();
+                       paFragmentManager.updateAllFragmentsPageChanges();
+                       even.onSuccses();
 
-                               } else {
-                                   Intent intent = new Intent(context, PocketAccounter.class);
-                                   context.startActivity(intent);
-                                   reportManager.clearCache();
-                                   dataCache.clearAllCaches();
-                                   dataCache.updateAllPercents();
-                                   pocketAccounterApplicationModule.updateDaoSession();
-                                   ((SettingsActivity) context).setResult(1111);
-                                   ((SettingsActivity) context).finish();
-                               }
-                               A1.dismiss();
-                           }
-                       }).addOnFailureListener(new OnFailureListener() {
-                           @Override
-                           public void onFailure(@NonNull Exception e) {
-
-                           }
-                       });
-
+                   } else {
+                       Intent intent = new Intent(context, PocketAccounter.class);
+                       context.startActivity(intent);
+                       reportManager.clearCache();
+                       dataCache.clearAllCaches();
+                       dataCache.updateAllPercents();
+                       pocketAccounterApplicationModule.updateDaoSession();
+                       ((SettingsActivity) context).setResult(1111);
+                       ((SettingsActivity) context).finish();
+                   }
+                   A1.dismiss();
                }
            }).addOnFailureListener(new OnFailureListener() {
                @Override
                public void onFailure(@NonNull Exception e) {
-                   even.onFailed(e.getMessage());
+
                }
            });
 

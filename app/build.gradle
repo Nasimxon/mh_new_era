@@ -73,7 +73,7 @@ repositories {
     maven { url "https://jitpack.io" }
 }
 greendao {
-    schemaVersion 6
+    schemaVersion 1
 }
 dependencies {
     compile files('libs/jxl.jar')

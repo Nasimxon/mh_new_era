@@ -34,19 +34,13 @@
                     android:layout_height="match_parent"
                     android:layout_weight="4">
 
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:scaleType="centerInside"
-                        android:src="@drawable/into_fon" />
 
                     <ImageView
                         android:id="@+id/imageView"
                         android:layout_width="@dimen/one_hundred_eighty_one_dp"
                         android:layout_height="@dimen/one_hundred_eighty_one_dp"
                         android:layout_centerInParent="true"
-                        android:paddingBottom="@dimen/sixteen_dp"
-                        android:paddingLeft="@dimen/thirty_dp"
+                        android:paddingBottom="@dimen/ten_dp"
                         android:paddingTop="@dimen/sixteen_dp"
                         android:scaleType="centerInside"
                         android:src="@drawable/bagicon" />
