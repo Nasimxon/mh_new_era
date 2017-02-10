@@ -177,44 +177,53 @@ public class VoiceRecognizerFragment extends Fragment {
         tvSpeechModeAdjective = (TextView) rootView.findViewById(R.id.tvSpeechModeAdjective);
         autoSave = (TextView) rootView.findViewById(R.id.tvAutoSaveVoice);
         initVoices();
-        final List<String> curs = new ArrayList<>();
-        final List<String> cursName = new ArrayList<>();
-        for (Currency cr : daoSession.getCurrencyDao().loadAll()) {
-            curs.add(cr.getAbbr());
-            cursName.add(cr.getName());
-        }
-        spSpeechCurrency.setAdapter(new CurrencySpinnerAdapter(getContext(), (ArrayList) curs,(ArrayList) cursName));
-        List<String> accStrings = new ArrayList<>();
-        for (Account ac : daoSession.getAccountDao().loadAll()) {
-            accStrings.add(ac.getId());
-        }
-        spSpeechAccount.setAdapter(new TransferAccountAdapter(getContext(),accStrings));
-        final List<Account> allAccounts = daoSession.loadAll(Account.class);
-        String lastAccountId = preferences.getString("CHOSEN_ACCOUNT_ID",  "");
-        if (lastAccountId != null && !lastAccountId.isEmpty()) {
-            int position = 0;
-            for (int i = 0; i < allAccounts.size(); i++) {
-                if (allAccounts.get(i).getId().equals(lastAccountId)) {
-                    position = i;
-                    break;
-                }
-            }
-            spSpeechAccount.setSelection(position);
-        }
-        spSpeechAccount.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                preferences.edit().putString("CHOSEN_ACCOUNT_ID", allAccounts.get(i).getId()).commit();
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
         rlCenterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                final List<String> curs = new ArrayList<>();
+                final List<String> cursName = new ArrayList<>();
+                for (Currency cr : daoSession.getCurrencyDao().queryBuilder().list()) {
+                    curs.add(cr.getAbbr());
+                    cursName.add(cr.getName());
+                }
+                final CurrencySpinnerAdapter currencyAdapter = new CurrencySpinnerAdapter(getContext(), (ArrayList) curs,(ArrayList) cursName);
+                spSpeechCurrency.setAdapter(currencyAdapter);
+                int posMain = 0;
+                for (int i = 0; i < curs.size(); i++) {
+                    if (curs.get(i).equals(commonOperations.getMainCurrency().getAbbr())) {
+                        posMain = i;
+                    }
+                }
+                spSpeechCurrency.setSelection(posMain);
+                List<String> accStrings = new ArrayList<>();
+                for (Account ac : daoSession.getAccountDao().loadAll()) {
+                    accStrings.add(ac.getId());
+                }
+                spSpeechAccount.setAdapter(new TransferAccountAdapter(getContext(),accStrings));
+                final List<Account> allAccounts = daoSession.loadAll(Account.class);
+                String lastAccountId = preferences.getString("CHOSEN_ACCOUNT_ID",  "");
+                if (lastAccountId != null && !lastAccountId.isEmpty()) {
+                    int position = 0;
+                    for (int i = 0; i < allAccounts.size(); i++) {
+                        if (allAccounts.get(i).getId().equals(lastAccountId)) {
+                            position = i;
+                            break;
+                        }
+                    }
+                    spSpeechAccount.setSelection(position);
+                }
+                spSpeechAccount.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                        preferences.edit().putString("CHOSEN_ACCOUNT_ID", allAccounts.get(i).getId()).commit();
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+
+                    }
+                });
                 if (!started) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
