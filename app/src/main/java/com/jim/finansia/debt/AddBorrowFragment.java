@@ -62,6 +62,7 @@ import com.jim.finansia.database.Person;
 import com.jim.finansia.database.Recking;
 import com.jim.finansia.finance.TransferAccountAdapter;
 import com.jim.finansia.managers.CommonOperations;
+import com.jim.finansia.managers.FinansiaFirebaseAnalytics;
 import com.jim.finansia.managers.LogicManager;
 import com.jim.finansia.managers.PAFragmentManager;
 import com.jim.finansia.managers.ReportManager;
@@ -103,6 +104,7 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
     @Inject @Named(value = "display_formatter") SimpleDateFormat dateFormat;
     @Inject ReportManager reportManager;
     @Inject SharedPreferences preferences;
+    @Inject FinansiaFirebaseAnalytics analytics;
     private int mode = PocketAccounterGeneral.NO_MODE;
     private FrameLayout contactBtn;
     private CircleImageView civImage;
@@ -141,6 +143,7 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.add_borrow_fragment_layout_mod, container, false);
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
+        analytics.sendText("User enters " + getClass().getName());
         if (getArguments() != null) {
             String debtBorrowId = getArguments().getString(DebtBorrowFragment.DEBT_BORROW_ID);
             if (debtBorrowId != null)

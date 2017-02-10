@@ -47,6 +47,7 @@ import com.jim.finansia.database.FinanceRecordDao;
 import com.jim.finansia.database.ReckingCredit;
 import com.jim.finansia.finance.TransferAccountAdapter;
 import com.jim.finansia.managers.CommonOperations;
+import com.jim.finansia.managers.FinansiaFirebaseAnalytics;
 import com.jim.finansia.managers.LogicManager;
 import com.jim.finansia.managers.PAFragmentManager;
 import com.jim.finansia.managers.ToolbarManager;
@@ -89,6 +90,9 @@ public class AddCreditFragment extends Fragment {
     DataCache dataCache;
     @Inject
     SharedPreferences preferences;
+    @Inject
+    FinansiaFirebaseAnalytics analytics;
+
     CreditDetialsDao creditDetialsDao;
     CurrencyDao currencyDao;
     AccountDao accountDao;
@@ -168,7 +172,7 @@ public class AddCreditFragment extends Fragment {
                              Bundle savedInstanceState) {
         View V = inflater.inflate(R.layout.fragment_add_credit, container, false);
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
-
+        analytics.sendText("User enters "  + getClass().getName());
         creditDetialsDao = daoSession.getCreditDetialsDao();
         accountDao = daoSession.getAccountDao();
         currencyDao = daoSession.getCurrencyDao();

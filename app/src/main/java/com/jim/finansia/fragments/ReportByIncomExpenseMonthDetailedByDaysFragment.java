@@ -15,6 +15,7 @@ import com.jim.finansia.R;
 import com.jim.finansia.database.CreditDetials;
 import com.jim.finansia.database.DebtBorrow;
 import com.jim.finansia.database.FinanceRecord;
+import com.jim.finansia.managers.FinansiaFirebaseAnalytics;
 import com.jim.finansia.managers.ReportManager;
 import com.jim.finansia.report.ReportObject;
 import com.jim.finansia.utils.PocketAccounterGeneral;
@@ -45,6 +46,7 @@ public class ReportByIncomExpenseMonthDetailedByDaysFragment extends Fragment {
                 expenseColor,
                 profitColor;
     @Inject ReportManager reportManager;
+    @Inject FinansiaFirebaseAnalytics analytics;
     public ReportByIncomExpenseMonthDetailedByDaysFragment(int month, int year) {
         this.month = month;
         this.year = year;
@@ -62,6 +64,7 @@ public class ReportByIncomExpenseMonthDetailedByDaysFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ((PocketAccounterApplication) getContext().getApplicationContext()).component().inject(this);
+        analytics.sendText("User enters "+getClass().getName());
         View rootView = inflater.inflate(R.layout.report_by_income_expense_month_detail_by_days_fragment, container, false);
         incomeColor = ContextCompat.getColor(getContext(),R.color.diagram_green);
         expenseColor = ContextCompat.getColor(getContext(),R.color.diagram_red);

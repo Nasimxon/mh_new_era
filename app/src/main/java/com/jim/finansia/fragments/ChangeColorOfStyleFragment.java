@@ -26,6 +26,7 @@ import com.jim.finansia.BuildConfig;
 import com.jim.finansia.PocketAccounter;
 import com.jim.finansia.PocketAccounterApplication;
 import com.jim.finansia.R;
+import com.jim.finansia.managers.FinansiaFirebaseAnalytics;
 import com.jim.finansia.managers.ToolbarManager;
 import com.jim.finansia.utils.PocketAccounterGeneral;
 import com.jim.finansia.utils.WarningDialog;
@@ -46,6 +47,8 @@ public class ChangeColorOfStyleFragment extends Fragment {
     @Inject PurchaseImplementation purchaseImplementation;
     @Inject SharedPreferences preferences;
     @Inject ToolbarManager toolbarManager;
+    @Inject FinansiaFirebaseAnalytics analytics;
+
     private BoardView boardView;
     private List<AdjustColors> colorDatas;
     private LinearLayout llBuyColorButton;
@@ -57,6 +60,7 @@ public class ChangeColorOfStyleFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.change_color_of_style_fragment, container, false);
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
+        analytics.sendText("User enters " + getClass().getName());
         if (toolbarManager != null) {
             toolbarManager.setTitle(getResources().getString(R.string.theme));
             toolbarManager.setOnTitleClickListener(null);

@@ -50,6 +50,7 @@ public class AccountEditFragment extends PABaseInfoFragment implements OnClickLi
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater,container,savedInstanceState);
         final View rootView = inflater.inflate(R.layout.account_edit_layout, container, false);
+        analytics.sendText("User enters " + getClass().getName());
         if (toolbarManager != null) {
             toolbarManager.setOnHomeButtonClickListener(new OnClickListener() {
                 @Override

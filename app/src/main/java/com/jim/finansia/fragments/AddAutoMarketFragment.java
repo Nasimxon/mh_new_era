@@ -46,6 +46,7 @@ import com.jim.finansia.finance.RecordCategoryAdapter;
 import com.jim.finansia.finance.RecordSubCategoryAdapter;
 import com.jim.finansia.finance.TransferAccountAdapter;
 import com.jim.finansia.managers.CommonOperations;
+import com.jim.finansia.managers.FinansiaFirebaseAnalytics;
 import com.jim.finansia.managers.LogicManager;
 import com.jim.finansia.managers.LogicManagerConstants;
 import com.jim.finansia.managers.PAFragmentManager;
@@ -79,6 +80,8 @@ public class AddAutoMarketFragment extends Fragment {
     CommonOperations commonOperations;
     @Inject
     SharedPreferences preferences;
+    @Inject
+    FinansiaFirebaseAnalytics analytics;
 
     private AccountDao accountDao;
     private CurrencyDao currencyDao;
@@ -107,7 +110,9 @@ public class AddAutoMarketFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.add_auto_market_layout_modern, container, false);
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
+        analytics.sendText("User enters " + getClass().getName());
         accountDao = daoSession.getAccountDao();
+
         currencyDao = daoSession.getCurrencyDao();
         autoMarketDao = daoSession.getAutoMarketDao();
         try {

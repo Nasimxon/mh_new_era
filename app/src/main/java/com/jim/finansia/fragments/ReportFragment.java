@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import com.jim.finansia.PocketAccounter;
 import com.jim.finansia.PocketAccounterApplication;
 import com.jim.finansia.R;
+import com.jim.finansia.managers.FinansiaFirebaseAnalytics;
 import com.jim.finansia.managers.PAFragmentManager;
 import com.jim.finansia.managers.ToolbarManager;
 
@@ -17,14 +18,14 @@ import javax.inject.Inject;
 
 public class ReportFragment extends Fragment {
     @Inject PAFragmentManager paFragmentManager;
-    @Inject
-    ToolbarManager toolbarManager;
+    @Inject ToolbarManager toolbarManager;
+    @Inject FinansiaFirebaseAnalytics analytics;
     private LinearLayout btnReportByCategory, btnReportByIncomeAndExpenseTable,
             btnReportByIncomeAndExpenseGraphic, btnReportByIncomeAndExpenseMonthly;
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.report_fragment, container, false);
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
-
+        analytics.sendText("REport fragment");
         btnReportByCategory = (LinearLayout) rootView.findViewById(R.id.btnReportByCategory);
         btnReportByCategory.setOnClickListener(new View.OnClickListener() {
             @Override

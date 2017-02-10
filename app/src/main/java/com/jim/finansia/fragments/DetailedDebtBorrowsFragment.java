@@ -29,6 +29,7 @@ import com.jim.finansia.database.Recking;
 import com.jim.finansia.database.ReckingDao;
 import com.jim.finansia.debt.DebtBorrowFragment;
 import com.jim.finansia.debt.InfoDebtBorrowFragment;
+import com.jim.finansia.managers.FinansiaFirebaseAnalytics;
 import com.jim.finansia.managers.LogicManager;
 import com.jim.finansia.managers.PAFragmentManager;
 import com.jim.finansia.managers.ToolbarManager;
@@ -61,11 +62,13 @@ public class DetailedDebtBorrowsFragment extends Fragment{
     @Inject LogicManager logicManager;
     @Inject DataCache dataCache;
     @Inject DecimalFormat formatter;
+    @Inject FinansiaFirebaseAnalytics analytics;
     private SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
     private RecyclerView rvDetailedDebtBorrows;
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.detailed_debt_borrows_fragment, container, false);
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
+        analytics.sendText("User enters " + getClass().getName());
         if (toolbarManager != null)
         {
             toolbarManager.setImageToHomeButton(R.drawable.ic_back_button);

@@ -194,7 +194,7 @@ public class PocketAccounter extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         if(outState!=null)
-        outState.putInt(KEY_INIT_POS,drawerInitializer.getCursorPosition());
+            outState.putInt(KEY_INIT_POS, drawerInitializer.getCursorPosition());
     }
     public void setToToolbarVoiceMode() {
         if (toolbarManager != null)

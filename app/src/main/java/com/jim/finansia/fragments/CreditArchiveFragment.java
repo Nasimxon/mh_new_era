@@ -20,6 +20,7 @@ import com.jim.finansia.database.CreditDetials;
 import com.jim.finansia.database.CreditDetialsDao;
 import com.jim.finansia.database.DaoSession;
 import com.jim.finansia.managers.CommonOperations;
+import com.jim.finansia.managers.FinansiaFirebaseAnalytics;
 import com.jim.finansia.managers.LogicManager;
 import com.jim.finansia.managers.PAFragmentManager;
 
@@ -46,6 +47,8 @@ public class CreditArchiveFragment extends Fragment {
     LogicManager logicManager;
     @Inject
     DecimalFormat formatter;
+    @Inject
+    FinansiaFirebaseAnalytics analytics;
 
     private RecyclerView crRV;
     private TextView ifListEmpty;
@@ -60,7 +63,7 @@ public class CreditArchiveFragment extends Fragment {
                              Bundle savedInstanceState) {
         View V=inflater.inflate(R.layout.fragment_credit, container, false);
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
-
+        analytics.sendText("User enters " + getClass().getName());
         ifListEmpty=(TextView) V.findViewById(R.id.ifListEmpty);
         if(daoSession.getCreditDetialsDao().queryBuilder()
                 .where(CreditDetialsDao.Properties.Key_for_archive.eq(true)).build().list().size()==0){

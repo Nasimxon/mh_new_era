@@ -23,6 +23,7 @@ import com.jim.finansia.database.DaoSession;
 import com.jim.finansia.database.DebtBorrow;
 import com.jim.finansia.database.FinanceRecord;
 import com.jim.finansia.database.SmsParseSuccess;
+import com.jim.finansia.managers.FinansiaFirebaseAnalytics;
 import com.jim.finansia.managers.ReportManager;
 import com.jim.finansia.managers.ToolbarManager;
 import com.jim.finansia.report.ReportObject;
@@ -56,11 +57,13 @@ public class ReportByIncomeExpenseDaily extends Fragment {
     @Inject ReportManager reportManager;
     @Inject ToolbarManager toolbarManager;
     @Inject DecimalFormat formatter;
+    @Inject FinansiaFirebaseAnalytics analytics;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.report_by_income_and_expense_daily, container, false);
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
+        analytics.sendText("User enters "+getClass().getName());
         ivReportExpense = (ImageView) rootView.findViewById(R.id.ivReportExpense);
         ivReportIncome = (ImageView) rootView.findViewById(R.id.ivReportIncome);
 

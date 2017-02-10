@@ -31,6 +31,7 @@ import com.jim.finansia.database.PhotoDetails;
 import com.jim.finansia.database.Recking;
 import com.jim.finansia.database.ReckingCredit;
 import com.jim.finansia.database.ReckingCreditDao;
+import com.jim.finansia.managers.FinansiaFirebaseAnalytics;
 import com.jim.finansia.managers.LogicManager;
 import com.jim.finansia.managers.PAFragmentManager;
 import com.jim.finansia.managers.ToolbarManager;
@@ -64,12 +65,15 @@ public class DetailedCreditsFragment extends Fragment {
     @Inject LogicManager logicManager;
     @Inject DataCache dataCache;
     @Inject DecimalFormat formatter;
+    @Inject FinansiaFirebaseAnalytics analytics;
+
     private SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
     private RecyclerView rvDetailedCredits;
     private AccountDao accountDao;
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.detailed_credits_fragment, container, false);
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
+        analytics.sendText("User enters " + getClass().getName());
         date = Calendar.getInstance();
         if (getArguments() != null) {
             String tempDate = getArguments().getString(RecordDetailFragment.DATE);

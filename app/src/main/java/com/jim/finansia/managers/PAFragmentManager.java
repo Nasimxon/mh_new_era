@@ -186,9 +186,9 @@ public class PAFragmentManager {
 
     public void initMainWindow() {
         fragmentManager
-                .beginTransaction()
-                .add(R.id.flMainWindow, new MainFragment())
-                .commit();
+                    .beginTransaction()
+                    .replace(R.id.flMainWindow, new MainFragment())
+                    .commit();
     }
 
     public void updateSmsFragmentChanges() {

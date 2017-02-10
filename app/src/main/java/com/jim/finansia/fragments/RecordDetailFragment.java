@@ -13,6 +13,7 @@ import com.jim.finansia.PocketAccounter;
 import com.jim.finansia.PocketAccounterApplication;
 import com.jim.finansia.R;
 import com.jim.finansia.database.DaoSession;
+import com.jim.finansia.managers.FinansiaFirebaseAnalytics;
 import com.jim.finansia.managers.LogicManager;
 import com.jim.finansia.managers.PAFragmentManager;
 import com.jim.finansia.managers.ToolbarManager;
@@ -37,6 +38,7 @@ public class RecordDetailFragment extends Fragment {
     @Inject LogicManager logicManager;
     @Inject DataCache dataCache;
     @Inject SharedPreferences preferences;
+    @Inject FinansiaFirebaseAnalytics analytics;
     private SpaceTabLayout tabLayout;
     private SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
     private ViewPager vpRecord;
@@ -44,6 +46,7 @@ public class RecordDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.finance_record_detail_fragment, container, false);
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
+        analytics.sendText("User enters " + getClass().getName());
         if (toolbarManager != null)
         {
 

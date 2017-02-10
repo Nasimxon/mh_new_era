@@ -29,6 +29,7 @@ import com.jim.finansia.database.DebtBorrow;
 import com.jim.finansia.database.FinanceRecord;
 import com.jim.finansia.database.SmsParseSuccess;
 import com.jim.finansia.managers.CommonOperations;
+import com.jim.finansia.managers.FinansiaFirebaseAnalytics;
 import com.jim.finansia.managers.ReportManager;
 import com.jim.finansia.managers.ToolbarManager;
 import com.jim.finansia.report.ReportObject;
@@ -72,11 +73,12 @@ public class ReportByIncomeExpenseDailyTableFragment extends Fragment {
     @Inject ReportManager reportManager;
     @Inject CommonOperations commonOperations;
     @Inject DecimalFormat formatter;
+    @Inject FinansiaFirebaseAnalytics analytics;
     SimpleDateFormat sDateFormat = new SimpleDateFormat("dd MMM, yyyy");
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.report_by_income_expense_daily_table_fragment, container, false);
         ((PocketAccounter) getContext()).component((PocketAccounterApplication)getContext().getApplicationContext()).inject(this);
-
+        analytics.sendText("User enters" + getClass().getName());
         tvReportDailyTable = (TableView) rootView.findViewById(R.id.tvReportDailyTable);
         RecyclerView recyclerView = tvReportDailyTable.getRvTableView();
         if (recyclerView != null) {

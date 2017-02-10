@@ -41,6 +41,7 @@ import com.jim.finansia.database.DaoSession;
 import com.jim.finansia.database.ReckingCredit;
 import com.jim.finansia.finance.TransferAccountAdapter;
 import com.jim.finansia.managers.CommonOperations;
+import com.jim.finansia.managers.FinansiaFirebaseAnalytics;
 import com.jim.finansia.managers.LogicManager;
 import com.jim.finansia.managers.PAFragmentManager;
 import com.jim.finansia.managers.ReportManager;
@@ -89,6 +90,8 @@ public class CreditFragment extends Fragment {
     DecimalFormat decimalFormatter;
     @Inject
     SharedPreferences preferences;
+    @Inject
+    FinansiaFirebaseAnalytics analytics;
 
 
     private DecimalFormat formater = new DecimalFormat("0.00");
@@ -106,6 +109,7 @@ public class CreditFragment extends Fragment {
                              Bundle savedInstanceState) {
         View V=inflater.inflate(R.layout.fragment_credit, container, false);
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
+        analytics.sendText("User enters " + getClass().getName());
         creditDetialsDao = daoSession.getCreditDetialsDao();
         if (toolbarManager != null)
         {

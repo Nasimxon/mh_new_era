@@ -23,6 +23,7 @@ import com.jim.finansia.PocketAccounterApplication;
 import com.jim.finansia.R;
 import com.jim.finansia.database.DaoSession;
 import com.jim.finansia.managers.CommonOperations;
+import com.jim.finansia.managers.FinansiaFirebaseAnalytics;
 import com.jim.finansia.managers.PAFragmentManager;
 import com.jim.finansia.managers.ToolbarManager;
 import com.jim.finansia.report.CategoryDataRow;
@@ -51,6 +52,8 @@ public class ReportByCategoryExpansesFragment extends Fragment implements OnChar
     CommonOperations commonOperations;
     @Inject
     SharedPreferences sharedPreferences;
+    @Inject
+    FinansiaFirebaseAnalytics analytics;
 
     private LinearLayout llReportByCategory;
     private CategoryReportView categoryReportView;
@@ -59,6 +62,7 @@ public class ReportByCategoryExpansesFragment extends Fragment implements OnChar
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
+        analytics.sendText("User enters " + getClass().getName());
         View rootView = inflater.inflate(R.layout.report_by_category_expanse, container, false);
         init();
         llReportByCategory = (LinearLayout) rootView.findViewById(R.id.llReportByCategory);

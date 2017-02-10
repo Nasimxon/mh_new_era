@@ -71,6 +71,7 @@ public class CategoryInfoFragment extends PABaseInfoFragment {
             }
         }
         final View rootView = inflater.inflate(R.layout.category_info_layout, container, false);
+        analytics.sendText("User enters " + getClass().getName());
         if (toolbarManager != null) {
             toolbarManager.setImageToSecondImage(R.drawable.ic_more_vert_black_48dp);
             toolbarManager.setTitle(getResources().getString(R.string.category));

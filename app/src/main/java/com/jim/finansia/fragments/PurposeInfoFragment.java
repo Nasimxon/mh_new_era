@@ -32,6 +32,7 @@ import com.jim.finansia.database.DaoSession;
 import com.jim.finansia.database.Purpose;
 import com.jim.finansia.database.PurposeDao;
 import com.jim.finansia.managers.CommonOperations;
+import com.jim.finansia.managers.FinansiaFirebaseAnalytics;
 import com.jim.finansia.managers.LogicManager;
 import com.jim.finansia.managers.LogicManagerConstants;
 import com.jim.finansia.managers.PAFragmentManager;
@@ -64,6 +65,7 @@ public class PurposeInfoFragment extends Fragment implements View.OnClickListene
     @Inject DaoSession daoSession;
     @Inject TransferDialog transferDialog;
     @Inject CommonOperations commonOperations;
+    @Inject FinansiaFirebaseAnalytics analytics;
     private IntervalPickDialog filterDialog;
     private MyAdapter myAdapter;
     private Purpose purpose;
@@ -88,6 +90,7 @@ public class PurposeInfoFragment extends Fragment implements View.OnClickListene
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
+        analytics.sendText("User enters " + getClass().getName());
         View rooView = inflater.inflate(R.layout.purpose_info_layout, container, false);
         if (toolbarManager != null)
         {

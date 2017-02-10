@@ -21,6 +21,7 @@ import com.jim.finansia.database.Recking;
 import com.jim.finansia.database.ReckingDao;
 import com.jim.finansia.database.SmsParseSuccess;
 import com.jim.finansia.database.SmsParseSuccessDao;
+import com.jim.finansia.managers.FinansiaFirebaseAnalytics;
 import com.jim.finansia.managers.LogicManager;
 import com.jim.finansia.managers.PAFragmentManager;
 import com.jim.finansia.managers.ToolbarManager;
@@ -47,11 +48,13 @@ public class DetailedSmsSuccessesFragment extends Fragment {
     @Inject PAFragmentManager paFragmentManager;
     @Inject LogicManager logicManager;
     @Inject DataCache dataCache;
+    @Inject FinansiaFirebaseAnalytics analytics;
     private SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
     private RecyclerView rvDetailedSms;
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.detailed_sms_fragment, container, false);
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
+        analytics.sendText("User enters " + getClass().getName());
         if (toolbarManager != null)
         {
             toolbarManager.setImageToHomeButton(R.drawable.ic_back_button);

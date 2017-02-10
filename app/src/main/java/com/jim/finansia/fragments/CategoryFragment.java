@@ -47,6 +47,7 @@ public class CategoryFragment extends PABaseListFragment implements OnClickListe
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		super.onCreateView(inflater, container, savedInstanceState);
 		final View rootView = inflater.inflate(R.layout.category_layout, container, false);
+		analytics.sendText("User enters " + getClass().getName());
 		if (toolbarManager != null) {
 			toolbarManager.setSubtitleIconVisibility(View.GONE);
 			toolbarManager.setTitle(getResources().getString(R.string.category));

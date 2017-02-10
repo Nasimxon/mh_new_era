@@ -30,6 +30,7 @@ import com.jim.finansia.database.CurrencyDao;
 import com.jim.finansia.database.DaoSession;
 import com.jim.finansia.database.Purpose;
 import com.jim.finansia.managers.CommonOperations;
+import com.jim.finansia.managers.FinansiaFirebaseAnalytics;
 import com.jim.finansia.managers.LogicManager;
 import com.jim.finansia.managers.LogicManagerConstants;
 import com.jim.finansia.managers.PAFragmentManager;
@@ -60,6 +61,7 @@ public class PurposeEditFragment extends Fragment implements OnClickListener, On
     @Inject IconChooseDialog iconChooseDialog;
     @Inject DatePicker datePicker;
     @Inject CommonOperations commonOperations;
+    @Inject FinansiaFirebaseAnalytics analytics;
 
     private String choosenIcon = "add_icon";
     private Purpose purpose;
@@ -86,6 +88,7 @@ public class PurposeEditFragment extends Fragment implements OnClickListener, On
         final View rootView = inflater.inflate(R.layout.purpose_edit_layout
                 , container, false);
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
+        analytics.sendText("User enters " + getClass().getName());
         begCalendar = Calendar.getInstance();
         endCalendar = Calendar.getInstance();
         if (toolbarManager != null)
