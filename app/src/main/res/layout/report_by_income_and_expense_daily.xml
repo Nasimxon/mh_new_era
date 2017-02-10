@@ -111,7 +111,7 @@
             android:layout_marginLeft="@dimen/sixteen_dp"
             android:layout_below="@+id/rvReportByIncomeExpenseDays"
             android:id="@+id/tvReportByIncomeExpenseNoDataToShow"
-            android:text="Лист расходов"
+            android:text="@string/incom_expense_list"
             android:layout_marginTop="@dimen/five_dp"
             android:layout_marginBottom="@dimen/five_dp"
             android:textSize="@dimen/sixteen_dp"

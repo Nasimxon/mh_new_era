@@ -1615,7 +1615,7 @@
     <string name="with_out_comment">Нет комментариев</string>
     <string name="wrong_input_type">Неправильный тип ввода</string>
     <string name="you_have_debt">Долг за период</string>
-    <string name="za_period">За период:</string>
+    <string name="za_period">За этот период:</string>
     <string name="transfer_to_another_acc">Перевод на другой счет</string>
     <string name="acc_state">Состояние счета</string>
     <string name="transfer_to">Трансфер</string>

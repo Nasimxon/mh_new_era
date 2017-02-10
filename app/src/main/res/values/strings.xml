@@ -1478,10 +1478,10 @@
     <string name="income_keyword_error">Enter keyword(income)</string>
     <string name="expense_keyword_error">Enter keyword(expense)</string>
     <string name="amount_keyword_error">Enter keyword for defining amount</string>
-    <string name="incom_expense_list">Список расходов и доходов</string>
+    <string name="incom_expense_list">List of expense and income</string>
     <string name="all">All</string>
     <string name="choise_icon">Select the icon</string>
-    <string name="name_of_subcategory">Имя подкатегории</string>
+    <string name="name_of_subcategory">Name of subcategory</string>
     <string name="add_plus">+ Add</string>
     <string name="select_icons_sb">Select subcategory icon</string>
     <string name="subcategory_empty">Subcategory name is empty</string>
@@ -1582,18 +1582,18 @@
     <string name="info_monthly_state_report">Graphic monthly statement for income or expense and overall information for every month</string>
 
     <string-array name="month_abbrs">
-        <item>Янв.</item>
-        <item>Фев.</item>
-        <item>Мар.</item>
-        <item>Апр.</item>
-        <item>Май</item>
-        <item>Июнь</item>
-        <item>Июль</item>
-        <item>Авг.</item>
-        <item>Сен.</item>
-        <item>Окт.</item>
-        <item>Ноя.</item>
-        <item>Дек.</item>
+        <item>Jan.</item>
+        <item>Feb.</item>
+        <item>Mar.</item>
+        <item>Apr.</item>
+        <item>May.</item>
+        <item>Jun.</item>
+        <item>Jul.</item>
+        <item>Avg.</item>
+        <item>Sep.</item>
+        <item>Oct.</item>
+        <item>Nov.</item>
+        <item>Dec.</item>
     </string-array>
     <string name="january">JAN</string>
     <string name="february">FEB</string>
@@ -1613,7 +1613,7 @@
     <string name="average_expense">Average expense: "</string>
     <string name="max_expense_in_the_month">Maximum expense in the month: </string>
     <string name="min_expense_in_the_month">Minimum income in the month: </string>
-    <string name="za_period">In the period:</string>
+    <string name="za_period">In this period:</string>
     <string name="not_data">No operations</string>
     <string name="do_interval">To</string>
     <string name="c_interval">From</string>
