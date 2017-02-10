@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,8 @@ import com.jim.finansia.utils.cache.DataCache;
 
 import javax.inject.Inject;
 
+
+
 public class MainFragment extends Fragment {
     public static final String DATE = "date";
     public static final String POSITION = "position";
@@ -33,6 +36,7 @@ public class MainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.main_fragment, container, false);
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
+        Log.d("sss", "onCreateView:");
         vpVertical = (MyVerticalViewPager) rootView.findViewById(R.id.vpVertical);
         adapter = new VerticalViewPagerAdapter(paFragmentManager.getFragmentManager());
         vpVertical.setOnTouchListener(null);
@@ -67,7 +71,7 @@ public class MainFragment extends Fragment {
         return rootView;
     }
 
-    class VerticalViewPagerAdapter extends FragmentStatePagerAdapter {
+    class VerticalViewPagerAdapter extends FragmentStatePagerAdapter{
         public VerticalViewPagerAdapter(FragmentManager fm) {
             super(fm);
         }
@@ -77,7 +81,7 @@ public class MainFragment extends Fragment {
             if (position == 0){
                 VoiceRecognizerFragment voiceRecognizerFragment = new VoiceRecognizerFragment();
                 Bundle bundle = new Bundle();
-                bundle.putLong(VoiceRecognizerFragment.DATA_CACHE,dataCache.getEndDate().getTimeInMillis());
+                bundle.putLong(VoiceRecognizerFragment.DATA_CACHE, dataCache.getEndDate().getTimeInMillis());
                 voiceRecognizerFragment.setArguments(bundle);
                 fragment = voiceRecognizerFragment;
 
