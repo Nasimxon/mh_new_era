@@ -21,6 +21,7 @@ import com.jim.finansia.database.DebtBorrow;
 import com.jim.finansia.database.FinanceRecord;
 import com.jim.finansia.database.SmsParseSuccess;
 import com.jim.finansia.managers.CommonOperations;
+import com.jim.finansia.managers.FinansiaFirebaseAnalytics;
 import com.jim.finansia.managers.ReportManager;
 import com.jim.finansia.managers.ToolbarManager;
 import com.jim.finansia.report.ReportObject;
@@ -63,11 +64,13 @@ public class ReportByIncomeExpenseMonthlyFragment extends Fragment {
     @Inject CommonOperations commonOperations;
     @Inject ToolbarManager toolbarManager;
     @Inject DecimalFormat formetter;
+    @Inject FinansiaFirebaseAnalytics analytics;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.report_by_income_expense_monthly, container, false);
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
+        analytics.sendText("User enters "+getClass().getName());
         toolbarManager.setOnTitleClickListener(null);
         tvJanuary = (TextView) rootView.findViewById(R.id.tvJanuary);
         tvFebruary = (TextView) rootView.findViewById(R.id.tvFebruary);

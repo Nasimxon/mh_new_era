@@ -25,6 +25,7 @@ import com.jim.finansia.database.FinanceRecordDao;
 import com.jim.finansia.database.RootCategory;
 import com.jim.finansia.database.SubCategory;
 import com.jim.finansia.managers.CommonOperations;
+import com.jim.finansia.managers.FinansiaFirebaseAnalytics;
 import com.jim.finansia.managers.PAFragmentManager;
 import com.jim.finansia.managers.ReportManager;
 import com.jim.finansia.managers.ToolbarManager;
@@ -60,6 +61,7 @@ public class ReportByCategoryFragment extends Fragment {
     @Inject SharedPreferences preferences;
     @Inject DaoSession daoSession;
     @Inject DecimalFormat formatter;
+    @Inject FinansiaFirebaseAnalytics analytics;
     private RecyclerView rvReportByCategorySubcatPercents;
     private List<String> allCategories; //allcategories = rootcategories + debtborrow + credit
     private List<SubcatData> subcatDatas; // subcategories data for selected id
@@ -76,7 +78,7 @@ public class ReportByCategoryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.report_by_category_fragment, container, false);
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
-
+        analytics.sendText("User enters" + getClass().getName());
 
         llPickDate = (LinearLayout) rootView.findViewById(R.id.llPickDate);
         llPickDate.setOnClickListener(new View.OnClickListener() {

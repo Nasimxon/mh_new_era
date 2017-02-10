@@ -37,6 +37,7 @@ public class CurrencyFragment extends PABaseListFragment implements OnClickListe
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		super.onCreateView(inflater, container, savedInstanceState);
 		final View rootView = inflater.inflate(R.layout.currency_fragment, container, false);
+		analytics.sendText("User enters " + getClass().getName());
 		if (toolbarManager != null)
 		{
 			toolbarManager.setTitle(getResources().getString(R.string.currencies));

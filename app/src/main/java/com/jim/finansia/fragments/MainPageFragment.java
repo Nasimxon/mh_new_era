@@ -19,6 +19,7 @@ import com.jim.finansia.PocketAccounter;
 import com.jim.finansia.PocketAccounterApplication;
 import com.jim.finansia.R;
 import com.jim.finansia.managers.CommonOperations;
+import com.jim.finansia.managers.FinansiaFirebaseAnalytics;
 import com.jim.finansia.managers.PAFragmentManager;
 import com.jim.finansia.managers.ReportManager;
 import com.jim.finansia.managers.ToolbarManager;
@@ -60,6 +61,7 @@ public class MainPageFragment extends Fragment {
     @Inject @Named(value = "begin") Calendar begin;
     @Inject @Named(value = "end") Calendar end;
     @Inject SharedPreferences preferences;
+    @Inject FinansiaFirebaseAnalytics analytics;
     private boolean infosVisibility;
     @Override
     public void onStart() {
@@ -70,6 +72,7 @@ public class MainPageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.main_page_fragment, container, false);
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
+        analytics.sendText("User enters " + getClass().getName());
         ((PocketAccounter) getContext()).findViewById(R.id.main).setVisibility(View.VISIBLE);
         if (getArguments() != null) {
             try {

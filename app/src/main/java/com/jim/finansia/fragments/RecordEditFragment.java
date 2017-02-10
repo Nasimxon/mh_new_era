@@ -58,6 +58,7 @@ import com.jim.finansia.database.SubCategory;
 import com.jim.finansia.finance.AccountChoiseDialogAdapter;
 import com.jim.finansia.finance.ChoiseCategoryDialoogItemAdapter;
 import com.jim.finansia.managers.CommonOperations;
+import com.jim.finansia.managers.FinansiaFirebaseAnalytics;
 import com.jim.finansia.managers.LogicManager;
 import com.jim.finansia.managers.PAFragmentManager;
 import com.jim.finansia.managers.ReportManager;
@@ -156,11 +157,13 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
     @Inject SubCatAddEditDialog subCatAddEditDialog;
     @Inject DataCache dataCache;
     @Inject ReportManager reportManager;
+    @Inject FinansiaFirebaseAnalytics analytics;
     public interface OpenIntentFromAdapter {
         void startActivityFromFragmentForResult(Intent intent);
     }
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
+        analytics.sendText("User enters " + getClass().getName());
         if (toolbarManager != null)
         {
             toolbarManager.setImageToHomeButton(R.drawable.ic_back_button);

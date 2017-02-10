@@ -100,6 +100,7 @@ public class AddSmsParseFragment extends PABaseFragment{
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater,container,savedInstanceState);
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
+        analytics.sendText("User enters " + getClass().getName());
         incomeKeys = new ArrayList<>();
         expenseKeys = new ArrayList<>();
         amountKeys = new ArrayList<>();

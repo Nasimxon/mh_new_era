@@ -66,6 +66,7 @@ public class RootCategoryEditFragment extends PABaseInfoFragment implements OnCl
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View rootView = inflater.inflate(R.layout.cat_edit_layout, container, false);
+        analytics.sendText("User enters ROOT CATWGORY EDIT FRAGMENT");
         if (toolbarManager != null)
         {
             toolbarManager.setTitle(getResources().getString(R.string.category));

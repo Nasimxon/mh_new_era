@@ -23,6 +23,7 @@ import com.jim.finansia.R;
 import com.jim.finansia.database.DaoSession;
 import com.jim.finansia.database.DebtBorrow;
 import com.jim.finansia.database.DebtBorrowDao;
+import com.jim.finansia.managers.FinansiaFirebaseAnalytics;
 import com.jim.finansia.managers.PAFragmentManager;
 import com.jim.finansia.managers.ToolbarManager;
 import com.jim.finansia.utils.PocketAccounterGeneral;
@@ -39,6 +40,8 @@ public class DebtBorrowFragment extends Fragment implements View.OnClickListener
     @Inject DaoSession daoSession;
     @Inject SharedPreferences preferences;
     @Inject PurchaseImplementation purchaseImplementation;
+    @Inject
+    FinansiaFirebaseAnalytics analytics;
     private DebtBorrowDao debtBorrowDao;
     private BorrowFragment archiv;
     private final int BORROW_FRAGMENT = 0;
@@ -57,6 +60,7 @@ public class DebtBorrowFragment extends Fragment implements View.OnClickListener
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         setRetainInstance(true);
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
+        analytics.sendText("User enters "  +getClass().getName());
         debtBorrowDao = daoSession.getDebtBorrowDao();
         final View view = inflater.inflate(R.layout.debt_borrow_fragment_mod, container, false);
         view.postDelayed(new Runnable() {

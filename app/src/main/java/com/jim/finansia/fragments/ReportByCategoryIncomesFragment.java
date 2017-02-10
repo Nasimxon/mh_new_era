@@ -23,6 +23,7 @@ import com.jim.finansia.PocketAccounter;
 import com.jim.finansia.PocketAccounterApplication;
 import com.jim.finansia.R;
 import com.jim.finansia.managers.CommonOperations;
+import com.jim.finansia.managers.FinansiaFirebaseAnalytics;
 import com.jim.finansia.report.CategoryDataRow;
 import com.jim.finansia.report.CategoryReportView;
 import com.jim.finansia.report.ReportByCategoryDialogAdapter;
@@ -43,6 +44,8 @@ public class ReportByCategoryIncomesFragment extends Fragment implements OnChart
     SimpleDateFormat format;
     @Inject
     SharedPreferences sharedPreferences;
+    @Inject
+    FinansiaFirebaseAnalytics analytics;
 
     private LinearLayout llReportByCategory;
     private CategoryReportView categoryReportView;
@@ -53,6 +56,7 @@ public class ReportByCategoryIncomesFragment extends Fragment implements OnChart
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.report_by_category_expanse, container, false);
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
+        analytics.sendText("User enters "+getClass().getName());
         llReportByCategory = (LinearLayout) rootView.findViewById(R.id.llReportByCategory);
         init();
         categoryReportView = new CategoryReportView(getContext(), PocketAccounterGeneral.INCOME, begin, end);

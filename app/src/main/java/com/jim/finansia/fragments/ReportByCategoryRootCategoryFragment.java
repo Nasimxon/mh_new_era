@@ -19,6 +19,7 @@ import com.jim.finansia.database.FinanceRecordDao;
 import com.jim.finansia.database.RootCategory;
 import com.jim.finansia.database.SubCategory;
 import com.jim.finansia.managers.CommonOperations;
+import com.jim.finansia.managers.FinansiaFirebaseAnalytics;
 import com.jim.finansia.utils.PocketAccounterGeneral;
 import com.jim.finansia.utils.reportviews.PieData;
 import com.jim.finansia.utils.reportviews.ReportPieView;
@@ -42,6 +43,7 @@ public class ReportByCategoryRootCategoryFragment extends Fragment {
     @Inject DaoSession daoSession;
     @Inject CommonOperations commonOperations;
     @Inject DecimalFormat formatter;
+    @Inject FinansiaFirebaseAnalytics analytics;
 
     public ReportByCategoryRootCategoryFragment(String id, Map<String, Integer> colors) {
         this.id = id;
@@ -51,6 +53,7 @@ public class ReportByCategoryRootCategoryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.report_by_category_rootcategory_fragment, container, false);
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
+        analytics.sendText("User enters "+getClass().getName());
         rpvReport = (ReportPieView) rootView.findViewById(R.id.rpvReport);
         tvReportByCategoryRootCatName = (TextView) rootView.findViewById(R.id.tvReportByCategoryRootCatName);
         tvReportByCategoryRootCatSum = (TextView) rootView.findViewById(R.id.tvReportByCategoryRootCatSum);

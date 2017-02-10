@@ -53,6 +53,7 @@ import com.jim.finansia.database.DebtBorrowDao;
 import com.jim.finansia.database.Recking;
 import com.jim.finansia.finance.TransferAccountAdapter;
 import com.jim.finansia.managers.CommonOperations;
+import com.jim.finansia.managers.FinansiaFirebaseAnalytics;
 import com.jim.finansia.managers.LogicManager;
 import com.jim.finansia.managers.PAFragmentManager;
 import com.jim.finansia.managers.ReportManager;
@@ -85,6 +86,7 @@ public class BorrowFragment extends Fragment {
     @Inject DecimalFormat formatter;
     @Inject ReportManager reportManager;
     @Inject SharedPreferences preferences;
+    @Inject FinansiaFirebaseAnalytics analytics;
     private WarningDialog warningDialog;
     private DebtBorrowDao debtBorrowDao;
     private AccountDao accountDao;
@@ -111,6 +113,7 @@ public class BorrowFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.borrow_fragment_layout, container, false);
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
+        analytics.sendText("User enters "  +getClass().getName());
         TYPE = getArguments().getInt("type", 0);
         formater = new DecimalFormat("0.00");
         context=getContext();

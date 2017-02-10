@@ -32,6 +32,7 @@ import com.jim.finansia.database.CreditDetials;
 import com.jim.finansia.database.DaoSession;
 import com.jim.finansia.database.ReckingCredit;
 import com.jim.finansia.managers.CommonOperations;
+import com.jim.finansia.managers.FinansiaFirebaseAnalytics;
 import com.jim.finansia.managers.LogicManager;
 import com.jim.finansia.managers.PAFragmentManager;
 import com.jim.finansia.managers.ReportManager;
@@ -64,6 +65,8 @@ public class InfoCreditFragmentForArchive extends Fragment {
     @Inject LogicManager financeManager;
     @Inject SharedPreferences sPref;
     @Inject ReportManager reportManager;
+    @Inject FinansiaFirebaseAnalytics analytics;
+
     private WarningDialog warningDialog;
     private SimpleDateFormat sDateFormat = new SimpleDateFormat("dd MMM, yyyy");
     private AccountDao accountDao;
@@ -111,6 +114,7 @@ public class InfoCreditFragmentForArchive extends Fragment {
                              Bundle savedInstanceState) {
         View V = inflater.inflate(R.layout.fragment_info_credit_archive, container, false);
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
+        analytics.sendText("User enters " + getClass().getName());
         accountDao = daoSession.getAccountDao();
         numberFormat = NumberFormat.getNumberInstance();
         numberFormat.setMinimumFractionDigits(2);

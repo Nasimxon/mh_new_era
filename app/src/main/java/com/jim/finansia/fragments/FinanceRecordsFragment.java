@@ -23,6 +23,7 @@ import com.jim.finansia.R;
 import com.jim.finansia.database.DaoSession;
 import com.jim.finansia.database.FinanceRecord;
 import com.jim.finansia.database.PhotoDetails;
+import com.jim.finansia.managers.FinansiaFirebaseAnalytics;
 import com.jim.finansia.managers.LogicManager;
 import com.jim.finansia.managers.PAFragmentManager;
 import com.jim.finansia.managers.ReportManager;
@@ -62,9 +63,12 @@ public class FinanceRecordsFragment extends Fragment implements View.OnClickList
     DataCache dataCache;
     @Inject
     ReportManager reportManager;
+    @Inject
+    FinansiaFirebaseAnalytics analytics;
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.record_detail_layout, container, false);
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
+        analytics.sendText("User enters " + getClass().getName());
         if (toolbarManager != null)
         {
             toolbarManager.setOnSecondImageClickListener(this);

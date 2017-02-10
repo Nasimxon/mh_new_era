@@ -67,6 +67,7 @@ public class CurrencyEditFragment extends PABaseInfoFragment implements OnClickL
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+        analytics.sendText("User enters " + getClass().getName());
         if (getArguments() != null) {
             String currencyId = getArguments().getString(CurrencyFragment.CURRENCY_ID);
             if (currencyId != null)

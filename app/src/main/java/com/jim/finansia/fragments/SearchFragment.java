@@ -47,6 +47,7 @@ import com.jim.finansia.database.SubCategoryDao;
 import com.jim.finansia.debt.DebtBorrowFragment;
 import com.jim.finansia.debt.InfoDebtBorrowFragment;
 import com.jim.finansia.managers.CommonOperations;
+import com.jim.finansia.managers.FinansiaFirebaseAnalytics;
 import com.jim.finansia.managers.PAFragmentManager;
 import com.jim.finansia.managers.ToolbarManager;
 import com.jim.finansia.database.DaoSession;
@@ -84,11 +85,12 @@ public class SearchFragment extends Fragment {
     @Inject PAFragmentManager paFragmentManager;
     @Inject ToolbarManager toolbarManager;
     @Inject DecimalFormat formatter;
-
+    @Inject FinansiaFirebaseAnalytics analytics;
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
+        analytics.sendText("User enters SEARCH FRAGMENT");
         rvSearchItems = (RecyclerView) view.findViewById(R.id.recyc_item_search);
         textViewSearch = (TextView) view.findViewById(R.id.textViewSearch);
         textViewSearch.setVisibility(View.VISIBLE);

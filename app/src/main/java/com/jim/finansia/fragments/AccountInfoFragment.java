@@ -51,6 +51,7 @@ public class AccountInfoFragment extends PABaseInfoFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		super.onCreateView(inflater, container, savedInstanceState);
 		final View rootView = inflater.inflate(R.layout.account_info_modern_layout, container, false);
+		analytics.sendText("User enters " + getClass().getName());
 		if (getArguments() != null) {
 			String accountId = getArguments().getString(AccountFragment.ACCOUNT_ID);
 			if (accountId != null) {
