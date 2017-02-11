@@ -1340,8 +1340,8 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
             logicManager.insertRecord(savingRecord);
             reportManager.clearCache();
             dataCache.updateAllPercents();
-            paFragmentManager.updateAllFragmentsPageChanges();
             paFragmentManager.updateAllFragmentsOnViewPager();
+            paFragmentManager.updateAllFragmentsPageChanges();
             paFragmentManager.updateVoiceRecognizePage(date);
         } else {
             if (fromEdit) {
@@ -1388,8 +1388,8 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
         } else if (parent == PocketAccounterGeneral.MAIN){
             reportManager.clearCache();
             dataCache.updateAllPercents();
-            paFragmentManager.updateAllFragmentsPageChanges();
             paFragmentManager.updateAllFragmentsOnViewPager();
+            paFragmentManager.updateAllFragmentsPageChanges();
             paFragmentManager.getFragmentManager().popBackStack();
             paFragmentManager.displayMainWindow();
         } else if (parent == PocketAccounterGeneral.SEARCH_MODE) {
