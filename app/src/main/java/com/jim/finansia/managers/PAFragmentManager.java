@@ -97,10 +97,20 @@ public class PAFragmentManager {
 
     public void updateAllFragmentsPageChanges() {
         if (fragmentManager == null || fragmentManager.getFragments() == null) return;
+        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+        String current = format.format(dataCache.getEndDate().getTime());
         int size = fragmentManager.getFragments().size();
         for (int i = 0; i < size; i++) {
             Fragment fragment = fragmentManager.getFragments().get(i);
-            if (fragment != null && fragment.getClass().getName().equals(MainPageFragment.class.getName())) {
+            if (fragment != null && fragment instanceof MainPageFragment
+                    && !format.format(((MainPageFragment)fragment).getDay().getTime()).equals(current)) {
+                ((MainPageFragment) fragment).updatePageChanges();
+            }
+        }
+        for (int i = 0; i < size; i++) {
+            Fragment fragment = fragmentManager.getFragments().get(i);
+            if (fragment != null && fragment instanceof MainPageFragment &&
+                    format.format(((MainPageFragment)fragment).getDay().getTime()).equals(current)) {
                 ((MainPageFragment) fragment).updatePageChanges();
             }
         }
