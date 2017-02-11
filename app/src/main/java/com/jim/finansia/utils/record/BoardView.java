@@ -1005,8 +1005,9 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
     //credits choose dialog
     private void openCreditsChooseDialog(final int pos) {
         List<CreditDetials> creditDetialsList = daoSession.getCreditDetialsDao()
-                .queryBuilder().where(CreditDetialsDao.Properties.Key_for_include.eq(true),
-                        CreditDetialsDao.Properties.Key_for_archive.eq(false)).list();
+                .queryBuilder()
+                .where(CreditDetialsDao.Properties.Key_for_archive.eq(false))
+                .list();
         if (!creditDetialsList.isEmpty()) {
             final Dialog dialog = new Dialog(getContext());
             View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_with_listview, null);
