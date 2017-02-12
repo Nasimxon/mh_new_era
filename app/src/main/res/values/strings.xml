@@ -1128,7 +1128,7 @@
     <string name="procent_should_not_empty">Enter the percent!</string>
     <string name="period_should_not_empty">Enter the period!</string>
     <string name="after_per_choise">Enter the date</string>
-    <string name="first_enter_period">Please enter the credit term!</string>
+    <string name="first_enter_period">Please, enter the credit term</string>
     <string name="cred_managment">Credits</string>
     <string name="not_calc">Not in balance</string>
     <string name="calculaed">In balance</string>
@@ -1716,6 +1716,7 @@
     <string name="credit_name">Credit product name</string>
     <string name="select_an_amount">Select an amount</string>
     <string name="benjamin_franklin">- Benjamin Franklin</string>
+    <string name="purpose_term">Enter the purpose term</string>
     <string-array name="drawer_menus_icons">
         <item>ic_home</item>
         <item>ic_currency</item>

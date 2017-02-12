@@ -340,7 +340,7 @@ public class PurposeEditFragment extends Fragment implements OnClickListener, On
                         endDate.setText(simpleDateFormat.format(endCalendar.getTime()));
 
                     } else {
-                        etPeriodCount.setError(getString(R.string.first_enter_period));
+                        etPeriodCount.setError(getString(R.string.purpose_term));
                     }
                 }
             }

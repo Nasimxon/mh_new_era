@@ -1727,5 +1727,6 @@
     <string name="first_con">Первоначальная сумма:</string>
     <string name="select_an_amount">Выберите цифру</string>
     <string name="benjamin_franklin">- Бенджамин Франклин</string>
+    <string name="purpose_term">Введите срок цели</string>
 </resources>
 

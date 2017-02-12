@@ -1724,5 +1724,6 @@
     <string name="first_con">First contributed :</string>
     <string name="select_an_amount">Select an amount</string>
     <string name="benjamin_franklin">- Benjamin Franklin</string>
+    <string name="purpose_term">Enter the purpose term</string>
 
 </resources>
