@@ -487,52 +487,103 @@ public class DrawerInitializer {
                     drawer.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            int count = pocketAccounter.getSupportFragmentManager().getBackStackEntryCount();
-                            while (count > 0) {
-                                pocketAccounter.getSupportFragmentManager().popBackStack();
-                                count--;
-                            }
+                            int count;
                             switch (position) {
                                 case 0:
+                                    count = pocketAccounter.getSupportFragmentManager().getBackStackEntryCount();
+                                    while (count > 0) {
+                                        pocketAccounter.getSupportFragmentManager().popBackStack();
+                                        count--;
+                                    }
                                     fragmentManager.displayMainWindow();
                                     break;
                                 case 1:
+                                    count = pocketAccounter.getSupportFragmentManager().getBackStackEntryCount();
+                                    while (count > 0) {
+                                        pocketAccounter.getSupportFragmentManager().popBackStack();
+                                        count--;
+                                    }
                                     pocketAccounter.findViewById(R.id.mainWhite).setVisibility(View.VISIBLE);
                                     fragmentManager.displayFragment(new CurrencyFragment());
                                     break;
                                 case 2:
+                                    count = pocketAccounter.getSupportFragmentManager().getBackStackEntryCount();
+                                    while (count > 0) {
+                                        pocketAccounter.getSupportFragmentManager().popBackStack();
+                                        count--;
+                                    }
                                     pocketAccounter.findViewById(R.id.mainWhite).setVisibility(View.VISIBLE);
                                     fragmentManager.displayFragment(new CategoryFragment());
                                     break;
                                 case 3:
+                                    count = pocketAccounter.getSupportFragmentManager().getBackStackEntryCount();
+                                    while (count > 0) {
+                                        pocketAccounter.getSupportFragmentManager().popBackStack();
+                                        count--;
+                                    }
                                     pocketAccounter.findViewById(R.id.mainWhite).setVisibility(View.VISIBLE);
                                     fragmentManager.displayFragment(new AccountFragment());
                                     break;
                                 case 4:
+                                    count = pocketAccounter.getSupportFragmentManager().getBackStackEntryCount();
+                                    while (count > 0) {
+                                        pocketAccounter.getSupportFragmentManager().popBackStack();
+                                        count--;
+                                    }
                                     pocketAccounter.findViewById(R.id.mainWhite).setVisibility(View.VISIBLE);
                                     fragmentManager.displayFragment(new PurposeFragment());
                                     break;
                                 case 5:
+                                    count = pocketAccounter.getSupportFragmentManager().getBackStackEntryCount();
+                                    while (count > 0) {
+                                        pocketAccounter.getSupportFragmentManager().popBackStack();
+                                        count--;
+                                    }
                                     pocketAccounter.findViewById(R.id.mainWhite).setVisibility(View.VISIBLE);
                                     fragmentManager.displayFragment(new AutoMarketFragment());
                                     break;
                                 case 6:
+                                    count = pocketAccounter.getSupportFragmentManager().getBackStackEntryCount();
+                                    while (count > 0) {
+                                        pocketAccounter.getSupportFragmentManager().popBackStack();
+                                        count--;
+                                    }
                                     pocketAccounter.findViewById(R.id.mainWhite).setVisibility(View.VISIBLE);
                                     fragmentManager.displayFragment(new CreditTabLay());
                                     break;
                                 case 7:
+                                    count = pocketAccounter.getSupportFragmentManager().getBackStackEntryCount();
+                                    while (count > 0) {
+                                        pocketAccounter.getSupportFragmentManager().popBackStack();
+                                        count--;
+                                    }
                                     pocketAccounter.findViewById(R.id.mainWhite).setVisibility(View.VISIBLE);
                                     fragmentManager.displayFragment(new DebtBorrowFragment());
                                     break;
                                 case 8:
+                                    count = pocketAccounter.getSupportFragmentManager().getBackStackEntryCount();
+                                    while (count > 0) {
+                                        pocketAccounter.getSupportFragmentManager().popBackStack();
+                                        count--;
+                                    }
                                     pocketAccounter.findViewById(R.id.mainWhite).setVisibility(View.VISIBLE);
                                     fragmentManager.displayFragment(new SmsParseMainFragment());
                                     break;
                                 case 9:
+                                    count = pocketAccounter.getSupportFragmentManager().getBackStackEntryCount();
+                                    while (count > 0) {
+                                        pocketAccounter.getSupportFragmentManager().popBackStack();
+                                        count--;
+                                    }
                                     pocketAccounter.findViewById(R.id.mainWhite).setVisibility(View.VISIBLE);
                                     fragmentManager.displayFragment(new ReportFragment());
                                     break;
                                 case 10:
+                                    count = pocketAccounter.getSupportFragmentManager().getBackStackEntryCount();
+                                    while (count > 0) {
+                                        pocketAccounter.getSupportFragmentManager().popBackStack();
+                                        count--;
+                                    }
                                     pocketAccounter.findViewById(R.id.mainWhite).setVisibility(View.VISIBLE);
                                     fragmentManager.displayFragment(new ChangeColorOfStyleFragment());
                                     break;

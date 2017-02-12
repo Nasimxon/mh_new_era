@@ -435,12 +435,23 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
                                         if (mode == PocketAccounterGeneral.MAIN) {
                                             paFragmentManager.displayMainWindow();
                                         } else if (mode == PocketAccounterGeneral.DETAIL){
-                                            Bundle bundle = new Bundle();
-                                            SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
-                                            bundle.putString(RecordDetailFragment.DATE, format.format(dataCache.getEndDate().getTime()));
-                                            RecordDetailFragment fragment = new RecordDetailFragment();
-                                            fragment.setArguments(bundle);
+                                            boolean found = false;
+                                            for (Fragment frag : paFragmentManager.getFragmentManager().getFragments()) {
+                                                if (frag == null) continue;
+                                                if (frag.getClass().getName().equals(RecordDetailFragment.class.getName())) {
+                                                    ((RecordDetailFragment) frag).updateFragments();
+                                                    found = true;
+                                                }
+                                            }
                                             paFragmentManager.getFragmentManager().popBackStack();
+                                            if (!found) {
+                                                SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+                                                Bundle bndle = new Bundle();
+                                                bndle.putString(RecordDetailFragment.DATE, format.format(dataCache.getEndDate().getTime()));
+                                                RecordDetailFragment frag = new RecordDetailFragment();
+                                                frag.setArguments(bndle);
+                                                paFragmentManager.displayFragment(frag);
+                                            }
                                         } else if (mode == PocketAccounterGeneral.NO_MODE) {
                                             DebtBorrowFragment fragment = new DebtBorrowFragment();
                                             Bundle bundle = new Bundle();
@@ -482,8 +493,8 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
                                         }
                                         reportManager.clearCache();
                                         dataCache.updateAllPercents();
-                                        paFragmentManager.updateAllFragmentsOnViewPager();
                                         paFragmentManager.updateAllFragmentsPageChanges();
+                                        paFragmentManager.updateVoiceRecognizePageCurrencyChanges();
                                         break;
                                     }
                                 }
@@ -580,7 +591,7 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
     boolean tek = false;
 
     private void openDialog() {
-        if (!payText.getText().toString().matches(getResources().getString(R.string.to_archive))) {
+        if (!payText.getText().toString().equals(getResources().getString(R.string.to_archive))) {
             final Dialog dialog = new Dialog(getActivity());
             View dialogView = getActivity().getLayoutInflater().inflate(R.layout.add_pay_debt_borrow_info_mod, null);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -716,8 +727,8 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
                                     warningDialog.dismiss();
                                     reportManager.clearCache();
                                     dataCache.updateAllPercents();
-                                    paFragmentManager.updateAllFragmentsOnViewPager();
                                     paFragmentManager.updateAllFragmentsPageChanges();
+                                    paFragmentManager.updateVoiceRecognizePageCurrencyChanges();
                                     dialog.dismiss();
                                 }
                             });
@@ -736,6 +747,7 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
                                 reportManager.clearCache();
                                 dataCache.updateAllPercents();
                                 paFragmentManager.updateAllFragmentsPageChanges();
+                                paFragmentManager.updateVoiceRecognizePageCurrencyChanges();
                                 warningDialog.dismiss();
                                 dialog.dismiss();
                             }
@@ -779,9 +791,10 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
                         commonOperations.changeIconToNull(boardButton.getPos(), dataCache, boardButton.getTable());
                     }
             }
-            paFragmentManager.updateAllFragmentsOnViewPager();
-            paFragmentManager.updateAllFragmentsPageChanges();
+            reportManager.clearCache();
             dataCache.updateAllPercents();
+            paFragmentManager.updateAllFragmentsPageChanges();
+            paFragmentManager.updateVoiceRecognizePageCurrencyChanges();
         }
     }
 
@@ -898,8 +911,10 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
             tvTotalPaid.setText(total + debtBorrow.getCurrency().getAbbr());
             double amount = debtBorrow.getAmount() - total;
             tvLeftAmount.setText(decimalFormat.format(amount) + "" + debtBorrow.getCurrency().getAbbr());
+            reportManager.clearCache();
             dataCache.updateAllPercents();
-            paFragmentManager.updateAllFragmentsOnViewPager();
+            paFragmentManager.updateAllFragmentsPageChanges();
+            paFragmentManager.updateVoiceRecognizePageCurrencyChanges();
         }
 
         public void setDataChanged(Calendar clDate, double value, String accountId, String comment) {

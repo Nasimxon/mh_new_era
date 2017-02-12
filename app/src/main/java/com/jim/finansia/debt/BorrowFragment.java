@@ -524,7 +524,7 @@ public class BorrowFragment extends Fragment {
                                                 reportManager.clearCache();
                                                 dataCache.updateAllPercents();
                                                 paFragmentManager.updateAllFragmentsPageChanges();
-                                                paFragmentManager.updateAllFragmentsPageChanges();
+                                                paFragmentManager.updateVoiceRecognizePageCurrencyChanges();
                                                 warningDialog.dismiss();
                                             }
                                         });
@@ -560,7 +560,7 @@ public class BorrowFragment extends Fragment {
                                             reportManager.clearCache();
                                             dataCache.updateAllPercents();
                                             paFragmentManager.updateAllFragmentsPageChanges();
-                                            paFragmentManager.updateAllFragmentsPageChanges();
+                                            paFragmentManager.updateVoiceRecognizePageCurrencyChanges();
                                             dialog.dismiss();
                                         } else {
                                             if (!keyForInclude.isChecked()) {
@@ -582,7 +582,7 @@ public class BorrowFragment extends Fragment {
                                                 reportManager.clearCache();
                                                 dataCache.updateAllPercents();
                                                 paFragmentManager.updateAllFragmentsPageChanges();
-                                                paFragmentManager.updateAllFragmentsPageChanges();
+                                                paFragmentManager.updateTemplatesInVoiceRecognitionFragment();
                                                 dialog.dismiss();
                                             }
                                         }

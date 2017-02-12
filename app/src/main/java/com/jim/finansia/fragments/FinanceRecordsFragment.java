@@ -1,6 +1,5 @@
 package com.jim.finansia.fragments;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -353,7 +352,6 @@ public class FinanceRecordsFragment extends Fragment implements View.OnClickList
                 tvRecordComment = (TextView) view.findViewById(R.id.tvComment);
                 rvTickets = (RecyclerView) view.findViewById(R.id.rvTickets);
                 tvRecordDetailCategoryAmount = (TextView) view.findViewById(R.id.tvRecordDetailCategoryAmount);
-//                tvRecordDetailSubCategory = (TextView) view.findViewById(R.id.tvRecordDetailSubCategory);
                 chbRecordDetail = (CheckBox) view.findViewById(R.id.chbRecordFragmentDetail);
                 rlVisibleWhenHaveComment = (LinearLayout) view.findViewById(R.id.visibleIfCommentHave);
                 rlVisibleWhenHaveTickets = (LinearLayout) view.findViewById(R.id.visibleIfTicketHave);

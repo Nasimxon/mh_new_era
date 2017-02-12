@@ -387,7 +387,10 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
                                                 .commit();
                                     init();
                                     invalidate();
+                                    reportManager.clearCache();
+                                    dataCache.updateAllPercents();
                                     paFragmentManager.updateAllFragmentsPageChanges();
+                                    paFragmentManager.updateVoiceRecognizePageCurrencyChanges();
                                     if (pageChangeListener != null)
                                         pageChangeListener.onPageChange(currentPage);
                                     break;
@@ -408,7 +411,10 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
                                                 .commit();
                                     init();
                                     invalidate();
+                                    reportManager.clearCache();
+                                    dataCache.updateAllPercents();
                                     paFragmentManager.updateAllFragmentsPageChanges();
+                                    paFragmentManager.updateVoiceRecognizePageCurrencyChanges();
                                     if (pageChangeListener != null)
                                         pageChangeListener.onPageChange(currentPage);
                                     break;
@@ -513,8 +519,10 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
                         changeIconInCache(pos, "no_category");
                         initButtons();
                         releasePress();
+                        reportManager.clearCache();
                         dataCache.updateAllPercents();
-                        paFragmentManager.updateAllFragmentsOnViewPager();
+                        paFragmentManager.updateAllFragmentsPageChanges();
+                        paFragmentManager.updateVoiceRecognizePageCurrencyChanges();
                         operationsListDialog.dismiss();
                         break;
                     case 2:
@@ -823,8 +831,10 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
                     logicManager.changeBoardButton(table, currentPage * buttonsCount + pos, categories.get(position).getId());
                     changeIconInCache(pos, categories.get(position).getIcon());
                     init();
-                    paFragmentManager.updateAllFragmentsOnViewPager();
-                    dataCache.updateOneDay(day);
+                    reportManager.clearCache();
+                    dataCache.updateAllPercents();
+                    paFragmentManager.updateAllFragmentsPageChanges();
+                    paFragmentManager.updateVoiceRecognizePageCurrencyChanges();
                 } else {
                     analytics.sendText("User wants to buy changing page service");
                     purchaseImplementation.buyChangingPage();
@@ -868,8 +878,10 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
                     logicManager.changeBoardButton(table, currentPage * buttonsCount + pos, categories.get(position).getId());
                     changeIconInCache(pos, categories.get(position).getIcon());
                     init();
-                    paFragmentManager.updateAllFragmentsOnViewPager();
-                    dataCache.updateOneDay(day);
+                    reportManager.clearCache();
+                    dataCache.updateAllPercents();
+                    paFragmentManager.updateAllFragmentsPageChanges();
+                    paFragmentManager.updateVoiceRecognizePageCurrencyChanges();
                 }
                 else {
                     analytics.sendText("User wants to buy change button to function service");
@@ -918,9 +930,10 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
                         logicManager.changeBoardButton(table, currentPage*buttonsCount+pos, categories.get(position).getId());
                         changeIconInCache(pos, categories.get(position).getIcon());
                         init();
+                        reportManager.clearCache();
                         dataCache.updateAllPercents();
-                        paFragmentManager.updateAllFragmentsOnViewPager();
                         paFragmentManager.updateAllFragmentsPageChanges();
+                        paFragmentManager.updateVoiceRecognizePageCurrencyChanges();
                     }
                     else {
                         analytics.sendText("User wants to buy changing button to category");
@@ -931,9 +944,10 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
                     logicManager.changeBoardButton(table, currentPage*buttonsCount+pos, categories.get(position).getId());
                     changeIconInCache(pos, categories.get(position).getIcon());
                     init();
+                    reportManager.clearCache();
                     dataCache.updateAllPercents();
-                    paFragmentManager.updateAllFragmentsOnViewPager();
                     paFragmentManager.updateAllFragmentsPageChanges();
+                    paFragmentManager.updateVoiceRecognizePageCurrencyChanges();
                 }
                 PocketAccounter.PRESSED = false;
                 dialog.dismiss();
@@ -976,8 +990,10 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
                         logicManager.changeBoardButton(table, currentPage * buttonsCount + pos, categories.get(position).getId());
                         changeIconInCache(pos, categories.get(position).getIcon());
                         init();
-                        paFragmentManager.updateAllFragmentsOnViewPager();
-                        dataCache.updateOneDay(day);
+                        reportManager.clearCache();
+                        dataCache.updateAllPercents();
+                        paFragmentManager.updateAllFragmentsPageChanges();
+                        paFragmentManager.updateVoiceRecognizePageCurrencyChanges();
                     }
                     else {
                         analytics.sendText("User wants to buy changing button to debt or borrow");
@@ -1034,8 +1050,10 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
                         changeIconInCache(pos, categories.get(position).getIcon());
                         init();
                         invalidate();
-                        paFragmentManager.updateAllFragmentsOnViewPager();
-                        dataCache.updateOneDay(day);
+                        reportManager.clearCache();
+                        dataCache.updateAllPercents();
+                        paFragmentManager.updateAllFragmentsPageChanges();
+                        paFragmentManager.updateVoiceRecognizePageCurrencyChanges();
                     }
                     else {
                         analytics.sendText("User wants to buy changing button to credit");
@@ -1173,8 +1191,9 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
             pageChangeListener.onPageChange(currentPage);
         init();
         invalidate();
+        reportManager.clearCache();
+        dataCache.updateAllPercents();
         paFragmentManager.updateAllFragmentsPageChanges();
-
     }
 
     public void decCurrentPage() {
@@ -1196,6 +1215,8 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
             pageChangeListener.onPageChange(currentPage);
         init();
         invalidate();
+        reportManager.clearCache();
+        dataCache.updateAllPercents();
         paFragmentManager.updateAllFragmentsPageChanges();
     }
 

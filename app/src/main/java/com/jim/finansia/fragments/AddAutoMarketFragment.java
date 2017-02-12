@@ -112,7 +112,6 @@ public class AddAutoMarketFragment extends Fragment {
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
         analytics.sendText("User enters " + getClass().getName());
         accountDao = daoSession.getAccountDao();
-
         currencyDao = daoSession.getCurrencyDao();
         autoMarketDao = daoSession.getAutoMarketDao();
         try {

@@ -784,12 +784,11 @@ public class LogicManager {
             return LogicManagerConstants.REQUESTED_OBJECT_NOT_FOUND;
         }
         daoSession
-                .getReckingDao()
-                .queryBuilder()
+                .queryBuilder(Recking.class)
                 .where(ReckingDao.Properties.DebtBorrowsId.eq(debtBorrow.getId()))
-                .buildDelete();
+                .buildDelete()
+                .executeDeleteWithoutDetachingEntities();
         debtBorrowDao.delete(debtBorrow);
-
         return LogicManagerConstants.DELETED_SUCCESSFUL;
     }
 

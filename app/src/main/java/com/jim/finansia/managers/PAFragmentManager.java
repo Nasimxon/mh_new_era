@@ -179,7 +179,6 @@ public class PAFragmentManager {
             fragmentManager.popBackStack();
             count--;
         }
-        updateAllFragmentsOnViewPager();
         updateAllFragmentsPageChanges();
     }
 
