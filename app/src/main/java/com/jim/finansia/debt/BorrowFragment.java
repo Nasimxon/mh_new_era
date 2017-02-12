@@ -620,7 +620,7 @@ public class BorrowFragment extends Fragment {
                                 }
                                 reportManager.clearCache();
                                 dataCache.updateAllPercents();
-                                paFragmentManager.updateAllFragmentsOnViewPager();
+                                paFragmentManager.updateAllFragmentsPageChanges();
                                 paFragmentManager.updateVoiceRecognizePageCurrencyChanges();
                                 logicManager.insertDebtBorrow(person);
                                 try {

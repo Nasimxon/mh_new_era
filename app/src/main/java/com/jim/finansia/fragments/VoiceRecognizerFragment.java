@@ -146,9 +146,6 @@ public class VoiceRecognizerFragment extends Fragment {
     private Calendar day;
     static final String DATA_CACHE = "dayfromout";
 
-
-
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -687,21 +684,10 @@ public class VoiceRecognizerFragment extends Fragment {
                     summ = Double.parseDouble(matcher.group(secondOrGroup).replace(',','.'));
             }
             tvSpeechAmount.setText(formatter.format(summ));
-            if (accountId != null && !accountId.isEmpty()) {
-                Account account = daoSession.getAccountDao().load(accountId);
-                for (int i = 0; i < accString.length; i++) {
-                    if (account.getName().toLowerCase().equals(accString[i].toLowerCase())) {
-                        spSpeechAccount.setSelection(i);
-                        break;
-                    }
-                }
-            }
             if (categoryId != null && !categoryId.isEmpty() && summ != 0)
                 savingVoice();
         }
     }
-
-    private MyTask myTask;
 
     private void parseVoice(final String newLetter) {
         Log.d("sss", "parseVoice: " + newLetter);
@@ -901,6 +887,17 @@ public class VoiceRecognizerFragment extends Fragment {
                     accountId = templateAccounts.get(0).getAccountId();
                 }
             }
+            if (accountId != null && !accountId.isEmpty()) {
+                int pos = 0;
+                List<Account> accounts = daoSession.loadAll(Account.class);
+                for (int i = 0; i < accounts.size(); i++) {
+                    if (accounts.get(i).getId().equals(accountId)) {
+                        pos = i;
+                        break;
+                    }
+                }
+                spSpeechAccount.setSelection(pos);
+            }
         }
 
         for (TemplateCurrencyVoice voice: templateCurrencyVoices) {
@@ -945,15 +942,6 @@ public class VoiceRecognizerFragment extends Fragment {
                 summ = Double.parseDouble(matcher.group(secondOrGroup).replace(',','.'));
         }
         tvSpeechAmount.setText(formatter.format(summ));
-        if (accountId != null && !accountId.isEmpty()) {
-            Account account = daoSession.getAccountDao().load(accountId);
-            for (int i = 0; i < accString.length; i++) {
-                if (account.getName().toLowerCase().equals(accString[i].toLowerCase())) {
-                    spSpeechAccount.setSelection(i);
-                    break;
-                }
-            }
-        }
         if (timer == null) {
             if (categoryId != null && !categoryId.isEmpty() && summ != 0) {
                 autoSave.setVisibility(View.VISIBLE);
@@ -1004,18 +992,10 @@ public class VoiceRecognizerFragment extends Fragment {
                 financeRecord.setAmount(summ);
                 financeRecord.setComment("");
                 financeRecord.setRecordId(UUID.randomUUID().toString());
-                if (accountId.isEmpty()) {
-                    financeRecord.setAccount(daoSession.getAccountDao().queryBuilder().
-                            where(AccountDao.Properties.Name.eq(spSpeechAccount.getSelectedItem())).unique());
-                } else {
-                    financeRecord.setAccount(daoSession.getAccountDao().load(accountId));
-                }
-                if (currencyId.isEmpty()) {
-                    financeRecord.setCurrency(daoSession.getCurrencyDao().queryBuilder()
-                            .where(CurrencyDao.Properties.Abbr.eq(spSpeechCurrency.getSelectedItem())).unique());
-                } else {
-                    financeRecord.setCurrency(daoSession.getCurrencyDao().load(currencyId));
-                }
+                List<Account> accounts = daoSession.loadAll(Account.class);
+                List<Currency> currencies = daoSession.loadAll(Currency.class);
+                financeRecord.setAccount(accounts.get(spSpeechAccount.getSelectedItemPosition()));
+                financeRecord.setCurrency(currencies.get(spSpeechCurrency.getSelectedItemPosition()));
                 if (daoSession.getRootCategoryDao().load(categoryId) != null) {
                     financeRecord.setCategory(daoSession.getRootCategoryDao().load(categoryId));
                 } else {
@@ -1026,7 +1006,6 @@ public class VoiceRecognizerFragment extends Fragment {
                 daoSession.getFinanceRecordDao().insertOrReplace(financeRecord);
                 reportManager.clearCache();
                 dataCache.updateAllPercents();
-                paFragmentManager.updateAllFragmentsOnViewPager();
                 paFragmentManager.updateAllFragmentsPageChanges();
                 timer.cancel();
                 timer = null;
