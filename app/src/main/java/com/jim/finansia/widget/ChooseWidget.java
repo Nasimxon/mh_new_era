@@ -3,6 +3,7 @@ package com.jim.finansia.widget;
 import android.appwidget.AppWidgetManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -45,6 +46,10 @@ public class ChooseWidget extends AppCompatActivity implements CompoundButton.On
     Database db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String themeName = prefs.getString(PocketAccounterGeneral.CHOOSEN_THEME_NAME_KEY, PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.BLUE_THEME);
+        int themeId = getResources().getIdentifier(themeName, "style", getPackageName());
+        setTheme(themeId);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_widget);
 

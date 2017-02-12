@@ -12,6 +12,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.media.audiofx.BassBoost;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.CheckBoxPreference;
@@ -45,6 +46,7 @@ import com.jim.finansia.modulesandcomponents.modules.PocketAccounterApplicationM
 import com.jim.finansia.syncbase.SyncBase;
 import com.jim.finansia.utils.PocketAccounterGeneral;
 import com.jim.finansia.utils.cache.DataCache;
+import com.jim.finansia.widget.CalcActivity;
 import com.jim.finansia.widget.WidgetKeys;
 import com.jim.finansia.widget.WidgetProvider;
 
@@ -83,7 +85,10 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         ((PocketAccounterApplication) this.getApplicationContext()).component().inject(this);
-        setTheme(R.style.BlueTheme);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String themeName = prefs.getString(PocketAccounterGeneral.CHOOSEN_THEME_NAME_KEY, PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.BLUE_THEME);
+        int themeId = getResources().getIdentifier(themeName, "style", getPackageName());
+        setTheme(themeId);
         mySync = new SyncBase(storageRef, this, PocketAccounterGeneral.CURRENT_DB_NAME);
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.layout.settings);
@@ -253,7 +258,11 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
                                 dialog.cancel();
                             }
                         }) .setNegativeButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+
                     public void onClick(DialogInterface dialog, int id) {
+
+                        int WidgetID = PreferenceManager.getDefaultSharedPreferences(SettingsActivity.this).getInt(WidgetKeys.SPREF_WIDGET_ID, -1);
+
                         DrawerInitializer.reg.revokeAccess();
                         String DB_PATH;
                         for(AbstractDao abstractDao : daoSession.getAllDaos()) {
@@ -290,6 +299,10 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
                         sharedPreferences.edit().putInt(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.SMS_PARSING_COUNT_KEY, smsParseCount).commit();
                         sharedPreferences.edit().putInt(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.DEBT_BORROW_COUNT_KEY, debtBorrowCount).commit();
                         sharedPreferences.edit().putInt(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.CREDIT_COUNT_KEY, creditCount).commit();
+                        if (WidgetID >= 0) {
+                            if (AppWidgetManager.INVALID_APPWIDGET_ID != WidgetID)
+                                WidgetProvider.updateWidget(SettingsActivity.this, AppWidgetManager.getInstance(SettingsActivity.this), WidgetID);
+                        }
                         finish();
                     }
                 });

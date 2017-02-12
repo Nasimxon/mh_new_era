@@ -85,20 +85,79 @@
         <item name="android:actionBarSize">64dp</item>
         <item name="actionBarSize">64dp</item></style>
 
+    <style name="LightBlue" parent="Theme.AppCompat.Light.NoActionBar">
 
+        <item name="headColor">#d6dee1</item>
+
+        <item name="customStatusBarColor">#d2d9de</item>
+        <item name="colorPrimaryDark">#d2d9de</item>
+        <item name="colorPrimary">#d2d9de</item>
+
+
+        <item name="headAccedent">#4e717e</item>
+        <item name="colorAccent">#4e717e</item>
+        <item name="colorControlActivated">#4e717e</item>
+
+        <item name="android:typeface">serif</item>
+        <item name="colorControlNormal">@color/forlines</item>
+        <item name="colorControlHighlight">@color/colorAccent</item>
+        <item name="android:preferenceCategoryStyle">@style/PreferenceCategoryStyle</item>
+        <item name="android:actionBarSize">64dp</item>
+        <item name="actionBarSize">64dp</item></style>
+
+    <style name="RedLips" parent="Theme.AppCompat.Light.NoActionBar">
+
+        <item name="headColor">#e6d9d9</item>
+
+        <item name="customStatusBarColor">#e0cbcb</item>
+        <item name="colorPrimaryDark">#e0cbcb</item>
+        <item name="colorPrimary">#e0cbcb</item>
+
+
+        <item name="headAccedent">#a21a1a</item>
+        <item name="colorAccent">#a21a1a</item>
+        <item name="colorControlActivated">#a21a1a</item>
+
+        <item name="android:typeface">serif</item>
+        <item name="colorControlNormal">@color/forlines</item>
+        <item name="colorControlHighlight">@color/colorAccent</item>
+        <item name="android:preferenceCategoryStyle">@style/PreferenceCategoryStyle</item>
+        <item name="android:actionBarSize">64dp</item>
+        <item name="actionBarSize">64dp</item></style>
 
     <style name="YellowTheme" parent="Theme.AppCompat.Light.NoActionBar">
 
-        <item name="headColor">#ead6b8</item>
+        <item name="headColor">#ded7c0</item>
 
-        <item name="customStatusBarColor">#dec299</item>
-        <item name="colorPrimaryDark">#dec299</item>
-        <item name="colorPrimary">#dec299</item>
+        <item name="customStatusBarColor">#d3cbb2</item>
+        <item name="colorPrimaryDark">#d3cbb2</item>
+        <item name="colorPrimary">#d3cbb2</item>
 
 
         <item name="headAccedent">#ac9855</item>
         <item name="colorAccent">#ac9855</item>
         <item name="colorControlActivated">#ac9855</item>
+
+        <item name="android:typeface">serif</item>
+        <item name="colorControlNormal">@color/forlines</item>
+        <item name="colorControlHighlight">@color/colorAccent</item>
+        <item name="android:preferenceCategoryStyle">@style/PreferenceCategoryStyle</item>
+        <item name="android:popupMenuStyle">@style/PopupMenu</item>
+        <item name="android:actionBarSize">@dimen/sixty_dp</item>
+    </style>
+
+    <style name="GreenTheme" parent="Theme.AppCompat.Light.NoActionBar">
+
+        <item name="headColor">#d6e6d6</item>
+
+        <item name="customStatusBarColor">#bfd9bf</item>
+        <item name="colorPrimaryDark">#bfd9bf</item>
+        <item name="colorPrimary">#bfd9bf</item>
+
+
+        <item name="headAccedent">#346f34</item>
+        <item name="colorAccent">#346f34</item>
+        <item name="colorControlActivated">#346f34</item>
 
         <item name="android:typeface">serif</item>
         <item name="colorControlNormal">@color/forlines</item>
