@@ -273,10 +273,15 @@ public class InfoCreditFragment extends Fragment {
                                         }
                                         reportManager.clearCache();
                                         dataCache.updateAllPercents();
+                                        for(ReckingCredit reckingCredit:currentCredit.getReckings()){
+                                            logicManager.deleteReckingCredit(reckingCredit);
+                                        }
                                         logicManager.deleteCredit(currentCredit);
+                                        reportManager.clearCache();
+                                        dataCache.updateAllPercents();
                                         paFragmentManager.updateAllFragmentsPageChanges();
+                                        paFragmentManager.updateVoiceRecognizePageCurrencyChanges();
 
-                                        logicManager.deleteCredit(currentCredit);
                                         if (modeOfMain == PocketAccounterGeneral.NO_MODE) {
                                             boolean found = false;
                                             for (Fragment fragment : paFragmentManager.getFragmentManager().getFragments()) {

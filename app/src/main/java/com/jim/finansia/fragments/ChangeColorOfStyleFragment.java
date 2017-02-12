@@ -40,7 +40,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 public class ChangeColorOfStyleFragment extends Fragment {
-    private String[] colors = {BuildConfig.BLUE_THEME, BuildConfig.YELLOW_THEME, BuildConfig.FIOLA_THEME};
+    private String[] colors = {BuildConfig.BLUE_THEME, BuildConfig.YELLOW_THEME, BuildConfig.FIOLA_THEME };
     private RelativeLayout rlColorChangeFragment;
     private RecyclerView rvColorChangeFragment;
     private int selectedColorPos = 0;

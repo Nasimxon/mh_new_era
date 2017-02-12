@@ -211,10 +211,14 @@ public class InfoCreditFragmentForArchive extends Fragment {
 
                                                     }
                                             }
+                                            for(ReckingCredit reckingCredit:currentCredit.getReckings()){
+                                                logicManager.deleteReckingCredit(reckingCredit);
+                                            }
                                             logicManager.deleteCredit(currentCredit);
-                                            dataCache.updateAllPercents();
-                                            paFragmentManager.updateAllFragmentsOnViewPager();
                                             reportManager.clearCache();
+                                            dataCache.updateAllPercents();
+                                            paFragmentManager.updateAllFragmentsPageChanges();
+                                            paFragmentManager.updateVoiceRecognizePageCurrencyChanges();
                                         } else if (modeOfMain == PocketAccounterGeneral.SEARCH_MODE) {
                                             List<BoardButton> boardButtons = daoSession.getBoardButtonDao().loadAll();
                                             for (BoardButton boardButton : boardButtons) {
@@ -230,10 +234,14 @@ public class InfoCreditFragmentForArchive extends Fragment {
 
                                                     }
                                             }
-                                            dataCache.updateAllPercents();
-                                            reportManager.clearCache();
-                                            paFragmentManager.updateAllFragmentsOnViewPager();
+                                            for(ReckingCredit reckingCredit:currentCredit.getReckings()){
+                                                logicManager.deleteReckingCredit(reckingCredit);
+                                            }
                                             logicManager.deleteCredit(currentCredit);
+                                            reportManager.clearCache();
+                                            dataCache.updateAllPercents();
+                                            paFragmentManager.updateAllFragmentsPageChanges();
+                                            paFragmentManager.updateVoiceRecognizePageCurrencyChanges();
 
                                         } else {
                                             if (modeOfMain == PocketAccounterGeneral.EXPANSE_MODE) {
@@ -259,11 +267,15 @@ public class InfoCreditFragmentForArchive extends Fragment {
                                                     }
                                                 }
                                             }
+                                            for(ReckingCredit reckingCredit:currentCredit.getReckings()){
+                                                logicManager.deleteReckingCredit(reckingCredit);
+                                            }
                                             logicManager.deleteCredit(currentCredit);
-                                            dataCache.updateAllPercents();
                                             reportManager.clearCache();
+                                            dataCache.updateAllPercents();
+                                            paFragmentManager.updateAllFragmentsPageChanges();
+                                            paFragmentManager.updateVoiceRecognizePageCurrencyChanges();
 
-                                            paFragmentManager.updateAllFragmentsOnViewPager();
 
                                         }
                                         if (modeOfMain != PocketAccounterGeneral.NO_MODE && modeOfMain !=PocketAccounterGeneral.DETAIL && modeOfMain!= PocketAccounterGeneral.SEARCH_MODE){

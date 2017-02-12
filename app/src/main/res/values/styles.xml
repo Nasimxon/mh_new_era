@@ -65,13 +65,35 @@
         <item name="android:actionBarSize">64dp</item>
         <item name="actionBarSize">64dp</item></style>
 
+    <style name="DarkBlue" parent="Theme.AppCompat.Light.NoActionBar">
+
+        <item name="headColor">#b9c5cf</item>
+
+        <item name="customStatusBarColor">#a5b4c0</item>
+        <item name="colorPrimaryDark">#a5b4c0</item>
+        <item name="colorPrimary">#a5b4c0</item>
+
+
+        <item name="headAccedent">#326a99</item>
+        <item name="colorAccent">#326a99</item>
+        <item name="colorControlActivated">#326a99</item>
+
+        <item name="android:typeface">serif</item>
+        <item name="colorControlNormal">@color/forlines</item>
+        <item name="colorControlHighlight">@color/colorAccent</item>
+        <item name="android:preferenceCategoryStyle">@style/PreferenceCategoryStyle</item>
+        <item name="android:actionBarSize">64dp</item>
+        <item name="actionBarSize">64dp</item></style>
+
+
+
     <style name="YellowTheme" parent="Theme.AppCompat.Light.NoActionBar">
 
-        <item name="headColor">#ded7c0</item>
+        <item name="headColor">#ead6b8</item>
 
-        <item name="customStatusBarColor">#d3cbb2</item>
-        <item name="colorPrimaryDark">#d3cbb2</item>
-        <item name="colorPrimary">#d3cbb2</item>
+        <item name="customStatusBarColor">#dec299</item>
+        <item name="colorPrimaryDark">#dec299</item>
+        <item name="colorPrimary">#dec299</item>
 
 
         <item name="headAccedent">#ac9855</item>
