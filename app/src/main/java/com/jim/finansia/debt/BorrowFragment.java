@@ -364,6 +364,7 @@ public class BorrowFragment extends Fragment {
                         final RelativeLayout checkInclude = (RelativeLayout) dialogView.findViewById(R.id.checkInclude);
                         final RelativeLayout is_calc = (RelativeLayout) dialogView.findViewById(R.id.is_calc);
                         final SwitchCompat keyForInclude = (SwitchCompat) dialogView.findViewById(R.id.key_for_balance);
+                        keyForInclude.setChecked(person.getCalculate());
                         final Spinner accountSp = (Spinner) dialogView.findViewById(R.id.spInfoDebtBorrowAccount);
                         ImageView cancel = (ImageView) dialogView.findViewById(R.id.ivInfoDebtBorrowCancel);
                         final TextView save = (TextView) dialogView.findViewById(R.id.ivInfoDebtBorrowSave);
@@ -474,12 +475,8 @@ public class BorrowFragment extends Fragment {
                             public void onClick(View v) {
                                 String ac = "";
                                 if (keyForInclude.isChecked()) {
-                                    for (Account account : accountDao.queryBuilder().list()) {
-                                        if (account.getName().matches(accountSp.getSelectedItem().toString())) {
-                                            ac = account.getId();
-                                            break;
-                                        }
-                                    }
+                                    List<Account> accs = daoSession.loadAll(Account.class);
+                                    ac = accs.get(accountSp.getSelectedItemPosition()).getId();
                                 }
                                 boolean tek = false;
                                 if (!enterPay.getText().toString().isEmpty()) {
@@ -547,7 +544,8 @@ public class BorrowFragment extends Fragment {
                                         if (keyForInclude.isChecked() && isMumkin(person, ac, Double.parseDouble(enterPay.getText().toString()))) {
                                             recking = new Recking(date,
                                                     Double.parseDouble(enterPay.getText().toString()),
-                                                    person.getId(), ac,
+                                                    person.getId(),
+                                                    ac,
                                                     comment.getText().toString());
                                             person.getReckings().add(0, recking);
                                             double total = 0;
@@ -615,9 +613,10 @@ public class BorrowFragment extends Fragment {
                                             commonOperations.changeIconToNull(boardButton.getPos(), dataCache, boardButton.getTable());
                                         }
                                 }
-                                paFragmentManager.updateAllFragmentsOnViewPager();
+                                reportManager.clearCache();
                                 dataCache.updateAllPercents();
-
+                                paFragmentManager.updateAllFragmentsOnViewPager();
+                                paFragmentManager.updateVoiceRecognizePageCurrencyChanges();
                                 logicManager.insertDebtBorrow(person);
                                 try {
                                     persons.remove(position);

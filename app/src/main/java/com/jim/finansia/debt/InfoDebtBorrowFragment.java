@@ -599,6 +599,7 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
             final RelativeLayout checkInclude = (RelativeLayout) dialogView.findViewById(R.id.checkInclude);
             final RelativeLayout is_calc = (RelativeLayout) dialogView.findViewById(R.id.is_calc);
             final SwitchCompat keyForInclude = (SwitchCompat) dialogView.findViewById(R.id.key_for_balance);
+            keyForInclude.setChecked(debtBorrow.getCalculate());
             final Spinner accountSp = (Spinner) dialogView.findViewById(R.id.spInfoDebtBorrowAccount);
             ImageView cancel = (ImageView) dialogView.findViewById(R.id.ivInfoDebtBorrowCancel);
             final TextView save = (TextView) dialogView.findViewById(R.id.ivInfoDebtBorrowSave);
@@ -709,7 +710,7 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
                                         peysAdapter.setDataChanged(date, Double.parseDouble(enterPay.getText().toString()),
                                                 allAccounts.get(accountSp.getSelectedItemPosition()).getId(), comment.getText().toString());
                                         else
-                                        peysAdapter.setDataChanged(date, Double.parseDouble(enterPay.getText().toString()),"", comment.getText().toString());
+                                        peysAdapter.setDataChanged(date, Double.parseDouble(enterPay.getText().toString()), "", comment.getText().toString());
 
                                     }
                                     warningDialog.dismiss();
@@ -731,7 +732,7 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
                                 peysAdapter.setDataChanged(date, Double.parseDouble(enterPay.getText().toString()),
                                         allAccounts.get(accountSp.getSelectedItemPosition()).getId(), comment.getText().toString());
                                 else
-                                    peysAdapter.setDataChanged(date, Double.parseDouble(enterPay.getText().toString()),"", comment.getText().toString());
+                                    peysAdapter.setDataChanged(date, Double.parseDouble(enterPay.getText().toString()), "", comment.getText().toString());
                                 reportManager.clearCache();
                                 dataCache.updateAllPercents();
                                 paFragmentManager.updateAllFragmentsPageChanges();
@@ -926,7 +927,8 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
             }
             reportManager.clearCache();
             dataCache.updateAllPercents();
-            paFragmentManager.updateAllFragmentsOnViewPager();
+            paFragmentManager.updateAllFragmentsPageChanges();
+            paFragmentManager.updateVoiceRecognizePageCurrencyChanges();
         }
     }
 

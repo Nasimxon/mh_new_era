@@ -43,7 +43,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-@SuppressLint("ValidFragment")
 public class FinanceRecordsFragment extends Fragment implements View.OnClickListener{
     private Calendar date;
     private RecyclerView rvRecordDetail;
@@ -51,20 +50,13 @@ public class FinanceRecordsFragment extends Fragment implements View.OnClickList
     private ArrayList<FinanceRecord> records;
     private boolean[] selections;
     private SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
-    @Inject
-    DaoSession daoSession;
-    @Inject
-    ToolbarManager toolbarManager;
-    @Inject
-    PAFragmentManager paFragmentManager;
-    @Inject
-    LogicManager logicManager;
-    @Inject
-    DataCache dataCache;
-    @Inject
-    ReportManager reportManager;
-    @Inject
-    FinansiaFirebaseAnalytics analytics;
+    @Inject DaoSession daoSession;
+    @Inject ToolbarManager toolbarManager;
+    @Inject PAFragmentManager paFragmentManager;
+    @Inject LogicManager logicManager;
+    @Inject DataCache dataCache;
+    @Inject ReportManager reportManager;
+    @Inject FinansiaFirebaseAnalytics analytics;
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.record_detail_layout, container, false);
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
@@ -102,10 +94,25 @@ public class FinanceRecordsFragment extends Fragment implements View.OnClickList
     }
 
     public void refreshList() {
+        if (toolbarManager != null)
+        {
+            toolbarManager.setOnSecondImageClickListener(this);
+            toolbarManager.setOnTitleClickListener(null);
+            toolbarManager.setImageToHomeButton(R.drawable.ic_back_button);
+            toolbarManager.setOnHomeButtonClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int size = 0;
+                    size = paFragmentManager.getFragmentManager().getBackStackEntryCount();
+                    for (int i = 0; i < size; i++)
+                        paFragmentManager.getFragmentManager().popBackStack();
+                    paFragmentManager.displayMainWindow();
+                }
+            });
+        }
         records = new ArrayList<>();
         List<FinanceRecord> allrecords = daoSession.getFinanceRecordDao().loadAll();
         int size = allrecords.size();
-
         Calendar begin = (Calendar) date.clone();
         begin.set(Calendar.HOUR_OF_DAY, 0);
         begin.set(Calendar.MINUTE, 0);

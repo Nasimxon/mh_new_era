@@ -101,8 +101,11 @@ public class DetailedDebtBorrowsFragment extends Fragment{
     public void refreshList() {
         debtBorrows = daoSession
                 .queryBuilder(DebtBorrow.class)
-                .where(DebtBorrowDao.Properties.TakenDate.eq(format.format(date.getTime())),
-                        DebtBorrowDao.Properties.Calculate.eq(true))
+                .where(
+                        DebtBorrowDao.Properties.TakenDate.eq(format.format(date.getTime())),
+                        DebtBorrowDao.Properties.Calculate.eq(true),
+                        DebtBorrowDao.Properties.AccountId.isNotNull(),
+                        DebtBorrowDao.Properties.AccountId.notEq(""))
                 .list();
         reckings = daoSession.queryBuilder(Recking.class)
                 .where(ReckingDao.Properties.PayDate.eq(format.format(date.getTime())),
