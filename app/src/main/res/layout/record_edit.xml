@@ -140,7 +140,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_above="@+id/header_pasi">
+            android:layout_above="@+id/header_pasi"
+            android:paddingTop="@dimen/fifteen_dp"
+            >
 
 
             <TextView
@@ -148,7 +150,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black_for_glavniy_text"
-                android:layout_marginTop="@dimen/twenty_dp"
+                android:layout_marginTop="@dimen/five_dp"
                 android:text="0"
                 android:textSize="@dimen/thirty_dp"
                 android:gravity="right"
@@ -168,7 +170,6 @@
                 android:layout_marginRight="@dimen/ten_dp"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
-                android:layout_marginTop="@dimen/fifteen_dp"
                 />
 
             <android.support.v7.widget.RecyclerView

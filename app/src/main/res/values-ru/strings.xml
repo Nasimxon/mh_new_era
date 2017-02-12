@@ -981,7 +981,7 @@
         <item>acc_bank</item>
     </string-array>
     <string-array name="account_icons">
-        <item>icons_30</item>
+        <item>icons_48</item>
         <item>icons_6</item>
         <item>icons_16</item>
     </string-array>
@@ -1111,7 +1111,7 @@
     <string name="backup_summary">Загружает последние данные из Google аккаунта</string>
     <string name="google_logout">Выйти</string>
     <string name="incorrect_value">Введено неправильное значение!</string>
-    <string name="edit">Добавление/Редактирование</string>
+    <string name="edit">Добавить/Редактировать</string>
     <string name="accounts">Счета</string>
     <string name="report_by_categories">Отчет по категориям</string>
     <string name="to_edit">Редактировать</string>
