@@ -356,8 +356,10 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
                                                     .buildDelete()
                                                     .executeDeleteWithoutDetachingEntities();
                                             warningDialog.dismiss();
-                                            dataCache.updateOneDay(day);
-                                            paFragmentManager.updateAllFragmentsOnViewPager();
+                                            reportManager.clearCache();
+                                            dataCache.updateAllPercents();
+                                            paFragmentManager.updateAllFragmentsPageChanges();
+                                            paFragmentManager.updateVoiceRecognizePageCurrencyChanges();
                                         }
                                     });
                                     warningDialog.setOnNoButtonClickListener(new OnClickListener() {

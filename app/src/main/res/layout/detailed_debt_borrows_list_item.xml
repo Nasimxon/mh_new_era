@@ -74,7 +74,6 @@ android:orientation="vertical">
                 android:id="@+id/tvDetailedDebtBorrowsName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Alex"
                 android:textColor="#3a3a3a"
                 android:textSize="@dimen/sixteen_dp" />
 
@@ -99,8 +98,6 @@ android:orientation="vertical">
                 android:id="@+id/tvDebtAmount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="+ 50 000$"
-                android:textColor="#8cc156"
                 android:textSize="@dimen/sixteen_dp"
                 android:textStyle="bold" />
 
@@ -124,8 +121,6 @@ android:orientation="vertical">
                 android:id="@+id/tvDebtAccountName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Visa bank"
-                android:textColor="#3a3a3a"
                 android:textSize="@dimen/sixteen_dp" />
 
         </LinearLayout>

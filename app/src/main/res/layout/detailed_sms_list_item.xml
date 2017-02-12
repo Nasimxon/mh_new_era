@@ -45,7 +45,6 @@ android:orientation="vertical">
                 android:id="@+id/tvDetailedSmsName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="+ 99890 1383986"
                 android:textColor="#3a3a3a"
                 android:textSize="@dimen/sixteen_dp" />
 
@@ -70,8 +69,6 @@ android:orientation="vertical">
                 android:id="@+id/tvSmsAmount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="+ 50 000$"
-                android:textColor="#8cc156"
                 android:textSize="@dimen/sixteen_dp"
                 android:textStyle="bold" />
 
@@ -103,7 +100,6 @@ android:orientation="vertical">
                 android:id="@+id/tvSmsAccountName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Visa bank"
                 android:textColor="#3a3a3a"
                 android:textSize="@dimen/sixteen_dp" />
 
@@ -126,7 +122,6 @@ android:orientation="vertical">
                 android:id="@+id/tvSmsParsingDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="27.02.2017"
                 android:textColor="#3a3a3a"
                 android:textSize="@dimen/sixteen_dp" />
 
