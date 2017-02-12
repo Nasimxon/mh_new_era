@@ -1070,6 +1070,8 @@ public class AddCreditFragment extends Fragment {
                         accounted=+commonOperations.getCost(reckingCredit.getPayDate(), currentCredit.getValyute_currency(), reckingCredit.getAmount());
                 }
             }
+            if (transactionCred.getText().toString().isEmpty())
+                transactionCred.setText("0");
             accounted = accounted - commonOperations.getCost((new GregorianCalendar(argFirst[0], argFirst[1], argFirst[2])), currencies.get(spiner_forValut.getSelectedItemPosition()), account.getCurrency(), Double.parseDouble(transactionCred.getText().toString()));
             if (-limit > accounted) {
                 Toast.makeText(context, R.string.limit_exceed, Toast.LENGTH_SHORT).show();
