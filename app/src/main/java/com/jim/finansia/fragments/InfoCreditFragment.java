@@ -698,6 +698,12 @@ public class InfoCreditFragment extends Fragment {
         if(currentCredit!=null){
             if(currentCredit.getKey_for_include())
                 keyForInclude.toggle();
+            if(keyForInclude.isChecked()){
+                is_calc.setVisibility(View.VISIBLE);
+            }
+            else {
+                is_calc.setVisibility(View.GONE);
+            }
         }
         final Spinner accountSp = (Spinner) dialogView.findViewById(R.id.spInfoDebtBorrowAccount);
         if(hozirgi){

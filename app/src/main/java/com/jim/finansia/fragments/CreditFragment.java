@@ -544,6 +544,12 @@ public class CreditFragment extends Fragment {
             if(current!=null){
                 if(current.getKey_for_include())
                 keyForInclude.toggle();
+                if(keyForInclude.isChecked()){
+                    is_calc.setVisibility(View.VISIBLE);
+                }
+                else {
+                    is_calc.setVisibility(View.GONE);
+                }
             }
             if(hozirgi){
                 periodDate.setText(sDateFormat.format(currentPeriodi.getDate().getTime()));

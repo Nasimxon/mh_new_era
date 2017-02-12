@@ -371,8 +371,13 @@ public class BorrowFragment extends Fragment {
 
 
                         abbrrAmount.setText(person.getCurrency().getAbbr());
+                        if(keyForInclude.isChecked()){
 
-
+                            is_calc.setVisibility(View.VISIBLE);
+                        }
+                        else {
+                            is_calc.setVisibility(View.GONE);
+                        }
                         ArrayList accounts = new ArrayList();
                         for (int i = 0; i < accountDao.queryBuilder().list().size(); i++) {
                             accounts.add(accountDao.queryBuilder().list().get(i).getId());

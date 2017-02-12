@@ -614,6 +614,13 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
             final Spinner accountSp = (Spinner) dialogView.findViewById(R.id.spInfoDebtBorrowAccount);
             ImageView cancel = (ImageView) dialogView.findViewById(R.id.ivInfoDebtBorrowCancel);
             final TextView save = (TextView) dialogView.findViewById(R.id.ivInfoDebtBorrowSave);
+            if(keyForInclude.isChecked()){
+
+                is_calc.setVisibility(View.VISIBLE);
+            }
+            else {
+                is_calc.setVisibility(View.GONE);
+            }
             abbrrAmount.setText(debtBorrow.getCurrency().getAbbr());
             final List<Account> allAccounts = daoSession.loadAll(Account.class);
             final String[] accaounts = new String[allAccounts.size()];
