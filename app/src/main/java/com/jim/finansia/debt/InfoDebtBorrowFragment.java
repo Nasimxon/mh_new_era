@@ -773,10 +773,21 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
             logicManager.insertDebtBorrow(debtBorrow);
             boolean found = false;
             for (Fragment frag : paFragmentManager.getFragmentManager().getFragments()) {
-                if (frag.getClass().getName().equals(BorrowFragment.class.getName())) {
+                if (frag == null) continue;
+                if (frag instanceof BorrowFragment) {
                     BorrowFragment borrowFragment = (BorrowFragment) frag;
                     if (borrowFragment != null) {
                         borrowFragment.refreshList();
+                        found = true;
+                    }
+                }
+            }
+            for (Fragment frag : paFragmentManager.getFragmentManager().getFragments()) {
+                if (frag == null) continue;
+                if (frag instanceof DebtBorrowFragment) {
+                    DebtBorrowFragment debtBorrowFragment = (DebtBorrowFragment) frag;
+                    if (debtBorrowFragment != null) {
+                        debtBorrowFragment.updateToolbar();
                         found = true;
                     }
                 }
