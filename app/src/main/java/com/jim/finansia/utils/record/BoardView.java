@@ -566,8 +566,8 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
                 daoSession.getFinanceRecordDao().deleteInTx(deletingRecords);
                 reportManager.clearCache();
                 dataCache.updateAllPercents();
-                paFragmentManager.updateAllFragmentsPageChanges();
                 paFragmentManager.updateAllFragmentsOnViewPager();
+                paFragmentManager.updateAllFragmentsPageChanges();
                 releasePress();
                 PocketAccounter.PRESSED = false;
                 invalidate();

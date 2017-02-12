@@ -52,7 +52,7 @@ public class RecordDetailFragment extends Fragment {
 
             toolbarManager.setTitle(getResources().getString(R.string.records));
             toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
-            toolbarManager.setImageToSecondImage(R.drawable.pencil);
+            toolbarManager.setImageToSecondImage(R.drawable.ic_delete_black);
             toolbarManager.setImageToHomeButton(R.drawable.ic_back_button);
             toolbarManager.setOnHomeButtonClickListener(new OnClickListener() {
                 @Override
@@ -147,7 +147,7 @@ public class RecordDetailFragment extends Fragment {
     public void updateFragments() {
         toolbarManager.setTitle(getResources().getString(R.string.records));
         toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
-        toolbarManager.setImageToSecondImage(R.drawable.pencil);
+        toolbarManager.setImageToSecondImage(R.drawable.ic_delete_black);
         toolbarManager.setImageToHomeButton(R.drawable.ic_back_button);
         toolbarManager.setOnHomeButtonClickListener(new OnClickListener() {
             @Override

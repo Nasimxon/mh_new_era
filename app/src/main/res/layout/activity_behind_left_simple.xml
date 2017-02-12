@@ -61,13 +61,13 @@
 					/>
 			</LinearLayout>
 
-			<Button
+			<ImageView
 				android:layout_width="@dimen/thirty_dp"
 				android:layout_height="@dimen/thirty_dp"
 				android:id="@+id/btnFirebaseLogin"
                 android:layout_marginRight="@dimen/five_dp"
 				android:layout_gravity="center_vertical"
-				android:background="@drawable/ic_login_symbol"/>
+				android:src="@drawable/ic_login_symbol"/>
 		</LinearLayout>
 
 		<android.support.v7.widget.RecyclerView

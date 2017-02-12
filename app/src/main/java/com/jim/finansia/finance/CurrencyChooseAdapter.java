@@ -61,7 +61,6 @@ public class CurrencyChooseAdapter extends RecyclerView.Adapter<CurrencyChooseAd
 				CommonOperations.buttonClickCustomAnimation(0.95f,holder.mainViewForChoiser, new CommonOperations.AfterAnimationEnd() {
 					@Override
 					public void onAnimoationEnd() {
-
 						chbs[position] = isChecked;
 					}
 				});

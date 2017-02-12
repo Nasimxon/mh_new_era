@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.jim.finansia"
     android:versionCode="1"
-    android:versionName="v1.00">
+    android:versionName="v0.01-alpha">
     <uses-sdk
         android:minSdkVersion="16"
         android:targetSdkVersion="23" />

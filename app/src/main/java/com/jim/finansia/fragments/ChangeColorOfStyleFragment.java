@@ -52,8 +52,7 @@ public class ChangeColorOfStyleFragment extends Fragment {
     private BoardView boardView;
     private List<AdjustColors> colorDatas;
     private LinearLayout llBuyColorButton;
-    private TextView tvColorChooseSetText, tvColorChooseButtonPaymentAmount;
-    private ImageView ivColorChooseButtonThinStripe;
+    private TextView tvColorChooseSetText;
     private int buyButtonBgId = R.drawable.color_choose_bottom_button_border_with_bg,
                 setColorBgId = R.drawable.color_choose_bottom_button_border_no_bg;
     private String choosenThemeName;
@@ -72,8 +71,6 @@ public class ChangeColorOfStyleFragment extends Fragment {
                 PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.BLUE_THEME);
         llBuyColorButton = (LinearLayout) rootView.findViewById(R.id.llBuyColorButton);
         tvColorChooseSetText = (TextView) rootView.findViewById(R.id.tvColorChooseSetText);
-        tvColorChooseButtonPaymentAmount = (TextView) rootView.findViewById(R.id.tvColorChooseButtonPaymentAmount);
-        ivColorChooseButtonThinStripe = (ImageView) rootView.findViewById(R.id.ivColorChooseButtonThinStripe);
         rlColorChangeFragment = (RelativeLayout) rootView.findViewById(R.id.rlColorChangeFragment);
         rvColorChangeFragment = (RecyclerView) rootView.findViewById(R.id.rvColorChangeFragment);
         boardView = new BoardView(getContext(), PocketAccounterGeneral.EXPENSE, Calendar.getInstance());
@@ -147,16 +144,12 @@ public class ChangeColorOfStyleFragment extends Fragment {
         if (isActive) {
             tvColorChooseSetText.setText(getString(R.string.set_color));
             tvColorChooseSetText.setTextColor(Color.parseColor("#414141"));
-            ivColorChooseButtonThinStripe.setVisibility(View.GONE);
-            tvColorChooseButtonPaymentAmount.setVisibility(View.GONE);
             llBuyColorButton.setBackground(null);
             llBuyColorButton.setBackground(ContextCompat.getDrawable(getContext(), setColorBgId));
         }
         else {
             tvColorChooseSetText.setText(R.string.buy_color);
             tvColorChooseSetText.setTextColor(Color.WHITE);
-            ivColorChooseButtonThinStripe.setVisibility(View.VISIBLE);
-            tvColorChooseButtonPaymentAmount.setVisibility(View.VISIBLE);
             llBuyColorButton.setBackground(null);
             llBuyColorButton.setBackground(ContextCompat.getDrawable(getContext(), buyButtonBgId));
         }

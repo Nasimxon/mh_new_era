@@ -1026,8 +1026,8 @@ public class VoiceRecognizerFragment extends Fragment {
                 daoSession.getFinanceRecordDao().insertOrReplace(financeRecord);
                 reportManager.clearCache();
                 dataCache.updateAllPercents();
-                paFragmentManager.updateAllFragmentsPageChanges();
                 paFragmentManager.updateAllFragmentsOnViewPager();
+                paFragmentManager.updateAllFragmentsPageChanges();
                 timer.cancel();
                 timer = null;
                 tvSpeechModeEnteredText.setText("Entered text");

@@ -679,7 +679,7 @@
     <string-array name="home">
         <item>Repair</item>
         <item>Electric</item>
-        <item>GAZ</item>
+        <item>Natural gas</item>
         <item>Taxes</item>
         <item>Water(cold)</item>
         <item>Water(hot)</item>
@@ -884,9 +884,9 @@
     <string name="to">To: </string>
     <string name="from_email">from_email</string>
     <string name="to_email">basicstepsdevelopment@gmail.com</string>
-    <string name="rate_app_web">https://play.google.com/store/apps/details?id=com.jim.pocketaccounter</string>
+    <string name="rate_app_web">https://play.google.com/store/apps/details?id=com.jim.finansia</string>
     <string name="share_app_text">I recommend "Finansia"
-        https://play.google.com/store/apps/details?id=com.jim.pocketaccounter</string>
+        https://play.google.com/store/apps/details?id=com.jim.finansia</string>
     <string name="feedback_hint">Contact Us</string>
     <string name="feedback_subject">Subject: </string>
     <string name="feedback_content">Content: </string>
@@ -1035,14 +1035,14 @@
     <string name="report_income_expanse_aver_profit">Average profit:</string>
     <string name="please_sign">Please sign in</string>
     <string name="and_sync_your_data">for sync data</string>
-    <string name="introAppInfo">Handy app for finance accounting, debts, credits, loans!</string>
-    <string name="quickInfo">Voice input helps you in necessary case!</string>
+    <string name="introAppInfo">Handy app for finance accounting, debts, credits, loans</string>
+    <string name="quickInfo">Voice input helps you in necessary case</string>
     <string name="clear_desgn">All your finance tools in your hand</string>
     <string name="appInfoTitel">FINANSIA</string>
-    <string name="quickInfp">QUICK ACCESS</string>
-    <string name="designInfo">CLEAR DESIGN</string>
+    <string name="quickInfp">VOICE INPUT</string>
+    <string name="designInfo">DEBTS AND CREDITS</string>
     <string name="secureInfo">The application will help you to fully control the spending and income at bank cards.</string>
-    <string name="safeInfo">SYNC</string>
+    <string name="safeInfo">AUTO PARSING</string>
     <string name="flexInfo">FLEXIBLE REPORT</string>
     <string name="flexiinfo">Flexible, detailed report of your expenses and income with possibility to export in EXCEL file</string>
     <string name="cancel1">Cancel</string>
@@ -1415,10 +1415,10 @@
     <string name="sync_suc">Sync is successful</string>
     <string name="sync_failed">Sync failed</string>
     <string name="credit_are_empty">Add credit</string>
-    <string name="credit_arcive_are_empty">Archive list is empty</string>
-    <string name="sms_pars_list_empty">Message parsing list is empty</string>
+    <string name="credit_arcive_are_empty">Archive is empty</string>
+    <string name="sms_pars_list_empty">Add template</string>
     <string name="purpose_list_empty">Add purpose</string>
-    <string name="auto_op_is_empty">List is empty!</string>
+    <string name="auto_op_is_empty">Add operation</string>
     <string name="auto_operations">Auto operations</string>
     <string name="god_and_years">years</string>
     <string name="let_and_years">years</string>
@@ -1462,7 +1462,7 @@
     <string name="amount_of_payment">Amount for operation</string>
     <string name="borrow_is_empty">Add debts</string>
     <string name="debt_is_empty">Add debts</string>
-    <string name="archive_is_empty">Archive list is empty!</string>
+    <string name="archive_is_empty">Archive is empty</string>
     <string name="such_name_exists">Such name is already exist</string>
     <string name="widget">Widget</string>
     <string name="sms_not_exist">Messages is not exist</string>
@@ -1539,20 +1539,23 @@
     <string name="complete">COMPLETED</string>
 
     <string-array name="currency_1">
-        <item>доллар</item>
-        <item>долларов</item>
-        <item>долларов сша</item>
-        <item>доллар сша</item>
-        <item>зелени</item>
+        <item>dollar</item>
+        <item>dollars</item>
+        <item>usd</item>
     </string-array>
 
     <string-array name="currency_2">
-        <item>руб.</item>
-        <item>рубль</item>
-        <item>рублей</item>
+        <item>rubl</item>
+        <item>roubl</item>
+        <item>rouble</item>
+        <item>roubles</item>
     </string-array>
 
-
+    <string-array name="currency_3">
+        <item>euro</item>
+        <item>evro</item>
+        <item>euros</item>
+    </string-array>
 
     <string name="history_transfers">History of Transfer</string>
     <string name="mes">messages</string>
@@ -1568,7 +1571,7 @@
     <string name="wrong_input_type">Wrong input type</string>
     <string name="not_completed">Not completed</string>
     <string name="all_periods">All periods</string>
-    <string name="invalide_format">Invalide format</string>
+    <string name="invalide_format">Invalid format</string>
     <string name="add_the_loan_in_the_balance">Include the credit amount in the balance</string>
     <string name="ne_uchitavaetsya">Not in the balance</string>
     <string name="ammount_of_debt_include_the_balance">Include debt amount in the balance</string>
@@ -1708,7 +1711,26 @@
     <string name="returned_debt">Returned</string>
     <string name="i_returned">Returned</string>
     <string name="no_sub_cat">No subcategory</string>
-    <string name="voice_network_error">Включите интернет или установите пакет для распознования речи!</string>
+    <string name="voice_network_error">Turn on the Internet or install the package for speech recognition</string>
     <string name="franclins_cytate">If you would be wealthy, think of saving as well as getting.</string>
     <string name="credit_name">Credit product name</string>
+    <string name="select_an_amount">Select an amount</string>
+    <string name="benjamin_franklin">- Benjamin Franklin</string>
+    <string-array name="drawer_menus_icons">
+        <item>ic_home</item>
+        <item>ic_currency</item>
+        <item>ic_categories</item>
+        <item>ic_accounts</item>
+        <item>ic_purpose</item>
+        <item>ic_auto</item>
+        <item>ic_loans</item>
+        <item>ic_debt</item>
+        <item>ic_sms</item>
+        <item>ic_report</item>
+        <item>ic_themes</item>
+        <item>ic_settings</item>
+        <item>ic_rate</item>
+        <item>ic_share</item>
+        <item>ic_feedback</item>
+    </string-array>
 </resources>

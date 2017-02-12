@@ -9,6 +9,23 @@
         <item>Суббота</item>
         <item>Воскресенье</item>
     </string-array>
+    <string-array name="drawer_menu_icons">
+        <item>ic_home</item>
+        <item>ic_currency</item>
+        <item>ic_categories</item>
+        <item>ic_accounts</item>
+        <item>ic_purpose</item>
+        <item>ic_auto</item>
+        <item>ic_loans</item>
+        <item>ic_debt</item>
+        <item>ic_sms</item>
+        <item>ic_report</item>
+        <item>ic_themes</item>
+        <item>ic_settings</item>
+        <item>ic_rate</item>
+        <item>ic_share</item>
+        <item>ic_feedback</item>
+    </string-array>
     <string-array name="period_purpose">
         <item>Бессрочно</item>
         <item>В течении недели</item>
@@ -708,7 +725,7 @@
     <string-array name="home">
         <item>Ремонт</item>
         <item>Электроэнергия</item>
-        <item>ГАЗ</item>
+        <item>Природный газ</item>
         <item>Налоги</item>
         <item>Вода(хол.)</item>
         <item>Вода(гор.)</item>
@@ -913,9 +930,9 @@
     <string name="to">До: </string>
     <string name="from_email">from_email</string>
     <string name="to_email">basicstepsdevelopment@gmail.com</string>
-    <string name="rate_app_web">https://play.google.com/store/apps/details?debtBorrowsId=com.jim.pocketaccounter</string>
+    <string name="rate_app_web">https://play.google.com/store/apps/details?id=com.jim.finansia</string>
     <string name="share_app_text">Рекомендую "Finansia"
-        https://play.google.com/store/apps/details?debtBorrowsId=com.jim.pocketaccounter</string>
+        https://play.google.com/store/apps/details?id=com.jim.finansia</string>
     <string name="feedback_hint">Обратная связь</string>
     <string name="feedback_subject">Предмет: </string>
     <string name="feedback_content">Содержание: </string>
@@ -1261,6 +1278,12 @@
         <item>Редактировать</item>
         <item>Удалить</item>
     </string-array>
+    <string-array name="more_option_for_credit_debt2">
+        <item>Удалить</item>
+    </string-array>
+    <string-array name="main_bg_colors">
+        <item>#DCDDDE</item>
+    </string-array>
     <string name="choesetypeing">Выберите фото</string>
     <string name="ok_b">OK</string>
     <string name="must_be_one_currency">В системе должно быть минимум одна валюта</string>
@@ -1377,7 +1400,7 @@
     <string name="in_window_expense_top_window">Количество страниц (расходы)</string>
     <string name="in_windows_incomes_bottom_window">Количество страниц (доходы)</string>
     <string name="include_balance">Кредит учитывается в балансе, но находится в архиве</string>
-    <string name="limit_page">Limit count must be between 1 and 10</string>
+    <string name="limit_page">Выберите число между 1 и 10</string>
     <string name="minusable_account">Счет может быть отрицательным</string>
     <string name="none_minusable_account">Не отрицательный счет</string>
     <string name="pages_about">Страницы расходов и доходов</string>
@@ -1415,18 +1438,18 @@
     <string name="report_by_account_title">Отчеты</string>
     <string name="saved_money">Накопленная сумма</string>
     <string name="auto_operations">Автооперации</string>
-    <string name="auto_op_is_empty">Лист пуст!</string>
+    <string name="auto_op_is_empty">Добавьте операцию</string>
     <string name="enter_amount_operation">Введите сумму</string>
     <string name="income_expance_title">Доходы и расходы</string>
-    <string name="key_for_type">Выберите ключевое слово для определение тип операции(расход или доход):</string>
+    <string name="key_for_type">Выберите ключевое слово для определения типа операции(расход или доход):</string>
     <string name="select_word">Выберите слово</string>
-    <string name="sms_pars_list_empty">СМС Парсинг лист пуст!</string>
+    <string name="sms_pars_list_empty">Добавьте шаблон</string>
     <string name="spend">Потратить</string>
     <string name="sync_failed">Синхронизация не выполнена!</string>
     <string name="sync_suc">Синхронизация выполнена успешно</string>
     <string name="transfer_isnt_done">Нет переводов</string>
     <string name="years">год</string>
-    <string name="credit_arcive_are_empty">Список архивов пуст!</string>
+    <string name="credit_arcive_are_empty">Архив пуст</string>
     <string name="credit_are_empty">Добавьте кредит</string>
     <string name="choose_different_accounts">Выберите разные счета...</string>
     <string name="amount_operation">Сумма для операции:</string>
@@ -1459,8 +1482,8 @@
     <string name="select_category_error">Выберите категорию</string>
     <string name="illegal_name_error">Повторяющаяся операция!</string>
     <string name="amount_of_payment">Сумма для операции</string>
-    <string name="debt_is_empty">Добавить долги</string>
-    <string name="archive_is_empty">Список архивов пуст!</string>
+    <string name="debt_is_empty">Добавьте долги</string>
+    <string name="archive_is_empty">Архив пуст</string>
     <string name="borrow_is_empty">Добавьте долги</string>
     <string name="start_day">Начальная дата</string>
     <string name="such_name_exists">Такое название уже существует</string>
@@ -1492,12 +1515,12 @@
     <string name="add_plus">+ Добавить</string>
     <string name="choise_icon">Выберите иконку</string>
     <string name="main_curr">Основная валюта</string>
-    <string name="name_of_category">Name of category</string>
+    <string name="name_of_category">Имя категории</string>
     <string name="name_of_subcategory">Имя подкатегории</string>
     <string name="scet_imeet_nacalniy_sum">Счет имеет начальную сумму</string>
-    <string name="select_icon_category">Please select icon for category</string>
-    <string name="select_icons_sb">Select subcategory icon</string>
-    <string name="subcategory_empty">Subcategory name is empty</string>
+    <string name="select_icon_category">Выберите иконку категории</string>
+    <string name="select_icons_sb">Выберите иконку подкатегории</string>
+    <string name="subcategory_empty">Введите название подкатегории</string>
     <string name="to_purpose">Перевод в копилку</string>
 
     <string-array name="currency_1">
@@ -1513,7 +1536,9 @@
         <item>рубль</item>
         <item>рублей</item>
     </string-array>
-
+    <string-array name="currency_3">
+        <item>евро</item>
+    </string-array>
     <string-array name="month_abbrs">
         <item>Янв.</item>
         <item>Фев.</item>
@@ -1689,7 +1714,7 @@
     <string name="took_from">Взял долг у</string>
     <string name="returned_debt">Вернули</string>
     <string name="i_returned">Вернул</string>
-    <string name="no_sub_cat">No subcategory</string>
+    <string name="no_sub_cat">Без подкатегории</string>
     <string name="voice_network_error">Включите интернет или установите пакет для распознования речи!</string>
     <string name="franclins_cytate">Если хотите быть богатым, научитесь не только зарабатывать, но и быть экономным.</string>
     <string name="you_can_jump">Сначала погасите за предыдущий период!</string>
@@ -1700,5 +1725,7 @@
     <string name="credir_first_con">Первоначальная оплата</string>
     <string name="records_will_be_deleted">Записи будут удалены</string>
     <string name="first_con">Первоначальная сумма:</string>
+    <string name="select_an_amount">Выберите цифру</string>
+    <string name="benjamin_franklin">- Бенджамин Франклин</string>
 </resources>
 

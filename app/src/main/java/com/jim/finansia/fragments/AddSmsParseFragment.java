@@ -508,10 +508,10 @@ public class AddSmsParseFragment extends PABaseFragment{
     }
 
     private List<String> smsBodyParse(String body) {
-        String anyWordWithoutNumber = "([a-zA-Z/^*~&%@!+()$#-\\/'\"\\{`])";
-        String anyNumber = "([a-zA-Z/^*~&%@!+()$#-\\/'\"\\{`]*)([0-9]+[.,]?[0-9]*)([a-zA-Z/^*~&%@!+()$#-\\/'\"\\{`]*)";
-        String numberWordNumberWord = "([0-9]+[.,]?[0-9]*)([a-zA-Z/^*~&%@!+()$#-\\/'\"\\{`]*)([0-9]+[.,]?[0-9]*)([a-zA-Z/^*~&%@!+()$#-\\/'\"\\{`]*)";
-        String wordNumberWordNumber = "([a-zA-Z/^*~&%@!+()$#-\\/'\"\\{`]*)([0-9]+[.,]?[0-9]*)([a-zA-Z/^*~&%@!+()$#-\\/'\"\\{`]*)([0-9]+[.,]?[0-9]*)";
+        String anyWordWithoutNumber = "([a-zA-Z/^*~&%@!+()$#-\\/'\"\\{`:;])";
+        String anyNumber = "([a-zA-Z/^*~&%@!+()$#-\\/'\"\\{`:;]*)([0-9]+[.,]?[0-9]*)([a-zA-Z/^*~&%@!+()$#-\\/'\"\\{`:;]*)";
+        String numberWordNumberWord = "([0-9]+[.,]?[0-9]*)([a-zA-Z/^*~&%@!+()$#-\\/'\"\\{`:;]*)([0-9]+[.,]?[0-9]*)([a-zA-Z/^*~&%@!+()$#-\\/'\"\\{`:;]*)";
+        String wordNumberWordNumber = "([a-zA-Z/^*~&%@!+()$#-\\/'\"\\{`:;]*)([0-9]+[.,]?[0-9]*)([a-zA-Z/^*~&%@!+()$#-\\/'\"\\{`:;]*)([0-9]+[.,]?[0-9]*)";
         String[] strings = body.split(" ");
         List<String> temp = Arrays.asList(strings);
         for (String s : temp) s.replace("\n", "");

@@ -44,6 +44,9 @@ public class ToolbarManager {
         toolbar.setSubtitle(" ");
         tvToolbarTitle.setText(title);
     }
+    public ImageView getSubtitleIcon() {
+        return ivSubtitle;
+    }
     public void setSubtitle(String title) {
         toolbar.setTitle("");
         toolbar.setSubtitle("");

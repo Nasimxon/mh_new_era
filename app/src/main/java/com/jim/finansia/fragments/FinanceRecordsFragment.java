@@ -194,7 +194,7 @@ public class FinanceRecordsFragment extends Fragment implements View.OnClickList
         final FinanceRecordDetailAdapter adapter = (FinanceRecordDetailAdapter) rvRecordDetail.getAdapter();
         adapter.setMode(mode);
         if (mode == PocketAccounterGeneral.NORMAL_MODE) {
-            toolbarManager.setImageToSecondImage(R.drawable.pencil);
+            toolbarManager.setImageToSecondImage(R.drawable.ic_delete_black);
 
         } else {
             toolbarManager.setImageToSecondImage(R.drawable.ic_delete_black);

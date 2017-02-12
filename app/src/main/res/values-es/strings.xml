@@ -9,6 +9,23 @@
         <item>Sabado</item>
         <item>Domingo</item>
     </string-array>
+    <string-array name="drawer_menu_icons">
+        <item>ic_home</item>
+        <item>ic_currency</item>
+        <item>ic_categories</item>
+        <item>ic_accounts</item>
+        <item>ic_purpose</item>
+        <item>ic_auto</item>
+        <item>ic_loans</item>
+        <item>ic_debt</item>
+        <item>ic_sms</item>
+        <item>ic_report</item>
+        <item>ic_themes</item>
+        <item>ic_settings</item>
+        <item>ic_rate</item>
+        <item>ic_share</item>
+        <item>ic_feedback</item>
+    </string-array>
     <string-array name="drawer_menus">
         <item>La casa</item>
         <item>Monedas</item>
@@ -683,7 +700,7 @@
     <string-array name="home">
         <item>Reparaciones</item>
         <item>Energía elétrica</item>
-        <item>Gas</item>
+        <item>Gas natural</item>
         <item>Impuestos</item>
         <item>Agua(frío)</item>
         <item>Agua(caliente)</item>
@@ -907,7 +924,7 @@
     <string name="create">Crear</string>
     <string name="change">Reemplazar</string>
     <string name="clear">Retirar</string>
-    <string name="share_app">Share app</string>
+    <string name="share_app">Compartir aplicación</string>
     <string name="from">De: </string>
     <string name="to">A: </string>
     <string name="from_email">from_email</string>
@@ -1062,20 +1079,20 @@
     <string name="report_income_expanse_aver_profit">Beneficio promedio:</string>
     <string name="please_sign">¡Por favor regístrese!</string>
     <string name="and_sync_your_data">Para datos de sincronización</string>
-    <string name="introAppInfo">App much detail and conveniently control your daily income and expenses. For those who would like to save your budget carefully. We are happy to assist you!!</string>
-    <string name="quickInfo">Quick Access Icons will help you to save your time. Just click on the desired category, and enter your expenses or income, and the rest of the app will do for you!</string>
+    <string name="introAppInfo">Aplicación práctica para la contabilidad financiera, deudas, créditos, préstamos</string>
+    <string name="quickInfo">La entrada de voz le ayuda en caso necesario</string>
     <string name="clear_desgn">Simple, but at the same time user-friendly interface. Our goal in the design of the application is not brilliance and convenience. We have tried to do everything so that the interface was clear to all, without exception. </string>
     <string name="appInfoTitel">FINANSIA</string>
-    <string name="quickInfp">QUICK ACCESS</string>
-    <string name="designInfo">ГОЛОСОВОЙ ВВОД</string>
-    <string name="secureInfo">You can synchronize data using your Google account. On all devices, you can recover your data! The data is stored in a very secure Google servers.</string>
-    <string name="safeInfo">SYNC</string>
-    <string name="flexInfo">FLEXIBLE REPORT</string>
+    <string name="quickInfp">LA ENTRADA DE VOZ</string>
+    <string name="designInfo">DEUDAS Y CRÉDITOS</string>
+    <string name="secureInfo">Puede sincronizar datos con su cuenta de Google. En todos los dispositivos, puede recuperar sus datos! Los datos se almacenan en un servidor de Google muy seguro.</string>
+    <string name="safeInfo">ANÁLISIS AUTOMÁTICO</string>
+    <string name="flexInfo">INFORME FLEXIBLE</string>
     <string name="cancel1">Cancelar</string>
     <string name="try_later">Try again later</string>
     <string name="err_con">Connection Error</string>
-    <string name="first_sync_loging">To synchronize data, you must log in with your Google Account. You can download from any device, anywhere. You can restore all the lost data! To restore the data, go to Settings-> Google Sync-> Download Database.</string>
-    <string name="sync_message">If you are synchronized, your data will be overwritten.</string>
+    <string name="first_sync_loging">Para sincronizar datos, debe iniciar sesión con su cuenta de Google. Puede descargar desde cualquier dispositivo, en cualquier lugar. ¡Usted puede restaurar todos los datos perdidos! Para restaurar los datos, vaya a Configuración-> Google Sync-> Descargar base de datos.</string>
+    <string name="sync_message">Si está sincronizado, sus datos se sobrescribirán.</string>
     <string name="category_name_error">¡El nombre de la categoría no se ha introducido!</string>
     <string name="save_to_excel">Guardar en el archivo EXCEL</string>
     <string name="no_datas_for_show">¡No hay datos para mostrar!</string>
@@ -1097,7 +1114,7 @@
     <string name="phone_number">Número de teléfono</string>
     <string name="total_sum">Cantidad total</string>
     <string name="balance">Balance</string>
-    <string name="sync_last_data_sign_up"> Do you want to synchronize data from your account, downloaded the last time?</string>
+    <string name="sync_last_data_sign_up">¿Desea sincronizar los datos de su cuenta, descargados la última vez?</string>
     <string name="toast_error_connection"> Error de conexión. Inténtalo de nuevo más tarde.</string>
     <string name="sync_short">Sincronizar</string>
     <string name="dou_you_want_quit">¿Quieres salir?</string>
@@ -1181,7 +1198,7 @@
     <string name="please_write_your_current_password">¡Por favor, escribe tu contraseña actual!</string>
     <string name="really_dellete">¿Quiere eleminar?</string>
     <string name="repiat_yout_password">Repita la nueva contraseńa</string>
-    <string name="share_ticket">Share</string>
+    <string name="share_ticket">Compartir</string>
     <string name="try_one_more">La contraseña ingresada es incorrecta, intétalo nuevo</string>
     <string name="was_four_numbers">Tu contraseña debe consistir de 4 números</string>
     <string name="securee">Seguridad</string>
@@ -1192,6 +1209,17 @@
     <string-array name="more_option_for_credit_debt">
         <item>Editar</item>
         <item>Borrar</item>
+    </string-array>
+    <string-array name="more_option_for_credit_debt2">
+        <item>Borrar</item>
+    </string-array>
+    <string-array name="main_bg_colors">
+        <item>#DCDDDE</item>
+    </string-array>
+    <string-array name="excel_headers">
+        <item>Fecha</item>
+        <item>Ingresos</item>
+        <item>Gastos</item>
     </string-array>
     <string name="choesetypeing">Seleccióne foto</string>
     <string name="ok_b">Sí</string>
@@ -1300,7 +1328,7 @@
     <string name="debt_coment">La deuda está incluido en el balance</string>
     <string name="debt_comment_not_icluded">La deuda no está incluido en el balance, está en archivo</string>
     <string name="debt_arch">Deuda está en archivo</string>
-    <string name="debt_comment_to">This debt is not included in balance</string>
+    <string name="debt_comment_to">La deuda no está incluido en el balance, está en archivo</string>
     <string name="debt_reckings_var">Registro de la deuda</string>
     <string name="debt_var">Deuda</string>
     <string name="export_exel">Exportar a Excel</string>
@@ -1347,17 +1375,17 @@
     <string name="report_by_account_title">Informes</string>
     <string name="saved_money">Suma accumulada:</string>
     <string name="auto_operations">Auto operaciones</string>
-    <string name="auto_op_is_empty">¡La lista está vacía!</string>
+    <string name="auto_op_is_empty">Añadir una operación</string>
     <string name="enter_amount_operation">Entre cantidad</string>
     <string name="income_expance_title">Ingresos y gastos</string>
     <string name="key_for_type">Seleccione palabra clave para tipo de definición(ingreso o gasto):</string>
     <string name="select_word">Seleccione una palabra</string>
-    <string name="sms_pars_list_empty">Lista de sms análisis está vacío</string>
+    <string name="sms_pars_list_empty">Añadir uno modelo</string>
     <string name="spend">Gastar</string>
     <string name="sync_failed">Error de sincronización</string>
     <string name="sync_suc">La sincronización es correcta</string>
     <string name="transfer_isnt_done">¡Transferencia fallida!</string>
-    <string name="credit_arcive_are_empty">Lista de archivo está vacía</string>
+    <string name="credit_arcive_are_empty">De archivo está vacía</string>
     <string name="credit_are_empty">Añadir crédito</string>
     <string name="choose_different_accounts">Seleccione cuentas de diferencia</string>
     <string name="amount_operation">Cuenta para operacion:</string>
@@ -1391,8 +1419,8 @@
     <string name="select_category_error">Seleccione categoría</string>
     <string name="illegal_name_error">¡Operación repitiendo!</string>
     <string name="amount_of_payment">Suma para operación</string>
-    <string name="debt_is_empty">Añadir deudos</string>
-    <string name="archive_is_empty">Lista de archivos está vacía!</string>
+    <string name="debt_is_empty">La deuda no está incluido en el balance</string>
+    <string name="archive_is_empty">De archivos está vacía</string>
     <string name="borrow_is_empty">Añadir deudo</string>
     <string name="start_day">Fecho de inicio</string>
     <string name="such_name_exists">¡Tal nombre ya existe!</string>
@@ -1479,6 +1507,13 @@
         <item>rouble</item>
         <item>rublo</item>
     </string-array>
+
+    <string-array name="currency_3">
+        <item>euro</item>
+        <item>evro</item>
+        <item>euros</item>
+    </string-array>
+
     <string name="transfer_to_another_acc">Transferir a otra cuenta</string>
     <string name="six">seis</string>
     <string name="decimal">punto</string>
@@ -1539,9 +1574,9 @@
     <string name="two">dos</string>
     <string name="zero">cero</string>
     <string name="amount">Cantidad</string>
-    <string name="took_from">Took from</string>
-    <string name="voice_network_error">Включите интернет или установите пакет для распознования речи!</string>
-    <string name="franclins_cytate">Если хотите быть богатым, научитесь не только зарабатывать, но и быть экономным.</string>
+    <string name="took_from">Tomado de</string>
+    <string name="voice_network_error">¡Encienda el Internet o instale el paquete para el reconocimiento de voz!</string>
+    <string name="franclins_cytate">Si quieres ser rico, se aprende a no sólo ganar, sino también ser económico.</string>
     <string name="za_period">En el periodo:</string>
     <string name="you_have_debt">Deuda por período</string>
     <string name="you_can_jump">Primero pague por el período anterior!</string>
@@ -1591,7 +1626,7 @@
     <string name="enter_pay_value">Entra la cantidad de pago</string>
     <string name="enter_phone_number">Entre el número de teléfono o el título de sms</string>
     <string name="enter_takendate_error">Seleccione fecha de inicio</string>
-    <string name="even_about_total">* The even total payment schedule is comprised of a decreasing interest payment and an increasing principal payment. The decrease in the size of the interest payment is matched by an increase in the size of the principal payment so that the size of the total loan payment remains constant over the life of the loan.</string>
+    <string name="even_about_total">* El calendario de pagos iguales se compone de un pago de intereses decreciente y un pago de capital cada vez mayor. La disminución en el tamaño del pago de intereses se corresponde con un aumento en el tamaño del pago del principal de modo que el tamaño del pago total del préstamo permanece constante durante la vida del préstamo.</string>
     <string name="even_total">Incluso los pagos totales</string>
     <string name="first_con">Primera contribución</string>
     <string name="first_enter_period">¡Introduzca el plazo de crédito!</string>
@@ -1611,7 +1646,7 @@
     <string name="info_monthly_state_report">Gráfico de estado mensual de ingresos o gastos e información general de cada mes</string>
     <string name="interest">Interes</string>
     <string name="interval">Periodo</string>
-    <string name="invalide_format">Formato inválido</string>
+    <string name="invalide_format">Formato incorrecto</string>
     <string name="left">Residuo</string>
     <string name="left_date">Salido:</string>
     <string name="left_date_debts">Salido(año, mes, día):</string>
@@ -1662,7 +1697,7 @@
     <string name="residue1">Residuo</string>
     <string name="return_deadline">Fecha de regroso</string>
     <string name="returned_debt">Devuelto</string>
-    <string name="schedule">SCHEDULE</string>
+    <string name="schedule">HORARIO</string>
     <string name="sender1">Remitente</string>
     <string name="set_to_main">Establecer en principal</string>
     <string name="sms">Mensaje</string>
@@ -1675,7 +1710,7 @@
     <string name="to_archive">A archivo</string>
     <string name="to_edit">Editar</string>
     <string name="to_jump">Primero pague por el período anterior!</string>
-    <string name="toritus">This system of credit registration, very flexible. Credit conditions may be different, in this regard, you can customize the application to fit your requirements.</string>
+    <string name="toritus">Este sistema de registro de crédito, muy flexible. Las condiciones de crédito pueden ser diferentes, en este sentido, puede personalizar la aplicación para que se adapte a sus necesidades.</string>
     <string name="total_expense">Gasto total</string>
     <string name="total_income">Ingresos totales</string>
     <string name="total_payed">Total pagado:</string>
@@ -1689,5 +1724,7 @@
     <string name="widget_settings">Configuración del widget</string>
     <string name="with_interest">Con interés</string>
     <string name="with_out_comment">Sin comentarios</string>
-    <string name="with_the_even_principal">* With the even principal payment schedule, the size of the principal payment is the same for every payment. It is computed by dividing the amount of the original loan by the number of payments</string>
+    <string name="with_the_even_principal">* Con el calendario de pago de principal uniforme, el tamaño del pago del principal es el mismo para cada pago. Se calcula dividiendo el monto del préstamo original por el número de pagos</string>
+    <string name="select_an_amount">Seleccione una cantidad</string>
+    <string name="benjamin_franklin">- Benjamin Franklin</string>
 </resources>

@@ -179,8 +179,8 @@ public class PocketAccounter extends AppCompatActivity {
                 if (s != null) {
                     paFragmentManager.updateAllFragmentsOnViewPager();
                     paFragmentManager.updateTemplatesInVoiceRecognitionFragment();
-                    paFragmentManager.updateAllFragmentsPageChanges();
                     paFragmentManager.updateSmsFragmentChanges();
+                    paFragmentManager.updateAllFragmentsPageChanges();
                 }
             }
         };

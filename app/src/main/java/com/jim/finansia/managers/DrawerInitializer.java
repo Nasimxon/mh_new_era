@@ -26,6 +26,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -124,14 +125,13 @@ public class DrawerInitializer {
 
             }
         }
-        Button fabIcon = (Button) pocketAccounter.findViewById(R.id.btnFirebaseLogin);
+        final ImageView fabIcon = (ImageView) pocketAccounter.findViewById(R.id.btnFirebaseLogin);
 //        fabIconFrame = (ImageView) pocketAccounter.findViewById(R.id.iconFrameForAnim);
 
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-//            fabIconFrame.setBackgroundResource(R.drawable.cloud_anim);
-//            mAnimationDrawable = (AnimationDrawable) fabIconFrame.getBackground();
+            fabIcon.setImageResource(R.drawable.savebutdisable);
         } else
-//            fabIconFrame.setBackgroundResource(R.drawable.cloud_sign_in);
+            fabIcon.setImageResource(R.drawable.ic_login_symbol);
 
         reg = new SignInGoogleMoneyHold(pocketAccounter, new SignInGoogleMoneyHold.UpdateSucsess() {
             @Override
@@ -156,8 +156,7 @@ public class DrawerInitializer {
                         public void onSuccses(final long inFormat) {
                             hideProgressDialog();
                             Date datee = new Date();
-//                            fabIconFrame.setBackgroundResource(R.drawable.cloud_anim);
-//                            mAnimationDrawable = (AnimationDrawable) fabIconFrame.getBackground();
+                            fabIcon.setImageResource(R.drawable.savebut);
                             datee.setTime(inFormat);
                             final android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(pocketAccounter);
                             builder.setMessage(pocketAccounter.getString(R.string.sync_last_data_sign_up) + (new SimpleDateFormat("dd.MM.yyyy kk:mm")).format(datee))
@@ -171,7 +170,7 @@ public class DrawerInitializer {
                                                         @Override
                                                         public void run() {
                                                             hideProgressDialog();
-//                                                            fragmentManager.initialize(new GregorianCalendar());
+                                                          fabIcon.setImageResource(R.drawable.savebutdisable);
                                                             if (!drawer.isClosed()) {
                                                                 drawer.close();
                                                             }
@@ -182,11 +181,15 @@ public class DrawerInitializer {
                                                 @Override
                                                 public void onFailed(String e) {
                                                     hideProgressDialog();
+                                                    fabIcon.setImageResource(R.drawable.savebutdisable);
+                                                    Toast.makeText(pocketAccounter,R.string.connection_faild,Toast.LENGTH_SHORT).show();
+
                                                 }
                                             });
                                         }
                                     }).setNegativeButton(pocketAccounter.getString(R.string.no), new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
+                                    fabIcon.setImageResource(R.drawable.savebutdisable);
                                     hideProgressDialog();
                                     dialog.cancel();
 
@@ -204,9 +207,8 @@ public class DrawerInitializer {
                         @Override
                         public void onFailed(Exception e) {
                             hideProgressDialog();
-//                            fabIconFrame.setBackgroundResource(R.drawable.cloud_anim);
-//                            mAnimationDrawable = (AnimationDrawable) fabIconFrame.getBackground();
-
+                            fabIcon.setImageResource(R.drawable.savebutdisable);
+                            Toast.makeText(pocketAccounter,R.string.connection_faild,Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -232,35 +234,17 @@ public class DrawerInitializer {
                             builder.setMessage(R.string.sync_message)
                                     .setPositiveButton(R.string.sync_short, new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int id) {
-//                                            mAnimationDrawable.start();
+                                            fabIcon.setImageResource(R.drawable.savebut);
                                             mySync.uploadBASE(userim.getUid(), new SyncBase.ChangeStateLis() {
                                                 @Override
                                                 public void onSuccses() {
-//                                                    mAnimationDrawable.stop();
-//                                                    fabIconFrame.setBackgroundResource(R.drawable.cloud_sucsess);
-                                                    (new Handler()).postDelayed(new Runnable() {
-                                                        @Override
-                                                        public void run() {
-
-//                                                            fabIconFrame.setBackgroundResource(R.drawable.cloud_anim);
-//                                                            mAnimationDrawable = (AnimationDrawable) fabIconFrame.getBackground();
-
-                                                        }
-                                                    }, 2000);
+                                                   fabIcon.setImageResource(R.drawable.savebutdisable);
                                                 }
 
                                                 @Override
                                                 public void onFailed(String e) {
-//                                                    mAnimationDrawable.stop();
-//                                                    fabIconFrame.setBackgroundResource(R.drawable.cloud_error);
-                                                    (new Handler()).postDelayed(new Runnable() {
-                                                        @Override
-                                                        public void run() {
-//                                                            fabIconFrame.setBackgroundResource(R.drawable.cloud_anim);
-//                                                            mAnimationDrawable = (AnimationDrawable) fabIconFrame.getBackground();
-
-                                                        }
-                                                    }, 2000);
+                                                    fabIcon.setImageResource(R.drawable.savebutdisable);
+                                                    Toast.makeText(pocketAccounter,R.string.connection_faild,Toast.LENGTH_SHORT).show();
                                                 }
                                             });
 

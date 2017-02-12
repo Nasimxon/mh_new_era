@@ -3,8 +3,10 @@ package com.jim.finansia.fragments;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -12,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -62,6 +65,7 @@ public class MainPageFragment extends Fragment {
     @Inject @Named(value = "end") Calendar end;
     @Inject SharedPreferences preferences;
     @Inject FinansiaFirebaseAnalytics analytics;
+    private boolean isCurrentDay = false;
     private boolean infosVisibility;
     @Override
     public void onStart() {
@@ -77,6 +81,8 @@ public class MainPageFragment extends Fragment {
         if (getArguments() != null) {
             try {
                 SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+                Calendar current = Calendar.getInstance();
+                isCurrentDay = getArguments().getString(MainFragment.DATE).equals(format.format(current.getTime()));
                 day.setTime(format.parse(getArguments().getString(MainFragment.DATE)));
                 position = getArguments().getInt(MainFragment.POSITION);
             } catch (ParseException e) {
@@ -317,6 +323,16 @@ public class MainPageFragment extends Fragment {
         }
         lockView.setPage(expenseView.getCurrentPage()+1);
         toolbarManager.setSubtitle(simpleDateFormat.format(day.getTime()));
+        if (isCurrentDay) {
+            ImageView icon = toolbarManager.getSubtitleIcon();
+            if (icon != null)
+                icon.setColorFilter(ContextCompat.getColor(getContext(),R.color.red));
+        }
+        else {
+            ImageView icon = toolbarManager.getSubtitleIcon();
+            if (icon != null)
+                icon.setColorFilter(ContextCompat.getColor(getContext(),R.color.black_for_myagkiy_glavniy));
+        }
         balanceStripe.calculateBalance();
         incomeView.updateText();
         expenseView.updateText();
