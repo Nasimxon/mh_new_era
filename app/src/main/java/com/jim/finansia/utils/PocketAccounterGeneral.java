@@ -56,6 +56,15 @@ public class PocketAccounterGeneral {
 		public static final String ADD_REPLACE_FUNCTION_ON_MAIN_BOARD_SKU = BuildConfig.add_replace_function_on_main_board_sku;
 		public static final String ADD_REPLACE_PAGE_ON_MAIN_BOARD_SKU = BuildConfig.add_replace_page_on_main_board_sku;
 		public static final String VOICE_RECOGNITION_SKU = BuildConfig.voice_recognition_sku;
+		public static final String BLUE_THEME_SKU = BuildConfig.BLUE_THEME_SKU;
+		public static final String FIOLA_THEME_SKU = BuildConfig.FIOLA_THEME_SKU;
+		public static final String YELLOW_THEME_SKU = BuildConfig.YELLOW_THEME_SKU;
+		public static final String DARK_BLUE_SKU = BuildConfig.DARK_BLUE_SKU;
+		public static final String LIGHT_BLUE_SKU = BuildConfig.LIGHT_BLUE_SKU;
+		public static final String RED_LIPS_SKU = BuildConfig.RED_LIPS_SKU;
+		public static final String GREEN_THEME_SKU = BuildConfig.GREEN_THEME_SKU;
+		public static final String ORANGE_THEME_SKU = BuildConfig.ORANGE_THEME_SKU;
+		public static final String LIGHT_YELLOW_SKU = BuildConfig.LIGHT_YELLOW_SKU;
 		public class SkuPreferenceKeys {
 			public static final String SMS_PARSING_COUNT_KEY = BuildConfig.SMS_PARSING_COUNT_KEY;
 			public static final String DEBT_BORROW_COUNT_KEY = BuildConfig.DEBT_BORROW_COUNT_KEY;
@@ -77,9 +86,15 @@ public class PocketAccounterGeneral {
 			public static final String IS_AVAILABLE_CHANGING_OF_PAGE = BuildConfig.IS_AVAILABLE_CHANGING_OF_PAGE;
 			public static final String VOICE_RECOGNITION_KEY = BuildConfig.VOICE_RECOGNITION_KEY;
 			public static final String VOICE_RECOGNITION_COUNT = BuildConfig.VOICE_RECOGNITION_COUNT;
-			public static final String BLUE_THEME = BuildConfig.BLUE_THEME;
-			public static final String FIOLA_THEME = BuildConfig.FIOLA_THEME;
-			public static final String YELLOW_THEME = BuildConfig.YELLOW_THEME;
+			public static final String BLUE_THEME = "BlueTheme";
+			public static final String FIOLA_THEME = "FiolaTheme";
+			public static final String YELLOW_THEME = "YellowTheme";
+			public static final String DARK_BLUE = "DarkBlue";
+			public static final String LIGHT_BLUE = "LightBlue";
+			public static final String RED_LIPS = "RedLips";
+			public static final String GREEN_THEME = "GreenTheme";
+			public static final String ORANGE_THEME = "OrangeTheme";
+			public static final String LIGHT_YELLOW = "LightYellow";
 		}
 	}
 }

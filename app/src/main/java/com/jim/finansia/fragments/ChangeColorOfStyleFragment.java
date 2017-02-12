@@ -22,7 +22,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.jim.finansia.BuildConfig;
 import com.jim.finansia.PocketAccounter;
 import com.jim.finansia.PocketAccounterApplication;
 import com.jim.finansia.R;
@@ -40,7 +39,16 @@ import java.util.List;
 import javax.inject.Inject;
 
 public class ChangeColorOfStyleFragment extends Fragment {
-    private String[] colors = {BuildConfig.BLUE_THEME, BuildConfig.YELLOW_THEME, BuildConfig.FIOLA_THEME };
+    private String[] colors = {PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.BLUE_THEME,
+                                PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.YELLOW_THEME,
+                                PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.FIOLA_THEME,
+                                PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.DARK_BLUE,
+                                PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.LIGHT_BLUE,
+                                PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.RED_LIPS,
+                                PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.GREEN_THEME,
+                                PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.ORANGE_THEME,
+                                PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.LIGHT_YELLOW
+    };
     private RelativeLayout rlColorChangeFragment;
     private RecyclerView rvColorChangeFragment;
     private int selectedColorPos = 0;
@@ -140,7 +148,7 @@ public class ChangeColorOfStyleFragment extends Fragment {
     }
 
     private void defineMode() {
-        boolean isActive = preferences.getBoolean(choosenThemeName, choosenThemeName.equals(BuildConfig.BLUE_THEME));
+        boolean isActive = preferences.getBoolean(choosenThemeName, choosenThemeName.equals(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.BLUE_THEME));
         if (isActive) {
             tvColorChooseSetText.setText(getString(R.string.set_color));
             tvColorChooseSetText.setTextColor(Color.parseColor("#414141"));
@@ -220,8 +228,6 @@ public class ChangeColorOfStyleFragment extends Fragment {
         }
     }
 
-
-
     public class ViewHolder extends RecyclerView.ViewHolder {
         RelativeLayout rlChangingColorItem;
         View view;
@@ -268,7 +274,7 @@ public class ChangeColorOfStyleFragment extends Fragment {
             TypedArray ta2 = getContext().obtainStyledAttributes(id, new int[] {R.attr.customStatusBarColor});
             statusbarColor = ta2.getColor(0, Color.BLACK);
             ta2.recycle();
-            boolean defaultAvailable = themeName.equals(BuildConfig.BLUE_THEME);
+            boolean defaultAvailable = themeName.equals(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.BLUE_THEME);
             isAvailable = preferences.getBoolean(themeName, defaultAvailable);
         }
         public boolean isAvailable() {

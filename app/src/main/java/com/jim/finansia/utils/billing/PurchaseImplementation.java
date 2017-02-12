@@ -289,17 +289,59 @@ public class PurchaseImplementation {
                         return;
                     }
                     break;
-                case PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.YELLOW_THEME:
+                case PocketAccounterGeneral.MoneyHolderSkus.YELLOW_THEME_SKU:
                     preferences
                             .edit()
                             .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.YELLOW_THEME, true)
                             .commit();
                     paFragmentManager.displayFragment(new ChangeColorOfStyleFragment());
                     break;
-                case PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.FIOLA_THEME:
+                case PocketAccounterGeneral.MoneyHolderSkus.FIOLA_THEME_SKU:
                     preferences
                             .edit()
                             .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.FIOLA_THEME, true)
+                            .commit();
+                    paFragmentManager.displayFragment(new ChangeColorOfStyleFragment());
+                    break;
+                case PocketAccounterGeneral.MoneyHolderSkus.DARK_BLUE_SKU:
+                    preferences
+                            .edit()
+                            .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.DARK_BLUE, true)
+                            .commit();
+                    paFragmentManager.displayFragment(new ChangeColorOfStyleFragment());
+                    break;
+                case PocketAccounterGeneral.MoneyHolderSkus.LIGHT_BLUE_SKU:
+                    preferences
+                            .edit()
+                            .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.LIGHT_BLUE, true)
+                            .commit();
+                    paFragmentManager.displayFragment(new ChangeColorOfStyleFragment());
+                    break;
+                case PocketAccounterGeneral.MoneyHolderSkus.RED_LIPS_SKU:
+                    preferences
+                            .edit()
+                            .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.RED_LIPS, true)
+                            .commit();
+                    paFragmentManager.displayFragment(new ChangeColorOfStyleFragment());
+                    break;
+                case PocketAccounterGeneral.MoneyHolderSkus.GREEN_THEME_SKU:
+                    preferences
+                            .edit()
+                            .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.GREEN_THEME, true)
+                            .commit();
+                    paFragmentManager.displayFragment(new ChangeColorOfStyleFragment());
+                    break;
+                case PocketAccounterGeneral.MoneyHolderSkus.ORANGE_THEME_SKU:
+                    preferences
+                            .edit()
+                            .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.ORANGE_THEME, true)
+                            .commit();
+                    paFragmentManager.displayFragment(new ChangeColorOfStyleFragment());
+                    break;
+                case PocketAccounterGeneral.MoneyHolderSkus.LIGHT_YELLOW_SKU:
+                    preferences
+                            .edit()
+                            .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.LIGHT_YELLOW, true)
                             .commit();
                     paFragmentManager.displayFragment(new ChangeColorOfStyleFragment());
                     break;

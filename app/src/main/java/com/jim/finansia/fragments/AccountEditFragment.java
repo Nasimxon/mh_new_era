@@ -217,7 +217,7 @@ public class AccountEditFragment extends PABaseInfoFragment implements OnClickLi
                     account = this.account;
                 account.setName(etAccountEditName.getText().toString());
 
-                if (!etStartMoney.getText().toString().matches("")) {
+                if (chbAccountStartSumEnabled.isChecked() && !etStartMoney.getText().toString().matches("")) {
                     try {
                         Double.parseDouble(etStartMoney.getText().toString());
                         etStartMoney.setError(null);
@@ -289,6 +289,7 @@ public class AccountEditFragment extends PABaseInfoFragment implements OnClickLi
                 reportManager.refreshDatas();
                 dataCache.updateAllPercents();
                 paFragmentManager.updateAllFragmentsPageChanges();
+                paFragmentManager.updateVoiceRecognizePageCurrencyChanges();
                 paFragmentManager.updateTemplatesInVoiceRecognitionFragment();
                 break;
         }
