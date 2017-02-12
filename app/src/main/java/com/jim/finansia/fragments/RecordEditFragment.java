@@ -180,9 +180,12 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
                 String categoryId = getArguments().getString(RecordDetailFragment.CATEGORY_ID);
                 if (categoryId != null)
                     cameCategory = daoSession.load(RootCategory.class, categoryId);
+
                 String recordId = getArguments().getString(RecordDetailFragment.RECORD_ID);
-                if (recordId != null)
+                if (recordId != null) {
                     record = daoSession.load(FinanceRecord.class, recordId);
+
+                }
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -368,6 +371,7 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
         ivClear = (ImageView) mainView.findViewById(R.id.ivClear);
         ivBackspaceSign = (ImageView) mainView.findViewById(R.id.ivBackspaceSign);
         choosePhoto = (ImageView) mainView.findViewById(R.id.choose_photo);
+
         final List<Currency> currencyList = daoSession.getCurrencyDao().loadAll();
         final ArrayList currencies = new ArrayList();
         final ArrayList currenciesName = new ArrayList();
@@ -432,6 +436,10 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
             tvRecordEditDisplay.setText(decimalFormat.format(record.getAmount()));
             myTickets = (ArrayList<PhotoDetails>) record.getAllTickets()/*.clone()*/;
             myTicketsFromBackRoll = (ArrayList<PhotoDetails>) myTickets.clone();
+            if(record.getAccount()!=null){
+                int resId22 = getResources().getIdentifier(record.getAccount().getIcon(), "drawable", getContext().getPackageName());
+                ivAccountIcon.setImageResource(resId22);
+                tvAccountName.setText(record.getAccount().getName());}
             if (record.getComment() != null && !record.getComment().matches("")) {
                 oraliqComment = record.getComment();
                 comment.setText(oraliqComment);

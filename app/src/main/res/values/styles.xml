@@ -188,7 +188,46 @@
         <item name="android:popupMenuStyle">@style/PopupMenu</item>
         <item name="android:actionBarSize">@dimen/sixty_dp</item>
     </style>
+    <style name="OrangeTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="headColor">#e9d2cb</item>
 
+        <item name="customStatusBarColor">#d6bcb4</item>
+        <item name="colorPrimaryDark">#d6bcb4</item>
+        <item name="colorPrimary">#d6bcb4</item>
+
+
+        <item name="headAccedent">#d26544</item>
+        <item name="colorAccent">#d26544</item>
+        <item name="colorControlActivated">#d26544</item>
+
+        <item name="android:typeface">serif</item>
+        <item name="colorControlNormal">@color/forlines</item>
+        <item name="colorControlHighlight">@color/forlines</item>
+        <item name="android:preferenceCategoryStyle">@style/PreferenceCategoryStyle</item>
+        <item name="android:popupMenuStyle">@style/PopupMenu</item>
+        <item name="android:actionBarSize">@dimen/sixty_dp</item>
+    </style>
+    <style name="LightYellow" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="headColor">#ebe9d4</item>
+
+        <item name="customStatusBarColor">#dddaba</item>
+        <item name="colorPrimaryDark">#dddaba</item>
+        <item name="colorPrimary">#dddaba</item>
+
+
+        <item name="headAccedent">#d2c643</item>
+        <item name="colorAccent">#d2c643</item>
+        <item name="colorControlActivated">#d2c643</item>
+
+        <item name="android:typeface">serif</item>
+        <item name="colorControlNormal">@color/forlines</item>
+        <item name="colorControlHighlight">@color/forlines</item>
+        <item name="android:preferenceCategoryStyle">@style/PreferenceCategoryStyle</item>
+        <item name="android:popupMenuStyle">@style/PopupMenu</item>
+        <item name="android:actionBarSize">@dimen/sixty_dp</item>
+    </style>
     <style name="ThemeWithCorners" parent="android:Theme.Dialog">
         <item name="android:windowBackground">@drawable/dialog_shape</item>
     </style>
