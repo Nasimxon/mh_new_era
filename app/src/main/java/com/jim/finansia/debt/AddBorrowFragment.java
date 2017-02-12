@@ -501,6 +501,7 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
             currentDebtBorrow.setTakenDate(takenDate);
             currentDebtBorrow.__setDaoSession(daoSession);
             if (scDebtBorrowCalculation.isChecked() && !isLimiteAccess()) {
+                Toast.makeText(getContext(), "Сумма превышает лимит счета", Toast.LENGTH_SHORT).show();
                 return;
             } else {
                 logicManager.insertPerson(currentDebtBorrow.getPerson());
@@ -517,9 +518,11 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
                     account,
                     currency,
                     Double.parseDouble(etDebtSum.getText().toString()),
-                    type, scDebtBorrowCalculation.isChecked()
+                    type,
+                    scDebtBorrowCalculation.isChecked()
             );
             if (scDebtBorrowCalculation.isChecked() && !isLimiteAccess()) {
+                Toast.makeText(getContext(), "Сумма превышает лимит счета", Toast.LENGTH_SHORT).show();
                 return;
             } else {
                 logicManager.insertDebtBorrow(currentDebtBorrow);
@@ -571,9 +574,9 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
             reportManager.clearCache();
             dataCache.updateAllPercents();
             paFragmentManager.updateAllFragmentsPageChanges();
-            paFragmentManager.updateSmsFragmentChanges();
             for (Fragment fragment : paFragmentManager.getFragmentManager().getFragments()) {
-                if (fragment.getClass().getName().equals(BorrowFragment.class.getName())) {
+                if (fragment == null) continue;
+                if (fragment instanceof  BorrowFragment) {
                     BorrowFragment borrowFragment = (BorrowFragment) fragment;
                     if (borrowFragment != null)
                         borrowFragment.refreshList();
@@ -592,6 +595,7 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
                         }
                     }
                     if (fragment instanceof DebtBorrowFragment) {
+                        if (fragment == null) continue;
                         DebtBorrowFragment borrowFragment = (DebtBorrowFragment) fragment;
                         if (borrowFragment != null) {
                             borrowFragment.updateToolbar();

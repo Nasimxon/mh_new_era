@@ -97,9 +97,10 @@ public class DebtBorrowFragment extends Fragment implements View.OnClickListener
             toolbarManager.setTitle(getResources().getString(R.string.debts_title));
             toolbarManager.setSubtitle("");
             toolbarManager.setOnTitleClickListener(null);
+            toolbarManager.setOnSecondImageClickListener(null);
+            toolbarManager.setOnFirstImageClickListener(null);
             toolbarManager.setSubtitleIconVisibility(View.GONE);
             toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
-
         }
     }
 

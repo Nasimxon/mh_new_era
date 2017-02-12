@@ -184,6 +184,12 @@ public class RecordDetailFragment extends Fragment {
                     f.refreshList();
             }
         }
+        if (tabLayout != null) {
+            if (tabLayout.getCurrentPosition() == 0)
+                toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.VISIBLE);
+            else
+                toolbarManager.setToolbarIconsVisibility(View.GONE, View.GONE, View.GONE);
+        }
     }
 
     //we need the outState to save the position
