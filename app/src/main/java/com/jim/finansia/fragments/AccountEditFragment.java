@@ -127,15 +127,6 @@ public class AccountEditFragment extends PABaseInfoFragment implements OnClickLi
             }
         });
         chbAccountEnabledLimit = (SwitchCompat) rootView.findViewById(R.id.chbAccountEnabledLimit); // for enabling and disabling account limit
-        chbAccountEnabledLimit.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked)
-                    rlStartLimitContainer.setVisibility(View.VISIBLE);
-                else
-                    rlStartLimitContainer.setVisibility(View.GONE);
-            }
-        });
         rlStartSumContainer = (RelativeLayout) rootView.findViewById(R.id.rlStartSumContainer);
         rlStartSumContainer.setVisibility(View.GONE);
         etStartMoney = (EditText) rootView.findViewById(R.id.etStartMoney); // start money amount
@@ -154,16 +145,38 @@ public class AccountEditFragment extends PABaseInfoFragment implements OnClickLi
         });
 
 
+        chbAccountNoneZero = (SwitchCompat) rootView.findViewById(R.id.noneZeroAccount); // none minus account's checkbox
         rootView.findViewById(R.id.turnOnLimit).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 chbAccountEnabledLimit.toggle();
+                if (chbAccountEnabledLimit.isChecked())
+                {
+                    chbAccountNoneZero.setEnabled(false);
+                    chbAccountNoneZero.setChecked(false);
+                }
+                else chbAccountNoneZero.setEnabled(true);
             }
         });
-        chbAccountNoneZero = (SwitchCompat) rootView.findViewById(R.id.noneZeroAccount); // none minus account's checkbox
+        chbAccountEnabledLimit.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked)
+                {
+                    chbAccountNoneZero.setEnabled(false);
+                    chbAccountNoneZero.setChecked(false);
+                }
+                else chbAccountNoneZero.setEnabled(true);
+                if (isChecked)
+                    rlStartLimitContainer.setVisibility(View.VISIBLE);
+                else
+                    rlStartLimitContainer.setVisibility(View.GONE);
+            }
+        });
         rootView.findViewById(R.id.rlLimitContainer).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!chbAccountEnabledLimit.isChecked())
                 chbAccountNoneZero.toggle();
             }
         });
