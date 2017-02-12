@@ -48,6 +48,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.jim.finansia.PocketAccounter;
 import com.jim.finansia.R;
 import com.jim.finansia.database.Account;
 import com.jim.finansia.database.CreditDetials;
@@ -497,13 +498,26 @@ public class CalcActivity extends AppCompatActivity implements View.OnClickListe
                                     }
                                 } else if (which == 1) {
                                     Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                                    if (takePictureIntent.resolveActivity(CalcActivity.this.getPackageManager()) != null) {
-
-                                        File f = new File(CalcActivity.this.getExternalFilesDir(null), "temp.jpg");
-
-                                        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
-                                        startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-
+                                    if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                                        if (ContextCompat.checkSelfPermission(CalcActivity.this,
+                                                android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                                                != PackageManager.PERMISSION_GRANTED) {
+                                            if (ActivityCompat.shouldShowRequestPermissionRationale(CalcActivity.this,
+                                                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                                                ActivityCompat.requestPermissions( CalcActivity.this,
+                                                        new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                                        MY_PERMISSIONS_REQUEST_CAMERA);
+                                            } else {
+                                                ActivityCompat.requestPermissions(CalcActivity.this,
+                                                        new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                                        MY_PERMISSIONS_REQUEST_CAMERA);
+                                            }
+                                        } else {
+                                            File f = new File(getExternalFilesDir(null), "temp.jpg");
+                                            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
+                                            PocketAccounter.openActivity = true;
+                                            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                                        }
                                     }
 
 

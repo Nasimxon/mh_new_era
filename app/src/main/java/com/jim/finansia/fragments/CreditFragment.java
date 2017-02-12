@@ -541,6 +541,10 @@ public class CreditFragment extends Fragment {
             final RelativeLayout is_calc = (RelativeLayout) dialogView.findViewById(R.id.is_calc);
             final SwitchCompat keyForInclude = (SwitchCompat) dialogView.findViewById(R.id.key_for_balance);
             final Spinner accountSp = (Spinner) dialogView.findViewById(R.id.spInfoDebtBorrowAccount);
+            if(current!=null){
+                if(current.getKey_for_include())
+                keyForInclude.toggle();
+            }
             if(hozirgi){
                 periodDate.setText(sDateFormat.format(currentPeriodi.getDate().getTime()));
                 if(formater.format(currentPeriodi.getPaymentSum() - currentPeriodi.getPayed()).equals("0")|| currentPeriodi.getPaymentSum() - currentPeriodi.getPayed()<= 0){

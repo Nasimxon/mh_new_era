@@ -690,7 +690,10 @@ public class InfoCreditFragment extends Fragment {
         final RelativeLayout checkInclude = (RelativeLayout) dialogView.findViewById(R.id.checkInclude);
         final RelativeLayout is_calc = (RelativeLayout) dialogView.findViewById(R.id.is_calc);
         final SwitchCompat keyForInclude = (SwitchCompat) dialogView.findViewById(R.id.key_for_balance);
-
+        if(currentCredit!=null){
+            if(currentCredit.getKey_for_include())
+                keyForInclude.toggle();
+        }
         final Spinner accountSp = (Spinner) dialogView.findViewById(R.id.spInfoDebtBorrowAccount);
         if(hozirgi){
             periodDate.setText(sDateFormat.format(currentPeriodi.getDate().getTime()));
