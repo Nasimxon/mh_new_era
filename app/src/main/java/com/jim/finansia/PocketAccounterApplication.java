@@ -42,39 +42,6 @@ public class PocketAccounterApplication extends Application {
         if (!(new File(oldDbPath).exists()) && !sharedPreferences.getBoolean(PocketAccounterGeneral.DB_ONCREATE_ENTER, false)) {
                 CommonOperations.createDefaultDatas(sharedPreferences, getApplicationContext(), daoSession);
         }
-        fullBought();
-    }
-    private void fullBought() {
-        sharedPreferences
-                .edit()
-                .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.IS_AVAILABLE_CHANGING_OF_CATEGORY_KEY, true)
-                .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.IS_AVAILABLE_CHANGING_OF_CREDIT_KEY, true)
-                .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.IS_AVAILABLE_CHANGING_OF_DEBT_BORROW_KEY, true)
-                .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.IS_AVAILABLE_CHANGING_OF_FUNCTION, true)
-                .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.IS_AVAILABLE_CHANGING_OF_PAGE, true)
-                .putInt(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.CREDIT_COUNT_KEY, 5)
-                .putInt(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.DEBT_BORROW_COUNT_KEY, 15)
-                .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.BLUE_THEME, true)
-                .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.YELLOW_THEME, true)
-                .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.FIOLA_THEME, true)
-                .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.DARK_BLUE, true)
-                .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.LIGHT_BLUE, true)
-                .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.RED_LIPS, true)
-                .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.GREEN_THEME, true)
-                .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.ORANGE_THEME, true)
-                .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.LIGHT_YELLOW, true)
-                .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.FIRST_PAGE_COUNT_KEY, true)
-                .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.SECOND_PAGE_COUNT_KEY, true)
-                .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys .THIRD_PAGE_COUNT_KEY, true)
-                .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.FOURTH_PAGE_COUNT_KEY, true)
-                .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.FIFTH_PAGE_COUNT_KEY, true)
-                .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.SIXTH_PAGE_COUNT_KEY, true)
-                .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.SEVENTH_PAGE_COUNT_KEY, true)
-                .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.EIGHTH_PAGE_COUNT_KEY, true)
-                .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.NINTH_PAGE_COUNT_KEY, true)
-                .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.VOICE_RECOGNITION_KEY, true)
-                .putInt(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.SMS_PARSING_COUNT_KEY, 10)
-                .commit();
     }
     public PocketAccounterApplicationComponent component() {
         return pocketAccounterApplicationComponent;
