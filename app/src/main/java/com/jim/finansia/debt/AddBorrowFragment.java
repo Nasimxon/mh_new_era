@@ -447,6 +447,26 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
         List<Account> allAccounts = daoSession.loadAll(Account.class);
         Currency currency = allCurrencies.get(spDebtBorrowCurrency.getSelectedItemPosition());
         Account account = allAccounts.get(spDebtBorrowAccount.getSelectedItemPosition());
+        if (account != null && (account.getIsLimited() || account.getNoneMinusAccount())) {
+            double limit = account.getLimite();
+            double accounted = logicManager.isLimitAccess(account, takenDate);
+            if (type == DebtBorrow.DEBT) {
+                accounted = accounted - commonOperations.getCost(Calendar.getInstance(), currency, account.getCurrency(), Double.parseDouble(etDebtSum.getText().toString()));
+            } else {
+                accounted = accounted + commonOperations.getCost(Calendar.getInstance(), currency, account.getCurrency(), Double.parseDouble(etDebtSum.getText().toString()));
+            }
+            if (account.getNoneMinusAccount()) {
+                if (accounted < 0) {
+                    Toast.makeText(getContext(), R.string.none_minus_account_warning, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            } else {
+                if (-limit > accounted) {
+                    Toast.makeText(getContext(), R.string.limit_exceed, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+        }
         File file = null;
         if (personPhotoPath != null && !personPhotoPath.equals("")) {
             try {
@@ -574,6 +594,7 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
             reportManager.clearCache();
             dataCache.updateAllPercents();
             paFragmentManager.updateAllFragmentsPageChanges();
+            paFragmentManager.updateVoiceRecognizePageCurrencyChanges();
             for (Fragment fragment : paFragmentManager.getFragmentManager().getFragments()) {
                 if (fragment == null) continue;
                 if (fragment instanceof  BorrowFragment) {
