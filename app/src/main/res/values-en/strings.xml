@@ -1657,8 +1657,8 @@
     <string name="equals">equals</string>
     <string name="press_icon">Press icon</string>
     <string name="and_choose_category">and choose category</string>
-    <string name="for_period">For period:</string>
-    <string name="should_pay">Should pay:</string>
+    <string name="for_period">For period</string>
+    <string name="should_pay">Should pay</string>
     <string name="payment_details">Payment details</string>
     <string name="amount3">Amount</string>
     <string name="some_comment">Some comment</string>

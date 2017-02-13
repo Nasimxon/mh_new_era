@@ -1103,8 +1103,8 @@
     <string name="bars">Бары</string>
     <string name="save_excel">Сохранить в EXCEL файл?</string>
     <string name="date">Дата</string>
-    <string name="category_delete_warning">Данные, связанные с выделенными категориями будут удалены!</string>
-    <string name="account_delete_warning">Данные, связанные с выделенными счетами будут удалены!</string>
+    <string name="category_delete_warning">Данные, связанные с этой категорией будут удалены!</string>
+    <string name="account_delete_warning">Данные, связанные с этим счетам будут удалены!</string>
     <string name="subcat_delete_warning">Данные, связанные с выделенными подкатегориями будут удалены!</string>
     <string name="google_sync">Google синхронизация</string>
     <string name="backup">Загрузка базы данных</string>
@@ -1659,8 +1659,8 @@
     <string name="decimal">точка</string>
     <string name="press_icon">Нажмите на иконку</string>
     <string name="and_choose_category">и выберите категорию</string>
-    <string name="for_period">Для периода:</string>
-    <string name="should_pay">Следует оплатить:</string>
+    <string name="for_period">Для периода</string>
+    <string name="should_pay">Следует оплатить</string>
     <string name="payment_details">Детали оплаты</string>
     <string name="amount3">Сумма</string>
     <string name="some_comment">Комментарий</string>
@@ -1706,7 +1706,7 @@
     <string name="sec">сек</string>
     <string name="payment_date">Дата оплаты:</string>
     <string name="account_list">У вас только один счет. Добавить новый?</string>
-    <string name="payment_to">Оплата по</string>
+    <string name="payment_to">Оплата по </string>
     <string name="credit_info">Взятый кредит</string>
     <string name="sender1">Отправитель</string>
     <string name="taken_debt">Взятый долг</string>

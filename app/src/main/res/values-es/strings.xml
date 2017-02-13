@@ -70,7 +70,7 @@
         <item>Leo</item>
         <item>Tenge</item>
         <item>Rublo Bielorusso</item>
-        <item> Malaysian Ringgit</item>
+        <item>Malaysian Ringgit</item>
         <item>Dram Armenio</item>
         <item>Siclo</item>
         <item>Yenes</item>
@@ -105,11 +105,11 @@
         <item>Dinar Serbio</item>
         <item>Bath</item>
         <item>UAE Dirham</item>
-        <item> Argentine Peso</item>
-        <item> Convertible Mark</item>
-        <item> Bolivar</item>
-        <item> Lari</item>
-        <item> Som</item>
+        <item>Argentine Peso</item>
+        <item>Convertible Mark</item>
+        <item>Bolivar</item>
+        <item>Lari</item>
+        <item>Som</item>
     </string-array>
     <string-array name="base_abbrs">
         <item>$</item>
@@ -1520,8 +1520,8 @@
     <string name="press_icon">Presione el icono y elija la categoría</string>
     <string name="and_choose_category">Y elegir categoría</string>
     <string name="acc_state">Estado de cuenta</string>
-    <string name="for_period">Para período:</string>
-    <string name="should_pay">Deberia pagar:</string>
+    <string name="for_period">Para período</string>
+    <string name="should_pay">Deberia pagar</string>
     <string name="payment_details">Detalles de pago</string>
     <string name="amount3">Cantidad</string>
     <string name="some_comment">Algun commentario</string>
@@ -1675,7 +1675,7 @@
     <string name="payment">Pago</string>
     <string name="payment_date">Fecha de pago:</string>
     <string name="payment_period">Periodo de pago</string>
-    <string name="payment_to">Pago a</string>
+    <string name="payment_to">"Pago a "</string>
     <string name="payy">Pagar</string>
     <string name="percent">Por ciento</string>
     <string name="percent_fee">Cuota por ciento</string>
