@@ -3,6 +3,7 @@ package com.jim.finansia.debt;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -44,6 +45,7 @@ import com.jim.finansia.database.BoardButton;
 import com.jim.finansia.database.DaoSession;
 import com.jim.finansia.database.DebtBorrow;
 import com.jim.finansia.database.Recking;
+import com.jim.finansia.finance.TransferAccountAdapter;
 import com.jim.finansia.fragments.RecordDetailFragment;
 import com.jim.finansia.managers.CommonOperations;
 import com.jim.finansia.managers.LogicManager;
@@ -82,6 +84,7 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
     @Inject DaoSession daoSession;
     @Inject DataCache dataCache;
     @Inject ReportManager reportManager;
+    @Inject SharedPreferences preferences;
     private WarningDialog warningDialog;
     private DecimalFormat decimalFormat = new DecimalFormat("0.##");
     private LinearLayout llDebtBOrrowItemEdit;
@@ -623,15 +626,34 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
             }
             abbrrAmount.setText(debtBorrow.getCurrency().getAbbr());
             final List<Account> allAccounts = daoSession.loadAll(Account.class);
-            final String[] accaounts = new String[allAccounts.size()];
-            for (int i = 0; i < accaounts.length; i++) {
-                accaounts[i] = allAccounts.get(i).getName();
+            ArrayList accounts = new ArrayList();
+            for (int i = 0; i < allAccounts.size(); i++) {
+                accounts.add(allAccounts.get(i).getId());
             }
             tvResidue.setText(getString(R.string.left)+":");
-            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
-                    getContext(), R.layout.spiner_gravity_left, accaounts);
+            accountSp.setAdapter(new TransferAccountAdapter(getContext(),accounts));
+            String lastAccountId = preferences.getString("CHOSEN_ACCOUNT_ID",  "");
+            if (lastAccountId != null && !lastAccountId.isEmpty()) {
+                int pos = 0;
+                for (int i = 0; i < allAccounts.size(); i++) {
+                    if (allAccounts.get(i).getId().equals(lastAccountId)) {
+                        pos = i;
+                        break;
+                    }
+                }
+                accountSp.setSelection(pos);
+            }
+            accountSp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                    preferences.edit().putString("CHOSEN_ACCOUNT_ID", allAccounts.get(i).getId()).commit();
+                }
 
-            accountSp.setAdapter(arrayAdapter);
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+
+                }
+            });
             keyForInclude.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

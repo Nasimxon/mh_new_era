@@ -77,6 +77,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -124,7 +125,7 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
     private int type = 0;
     private LinearLayout llAccountHolder;
     private int position = 0;
-
+    DecimalFormat formater = new DecimalFormat("0.##");
     private static final int REQUEST_SELECT_CONTACT = 2;
     public static int RESULT_LOAD_IMAGE = 1;
     private final int PERMISSION_REQUEST_CONTACT = 5;
@@ -351,7 +352,7 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
                     }
                 }
             scDebtBorrowCalculation.setChecked(currentDebtBorrow.getCalculate());
-            etDebtSum.setText(String.valueOf(currentDebtBorrow.getAmount()));
+            etDebtSum.setText(formater.format(currentDebtBorrow.getAmount()));
             etTakenDate.setText(sDateFormat.format(currentDebtBorrow.getTakenDate().getTime()));
             takenDate = (Calendar) currentDebtBorrow.getTakenDate().clone();
             if (currentDebtBorrow.getReturnDate() != null) {
