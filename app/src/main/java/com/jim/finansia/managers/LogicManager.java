@@ -51,6 +51,7 @@ import org.greenrobot.greendao.query.Query;
 import org.greenrobot.greendao.query.QueryBuilder;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
@@ -260,54 +261,471 @@ public class LogicManager {
 
 
     public void generateCurrencyCosts(Calendar day, double amount, Currency adding) {
-        final int EARLIEST = 0, MIDDLE = 1, LATEST = 2; // position of adding currency
-        //defining the position
-        int position = EARLIEST;
-        List<CurrencyCostState> allStates = daoSession
-                .getCurrencyCostStateDao()
-                .queryBuilder()
-                .where(CurrencyCostStateDao.Properties.MainCurId.eq(commonOperations.getMainCurrency().getId()))
-                .list();
-        Collections.sort(allStates, new Comparator<CurrencyCostState>() {
-            @Override
-            public int compare(CurrencyCostState currencyCostState, CurrencyCostState t1) {
-                return currencyCostState.getDay().compareTo(t1.getDay());
-            }
-        });
-        if (!allStates.isEmpty()) {
-            if (allStates.get(0).getDay().compareTo(day) >= 0)
-                position = EARLIEST;
-            else if (allStates.get(allStates.size()-1).getDay().compareTo(day) <= 0)
-                position = LATEST;
-            else
-                position = MIDDLE;
-        }
+        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+        String addingDay = format.format(day.getTime());
+        Currency mainCurrency = commonOperations.getMainCurrency();
+        List<Currency> notMainCurrencies = daoSession.queryBuilder(Currency.class).where(CurrencyDao.Properties.IsMain.eq(false)).list();
+        boolean isNew = daoSession.queryBuilder(CurrencyCostState.class).where(CurrencyCostStateDao.Properties.MainCurId.eq(adding.getId())).list().isEmpty();
+        if (isNew) {
+            List<CurrencyCostState> list = daoSession
+                    .queryBuilder(CurrencyCostState.class)
+                    .where(CurrencyCostStateDao.Properties.Day.eq(addingDay))
+                    .list();
+            if (list.isEmpty()) {
+                List<CurrencyCostState> allStates = daoSession.loadAll(CurrencyCostState.class);
+                Collections.sort(allStates, new Comparator<CurrencyCostState>() {
+                    @Override
+                    public int compare(CurrencyCostState currencyCostState, CurrencyCostState t1) {
+                        return currencyCostState.getDay().compareTo(t1.getDay());
+                    }
+                });
+                String last = format.format(allStates.get(allStates.size()-1).getDay().getTime());
+                List<CurrencyCostState> lastStates = daoSession
+                        .queryBuilder(CurrencyCostState.class)
+                        .where(CurrencyCostStateDao.Properties.Day.eq(last))
+                        .list();
+                for (CurrencyCostState currencyCostState : lastStates) {
+                    CurrencyCostState state = new CurrencyCostState();
+                    state.setDay(day);
+                    state.setMainCurrency(currencyCostState.getMainCurrency());
+                    daoSession.insertOrReplace(state);
+                    if (currencyCostState.getMainCurId().equals(mainCurrency.getId())) {
+                        CurrencyWithAmount withAmount = new CurrencyWithAmount();
+                        withAmount.setParentId(state.getId());
+                        withAmount.setCurrency(adding);
+                        withAmount.setAmount(amount);
+                        daoSession.insertOrReplace(withAmount);
+                    }
+                    else {
+                        double tempAmount = 1.0d;
+                        CurrencyCostState main = null;
+                        for (CurrencyCostState st : lastStates) {
+                            if (st.getMainCurId().equals(mainCurrency.getId())) {
+                                main = st;
+                                break;
+                            }
+                        }
+                        for (CurrencyWithAmount withAmount : main.getCurrencyWithAmountList()) {
+                            if (withAmount.getCurrencyId().equals(currencyCostState.getMainCurId())) {
+                                tempAmount = withAmount.getAmount();
+                                break;
+                            }
+                        }
+                        CurrencyWithAmount withAmount = new CurrencyWithAmount();
+                        withAmount.setCurrency(adding);
+                        withAmount.setParentId(state.getId());
+                        withAmount.setAmount(amount/tempAmount);
+                        daoSession.insertOrReplace(withAmount);
 
-        //after defining position, we consider all options of position of currency
-        CurrencyCostState supplyState = null;
-        switch (position) { //finding anchor state and generate day currency costs
-            case EARLIEST:
-                supplyState = allStates.get(0);
-                break;
-            case MIDDLE:
-                for (CurrencyCostState state : allStates) {
-                    if (state.getDay().compareTo(day) <= 0)
-                        supplyState = state;
-                    else
-                        break;
+                    }
+                    for (CurrencyWithAmount cwa : currencyCostState.getCurrencyWithAmountList()) {
+                        CurrencyWithAmount withAmount = new CurrencyWithAmount();
+                        withAmount.setParentId(state.getId());
+                        withAmount.setCurrency(cwa.getCurrency());
+                        withAmount.setAmount(cwa.getAmount());
+                        daoSession.insertOrReplace(withAmount);
+                    }
+                    state.resetCurrencyWithAmountList();
                 }
-                break;
-            case LATEST:
-                supplyState = allStates.get(allStates.size() - 1);
-                break;
+                CurrencyCostState addingState = new CurrencyCostState();
+                addingState.setMainCurrency(adding);
+                addingState.setDay(day);
+                daoSession.insertOrReplace(addingState);
+                CurrencyWithAmount mainWithAmount = new CurrencyWithAmount();
+                mainWithAmount.setParentId(addingState.getId());
+                mainWithAmount.setCurrency(mainCurrency);
+                mainWithAmount.setAmount(1/amount);
+                daoSession.insertOrReplace(mainWithAmount);
+                CurrencyCostState main = null;
+                for (CurrencyCostState st : lastStates) {
+                    if (st.getMainCurId().equals(mainCurrency.getId())) {
+                        main = st;
+                        break;
+                    }
+                }
+                for (Currency currency : notMainCurrencies) {
+                    double tempAmount = 1.0d;
+                    for (CurrencyWithAmount withAmount : main.getCurrencyWithAmountList()) {
+                        if (withAmount.getCurrencyId().equals(currency.getId())) {
+                            tempAmount = withAmount.getAmount();
+                            break;
+                        }
+                    }
+                    CurrencyWithAmount withAmount = new CurrencyWithAmount();
+                    withAmount.setCurrency(adding);
+                    withAmount.setParentId(addingState.getId());
+                    withAmount.setAmount(amount/tempAmount);
+                    daoSession.insertOrReplace(withAmount);
+                }
+                addingState.resetCurrencyWithAmountList();
+            } else {
+                String foundDay = format.format(list.get(0).getDay().getTime());
+                List<CurrencyCostState> foundStates = daoSession
+                        .queryBuilder(CurrencyCostState.class)
+                        .where(CurrencyCostStateDao.Properties.Day.eq(foundDay))
+                        .list();
+                CurrencyCostState mainState = null;
+                for (CurrencyCostState state : foundStates) {
+                    if (state.getMainCurId().equals(mainCurrency.getId())) {
+                        mainState = state;
+                        break;
+                    }
+                }
+                for (CurrencyCostState state : foundStates) {
+                    CurrencyWithAmount withAmount = new CurrencyWithAmount();
+                    withAmount.setCurrency(adding);
+                    withAmount.setParentId(state.getId());
+                    if (state.getMainCurId().equals(mainCurrency.getId())) {
+                        withAmount.setAmount(amount);
+                    } else {
+                        double tempAmount = 1.0d;
+                        for (CurrencyWithAmount wa : mainState.getCurrencyWithAmountList()) {
+                            if (withAmount.getCurrencyId().equals(state.getMainCurId())) {
+                                tempAmount = wa.getAmount();
+                                break;
+                            }
+                        }
+                        withAmount.setAmount(amount/tempAmount);
+                    }
+                    daoSession.insertOrReplace(withAmount);
+                    state.resetCurrencyWithAmountList();
+                }
+                CurrencyCostState addingState = new CurrencyCostState();
+                addingState.setMainCurrency(adding);
+                addingState.setDay(day);
+                daoSession.insertOrReplace(addingState);
+                CurrencyWithAmount mainWithAmount = new CurrencyWithAmount();
+                mainWithAmount.setParentId(addingState.getId());
+                mainWithAmount.setCurrency(mainCurrency);
+                mainWithAmount.setAmount(1/amount);
+                daoSession.insertOrReplace(mainWithAmount);
+                CurrencyCostState main = null;
+                for (CurrencyCostState st : foundStates) {
+                    if (st.getMainCurId().equals(mainCurrency.getId())) {
+                        main = st;
+                        break;
+                    }
+                }
+                for (Currency currency : notMainCurrencies) {
+                    double tempAmount = 1.0d;
+                    for (CurrencyWithAmount withAmount : main.getCurrencyWithAmountList()) {
+                        if (withAmount.getCurrencyId().equals(currency.getId())) {
+                            tempAmount = withAmount.getAmount();
+                            break;
+                        }
+                    }
+                    CurrencyWithAmount withAmount = new CurrencyWithAmount();
+                    withAmount.setCurrency(adding);
+                    withAmount.setParentId(addingState.getId());
+                    withAmount.setAmount(amount/tempAmount);
+                    daoSession.insertOrReplace(withAmount);
+                }
+                addingState.resetCurrencyWithAmountList();
+            }
+            //generate for other days
+            List<CurrencyCostState> allStatesWithoutToday = daoSession
+                    .queryBuilder(CurrencyCostState.class)
+                    .where(CurrencyCostStateDao.Properties.Day.notEq(addingDay))
+                    .list();
+            List<String> days = new ArrayList<>();
+            for (CurrencyCostState state : allStatesWithoutToday) {
+                boolean found = false;
+                for (String temp : days) {
+                    if (format.format(state.getDay().getTime()).equals(temp)) {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found)
+                    days.add(format.format(state.getDay().getTime()));
+            }
+            for (String temp : days) {
+                List<CurrencyCostState> statesForTheDay = daoSession
+                        .queryBuilder(CurrencyCostState.class)
+                        .where(CurrencyCostStateDao.Properties.Day.eq(temp))
+                        .list();
+                CurrencyCostState mainState = null;
+                for (CurrencyCostState state : statesForTheDay) {
+                    if (state.getMainCurId().equals(mainCurrency.getId())) {
+                        mainState = state;
+                        break;
+                    }
+                }
+                CurrencyCostState addingState = new CurrencyCostState();
+                addingState.setDay(day);
+                addingState.setMainCurrency(adding);
+                daoSession.insertOrReplace(addingState);
+                CurrencyWithAmount mainWithAmount = new CurrencyWithAmount();
+                mainWithAmount.setCurrency(mainCurrency);
+                mainWithAmount.setAmount(1/amount);
+                mainWithAmount.setParentId(addingState.getId());
+                daoSession.insertOrReplace(mainWithAmount);
+                for (Currency currency : notMainCurrencies) {
+                    CurrencyWithAmount currencyWithAmount = new CurrencyWithAmount();
+                    currencyWithAmount.setParentId(addingState.getId());
+                    currencyWithAmount.setCurrency(currency);
+                    double tempAmount = 1.0d;
+                    for (CurrencyWithAmount withAmount : mainState.getCurrencyWithAmountList()) {
+                        if (withAmount.getCurrencyId().equals(currency.getId())) {
+                            tempAmount = withAmount.getAmount();
+                            break;
+                        }
+                    }
+                    currencyWithAmount.setAmount(amount/tempAmount);
+                    daoSession.insertOrReplace(currencyWithAmount);
+                    addingState.resetCurrencyWithAmountList();
+                }
+                for (CurrencyCostState state : statesForTheDay) {
+                    CurrencyWithAmount currencyWithAmount = new CurrencyWithAmount();
+                    currencyWithAmount.setParentId(state.getId());
+                    currencyWithAmount.setCurrency(adding);
+                    if (state.getMainCurId().equals(mainCurrency.getId())) {
+                        currencyWithAmount.setAmount(amount);
+                    }
+                    else {
+                        double tempAmount = 1.0d;
+                        for (CurrencyWithAmount withAmount : mainState.getCurrencyWithAmountList()) {
+                            if (withAmount.getCurrencyId().equals(state.getMainCurId())) {
+                                tempAmount = withAmount.getAmount();
+                                break;
+                            }
+                        }
+                        currencyWithAmount.setAmount(amount/tempAmount);
+                    }
+                    daoSession.insertOrReplace(currencyWithAmount);
+                    state.resetCurrencyWithAmountList();
+                }
+            }
         }
-        generateCostForTheDay((Calendar) day.clone(), amount, adding, supplyState);
-        if (position != LATEST)
-            generateCostsForRestDays((Calendar) day.clone(), amount, adding);
-        daoSession.getCurrencyDao().detachAll();
-        daoSession.getCurrencyCostStateDao().detachAll();
-        daoSession.getCurrencyWithAmountDao().detachAll();
-        daoSession.getUserEnteredCalendarsDao().detachAll();
+        else {
+            List<CurrencyCostState> list = daoSession
+                    .queryBuilder(CurrencyCostState.class)
+                    .where(CurrencyCostStateDao.Properties.Day.eq(addingDay))
+                    .list();
+            if (list.isEmpty()) {
+            //TODO may be changing?
+                CurrencyCostState supplimentaryState = null;
+                List<CurrencyCostState> allStates = daoSession.queryBuilder(CurrencyCostState.class).where(CurrencyCostStateDao.Properties.MainCurId.eq(mainCurrency.getId())).list();
+                Collections.sort(allStates, new Comparator<CurrencyCostState>() {
+                    @Override
+                    public int compare(CurrencyCostState currencyCostState, CurrencyCostState t1) {
+                        return currencyCostState.getDay().compareTo(t1.getDay());
+                    }
+                });
+                if (allStates.get(allStates.size() - 1).getDay().compareTo(day) <= 0)
+                    supplimentaryState = allStates.get(allStates.size() - 1);
+                else if (allStates.get(0).getDay().compareTo(day) >= 0)
+                    supplimentaryState = allStates.get(0);
+                else {
+                    int position = 0;
+                    while (allStates.size() > position && allStates.get(position).getDay().compareTo(day) <= 0) {
+                        supplimentaryState = allStates.get(position);
+                        position++;
+                    }
+                }
+                CurrencyCostState state = new CurrencyCostState();
+                state.setDay(day);
+                state.setMainCurrency(mainCurrency);
+                daoSession.insertOrReplace(state);
+                for (CurrencyWithAmount withAmount : supplimentaryState.getCurrencyWithAmountList()) {
+                    CurrencyWithAmount currencyWithAmount = new CurrencyWithAmount();
+                    currencyWithAmount.setParentId(state.getId());
+                    currencyWithAmount.setCurrency(adding);
+                    if (withAmount.getCurrencyId().equals(adding.getId())) {
+                        currencyWithAmount.setAmount(amount);
+                    } else {
+                        currencyWithAmount.setAmount(withAmount.getAmount());
+                    }
+                    daoSession.insertOrReplace(currencyWithAmount);
+                }
+                state.resetCurrencyWithAmountList();
+                List<CurrencyCostState> notMainStates = daoSession
+                        .queryBuilder(CurrencyCostState.class)
+                        .where(CurrencyCostStateDao.Properties.Day.eq(format.format(supplimentaryState.getDay().getTime())))
+                        .list();
+                for (Currency currency : notMainCurrencies) {
+                    if (currency.getId().equals(adding.getId())) {
+                        CurrencyCostState st = new CurrencyCostState();
+                        st.setDay(day);
+                        st.setMainCurrency(currency);
+                        daoSession.insertOrReplace(st);
+                        CurrencyCostState supply = null;
+                        for (CurrencyCostState costState : notMainStates) {
+                            if (costState.getMainCurId().equals(currency.getId())) {
+                                supply = costState;
+                                break;
+                            }
+                        }
+                        for (CurrencyWithAmount withAmount : supply.getCurrencyWithAmountList()) {
+                            CurrencyWithAmount currencyWithAmount = new CurrencyWithAmount();
+                            if (withAmount.getCurrencyId().equals(mainCurrency.getId()))
+                                currencyWithAmount.setAmount(1/amount);
+                            else
+                                currencyWithAmount.setAmount(withAmount.getAmount());
+                            currencyWithAmount.setCurrency(withAmount.getCurrency());
+                            currencyWithAmount.setParentId(st.getId());
+                            daoSession.insertOrReplace(currencyWithAmount);
+                        }
+                        st.resetCurrencyWithAmountList();
+                    }
+                    else {
+                        CurrencyCostState st = new CurrencyCostState();
+                        st.setDay(day);
+                        st.setMainCurrency(currency);
+                        daoSession.insertOrReplace(st);
+                        CurrencyCostState supply = null;
+                        for (CurrencyCostState costState : notMainStates) {
+                            if (costState.getMainCurId().equals(currency.getId())) {
+                                supply = costState;
+                                break;
+                            }
+                        }
+                        for (CurrencyWithAmount withAmount : supply.getCurrencyWithAmountList()) {
+                            CurrencyWithAmount currencyWithAmount = new CurrencyWithAmount();
+                            currencyWithAmount.setAmount(withAmount.getAmount());
+                            currencyWithAmount.setCurrency(withAmount.getCurrency());
+                            currencyWithAmount.setParentId(st.getId());
+                            daoSession.insertOrReplace(currencyWithAmount);
+                        }
+                        st.resetCurrencyWithAmountList();
+                    }
+                }
+            }
+            else {
+                List<CurrencyCostState> states = daoSession
+                        .queryBuilder(CurrencyCostState.class)
+                        .where(CurrencyCostStateDao.Properties.Day.eq(format.format(list.get(0).getDay().getTime())))
+                        .list();
+                for (CurrencyCostState state : states) {
+                    if (state.getMainCurId().equals(adding.getId())) {
+                        for (CurrencyWithAmount withAmount : state.getCurrencyWithAmountList()) {
+                            if (withAmount.getCurrencyId().equals(mainCurrency.getId())) {
+                                withAmount.setAmount(1/amount);
+                                daoSession.insertOrReplace(withAmount);
+                                break;
+                            }
+                        }
+                    }
+                    else if (state.getMainCurId().equals(mainCurrency.getId())) {
+                        for (CurrencyWithAmount withAmount : state.getCurrencyWithAmountList()) {
+                            if (withAmount.getCurrencyId().equals(adding.getId())) {
+                                withAmount.setAmount(amount);
+                                daoSession.insertOrReplace(withAmount);
+                                break;
+                            }
+                        }
+                    }
+                    state.resetCurrencyWithAmountList();
+                }
+            }
+            //TODO rest days
+            List<CurrencyCostState> states = daoSession.loadAll(CurrencyCostState.class);
+            Collections.sort(states, new Comparator<CurrencyCostState>() {
+                @Override
+                public int compare(CurrencyCostState currencyCostState, CurrencyCostState t1) {
+                    return currencyCostState.getDay().compareTo(t1.getDay());
+                }
+            });
+            List<CurrencyCostState> otherDays = new ArrayList<>();
+            Calendar addDay = (Calendar) day.clone();
+            addDay.set(Calendar.HOUR_OF_DAY, 23);
+            addDay.set(Calendar.MINUTE, 59);
+            addDay.set(Calendar.SECOND, 59);
+            addDay.set(Calendar.MILLISECOND, 59);
+            for (CurrencyCostState state : states) {
+                if (state.getDay().compareTo(addDay) > 0) {
+                    otherDays.add(state);
+                }
+            }
+            for (CurrencyCostState state : otherDays) {
+                if (dayExists(adding, state.getDay()))
+                    break;
+                if (state.equals(mainCurrency.getId())) {
+                    for (CurrencyWithAmount withAmount : state.getCurrencyWithAmountList()) {
+                        if (withAmount.getCurrencyId().equals(adding.getId())) {
+                            withAmount.setAmount(amount);
+                            daoSession.insertOrReplace(withAmount);
+                            break;
+                        }
+                    }
+                }
+                else if (state.equals(adding.getId())) {
+                    for (CurrencyWithAmount withAmount : state.getCurrencyWithAmountList()) {
+                        if (withAmount.getCurrencyId().equals(mainCurrency.getId())) {
+                            withAmount.setAmount(1/amount);
+                            daoSession.insertOrReplace(withAmount);
+                            break;
+                        }
+                    }
+                }
+                state.resetCurrencyWithAmountList();
+            }
+        }
+        List<CurrencyCostState> allStates = daoSession.loadAll(CurrencyCostState.class);
+        List<Currency> allCurrencies = daoSession.loadAll(Currency.class);
+        for (CurrencyCostState state : allStates)
+            state.resetCurrencyWithAmountList();
+        for (Currency currency : allCurrencies)
+            currency.refreshCosts();
+
+//        final int EARLIEST = 0, MIDDLE = 1, LATEST = 2; // position of adding currency
+//        //defining the position
+//        int position = EARLIEST;
+//        List<CurrencyCostState> allStates = daoSession
+//                .getCurrencyCostStateDao()
+//                .queryBuilder()
+//                .where(CurrencyCostStateDao.Properties.MainCurId.eq(commonOperations.getMainCurrency().getId()))
+//                .list();
+//        Collections.sort(allStates, new Comparator<CurrencyCostState>() {
+//            @Override
+//            public int compare(CurrencyCostState currencyCostState, CurrencyCostState t1) {
+//                return currencyCostState.getDay().compareTo(t1.getDay());
+//            }
+//        });
+//        if (!allStates.isEmpty()) {
+//            if (allStates.get(0).getDay().compareTo(day) >= 0)
+//                position = EARLIEST;
+//            else if (allStates.get(allStates.size()-1).getDay().compareTo(day) <= 0)
+//                position = LATEST;
+//            else
+//                position = MIDDLE;
+//        }
+//
+//        //after defining position, we consider all options of position of currency
+//        CurrencyCostState supplyState = null;
+//        switch (position) { //finding anchor state and generate day currency costs
+//            case EARLIEST:
+//                supplyState = allStates.get(0);
+//                break;
+//            case MIDDLE:
+//                for (CurrencyCostState state : allStates) {
+//                    if (state.getDay().compareTo(day) <= 0)
+//                        supplyState = state;
+//                    else
+//                        break;
+//                }
+//                break;
+//            case LATEST:
+//                supplyState = allStates.get(allStates.size() - 1);
+//                break;
+//        }
+//        generateCostForTheDay((Calendar) day.clone(), amount, adding, supplyState);
+//        if (position != LATEST)
+//            generateCostsForRestDays((Calendar) day.clone(), amount, adding);
+//        daoSession.getCurrencyDao().detachAll();
+//        daoSession.getCurrencyCostStateDao().detachAll();
+//        daoSession.getCurrencyWithAmountDao().detachAll();
+//        daoSession.getUserEnteredCalendarsDao().detachAll();
+    }
+
+    private boolean dayExists(Currency currency, Calendar day) {
+        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+        for (UserEnteredCalendars calendar : currency.getUserEnteredCalendarses()) {
+            if (format.format(calendar.getCalendar().getTime()).equals(format.format(day.getTime()))) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void generateCostForTheDay(Calendar day, double amount, Currency adding, CurrencyCostState supply) { //generating costs using supplying data
@@ -361,7 +779,6 @@ public class LogicManager {
                             daoSession.insertOrReplace(currWithAmount);
                         }
                     }
-                    state.resetCurrencyWithAmountList();
                 }
                 else {
                     CurrencyCostState state = new CurrencyCostState();
@@ -392,7 +809,6 @@ public class LogicManager {
                         }
                         daoSession.insertOrReplace(currWithAmount);
                     }
-                    state.resetCurrencyWithAmountList();
                     boolean found = false;
                     for (CurrencyWithAmount withAmount : state.getCurrencyWithAmountList()) {
                         if (withAmount.getCurrencyId().equals(adding.getId())) {
@@ -406,7 +822,6 @@ public class LogicManager {
                         withAmount.setCurrency(adding);
                         withAmount.setAmount(amount/tempAmount);
                         daoSession.insertOrReplace(withAmount);
-                        state.resetCurrencyWithAmountList();
                     }
                 }
             }
@@ -433,7 +848,7 @@ public class LogicManager {
                 for (CurrencyCostState currencyCostState : queryList) {
                     CurrencyWithAmount withAmount = new CurrencyWithAmount();
                     withAmount.setParentId(currencyCostState.getId());
-                    if (currencyCostState.getId().equals(mainCurrency.getId())) {
+                    if (currencyCostState.getMainCurId().equals(mainCurrency.getId())) {
                         withAmount.setCurrency(adding);
                         withAmount.setAmount(amount);
                     } else {
@@ -449,8 +864,8 @@ public class LogicManager {
                         }
                         withAmount.setAmount(amount/tempAmount);
                     }
+                    withAmount.setParentId(currencyCostState.getId());
                     daoSession.insertOrReplace(withAmount);
-                    currencyCostState.resetCurrencyWithAmountList();
                 }
                 CurrencyCostState addingState = new CurrencyCostState();
                 addingState.setMainCurrency(adding);
@@ -477,7 +892,6 @@ public class LogicManager {
                     withAmount.setAmount(amount/tempAmount);
                     daoSession.insertOrReplace(withAmount);
                 }
-                addingState.resetCurrencyWithAmountList();
             }
             else {
                 for (CurrencyCostState currencyCostState : queryList) {
@@ -514,7 +928,6 @@ public class LogicManager {
                             }
                         }
                     }
-                    currencyCostState.resetCurrencyWithAmountList();
                 }
             }
             daoSession.getCurrencyCostStateDao().detachAll();
@@ -595,33 +1008,13 @@ public class LogicManager {
             currencies.get(currMainPos).setMain(true);
         }
         daoSession.getCurrencyDao().insertOrReplaceInTx(currencies);
-        daoSession.getCurrencyDao().detachAll();
+        List<CurrencyCostState> allStates = daoSession.loadAll(CurrencyCostState.class);
+        for (CurrencyCostState state : allStates)
+            state.resetCurrencyWithAmountList();
+        List<Currency> allCurrencies = daoSession.loadAll(Currency.class);
+        for (Currency curr : allCurrencies)
+            curr.refreshCosts();
         commonOperations.refreshCurrency();
-    }
-
-    //currency costs
-    public int deleteCurrencyCosts(List<UserEnteredCalendars> userEnteredCalendarses, Currency currency) {
-        List<UserEnteredCalendars> calendars = userEnteredCalendarsDao
-                .queryBuilder()
-                .where(UserEnteredCalendarsDao.Properties.CurrencyId.eq(currency.getId()))
-                .list();
-        if (userEnteredCalendarses.size() == calendars.size())
-            return LogicManagerConstants.LIST_IS_EMPTY;
-        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
-        for (UserEnteredCalendars enteredCalendars : userEnteredCalendarses) {
-            QueryBuilder<UserEnteredCalendars> query = daoSession.queryBuilder(UserEnteredCalendars.class)
-                    .where(UserEnteredCalendarsDao.Properties.Calendar.eq(format.format(enteredCalendars.getCalendar().getTime())),
-                            UserEnteredCalendarsDao.Properties.Calendar.notEq(currency.getId()));
-            if (query.list().isEmpty()) {
-                daoSession
-                        .queryBuilder(CurrencyCostState.class)
-                        .where(CurrencyCostStateDao.Properties.Day.eq(format.format(enteredCalendars.getCalendar().getTime())))
-                        .buildDelete()
-                        .executeDeleteWithoutDetachingEntities();
-            }
-        }
-        userEnteredCalendarsDao.deleteInTx(userEnteredCalendarses);
-        return LogicManagerConstants.DELETED_SUCCESSFUL;
     }
 
     public int insertSubCategory(List<SubCategory> subCategories) {

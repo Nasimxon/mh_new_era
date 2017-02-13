@@ -751,7 +751,9 @@ public class VoiceRecognizerFragment extends Fragment {
                 List<TemplateVoice> cloneTemp = new ArrayList<>();
                 cloneTemp.addAll(successTemplates);
                 for (int i = 0; i < cloneTemp.size(); i++) {
+                    if (cloneTemp.get(i).getSubCatName() == null) continue;
                     for (int j = 0; j < successTemplates.size(); j++) {
+                        if (successTemplates.get(j).getSubCatName() == null) continue;
                         if (!cloneTemp.get(i).getCategoryId().equals(successTemplates.get(j).getCategoryId())) {
                             if (cloneTemp.get(i).getCatName().toLowerCase().contains(successTemplates.get(j).getCatName().toLowerCase())) {
                                 successTemplates.remove(j);

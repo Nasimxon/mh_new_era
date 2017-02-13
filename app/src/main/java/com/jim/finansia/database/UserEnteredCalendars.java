@@ -49,6 +49,4 @@ public class UserEnteredCalendars {
     @Generated(hash = 443835265)
     public UserEnteredCalendars() {
     }
-    
-
 }

@@ -101,8 +101,8 @@ public class AutoMarketService extends Service {
                         }
                     }
                 }
-                lastRecord.add(Calendar.DAY_OF_MONTH, 1);
             }
+            lastRecord.add(Calendar.DAY_OF_MONTH, 1);
         }
         db.close();
         return super.onStartCommand(intent, flags, startId);

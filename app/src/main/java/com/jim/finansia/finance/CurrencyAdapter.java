@@ -65,6 +65,7 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.myView
 
 	@Override
 	public void onBindViewHolder( final myViewHolder holder, final int position) {
+		result.get(position).refreshCosts();
 		holder.tvCurrencyItemAbbr.setText(result.get(position).getAbbr());
 		holder.tvCurrencyName.setText(result.get(position).getName());
 		holder.llCurrencyListItemRoot.setOnClickListener(new View.OnClickListener() {

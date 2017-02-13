@@ -75,6 +75,7 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
     @Inject PocketAccounterApplicationModule pocketAccounterApplicationModule;
     @Inject DataCache dataCache;
     @Inject ReportManager reportManager;
+    @Inject CommonOperations commonOperations;
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReferenceFromUrl("gs://pocket-accounter.appspot.com");
 
@@ -247,7 +248,7 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
                         WidgetID);
         }
 
-        Preference sbrosdannix = (Preference) findPreference("sbros");
+        Preference sbrosdannix = findPreference("sbros");
         sbrosdannix.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(final Preference preference) {
@@ -260,18 +261,16 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
                         }) .setNegativeButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface dialog, int id) {
-
                         int WidgetID = PreferenceManager.getDefaultSharedPreferences(SettingsActivity.this).getInt(WidgetKeys.SPREF_WIDGET_ID, -1);
-
                         DrawerInitializer.reg.revokeAccess();
-                        String DB_PATH;
                         for(AbstractDao abstractDao : daoSession.getAllDaos()) {
                             abstractDao.deleteAll();
                             abstractDao.detachAll();
                         }
                         CommonOperations.createDefaultDatas(sharedPreferences, SettingsActivity.this,daoSession);
-                        dataCache.clearAllCaches();
                         reportManager.clearCache();
+                        dataCache.clearAllCaches();
+                        commonOperations.refreshCurrency();
                         getSharedPreferences("infoFirst", MODE_PRIVATE).edit().clear().apply();
                         setResult(1111);
                         Map<String, Boolean> keys = new HashMap<>();
@@ -311,7 +310,7 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
             }
         });
 
-        Preference mainWindow=findPreference("mainwind");
+        Preference mainWindow = findPreference("mainwind");
         mainWindow.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
@@ -319,12 +318,10 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
                 final View dialogView = getLayoutInflater().inflate(R.layout.main_window_pages_set, null);
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog.setContentView(dialogView);
-
                 final EditText topWindow=(EditText)dialogView.findViewById(R.id.firstPassword);
                 final EditText bottomWindow=(EditText)dialogView.findViewById(R.id.secondPassword);
                 final TextView tvTop=(TextView)dialogView.findViewById(R.id.passwordTextShould);
                 final TextView tvBottom=(TextView)dialogView.findViewById(R.id.passwordRepiat);
-                final TextView Titlee=(TextView)dialogView.findViewById(R.id.idtitle);
                 topWindow.setText(""+Integer.toString(PreferenceManager.getDefaultSharedPreferences(SettingsActivity.this).getInt("key_for_window_top",4)));
                 bottomWindow.setText(""+Integer.toString(PreferenceManager.getDefaultSharedPreferences(SettingsActivity.this).getInt("key_for_window_bottom",4)));
                 dialogView.findViewById(R.id.okbuttt).setOnClickListener(new View.OnClickListener() {
