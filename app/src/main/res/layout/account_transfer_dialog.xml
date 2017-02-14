@@ -200,6 +200,7 @@
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:hint="@string/amount"
+                    android:maxLength="12"
                     android:textColorHint="@color/black_for_maykiy_secodary"
                     android:paddingTop="@dimen/five_dp"
                     android:paddingBottom="@dimen/five_dp"

@@ -121,7 +121,7 @@
                     android:ems="10"
                     android:hint="@string/taked_value"
                     android:inputType="numberDecimal"
-                    android:maxLength="15"
+                    android:maxLength="12"
                     android:textColor="@color/black_for_glavniy_text"
                     android:textSize="@dimen/sixteen_dp"
                     android:layout_alignParentTop="true"

@@ -129,7 +129,7 @@
                         android:background="#fff"
                         android:hint="@string/enter_the_amount"
                         android:inputType="numberDecimal"
-                        android:maxLength="25"
+                        android:maxLength="12"
                         android:textColor="@color/black_for_glavniy_text"
                         android:textSize="@dimen/sixteen_dp" />
                     <Spinner
