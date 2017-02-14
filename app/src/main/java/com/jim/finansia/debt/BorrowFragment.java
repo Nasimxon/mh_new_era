@@ -623,6 +623,13 @@ public class BorrowFragment extends Fragment {
                                 paFragmentManager.updateAllFragmentsPageChanges();
                                 paFragmentManager.updateVoiceRecognizePageCurrencyChanges();
                                 logicManager.insertDebtBorrow(person);
+                                for (Fragment fragment : paFragmentManager.getFragmentManager().getFragments()) {
+                                    if (fragment == null) continue;
+                                    if (fragment instanceof BorrowFragment) {
+                                        BorrowFragment frag = (BorrowFragment) fragment;
+                                        if (frag != null) frag.refreshList();
+                                    }
+                                }
                                 try {
                                     persons.remove(position);
                                 } catch (IndexOutOfBoundsException e) {

@@ -607,6 +607,7 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
                     }
 
                 dataCache.getBoardBitmapsCache().evictAll();
+                reportManager.clearCache();
                 dataCache.updateAllPercents();
                 dataCache.clearAllCaches();
                 pocketAccounterApplicationModule.updateDaoSession();

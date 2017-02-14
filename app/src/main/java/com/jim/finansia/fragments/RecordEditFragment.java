@@ -513,6 +513,8 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
                         tvRecordEditDisplay.append(text);
                 }
                 lastNumeric = true;
+                if (lastOperator)
+                    lastDot = false;
                 lastOperator = false;
             }
         };
@@ -544,7 +546,7 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
                 if (lastNumeric && !stateError) {
                     tvRecordEditDisplay.append(text);
                     lastNumeric = false;
-                    lastDot = false;
+                    lastDot = true;
                     lastOperator = true;
                 }
                 if (lastOperator) {
@@ -731,7 +733,6 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
             public void onClick(final View v) {
                 openAddingDialog = false;
                 keyforback = true;
-
                 if (keykeboard) {
                     RelativeLayout headermain = (RelativeLayout) view.findViewById(R.id.headermain);
                     AutoTransition cus = new AutoTransition();
@@ -928,6 +929,11 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
         view.findViewById(R.id.imOKBut).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(final View v) {
+                if (tvRecordEditDisplay.getText().toString().endsWith(".")) {
+                    String text = tvRecordEditDisplay.getText().toString() + "0";
+                    tvRecordEditDisplay.setText(text);
+                    lastNumeric = true;
+                }
                 keyForDeleteAllPhotos = false;
                 if (keykeboard) {
                     InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);

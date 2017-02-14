@@ -367,7 +367,7 @@ public class CurrencyEditFragment extends PABaseInfoFragment implements OnClickL
                 reportManager.clearCache();
                 commonOperations.refreshCurrency();
                 dataCache.updateAllPercents();
-                paFragmentManager.updateAllFragmentsOnViewPager();
+                paFragmentManager.updateAllFragmentsPageChanges();
                 paFragmentManager.updateVoiceRecognizePageCurrencyChanges();
                 refreshList();
                 currency.refreshCosts();

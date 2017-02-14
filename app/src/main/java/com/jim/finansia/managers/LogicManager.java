@@ -279,7 +279,18 @@ public class LogicManager {
                         return currencyCostState.getDay().compareTo(t1.getDay());
                     }
                 });
-                String last = format.format(allStates.get(allStates.size()-1).getDay().getTime());
+                String last = "";
+                if (day.compareTo(allStates.get(allStates.size()-1).getDay()) >= 0) {
+                    last = format.format(allStates.get(allStates.size()-1).getDay().getTime());
+                } else if (day.compareTo(allStates.get(0).getDay()) <= 0) {
+                    last = format.format(allStates.get(0).getDay().getTime());
+                } else {
+                    int position = 0;
+                    while (position < allStates.size() && day.compareTo(allStates.get(position).getDay()) > 0) {
+                        last = format.format(allStates.get(position).getDay().getTime());
+                        position++;
+                    }
+                }
                 List<CurrencyCostState> lastStates = daoSession
                         .queryBuilder(CurrencyCostState.class)
                         .where(CurrencyCostStateDao.Properties.Day.eq(last))

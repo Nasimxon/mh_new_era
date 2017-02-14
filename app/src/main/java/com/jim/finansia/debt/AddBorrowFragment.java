@@ -61,6 +61,7 @@ import com.jim.finansia.database.DebtBorrowDao;
 import com.jim.finansia.database.Person;
 import com.jim.finansia.database.Recking;
 import com.jim.finansia.finance.TransferAccountAdapter;
+import com.jim.finansia.fragments.RecordDetailFragment;
 import com.jim.finansia.managers.CommonOperations;
 import com.jim.finansia.managers.FinansiaFirebaseAnalytics;
 import com.jim.finansia.managers.LogicManager;
@@ -565,8 +566,7 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
         if (temp == null)
             temp = BitmapFactory.decodeResource(getResources(), R.drawable.no_photo, options);
         temp = Bitmap.createScaledBitmap(temp, (int) getResources().getDimension(R.dimen.thirty_dp), (int) getResources().getDimension(R.dimen.thirty_dp), false);
-
-        if (mode == PocketAccounterGeneral.MAIN || mode == PocketAccounterGeneral.EXPANSE_MODE || mode == PocketAccounterGeneral.INCOME_MODE) {
+        if (mode == PocketAccounterGeneral.MAIN || mode == PocketAccounterGeneral.DETAIL || mode == PocketAccounterGeneral.EXPANSE_MODE || mode == PocketAccounterGeneral.INCOME_MODE) {
             paFragmentManager.getFragmentManager().popBackStack();
             int table = mode == PocketAccounterGeneral.INCOME_MODE ? PocketAccounterGeneral.INCOME : PocketAccounterGeneral.EXPENSE;
             logicManager.changeBoardButton(table, position, currentDebtBorrow.getId());
@@ -580,6 +580,14 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
             dataCache.updateAllPercents();
             paFragmentManager.updateAllFragmentsPageChanges();
             paFragmentManager.displayMainWindow();
+            for (Fragment fragment : paFragmentManager.getFragmentManager().getFragments()) {
+                if (fragment == null) continue;
+                if (fragment instanceof RecordDetailFragment) {
+                    RecordDetailFragment frag = (RecordDetailFragment) fragment;
+                    if (frag != null)
+                        frag.updateFragments();
+                }
+            }
         }
         else {
             List<BoardButton> buttons = daoSession
