@@ -468,7 +468,7 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
             @Override
             public void onClick(View v) {
                 v.startAnimation(buttonClick);
-                if (tvRecordEditDisplay.getText().toString().length() >= 14) return;
+                if (tvRecordEditDisplay.getText().toString().length() >= 12) return;
                 String text = "";
                 switch (v.getId()) {
                     case R.id.rlZero:
@@ -527,7 +527,7 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
             @Override
             public void onClick(View v) {
                 v.startAnimation(buttonClick);
-                if (tvRecordEditDisplay.getText().toString().length() >= 14) return;
+                if (tvRecordEditDisplay.getText().toString().length() >= 12) return;
                 String text = "";
                 switch (v.getId()) {
                     case R.id.rlPlusSign:
@@ -562,7 +562,7 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
             @Override
             public void onClick(View v) {
                 v.startAnimation(buttonClick);
-                if (tvRecordEditDisplay.getText().toString().length() >= 14) return;
+                if (tvRecordEditDisplay.getText().toString().length() >= 12) return;
                 if (lastNumeric && !stateError && !lastDot && !lastOperator) {
                     tvRecordEditDisplay.append(".");
                     lastNumeric = false;
@@ -1310,8 +1310,8 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
     private void createNewRecord() {
         onEqual();
         String value = tvRecordEditDisplay.getText().toString();
-        if (value.length() > 14)
-            value = value.substring(0, 14);
+        if (value.length() > 12)
+            value = value.substring(0, 12);
         if (account.getNoneMinusAccount()) {
             double accounted = logicManager.isLimitAccess(account, date)
                     - commonOperations.getCost(date, currency, Double.parseDouble(tvRecordEditDisplay.getText().toString()));

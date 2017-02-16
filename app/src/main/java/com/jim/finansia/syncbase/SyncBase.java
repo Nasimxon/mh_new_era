@@ -42,6 +42,8 @@ import java.nio.channels.FileChannel;
 
 import javax.inject.Inject;
 
+import static android.app.Activity.RESULT_OK;
+
 /**
  * Created by DEV on 10.06.2016.
  */
@@ -151,22 +153,10 @@ public class SyncBase {
                        }
 
                    if (!context.getClass().getName().equals(SettingsActivity.class.getName())) {
-                       PAFragmentManager paFragmentManager=new PAFragmentManager( ((PocketAccounter) context));
-                       reportManager.clearCache();
-                       dataCache.clearAllCaches();
-                       dataCache.updateAllPercents();
-                       paFragmentManager.updateAllFragmentsOnViewPager();
-                       paFragmentManager.updateAllFragmentsPageChanges();
                        even.onSuccses();
 
                    } else {
-                       Intent intent = new Intent(context, PocketAccounter.class);
-                       context.startActivity(intent);
-                       reportManager.clearCache();
-                       dataCache.clearAllCaches();
-                       dataCache.updateAllPercents();
-                       pocketAccounterApplicationModule.updateDaoSession();
-                       ((SettingsActivity) context).setResult(1111);
+                       ((SettingsActivity) context).setResult(RESULT_OK);
                        ((SettingsActivity) context).finish();
                    }
                    A1.dismiss();

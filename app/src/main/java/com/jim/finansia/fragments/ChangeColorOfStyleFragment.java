@@ -41,10 +41,10 @@ import javax.inject.Inject;
 public class ChangeColorOfStyleFragment extends Fragment {
     private String[] colors = {PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.BLUE_THEME,
                                 PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.YELLOW_THEME,
+                                PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.RED_LIPS,
                                 PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.FIOLA_THEME,
                                 PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.DARK_BLUE,
                                 PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.LIGHT_BLUE,
-                                PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.RED_LIPS,
                                 PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.GREEN_THEME,
                                 PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.ORANGE_THEME,
                                 PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.LIGHT_YELLOW

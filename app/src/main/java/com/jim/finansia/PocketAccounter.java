@@ -15,10 +15,12 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.jim.finansia.credit.notificat.NotificationManagerCredit;
 import com.jim.finansia.database.DaoSession;
 import com.jim.finansia.debt.PocketClassess;
@@ -35,6 +37,7 @@ import com.jim.finansia.managers.ToolbarManager;
 import com.jim.finansia.modulesandcomponents.components.DaggerPocketAccounterActivityComponent;
 import com.jim.finansia.modulesandcomponents.components.PocketAccounterActivityComponent;
 import com.jim.finansia.modulesandcomponents.modules.PocketAccounterActivityModule;
+import com.jim.finansia.syncbase.SignInGoogleMoneyHold;
 import com.jim.finansia.utils.PocketAccounterGeneral;
 import com.jim.finansia.utils.SMSMonitor;
 import com.jim.finansia.utils.SmsService;
@@ -433,6 +436,12 @@ public class PocketAccounter extends AppCompatActivity {
             } else {
                 // обрабатываем ответ
             }
+
+        }
+        if (requestCode == key_for_restat && resultCode == RESULT_OK) {
+            if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+                updatePage();
+            }
         }
     }
 
@@ -441,5 +450,15 @@ public class PocketAccounter extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         purchaseImplementation.unbindService();
+    }
+    public void updatePage(){
+        Log.d("testtt", "onSuccses: 12");
+        reportManager.clearCache();
+        dataCache.clearAllCaches();
+        paFragmentManager.updateTemplatesInVoiceRecognitionFragment();
+        paFragmentManager.updateSmsFragmentChanges();
+        paFragmentManager.updateAllFragmentsPageChanges();
+        commonOperations.refreshCurrency();
+        Log.d("testtt", "onSuccses: 13");
     }
 }

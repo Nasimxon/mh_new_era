@@ -14,6 +14,7 @@ import android.graphics.RectF;
 import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
+import android.util.Log;
 
 import com.jim.finansia.R;
 import com.jim.finansia.database.BoardButton;
@@ -228,6 +229,9 @@ public class DecorationBoardView extends BaseBoardView {
         Paint whitePaint = new Paint();
         whitePaint.setAntiAlias(true);
         Bitmap shadow = null, white = null, gradient = null, icon = null;
+        if(dataCache.getElements().size() == 0){
+            loadDrawingElements();
+        }
         for (ABoardButton button : buttons) {
             if (drawState == DRAWING_PROCESS && buttons.indexOf(button) == position) {
                 shadowsPaint.setAlpha(alpha);
@@ -309,6 +313,7 @@ public class DecorationBoardView extends BaseBoardView {
                         break;
                 }
             }
+
             canvas.drawBitmap(shadow, button.getContainer().centerX() - shadow.getWidth() / 2,
                     button.getContainer().centerY() - shadow.getHeight() / 2, shadowsPaint);
             canvas.drawBitmap(white, button.getContainer().left, button.getContainer().top, whitePaint);

@@ -984,6 +984,7 @@
         <item>icons_6</item>
         <item>icons_16</item>
     </string-array>
+    <string name="purpose_term">Enter the purpose term</string>
     <string-array name="report_by_account_titles">
         <item>Operacíon</item>
         <item>Fecha</item>
@@ -1501,6 +1502,7 @@
     <string name="buy_voice_text">¡Usted excedió la cuenta de su intento!. ¿Desea activar el servicio?</string>
     <string-array name="currency_1">
         <item>dolar</item>
+        <item>$</item>
     </string-array>
     <string-array name="currency_2">
         <item>rub.</item>

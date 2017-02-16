@@ -187,38 +187,40 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
         Preference googleBackup = (Preference) findPreference("backup");
         FirebaseUser auth=FirebaseAuth.getInstance().getCurrentUser();
         if(auth==null){googleBackup.setEnabled(false); }
-        else
+        else{
+            googleBackup.setEnabled(true);
         googleBackup.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 lastUpload();
                 return false;
             }
-        });
+        });}
         Preference googleLogout = (Preference) findPreference("logout");
         if(auth==null){googleLogout.setEnabled(false);  }
-        else
-        googleLogout.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                final AlertDialog.Builder builder = new AlertDialog.Builder(SettingsActivity.this);
-                builder.setMessage(R.string.are_you_sure_for_log_out)
-                        .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                DrawerInitializer.reg.revokeAccess();
-                                setResult(RESULT_OK);
-                                finish();
-                            }
-                        }) .setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
-                builder.create().show();
-                return false;
-            }
-        });
-
+        else {
+            googleLogout.setEnabled(true);
+            googleLogout.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(SettingsActivity.this);
+                    builder.setMessage(R.string.are_you_sure_for_log_out)
+                            .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    DrawerInitializer.reg.revokeAccess();
+                                    setResult(RESULT_OK);
+                                    finish();
+                                }
+                            }).setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    });
+                    builder.create().show();
+                    return false;
+                }
+            });
+        }
         ((CheckBoxPreference) findPreference("securewidget")).setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
@@ -274,6 +276,7 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
                         getSharedPreferences("infoFirst", MODE_PRIVATE).edit().clear().apply();
                         setResult(1111);
                         Map<String, Boolean> keys = new HashMap<>();
+                        //TODO otrikavat theme
                         keys.put(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.IS_AVAILABLE_CHANGING_OF_CATEGORY_KEY, sharedPreferences.getBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.IS_AVAILABLE_CHANGING_OF_CATEGORY_KEY, false));
                         keys.put(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.IS_AVAILABLE_CHANGING_OF_DEBT_BORROW_KEY, sharedPreferences.getBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.IS_AVAILABLE_CHANGING_OF_DEBT_BORROW_KEY, false));
                         keys.put(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.IS_AVAILABLE_CHANGING_OF_CREDIT_KEY, sharedPreferences.getBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.IS_AVAILABLE_CHANGING_OF_CREDIT_KEY, false));

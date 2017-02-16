@@ -44,6 +44,9 @@ public class PocketAccounterApplication extends Application {
         }
         fullBought();
     }
+    public PocketAccounterApplicationComponent component() {
+        return pocketAccounterApplicationComponent;
+    }
     private void fullBought() {
         sharedPreferences
                 .edit()
@@ -75,9 +78,6 @@ public class PocketAccounterApplication extends Application {
                 .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.VOICE_RECOGNITION_KEY, true)
                 .putInt(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.SMS_PARSING_COUNT_KEY, 10)
                 .commit();
-    }
-    public PocketAccounterApplicationComponent component() {
-        return pocketAccounterApplicationComponent;
     }
 
 }

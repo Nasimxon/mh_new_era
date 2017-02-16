@@ -77,6 +77,7 @@ public class DrawerInitializer {
     public  SyncBase mySync;
     boolean downloadnycCanRest = true;
     Uri imageUri;
+    ImageView fabIcon;
     ImageView fabIconFrame;
     LeftMenuAdapter adapter;
     public static final int key_for_restat = 10101;
@@ -125,7 +126,7 @@ public class DrawerInitializer {
 
             }
         }
-        final ImageView fabIcon = (ImageView) pocketAccounter.findViewById(R.id.btnFirebaseLogin);
+         fabIcon = (ImageView) pocketAccounter.findViewById(R.id.btnFirebaseLogin);
 //        fabIconFrame = (ImageView) pocketAccounter.findViewById(R.id.iconFrameForAnim);
 
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
@@ -166,16 +167,14 @@ public class DrawerInitializer {
                                             mySync.downloadLast(user.getUid(), new SyncBase.ChangeStateLis() {
                                                 @Override
                                                 public void onSuccses() {
-                                                    pocketAccounter.runOnUiThread(new Runnable() {
-                                                        @Override
-                                                        public void run() {
+                                                    Log.d("testtt", "onSuccses: 1");
+                                                    pocketAccounter.updatePage();
                                                             hideProgressDialog();
-                                                          fabIcon.setImageResource(R.drawable.savebutdisable);
-                                                            if (!drawer.isClosed()) {
-                                                                drawer.close();
-                                                            }
-                                                        }
-                                                    });
+                                                            Log.d("testtt", "onSuccses: 2");
+                                                            fabIcon.setImageResource(R.drawable.savebutdisable);
+                                                            Log.d("testtt", "onSuccses: 3");
+
+
                                                 }
 
                                                 @Override
@@ -230,31 +229,45 @@ public class DrawerInitializer {
                     (new Handler()).postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            final android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(pocketAccounter);
-                            builder.setMessage(R.string.sync_message)
-                                    .setPositiveButton(R.string.sync_short, new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int id) {
-                                            fabIcon.setImageResource(R.drawable.savebut);
-                                            mySync.uploadBASE(userim.getUid(), new SyncBase.ChangeStateLis() {
-                                                @Override
-                                                public void onSuccses() {
-                                                   fabIcon.setImageResource(R.drawable.savebutdisable);
-                                                }
+                            fabIcon.setImageResource(R.drawable.savebut);
+                            mySync.uploadBASE(userim.getUid(), new SyncBase.ChangeStateLis() {
+                                @Override
+                                public void onSuccses() {
+                                    fabIcon.setImageResource(R.drawable.savebutdisable);
+                                }
 
-                                                @Override
-                                                public void onFailed(String e) {
-                                                    fabIcon.setImageResource(R.drawable.savebutdisable);
-                                                    Toast.makeText(pocketAccounter,R.string.connection_faild,Toast.LENGTH_SHORT).show();
-                                                }
-                                            });
-
-                                        }
-                                    }).setNegativeButton(pocketAccounter.getString(R.string.cancel1), new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    dialog.cancel();
+                                @Override
+                                public void onFailed(String e) {
+                                    fabIcon.setImageResource(R.drawable.savebutdisable);
+                                    Toast.makeText(pocketAccounter,R.string.connection_faild,Toast.LENGTH_SHORT).show();
                                 }
                             });
-                            builder.create().show();
+//
+//                            final android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(pocketAccounter);
+//                            builder.setMessage(R.string.sync_message)
+//                                    .setPositiveButton(R.string.sync_short, new DialogInterface.OnClickListener() {
+//                                        public void onClick(DialogInterface dialog, int id) {
+//                                            fabIcon.setImageResource(R.drawable.savebut);
+//                                            mySync.uploadBASE(userim.getUid(), new SyncBase.ChangeStateLis() {
+//                                                @Override
+//                                                public void onSuccses() {
+//                                                   fabIcon.setImageResource(R.drawable.savebutdisable);
+//                                                }
+//
+//                                                @Override
+//                                                public void onFailed(String e) {
+//                                                    fabIcon.setImageResource(R.drawable.savebutdisable);
+//                                                    Toast.makeText(pocketAccounter,R.string.connection_faild,Toast.LENGTH_SHORT).show();
+//                                                }
+//                                            });
+//
+//                                        }
+//                                    }).setNegativeButton(pocketAccounter.getString(R.string.cancel1), new DialogInterface.OnClickListener() {
+//                                public void onClick(DialogInterface dialog, int id) {
+//                                    dialog.cancel();
+//                                }
+//                            });
+//                            builder.create().show();
                         }
                     }, 150);
                 } else {
@@ -266,6 +279,7 @@ public class DrawerInitializer {
                                 reg.openDialog();
                             } else
                                 reg.regitUser();
+
                         }
                     }, 150);
                 }
@@ -286,18 +300,16 @@ public class DrawerInitializer {
             reg.regitRequstGet(data);
         }
         if (requestCode == key_for_restat && resultCode == RESULT_OK) {
-            fragmentManager.displayMainWindow();
-            if (!drawer.isClosed()) {
-                drawer.close();
-            }
+
             if (FirebaseAuth.getInstance().getCurrentUser() == null) {
                 userAvatar.setImageResource(R.drawable.ic_photo);
                 userName.setText(R.string.please_sign);
                 userEmail.setText(R.string.and_sync_your_data);
-                fabIconFrame.setBackgroundResource(R.drawable.cloud_sign_in);
+                fabIcon.setImageResource(R.drawable.ic_login_symbol);
             }
         }
         if (resultCode != RESULT_OK && requestCode == key_for_restat && resultCode != 1111) {
+            pocketAccounter.updatePage();
             fragmentManager.displayMainWindow();
             for (int i = 0; i < fragmentManager.getFragmentManager().getBackStackEntryCount(); i++) {
                 fragmentManager.getFragmentManager().popBackStack();

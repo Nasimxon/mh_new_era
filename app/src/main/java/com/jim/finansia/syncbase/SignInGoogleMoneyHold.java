@@ -100,14 +100,10 @@ public class SignInGoogleMoneyHold {
     }
     public void regitRequstGet(Intent data){
         GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-        Log.d(TAG,data.toString());
         if (result.isSuccess()) {
             showProgressDialog();
             GoogleSignInAccount account = result.getSignInAccount();
-            Log.d(TAG,account.getDisplayName());
             if(account.getPhotoUrl()!=null)
-            Log.d(TAG,account.getPhotoUrl().toString());
-            Log.d(TAG,account.getEmail());
             firebaseAuthWithGoogle(account);
             ed.putBoolean("FIRSTSYNC",false);
             ed.commit();
