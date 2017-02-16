@@ -49,6 +49,18 @@ public class ChangeColorOfStyleFragment extends Fragment {
                                 PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.ORANGE_THEME,
                                 PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.LIGHT_YELLOW
     };
+
+    private String[] colorSkus = {
+            PocketAccounterGeneral.MoneyHolderSkus.YELLOW_THEME_SKU,
+            PocketAccounterGeneral.MoneyHolderSkus.RED_LIPS_SKU,
+            PocketAccounterGeneral.MoneyHolderSkus.FIOLA_THEME_SKU,
+            PocketAccounterGeneral.MoneyHolderSkus.DARK_BLUE_SKU,
+            PocketAccounterGeneral.MoneyHolderSkus.LIGHT_BLUE_SKU,
+            PocketAccounterGeneral.MoneyHolderSkus.GREEN_THEME_SKU,
+            PocketAccounterGeneral.MoneyHolderSkus.ORANGE_THEME_SKU,
+            PocketAccounterGeneral.MoneyHolderSkus.LIGHT_YELLOW_SKU
+    };
+
     private RelativeLayout rlColorChangeFragment;
     private RecyclerView rvColorChangeFragment;
     private int selectedColorPos = 0;
@@ -131,7 +143,14 @@ public class ChangeColorOfStyleFragment extends Fragment {
                     warningDialog.getWindow().setLayout(8 * width / 10, ViewGroup.LayoutParams.WRAP_CONTENT);
                     warningDialog.show();
                 } else {
-                    purchaseImplementation.buyTheme(colorDatas.get(selectedColorPos).getThemeName());
+                    String sku = "";
+                    for (String colorSku : colorSkus) {
+                        if (colorSku.endsWith(colorDatas.get(selectedColorPos).getThemeName().toLowerCase())) {
+                            sku = colorSku;
+                            break;
+                        }
+                    }
+                    purchaseImplementation.buyTheme(sku);
                 }
             }
         });
