@@ -427,7 +427,7 @@ public class AddSmsParseFragment extends PABaseFragment{
         try {
             Uri uri = Uri.parse(SMS_URI_INBOX);
             String[] projection = new String[] { "_id", "address", "person", "body", "date", "type" };
-            Cursor cur = getContext().getContentResolver().query(uri, projection, null /*"address='123456789'"*/, null, "date desc");
+            Cursor cur = getContext().getContentResolver().query(uri, projection, null, null, "date desc");
             if (cur.moveToFirst()) {
                 int index_Address = cur.getColumnIndex("address");
                 int index_Person = cur.getColumnIndex("person");
@@ -509,9 +509,9 @@ public class AddSmsParseFragment extends PABaseFragment{
 
     private List<String> smsBodyParse(String body) {
         String anyWordWithoutNumber = "([a-zA-Z/^*~&%@!+()$#-\\/'\"\\{`:;])";
-        String anyNumber = "([a-zA-Z/^*~&%@!+()$#-\\/'\"\\{`:;]*)([0-9]+[.,]?[0-9]*)([a-zA-Z/^*~&%@!+()$#-\\/'\"\\{`:;]*)";
-        String numberWordNumberWord = "([0-9]+[.,]?[0-9]*)([a-zA-Z/^*~&%@!+()$#-\\/'\"\\{`:;]*)([0-9]+[.,]?[0-9]*)([a-zA-Z/^*~&%@!+()$#-\\/'\"\\{`:;]*)";
-        String wordNumberWordNumber = "([a-zA-Z/^*~&%@!+()$#-\\/'\"\\{`:;]*)([0-9]+[.,]?[0-9]*)([a-zA-Z/^*~&%@!+()$#-\\/'\"\\{`:;]*)([0-9]+[.,]?[0-9]*)";
+        String anyNumber = "([\\p{L}/^*~&%@!+()$#-\\/'\"\\{`:;]*)\\s*([0-9]+[.,]?[0-9]*)\\s*([\\p{L}/^*~&%@!+()$#-\\/'\"\\{`:;]*)";
+        String numberWordNumberWord = "([0-9]+[.,]?[0-9]*)\\s*([\\p{L}/^*~&%@!+()$#-\\/'\"\\{`:;]*)\\s*([0-9]+[.,]?[0-9]*)\\s*([\\p{L}/^*~&%@!+()$#-\\/'\"\\{`:;]*)";
+        String wordNumberWordNumber = "([\\p{L}/^*~&%@!+()$#-\\/'\"\\{`:;]*)\\s*([0-9]+[.,]?[0-9]*)\\s*([\\p{L}/^*~&%@!+()$#-\\/'\"\\{`:;]*)\\s*([0-9]+[.,]?[0-9]*)";
         String[] strings = body.split(" ");
         List<String> temp = Arrays.asList(strings);
         for (String s : temp) s.replace("\n", "");

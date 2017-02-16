@@ -453,9 +453,9 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
             double limit = account.getLimite();
             double accounted = logicManager.isLimitAccess(account, takenDate);
             if (type == DebtBorrow.DEBT) {
-                accounted = accounted + commonOperations.getCost(Calendar.getInstance(), currency, account.getCurrency(), Double.parseDouble(etDebtSum.getText().toString()));
+                accounted = accounted + commonOperations.getCost(Calendar.getInstance(), currency, Double.parseDouble(etDebtSum.getText().toString()));
             } else {
-                accounted = accounted - commonOperations.getCost(Calendar.getInstance(), currency, account.getCurrency(), Double.parseDouble(etDebtSum.getText().toString()));
+                accounted = accounted - commonOperations.getCost(Calendar.getInstance(), currency, Double.parseDouble(etDebtSum.getText().toString()));
             }
             if (account.getNoneMinusAccount()) {
                 if (accounted < 0) {

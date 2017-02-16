@@ -64,6 +64,7 @@ import com.jim.finansia.utils.speech.PASpeechRecognizer;
 import com.jim.finansia.utils.speech.SpeechListener;
 
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -933,15 +934,15 @@ public class VoiceRecognizerFragment extends Fragment {
             }
             tvSpeechModeCategory.setText(text);
         }
-        String amountRegex = "([([^0-9]*)\\s*([0-9]+[.,]?[0-9]*)]*\\s([$]*)([0-9]+[.,]?[0-9]*).*)|(^([0-9]+[.,]?[0-9]*).*)";
+        String amountRegex = "([\\p{L}/^*~&%@!+()$#-\\/'\"\\{`:;]*)\\s*([0-9]+[.,]?[0-9]*)\\s*([\\p{L}/^*~&%@!+()$#-\\/'\"\\{`:;]*)";
         Pattern pattern = Pattern.compile(amountRegex);
         Matcher matcher = pattern.matcher(newLetter);
-        final int firstOrGroup = 3, secondOrGroup = 5;
+        final int firstOrGroup = 2;
         if (matcher.matches()) {
-            if (matcher.group(firstOrGroup) != null)
-                summ = Double.parseDouble(matcher.group(firstOrGroup).replace(',','.'));
-            if (matcher.group(secondOrGroup) != null)
-                summ = Double.parseDouble(matcher.group(secondOrGroup).replace(',','.'));
+            if (matcher.group(firstOrGroup) != null) {
+                String temp = matcher.group(firstOrGroup).replace(',', '.');
+                summ = Double.parseDouble(temp);
+            }
         }
         tvSpeechAmount.setText(formatter.format(summ));
         if (timer == null) {
