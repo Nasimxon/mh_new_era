@@ -42,7 +42,7 @@ public class PocketAccounterApplication extends Application {
         if (!(new File(oldDbPath).exists()) && !sharedPreferences.getBoolean(PocketAccounterGeneral.DB_ONCREATE_ENTER, false)) {
                 CommonOperations.createDefaultDatas(sharedPreferences, getApplicationContext(), daoSession);
         }
-        fullBought();
+//        fullBought();
     }
     public PocketAccounterApplicationComponent component() {
         return pocketAccounterApplicationComponent;

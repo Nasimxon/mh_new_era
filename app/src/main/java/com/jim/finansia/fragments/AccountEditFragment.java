@@ -248,15 +248,17 @@ public class AccountEditFragment extends PABaseInfoFragment implements OnClickLi
                         etStartLimit.setError(getResources().getString(R.string.enter_amount_error));
                         return;
                     }
+                    double limitSum;
                     try {
-                        Double.parseDouble(etStartLimit.getText().toString());
+                        String temp = etStartLimit.getText().toString();
+                        temp.replace(",", ".");
+                        limitSum = Double.parseDouble(temp);
                     } catch (Exception e) {
                         etStartLimit.setError(getString(R.string.wrong_input_type));
                         return;
                     }
                     if (this.account != null) {
                         double limit = logicManager.isLimitAccess(this.account, Calendar.getInstance());
-                        double limitSum = Double.parseDouble(etStartLimit.getText().toString());
                         if (this.account.getLimitCurId() != null) {
                             Currency limitCurrency = daoSession.getCurrencyDao().queryBuilder()
                                     .where(CurrencyDao.Properties.Id.eq(this.account.getLimitCurId())).list().get(0);
@@ -266,13 +268,14 @@ public class AccountEditFragment extends PABaseInfoFragment implements OnClickLi
                                 return;
                             }
                         }
-                        account.setIsLimited(true);
-                        account.setLimite(Double.parseDouble(etStartLimit.getText().toString()));
                     }
+                    account.setIsLimited(true);
+                    account.setLimite(limitSum);
                     List<Currency> currencies = daoSession.getCurrencyDao().loadAll();
                     account.setLimitCurId(currencies.get(spStartLimit.getSelectedItemPosition()).getId());
                 } else {
                     account.setIsLimited(false);
+                    account.setLimitCurId(null);
                 }
                 account.setStartMoneyCurrency(daoSession.getCurrencyDao().loadAll()
                         .get(spStartMoneyCurrency.getSelectedItemPosition()));

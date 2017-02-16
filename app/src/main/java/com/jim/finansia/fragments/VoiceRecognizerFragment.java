@@ -146,7 +146,7 @@ public class VoiceRecognizerFragment extends Fragment {
     private CountDownTimer timer;
     private Calendar day;
     static final String DATA_CACHE = "dayfromout";
-
+    static final int FREE_VOICE_INPUT_COUNT = 20;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -251,7 +251,7 @@ public class VoiceRecognizerFragment extends Fragment {
                         }
                     }
                     if (!preferences.getBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.VOICE_RECOGNITION_KEY, false)) {
-                        if (preferences.getInt(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.VOICE_RECOGNITION_COUNT, 0) > 3) {
+                        if (preferences.getInt(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.VOICE_RECOGNITION_COUNT, 0) > FREE_VOICE_INPUT_COUNT) {
                             final WarningDialog dialog = new WarningDialog(getContext());
                             dialog.setTitle(R.string.attention);
                             dialog.setText(getString(R.string.buy_voice_text));
