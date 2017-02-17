@@ -145,7 +145,7 @@ public class ChangeColorOfStyleFragment extends Fragment {
                 } else {
                     String sku = "";
                     for (String colorSku : colorSkus) {
-                        if (colorSku.endsWith(colorDatas.get(selectedColorPos).getThemeName().toLowerCase())) {
+                        if (colorSku.toLowerCase().endsWith(colorDatas.get(selectedColorPos).getThemeName().toLowerCase())) {
                             sku = colorSku;
                             break;
                         }

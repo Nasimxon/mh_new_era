@@ -68,7 +68,7 @@ public class PocketAccounterApplication extends Application {
                 .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.LIGHT_YELLOW, true)
                 .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.FIRST_PAGE_COUNT_KEY, true)
                 .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.SECOND_PAGE_COUNT_KEY, true)
-                .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys .THIRD_PAGE_COUNT_KEY, true)
+                .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.THIRD_PAGE_COUNT_KEY, true)
                 .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.FOURTH_PAGE_COUNT_KEY, true)
                 .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.FIFTH_PAGE_COUNT_KEY, true)
                 .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.SIXTH_PAGE_COUNT_KEY, true)
