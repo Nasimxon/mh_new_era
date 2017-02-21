@@ -1416,7 +1416,7 @@
     <string name="info_toliq">Информация:</string>
     <string name="it_is_expense">Расход</string>
     <string name="it_is_income">Доход</string>
-    <string name="obyasneniya_pro_parsing">Для точности определения распознования СМС сообщений выберите слово определяющее доход или расход, а также сумму!</string>
+    <string name="obyasneniya_pro_parsing">Для точности определения распознавания СМС сообщений выберите слово определяющее доход или расход, а также сумму!</string>
     <string name="processed">Обработано:</string>
     <string name="select_word_for_parsing">Выберите слово для парсинга</string>
     <string name="which_type_is_it">Определите тип</string>
@@ -1716,7 +1716,7 @@
     <string name="returned_debt">Вернули</string>
     <string name="i_returned">Вернул</string>
     <string name="no_sub_cat">Без подкатегории</string>
-    <string name="voice_network_error">Включите интернет или установите пакет для распознования речи!</string>
+    <string name="voice_network_error">Включите интернет или установите пакет для распознавания речи!</string>
     <string name="franclins_cytate">Если хотите быть богатым, научитесь не только зарабатывать, но и быть экономным.</string>
     <string name="you_can_jump">Сначала погасите за предыдущий период!</string>
     <string name="to_jump">Сначала погасите за предыдущий период!</string>
