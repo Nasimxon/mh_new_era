@@ -1101,6 +1101,11 @@ public class AddCreditFragment extends Fragment {
                 transactionCred.setError(getString(R.string.invalide_format));
                 return;
             }
+            if(firsPay>=A1.getValue_of_credit()){
+                Toast.makeText(getContext(),R.string.invalide_format,Toast.LENGTH_SHORT).show();
+                transactionCred.setError(getString(R.string.invalide_format));
+                return;
+            }
             A1.setPervonacalniy(firsPay);
            A1.setValue_of_credit(A1.getValue_of_credit()-firsPay);
         }

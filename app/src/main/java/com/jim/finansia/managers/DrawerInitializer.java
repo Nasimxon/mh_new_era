@@ -167,12 +167,9 @@ public class DrawerInitializer {
                                             mySync.downloadLast(user.getUid(), new SyncBase.ChangeStateLis() {
                                                 @Override
                                                 public void onSuccses() {
-                                                    Log.d("testtt", "onSuccses: 1");
                                                     pocketAccounter.updatePage();
-                                                            hideProgressDialog();
-                                                            Log.d("testtt", "onSuccses: 2");
-                                                            fabIcon.setImageResource(R.drawable.savebutdisable);
-                                                            Log.d("testtt", "onSuccses: 3");
+                                                    hideProgressDialog();
+                                                    fabIcon.setImageResource(R.drawable.savebutdisable);
 
 
                                                 }
@@ -181,7 +178,7 @@ public class DrawerInitializer {
                                                 public void onFailed(String e) {
                                                     hideProgressDialog();
                                                     fabIcon.setImageResource(R.drawable.savebutdisable);
-                                                    Toast.makeText(pocketAccounter,R.string.connection_faild,Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(pocketAccounter,e,Toast.LENGTH_SHORT).show();
 
                                                 }
                                             });
@@ -207,7 +204,7 @@ public class DrawerInitializer {
                         public void onFailed(Exception e) {
                             hideProgressDialog();
                             fabIcon.setImageResource(R.drawable.savebutdisable);
-                            Toast.makeText(pocketAccounter,R.string.connection_faild,Toast.LENGTH_SHORT).show();
+                            Toast.makeText(pocketAccounter,e.getMessage(),Toast.LENGTH_SHORT).show();
                         }
                     });
                 }

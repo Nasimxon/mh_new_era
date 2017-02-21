@@ -53,11 +53,9 @@ public class SyncBase {
     private static String DB_NAME;
     private static String PATH_FOR_INPUT;
     private static String META_KEY="CreatAT";
-//    private static String FINANSIA_META_KEY="typeapp";
-//    private static String FINANSIA_META_KEY_VALUE="finansia";
     StorageReference refStorage;
     Context context;
-    ChangeStateLis eventer;
+    private String DATABASE_FIREBASE = "FinansiaBase";
     @Inject
     DaoSession daoSession;
     @Inject
@@ -66,15 +64,12 @@ public class SyncBase {
     PocketAccounterApplicationModule pocketAccounterApplicationModule;
     @Inject
     ReportManager reportManager;
-//    @Inject
-//    PAFragmentManager paFragmentManager;
     @Inject
     DataCache dataCache;
     void SyncBase(){
 
     }
     public SyncBase(StorageReference refStorage, Context context,String databsename) {
-        Log.d("testtt", "SyncBase: CONSTRUCT");
         ((PocketAccounterApplication) context.getApplicationContext()).component().inject(this);
         this.refStorage = refStorage;
         this.context = context;
@@ -103,7 +98,7 @@ public class SyncBase {
 //                    .setCustomMetadata(FINANSIA_META_KEY,FINANSIA_META_KEY_VALUE)
                     .build();
             InputStream stream = new FileInputStream(new File(PATH_FOR_INPUT));
-            refStorage.child(auth_uid + "/" + PocketAccounterGeneral.OLD_DB_NAME).putStream(stream, metadata).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            refStorage.child(auth_uid + "/" + DATABASE_FIREBASE).putStream(stream, metadata).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     even.onSuccses();
@@ -133,7 +128,7 @@ public class SyncBase {
            final File file = new File(PATH_FOR_INPUT);
            final File fileDirectory = new File(context.getFilesDir(),DB_NAME) ;
 
-           refStorage.child(auth_uid+"/"+PocketAccounterGeneral.OLD_DB_NAME).getFile(fileDirectory).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+           refStorage.child(auth_uid+"/"+DATABASE_FIREBASE).getFile(fileDirectory).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                @Override
                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
 
@@ -176,7 +171,7 @@ public class SyncBase {
        return false;
    }
     public void meta_Message(String auth_uid, final ChangeStateLisMETA even){
-         refStorage.child(auth_uid+"/"+PocketAccounterGeneral.OLD_DB_NAME).getMetadata().addOnSuccessListener(new OnSuccessListener<StorageMetadata>() {
+         refStorage.child(auth_uid+"/"+DATABASE_FIREBASE).getMetadata().addOnSuccessListener(new OnSuccessListener<StorageMetadata>() {
              @Override
              public void onSuccess(StorageMetadata storageMetadata) {
                  even.onSuccses(Long.parseLong(storageMetadata.getCustomMetadata(META_KEY)));
