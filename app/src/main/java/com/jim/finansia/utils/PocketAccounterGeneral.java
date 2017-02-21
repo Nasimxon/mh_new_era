@@ -34,7 +34,6 @@ public class PocketAccounterGeneral {
 	public static final String HEAD_COLOR = "HEAD_COLOR", HELPER_COLOR = "HELPER_COLOR";
 	public static final String BASE64RSA = BuildConfig.base64rsa;
 	public static final String CHOOSEN_THEME_NAME_KEY = "CHOOSEN_THEME_NAME_KEY";
-	public static final String FIRST_DEBT_BORROW = "FIRST_DEBT_BORROW";
 	public static final String FIRST_CREDIT = "FIRST_CREDIT";
 	public class MoneyHolderSkus {
 		public static final String SMS_PARSING_SKU = BuildConfig.sms_parsing_sku;

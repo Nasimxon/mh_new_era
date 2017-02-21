@@ -731,9 +731,9 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
                                                 lvDialog.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                                     @Override
                                                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                                        boolean isAccess = sharedPreferences.getBoolean(PocketAccounterGeneral.FIRST_DEBT_BORROW, true);
+                                                        boolean isAccess = false;
                                                         if (!isAccess) {
-                                                            int count = sharedPreferences.getInt(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.DEBT_BORROW_COUNT_KEY, 0);
+                                                            int count = sharedPreferences.getInt(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.DEBT_BORROW_COUNT_KEY, 1);
                                                             List<DebtBorrow> list = daoSession.queryBuilder(DebtBorrow.class)
                                                                     .where(DebtBorrowDao.Properties.To_archive.eq(false))
                                                                     .list();

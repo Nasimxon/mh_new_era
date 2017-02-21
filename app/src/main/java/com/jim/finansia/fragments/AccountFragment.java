@@ -62,7 +62,6 @@ public class AccountFragment extends PABaseListFragment {
 			toolbarManager.setToolbarIconsVisibility(View.GONE, View.VISIBLE, View.VISIBLE);
 			toolbarManager.setImageToSecondImage(R.drawable.ic_info_outline_black_48dp);
 			toolbarManager.setImageToFirstImage(R.drawable.ic_history_black_48dp);
-
 			toolbarManager.setOnFirstImageClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {

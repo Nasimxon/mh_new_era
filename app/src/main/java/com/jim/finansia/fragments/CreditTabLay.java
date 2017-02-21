@@ -101,13 +101,13 @@ public class CreditTabLay extends Fragment implements View.OnClickListener, View
         fb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                boolean isAccess = sharedPreferences.getBoolean(PocketAccounterGeneral.FIRST_CREDIT, true);
+                boolean isAccess = false;
                 if (!isAccess) {
                     List<CreditDetials> list = daoSession
                             .queryBuilder(CreditDetials.class)
                             .where(CreditDetialsDao.Properties.Key_for_archive.eq(false))
                             .list();
-                    int count = sharedPreferences.getInt(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.CREDIT_COUNT_KEY, 0);
+                    int count = sharedPreferences.getInt(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.CREDIT_COUNT_KEY, 1);
                     isAccess = list.size() < count;
                 }
                 if (isAccess)

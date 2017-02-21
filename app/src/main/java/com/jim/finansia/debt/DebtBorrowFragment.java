@@ -146,9 +146,9 @@ public class DebtBorrowFragment extends Fragment implements View.OnClickListener
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.fbDebtBorrowFragment) {
-            boolean isAccess = preferences.getBoolean(PocketAccounterGeneral.FIRST_DEBT_BORROW, true);
+            boolean isAccess = false;
             if (!isAccess) {
-                int count = preferences.getInt(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.DEBT_BORROW_COUNT_KEY, 0);
+                int count = preferences.getInt(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.DEBT_BORROW_COUNT_KEY, 1);
                 List<DebtBorrow> list = daoSession.queryBuilder(DebtBorrow.class)
                         .where(DebtBorrowDao.Properties.To_archive.eq(false))
                         .list();

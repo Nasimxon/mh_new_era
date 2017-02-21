@@ -443,7 +443,6 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
             etDebtSum.setError(getResources().getString(R.string.enter_amount_error));
             return;
         }
-        preferences.edit().putBoolean(PocketAccounterGeneral.FIRST_DEBT_BORROW, false).commit();
         List<DebtBorrow> list = daoSession.loadAll(DebtBorrow.class);
         List<Currency> allCurrencies = daoSession.loadAll(Currency.class);
         List<Account> allAccounts = daoSession.loadAll(Account.class);
