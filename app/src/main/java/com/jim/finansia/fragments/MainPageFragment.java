@@ -222,12 +222,12 @@ public class MainPageFragment extends Fragment {
                     visibility = false;
                     lockView.setVisibility(View.VISIBLE);
                 }
-                lockView.setPage(position+1);
+                lockView.setPage(position);
                 paFragmentManager.notifyInfosVisibility(visibility);
             }
         });
         rlMainPageContainer.addView(expenseView);
-        lockView.setPage(expenseView.getCurrentPage()+1);
+        lockView.setPage(expenseView.getCurrentPage());
         rlMainPageContainer.addView(lockView);
         if (checkAccessForPage(expenseView.getCurrentPage())) {
             lockView.setVisibility(View.GONE);
@@ -257,7 +257,7 @@ public class MainPageFragment extends Fragment {
                     expenseView.decCurrentPage();
                     lockView.animateButtons(true);
                 }
-                lockView.setPage(expenseView.getCurrentPage()+1);
+                lockView.setPage(expenseView.getCurrentPage());
                 paFragmentManager.updateAllFragmentsPageChanges();
                 paFragmentManager.notifyInfosVisibility(visibility);
             }
@@ -321,7 +321,7 @@ public class MainPageFragment extends Fragment {
             lockView.setVisibility(View.VISIBLE);
             expenseView.lockPage();
         }
-        lockView.setPage(expenseView.getCurrentPage()+1);
+        lockView.setPage(expenseView.getCurrentPage());
         toolbarManager.setSubtitle(simpleDateFormat.format(day.getTime()));
         if (isCurrentDay) {
             ImageView icon = toolbarManager.getSubtitleIcon();
@@ -349,7 +349,7 @@ public class MainPageFragment extends Fragment {
             lockView.setVisibility(View.VISIBLE);
             expenseView.lockPage();
         }
-        lockView.setPage(expenseView.getCurrentPage()+1);
+        lockView.setPage(expenseView.getCurrentPage());
         balanceStripe.calculateBalance();
         expenseView.refreshPagesCount();
         expenseView.init();

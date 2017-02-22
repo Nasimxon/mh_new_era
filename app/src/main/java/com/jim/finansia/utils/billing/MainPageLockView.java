@@ -171,7 +171,7 @@ public class MainPageLockView extends RelativeLayout{
     }
     public void setPage(int page) {
         this.page = page;
-        tvLockPage.setText(Integer.toString(page) + " " + getContext().getString(R.string.page));
+        tvLockPage.setText(Integer.toString(page+1) + " " + getContext().getString(R.string.page));
     }
 
     public void hideClouds() {
