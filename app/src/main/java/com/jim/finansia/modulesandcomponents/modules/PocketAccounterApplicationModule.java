@@ -5,6 +5,7 @@ import android.preference.PreferenceManager;
 
 import com.jim.finansia.PocketAccounterApplication;
 import com.jim.finansia.database.Account;
+import com.jim.finansia.database.AccountOperation;
 import com.jim.finansia.database.Currency;
 import com.jim.finansia.database.CurrencyCost;
 import com.jim.finansia.database.DaoMaster;
@@ -54,7 +55,25 @@ public class PocketAccounterApplicationModule {
     private FinansiaFirebaseAnalytics finansiaFiregbaseAnalytics;
     public PocketAccounterApplicationModule(PocketAccounterApplication pocketAccounterApplication) {
         this.pocketAccounterApplication = pocketAccounterApplication;
-        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(pocketAccounterApplication, PocketAccounterGeneral.CURRENT_DB_NAME);
+        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(pocketAccounterApplication, PocketAccounterGeneral.CURRENT_DB_NAME) {
+            @Override
+            public void onUpgrade(Database db, int oldVersion, int newVersion) {
+                super.onUpgrade(db, oldVersion, newVersion);
+                if (oldVersion == 1 && newVersion == 2) {
+                    DaoSession tempSession = new DaoMaster(db).newSession();
+                    List<AccountOperation> accountOperations = tempSession.loadAll(AccountOperation.class);
+                    for (AccountOperation operation : accountOperations) {
+                        operation.setCost(1.0);
+                        operation.setTargetAmount(operation.getAmount());
+                        operation.setTargetCurrency(operation.getCurrency());
+                    }
+                    tempSession.getAccountOperationDao().dropTable(db, false);
+                    DaoMaster.createAllTables(db, true);
+                    tempSession.insertOrReplace(accountOperations);
+                    tempSession.getDatabase().close();
+                }
+            }
+        };
         Database db = helper.getWritableDb();
         daoSession = new DaoMaster(db).newSession();
         preferences = PreferenceManager.getDefaultSharedPreferences(pocketAccounterApplication);

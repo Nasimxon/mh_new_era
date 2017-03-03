@@ -6,12 +6,16 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.graphics.PorterDuff;
 import android.support.v4.content.ContextCompat;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -27,6 +31,10 @@ import com.jim.finansia.database.Account;
 import com.jim.finansia.database.AccountDao;
 import com.jim.finansia.database.AccountOperation;
 import com.jim.finansia.database.Currency;
+import com.jim.finansia.database.CurrencyCost;
+import com.jim.finansia.database.CurrencyCostState;
+import com.jim.finansia.database.CurrencyCostStateDao;
+import com.jim.finansia.database.CurrencyWithAmount;
 import com.jim.finansia.database.DaoSession;
 import com.jim.finansia.database.Purpose;
 import com.jim.finansia.database.PurposeDao;
@@ -34,6 +42,8 @@ import com.jim.finansia.finance.TransferAccountAdapter;
 import com.jim.finansia.managers.LogicManager;
 import com.jim.finansia.managers.ReportManager;
 
+import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -42,10 +52,6 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-/**
- * Created by DEV on 06.09.2016.
- */
-
 public class TransferDialog extends Dialog implements View.OnClickListener {
     @Inject LogicManager logicManager;
     @Inject DaoSession daoSession;
@@ -53,21 +59,20 @@ public class TransferDialog extends Dialog implements View.OnClickListener {
     @Inject @Named(value = "display_formatter") SimpleDateFormat dateFormat;
     @Inject ReportManager reportManager;
     private View dialogView;
-    private EditText etAccountEditName;
+    private EditText etAccountEditName, etAccountTargitAmount, etCost;
     private ImageView spTransferFirst, spTransferSecond;
-    private TransferAccountAdapter firstAdapter, secondAdapter;
-    private Spinner spAccManDialog;
+    private Spinner spAccManDialog, spTargetCurrencyId;
     private List<Currency> currencies;
     private ImageView ivAccountManClose;
     private TextView ivYes;
     private TextView date;
     private Calendar calendar;
     private OnTransferDialogSaveListener onTransferDialogSaveListener;
-    private List<String> first, second;
     private AccountOperation accountOperation;
     private TextView fromAccount;
     private TextView toAccount;
-
+    private DecimalFormat format = new DecimalFormat("0.##");
+    private boolean sourceChanged = false, targetChanged = false, costChanged = false, spinnerChanged = false;
     public TransferDialog(Context context) {
         super(context);
         if (!context.getClass().getName().equals(PocketAccounter.class.getName()))
@@ -79,14 +84,101 @@ public class TransferDialog extends Dialog implements View.OnClickListener {
         setContentView(dialogView);
         View v = getWindow().getDecorView();
         v.setBackgroundResource(android.R.color.transparent);
+        currencies = daoSession.getCurrencyDao().loadAll();
         etAccountEditName = (EditText) dialogView.findViewById(R.id.etAccountEditName);
+        etAccountEditName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                try {
+                    if (!spinnerChanged && !targetChanged && !costChanged) {
+                        sourceChanged = true;
+                        etAccountTargitAmount.setText(format.format(Double.parseDouble(charSequence.toString().replace(",", "."))
+                                * Double.parseDouble(etCost.getText().toString().replace(",", "."))));
+                    }
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    sourceChanged = false;
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+        etAccountTargitAmount = (EditText) dialogView.findViewById(R.id.etAccountTargitAmount);
+        etAccountTargitAmount.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                try {
+                    if (!spinnerChanged && !sourceChanged && !costChanged) {
+                        targetChanged = true;
+                        etAccountEditName.setText(format.format(Double.parseDouble(charSequence.toString().replace(",", "."))
+                                / Double.parseDouble(etCost.getText().toString().replace(",", "."))));
+                    }
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    targetChanged = false;
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+        etCost = (EditText) dialogView.findViewById(R.id.etCost);
+        etCost.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (charSequence.toString().isEmpty() || charSequence.toString().equals("0"))
+                    etCost.setText("1");
+                try {
+                    if (!spinnerChanged && !targetChanged && !sourceChanged) {
+                        costChanged = true;
+                       etAccountTargitAmount.setText(format.format(Double.parseDouble(charSequence.toString().replace(",", "."))
+                            * Double.parseDouble(etAccountEditName.getText().toString().replace(",", "."))));
+                    }
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    costChanged = false;
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
         spTransferFirst = (ImageView) dialogView.findViewById(R.id.spTransferFirst);
         spTransferSecond = (ImageView) dialogView.findViewById(R.id.spTransferSecond);
         spAccManDialog = (Spinner) dialogView.findViewById(R.id.spAccManDialog);
+        spTargetCurrencyId = (Spinner) dialogView.findViewById(R.id.spTargetCurrencyId);
         fromAccount = (TextView) dialogView.findViewById(R.id.tvAccountTransferDialogFrom);
         toAccount = (TextView) dialogView.findViewById(R.id.tvAccountTransferDialogTo);
         date = (TextView) dialogView.findViewById(R.id.tvAccountDialogDate);
-        currencies = daoSession.getCurrencyDao().loadAll();
+
         ArrayList currs = new ArrayList();
         ArrayList currsName = new ArrayList();
         int main_currency_index = -1;
@@ -99,8 +191,60 @@ public class TransferDialog extends Dialog implements View.OnClickListener {
         }
         spAccManDialog.getBackground().setColorFilter(ContextCompat.getColor(context, R.color.grey_ochrang), PorterDuff.Mode.SRC_ATOP);
         spAccManDialog.setAdapter(new CurrencySpinnerAdapter(getContext(),currs, currsName));
+        spAccManDialog.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                try {
+                    spinnerChanged = true;
+                    Currency fromCurrency = currencies.get(spAccManDialog.getSelectedItemPosition());
+                    Currency toCurrency = currencies.get(spTargetCurrencyId.getSelectedItemPosition());
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTime(dateFormat.parse(date.getText().toString()));
+                    double cost = getCost(calendar, fromCurrency, toCurrency);
+                    etCost.setText(format.format(cost));
+                    double amount = Double.parseDouble(etCost.getText().toString().replace(",", ".")) * Double.parseDouble(etAccountEditName.getText().toString().replace(",", "."));
+                    etAccountTargitAmount.setText(format.format(amount));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                } finally {
+                    spinnerChanged = false;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        spTargetCurrencyId.setAdapter(new CurrencySpinnerAdapter(getContext(),currs, currsName));
+        spTargetCurrencyId.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                try {
+                    spinnerChanged = true;
+                    Currency fromCurrency = currencies.get(spAccManDialog.getSelectedItemPosition());
+                    Currency toCurrency = currencies.get(spTargetCurrencyId.getSelectedItemPosition());
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTime(dateFormat.parse(date.getText().toString()));
+                    double cost = getCost(calendar, fromCurrency, toCurrency);
+                    etCost.setText(format.format(cost));
+                    double amount = Double.parseDouble(etCost.getText().toString().replace(",", ".")) * Double.parseDouble(etAccountEditName.getText().toString().replace(",", "."));
+                    etAccountTargitAmount.setText(format.format(amount));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                } finally {
+                    spinnerChanged = false;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
         if (main_currency_index!=-1){
-        spAccManDialog.setSelection(main_currency_index);
+            spAccManDialog.setSelection(main_currency_index);
+            spTargetCurrencyId.setSelection(main_currency_index);
         }
         ivYes = (TextView) dialogView.findViewById(R.id.ivAccountManSave);
         ivYes.setOnClickListener(new View.OnClickListener() {
@@ -110,6 +254,14 @@ public class TransferDialog extends Dialog implements View.OnClickListener {
                 imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 if (etAccountEditName.getText().toString().isEmpty()) {
                     etAccountEditName.setError(getContext().getResources().getString(R.string.enter_amount_error));
+                    return;
+                }
+                if (etAccountTargitAmount.getText().toString().isEmpty()) {
+                    etAccountTargitAmount.setError(getContext().getResources().getString(R.string.enter_amount_error));
+                    return;
+                }
+                if (etCost.getText().toString().isEmpty()) {
+                    etCost.setError(getContext().getResources().getString(R.string.enter_amount_error));
                     return;
                 }
                 if (chooseAccountFirstId.equals(chooseAccountSecondId)) {
@@ -144,6 +296,9 @@ public class TransferDialog extends Dialog implements View.OnClickListener {
                 accountOperation.setDate(calendar);
                 accountOperation.setSourceId(chooseAccountFirstId);
                 accountOperation.setTargetId(chooseAccountSecondId);
+                accountOperation.setTargetCurrency(currencies.get(spTargetCurrencyId.getSelectedItemPosition()));
+                accountOperation.setTargetAmount(Double.parseDouble(etAccountTargitAmount.getText().toString().replace(",", ".")));
+                accountOperation.setCost(Double.parseDouble(etCost.getText().toString().replace(",", ".")));
                 logicManager.insertAccountOperation(accountOperation);
                 reportManager.refreshDatas();
                 if (onTransferDialogSaveListener != null)
@@ -172,6 +327,7 @@ public class TransferDialog extends Dialog implements View.OnClickListener {
                         date.setText(dateFormat.format(calendar.getTime()));
                     }
                 });
+
             }
         });
         spTransferFirst.setOnClickListener(this);
@@ -286,6 +442,7 @@ public class TransferDialog extends Dialog implements View.OnClickListener {
     public void onClick(View v) {
         dialogChoose = new Dialog(getContext());
         View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.account_dialog_layout, null);
+        dialogChoose.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialogChoose.setContentView(dialogView);
         final RecyclerView recyclerView = (RecyclerView) dialogView.findViewById(R.id.rvAccountItemDialog);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
@@ -296,7 +453,7 @@ public class TransferDialog extends Dialog implements View.OnClickListener {
         else dialogAdapter = new DialogAdapter(false);
 
         recyclerView.setAdapter(dialogAdapter);
-        dialogChoose.getWindow().setLayout(6 * getContext().getResources().getDisplayMetrics().widthPixels / 10, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        dialogChoose.getWindow().setLayout(8 * getContext().getResources().getDisplayMetrics().widthPixels / 10, RelativeLayout.LayoutParams.WRAP_CONTENT);
         dialogChoose.show();
     }
 
@@ -377,6 +534,38 @@ public class TransferDialog extends Dialog implements View.OnClickListener {
             View view = LayoutInflater.from(getContext()).inflate(R.layout.item_account_dialog, parent, false);
             return new DialogViewHolder(view);
         }
+    }
+
+    private double getCost(Calendar date, Currency fromCurrency, Currency toCurrency) {
+        if (fromCurrency.getId().equals(toCurrency.getId())) return 1.0d;
+        List<CurrencyCostState> states = daoSession
+                                    .queryBuilder(CurrencyCostState.class)
+                                    .where(CurrencyCostStateDao.Properties.MainCurId.eq(fromCurrency.getId()))
+                                    .list();
+        if (date.compareTo(states.get(states.size() - 1).getDay()) >= 0) {
+            for (CurrencyWithAmount amount : states.get(states.size() - 1).getCurrencyWithAmountList()) {
+                if (amount.getCurrencyId().equals(toCurrency.getId()))
+                    return amount.getAmount();
+            }
+        }
+        else if (date.compareTo(states.get(0).getDay()) >= 0) {
+            for (CurrencyWithAmount amount : states.get(0).getCurrencyWithAmountList()) {
+                if (amount.getCurrencyId().equals(toCurrency.getId()))
+                    return amount.getAmount();
+            }
+        }
+        double result = 1.0d;
+        long difference = -1;
+        for (CurrencyCostState state : states) {
+            if (difference < 0 || date.getTimeInMillis() - state.getDay().getTimeInMillis() < difference) {
+                for (CurrencyWithAmount amount : state.getCurrencyWithAmountList()) {
+                    if (amount.getCurrencyId().equals(toCurrency.getId()))
+                        result =  amount.getAmount();
+                }
+                difference = date.getTimeInMillis() - state.getDay().getTimeInMillis();
+            }
+        }
+        return result;
     }
 
     private class DialogViewHolder extends RecyclerView.ViewHolder {

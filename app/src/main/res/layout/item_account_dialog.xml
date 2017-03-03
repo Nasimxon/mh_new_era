@@ -13,8 +13,8 @@
         >
 
         <ImageView
-            android:layout_width="@dimen/sixteen_dp"
-            android:layout_height="@dimen/sixteen_dp"
+            android:layout_width="@dimen/twentyfive_dp"
+            android:layout_height="@dimen/twentyfive_dp"
             android:id="@+id/ivAccountItemDialog"
             />
 

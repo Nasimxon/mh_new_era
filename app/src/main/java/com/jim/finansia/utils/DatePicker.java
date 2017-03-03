@@ -10,14 +10,10 @@ import com.jim.finansia.R;
 
 import java.util.Calendar;
 
-/**
- * Created by DEV on 29.08.2016.
- */
-
 public class DatePicker extends Dialog {
 
     private View dialogView;
-    private TextView ivDatePickOk;
+    private TextView ivDatePickOk, ivDatePickCancel;
     private android.widget.DatePicker dp;
     public DatePicker(Context context) {
         super(context);
@@ -26,7 +22,13 @@ public class DatePicker extends Dialog {
         setContentView(dialogView);
         dp = (android.widget.DatePicker) dialogView.findViewById(R.id.dp);
         ivDatePickOk = (TextView) dialogView.findViewById(R.id.ivDatePickOk);
-
+        ivDatePickCancel = (TextView) dialogView.findViewById(R.id.ivDatePickCancel);
+        ivDatePickCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dismiss();
+            }
+        });
 //        ImageView ivDatePickCancel = (ImageView) dialogView.findViewById(R.id.ivDatePickCancel);
 //        ivDatePickCancel.setOnClickListener(new View.OnClickListener() {
 //            @Override

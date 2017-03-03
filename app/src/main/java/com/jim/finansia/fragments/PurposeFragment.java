@@ -234,8 +234,9 @@ public class PurposeFragment extends Fragment{
         double qoldiq = 0;
         for (AccountOperation accountOperation: reportManager.getAccountOpertions(purpose)) {
             if (accountOperation.getTargetId().equals(purpose.getId()))
-            qoldiq += commonOperations.getCost(accountOperation.getDate(), accountOperation.getCurrency(), purpose.getCurrency(),accountOperation.getAmount());
-            else qoldiq -= commonOperations.getCost(accountOperation.getDate(), accountOperation.getCurrency(),purpose.getCurrency(), accountOperation.getAmount());
+                qoldiq += commonOperations.getCost(accountOperation.getDate(), accountOperation.getTargetCurrency(), purpose.getCurrency(), accountOperation.getTargetAmount());
+            else
+                qoldiq -= commonOperations.getCost(accountOperation.getDate(), accountOperation.getCurrency(), purpose.getCurrency(), accountOperation.getAmount());
         }
         return purpose.getPurpose() - qoldiq;
     }

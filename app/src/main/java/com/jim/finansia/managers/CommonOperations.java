@@ -1195,5 +1195,4 @@ public class CommonOperations {
         year = toDate.get(Calendar.YEAR) - (fromDate.get(Calendar.YEAR) + increment);
         return new int[]{year, month, day};
     }
-
 }

@@ -144,11 +144,11 @@ public class ReportManager {
                             ReportObject reportObject = new ReportObject();
                             reportObject.setType(PocketAccounterGeneral.INCOME);
                             reportObject.setAccount(accountList.get(0));
-                            reportObject.setCurrency(accountOperation.getCurrency());
+                            reportObject.setCurrency(accountOperation.getTargetCurrency());
                             if (toMainCurrency)
-                                reportObject.setAmount(commonOperations.getCost(accountOperation.getDate(), accountOperation.getCurrency(), accountOperation.getAmount()));
+                                reportObject.setAmount(commonOperations.getCost(accountOperation.getDate(), accountOperation.getTargetCurrency(), accountOperation.getTargetAmount()));
                             else
-                                reportObject.setAmount(accountOperation.getAmount());
+                                reportObject.setAmount(accountOperation.getTargetAmount());
                             reportObject.setDate(accountOperation.getDate());
                             reportObject.setDescription(context.getResources().getString(R.string.transfer));
                             result.add(reportObject);
