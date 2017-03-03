@@ -71,7 +71,7 @@ public class TransferDialog extends Dialog implements View.OnClickListener {
     private AccountOperation accountOperation;
     private TextView fromAccount;
     private TextView toAccount;
-    private DecimalFormat format = new DecimalFormat("0.##");
+    private DecimalFormat format = new DecimalFormat("0.######");
     private boolean sourceChanged = false, targetChanged = false, costChanged = false, spinnerChanged = false;
     public TransferDialog(Context context) {
         super(context);
@@ -252,11 +252,11 @@ public class TransferDialog extends Dialog implements View.OnClickListener {
             public void onClick(View view) {
                 InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                if (etAccountEditName.getText().toString().isEmpty()) {
+                if (etAccountEditName.getText().toString().isEmpty() || etAccountEditName.getText().toString().equals("0")) {
                     etAccountEditName.setError(getContext().getResources().getString(R.string.enter_amount_error));
                     return;
                 }
-                if (etAccountTargitAmount.getText().toString().isEmpty()) {
+                if (etAccountTargitAmount.getText().toString().isEmpty() || etAccountTargitAmount.getText().toString().equals("0")) {
                     etAccountTargitAmount.setError(getContext().getResources().getString(R.string.enter_amount_error));
                     return;
                 }
