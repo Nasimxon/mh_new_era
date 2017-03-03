@@ -31,7 +31,7 @@ public class AccountOperation {
     private String currencyId;
     @ToOne(joinProperty = "currencyId")
     private Currency currency;
-    @Property(nameInDb = "TAGET_CURRENCY_ID")
+    @Property(nameInDb = "TARGET_CURRENCY_ID")
     private String targetCurrencyId;
     @ToOne(joinProperty = "targetCurrencyId")
     private Currency targetCurrency;

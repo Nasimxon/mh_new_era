@@ -55,7 +55,20 @@ public class PocketAccounterApplicationModule {
     private FinansiaFirebaseAnalytics finansiaFiregbaseAnalytics;
     public PocketAccounterApplicationModule(PocketAccounterApplication pocketAccounterApplication) {
         this.pocketAccounterApplication = pocketAccounterApplication;
-        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(pocketAccounterApplication, PocketAccounterGeneral.CURRENT_DB_NAME);
+        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(pocketAccounterApplication, PocketAccounterGeneral.CURRENT_DB_NAME) {
+            @Override
+            public void onUpgrade(Database db, int oldVersion, int newVersion) {
+                super.onUpgrade(db, oldVersion, newVersion);
+                switch (oldVersion) {
+                    case 1:
+                        /* v1->v2: all changes made in version 2 come here */
+                        db.execSQL("ALTER TABLE ACCOUNT_OPERATIONS ADD COLUMN 'TARGET_CURRENCY_ID' TEXT;");
+                        db.execSQL("ALTER TABLE ACCOUNT_OPERATIONS ADD COLUMN 'TARGET_AMOUNT' REAL;");
+                        db.execSQL("ALTER TABLE ACCOUNT_OPERATIONS ADD COLUMN 'COST' REAL;");
+                        break;
+                }
+            }
+        };
         /*{
             @Override
             public void onUpgrade(Database db, int oldVersion, int newVersion) {
