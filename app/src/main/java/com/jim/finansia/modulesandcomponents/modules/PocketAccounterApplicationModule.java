@@ -58,7 +58,6 @@ public class PocketAccounterApplicationModule {
         DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(pocketAccounterApplication, PocketAccounterGeneral.CURRENT_DB_NAME) {
             @Override
             public void onUpgrade(Database db, int oldVersion, int newVersion) {
-                super.onUpgrade(db, oldVersion, newVersion);
                 switch (oldVersion) {
                     case 1:
                         db.execSQL("ALTER TABLE ACCOUNT_OPERATIONS ADD COLUMN 'TARGET_CURRENCY_ID' TEXT;");
@@ -66,6 +65,7 @@ public class PocketAccounterApplicationModule {
                         db.execSQL("ALTER TABLE ACCOUNT_OPERATIONS ADD COLUMN 'COST' REAL;");
                         break;
                 }
+                super.onUpgrade(db, oldVersion, newVersion);
             }
         };
         /*{
