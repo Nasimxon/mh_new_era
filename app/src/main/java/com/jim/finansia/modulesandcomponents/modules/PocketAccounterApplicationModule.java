@@ -53,11 +53,13 @@ public class PocketAccounterApplicationModule {
     private ReportManager reportManager;
     private CommonOperations commonOperations;
     private FinansiaFirebaseAnalytics finansiaFiregbaseAnalytics;
+    private boolean isUpdated = false;
     public PocketAccounterApplicationModule(PocketAccounterApplication pocketAccounterApplication) {
         this.pocketAccounterApplication = pocketAccounterApplication;
         DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(pocketAccounterApplication, PocketAccounterGeneral.CURRENT_DB_NAME) {
             @Override
             public void onUpgrade(Database db, int oldVersion, int newVersion) {
+                isUpdated = true;
                 switch (oldVersion) {
                     case 1:
                         db.execSQL("ALTER TABLE ACCOUNT_OPERATIONS ADD COLUMN 'TARGET_CURRENCY_ID' TEXT;");
@@ -65,7 +67,7 @@ public class PocketAccounterApplicationModule {
                         db.execSQL("ALTER TABLE ACCOUNT_OPERATIONS ADD COLUMN 'COST' REAL;");
                         break;
                 }
-                super.onUpgrade(db, oldVersion, newVersion);
+//                super.onUpgrade(db, oldVersion, newVersion);
             }
         };
         /*{
@@ -90,6 +92,15 @@ public class PocketAccounterApplicationModule {
         */
         Database db = helper.getWritableDb();
         daoSession = new DaoMaster(db).newSession();
+        if (isUpdated) {
+            List<AccountOperation> accountOperations = daoSession.loadAll(AccountOperation.class);
+            for(AccountOperation accountOperation : accountOperations) {
+                accountOperation.setTargetCurrency(accountOperation.getCurrency());
+                accountOperation.setTargetAmount(accountOperation.getAmount());
+                accountOperation.setCost(1.0d);
+                daoSession.insertOrReplace(accountOperation);
+            }
+        }
         preferences = PreferenceManager.getDefaultSharedPreferences(pocketAccounterApplication);
         finansiaFiregbaseAnalytics = new FinansiaFirebaseAnalytics(pocketAccounterApplication);
     }
