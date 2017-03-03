@@ -55,8 +55,7 @@ public class PocketAccounterApplicationModule {
     private FinansiaFirebaseAnalytics finansiaFiregbaseAnalytics;
     public PocketAccounterApplicationModule(PocketAccounterApplication pocketAccounterApplication) {
         this.pocketAccounterApplication = pocketAccounterApplication;
-        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(pocketAccounterApplication, PocketAccounterGeneral.CURRENT_DB_NAME);
-        /* {
+        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(pocketAccounterApplication, PocketAccounterGeneral.CURRENT_DB_NAME) {
             @Override
             public void onUpgrade(Database db, int oldVersion, int newVersion) {
                 super.onUpgrade(db, oldVersion, newVersion);
@@ -69,7 +68,7 @@ public class PocketAccounterApplicationModule {
                 }
             }
         };
-        {
+        /*{
             @Override
             public void onUpgrade(Database db, int oldVersion, int newVersion) {
                 super.onUpgrade(db, oldVersion, newVersion);
