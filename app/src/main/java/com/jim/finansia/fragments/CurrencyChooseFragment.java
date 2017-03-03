@@ -26,10 +26,14 @@ public class CurrencyChooseFragment extends PABaseInfoFragment {
     private ArrayList<Currency> currencies;
     private boolean[] chbs;
     private WarningDialog dialog;
+    private boolean isFirst = false;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.currency_choose_fragment, container, false);
+        if (getArguments() != null) {
+            isFirst = getArguments().getBoolean(CurrencyFragment.IS_FIRST);
+        }
         analytics.sendText("User enters " + getClass().getName());
         if (toolbarManager != null){
             toolbarManager.setTitle(getResources().getString(R.string.choose_currencies)); // toolbar settings
@@ -39,7 +43,10 @@ public class CurrencyChooseFragment extends PABaseInfoFragment {
             toolbarManager.setOnHomeButtonClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    paFragmentManager.getFragmentManager().popBackStack();
+                    if (!isFirst)
+                        paFragmentManager.getFragmentManager().popBackStack();
+                    else
+                        paFragmentManager.displayMainWindow();
                     for (Fragment frag : paFragmentManager.getFragmentManager().getFragments()) {
                         if (frag == null) continue;
                         if (frag.getClass().getName().equals(CurrencyFragment.class.getName())) {
@@ -123,7 +130,8 @@ public class CurrencyChooseFragment extends PABaseInfoFragment {
                 }
                 analytics.sendText(temp);
                 if (isCurrencyListChanged) { // if has not checked some of an old currencies
-                    dialog.setText(getResources().getString(R.string.currency_exchange_warning));
+                    String text = isFirst ? getResources().getString(R.string.ok) : getResources().getString(R.string.currency_exchange_warning);
+                    dialog.setText(text);
                     dialog.setOnYesButtonListener(new OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -178,7 +186,10 @@ public class CurrencyChooseFragment extends PABaseInfoFragment {
                                     break;
                                 }
                             }
-                            paFragmentManager.getFragmentManager().popBackStack();
+                            if (!isFirst)
+                                paFragmentManager.getFragmentManager().popBackStack();
+                            else
+                                paFragmentManager.displayMainWindow();
                         }
                     });
                     dialog.setOnNoButtonClickListener(new OnClickListener() {
@@ -225,11 +236,18 @@ public class CurrencyChooseFragment extends PABaseInfoFragment {
                             break;
                         }
                     }
-                    paFragmentManager.getFragmentManager().popBackStack();
+                    if (!isFirst)
+                        paFragmentManager.getFragmentManager().popBackStack();
+                    else
+                        paFragmentManager.displayMainWindow();
             }
             }
         });
         return view;
+    }
+
+    public boolean isFirst() {
+        return isFirst;
     }
 
     @Override

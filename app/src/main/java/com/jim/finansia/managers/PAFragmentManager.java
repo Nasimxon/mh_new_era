@@ -26,6 +26,7 @@ import com.jim.finansia.fragments.CategoryFragment;
 import com.jim.finansia.fragments.CreditArchiveFragment;
 import com.jim.finansia.fragments.CreditFragment;
 import com.jim.finansia.fragments.CreditTabLay;
+import com.jim.finansia.fragments.CurrencyChooseFragment;
 import com.jim.finansia.fragments.CurrencyFragment;
 import com.jim.finansia.fragments.InfoCreditFragment;
 import com.jim.finansia.fragments.MainFragment;
@@ -303,12 +304,16 @@ public class PAFragmentManager {
                 }
             }
         } else if (fragName.equals(PocketClassess.CURRENCY_CHOOSE) || fragName.equals(PocketClassess.CURRENCY_EDIT)) {
-            for (Fragment frag : fragmentManager.getFragments()) {
-                if (frag == null) continue;
-                if (frag.getClass().getName().equals(CurrencyFragment.class.getName())) {
-                    CurrencyFragment currencyFragment = (CurrencyFragment) frag;
-                    if (currencyFragment != null) currencyFragment.updateToolbar();
-                    break;
+            if (fragName.equals(PocketClassess.CURRENCY_CHOOSE) && ((CurrencyChooseFragment) fragment).isFirst()) {
+                displayMainWindow();
+            } else {
+                for (Fragment frag : fragmentManager.getFragments()) {
+                    if (frag == null) continue;
+                    if (frag.getClass().getName().equals(CurrencyFragment.class.getName())) {
+                        CurrencyFragment currencyFragment = (CurrencyFragment) frag;
+                        if (currencyFragment != null) currencyFragment.updateToolbar();
+                        break;
+                    }
                 }
             }
         } else if (fragName.equals(PocketClassess.CATEGORY_INFO) || fragName.equals(PocketClassess.ADD_CATEGORY)) {

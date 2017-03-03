@@ -35,12 +35,17 @@ public class IntroIndicator extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sPref=getSharedPreferences("infoFirst",MODE_PRIVATE);
+        ed=sPref.edit();
+        if (!sPref.getBoolean("FIRST_KEY", true)) {
+            Intent goMain=new Intent(IntroIndicator.this, PocketAccounter.class);
+            startActivity(goMain);
+            finish();
+        }
         setTheme(R.style.BlueTheme);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_intro_indicator);
-        sPref=getSharedPreferences("infoFirst",MODE_PRIVATE);
-        ed=sPref.edit();
 
         forskip = (TextView) findViewById(R.id.forskip);
         ivToNextBotton = (ImageView) findViewById(R.id.ivToNextBotton);
@@ -57,8 +62,8 @@ public class IntroIndicator extends AppCompatActivity {
                try {
                    Intent goMain=new Intent(IntroIndicator.this, PocketAccounter.class);
                    startActivity(goMain);
-                   ed.putBoolean("FIRST_KEY",false);
-                   ed.commit();
+//                   ed.putBoolean("FIRST_KEY", false);
+//                   ed.commit();
                }
                finally {
                    finish();
@@ -105,8 +110,8 @@ public class IntroIndicator extends AppCompatActivity {
                     try{
                         Intent togoB=new Intent(IntroIndicator.this, PocketAccounter.class);
                         startActivity(togoB);
-                        ed.putBoolean("FIRST_KEY",false);
-                        ed.commit();
+//                        ed.putBoolean("FIRST_KEY",false);
+//                        ed.commit();
                     }
                     finally {
                         finish();

@@ -514,16 +514,23 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
                         openTypeChooseDialog(pos);
                         break;
                     case 1:
-                        int buttonsCount = table == PocketAccounterGeneral.INCOME ? INCOME_BUTTONS_COUNT_PER_PAGE : EXPENSE_BUTTONS_COUNT_PER_PAGE;
-                        logicManager.changeBoardButton(table, currentPage*buttonsCount+pos, null);
-                        changeIconInCache(pos, "no_category");
-                        initButtons();
-                        releasePress();
-                        reportManager.clearCache();
-                        dataCache.updateAllPercents();
-                        paFragmentManager.updateAllFragmentsPageChanges();
-                        paFragmentManager.updateVoiceRecognizePageCurrencyChanges();
-                        operationsListDialog.dismiss();
+                        boolean isAvailable = sharedPreferences.getBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.IS_AVAILABLE_CHANGING_OF_FUNCTION, false);
+                        if (isAvailable) {
+                            int buttonsCount = table == PocketAccounterGeneral.INCOME ? INCOME_BUTTONS_COUNT_PER_PAGE : EXPENSE_BUTTONS_COUNT_PER_PAGE;
+                            logicManager.changeBoardButton(table, currentPage*buttonsCount+pos, null);
+                            changeIconInCache(pos, "no_category");
+                            initButtons();
+                            releasePress();
+                            reportManager.clearCache();
+                            dataCache.updateAllPercents();
+                            paFragmentManager.updateAllFragmentsPageChanges();
+                            paFragmentManager.updateVoiceRecognizePageCurrencyChanges();
+                            operationsListDialog.dismiss();
+                        }
+                        else {
+                            analytics.sendText("User wants to buy change button to function service");
+                            purchaseImplementation.buyChangingFunction();
+                        }
                         break;
                     case 2:
                         openEditDialog(pos);

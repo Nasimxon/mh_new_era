@@ -24,6 +24,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.jim.finansia.credit.notificat.NotificationManagerCredit;
 import com.jim.finansia.database.DaoSession;
 import com.jim.finansia.debt.PocketClassess;
+import com.jim.finansia.fragments.CurrencyChooseFragment;
+import com.jim.finansia.fragments.CurrencyFragment;
 import com.jim.finansia.fragments.MainFragment;
 import com.jim.finansia.fragments.RecordEditFragment;
 import com.jim.finansia.fragments.SearchFragment;
@@ -124,12 +126,12 @@ public class PocketAccounter extends AppCompatActivity {
             setLocale(lang);
         //intropage settings
         if (getSharedPreferences("infoFirst", MODE_PRIVATE).getBoolean("FIRST_KEY", true)) {
-            try {
-                Intent first = new Intent(this, IntroIndicator.class);
-                PocketAccounter.openActivity = true;
-                startActivity(first);
-                finish();
-            } finally {}
+            getSharedPreferences("infoFirst", MODE_PRIVATE).edit().putBoolean("FIRST_KEY", false).apply();
+            CurrencyChooseFragment fragment = new CurrencyChooseFragment();
+            Bundle bundle = new Bundle();
+            bundle.putBoolean(CurrencyFragment.IS_FIRST, true);
+            fragment.setArguments(bundle);
+            paFragmentManager.displayFragment(fragment);
         }
         //toolbar initialization
         toolbarManager.init();

@@ -40,16 +40,17 @@
         <receiver android:name="com.jim.finansia.credit.notificat.AlarmReceiver" />
         <activity
             android:name="com.jim.finansia.intropage.IntroIndicator"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name="com.jim.finansia.PocketAccounter"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <receiver android:name="com.jim.finansia.widget.WidgetProvider">
             <intent-filter>
