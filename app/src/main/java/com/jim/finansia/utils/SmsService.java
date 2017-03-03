@@ -95,13 +95,13 @@ public class SmsService extends Service {
                     String posAmountGroup = matcher.group(templateSms.getPosAmountGroup());
                     if (posAmountGroup != null
                             && posAmountGroup.matches("([0-9]+[.,]?[0-9]*)")) {
-                        summ = Double.parseDouble(matcher.group(templateSms.getPosAmountGroup()));
+                        summ = Double.parseDouble(matcher.group(templateSms.getPosAmountGroup()).replace(',','.'));
                         smsParseSuccess.setAmount(summ);
                         smsParseSuccess.setIsSuccess(true);
                         smsParseSuccess.setType(templateSms.getType());
                     } else if (matcher.group(templateSms.getPosAmountGroupSecond()) != null
                             && matcher.group(templateSms.getPosAmountGroupSecond()).matches("([0-9]+[.,]?[0-9]*)")) {
-                        summ = Double.parseDouble(matcher.group(templateSms.getPosAmountGroupSecond()));
+                        summ = Double.parseDouble(matcher.group(templateSms.getPosAmountGroupSecond()).replace(',','.'));
                         smsParseSuccess.setAmount(summ);
                         smsParseSuccess.setIsSuccess(true);
                         smsParseSuccess.setType(templateSms.getType());

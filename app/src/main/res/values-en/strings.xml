@@ -1000,11 +1000,13 @@
         <item>ENGLISH (EN)</item>
         <item>РУССКИЙ (RU)</item>
         <item>ESPAÑOL (ES)</item>
+        <item>한국어 (KO)</item>
     </string-array>
     <string-array name="language_values">
         <item>en</item>
         <item>ru</item>
         <item>es</item>
+        <item>ko</item>
     </string-array>
     <string name="choose_language">Select language</string>
     <string name="notifications">Notifications</string>
@@ -1397,7 +1399,7 @@
     <string name="limit_page">Limit count must be between 1 and 10</string>
     <string name="minusable_account">Account can be negative</string>
     <string name="none_minusable_account">Not a negative account</string>
-    <string name="pages_about">Expanse and Income pages</string>
+    <string name="pages_about">Expense and Income pages</string>
     <string name="simple_recking">Expenses, incomes</string>
     <string name="some_credit">The credit is not included in balance and is in archive</string>
     <string name="type">Type</string>
@@ -1461,7 +1463,7 @@
     <string name="income_degree">Income:</string>
     <string name="god">Year</string>
     <string name="for_income">Income:</string>
-    <string name="for_expance">Expence:</string>
+    <string name="for_expance">Expense:</string>
     <string name="for_amount">Amount:</string>
     <string name="end_day">End date</string>
     <string name="contact_access_needed">Contacts access needed</string>

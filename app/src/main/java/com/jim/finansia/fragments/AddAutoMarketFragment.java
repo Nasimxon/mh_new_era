@@ -185,7 +185,7 @@ public class AddAutoMarketFragment extends Fragment {
             public void onClick(View v) {
                 daysAdapter.getResult();
                 try {
-                    Double.parseDouble(amount.getText().toString());
+                    Double.parseDouble(amount.getText().toString().replace(',','.'));
                     amount.setError(null);
                 } catch (Exception e) {
                     amount.setError(getString(R.string.wrong_input_type));
@@ -202,7 +202,7 @@ public class AddAutoMarketFragment extends Fragment {
                         autoMarket.setRootCategory(category_item);
                         autoMarket.setSubCategory(subCategory);
                     }
-                    autoMarket.setAmount(Double.parseDouble(amount.getText().toString()));
+                    autoMarket.setAmount(Double.parseDouble(amount.getText().toString().replace(',','.')));
                     autoMarket.setCurrency(currencyDao.queryBuilder().where(CurrencyDao.Properties.Abbr.eq(curs.get(spCurrency.getSelectedItemPosition()))).list().get(0));
                     autoMarket.setAccount(accountDao.loadAll().get(account_sp.getSelectedItemPosition()));
                     autoMarket.setType(type);
@@ -217,7 +217,7 @@ public class AddAutoMarketFragment extends Fragment {
                     amount.setError(null);
                     AutoMarket autoMarket = new AutoMarket();
                     autoMarket.__setDaoSession(daoSession);
-                    autoMarket.setAmount(Double.parseDouble(amount.getText().toString()));
+                    autoMarket.setAmount(Double.parseDouble(amount.getText().toString().replace(',','.')));
 
                     autoMarket.setRootCategory(category_item);
                     autoMarket.setSubCategory(subCategory);
@@ -309,9 +309,6 @@ public class AddAutoMarketFragment extends Fragment {
                         choiseCategoryDialoogItemAdapter.setListForRefresh(categoryList);
                         choiseCategoryDialoogItemAdapter.toBackedToCategory(false);
                         choiseCategoryDialoogItemAdapter.notifyDataSetChanged();
-
-
-
                     }
                 });
                 tvExpenseView.setOnClickListener(new View.OnClickListener() {

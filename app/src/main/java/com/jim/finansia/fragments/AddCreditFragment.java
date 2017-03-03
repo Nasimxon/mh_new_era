@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
@@ -379,14 +380,14 @@ public class AddCreditFragment extends Fragment {
                     isMojno = false;
                 } else {
                     try {
-                        if (!(Double.parseDouble(valueCred.getText().toString()) > 0)) {
+                        if (!(Double.parseDouble(valueCred.getText().toString().replace(',','.')) > 0)) {
                             valueCred.setError(getString(R.string.incorrect_value));
                             isMojno = false;
                         }
                     } catch (Exception o) {
                     }
                     try {
-                        Double.parseDouble(valueCred.getText().toString());
+                        Double.parseDouble(valueCred.getText().toString().replace(',','.'));
                     } catch (Exception e) {
                         valueCred.setError(getString(R.string.wrong_input_type));
                         return;
@@ -789,14 +790,14 @@ public class AddCreditFragment extends Fragment {
                     isMojno = false;
                 } else {
                     try {
-                        if (!(Double.parseDouble(valueCred.getText().toString()) > 0)) {
+                        if (!(Double.parseDouble(valueCred.getText().toString().replace(',','.')) > 0)) {
                             valueCred.setError(getString(R.string.incorrect_value));
                             isMojno = false;
                         }
                     } catch (Exception o) {
                     }
                     try {
-                        Double.parseDouble(valueCred.getText().toString());
+                        Double.parseDouble(valueCred.getText().toString().replace(',','.'));
                     } catch (Exception e) {
                         valueCred.setError(getString(R.string.wrong_input_type));
                         return;
@@ -1024,6 +1025,9 @@ public class AddCreditFragment extends Fragment {
 
 
     private void creditBuildAndSend(){
+        InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(lastCred.getWindowToken(), 0);
+
         sb = new StringBuilder(procentCred.getText().toString());
         Log.d("sbb", sb.toString());
         int a = sb.toString().indexOf('%');
@@ -1061,40 +1065,74 @@ public class AddCreditFragment extends Fragment {
         CreditDetials A1;
         Account account = accaunt_AC.get(accountSp.getSelectedItemPosition());
         // check limit account
-        if (account.getIsLimited() && key) {
-            double limit = account.getLimite();
-            double accounted = logicManager.isLimitAccess(account, new GregorianCalendar(argFirst[0], argFirst[1], argFirst[2]));
-            if (isEdit() && currentCredit.getKey_for_include()) {
-                for (ReckingCredit reckingCredit : currentCredit.getReckings()) {
-                    if (currentCredit.getTake_time().getTimeInMillis() == reckingCredit.getPayDate().getTimeInMillis())
-                        accounted=+commonOperations.getCost(reckingCredit.getPayDate(), currentCredit.getValyute_currency(), reckingCredit.getAmount());
-                }
-            }
-            if (transactionCred.getText().toString().isEmpty())
-                transactionCred.setText("0");
-            accounted = accounted - commonOperations.getCost((new GregorianCalendar(argFirst[0], argFirst[1], argFirst[2])), currencies.get(spiner_forValut.getSelectedItemPosition()), account.getCurrency(), Double.parseDouble(transactionCred.getText().toString()));
-            if (-limit > accounted) {
-                Toast.makeText(context, R.string.limit_exceed, Toast.LENGTH_SHORT).show();
-                return;
-            }
-        }
+        if (transactionCred.getText().toString().isEmpty())
+            transactionCred.setText("0");
+//        if(key){
+//            if(!isEdit()){
+    //                int state = logicManager.isItPosibleToAdd(account,Double.parseDouble(transactionCred.getText().toString()),currencies.get(spiner_forValut.getSelectedItemPosition()),new GregorianCalendar(argFirst[0], argFirst[1], argFirst[2]),0,null,null);
+    //                if(state == LogicManager.CAN_NOT_NEGATIVE){
+    //                    Toast.makeText(getContext(), R.string.none_minus_account_warning, Toast.LENGTH_SHORT).show();
+    //                    return;
+    //                }
+    //                else if(state == LogicManager.LIMIT){
+    //                    Toast.makeText(getContext(), R.string.limit_exceed, Toast.LENGTH_SHORT).show();
+    //                    return;
+    //                }
+//            }
+//            else {
+//                double accounted = 0;
+//                Currency currency = null;
+//
+//                    if(currentCredit.getKey_for_include()) {
+//                    for (ReckingCredit reckingCredit : currentCredit.getReckings()) {
+//                        if (currentCredit.getTake_time().getTimeInMillis() == reckingCredit.getPayDate().getTimeInMillis()){
+//                            accounted = reckingCredit.getAmount();
+//                            currency  = currentCredit.getValyute_currency();
+//                        }
+//                    }
+//                }
+//                Account accountOld = null;
+//
+//                for (int i=0;i<accaunt_AC.size();i++){
+//                    if(accaunt_AC.get(i).getId().equals(currentCredit.getAccountID())){
+//                        accountOld = accaunt_AC.get(i);
+//                        break;
+//                    }
+//                }
+//                int state = logicManager.isItPosibleToAdd(account,Double.parseDouble(transactionCred.getText().toString()),currencies.get(spiner_forValut.getSelectedItemPosition()),new GregorianCalendar(argFirst[0], argFirst[1], argFirst[2]),accounted,currency,accountOld);
+//                if(state == LogicManager.CAN_NOT_NEGATIVE){
+//                    Toast.makeText(getContext(), R.string.none_minus_account_warning, Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
+//                else if(state == LogicManager.LIMIT){
+//                    Toast.makeText(getContext(), R.string.limit_exceed, Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
+//            }
+//        }
+
+
+
+
+
+
+
 
         if (isEdit()) {
-            Log.d("sbb",Double.parseDouble(sb.toString())+"" );
             A1 = new CreditDetials(selectedIcon, nameCred.getText().toString(), new GregorianCalendar(argFirst[0], argFirst[1], argFirst[2]),
-                    Double.parseDouble(sb.toString()), procent_inter, period_inter, period_tip, key, Double.parseDouble(valueCred.getText().toString()),
+                    Double.parseDouble(sb.toString().replace(',','.')), procent_inter, period_inter, period_tip, key, Double.parseDouble(valueCred.getText().toString().replace(',','.')),
                     currencies.get(spiner_forValut.getSelectedItemPosition()), -1, currentCredit.getMyCredit_id(),(keyForBalance.isChecked())?accaunt_AC.get(accountSp.getSelectedItemPosition()).getId():"");
 
         } else {
             A1 = new CreditDetials(selectedIcon, nameCred.getText().toString(), new GregorianCalendar(argFirst[0], argFirst[1], argFirst[2]),
-                    Double.parseDouble(sb.toString()), procent_inter, period_inter, period_tip, key, Double.parseDouble(valueCred.getText().toString()),
+                    Double.parseDouble(sb.toString().replace(',','.')), procent_inter, period_inter, period_tip, key, Double.parseDouble(valueCred.getText().toString().replace(',','.')),
                     currencies.get(spiner_forValut.getSelectedItemPosition()), -1, System.currentTimeMillis(),(keyForBalance.isChecked())?accaunt_AC.get(accountSp.getSelectedItemPosition()).getId():"");
         }
 
         if (isHaveFirstPay.isChecked()&&!transactionCred.getText().toString().equals("")) {
             double firsPay =0;
             try{
-                firsPay = Double.parseDouble(transactionCred.getText().toString());
+                firsPay = Double.parseDouble(transactionCred.getText().toString().replace(',','.'));
 
             }
             catch (Exception o){

@@ -299,7 +299,7 @@ public class MainPageFragment extends Fragment {
         else {
             balanceStripe.hideNotImportantPart();
         }
-        infosVisibility = preferences.getBoolean(PocketAccounterGeneral.INFO_VISIBILITY, false);
+        infosVisibility = preferences.getBoolean(PocketAccounterGeneral.INFO_VISIBILITY, true);
         if (infosVisibility) {
             expenseView.showText();
             incomeView.showText();

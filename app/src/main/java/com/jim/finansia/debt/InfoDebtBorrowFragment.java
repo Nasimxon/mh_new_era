@@ -559,36 +559,29 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
         }
     }
 
-    private boolean isMumkin(DebtBorrow debt, String accountId, Double summ) {
+    private boolean isMumkin(DebtBorrow debt, String accountId, Double summ,Calendar date) {
         Account account = null;
-        List<Account> allAccounts = daoSession.loadAll(Account.class);
-        for (Account ac : allAccounts) {
+        for (Account ac : daoSession.getAccountDao().queryBuilder().list()) {
             if (ac.getId().matches(accountId)) {
                 account = ac;
                 break;
             }
         }
-        if (account != null && (account.getIsLimited() || account.getNoneMinusAccount())) {
-            double limit = account.getLimite();
-            double accounted = logicManager.isLimitAccess(account, debt.getTakenDate());
-            if (debt.getType() == DebtBorrow.DEBT) {
-                accounted = accounted - commonOperations.getCost(Calendar.getInstance(), debt.getCurrency(), account.getCurrency(), summ);
-            } else {
-                accounted = accounted + commonOperations.getCost(Calendar.getInstance(), debt.getCurrency(), account.getCurrency(), summ);
+        if (account != null ) {
+            int state = logicManager.isItPosibleToAdd(account,summ,debt.getCurrency(),date,0,null,null);
+            if(state == LogicManager.CAN_NOT_NEGATIVE){
+                Toast.makeText(getContext(), R.string.none_minus_account_warning, Toast.LENGTH_SHORT).show();
+
             }
-            if (account.getNoneMinusAccount()) {
-                if (accounted < 0) {
-                    Toast.makeText(getContext(), R.string.none_minus_account_warning, Toast.LENGTH_SHORT).show();
-                    return false;
-                }
-            } else {
-                if (-limit > accounted) {
-                    Toast.makeText(getContext(), R.string.limit_exceed, Toast.LENGTH_SHORT).show();
-                    return false;
-                }
+            else if(state == LogicManager.LIMIT){
+                Toast.makeText(getContext(), R.string.limit_exceed, Toast.LENGTH_SHORT).show();
+
+            }
+            else {
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     boolean tek = false;
@@ -728,62 +721,69 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
             save.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    tek = true;
-                    if (!enterPay.getText().toString().isEmpty() && Double.parseDouble(enterPay.getText().toString()) != 0) {
-                        if (keyForInclude.isChecked() && isMumkin(debtBorrow, allAccounts.
-                                get(accountSp.getSelectedItemPosition()).getId(), Double.parseDouble(enterPay.getText().toString())))
-                            tek = true;
-                        if (!keyForInclude.isChecked()) tek = true;
 
-                        if (lAmount - Double.parseDouble(enterPay.getText().toString()) < 0) {
+                    String ac = "";
+                    if (keyForInclude.isChecked()) {
+                        List<Account> accs = daoSession.loadAll(Account.class);
+                        ac = accs.get(accountSp.getSelectedItemPosition()).getId();
+                    }
+                    if (!enterPay.getText().toString().isEmpty()) {
+                        if (lAmount - Double.parseDouble(enterPay.getText().toString().replace(",", ".")) < 0) {
+                            if (keyForInclude.isChecked()&&debtBorrow.getType()==DebtBorrow.DEBT) {
+                                if(!isMumkin(debtBorrow,ac,Double.parseDouble(enterPay.getText().toString().replace(",", ".")),date)){
+                                    return;
+                                }
+                            }
+                            final String finalAc = ac;
+                            warningDialog.setOnYesButtonListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    if (keyForInclude.isChecked()) {
+                                        peysAdapter.setDataChanged(date, Double.parseDouble(enterPay.getText().toString().replace(",", ".")),
+                                                allAccounts.get(accountSp.getSelectedItemPosition()).getId(), comment.getText().toString());}
+                                        else
+                                        peysAdapter.setDataChanged(date, Double.parseDouble(enterPay.getText().toString().replace(",", ".")), "", comment.getText().toString());
+                                    dialog.dismiss();
+                                    reportManager.clearCache();
+                                    dataCache.updateAllPercents();
+                                    paFragmentManager.updateAllFragmentsPageChanges();
+                                    paFragmentManager.updateVoiceRecognizePageCurrencyChanges();
+                                    warningDialog.dismiss();
+                                }
+                            });
                             warningDialog.setOnNoButtonClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     warningDialog.dismiss();
                                 }
                             });
-                            warningDialog.setOnYesButtonListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    if (tek) {
-                                        if(keyForInclude.isChecked())
-                                        peysAdapter.setDataChanged(date, Double.parseDouble(enterPay.getText().toString()),
-                                                allAccounts.get(accountSp.getSelectedItemPosition()).getId(), comment.getText().toString());
-                                        else
-                                        peysAdapter.setDataChanged(date, Double.parseDouble(enterPay.getText().toString()), "", comment.getText().toString());
 
-                                    }
-                                    warningDialog.dismiss();
-                                    reportManager.clearCache();
-                                    dataCache.updateAllPercents();
-                                    paFragmentManager.updateAllFragmentsPageChanges();
-                                    paFragmentManager.updateVoiceRecognizePageCurrencyChanges();
-                                    dialog.dismiss();
-                                }
-                            });
-                            warningDialog.setText(getResources().getString(R.string.incorrect_pay));
+                            warningDialog.show();
 
-                            if (tek) {
-                                warningDialog.show();
-                            }
                         } else {
-                            if (tek) {
-                                if(keyForInclude.isChecked())
-                                peysAdapter.setDataChanged(date, Double.parseDouble(enterPay.getText().toString()),
-                                        allAccounts.get(accountSp.getSelectedItemPosition()).getId(), comment.getText().toString());
-                                else
-                                    peysAdapter.setDataChanged(date, Double.parseDouble(enterPay.getText().toString()), "", comment.getText().toString());
-                                reportManager.clearCache();
-                                dataCache.updateAllPercents();
-                                paFragmentManager.updateAllFragmentsPageChanges();
-                                paFragmentManager.updateVoiceRecognizePageCurrencyChanges();
-                                warningDialog.dismiss();
-                                dialog.dismiss();
+
+                            if (keyForInclude.isChecked()&&debtBorrow.getType()==DebtBorrow.DEBT) {
+                                if (!isMumkin(debtBorrow, ac, Double.parseDouble(enterPay.getText().toString().replace(",", ".")), date)) {
+                                    return;
+                                }
                             }
+                            if(keyForInclude.isChecked())
+                                peysAdapter.setDataChanged(date, Double.parseDouble(enterPay.getText().toString().replace(",", ".")),
+                                        allAccounts.get(accountSp.getSelectedItemPosition()).getId(), comment.getText().toString());
+                            else
+                                peysAdapter.setDataChanged(date, Double.parseDouble(enterPay.getText().toString().replace(",", ".")), "", comment.getText().toString());
+
+                            reportManager.clearCache();
+                            dataCache.updateAllPercents();
+                            paFragmentManager.updateAllFragmentsPageChanges();
+                            paFragmentManager.updateVoiceRecognizePageCurrencyChanges();
+                            dialog.dismiss();
+
                         }
                     } else {
-                        enterPay.setError(getResources().getString(R.string.enter_pay_value));
+                        enterPay.setError(getString(R.string.enter_pay_value));
                     }
+
                 }
             });
             DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
@@ -951,6 +951,9 @@ public class InfoDebtBorrowFragment extends Fragment implements View.OnClickList
             tvTotalPaid.setText(total + debtBorrow.getCurrency().getAbbr());
             double amount = debtBorrow.getAmount() - total;
             tvLeftAmount.setText(decimalFormat.format(amount) + "" + debtBorrow.getCurrency().getAbbr());
+            if(total<debtBorrow.getAmount()){
+                payText.setText(getResources().getString(R.string.pay));
+            }
             reportManager.clearCache();
             dataCache.updateAllPercents();
             paFragmentManager.updateAllFragmentsPageChanges();

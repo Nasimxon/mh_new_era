@@ -957,11 +957,13 @@
         <item>ENGLISH (EN)</item>
         <item>РУССКИЙ (RU)</item>
         <item>ESPAÑOL (ES)</item>
+        <item>한국어 (KO)</item>
     </string-array>
     <string-array name="language_values">
         <item>en</item>
         <item>ru</item>
         <item>es</item>
+        <item>ko</item>
     </string-array>
     <string name="choose_language">Select language</string>
     <string name="notifications">Notifications</string>
@@ -1379,7 +1381,7 @@
         <item>Period</item>
     </string-array>
     <string name="count_pages">Count of pages</string>
-    <string name="pages_about">Expanse and Income pages</string>
+    <string name="pages_about">Expense and Income pages</string>
     <string name="how_much_pages_you_need">How much pages you need?</string>
     <string name="in_window_expense_top_window">Count of pages (expenses)</string>
     <string name="limit_page">Limit count must be between 1 and 10</string>

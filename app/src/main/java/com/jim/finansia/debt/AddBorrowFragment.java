@@ -139,7 +139,8 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
     private AddBorrowFragment.DaysAdapter daysAdapter;
     private ArrayList<String> adapter;
     private int localAppereance = DebtBorrowFragment.FROM_MAIN;
-
+    double oldAmount = 0;
+    Currency oldCurency = null;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -148,8 +149,14 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
         analytics.sendText("User enters " + getClass().getName());
         if (getArguments() != null) {
             String debtBorrowId = getArguments().getString(DebtBorrowFragment.DEBT_BORROW_ID);
-            if (debtBorrowId != null)
+            if (debtBorrowId != null) {
                 currentDebtBorrow = daoSession.load(DebtBorrow.class, debtBorrowId);
+                if(currentDebtBorrow.getCalculate()){
+                    oldAmount  = currentDebtBorrow.getAmount();
+                    oldCurency = currentDebtBorrow.getCurrency();
+
+                }
+            }
             mode = getArguments().getInt(DebtBorrowFragment.MODE);
             position = getArguments().getInt(DebtBorrowFragment.POSITION);
             type = getArguments().getInt(DebtBorrowFragment.TYPE);
@@ -188,6 +195,7 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+
         contactBtn = (FrameLayout) view.findViewById(R.id.btBorrowAddPopupContact);
         civImage = (CircleImageView) view.findViewById(R.id.ivBorrowAddPopup);
         etPersonName = (EditText) view.findViewById(R.id.etBorrowAddPopupName);
@@ -447,27 +455,26 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
         List<Currency> allCurrencies = daoSession.loadAll(Currency.class);
         List<Account> allAccounts = daoSession.loadAll(Account.class);
         Currency currency = allCurrencies.get(spDebtBorrowCurrency.getSelectedItemPosition());
-        Account account = allAccounts.get(spDebtBorrowAccount.getSelectedItemPosition());
-        if (account != null && (account.getIsLimited() || account.getNoneMinusAccount())) {
-            double limit = account.getLimite();
-            double accounted = logicManager.isLimitAccess(account, takenDate);
-            if (type == DebtBorrow.DEBT) {
-                accounted = accounted + commonOperations.getCost(Calendar.getInstance(), currency, Double.parseDouble(etDebtSum.getText().toString()));
-            } else {
-                accounted = accounted - commonOperations.getCost(Calendar.getInstance(), currency, Double.parseDouble(etDebtSum.getText().toString()));
-            }
-            if (account.getNoneMinusAccount()) {
-                if (accounted < 0) {
-                    Toast.makeText(getContext(), R.string.none_minus_account_warning, Toast.LENGTH_SHORT).show();
-                    return;
-                }
-            } else {
-                if (-limit > accounted) {
-                    Toast.makeText(getContext(), R.string.limit_exceed, Toast.LENGTH_SHORT).show();
-                    return;
-                }
-            }
-        }
+        Account account = null;
+        if(scDebtBorrowCalculation.isChecked()){
+        account = allAccounts.get(spDebtBorrowAccount.getSelectedItemPosition());}
+//        if (account != null ) {
+//
+//            int state = logicManager.isItPosibleToAdd(account,Double.parseDouble(etDebtSum.getText().toString()),currency,takenDate);
+//            if(state == LogicManager.CAN_NOT_NEGATIVE){
+//
+//                Toast.makeText(getContext(), R.string.none_minus_account_warning, Toast.LENGTH_SHORT).show();
+//                return;
+//
+//            }
+//            else if(state == LogicManager.LIMIT){
+//                Toast.makeText(getContext(), R.string.limit_exceed, Toast.LENGTH_SHORT).show();
+//                return;
+//
+//            }
+//
+//        }
+
         File file = null;
         if (personPhotoPath != null && !personPhotoPath.equals("")) {
             try {
@@ -504,6 +511,22 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
             }
         }
         if (currentDebtBorrow != null) {
+            if (scDebtBorrowCalculation.isChecked()&& type == DebtBorrow.BORROW ) {
+                int state = logicManager.isItPosibleToAdd(account,Double.parseDouble(etDebtSum.getText().toString().replace(",", ".")),currency,takenDate,oldAmount,oldCurency,currentDebtBorrow.getAccount());
+                if(state == LogicManager.CAN_NOT_NEGATIVE){
+
+                    Toast.makeText(getContext(), R.string.none_minus_account_warning, Toast.LENGTH_SHORT).show();
+                    return;
+
+                }
+                else if(state == LogicManager.LIMIT){
+                    Toast.makeText(getContext(), R.string.limit_exceed, Toast.LENGTH_SHORT).show();
+                    return;
+
+                }
+
+            }
+
             if (scDebtBorrowCalculation.isChecked()) {
                 currentDebtBorrow.setCalculate(true);
                 currentDebtBorrow.setAccount(account);
@@ -515,19 +538,16 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
             currentDebtBorrow.getPerson().setName(etPersonName.getText().toString());
             currentDebtBorrow.getPerson().setPhoneNumber(etPersonNumber.getText().toString());
             currentDebtBorrow.getPerson().setPhoto(file != null ? file.getAbsolutePath() : personPhotoPath.equals("") ? "" : personPhotoPath);
-            currentDebtBorrow.setAmount(Double.parseDouble(etDebtSum.getText().toString()));
+            currentDebtBorrow.setAmount(Double.parseDouble(etDebtSum.getText().toString().replace(",", ".")));
             currentDebtBorrow.setCurrency(currency);
             currentDebtBorrow.setInfo(mode + ":" + sequence);
             currentDebtBorrow.setReturnDate(returnDate);
             currentDebtBorrow.setTakenDate(takenDate);
             currentDebtBorrow.__setDaoSession(daoSession);
-            if (scDebtBorrowCalculation.isChecked() && !isLimiteAccess()) {
-                Toast.makeText(getContext(), "Сумма превышает лимит счета", Toast.LENGTH_SHORT).show();
-                return;
-            } else {
+
                 logicManager.insertPerson(currentDebtBorrow.getPerson());
                 logicManager.insertDebtBorrow(currentDebtBorrow);
-            }
+
         } else {
             Person person = new Person(etPersonName.getText().toString(),
                     etPersonNumber.getText().toString(), file != null ? file.getAbsolutePath() : personPhotoPath == "" ? "" : personPhotoPath);
@@ -538,20 +558,32 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
                     "borrow_" + UUID.randomUUID().toString(),
                     account,
                     currency,
-                    Double.parseDouble(etDebtSum.getText().toString()),
+                    Double.parseDouble(etDebtSum.getText().toString().replace(",", ".")),
                     type,
                     scDebtBorrowCalculation.isChecked()
             );
-            if (scDebtBorrowCalculation.isChecked() && !isLimiteAccess()) {
-                Toast.makeText(getContext(), "Сумма превышает лимит счета", Toast.LENGTH_SHORT).show();
-                return;
+            currentDebtBorrow.__setDaoSession(daoSession);
+            if (scDebtBorrowCalculation.isChecked() && type == DebtBorrow.BORROW ) {
+                int state = logicManager.isItPosibleToAdd(currentDebtBorrow.getAccount(),currentDebtBorrow.getAmount(),currentDebtBorrow.getCurrency(),currentDebtBorrow.getTakenDate(),0,null,null);
+                if(state == LogicManager.CAN_NOT_NEGATIVE){
+                    Toast.makeText(getContext(), R.string.none_minus_account_warning, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                else if(state == LogicManager.LIMIT){
+                    Toast.makeText(getContext(), R.string.limit_exceed, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                else {
+                    logicManager.insertDebtBorrow(currentDebtBorrow);
+                }
+
             } else {
                 logicManager.insertDebtBorrow(currentDebtBorrow);
             }
             currentDebtBorrow.setInfo(mode + ":" + sequence);
             list.add(0, currentDebtBorrow);
         }
-        logicManager.insertDebtBorrow(currentDebtBorrow);
+//        logicManager.insertDebtBorrow(currentDebtBorrow);
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inPreferredConfig = Bitmap.Config.RGB_565;
         Bitmap temp = null;
@@ -669,25 +701,7 @@ public class AddBorrowFragment extends Fragment implements AdapterView.OnItemSel
         return localAppereance;
     }
 
-    private boolean isLimiteAccess() {
-        Account account = daoSession.loadAll(Account.class).get(spDebtBorrowAccount.getSelectedItemPosition());
-        if (account != null && (account.getIsLimited() || account.getNoneMinusAccount())) {
-            double limit = account.getLimite();
-            double accounted = logicManager.isLimitAccess(account, takenDate);
-            if (account.getNoneMinusAccount()) {
-                if (accounted < 0) {
-                    Toast.makeText(getContext(), R.string.none_minus_account_warning, Toast.LENGTH_SHORT).show();
-                    return false;
-                }
-            } else {
-                if (-limit > accounted) {
-                    Toast.makeText(getContext(), R.string.limit_exceed, Toast.LENGTH_SHORT).show();
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
+
 
     private Bitmap decodeFile(File f) {
         try {

@@ -338,7 +338,7 @@ public class CurrencyEditFragment extends PABaseInfoFragment implements OnClickL
             @Override
             public void onClick(View v) {
                 try {
-                    Double.parseDouble(etExchange.getText().toString());
+                    Double.parseDouble(etExchange.getText().toString().replace(',','.'));
                     etExchange.setError(null);
                 } catch (Exception e) {
                     etExchange.setError(getString(R.string.wrong_input_type));
@@ -349,7 +349,7 @@ public class CurrencyEditFragment extends PABaseInfoFragment implements OnClickL
                     return;
                 }
                 try {
-                    Double.parseDouble(etHowMuch.getText().toString());
+                    Double.parseDouble(etHowMuch.getText().toString().replace(',','.'));
                     etHowMuch.setError(null);
                 } catch (Exception e) {
                     etHowMuch.setError(getString(R.string.wrong_input_type));
@@ -360,9 +360,9 @@ public class CurrencyEditFragment extends PABaseInfoFragment implements OnClickL
                     return;
                 }
                 if (logicManager.insertUserEnteredCalendars(currency, (Calendar) day.clone()) == LogicManagerConstants.SUCH_NAME_ALREADY_EXISTS) {
-                    logicManager.generateCurrencyCosts((Calendar) day.clone(), Double.parseDouble(etExchange.getText().toString()) / Double.parseDouble(etHowMuch.getText().toString()), currency);
+                    logicManager.generateCurrencyCosts((Calendar) day.clone(), Double.parseDouble(etExchange.getText().toString().replace(',','.')) / Double.parseDouble(etHowMuch.getText().toString().replace(',','.')), currency);
                 } else {
-                    logicManager.generateCurrencyCosts((Calendar) day.clone(), Double.parseDouble(etExchange.getText().toString()) / Double.parseDouble(etHowMuch.getText().toString()), currency);
+                    logicManager.generateCurrencyCosts((Calendar) day.clone(), Double.parseDouble(etExchange.getText().toString().replace(',','.')) / Double.parseDouble(etHowMuch.getText().toString().replace(',','.')), currency);
                 }
                 reportManager.clearCache();
                 commonOperations.refreshCurrency();

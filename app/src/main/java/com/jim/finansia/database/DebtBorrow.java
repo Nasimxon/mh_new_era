@@ -85,7 +85,10 @@ public class DebtBorrow {
         this.takenDate = takenDate;
         this.returnDate = returnDate;
         this.id = id;
+        if(account!=null)
         this.accountId = account.getId();
+        else  this.accountId = "";
+
         this.currencyId = currency.getId();
         this.amount = amount;
         this.type = type;
