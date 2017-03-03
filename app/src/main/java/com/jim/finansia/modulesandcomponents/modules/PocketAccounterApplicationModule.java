@@ -55,7 +55,8 @@ public class PocketAccounterApplicationModule {
     private FinansiaFirebaseAnalytics finansiaFiregbaseAnalytics;
     public PocketAccounterApplicationModule(PocketAccounterApplication pocketAccounterApplication) {
         this.pocketAccounterApplication = pocketAccounterApplication;
-        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(pocketAccounterApplication, PocketAccounterGeneral.CURRENT_DB_NAME) {
+        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(pocketAccounterApplication, PocketAccounterGeneral.CURRENT_DB_NAME);
+        /*{
             @Override
             public void onUpgrade(Database db, int oldVersion, int newVersion) {
                 super.onUpgrade(db, oldVersion, newVersion);
@@ -74,6 +75,7 @@ public class PocketAccounterApplicationModule {
                 }
             }
         };
+        */
         Database db = helper.getWritableDb();
         daoSession = new DaoMaster(db).newSession();
         preferences = PreferenceManager.getDefaultSharedPreferences(pocketAccounterApplication);
