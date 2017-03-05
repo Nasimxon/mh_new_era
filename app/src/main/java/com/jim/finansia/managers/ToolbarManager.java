@@ -3,6 +3,7 @@ package com.jim.finansia.managers;
 import android.content.Context;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -39,6 +40,7 @@ public class ToolbarManager {
     private ImageView ivSubtitle;
     private LinearLayout llToolbarTitle;
     private View.OnClickListener listener;
+    private SwitchCompat switchCompat;
     public void setTitle(String title){
         toolbar.setTitle("");
         toolbar.setSubtitle(" ");
@@ -78,6 +80,7 @@ public class ToolbarManager {
         tvToolbarSubtitle = (TextView) toolbar.findViewById(R.id.tvToolbarSubtitle);
         ivSubtitle = (ImageView) toolbar.findViewById(R.id.ivSubtitle);
         llToolbarTitle = (LinearLayout) toolbar.findViewById(R.id.llToolbarTitle);
+        switchCompat = (SwitchCompat) toolbar.findViewById(R.id.switchBtn);
         this.toolbar.setTitle("");
         this.toolbar.setSubtitle("");
     }
@@ -97,6 +100,9 @@ public class ToolbarManager {
     public void setOnSecondImageClickListener(View.OnClickListener listener) {
         ivToolbarSecond.setOnClickListener(listener);
     }
+    public void setOnSwitchCheckedChangedListener(SwitchCompat.OnCheckedChangeListener listener) {
+        switchCompat.setOnCheckedChangeListener(listener);
+    }
     public void setVisiblityEditSearch(){
         etToolbarSearch.setVisibility(View.GONE);
     }
@@ -108,9 +114,16 @@ public class ToolbarManager {
         ivToolbarSecond.setVisibility(second);
         ivToolbarStart.setVisibility(start);
     }
+    public void setToolbarSwitchVisibilty(int visibilty){
+        switchCompat.setVisibility(visibilty);
+    }
     public static float dpToPx(Context context, float valueInDp) {
         DisplayMetrics metrics = context.getResources().getDisplayMetrics();
         return TypedValue.applyDimension(COMPLEX_UNIT_DIP, valueInDp, metrics);
+    }
+    public void setToolbarSwitchChecked(boolean checked)
+    {
+        switchCompat.setChecked(checked);
     }
     public EditText getToolbarSearch() {
         return etToolbarSearch;

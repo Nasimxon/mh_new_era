@@ -1729,5 +1729,8 @@
     <string name="select_an_amount">Выберите цифру</string>
     <string name="benjamin_franklin">- Бенджамин Франклин</string>
     <string name="purpose_term">Введите срок цели</string>
+    <string name="transferred">Отправлено</string>
+    <string name="received">Получено</string>
+    <string name="exchange_rate">Обменный курс</string>
 </resources>
 

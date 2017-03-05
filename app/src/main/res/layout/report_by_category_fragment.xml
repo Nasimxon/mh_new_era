@@ -6,6 +6,7 @@
     android:clickable="true"
     android:background="#ffffff">
     <LinearLayout
+        android:id="@+id/llCategories"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -79,4 +80,12 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/llTotal"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:background="#ffffff"
+        android:visibility="gone">
+    </LinearLayout>
 </LinearLayout>

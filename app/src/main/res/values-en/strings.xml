@@ -1726,5 +1726,8 @@
     <string name="select_an_amount">Select an amount</string>
     <string name="benjamin_franklin">- Benjamin Franklin</string>
     <string name="purpose_term">Enter the purpose term</string>
+    <string name="transferred">Transferred</string>
+    <string name="received">Received</string>
+    <string name="exchange_rate">Exchange rate</string>
 
 </resources>

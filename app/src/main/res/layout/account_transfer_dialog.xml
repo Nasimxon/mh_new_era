@@ -16,92 +16,57 @@
             android:layout_width="@dimen/twenty_dp"
             android:layout_height="@dimen/twenty_dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginRight="@dimen/five_dp"
+            android:layout_marginRight="@dimen/ten_dp"
             android:src="@drawable/cancel_sign" />
     </LinearLayout>
-    <LinearLayout
+
+    <FrameLayout
+        android:layout_marginTop="@dimen/sixteen_dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/ten_dp"
-        android:layout_marginBottom="@dimen/ten_dp"
-        android:orientation="horizontal"
-        android:gravity="center_horizontal">
-        <LinearLayout
-            android:layout_width="@dimen/two_hundred_fifty_dp"
-            android:layout_height="wrap_content"
-            android:paddingRight="@dimen/ten_dp"
-            android:paddingTop="@dimen/two_dp"
-            android:paddingBottom="@dimen/two_dp"
-            android:paddingLeft="@dimen/two_dp"
-            android:layout_marginLeft="@dimen/fifteen_dp"
-            android:background="@drawable/edit_text"
-            android:orientation="horizontal"
-            android:layout_marginRight="@dimen/fifteen_dp">
-            <TextView
-                android:id="@+id/tvAccountDialogDate"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:text="15 Октябрь, 2016"
-                android:paddingTop="@dimen/five_dp"
-                android:paddingBottom="@dimen/five_dp"
-                android:paddingLeft="@dimen/ten_dp"
-                android:textSize="@dimen/fourteen_dp"
-                android:textColor="@color/black_for_myagkiy_glavniy"
-                android:gravity="center"/>
-            <FrameLayout
-                android:layout_width="2px"
-                android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/four_dp"
-                android:layout_marginBottom="@dimen/four_dp"
-                android:background="#e1e1e1"/>
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:src="@drawable/finance_calendar"
-                android:tint="#e1e1e1"
-                android:layout_marginLeft="@dimen/ten_dp"
-                android:paddingTop="@dimen/three_dp"
-                android:paddingBottom="@dimen/three_dp"/>
-        </LinearLayout>
-    </LinearLayout>
+        android:layout_height="2px"
+        android:background="#eaeaea"/>
     <LinearLayout
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <RelativeLayout
+            android:background="#f8f8f8"
+            android:orientation="horizontal"
+            android:paddingTop="@dimen/ten_dp"
+            android:paddingLeft="@dimen/five_dp"
+            android:paddingRight="@dimen/five_dp"
+            android:paddingBottom="@dimen/five_dp">
+            <LinearLayout
                 android:layout_width="@dimen/eighty_dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:orientation="vertical"
                 android:layout_marginLeft="@dimen/ten_dp">
                 <ImageView
                     android:id="@+id/spTransferFirst"
                     android:layout_width="@dimen/fifty_dp"
                     android:layout_height="@dimen/fifty_dp"
+                    android:layout_gravity="center"
                     android:layout_marginLeft="@dimen/five_dp"
                     android:layout_marginRight="@dimen/five_dp"
-                    android:src="@drawable/icons_17"
-                    android:layout_centerInParent="true"/>
+                    android:src="@drawable/icons_17"/>
                 <TextView
-                    android:layout_below="@+id/spTransferFirst"
+                    android:layout_weight="1"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:text="@string/account_from"
                     android:textSize="@dimen/twelve_dp"
-                    android:layout_marginTop="@dimen/ten_dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/five_dp"
                     android:id="@+id/tvAccountTransferDialogFrom"
-                    android:gravity="center"
-                    android:layout_alignLeft="@+id/spTransferFirst"
-                    android:layout_alignStart="@+id/spTransferFirst" />
-            </RelativeLayout>
+                    android:gravity="center"/>
+            </LinearLayout>
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
                 android:background="@drawable/edit_text"
                 android:layout_marginTop="@dimen/twenty_dp"
                 android:gravity="center_vertical"
@@ -111,6 +76,7 @@
                 android:paddingLeft="@dimen/two_dp"
                 android:orientation="horizontal"
                 android:layout_marginRight="@dimen/twenty_dp"
+                android:layout_marginLeft="@dimen/fifteen_dp"
                 android:layout_weight="1">
                 <EditText
                     android:id="@+id/etAccountEditName"
@@ -137,14 +103,26 @@
                     android:spinnerMode="dialog"/>
             </LinearLayout>
         </LinearLayout>
-        <RelativeLayout
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:background="#eaeaea"/>
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/ten_dp"
-            android:layout_marginBottom="@dimen/ten_dp"
-            android:layout_marginLeft="@dimen/ten_dp"
-            android:layout_marginRight="@dimen/ten_dp">
+            android:background="#00ffffff"
+            android:paddingTop="@dimen/twelve_dp"
+            android:paddingBottom="@dimen/twelve_dp"
+            android:paddingLeft="@dimen/five_dp"
+            android:paddingRight="@dimen/five_dp"
+            android:layout_gravity="center_vertical"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="@dimen/eighty_dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:orientation="vertical"
+                android:layout_marginLeft="@dimen/ten_dp">
             <ImageView
                 android:layout_width="@dimen/fourty_dp"
                 android:layout_height="@dimen/fourty_dp"
@@ -152,49 +130,110 @@
                 android:layout_marginLeft="@dimen/twenty_dp"
                 android:rotation="90"
                 android:id="@+id/temp"/>
-            <TextView
+            </LinearLayout>
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/rate"
-                android:layout_toRightOf="@+id/temp"
-                android:id="@+id/tvTemp"
-                android:textSize="@dimen/fourteen_dp"
-                android:layout_marginLeft="@dimen/twenty_dp"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/ten_dp"/>
-            <EditText
-                android:layout_width="@dimen/hundred"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/fourteen_dp"
-                android:background="@drawable/edit_text"
-                android:layout_marginLeft="@dimen/ten_dp"
-                android:paddingTop="@dimen/sevent_dp"
-                android:paddingBottom="@dimen/sevent_dp"
-                android:paddingLeft="@dimen/ten_dp"
-                android:paddingRight="@dimen/ten_dp"
-                android:layout_marginTop="@dimen/ten_dp"
-                android:layout_marginRight="@dimen/fifteen_dp"
-                android:text="1"
-                android:gravity="right"
-                android:layout_gravity=""
-                android:layout_toRightOf="@+id/tvTemp"
-                android:layout_centerVertical="true"
-                android:id="@+id/etCost"
-                android:inputType="numberDecimal"/>
-        </RelativeLayout>
+                android:orientation="horizontal"
+                android:layout_gravity="center"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1 "
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:textSize="@dimen/fourteen_dp"
+                    android:layout_marginLeft="@dimen/twenty_dp"
+                    />
+                <TextView
+                    android:id="@+id/tvCurrentCurrencyAbr"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingBottom="@dimen/three_dp"
+                    android:paddingTop="@dimen/three_dp"
+                    android:layout_gravity="center"
+                    android:text="$"
+                    android:textSize="@dimen/fourteen_dp" />
+                </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text=" = "
+                    android:gravity="center"
+                    android:textSize="@dimen/twenty_dp"
+                    android:textColor="@color/black_for_myagkiy_glavniy"
+                    />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="@dimen/twenty_dp"
+                    android:layout_weight="3"
+                    android:orientation="horizontal"
+                    android:background="@drawable/edit_text">
 
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/fourteen_dp"
+                        android:background="#00ffffff"
+                        android:layout_marginRight="@dimen/fifteen_dp"
+                        android:text="1"
+                        android:gravity="right"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:id="@+id/etCost"
+                        android:inputType="numberDecimal"/>
+
+                    <FrameLayout
+                        android:layout_width="2px"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/four_dp"
+                        android:layout_marginBottom="@dimen/four_dp"
+                        android:background="#e1e1e1"/>
+
+                    <TextView
+                        android:id="@+id/tvExchangeCurrencyAbr"
+                        android:layout_width="@dimen/thirty_dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/five_dp"
+                        android:layout_marginRight="@dimen/five_dp"
+                        android:gravity="center"
+                        android:paddingBottom="@dimen/three_dp"
+                        android:paddingTop="@dimen/three_dp"
+                        android:layout_gravity="center"
+                        android:text="$"
+                        android:textColor="@color/seecondary_button"
+                        android:textSize="@dimen/fourteen_dp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:background="#eaeaea"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <RelativeLayout
+            android:background="#f8f8f8"
+            android:orientation="horizontal"
+
+            android:paddingTop="@dimen/ten_dp"
+            android:paddingLeft="@dimen/five_dp"
+            android:paddingRight="@dimen/five_dp"
+            android:paddingBottom="@dimen/five_dp">
+            <LinearLayout
                 android:layout_width="@dimen/eighty_dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/ten_dp"
-                android:layout_marginLeft="@dimen/fifteen_dp">
+                android:layout_gravity="center_vertical"
+                android:orientation="vertical"
+                android:layout_marginLeft="@dimen/ten_dp">
                 <ImageView
                     android:id="@+id/spTransferSecond"
                     android:adjustViewBounds="true"
+                    android:layout_gravity="center"
                     android:layout_width="@dimen/fifty_dp"
                     android:layout_height="@dimen/fifty_dp"
                     android:layout_marginLeft="@dimen/five_dp"
@@ -202,45 +241,49 @@
                     android:layout_centerHorizontal="true"
                     android:src="@drawable/icons_17"/>
                 <TextView
+                    android:layout_weight="1"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:text="sdsdasdasd"
                     android:gravity="center"
+                    android:layout_gravity="center"
                     android:layout_below="@+id/spTransferSecond"
                     android:id="@+id/tvAccountTransferDialogTo"
                     android:layout_marginTop="@dimen/five_dp"
                     android:textSize="@dimen/twelve_dp"/>
-            </RelativeLayout>
+            </LinearLayout>
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/edit_text"
                 android:layout_marginTop="@dimen/twenty_dp"
-                android:gravity="center_vertical"
+                android:gravity="center_horizontal"
                 android:paddingRight="@dimen/ten_dp"
                 android:paddingTop="@dimen/two_dp"
                 android:paddingBottom="@dimen/two_dp"
                 android:paddingLeft="@dimen/two_dp"
                 android:orientation="horizontal"
                 android:layout_marginRight="@dimen/twenty_dp"
-                android:layout_weight="1"
-                android:layout_marginLeft="@dimen/ten_dp">
+                android:layout_marginLeft="@dimen/fifteen_dp"
+                android:layout_weight="1">
+
                 <EditText
                     android:id="@+id/etAccountTargitAmount"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:hint="@string/amount"
-                    android:maxLength="12"
-                    android:textColorHint="@color/black_for_maykiy_secodary"
-                    android:paddingTop="@dimen/five_dp"
-                    android:paddingBottom="@dimen/five_dp"
-                    android:textSize="@dimen/fourteen_sp"
-                    android:paddingLeft="@dimen/ten_dp"
+                    android:layout_weight="1"
                     android:background="#fff"
+                    android:hint="@string/amount"
+                    android:inputType="numberDecimal"
+                    android:maxLength="12"
+                    android:paddingBottom="@dimen/five_dp"
+                    android:paddingLeft="@dimen/ten_dp"
+                    android:paddingTop="@dimen/five_dp"
                     android:text="0"
                     android:textColor="@color/black_for_myagkiy_glavniy"
-                    android:inputType="numberDecimal"/>
+                    android:textColorHint="@color/black_for_maykiy_secodary"
+                    android:textSize="@dimen/fourteen_sp" />
+
                 <Spinner
                     android:id="@+id/spTargetCurrencyId"
                     android:layout_width="wrap_content"
@@ -249,7 +292,56 @@
                     android:spinnerMode="dialog"/>
             </LinearLayout>
         </LinearLayout>
-
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:background="#eaeaea"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/sixteen_dp"
+            android:layout_marginBottom="@dimen/sixteen_dp"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal">
+            <LinearLayout
+                android:layout_width="@dimen/two_hundred_fifty_dp"
+                android:layout_height="wrap_content"
+                android:paddingRight="@dimen/ten_dp"
+                android:paddingTop="@dimen/two_dp"
+                android:paddingBottom="@dimen/two_dp"
+                android:paddingLeft="@dimen/two_dp"
+                android:layout_marginLeft="@dimen/fifteen_dp"
+                android:background="@drawable/edit_text"
+                android:orientation="horizontal"
+                android:layout_marginRight="@dimen/fifteen_dp">
+                <TextView
+                    android:id="@+id/tvAccountDialogDate"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="15 Октябрь, 2016"
+                    android:paddingTop="@dimen/five_dp"
+                    android:paddingBottom="@dimen/five_dp"
+                    android:paddingLeft="@dimen/ten_dp"
+                    android:textSize="@dimen/fourteen_dp"
+                    android:textColor="@color/black_for_myagkiy_glavniy"
+                    android:gravity="center"/>
+                <FrameLayout
+                    android:layout_width="2px"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/four_dp"
+                    android:layout_marginBottom="@dimen/four_dp"
+                    android:background="#e1e1e1"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/finance_calendar"
+                    android:tint="#e1e1e1"
+                    android:layout_marginLeft="@dimen/ten_dp"
+                    android:paddingTop="@dimen/three_dp"
+                    android:paddingBottom="@dimen/three_dp"/>
+            </LinearLayout>
+        </LinearLayout>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

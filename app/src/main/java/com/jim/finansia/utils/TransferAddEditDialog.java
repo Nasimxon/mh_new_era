@@ -150,6 +150,8 @@ public class TransferAddEditDialog extends Dialog {
             if (toName != null)
                 view.tvItemAccountToName.setText(toName);
             view.tvItemAccountAmount.setText(dateFormat.format(result.get(position).getAmount()) + result.get(position).getCurrency().getAbbr());
+            view.tvSecondAccountAmount.setText(dateFormat.format(result.get(position).getTargetAmount()) + result.get(position).getTargetCurrency().getAbbr());
+            view.tvCurrencyRate.setText("1" + result.get(position).getCurrency().getAbbr() + " = " + result.get(position).getCost() + result.get(position).getTargetCurrency().getAbbr());
             view.tvItemAccountDate.setText(simpleDateFormat.format(result.get(position).getDate().getTime()));
             if (daoSession.getAccountDao().load(result.get(position).getSourceId()) != null) {
                 view.ivItemTransferAccountFrom.setImageResource(getContext().getResources().getIdentifier(
@@ -188,6 +190,8 @@ public class TransferAddEditDialog extends Dialog {
         TextView tvItemAccountToName;
         TextView tvItemAccountAmount;
         TextView tvItemAccountDate;
+        TextView tvSecondAccountAmount;
+        TextView tvCurrencyRate;
 
         public ViewHolder(View view) {
             super(view);
@@ -197,6 +201,8 @@ public class TransferAddEditDialog extends Dialog {
             tvItemAccountToName = (TextView) view.findViewById(R.id.tvItemAccountToName);
             tvItemAccountAmount = (TextView) view.findViewById(R.id.tvItemAccountAmount);
             tvItemAccountDate = (TextView) view.findViewById(R.id.tvItemAccountDate);
+            tvSecondAccountAmount = (TextView) view.findViewById(R.id.tvSecondAccountAmount);
+            tvCurrencyRate = (TextView) view.findViewById(R.id.tvCurrencyRate);
             ivItemTransferAccountEditDelete = (ImageView) view.findViewById(R.id.ivItemTransferAccountEditDelete);
             ivItemTransferAccountEditBottomLine = (ImageView) view.findViewById(R.id.ivItemTransferAccountEditBottomLine);
         }

@@ -11,11 +11,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.github.mikephil.charting.charts.PieChart;
 import com.jim.finansia.PocketAccounter;
 import com.jim.finansia.PocketAccounterApplication;
 import com.jim.finansia.R;
@@ -29,6 +32,7 @@ import com.jim.finansia.managers.FinansiaFirebaseAnalytics;
 import com.jim.finansia.managers.PAFragmentManager;
 import com.jim.finansia.managers.ReportManager;
 import com.jim.finansia.managers.ToolbarManager;
+import com.jim.finansia.report.CategoryDataRow;
 import com.jim.finansia.utils.cache.DataCache;
 import com.jim.finansia.utils.reportfilter.IntervalPickDialog;
 import com.jim.finansia.utils.reportfilter.IntervalPickerView;
@@ -51,6 +55,12 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import lecho.lib.hellocharts.listener.PieChartOnValueSelectListener;
+import lecho.lib.hellocharts.model.PieChartData;
+import lecho.lib.hellocharts.model.SliceValue;
+import lecho.lib.hellocharts.util.ChartUtils;
+import lecho.lib.hellocharts.view.PieChartView;
+
 public class ReportByCategoryFragment extends Fragment {
     @Inject ReportManager reportManager;
     @Inject DataCache dataCache;
@@ -69,7 +79,7 @@ public class ReportByCategoryFragment extends Fragment {
     private List<SubcatDetailedData> subcatDetailDatas;
     private IntervalPickDialog dialog;
     private Calendar begin, end;
-    private LinearLayout llPickDate;
+    private LinearLayout llPickDate, llCategories, llInfo, llTotal;
     private TextView tvBeginDate;
     private TextView tvEndDate;
     SimpleDateFormat sDateFormat = new SimpleDateFormat("dd MMM, yyyy");
@@ -80,6 +90,9 @@ public class ReportByCategoryFragment extends Fragment {
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
         analytics.sendText("User enters" + getClass().getName());
 
+        llCategories = (LinearLayout) rootView.findViewById(R.id.llCategories);
+        llInfo = (LinearLayout) rootView.findViewById(R.id.rlInfo);
+        llTotal = (LinearLayout) rootView.findViewById(R.id.llTotal);
         llPickDate = (LinearLayout) rootView.findViewById(R.id.llPickDate);
         llPickDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -293,7 +306,28 @@ public class ReportByCategoryFragment extends Fragment {
                 toolbarManager.setSubtitle("");
                 toolbarManager.setSubtitleIconVisibility(View.GONE);
                 toolbarManager.setTitle(getResources().getString(R.string.categories_report));
+                toolbarManager.setToolbarSwitchVisibilty(View.VISIBLE);
+                toolbarManager.setOnSwitchCheckedChangedListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                        if (b)
+                        {
+                            llCategories.setVisibility(View.GONE);
+                            llInfo.setVisibility(View.GONE);
+                            llTotal.setVisibility(View.VISIBLE);
+                        } else {
+                            llCategories.setVisibility(View.VISIBLE);
+                            llInfo.setVisibility(View.VISIBLE);
+                            llTotal.setVisibility(View.GONE);
+                        }
+                    }
+                });
         }
+    }
+    public void onDetach() {
+        super.onDetach();
+        toolbarManager.setToolbarSwitchVisibilty(View.GONE);
+        toolbarManager.setToolbarSwitchChecked(false);
     }
     //adapter percent subcategory
     private class PercentSubcategoryAdapter extends RecyclerView.Adapter<ReportByCategoryFragment.ViewHolder> {

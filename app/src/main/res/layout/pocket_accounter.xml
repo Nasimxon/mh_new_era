@@ -74,6 +74,13 @@
                 android:layout_width="@dimen/thirty_dp"
                 android:layout_height="@dimen/thirty_dp"
                 android:visibility="gone" />
+
+            <android.support.v7.widget.SwitchCompat
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/five_dp"
+                android:id="@+id/switchBtn"
+                android:visibility="gone" />
         </LinearLayout>
         <EditText
             android:id="@+id/etToolbarSearch"

@@ -71,6 +71,7 @@ public class TransferDialog extends Dialog implements View.OnClickListener {
     private AccountOperation accountOperation;
     private TextView fromAccount;
     private TextView toAccount;
+    private TextView currentCurrency, exchangeCurrency;
     private DecimalFormat format = new DecimalFormat("0.######");
     private boolean sourceChanged = false, targetChanged = false, costChanged = false, spinnerChanged = false;
     public TransferDialog(Context context) {
@@ -86,6 +87,8 @@ public class TransferDialog extends Dialog implements View.OnClickListener {
         v.setBackgroundResource(android.R.color.transparent);
         currencies = daoSession.getCurrencyDao().loadAll();
         etAccountEditName = (EditText) dialogView.findViewById(R.id.etAccountEditName);
+        currentCurrency = (TextView) dialogView.findViewById(R.id.tvCurrentCurrencyAbr);
+        exchangeCurrency = (TextView) dialogView.findViewById(R.id.tvExchangeCurrencyAbr);
         etAccountEditName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -189,6 +192,8 @@ public class TransferDialog extends Dialog implements View.OnClickListener {
             }
             currsName.add(currencies.get(i).getName());
         }
+        currentCurrency.setText(currencies.get(main_currency_index).getAbbr());
+        exchangeCurrency.setText(currencies.get(main_currency_index).getAbbr());
         spAccManDialog.getBackground().setColorFilter(ContextCompat.getColor(context, R.color.grey_ochrang), PorterDuff.Mode.SRC_ATOP);
         spAccManDialog.setAdapter(new CurrencySpinnerAdapter(getContext(),currs, currsName));
         spAccManDialog.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -198,10 +203,16 @@ public class TransferDialog extends Dialog implements View.OnClickListener {
                     spinnerChanged = true;
                     Currency fromCurrency = currencies.get(spAccManDialog.getSelectedItemPosition());
                     Currency toCurrency = currencies.get(spTargetCurrencyId.getSelectedItemPosition());
+                    currentCurrency.setText(currencies.get(spAccManDialog.getSelectedItemPosition()).getAbbr());
+                    exchangeCurrency.setText(currencies.get(spTargetCurrencyId.getSelectedItemPosition()).getAbbr());
                     Calendar calendar = Calendar.getInstance();
                     calendar.setTime(dateFormat.parse(date.getText().toString()));
                     double cost = getCost(calendar, fromCurrency, toCurrency);
                     etCost.setText(format.format(cost));
+                    if (etAccountEditName.getText().toString().isEmpty())
+                        etAccountEditName.setText("0");
+                    if (etAccountTargitAmount.getText().toString().isEmpty())
+                        etAccountTargitAmount.setText("0");
                     double amount = Double.parseDouble(etCost.getText().toString().replace(",", ".")) * Double.parseDouble(etAccountEditName.getText().toString().replace(",", "."));
                     etAccountTargitAmount.setText(format.format(amount));
                 } catch (ParseException e) {
@@ -224,10 +235,16 @@ public class TransferDialog extends Dialog implements View.OnClickListener {
                     spinnerChanged = true;
                     Currency fromCurrency = currencies.get(spAccManDialog.getSelectedItemPosition());
                     Currency toCurrency = currencies.get(spTargetCurrencyId.getSelectedItemPosition());
+                    currentCurrency.setText(currencies.get(spAccManDialog.getSelectedItemPosition()).getAbbr());
+                    exchangeCurrency.setText(currencies.get(spTargetCurrencyId.getSelectedItemPosition()).getAbbr());
                     Calendar calendar = Calendar.getInstance();
                     calendar.setTime(dateFormat.parse(date.getText().toString()));
                     double cost = getCost(calendar, fromCurrency, toCurrency);
                     etCost.setText(format.format(cost));
+                    if (etAccountEditName.getText().toString().isEmpty())
+                        etAccountEditName.setText("0");
+                    if (etAccountTargitAmount.getText().toString().isEmpty())
+                        etAccountTargitAmount.setText("0");
                     double amount = Double.parseDouble(etCost.getText().toString().replace(",", ".")) * Double.parseDouble(etAccountEditName.getText().toString().replace(",", "."));
                     etAccountTargitAmount.setText(format.format(amount));
                 } catch (ParseException e) {
