@@ -175,8 +175,6 @@ public class ReportByCategoryFragment extends Fragment {
                 dialog.dismiss();
             }
         });
-//        tvReportIncome.setTextColor(notActiveColor);
-//        tvReportExpense.setTextColor(activeColor);
         ivReportIncome.setRotation(0.0f);
         ivReportExpense.setRotation(180.0f);
         expenseButton.setBackgroundColor(Color.parseColor("#F1F1F1"));
@@ -185,8 +183,6 @@ public class ReportByCategoryFragment extends Fragment {
         expenseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                tvReportIncome.setTextColor(notActiveColor);
-//                tvReportExpense.setTextColor(activeColor);
                 ivReportIncome.setRotation(0.0f);
                 ivReportExpense.setRotation(180.0f);
                 expenseButton.setBackgroundColor(Color.parseColor("#F1F1F1"));
@@ -198,8 +194,6 @@ public class ReportByCategoryFragment extends Fragment {
         incomeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                tvReportIncome.setTextColor(activeColor);
-//                tvReportExpense.setTextColor(notActiveColor);
                 ivReportIncome.setRotation(180.0f);
                 ivReportExpense.setRotation(0.0f);
                 incomeButton.setBackgroundColor(Color.parseColor("#F1F1F1"));
@@ -416,10 +410,7 @@ public class ReportByCategoryFragment extends Fragment {
         if (mode == EXPENSE)
         chartData.setCenterText1(getResources().getString(R.string.expanse));
         else chartData.setCenterText1(getResources().getString(R.string.income));
-        if (dataRows.size() == 0)
-        {
-            chartData.setCenterText1(getResources().getString(R.string.not_data));
-        }
+        if (dataRows.size() == 0) chartData.setCenterText1(getResources().getString(R.string.not_data));
         chartView.setPieChartData(chartData);
         ArrayList<CategoryDataRow> temp = new ArrayList<>();
         for (CategoryDataRow dataRow : dataRows) {
