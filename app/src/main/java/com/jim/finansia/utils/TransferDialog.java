@@ -255,9 +255,7 @@ public class TransferDialog extends Dialog implements View.OnClickListener {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
+            public void onNothingSelected(AdapterView<?> adapterView) {}
         });
         if (main_currency_index!=-1){
             spAccManDialog.setSelection(main_currency_index);
