@@ -4,14 +4,17 @@ import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -44,11 +47,14 @@ import com.jim.finansia.utils.reportviews.SubcatDetailedData;
 import com.jim.finansia.utils.reportviews.SubcatReportView;
 
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -56,8 +62,10 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import lecho.lib.hellocharts.listener.PieChartOnValueSelectListener;
+import lecho.lib.hellocharts.model.ChartData;
 import lecho.lib.hellocharts.model.PieChartData;
 import lecho.lib.hellocharts.model.SliceValue;
+import lecho.lib.hellocharts.renderer.PieChartRenderer;
 import lecho.lib.hellocharts.util.ChartUtils;
 import lecho.lib.hellocharts.view.PieChartView;
 
@@ -72,19 +80,29 @@ public class ReportByCategoryFragment extends Fragment {
     @Inject DaoSession daoSession;
     @Inject DecimalFormat formatter;
     @Inject FinansiaFirebaseAnalytics analytics;
-    private RecyclerView rvReportByCategorySubcatPercents;
+    private RecyclerView rvReportByCategorySubcatPercents, rvReportCategory;
     private List<String> allCategories; //allcategories = rootcategories + debtborrow + credit
     private List<SubcatData> subcatDatas; // subcategories data for selected id
     private CategorySliding csReportByCategory;
     private List<SubcatDetailedData> subcatDetailDatas;
     private IntervalPickDialog dialog;
     private Calendar begin, end;
-    private LinearLayout llPickDate, llCategories, llInfo, llTotal;
-    private TextView tvBeginDate;
-    private TextView tvEndDate;
+    private LinearLayout llPickDate,llPickDateTotal, llCategories, llInfo, llTotal;
+    private TextView tvBeginDate, tvBeginDateTotal;
+    private TextView tvEndDate, tvEndDateTotal;
     SimpleDateFormat sDateFormat = new SimpleDateFormat("dd MMM, yyyy");
     private DecimalFormat decimalFormat = new DecimalFormat("0.##");
     private ValueAnimator animator;
+    private PieChartView chartView;
+    private int activeColor = Color.parseColor("#414141"), notActiveColor = Color.parseColor("#9c9c9c");
+    private RelativeLayout expenseButton,incomeButton;
+    private ImageView ivReportExpense;
+    private ImageView ivReportIncome;
+    private final int INCOME = 0, EXPENSE = 1;
+    private int mode = EXPENSE;
+    private TextView tvReportIncome, tvReportExpense;
+    private CategoryListAdapter categoryListAdapter;
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.report_by_category_fragment, container, false);
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
@@ -93,6 +111,10 @@ public class ReportByCategoryFragment extends Fragment {
         llCategories = (LinearLayout) rootView.findViewById(R.id.llCategories);
         llInfo = (LinearLayout) rootView.findViewById(R.id.rlInfo);
         llTotal = (LinearLayout) rootView.findViewById(R.id.llTotal);
+        ivReportExpense = (ImageView) rootView.findViewById(R.id.ivReportExpense);
+        ivReportIncome = (ImageView) rootView.findViewById(R.id.ivReportIncome);
+        expenseButton = (RelativeLayout) rootView.findViewById(R.id.expenseButton);
+        incomeButton = (RelativeLayout) rootView.findViewById(R.id.incomeButton);
         llPickDate = (LinearLayout) rootView.findViewById(R.id.llPickDate);
         llPickDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,9 +123,22 @@ public class ReportByCategoryFragment extends Fragment {
                 dialog.show();
             }
         });
+        llPickDateTotal = (LinearLayout) rootView.findViewById(R.id.llPickDateTotal);
+        llPickDateTotal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.getWindow().setLayout(9 * getContext().getResources().getDisplayMetrics().widthPixels / 10, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                dialog.show();
+            }
+        });
         tvBeginDate = (TextView) rootView.findViewById(R.id.tvBeginDate);
         tvEndDate = (TextView) rootView.findViewById(R.id.tvEndDate);
-
+        tvBeginDateTotal = (TextView) rootView.findViewById(R.id.tvBeginDateTotal);
+        tvEndDateTotal = (TextView) rootView.findViewById(R.id.tvEndDateTotal);
+        rvReportCategory = (RecyclerView) rootView.findViewById(R.id.rvCategoryList);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        rvReportCategory.setLayoutManager(layoutManager);
+        chartView = (PieChartView) rootView.findViewById(R.id.pieChart);
         rvReportByCategorySubcatPercents = (RecyclerView) rootView.findViewById(R.id.rvReportByCategorySubcatPercents);
         rvReportByCategorySubcatPercents.setLayoutManager(new GridLayoutManager(getContext(), 2, GridLayoutManager.HORIZONTAL, false));
         csReportByCategory = (CategorySliding) rootView.findViewById(R.id.csReportByCategory);
@@ -129,7 +164,10 @@ public class ReportByCategoryFragment extends Fragment {
                 csReportByCategory.setInterval(begin, end);
                 tvBeginDate.setText(getString(R.string.c_interval)+": "+sDateFormat.format(begin.getTime()));
                 tvEndDate.setText(getString(R.string.do_interval)+": "+sDateFormat.format(end.getTime()));
+                tvBeginDateTotal.setText(getString(R.string.c_interval)+": "+sDateFormat.format(begin.getTime()));
+                tvEndDateTotal.setText(getString(R.string.do_interval)+": "+sDateFormat.format(end.getTime()));
                 dialog.dismiss();
+                generateData(begin, end);
             }
 
             @Override
@@ -137,10 +175,41 @@ public class ReportByCategoryFragment extends Fragment {
                 dialog.dismiss();
             }
         });
-
+//        tvReportIncome.setTextColor(notActiveColor);
+//        tvReportExpense.setTextColor(activeColor);
+        ivReportIncome.setRotation(0.0f);
+        ivReportExpense.setRotation(180.0f);
+        expenseButton.setBackgroundColor(Color.parseColor("#F1F1F1"));
+        incomeButton.setBackgroundColor(Color.parseColor("#00000000"));
+        mode = EXPENSE;
+        expenseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                tvReportIncome.setTextColor(notActiveColor);
+//                tvReportExpense.setTextColor(activeColor);
+                ivReportIncome.setRotation(0.0f);
+                ivReportExpense.setRotation(180.0f);
+                expenseButton.setBackgroundColor(Color.parseColor("#F1F1F1"));
+                incomeButton.setBackgroundColor(Color.parseColor("#00000000"));
+                mode = EXPENSE;
+                generateData(begin ,end);
+            }
+        });
+        incomeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                tvReportIncome.setTextColor(activeColor);
+//                tvReportExpense.setTextColor(notActiveColor);
+                ivReportIncome.setRotation(180.0f);
+                ivReportExpense.setRotation(0.0f);
+                incomeButton.setBackgroundColor(Color.parseColor("#F1F1F1"));
+                expenseButton.setBackgroundColor(Color.parseColor("#00000000"));
+                mode = INCOME;
+                generateData(begin ,end);
+            }
+        });
         return rootView;
     }
-
     private void prepareSubcatData(String id, Map<String, Integer> colors) {
         subcatDatas = new ArrayList<>();
         RootCategory category = daoSession.load(RootCategory.class, id);
@@ -298,6 +367,69 @@ public class ReportByCategoryFragment extends Fragment {
         });
         animator.start();
     }
+    private void generateData(Calendar begin, Calendar end) {
+        if( begin == null && end == null)
+        {
+            end = Calendar.getInstance();
+            begin = Calendar.getInstance();
+
+            begin.set(Calendar.HOUR_OF_DAY, 0);
+            begin.set(Calendar.MINUTE, 0);
+            begin.set(Calendar.SECOND, 0);
+            begin.set(Calendar.MILLISECOND, 0);
+
+            end.set(Calendar.HOUR_OF_DAY, 23);
+            end.set(Calendar.MINUTE, 59);
+            end.set(Calendar.SECOND, 59);
+            end.set(Calendar.MILLISECOND, 59);
+        }
+        List<CategoryDataRow> dataRows = reportManager.getReportByCategories(begin,end);
+        List<SliceValue> values = new ArrayList<SliceValue>();
+        float total = 0.0f;
+        Map<String, Integer> colors = new HashMap<>();
+        colors.put("null", colorsCode[0]);
+        for (int i = 0; i < dataRows.size(); i++) {
+                    if (dataRows.get(i).getCategory().getType() == mode) {
+                        total += (float) dataRows.get(i).getTotalAmount();
+                    }
+                double lengthOfStep = 11 / dataRows.size();
+                double halfOfStep = lengthOfStep / 2;
+                colors.put(dataRows.get(i).getCategory().getId(), colorsCode[(int) Math.round(halfOfStep + (lengthOfStep * i))]);
+        }
+        float percent;
+
+        for (int i = 0; i < dataRows.size(); i++) {
+                    if (dataRows.get(i).getCategory().getType() == mode) {
+                        percent = (100.0f * ((float) dataRows.get(i).getTotalAmount())) / total;
+                        SliceValue sliceValue = new SliceValue(percent, colors.get(dataRows.get(i).getCategory().getId()));
+                        sliceValue.setLabel(formatter.format(percent) + "%");
+                        values.add(sliceValue);
+            }
+        }
+        PieChartData chartData = new PieChartData(values);
+        chartData.setHasLabels(true);
+        chartData.setHasCenterCircle(true);
+        chartData.setSlicesSpacing(3);
+        chartData.setValueLabelBackgroundEnabled(false);
+        chartData.setValueLabelTextSize((int) getResources().getDimension(R.dimen.three_dp));
+        chartData.setCenterText1FontSize((int) getResources().getDimension(R.dimen.five_dp));
+        if (mode == EXPENSE)
+        chartData.setCenterText1(getResources().getString(R.string.expanse));
+        else chartData.setCenterText1(getResources().getString(R.string.income));
+        if (dataRows.size() == 0)
+        {
+            chartData.setCenterText1(getResources().getString(R.string.not_data));
+        }
+        chartView.setPieChartData(chartData);
+        ArrayList<CategoryDataRow> temp = new ArrayList<>();
+        for (CategoryDataRow dataRow : dataRows) {
+                    if (dataRow.getCategory().getType() == mode) {
+                        temp.add(dataRow);
+            }
+        }
+        categoryListAdapter = new CategoryListAdapter(temp, colors);
+        rvReportCategory.setAdapter(categoryListAdapter);
+    }
     public void onResume() {
         super.onResume();
             if (toolbarManager != null)
@@ -373,4 +505,76 @@ public class ReportByCategoryFragment extends Fragment {
             this.view = view;
         }
     }
+
+    private class CategoryListAdapter extends RecyclerView.Adapter<ReportByCategoryFragment.CategoryViewHolder> {
+        List<CategoryDataRow> result;
+        Map<String, Integer> colors;
+        private CategoryListAdapter(List<CategoryDataRow> dataRows,Map<String, Integer> colors ) {
+            this.result = dataRows;
+            this.colors = colors;
+        }
+
+        @Override
+        public CategoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.report_by_category_chartlist, parent, false);
+            return new ReportByCategoryFragment.CategoryViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(CategoryViewHolder holder, int position) {
+
+            switch (mode)
+            {
+                case EXPENSE:
+                    if (result.get(position).getCategory().getType() == EXPENSE)
+                    {
+                        holder.flColor.setBackgroundColor(colors.get(result.get(position).getCategory().getId()));
+                        holder.tvCategoryName.setText(result.get(position).getCategory().getName());
+                        holder.tvCategoryAmount.setText("-" + formatter.format(result.get(position).getTotalAmount()) + commonOperations.getMainCurrency().getAbbr());
+                        holder.tvCategoryAmount.setTextColor(getResources().getColor(R.color.record_red));
+                    }
+                    break;
+                case INCOME:
+                    if (result.get(position).getCategory().getType() == INCOME) {
+                        holder.flColor.setBackgroundColor(colors.get(result.get(position).getCategory().getId()));
+                        holder.tvCategoryName.setText(result.get(position).getCategory().getName());
+                        holder.tvCategoryAmount.setText("+" + formatter.format(result.get(position).getTotalAmount()) + commonOperations.getMainCurrency().getAbbr());
+                        holder.tvCategoryAmount.setTextColor(getResources().getColor(R.color.record_green));
+                    }
+                    break;
+            }
+        }
+
+        @Override
+        public int getItemCount() {
+            return result.size();
+        }
+    }
+
+    private class CategoryViewHolder extends RecyclerView.ViewHolder {
+        FrameLayout flColor;
+        TextView tvCategoryName;
+        TextView tvCategoryAmount;
+
+        private CategoryViewHolder(View itemView) {
+            super(itemView);
+            flColor = (FrameLayout) itemView.findViewById(R.id.flColor);
+            tvCategoryName = (TextView) itemView.findViewById(R.id.tvReportCategoryName);
+            tvCategoryAmount = (TextView) itemView.findViewById(R.id.tvReportCategoryAmount);
+        }
+    }
+     private int[] colorsCode = {
+            Color.parseColor("#0d3c55"),
+            Color.parseColor("#0f5b78"),
+            Color.parseColor("#117899"),
+            Color.parseColor("#1395ba"),
+            Color.parseColor("#5ca793"),
+            Color.parseColor("#a2b86c"),
+            Color.parseColor("#ebc844"),
+            Color.parseColor("#ecaa38"),
+            Color.parseColor("#ef8b2c"),
+            Color.parseColor("#f16c20"),
+            Color.parseColor("#d94e1f"),
+            Color.parseColor("#c02e1d")
+    };
 }

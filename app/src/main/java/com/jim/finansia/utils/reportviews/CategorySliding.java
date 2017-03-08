@@ -84,6 +84,7 @@ public class CategorySliding extends LinearLayout {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 if (listener != null) {
+                    if (allCategories.size() != 0)
                     listener.onSlide(allCategories.get(position), allColors.get(allCategories.get(position)), position, true);
                 }
 
@@ -93,6 +94,7 @@ public class CategorySliding extends LinearLayout {
             public void onPageSelected(int position) {
                 CategorySliding.this.position = position;
                 if (listener != null) {
+                    if (allCategories.size() != 0)
                     listener.onSlide(allCategories.get(position), allColors.get(allCategories.get(position)), position, true);
                 }
 
@@ -102,6 +104,7 @@ public class CategorySliding extends LinearLayout {
             public void onPageScrollStateChanged(int state) {
                 if (state == ViewPager.SCROLL_STATE_IDLE && lastPosition != position) {
                     if (listener != null) {
+                        if (allCategories.size() != 0)
                         listener.onSlide(allCategories.get(position), allColors.get(allCategories.get(position)), position, false);
                     }
                     lastPosition = position;
@@ -113,6 +116,11 @@ public class CategorySliding extends LinearLayout {
                         ivToRightButton.setVisibility(INVISIBLE);
                     }
                     else ivToRightButton.setVisibility(VISIBLE);
+                    if (allCategories.size() == 0)
+                    {
+                        ivToLeftButton.setVisibility(INVISIBLE);
+                        ivToRightButton.setVisibility(INVISIBLE);
+                    }
                     keyAnimIsEnded=true;
                 }
             }
@@ -158,11 +166,13 @@ public class CategorySliding extends LinearLayout {
         this.begin = (Calendar) begin.clone();
         this.end = (Calendar) end.clone();
         init(getContext());
-        if (vpCategorySlider != null) {
-            vpCategorySlider.setCurrentItem(position);
-            if (listener != null) {
-                listener.onSlide(allCategories.get(position), allColors.get(allCategories.get(position)), position, false);
-            }
+            if (vpCategorySlider != null) {
+                vpCategorySlider.setCurrentItem(position);
+                if (listener != null) {
+                    if (allCategories.size() != 0) {
+                    listener.onSlide(allCategories.get(position), allColors.get(allCategories.get(position)), position, false);
+                    }
+                }
         }
     }
 
@@ -177,6 +187,7 @@ public class CategorySliding extends LinearLayout {
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         if (listener != null) {
+            if (allCategories.size() != 0)
             listener.onSlide(allCategories.get(position), allColors.get(allCategories.get(position)), position, false);
         }
     }

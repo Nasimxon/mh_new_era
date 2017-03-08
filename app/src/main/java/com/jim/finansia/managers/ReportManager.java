@@ -401,6 +401,11 @@ public class ReportManager {
         //income expanses begin
         List<FinanceRecord> financeRecords = daoSession.getFinanceRecordDao().loadAll();
         for (FinanceRecord financeRecord : financeRecords) {
+            if (! (financeRecord.getDate().compareTo(begin) >= 0 &&
+                    financeRecord.getDate().compareTo(end) <= 0)){
+                continue;
+            }
+
             boolean categoryFound = false;
             CategoryDataRow foundCategory = null;
             for (CategoryDataRow categoryDataRow : result) {
@@ -464,11 +469,13 @@ public class ReportManager {
                 for (int j=0; j<foundCategory.getSubCats().size(); j++)
                     amount = amount + foundCategory.getSubCats().get(j).getAmount();
                 foundCategory.setTotalAmount(amount);
+                foundCategory.setDate(financeRecord.getDate());
             }
             else {
                 CategoryDataRow newCategoryDataRow = new CategoryDataRow();
                 newCategoryDataRow.setCategory(financeRecord.getCategory());
                 newCategoryDataRow.setTotalAmount(commonOperations.getCost(financeRecord));
+                newCategoryDataRow.setDate(financeRecord.getDate());
                 SubCategoryWitAmount newSubCategoryWithAmount = new SubCategoryWitAmount();
                 if (financeRecord.getSubCategory() == null) {
                     SubCategory noSubCategory = new SubCategory();
