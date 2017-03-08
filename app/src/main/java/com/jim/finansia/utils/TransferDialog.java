@@ -555,17 +555,17 @@ public class TransferDialog extends Dialog implements View.OnClickListener {
         if (fromCurrency.getId().equals(toCurrency.getId())) return 1.0d;
         List<CurrencyCostState> states = daoSession
                                     .queryBuilder(CurrencyCostState.class)
-                                    .where(CurrencyCostStateDao.Properties.MainCurId.eq(fromCurrency.getId()))
+                                    .where(CurrencyCostStateDao.Properties.MainCurId.eq(toCurrency.getId()))
                                     .list();
         if (date.compareTo(states.get(states.size() - 1).getDay()) >= 0) {
             for (CurrencyWithAmount amount : states.get(states.size() - 1).getCurrencyWithAmountList()) {
-                if (amount.getCurrencyId().equals(toCurrency.getId()))
+                if (amount.getCurrencyId().equals(fromCurrency.getId()))
                     return amount.getAmount();
             }
         }
         else if (date.compareTo(states.get(0).getDay()) >= 0) {
             for (CurrencyWithAmount amount : states.get(0).getCurrencyWithAmountList()) {
-                if (amount.getCurrencyId().equals(toCurrency.getId()))
+                if (amount.getCurrencyId().equals(fromCurrency.getId()))
                     return amount.getAmount();
             }
         }
@@ -574,7 +574,7 @@ public class TransferDialog extends Dialog implements View.OnClickListener {
         for (CurrencyCostState state : states) {
             if (difference < 0 || date.getTimeInMillis() - state.getDay().getTimeInMillis() < difference) {
                 for (CurrencyWithAmount amount : state.getCurrencyWithAmountList()) {
-                    if (amount.getCurrencyId().equals(toCurrency.getId()))
+                    if (amount.getCurrencyId().equals(fromCurrency.getId()))
                         result =  amount.getAmount();
                 }
                 difference = date.getTimeInMillis() - state.getDay().getTimeInMillis();
