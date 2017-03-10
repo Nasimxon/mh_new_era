@@ -318,7 +318,10 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
         rvAccountChoise = (RelativeLayout) mainView.findViewById(R.id.rvAccountChoise);
         spRecordEdit = (Spinner) mainView.findViewById(R.id.spRecordEdit);
         final List<Account> accountList = daoSession.getAccountDao().loadAll();
+        if(record==null)
         account = accountList.get(0);
+        else
+            account = record.getAccount();
         int resId2 = getResources().getIdentifier(account.getIcon(), "drawable", getContext().getPackageName());
         ivAccountIcon.setImageResource(resId2);
         tvAccountName.setText(account.getName());
@@ -391,6 +394,8 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
             public void onNothingSelected(AdapterView<?> adapterView) {}
         });
         spRecordEdit.setSelection(currencyList.indexOf(commonOperations.getMainCurrency()));
+        if(record!=null)
+            spRecordEdit.setSelection(currencyList.indexOf(record.getCurrency()));
         comment = (TextView) mainView.findViewById(R.id.textView18);
         ivCommentButton = (ImageView) mainView.findViewById(R.id.comment_opener);
         comment_add = (EditText) mainView.findViewById(R.id.comment_add);
@@ -1312,22 +1317,37 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
         String value = tvRecordEditDisplay.getText().toString();
         if (value.length() > 12)
             value = value.substring(0, 12);
-        if (account.getNoneMinusAccount()) {
-            double accounted = logicManager.isLimitAccess(account, date)
-                    - commonOperations.getCost(date, currency, Double.parseDouble(tvRecordEditDisplay.getText().toString()));
-            if (accounted < 0) {
-                Toast.makeText(getContext(), R.string.none_minus_account_warning, Toast.LENGTH_SHORT).show();
-                return;
+        if(category!=null){
+            if(category.getType()==PocketAccounterGeneral.EXPENSE){
+                if(record==null){
+                    int state = logicManager.isItPosibleToAdd(account,Double.parseDouble(tvRecordEditDisplay.getText().toString().replace(',','.')),currency,date,0,null,null);
+                    if(state == LogicManager.CAN_NOT_NEGATIVE){
+
+                        Toast.makeText(getContext(), R.string.none_minus_account_warning, Toast.LENGTH_SHORT).show();
+                        return;
+
+                    }
+                    else if(state == LogicManager.LIMIT){
+                        Toast.makeText(getContext(), R.string.limit_exceed, Toast.LENGTH_SHORT).show();
+                        return;
+
+                    }
+                }
+                else {
+                    int state = logicManager.isItPosibleToAdd(account,Double.parseDouble(tvRecordEditDisplay.getText().toString().replace(',','.')),currency,date,record.getAmount(),record.getCurrency(),record.getAccount());
+                    if(state == LogicManager.CAN_NOT_NEGATIVE){
+                        Toast.makeText(getContext(), R.string.none_minus_account_warning, Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    else if(state == LogicManager.LIMIT){
+                        Toast.makeText(getContext(), R.string.limit_exceed, Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                }
+              }
             }
-        }
-        if (account.getIsLimited()) {
-            if (-account.getLimite() > logicManager.isLimitAccess(account, date)
-                    - commonOperations.getCost(date, currency, Double.parseDouble(tvRecordEditDisplay.getText().toString()))) {
-                Toast.makeText(getContext(), R.string.limit_exceed, Toast.LENGTH_SHORT).show();
-                return;
-            }
-        }
-        if (Double.parseDouble(value) != 0) {
+
+        if (Double.parseDouble(value.replace(',','.')) != 0) {
             FinanceRecord savingRecord = null;
             if (record != null)
                 savingRecord = record;
@@ -1340,7 +1360,7 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
 
             savingRecord.setCurrency(currency);
 
-            savingRecord.setAmount(Math.abs(Double.parseDouble(tvRecordEditDisplay.getText().toString())));
+            savingRecord.setAmount(Math.abs(Double.parseDouble(tvRecordEditDisplay.getText().toString().replace(',','.'))));
             if (record != null)
                 savingRecord.setRecordId(record.getRecordId());
             else
@@ -1451,7 +1471,6 @@ public class RecordEditFragment extends Fragment implements OnClickListener {
                                       visibleLayoutsWhenCommentClose();
                                 }
                             }, 200);
-
                             keyForDesideOpenSubCategoryDialog = false;
                         }
                     });

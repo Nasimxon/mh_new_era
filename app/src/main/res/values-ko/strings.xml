@@ -1,0 +1,1732 @@
+<resources>
+    <string name="app_name">Finansia</string>
+    <string-array name="week_days">
+        <item>월요일</item>
+        <item>화요일</item>
+        <item>수요일</item>
+        <item>목요일</item>
+        <item>금요일</item>
+        <item>토요일</item>
+        <item>일요일</item>
+    </string-array>
+    <string-array name="drawer_menu_icons">
+        <item>ic_home</item>
+        <item>ic_currency</item>
+        <item>ic_categories</item>
+        <item>ic_accounts</item>
+        <item>ic_purpose</item>
+        <item>ic_auto</item>
+        <item>ic_loans</item>
+        <item>ic_debt</item>
+        <item>ic_sms</item>
+        <item>ic_report</item>
+        <item>ic_themes</item>
+        <item>ic_settings</item>
+        <item>ic_rate</item>
+        <item>ic_share</item>
+        <item>ic_feedback</item>
+    </string-array>
+    <string-array name="drawer_menus">
+        <item>집</item>
+        <item>통화</item>
+        <item>카테고리</item>
+        <item>계정</item>
+        <item>목적</item>
+        <item>자동 작업</item>
+        <item>크레딧</item>
+        <item>부채</item>
+        <item>Sms 구문 분석</item>
+        <item>보고서</item>
+        <item>배경</item>
+        <item>설정</item>
+        <item>앱 평가</item>
+        <item>앱 공유</item>
+        <item>피드백</item>
+    </string-array>
+    <string-array name="drawer_menus_icons">
+        <item>ic_home</item>
+        <item>ic_currency</item>
+        <item>ic_categories</item>
+        <item>ic_accounts</item>
+        <item>ic_purpose</item>
+        <item>ic_auto</item>
+        <item>ic_loans</item>
+        <item>ic_debt</item>
+        <item>ic_sms</item>
+        <item>ic_report</item>
+        <item>ic_themes</item>
+        <item>ic_settings</item>
+        <item>ic_rate</item>
+        <item>ic_share</item>
+        <item>ic_feedback</item>
+    </string-array>
+    <string-array name="base_currencies">
+        <item>Dollars</item>
+        <item>Rouble</item>
+        <item>Euro</item>
+        <item>Hryvnia</item>
+        <item> Sterling </item>
+        <item> Lira </item>
+        <item> Leo </item>
+        <item> Tenge </item>
+        <item> The Belarusian ruble </item>
+        <item> Malaysian Ringgit</item>
+        <item> Armenian Dram </item>
+        <item> Shekel </item>
+        <item> Yen </item>
+        <item> Vaughan </item>
+        <item> Moldavian lei </item>
+        <item> Lek </item>
+        <item> The Algerian Dinar </item>
+        <item> Kwanza </item>
+        <item> Manat </item>
+        <item> Bahraini Dinar </item>
+        <item> Taka </item>
+        <item> Mark </item>
+        <item> Real </item>
+        <item> Yuan </item>
+        <item> Czech Koruna </item>
+        <item> Danish Krone </item>
+        <item> Egyptian pound </item>
+        <item> Cedi </item>
+        <item> The Forint </item>
+        <item> Indian Rupee </item>
+        <item> Indonesian rupiah </item>
+        <item> The Iranian Rial </item>
+        <item> Iraqi Dinar </item>
+        <item> The Jordanian Dinar </item>
+        <item> The Kuwaiti Dinar </item>
+        <item> Philippine Peso </item>
+        <item> Zloty </item>
+        <item> The Qatari Riyal </item>
+        <item> Sum </item>
+        <item> The Saudi riyal </item>
+        <item> The Swiss franc </item>
+        <item> The Serbian Dinar </item>
+        <item> Bath </item>
+        <item> UAE Dirham</item>
+        <item> Argentine Peso</item>
+        <item> Bolivar</item>
+        <item> Lari</item>
+        <item> Som</item>
+    </string-array>
+    <string-array name="base_abbrs">
+        <item>$</item>
+        <item>₽</item>
+        <item>€</item>
+        <item>₴</item>
+        <item>£</item>
+        <item>₺</item>
+        <item>лв</item>
+        <item>₸</item>
+        <item>BYN</item>
+        <item>RM</item>
+        <item>РА</item>
+        <item>₪</item>
+        <item>¥</item>
+        <item>₩</item>
+        <item>lei</item>
+        <item>L</item>
+        <item>.د.ج </item>
+        <item>Kz</item>
+        <item>АР</item>
+        <item>.د.ب </item>
+        <item>৳</item>
+        <item>KM</item>
+        <item>R$</item>
+        <item>¥</item>
+        <item>Kč</item>
+        <item>kr</item>
+        <item>.ج.م</item>
+        <item>﷼₵</item>
+        <item>Ft</item>
+        <item>₹</item>
+        <item>Rp</item>
+        <item>﷼</item>
+        <item>.د.ع</item>
+        <item>.د.إ</item>
+        <item>.د.ك</item>
+        <item>₱</item>
+        <item>zł</item>
+        <item>﷼</item>
+        <item>uzs</item>
+        <item>﷼</item>
+        <item>₣</item>
+        <item>din</item>
+        <item>฿</item>
+        <item>.د.إ</item>
+        <item>$</item>
+        <item>Bs</item>
+        <item>₾</item>
+        <item>с</item>
+    </string-array>
+    <string-array name="currency_ids">
+        <item>currency_1</item>
+        <item>currency_2</item>
+        <item>currency_3</item>
+        <item>currency_4</item>
+        <item>currency_5</item>
+        <item>currency_6</item>
+        <item>currency_7</item>
+        <item>currency_8</item>
+        <item>currency_9</item>
+        <item>currency_10</item>
+        <item>currency_11</item>
+        <item>currency_12</item>
+        <item>currency_13</item>
+        <item>currency_14</item>
+        <item>currency_15</item>
+        <item>currency_16</item>
+        <item>currency_17</item>
+        <item>currency_18</item>
+        <item>currency_19</item>
+        <item>currency_20</item>
+        <item>currency_21</item>
+        <item>currency_22</item>
+        <item>currency_23</item>
+        <item>currency_24</item>
+        <item>currency_25</item>
+        <item>currency_26</item>
+        <item>currency_27</item>
+        <item>currency_28</item>
+        <item>currency_29</item>
+        <item>currency_30</item>
+        <item>currency_31</item>
+        <item>currency_32</item>
+        <item>currency_33</item>
+        <item>currency_34</item>
+        <item>currency_35</item>
+        <item>currency_36</item>
+        <item>currency_37</item>
+        <item>currency_38</item>
+        <item>currency_39</item>
+        <item>currency_40</item>
+        <item>currency_41</item>
+        <item>currency_42</item>
+        <item>currency_43</item>
+        <item>currency_44</item>
+        <item>currency_45</item>
+        <item>currency_46</item>
+        <item>currency_47</item>
+        <item>currency_48</item>
+    </string-array>
+    <string-array name="currency_costs">
+        <item>1.0</item>
+        <item>0.0154</item>
+        <item>0.9</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+    </string-array>
+    <string-array name="icons">
+        <item>icons_1</item>
+        <item>icons_2</item>
+        <item>icons_3</item>
+        <item>icons_4</item>
+        <item>icons_5</item>
+        <item>icons_6</item>
+        <item>icons_7</item>
+        <item>icons_8</item>
+        <item>icons_9</item>
+        <item>icons_10</item>
+        <item>icons_11</item>
+        <item>icons_12</item>
+        <item>icons_13</item>
+        <item>icons_14</item>
+        <item>icons_15</item>
+        <item>icons_16</item>
+        <item>icons_17</item>
+        <item>icons_18</item>
+        <item>icons_19</item>
+        <item>icons_20</item>
+        <item>icons_21</item>
+        <item>icons_22</item>
+        <item>icons_23</item>
+        <item>icons_24</item>
+        <item>icons_25</item>
+        <item>icons_26</item>
+        <item>icons_27</item>
+        <item>icons_28</item>
+        <item>icons_29</item>
+        <item>icons_30</item>
+        <item>icons_31</item>
+        <item>icons_32</item>
+        <item>icons_33</item>
+        <item>icons_34</item>
+        <item>icons_35</item>
+        <item>icons_36</item>
+        <item>icons_37</item>
+        <item>icons_38</item>
+        <item>icons_39</item>
+        <item>icons_40</item>
+        <item>icons_41</item>
+        <item>icons_42</item>
+        <item>icons_43</item>
+        <item>icons_44</item>
+        <item>icons_45</item>
+        <item>icons_46</item>
+        <item>icons_47</item>
+        <item>icons_48</item>
+        <item>icons_49</item>
+        <item>icons_50</item>
+        <item>icons_51</item>
+        <item>icons_52</item>
+        <item>icons_53</item>
+        <item>icons_54</item>
+        <item>icons_55</item>
+        <item>icons_56</item>
+        <item>icons_57</item>
+        <item>icons_58</item>
+        <item>icons_59</item>
+        <item>icons_60</item>
+        <item>icons_61</item>
+        <item>icons_62</item>
+        <item>icons_63</item>
+        <item>icons_64</item>
+        <item>icons_65</item>
+        <item>icons_66</item>
+        <item>icons_67</item>
+        <item>icons_68</item>
+        <item>icons_69</item>
+        <item>icons_70</item>
+        <item>icons_71</item>
+        <item>icons_72</item>
+        <item>icons_73</item>
+        <item>icons_74</item>
+        <item>icons_75</item>
+        <item>icons_76</item>
+        <item>icons_77</item>
+        <item>icons_78</item>
+        <item>icons_79</item>
+        <item>icons_80</item>
+        <item>icons_81</item>
+        <item>icons_82</item>
+        <item>icons_83</item>
+        <item>icons_84</item>
+        <item>icons_85</item>
+        <item>icons_86</item>
+        <item>icons_87</item>
+        <item>icons_88</item>
+        <item>icons_89</item>
+        <item>icons_90</item>
+        <item>icons_91</item>
+        <item>icons_92</item>
+        <item>icons_93</item>
+        <item>icons_94</item>
+        <item>icons_95</item>
+        <item>icons_96</item>
+        <item>icons_97</item>
+        <item>icons_98</item>
+        <item>icons_99</item>
+        <item>icons_100</item>
+        <item>icons_101</item>
+        <item>icons_102</item>
+        <item>icons_103</item>
+        <item>icons_104</item>
+        <item>icons_105</item>
+        <item>icons_106</item>
+        <item>icons_107</item>
+        <item>icons_108</item>
+        <item>icons_109</item>
+        <item>icons_110</item>
+        <item>icons_111</item>
+        <item>icons_112</item>
+        <item>icons_113</item>
+        <item>icons_114</item>
+        <item>icons_115</item>
+        <item>icons_116</item>
+        <item>icons_117</item>
+        <item>icons_118</item>
+        <item>icons_119</item>
+        <item>icons_120</item>
+        <item>icons_121</item>
+        <item>icons_122</item>
+        <item>icons_123</item>
+        <item>icons_124</item>
+        <item>icons_125</item>
+        <item>icons_126</item>
+        <item>icons_127</item>
+        <item>icons_128</item>
+        <item>icons_129</item>
+        <item>icons_130</item>
+        <item>icons_131</item>
+        <item>icons_132</item>
+        <item>icons_133</item>
+        <item>icons_134</item>
+        <item>icons_135</item>
+        <item>icons_136</item>
+        <item>icons_137</item>
+        <item>icons_138</item>
+        <item>icons_139</item>
+        <item>icons_140</item>
+        <item>icons_141</item>
+        <item>icons_142</item>
+        <item>icons_143</item>
+        <item>icons_144</item>
+        <item>icons_145</item>
+        <item>icons_146</item>
+        <item>icons_147</item>
+        <item>icons_148</item>
+        <item>icons_149</item>
+        <item>icons_150</item>
+        <item>icons_151</item>
+        <item>icons_152</item>
+        <item>icons_153</item>
+        <item>icons_154</item>
+        <item>icons_155</item>
+        <item>icons_156</item>
+        <item>icons_157</item>
+        <item>icons_158</item>
+        <item>icons_159</item>
+        <item>icons_160</item>
+        <item>icons_161</item>
+        <item>icons_162</item>
+        <item>icons_163</item>
+        <item>icons_164</item>
+        <item>icons_165</item>
+        <item>icons_166</item>
+        <item>icons_167</item>
+        <item>icons_168</item>
+        <item>icons_169</item>
+        <item>icons_170</item>
+        <item>icons_171</item>
+        <item>icons_172</item>
+        <item>icons_173</item>
+        <item>icons_174</item>
+        <item>icons_175</item>
+        <item>icons_176</item>
+        <item>icons_177</item>
+        <item>icons_178</item>
+        <item>icons_179</item>
+        <item>icons_180</item>
+        <item>icons_181</item>
+        <item>icons_182</item>
+        <item>icons_183</item>
+        <item>icons_184</item>
+        <item>icons_185</item>
+        <item>icons_186</item>
+        <item>icons_187</item>
+        <item>icons_188</item>
+        <item>icons_189</item>
+        <item>icons_190</item>
+        <item>icons_191</item>
+        <item>icons_192</item>
+        <item>icons_193</item>
+        <item>icons_194</item>
+        <item>icons_195</item>
+        <item>icons_196</item>
+        <item>icons_197</item>
+        <item>icons_198</item>
+        <item>icons_199</item>
+        <item>icons_200</item>
+        <item>icons_201</item>
+        <item>icons_202</item>
+        <item>icons_203</item>
+        <item>icons_204</item>
+        <item>icons_205</item>
+        <item>icons_206</item>
+        <item>icons_207</item>
+        <item>icons_208</item>
+        <item>icons_209</item>
+        <item>icons_210</item>
+        <item>icons_211</item>
+        <item>icons_212</item>
+        <item>icons_213</item>
+        <item>icons_214</item>
+        <item>icons_215</item>
+        <item>icons_216</item>
+        <item>icons_217</item>
+        <item>icons_218</item>
+        <item>icons_219</item>
+        <item>icons_220</item>
+        <item>icons_221</item>
+        <item>icons_222</item>
+        <item>icons_223</item>
+        <item>icons_224</item>
+        <item>icons_225</item>
+        <item>icons_226</item>
+        <item>icons_227</item>
+        <item>icons_228</item>
+        <item>icons_229</item>
+        <item>icons_230</item>
+        <item>icons_231</item>
+        <item>icons_232</item>
+        <item>icons_233</item>
+        <item>icons_234</item>
+        <item>icons_235</item>
+        <item>icons_236</item>
+        <item>icons_237</item>
+        <item>icons_238</item>
+        <item>icons_239</item>
+        <item>icons_240</item>
+        <item>icons_241</item>
+        <item>icons_242</item>
+        <item>icons_243</item>
+        <item>icons_244</item>
+        <item>icons_245</item>
+        <item>icons_246</item>
+        <item>icons_247</item>
+        <item>icons_248</item>
+        <item>icons_249</item>
+        <item>icons_250</item>
+        <item>icons_251</item>
+        <item>icons_252</item>
+        <item>icons_253</item>
+        <item>icons_254</item>
+        <item>icons_255</item>
+        <item>icons_256</item>
+        <item>icons_257</item>
+        <item>icons_258</item>
+        <item>icons_259</item>
+        <item>icons_260</item>
+        <item>icons_261</item>
+        <item>icons_262</item>
+        <item>icons_263</item>
+        <item>icons_264</item>
+        <item>icons_265</item>
+        <item>icons_266</item>
+        <item>icons_267</item>
+        <item>icons_268</item>
+        <item>icons_269</item>
+        <item>icons_270</item>
+        <item>icons_271</item>
+        <item>icons_272</item>
+        <item>icons_273</item>
+        <item>icons_274</item>
+        <item>icons_275</item>
+        <item>icons_276</item>
+        <item>icons_277</item>
+        <item>icons_278</item>
+        <item>icons_279</item>
+        <item>icons_280</item>
+        <item>icons_281</item>
+        <item>icons_282</item>
+        <item>icons_283</item>
+        <item>icons_284</item>
+        <item>icons_285</item>
+        <item>icons_286</item>
+        <item>icons_287</item>
+        <item>icons_288</item>
+        <item>icons_289</item>
+        <item>icons_290</item>
+        <item>icons_291</item>
+        <item>icons_292</item>
+        <item>icons_293</item>
+        <item>icons_294</item>
+        <item>icons_295</item>
+        <item>icons_296</item>
+        <item>icons_297</item>
+        <item>icons_298</item>
+        <item>icons_299</item>
+        <item>icons_301</item>
+        <item>icons_302</item>
+        <item>icons_303</item>
+        <item>icons_304</item>
+        <item>icons_305</item>
+        <item>icons_306</item>
+        <item>icons_307</item>
+        <item>icons_308</item>
+        <item>icons_309</item>
+        <item>icons_310</item>
+        <item>icons_311</item>
+        <item>icons_312</item>
+        <item>icons_313</item>
+        <item>icons_314</item>
+        <item>icons_315</item>
+    </string-array>
+    <string name="currencies">통화</string>
+    <string name="main_currency">기본 통화 : </string>
+    <string name="choose_currencies">통화 설정</string>
+    <string name="curr_not_choosen">하나 이상의 통화를 선택하십시오.</string>
+    <string name="yes">예</string>
+    <string name="no">아니요</string>
+    <string name="currency_exchange_warning">이전에 선택한 통화를 선택하지 않았기 때문에 환율 및 기록 데이터가 손실됩니다!</string>
+    <string name="currency_delete_warning">선택한 통화의 항목이 삭제됩니다!</string>
+    <string name="currency_empty_warning">통화 목록이 비어 있어서는 안됩니다!</string>
+    <string name="warning">주의</string>
+    <string name="add">추가</string>
+    <string name="expanse">비용</string>
+    <string name="income">수입</string>
+    <string name="sub_cat">하위 카테고리</string>
+    <string name="sub_cats">하위 범주</string>
+    <string name="select_icon">아이콘을 선택하십시오</string>
+    <string name="cat_type_not_choosen">카테고리 유형 선택</string>
+    <string name="account">계정</string>
+    <string name="choose_date">날짜 선택</string>
+    <string name="main_currency_edit">기본 통화</string>
+    <string name="costs_selected_all_warning">목록에서 하나의 요소로 남아 있어야합니다</string>
+    <string name="category">카테고리</string>
+    <string name="credit_name">크레딧 상품 이름</string>
+    <string name="home">홈</string>
+    <string name="network">연락처</string>
+    <string name="clothes">의류</string>
+    <string name="health">건강</string>
+    <string name="food">음식</string>
+    <string name="car">자동</string>
+    <string name="transport">전송</string>
+    <string name="gaiety">엔터테인먼트</string>
+    <string name="buy">쇼핑</string>
+    <string name="sport">스포츠</string>
+    <string name="beauty">뷰티</string>
+    <string name="equipment">사무실</string>
+    <string name="travel">여행</string>
+    <string name="present">선물</string>
+    <string name="celebration">축하</string>
+    <string name="other">기타</string>
+    <string name="salary">봉급</string>
+    <string name="bonus">보너스</string>
+    <string name="percents">퍼센트</string>
+    <string name="other_income">기타</string>
+    <string name="year">연도</string>
+    <string name="moth">월</string>
+    <string name="day">일</string>
+    <string name="moths">개월</string>
+    <string name="years">년</string>
+    <string name="days">일</string>
+    <string name="ends">끝</string>
+    <string name="archive">아카이브하려면</string>
+    <string name="flexiinfo">EXCEL 파일로 내보낼 가능성이있는 지출 및 수입에 대한 유연하고 자세한 보고서</string>
+    <string name="toritus">신용 등록 시스템은 매우 유연합니다. 신용 조건이 다를 수 있습니다. 이와 관련하여 요구 사항에 맞게 응용 프로그램을 사용자 정의 할 수 있습니다.</string>
+    <string-array name="cat_values">
+        <item>home</item>
+        <item>network</item>
+        <item>clothes</item>
+        <item>health</item>
+        <item>food</item>
+        <item>car</item>
+        <item>transport</item>
+        <item>gaiety</item>
+        <item>buy</item>
+        <item>sport</item>
+        <item>beauty</item>
+        <item>equipment</item>
+        <item>travel</item>
+        <item>present</item>
+        <item>celebration</item>
+        <item>other</item>
+        <item>salary</item>
+        <item>bonus</item>
+        <item>percents</item>
+        <item>other_income</item>
+    </string-array>
+    <string-array name="cat_types">
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+    </string-array>
+    <string-array name="cat_icons">
+        <item>icons_72</item>
+        <item>icons_90</item>
+        <item>icons_240</item>
+        <item>icons_278</item>
+        <item>icons_154</item>
+        <item>icons_266</item>
+        <item>icons_263</item>
+        <item>icons_60</item>
+        <item>icons_308</item>
+        <item>icons_174</item>
+        <item>icons_301</item>
+        <item>icons_77</item>
+        <item>icons_290</item>
+        <item>icons_63</item>
+        <item>icons_55</item>
+        <item>icons_315</item>
+        <item>icons_8</item>
+        <item>icons_19</item>
+        <item>icons_20</item>
+        <item>icons_314</item>
+    </string-array>
+    <string-array name="home">
+        <item>수리</item>
+        <item>전기</item>
+        <item>천연 가스</item>
+        <item>세금</item>
+        <item>물 (추위)</item>
+        <item>물 (뜨거운)</item>
+        <item>난방</item>
+        <item>케이블 TV</item>
+    </string-array>
+    <string-array name="home_icons">
+        <item>icons_310</item>
+        <item>icons_81</item>
+        <item>icons_67</item>
+        <item>icons_27</item>
+        <item>icons_122</item>
+        <item>icons_124</item>
+        <item>icons_131</item>
+        <item>icons_88</item>
+    </string-array>
+    <string-array name="travel">
+        <item>휴가</item>
+        <item>투어</item>
+        <item>토른</item>
+        <item>비행</item>
+        <item>소풍</item>
+    </string-array>
+    <string-array name="period_purpose">
+        <item>무한정</item>
+        <item>주중</item>
+        <item>해당 달 중</item>
+        <item>해당 연도 중</item>
+        <item>간격</item>
+    </string-array>
+    <string-array name="week_day_auto">
+        <item>월요일</item>
+        <item>화요일</item>
+        <item>수요일</item>
+        <item>목요일</item>
+        <item>금요일</item>
+        <item>토요일</item>
+        <item>일요일</item>
+    </string-array>
+    <string-array name="date_picker_period_spinner">
+        <item>이 달</item>
+        <item>마지막 삼일</item>
+        <item>이번 주</item>
+        <item>월, 년</item>
+        <item>년</item>
+        <item>기간</item>
+    </string-array>
+    <string-array name="travel_icons">
+        <item>icons_288</item>
+        <item>icons_291</item>
+        <item>icons_285</item>
+        <item>icons_275</item>
+        <item>icons_293</item>
+    </string-array>
+    <string-array name="network">
+        <item>인터넷</item>
+        <item>전화 (집)</item>
+        <item>전화 (셀)</item>
+    </string-array>
+    <string-array name="network_icons">
+        <item>icons_139</item>
+        <item>icons_92</item>
+        <item>icons_93</item>
+    </string-array>
+    <string-array name="clothes">
+        <item>셔츠</item>
+        <item>양말</item>
+        <item>바지</item>
+        <item>티셔츠</item>
+        <item>반바지</item>
+        <item>신발</item>
+    </string-array>
+    <string-array name="clothes_icons">
+        <item>icons_217</item>
+        <item>icons_199</item>
+        <item>icons_247</item>
+        <item>icons_205</item>
+        <item>icons_220</item>
+        <item>icons_201</item>
+    </string-array>
+    <string-array name="health">
+        <item>의학</item>
+        <item>의사</item>
+        <item>치과 의사</item>
+    </string-array>
+    <string-array name="health_icons">
+        <item>icons_282</item>
+        <item>icons_111</item>
+        <item>icons_281</item>
+    </string-array>
+    <string-array name="food">
+        <item>빵</item>
+        <item>우유</item>
+        <item>고기</item>
+        <item>맥주</item>
+        <item>케 피르</item>
+        <item>물</item>
+    </string-array>
+    <string-array name="food_icons">
+        <item>icons_156</item>
+        <item>icons_155</item>
+        <item>icons_158</item>
+        <item>icons_294</item>
+        <item>icons_165</item>
+        <item>icons_166</item>
+    </string-array>
+    <string-array name="car">
+        <item>수리</item>
+        <item>연료</item>
+        <item>모터 오일</item>
+        <item>경화</item>
+        <item>필터</item>
+        <item>배터리</item>
+        <item>타이어</item>
+    </string-array>
+    <string-array name="car_icons">
+        <item>icons_250</item>
+        <item>icons_252</item>
+        <item>icons_254</item>
+        <item>icons_269</item>
+        <item>icons_71</item>
+        <item>icons_249</item>
+        <item>icons_251</item>
+    </string-array>
+    <string-array name="transport">
+        <item>택시</item>
+        <item>버스</item>
+        <item>지하철</item>
+        <item>시가 전차</item>
+        <item>트롤리</item>
+        <item>평면</item>
+    </string-array>
+    <string-array name="transport_icons">
+        <item>icons_262</item>
+        <item>icons_263</item>
+        <item>icons_265</item>
+        <item>icons_265</item>
+        <item>icons_265</item>
+        <item>icons_275</item>
+    </string-array>
+    <string-array name="gaiety">
+        <item>식당</item>
+        <item>카페</item>
+        <item>나이트 클럽</item>
+        <item>볼링</item>
+        <item>시네마</item>
+        <item>극장</item>
+        <item>매력</item>
+    </string-array>
+    <string-array name="gaiety_icons">
+        <item>icons_292</item>
+        <item>icons_306</item>
+        <item>icons_136</item>
+        <item>icons_176</item>
+        <item>icons_298</item>
+        <item>icons_302</item>
+        <item>icons_61</item>
+    </string-array>
+    <string-array name="buy">
+        <item>치약</item>
+        <item>샴푸</item>
+        <item>오일</item>
+        <item>담배</item>
+        <item>음료수</item>
+    </string-array>
+    <string-array name="buy_icons">
+        <item>icons_84</item>
+        <item>icons_166</item>
+        <item>icons_254</item>
+        <item>icons_296</item>
+        <item>icons_295</item>
+    </string-array>
+    <string-array name="sport">
+        <item>체육관</item>
+        <item>피트니스</item>
+        <item>축구</item>
+        <item>테니스</item>
+        <item>수영</item>
+    </string-array>
+    <string-array name="sport_icons">
+        <item>icons_179</item>
+        <item>icons_178</item>
+        <item>icons_174</item>
+        <item>icons_181</item>
+        <item>icons_184</item>
+    </string-array>
+    <string-array name="beauty">
+        <item>이발사</item>
+        <item>마사지</item>
+        <item>매니큐어</item>
+        <item>페디큐어</item>
+        <item>메이크업</item>
+    </string-array>
+    <string-array name="beauty_icons">
+        <item>icons_128</item>
+        <item>icons_289</item>
+        <item>icons_299</item>
+        <item>icons_299</item>
+        <item>icons_127</item>
+    </string-array>
+    <string-array name="equipment">
+        <item>스마트 폰</item>
+        <item>컴퓨터</item>
+        <item>냉장고</item>
+        <item>에어</item>
+        <item>프린터</item>
+    </string-array>
+    <string-array name="equipment_icons">
+        <item>icons_68</item>
+        <item>icons_143</item>
+        <item>icons_142</item>
+        <item>icons_130</item>
+        <item>icons_77</item>
+    </string-array>
+    <string name="no_category">no_category</string>
+    <string name="no_category_name">하위 카테고리 없음</string>
+    <string name="records">항목</string>
+    <!-- for google signing -->
+    <string name="sign_out">로그 아웃</string>
+    <string name="disconnect">연결 끊기</string>
+    <string name="create">만들기</string>
+    <string name="change">바꾸기</string>
+    <string name="clear">삭제</string>
+    <string name="share_app">앱 공유</string>
+    <string name="from">보낸 사람 :</string>
+    <string name="to">에:</string>
+    <string name="from_email">from_email</string>
+    <string name="to_email">basicstepsdevelopment@gmail.com</string>
+    <string name="rate_app_web">https://play.google.com/store/apps/details?id=com.jim.finansia</string>
+    <string name="share_app_text">나는 "Finansia"를 추천한다.
+        https://play.google.com/store/apps/details?id=com.jim.finansia</string>
+    <string name="feedback_hint">문의하기</string>
+    <string name="feedback_subject">제목 :</string>
+    <string name="feedback_content">콘텐츠 :</string>
+    <string name="per_day">매일</string>
+    <string name="per_week">주간</string>
+    <string name="per_month">월간</string>
+    <string name="per_year">매년</string>
+    <string name="mont">월</string>
+    <string name="yearr">연도</string>
+    <string name="always_remember">지불하는 것을 잊지 마십시오. 예산을 절약 할 수있게 도와 드리겠습니다!</string>
+    <string name="via">통하다</string>
+    <string name="comment">참고</string>
+    <string name="diagram_no_data_text">표시 할 데이터가 없습니다!</string>
+    <string name="credit">크레딧</string>
+    <string name="borrow_statistics">주어진 부채</string>
+    <string name="borrow_recking_statistics">반환 된 채무</string>
+    <string name="debt_statistics">빌린</string>
+    <string name="debt_recking_statistics">반환 된 채무</string>
+    <string name="pay">지불</string>
+    <string name="cancel">취소</string>
+    <string name="repaid">완료 됨</string>
+    <string name="active">활성</string>
+    <string-array name="months">
+        <item>1 월</item>
+        <item>2 월</item>
+        <item>3 월</item>
+        <item>4 월</item>
+        <item>5 월</item>
+        <item>6 월</item>
+        <item>7 월</item>
+        <item>8 월</item>
+        <item>9 월</item>
+        <item>10 월</item>
+        <item>11 월</item>
+        <item>12 월</item>
+    </string-array>
+    <string name="error">잘못된 표현입니다!</string>
+    <string-array name="account_names">
+        <item>현금</item>
+        <item>플라스틱 카드</item>
+        <item>은행 계좌</item>
+    </string-array>
+    <string-array name="account_ids">
+        <item>acc_cash</item>
+        <item>acc_card</item>
+        <item>acc_bank</item>
+    </string-array>
+    <string-array name="account_icons">
+        <item>icons_48</item>
+        <item>icons_6</item>
+        <item>icons_16</item>
+    </string-array>
+    <string-array name="report_by_account_titles">
+        <item>작업</item>
+        <item>날짜</item>
+        <item>금액</item>
+        <item>카테고리</item>
+    </string-array>
+    <string name="profit">이익</string>
+    <string name="loading">로그인</string>
+    <string name="please_wait">기다려주세요!</string>
+    <string name="total">총 금액 :</string>
+    <string name="average">평균 금액 :</string>
+
+    <string name="language_default">default_lang</string>
+    <string name="language">Language</string>
+    <string-array name="language_titles">
+        <item>ENGLISH (EN)</item>
+        <item>РУССКИЙ (RU)</item>
+        <item>ESPAÑOL (ES)</item>
+		<item>한국어 (KO)</item>
+    </string-array>
+    <string-array name="language_values">
+        <item>en</item>
+        <item>ru</item>
+        <item>es</item>
+		<item>ko</item>
+    </string-array>
+    <string name="choose_language">언어 선택</string>
+    <string name="notifications">알림</string>
+    <bool name="notif_default">true</bool>
+    <bool name="secure_default">false</bool>
+    <string name="notifications_summary">일일 알림 사용 / 사용 안함</string>
+    <string name="planning_before_default">10</string>
+    <string name="general_notif">general_notif</string>
+    <string-array name="planning_before_entries">
+        <item>10 분</item>
+        <item>20 분</item>
+        <item>30 분</item>
+        <item>40 분</item>
+        <item>50 분</item>
+        <item>1 시간</item>
+    </string-array>
+    <string-array name="planning_before_values">
+        <item>10</item>
+        <item>20</item>
+        <item>30</item>
+        <item>40</item>
+        <item>50</item>
+        <item>60</item>
+    </string-array>
+    <string name="planning_before_summary">값 설정</string>
+    <string name="planning_before_title">이벤트 통지</string>
+    <string name="filters">필터</string>
+    <string name="finance_record_default">3</string>
+    <string name="record_filter_summary">재무 레코드 값 설정</string>
+    <string name="finance">재정</string>
+    <string name="report_daily_default">2</string>
+    <string name="filter_title">필터</string>
+    <string name="filter_subtitle">보고서 필터 설정</string>
+    <string-array name="filter_titles_dialog">
+        <item>이번 달</item>
+        <item>지난 3 일</item>
+        <item>지난 7 일</item>
+        <item>월, 연도</item>
+        <item>연도</item>
+        <item>기간</item>
+    </string-array>
+    <string-array name="filter_titles">
+        <item>이번 달</item>
+        <item>지난 3 일</item>
+        <item>지난 7 일</item>
+    </string-array>
+    <string-array name="filter_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+    <string name="sync">동기화</string>
+    <string name="setting_save">데이터베이스를 루트 폴더에 저장</string>
+    <string name="save">저장</string>
+    <string name="setting_repair">루트 폴더에서 데이터베이스 복원</string>
+    <string name="repair">복원</string>
+    <string name="planning_notif_entry">시간</string>
+    <string name="planning_notif_summary">알림 시간 설정</string>
+    <string name="planning_notif_title">통지 시간</string>
+    <string-array name="report_by_income_expanse_table_titles">
+        <item>날짜</item>
+        <item>수입</item>
+        <item>비용</item>
+        <item>이익</item>
+    </string-array>
+    <string name="report_income_expanse_total_income">총 수입 :</string>
+    <string name="report_income_expanse_total_expanse">총 경비 :</string>
+    <string name="report_income_expanse_total_profit">총 이익 :</string>
+    <string name="report_income_expanse_aver_income">평균 수입 :</string>
+    <string name="report_income_expanse_aver_expanse">평균 비용 :</string>
+    <string name="report_income_expanse_aver_profit">평균 수익 :</string>
+    <string name="please_sign">로그인하십시오</string>
+    <string name="and_sync_your_data">동기화 데이터</string>
+    <string name="introAppInfo">재무 회계, 부채, 크레딧, 대출을위한 편리한 앱</string>
+    <string name="quickInfo">음성 입력은 필요한 경우 도움이됩니다</string>
+    <string name="clear_desgn">손에있는 모든 재정 도구</string>
+    <string name="appInfoTitel">FINANSIA</string>
+    <string name="quickInfp">음성 입력</string>
+    <string name="designInfo">빚과 신용</string>
+    <string name="secureInfo">이 신청서는 은행 카드의 지출 및 수입을 완전히 통제하는 데 도움이 될 것입니다.</string>
+    <string name="safeInfo">자동 구문 분석</string>
+    <string name="flexInfo">유연한 보고서</string>
+    <string name="cancel1">취소</string>
+    <string name="try_later">나중에 다시 시도하십시오</string>
+    <string name="err_con">연결 오류</string>
+    <string name="first_sync_loging">데이터를 동기화하려면 Google 계정으로 로그인해야합니다. 어디서나 모든 장치에서 다운로드 할 수 있습니다. 모든 손실 된 데이터를 복원 할 수 있습니다! 데이터를 복원하려면 설정 -> Google Sync -> 데이터베이스 다운로드로 이동하십시오.</string>
+    <string name="sync_message">동기화 된 경우 데이터를 덮어 씁니다.</string>
+    <string name="category_name_error">카테고리 이름을 입력하지 않았습니다!</string>
+    <string name="save_to_excel">EXCEL로 저장</string>
+    <string name="no_datas_for_show">표시 할 데이터가 없습니다!</string>
+    <string name="table">표</string>
+    <string name="bars">막대</string>
+    <string name="save_excel">EXCEL 파일에 저장 하시겠습니까?</string>
+    <string name="date">날짜</string>
+    <string name="category_delete_warning">선택한 카테고리와 관련된 데이터가 삭제됩니다!</string>
+    <string name="account_delete_warning">선택한 계정과 관련된 데이터가 삭제됩니다!</string>
+    <string name="subcat_delete_warning">선택한 하위 카테고리와 관련된 데이터가 삭제됩니다!</string>
+    <string name="google_sync">Google 동기화</string>
+    <string name="backup">데이터베이스 다운로드</string>
+    <string name="backup_summary">Google 계정의 최신 데이터를로드합니다</string>
+    <string name="google_logout">로그 아웃</string>
+    <string name="incorrect_value">권한이 올바르지 않습니다!</string>
+    <string name="edit">추가 / 편집</string>
+    <string name="accounts">계정</string>
+    <string name="report_by_categories">범주 별 보고서</string>
+    <string name="to_edit">편집</string>
+    <string name="clear_records">삭제</string>
+    <string name="credit_amount">크레딧 금액</string>
+    <string name="percent">백분율</string>
+    <string name="period_of_credit">크레딧 기간</string>
+    <string name="interval">기간</string>
+    <string name="credit_begin_date">시작</string>
+    <string name="credit_return_date">끝</string>
+    <string name="include_credit_in_balance">잔액에서 지불 고려 사항</string>
+    <string name="enter_name_error">이름 입력</string>
+    <string name="enter_amount_error">금액 입력</string>
+    <string name="enter_takendate_error">시작 날짜 선택</string>
+    <string name="ok">확인</string>
+    <string name="name">이름</string>
+    <string name="from_contact">연락처에서</string>
+    <string name="tel_number">전화 번호</string>
+    <string name="enter_phone_number">SMS의 전화 번호 또는 캡션을 입력하십시오</string>
+    <string name="debt_amount">금액</string>
+    <string name="enter_debt_amoount">부채 금액 입력</string>
+    <string name="enter_borrow_amoount">차용 금액을 입력하십시오</string>
+    <string name="begin_date">시작 날짜</string>
+    <string name="end_time">종료일</string>
+    <string name="no_date_selected">반환 날짜 없음</string>
+    <string name="incorrect_date">잘못된 날짜</string>
+    <string name="incorrect_pay">필요한 금액 이상을 지불해야합니다.</string>
+    <string name="enter_pay_value">지불 금액을 입력하십시오</string>
+    <string name="left">잔류 물</string>
+    <string name="call">요구</string>
+    <string name="payy">지불</string>
+    <string name="delete">삭제</string>
+    <string name="no_calc_in_balance">균형을 고려하지 않음</string>
+    <string name="calc_in_balance">잔액 고려</string>
+    <string name="by">비아 :</string>
+    <string name="information">정보</string>
+    <string name="phone_number">전화 번호</string>
+    <string name="total_sum">총 금액</string>
+    <string name="balance">잔액</string>
+    <string name="amount">금액</string>
+    <string name="enter_amount">금액을 입력하십시오</string>
+    <string name="borrows">저에게 빚을줍니다</string>
+    <string name="debts">나의 채무</string>
+    <string name="connection_faild">인터넷 연결을 확인하고 다시 시도하십시오!</string>
+    <string name="download">로드 중</string>
+    <string name="cheking_user">사용자 확인</string>
+    <string name="sync_last_data_sign_up">마지막으로 다운로드 한 계정의 데이터를 동기화 하시겠습니까?</string>
+    <string name="toast_error_connection">연결 오류입니다. 나중에 다시 시도하십시오.</string>
+    <string name="sync_short">동기화</string>
+    <string name="dou_you_want_quit">외출하고 싶습니까?</string>
+    <string name="are_you_sure_for_log_out"> 정말로 탈퇴 하시겠습니까? 계정이 없으면 동기화 할 수 없습니다!</string>
+    <string name="sync_want_from_data">데이터 동기화 :</string>
+    <string name="notif_credit">크레딧을 확인하십시오!</string>
+    <string name="notif_debt">채무를 확인하십시오!</string>
+    <string name="payment_balans">미지급 :</string>
+    <string name="payment_balance2">초과액 :</string>
+    <string name="total_credit_value">크레딧 금액</string>
+    <string name="should_not_empty">이름을 입력하십시오</string>
+    <string name="value_shoud_not_empty">금액을 입력하십시오</string>
+    <string name="procent_should_not_empty">퍼센트를 입력하십시오!</string>
+    <string name="period_should_not_empty">기간 입력</string>
+    <string name="after_per_choise">날짜를 입력하십시오</string>
+    <string name="first_enter_period">크레딧 기간을 입력하십시오!</string>
+    <string name="cred_managment">크레딧</string>
+    <string name="not_calc"> 균형이 맞지 않습니다</string>
+    <string name="calculaed">잔액</string>
+    <string name="accept_delete_reck">레코드를 삭제 하시겠습니까?</string>
+    <string name="delete_credit">레코드를 삭제 하시겠습니까?</string>
+    <string name="procent_of_credit">크레딧 비율</string>
+    <string name="left_date">왼쪽 :</string>
+    <string name="period_of_credit2">크레딧 기간</string>
+    <string name="in_the_balance">잔액</string>
+    <string name="amount_borrow">크레딧 금액</string>
+    <string name="between_dates">마침표 선택</string>
+    <string name="debts_title">채무</string>
+    <string name="left_date_debts">왼쪽 (년, 월, 일)</string>
+    <string name="clear_warning">이 카테고리와 관련된 레코드가 삭제됩니다</string>
+    <string name="from_transfer_id">from_transfer</string>
+    <string name="to_transfer_id">to_transfer</string>
+    <string name="only_income">수입 만</string>
+    <string name="only_expense">지출 만</string>
+    <string name="currency">통화</string>
+    <string name="sms_parse_income">메시지 수입</string>
+    <string name="sms_parse_income_id">sms_income</string>
+    <string name="sms_parse_expense">메시지 비용</string>
+    <string name="sms_parse_expense_id">sms_expense</string>
+    <string name="ch_cat">카테고리 선택</string>
+    <string name="addedit">추가 / 편집</string>
+    <string name="sms_parse">메시지 구문 분석</string>
+    <string name="widget_settings">위젯 설정</string>
+    <string name="word_do_sifri">숫자 앞에 단어를 입력하십시오</string>
+    <string name="word_for_decide_expence">\"비용 \"을 정의하기위한 키워드</string>
+    <string name="word_for_decide_income">\"수입 \"을 정의하기위한 키워드</string>
+    <string name="notif_setting">알림 설정*</string>
+    <string name="notif_everyday">매일</string>
+    <string name="notif_monthly">월간</string>
+    <string name="notif_weekly">주간</string>
+    <string name="balance_title">잔액 표시</string>
+    <string name="balance_summary">계산 방법 선택</string>
+    <string-array name="balance_mode_titles">
+        <item>전반적인</item>
+        <item>현재 날짜</item>
+    </string-array>
+    <string-array name="balance_mode_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+    <string name="sync_and_backup">동기화 및 백업</string>
+
+    <string name="default_settings">모든 설정과 데이터가 삭제됩니다. 동의하니?</string>
+
+    <string name="sbrosit">재설정</string>
+    <string name="sbrosit_about">모든 데이터 및 설정이 삭제됩니다</string>
+    <string name="sbrosit_title">재설정</string>
+    <string name="start_amount">시작 합계</string>
+    <string name="secure">보안</string>
+    <string name="secure_on">보안 사용</string>
+    <string name="enter_password">비밀번호 입력</string>
+    <string-array name="secure_times_titles">
+        <item>1 분</item>
+        <item>5 분</item>
+        <item>10 분</item>
+        <item>15 분</item>
+        <item>25 분</item>
+        <item>30 분</item>
+        <item>40 분</item>
+        <item>50 분</item>
+        <item>1 시간</item>
+    </string-array>
+    <string-array name="secure_times_values">
+        <item>1</item>
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>25</item>
+        <item>30</item>
+        <item>40</item>
+        <item>50</item>
+        <item>60</item>
+    </string-array>
+    <string name="start_money">시작 합계</string>
+    <string name="limit_exceed">현재 계정 한도를 초과했습니다</string>
+    <string name="add_comment">주석 추가 +</string>
+    <string name="commenti">주석 쓰기</string>
+    <string name="current_password">현재 암호</string>
+    <string name="enter_your_password">비밀번호를 입력하십시오</string>
+    <string name="izmenit_parol">비밀번호 변경</string>
+    <string name="limit_sum">제한의 합</string>
+    <string name="new_password">새 암호</string>
+    <string name="otklyuchit">암호를 끄십시오</string>
+    <string name="password_should_be_4_numbers">비밀번호는 4 자리 숫자 여야합니다</string>
+    <string name="please_repait_correct">비밀번호 확인</string>
+    <string name="please_write_your_current_password">현재 비밀번호를 입력하십시오</string>
+    <string name="really_dellete">삭제 하시겠습니까?</string>
+    <string name="repiat_yout_password">새 비밀번호 반복</string>
+    <string name="share_ticket">공유</string>
+    <string name="try_one_more">입력 한 암호가 잘못되었습니다. 다시 시도하십시오</string>
+    <string name="was_four_numbers">비밀번호는 4 자리 숫자로 구성되어야합니다</string>
+    <string name="securee">보안</string>
+    <string-array name="adding_ticket_type">
+        <item>갤러리에서</item>
+        <item>카메라</item>
+    </string-array>
+    <string-array name="more_option_for_credit_debt">
+        <item>수정</item>
+        <item>삭제</item>
+    </string-array>
+    <string-array name="more_option_for_credit_debt2">
+        <item>삭제</item>
+    </string-array>
+    <string name="choesetypeing">사진 선택</string>
+    <string name="ok_b">확인</string>
+    <string name="must_be_one_currency">적어도 하나의 통화 여야합니다</string>
+    <string name="replanish">캐쉬 인</string>
+    <string name="transfer">송금</string>
+    <string name="such_account_name_exists_error">같은 이름의 계정이 이미 존재합니다!</string>
+    <string name="none_zero_account">제외 어 계정이 아닙니다</string>
+    <string name="operations">작업</string>
+    <string name="add_subcategory">하위 카테고리 추가</string>
+    <string name="such_subcat_exist">같은 이름의 하위 카테고리가 존재합니다</string>
+    <string name="purposes">목적</string>
+    <string name="period">기간</string>
+    <string name="none_minus_account_warning">계정은 음수 일 수 없습니다!</string>
+    <string name="debt_borrow_list_is_empty">부채 추가</string>
+    <string name="credit_list_is_empty">크레딧 추가</string>
+    <string name="account_deleting_error">하나 이상의 계정이어야합니다 !!!</string>
+    <string name="purpose_list_is_empty">목적 목록이 비어 있습니다! 추가 하시겠습니까?</string>
+    <!--operations-->
+    <string-array name="operation_category">
+        <item>존재에서 선택</item>
+        <item>새로 만들기</item>
+    </string-array>
+    <string-array name="board_operation_names_long_press">
+        <item>카테고리</item>
+        <item>크레딧</item>
+        <item>부채</item>
+        <item>함수</item>
+        <item>섹션</item>
+    </string-array>
+    <string-array name="operation_names">
+        <item>Google과 동기화</item>
+        <item>데이터로드</item>
+        <item>송금</item>
+        <item>오늘 지우기</item>
+        <item>다음</item>
+        <item>너무 이른</item>
+    </string-array>
+    <string-array name="operation_ids">
+        <item>sync</item>
+        <item>load_sync</item>
+        <item>transfer_money</item>
+        <item>clear_whole_day</item>
+        <item>next_button</item>
+        <item>back_button</item>
+    </string-array>
+    <string-array name="operation_icons">
+        <item>icons_318</item>
+        <item>icons_319</item>
+        <item>icons_400</item>
+        <item>icons_401</item>
+        <item>icons_316</item>
+        <item>icons_317</item>
+    </string-array>
+    <string-array name="page_names">
+        <item>통화</item>
+        <item>카테고리</item>
+        <item>계정</item>
+        <item>목적</item>
+        <item>자동 작업</item>
+        <item>크레딧</item>
+        <item>부채</item>
+        <item>보고서</item>
+        <item>SMS 구문 분석</item>
+        <item>설정</item>
+    </string-array>
+    <string-array name="page_ids">
+        <item>currency_page</item>
+        <item>category_page</item>
+        <item>account_page</item>
+        <item>purpose_page</item>
+        <item>auto_page</item>
+        <item>credit_page</item>
+        <item>debtborrow_page</item>
+        <item>report</item>
+        <item>sms_parsing_page</item>
+        <item>settings_page</item>
+    </string-array>
+    <string-array name="page_icons">
+        <item>ic_currency</item>
+        <item>ic_categories</item>
+        <item>ic_accounts</item>
+        <item>ic_purpose</item>
+        <item>ic_auto</item>
+        <item>ic_loans</item>
+        <item>ic_debt</item>
+        <item>ic_report</item>
+        <item>ic_sms</item>
+        <item>ic_settings</item>
+    </string-array>
+    <string name="balance_invis">잔액을 표시하지 않음</string>
+    <string name="borrow_arch">아카이브에 빌다</string>
+    <string name="borrow_com">이 채무는 잔금에 포함되어 있지만 아카이브에 있습니다!</string>
+    <string name="borrow_coment_incl">이 채무는 잔액에 포함되지 않습니다</string>
+    <string name="borrow_comment">이 부채는 잔액에 포함됩니다</string>
+    <string name="borrow_comment_not_icl_arch">이 채무는 잔액에 포함되어 있지 않지만 아카이브에 있습니다!</string>
+    <string name="borrow_reckings_var">채무 기록</string>
+    <string name="borrow_var">대출</string>
+    <string name="count_pages">페이지 수</string>
+    <string name="cred_arch">아카이브</string>
+    <string name="cred_include_bal">이 크레딧은 잔액에 포함됩니다</string>
+    <string name="cred_not_include_bal">이 크레딧은 잔액에 포함되지 않습니다</string>
+    <string name="credit_reckings_var">신용 지불</string>
+    <string name="credit_var">크레딧</string>
+    <string name="debt_com">부채는 잔액에 포함되어 있지만 아카이브</string>
+    <string name="debt_coment">채무는 잔액에 포함됩니다</string>
+    <string name="debt_comment_not_icluded">부채는 잔액에 포함되어 있지 않으며 아카이브에 있습니다</string>
+    <string name="debt_arch">부채는 아카이브에 있습니다</string>
+    <string name="debt_comment_to">이 부채는 잔액에 포함되지 않습니다</string>
+    <string name="debt_reckings_var">채무 기록</string>
+    <string name="debt_var">채무</string>
+    <string name="export_exel">Excel 내보내기</string>
+    <string name="filter">필터</string>
+    <string name="how_much_pages_you_need">필요한 페이지 수</string>
+    <string name="in_window_expense_top_window">페이지 수 (비용)</string>
+    <string name="in_windows_incomes_bottom_window">페이지 수 (수입)</string>
+    <string name="include_balance">크레딧은 잔액에 포함되지만 아카이브</string>
+    <string name="limit_page">제한 수는 1에서 10 사이 여야합니다</string>
+    <string name="minusable_account">계정은 음수 일 수 있습니다</string>
+    <string name="none_minusable_account">부정적인 계정이 아님</string>
+    <string name="pages_about">경비 및 소득 페이지</string>
+    <string name="simple_recking">비용, 수입</string>
+    <string name="some_credit">크레딧은 잔액에 포함되어 있지 않으며 아카이브에 있습니다</string>
+    <string name="type">유형</string>
+    <string name="whole_day_datas_deleting">당일 기록이 삭제됩니다!</string>
+    <string name="search">검색</string>
+    <string name="account_for_parsing">A분석 계정 :</string>
+    <string name="all_expense">모든 경비 :</string>
+    <string name="all_incomes">모든 소득 :</string>
+    <string name="income_decide_with_static_word">키워드 (수입) 선택</string>
+    <string name="info_toliq">정보</string>
+    <string name="it_is_expense">경비</string>
+    <string name="it_is_income">수입</string>
+    <string name="obyasneniya_pro_parsing">SMS 구문 분석의 정확성을 위해 수입이나 지출을 정의 할 키워드를 선택하고 합계를 선택하십시오</string>
+    <string name="processed">처리됨 :</string>
+    <string name="select_word_for_parsing">구문 분석 할 단어 선택</string>
+    <string name="which_type_is_it">유형 설정</string>
+    <string name="from_sms">SMS 목록</string>
+    <string name="do_you_want_to_delete">정말로 삭제 하시겠습니까?</string>
+    <string name="please_type">단어 검색</string>
+    <string name="cant_find">찾을 수 없음</string>
+    <string name="your_purpose">목적 :</string>
+    <string name="accumulation">누적</string>
+    <string name="enter_the_amount">금액을 입력하십시오</string>
+    <string name="term_of_purpose">목적 용어</string>
+    <string name="duration">기간</string>
+    <string name="left_datee">끝 :</string>
+    <string name="left_acomuleted">왼쪽 금액 :</string>
+    <string name="god_and_years">년</string>
+    <string name="let_and_years">년</string>
+    <string name="purpose_list_empty">용도 추가</string>
+    <string name="purpose_ammount">목적 합계 :</string>
+    <string name="report_by_account_title">보고서 </string>
+    <string name="saved_money">누적 합계 :</string>
+    <string name="auto_operations">자동 작업</string>
+    <string name="auto_op_is_empty">작업 추가</string>
+    <string name="enter_amount_operation">금액 입력</string>
+    <string name="income_expance_title">소득 및 지출</string>
+    <string name="key_for_type">유형 (수입 또는 지출)을 정의하기위한 키워드를 선택하십시오:</string>
+    <string name="select_word">단어 선택</string>
+    <string name="sms_pars_list_empty">템플릿 추가</string>
+    <string name="spend">사용하려면</string>
+    <string name="sync_failed">동기화 실패</string>
+    <string name="sync_suc">동기화가 성공했습니다</string>
+    <string name="transfer_isnt_done">전송 없음</string>
+    <string name="credit_arcive_are_empty">아카이브가 비어 있습니다</string>
+    <string name="credit_are_empty">크레딧 추가</string>
+    <string name="choose_different_accounts">다른 계정 선택</string>
+    <string name="amount_operation">운영 금액 :</string>
+    <string name="skip">버킷</string>
+    <string name="sender">보낸 사람 :</string>
+    <string name="repeat">반복</string>
+    <string name="please_confirm_contact_access">연락처 액세스를 확인하십시오</string>
+    <string name="number_or_name_of_sender">(발신자의 번호 또는 이름)</string>
+    <string name="not_processed_degree">처리되지 않음 :</string>
+    <string name="not_identefied_messages">식별되지 않은 메시지</string>
+    <string name="no_message">메시지 없음</string>
+    <string name="nachalo">시작</string>
+    <string name="month_days">월간</string>
+    <string name="konets">끝</string>
+    <string name="key_words">키워드</string>
+    <string name="income_degree">수입:</string>
+    <string name="god">연도</string>
+    <string name="for_income">수입 :</string>
+    <string name="for_expance">비용 :</string>
+    <string name="for_amount">금액 :</string>
+    <string name="end_day">종료 날짜</string>
+    <string name="contact_access_needed">연락처 액세스 필요</string>
+    <string name="choose_category">카테고리 선택</string>
+    <string name="all_operations">모든 작업</string>
+    <string name="add_keywords_in_sms_parsing">sms 구문 분석에 키워드 추가</string>
+    <string name="account_of_operation">운영 계정</string>
+    <string name="week_days">평일</string>
+    <string name="add_auto_operation">작업 추가</string>
+    <string name="dates_not_choosen_error">날짜 선택</string>
+    <string name="select_category_error">카테고리 선택</string>
+    <string name="illegal_name_error">반복 작업!</string>
+    <string name="amount_of_payment">운영 금액</string>
+    <string name="debt_is_empty">채무 추가</string>
+    <string name="archive_is_empty">아카이브가 비어 있습니다</string>
+    <string name="borrow_is_empty">채무 추가</string>
+    <string name="start_day">시작 날짜</string>
+    <string name="such_name_exists">그러한 이름은 이미 존재합니다</string>
+    <string name="widget">위젯</string>
+    <string name="sms_not_exist">메시지가 없습니다</string>
+    <string name="main_window">메인 페이지</string>
+    <string name="cancelb">취소</string>
+    <string name="there_is_no_operations_for_today">오늘 작업이 없습니다</string>
+    <string name="choose_amount">금액이 선택되지 않았습니다</string>
+    <string name="no_parsing">구문 분석되지 않음</string>
+    <string name="no_success">처리되지 않음</string>
+    <string name="period_of_save">기간 설정</string>
+    <string name="expense_decide_with_static_word">키워드 선택 (비용) :</string>
+    <string name="enter_contact_error">연락처 입력</string>
+    <string name="income_keyword_error">키워드 (수입) 입력</string>
+    <string name="expense_keyword_error">키워드 (비용) 입력</string>
+    <string name="amount_keyword_error">금액을 정의하기위한 키워드 입력</string>
+    <string name="incom_expense_list">지출 및 수입 목록</string>
+    <string name="all">전체</string>
+    <string name="previous">뒤로</string>
+    <string name="unlock">잠금 해제</string>
+    <string name="page">페이지</string>
+
+    <string-array name="speechAdjectives">
+        <item>수입</item>
+        <item>비용</item>
+    </string-array>
+    <string name="account_from">계정</string>
+    <string name="add_plus">+ 추가</string>
+    <string name="choise_icon">아이콘을 선택하십시오</string>
+    <string name="main_curr">"주요 통화"</string>
+    <string name="name_of_category">카테고리 이름</string>
+    <string name="name_of_subcategory">하위 카테고리의 이름</string>
+    <string name="next_page">다음</string>
+    <string name="scet_imeet_nacalniy_sum">초기 합계가 있습니다</string>
+    <string name="select_icon_category">카테고리 아이콘을 선택하십시오</string>
+    <string name="select_icons_sb">하위 카테고리 아이콘 선택</string>
+    <string name="subcategory_empty">하위 카테고리 이름이 비어 있습니다</string>
+    <string name="to_purpose">머니 박스로 이동</string>
+    <string-array name="month_abbrs">
+        <item>1 월 </item>
+        <item>2 월 </item>
+        <item>3 월 </item>
+        <item>4 월 </item>
+        <item>5 월 </item>
+        <item>6 월 </item>
+        <item>7 월 </item>
+        <item>8 월 </item>
+        <item>9 월 </item>
+        <item>10 월 </item>
+        <item>11 월 </item>
+        <item>12 월 </item>
+    </string-array>
+    <string name="history_transfers">전송 내역</string>
+    <string name="january">1월</string>
+    <string name="february">2월</string>
+    <string name="march">3월</string>
+    <string name="april">4월</string>
+    <string name="may">5월</string>
+    <string name="june">6월</string>
+    <string name="july">7월</string>
+    <string name="august">8월</string>
+    <string name="september">9월</string>
+    <string name="october">10월</string>
+    <string name="november">11월</string>
+    <string name="december">12월</string>
+    <string name="max_income_in_the_month">"월 최대 수입 :"</string>
+    <string name="average_income">평균 수입 :</string>
+    <string name="min_income_in_the_month"> "매월 최소 수입 :"</string>
+    <string name="average_expense"> 평균 비용 :</string>
+    <string name="max_expense_in_the_month">"해당 월의 최대 비용 :"</string>
+    <string name="min_expense_in_the_month">"월 최저 수입 :"</string>
+    <string name="must_restart">응용 프로그램을 다시 시작하여 색상을 설정하십시오</string>
+    <string name="processed_sms">처리 된 문자 :</string>
+    <string name="daily_operations">음성 입력</string>
+    <string name="category_subcategory">카테고리 하위 카테고리</string>
+    <string name="theme">배경</string>
+    <string name="attention">주의!</string>
+    <string name="buy_voice_text">시도 횟수를 초과했습니다. 서비스를 활성화 하시겠습니까?</string>
+    <string-array name="currency_1">
+        <item>dollar</item>
+        <item>달러</item>
+        <item>usd</item>
+        <item>$</item>
+    </string-array>
+
+    <string-array name="currency_2">
+        <item>rubl</item>
+        <item>roubl</item>
+        <item>루블</item>
+        <item>roubles</item>
+    </string-array>
+    <string-array name="currency_3">
+        <item>euro</item>
+        <item>evro</item>
+        <item>유로</item>
+    </string-array>
+    <string name="about_notifications">*선택한 기간에 대한 알림 메시지가 표시됩니다</string>
+    <string name="add_the_loan_in_the_balance">잔액에 크레딧 금액 포함</string>
+    <string name="all_periods">모든 기간</string>
+    <string name="ammount_of_debt_include_the_balance">잔액에 부채 금액 포함</string>
+    <string name="archiveee">아카이브</string>
+    <string name="bank_fees">은행 수수료</string>
+    <string name="borrower_name">차용자 이름</string>
+    <string name="categories_report">카테고리</string>
+    <string name="change_rate">변경 비율</string>
+    <string name="choise_account_f">계정 선택</string>
+    <string name="choise_category">카테고리 선택</string>
+    <string name="choise_photo">용도에 맞는 아이콘 선택</string>
+    <string name="choise_subcategory">하위 카테고리 선택</string>
+    <string name="complete"> 완료되었습니다</string>
+    <string name="c_interval">보낸 사람</string>
+    <string name="credit_end_date">크레딧 종료일</string>
+    <string name="credit_stat">크레딧 상태 :</string>
+    <string name="daily_operations_report">일일 작업</string>
+    <string name="debtor_name">채무자</string>
+    <string name="do_interval">받는 사람</string>
+    <string name="financial_transactions_report">재무 거래</string>
+    <string name="for_this_period">이 기간 동안 :</string>
+    <string name="from_balance">잔액에서</string>
+    <string name="from_loan_amount">크레딧 금액</string>
+    <string name="have_first_contribution">첫 번째 기여</string>
+    <string name="info_categories_report">그래픽 및 퍼센트로 사용자 정의 기간에 대한 카테고리 및 하위 카테고리 정보</string>
+    <string name="info_daily_operations_report">소득, 지출 및 잔고에 대한 월별 명세서 및 일일 상태 그래픽</string>
+    <string name="info_financial_transactions_report">세부 정보가있는 사용자 정의 간격의 테이블 수입 및 비용 일일 상태</string>
+    <string name="info_monthly_state_report">월별 소득 또는 지출 및 전반적인 정보에 대한 그래픽 월별 명세서</string>
+    <string name="invalide_format">형식이 잘못되었습니다</string>
+    <string name="loan_name">신용 이름</string>
+    <string name="mes">메시지</string>
+    <string name="mes2">메시지</string>
+    <string name="monthly_payment">월간 지불</string>
+    <string name="monthly_state_report">월별 명세서</string>
+    <string name="ne_uchitavaetsya">잔액에 포함되지 않음</string>
+    <string name="not_completed">완료되지 않음</string>
+    <string name="not_data">작업 없음</string>
+    <string name="overpayment_interest">초과 지급이자</string>
+    <string name="payment">지불</string>
+    <string name="payment_period">지불 기간</string>
+    <string name="percent_fee">수수료 비율</string>
+    <string name="period_ends">현재 기간 종료</string>
+    <string name="period_payments">기간 지급</string>
+    <string name="period_payment">기간 지급</string>
+    <string name="rate">평가</string>
+    <string-array name="main_bg_colors">
+        <item>#DCDDDE</item>
+    </string-array>
+    <string name="took_from">가져온 것</string>
+    <string name="repeat_every">매 반복</string>
+    <string name="schedule">시간표</string>
+    <string name="period_end_after">기간 종료일 :</string>
+    <string name="set_to_main">기본 설정</string>
+    <string name="taked_date">가져온 날짜</string>
+    <string name="taked_value">가져온 값</string>
+    <string name="to_archive">보관하려면</string>
+    <string name="total_expense">총 비용</string>
+    <string name="total_income">총 수입</string>
+    <string name="total_payed">지불 총액 :</string>
+    <string name="value_of_contribution">기부 가치</string>
+    <string name="value_percent">가치 비율</string>
+    <string name="with_interest">관심 분야</string>
+    <string name="with_out_comment">댓글 없음</string>
+    <string name="wrong_input_type">잘못된 입력 유형</string>
+    <string name="you_have_debt">기간 동안의 부채</string>
+    <string name="za_period">이 기간 :</string>
+    <string name="transfer_to_another_acc">다른 계정으로 이전</string>
+    <string name="acc_state">계정 상태</string>
+    <string name="transfer_to">전송</string>
+    <string name="transaction">트랜잭션</string>
+    <string name="seven">일곱</string>
+    <string name="eight">여덟</string>
+    <string name="nine">아홉</string>
+    <string name="four">사</string>
+    <string name="five">다섯</string>
+    <string name="six">육</string>
+    <string name="one">하나</string>
+    <string name="two">두</string>
+    <string name="three">세</string>
+    <string name="zero">제로</string>
+    <string name="equals">같음</string>
+    <string name="press_icon">보도 아이콘</string>
+    <string name="and_choose_category">카테고리를 선택하십시오</string>
+    <string name="for_period">기간</string>
+    <string name="should_pay">지불 할 금액</string>
+    <string name="payment_details">지불 세부 사항</string>
+    <string name="amount3">금액</string>
+    <string name="some_comment">일부 의견</string>
+    <string name="paymet_p">지불</string>
+    <string name="status">상태</string>
+    <string name="for_account">계정</string>
+    <string name="operation_ndays">운영 일</string>
+    <string name="select_days">날짜 선택</string>
+    <string name="next_operations">다음 작업</string>
+    <string name="set_color">배경색 설정</string>
+    <string name="buy_color">배경 색상 구입</string>
+    <string name="total_with_interest">관심 분야 합계</string>
+    <string name="current_rate">현재 환율</string>
+    <string name="change_ch">변경</string>
+    <string name="change_exchange_rate">환율 변경</string>
+    <string name="credit_type">크레딧 유형 *</string>
+    <string name="preview_all_details">모든 세부 정보 미리보기</string>
+    <string name="hide_details">세부 정보 숨기기</string>
+    <string name="transitions_list">전환 목록</string>
+    <string name="residue">"잔여 :"</string>
+    <string name="waiting">대기 중</string>
+    <string name="success">성공</string>
+    <string name="residue1">잔류 물</string>
+    <string name="sms">메시지</string>
+    <string name="return_deadline">반환 기한</string>
+    <string name="credit_details">신용 정보</string>
+    <string name="paid_amount">유료 금액 :</string>
+    <string name="monthly_fee">월간 수수료</string>
+    <string name="interest">관심 분야</string>
+    <string name="principal">주체</string>
+    <string name="with_the_even_principal">*기본 지불 일정이 균일하면 모든 지불에 대해 원금 지불의 크기가 동일합니다. 원래의 대출 금액을 지불 횟수로 나눔으로써 계산됩니다.</string>
+    <string name="even_total">총 지불액</string>
+    <string name="even_princ">교장 지불금조차도</string>
+    <string name="even_about_total">*총 지불 일정은 감소하는이자 지급과 증가하는 원금 지불로 구성됩니다. 이자 지불 규모의 감소는 원금 지불액의 증가와 일치하므로 총 대출 금액의 크기는 대출 기간 동안 일정하게 유지됩니다.</string>
+    <string name="decimal">십진수</string>
+    <string name="date_of_transfer">전송 날짜</string>
+    <string name="press_button_nand_speak">말하기</string>
+    <string-array name="excel_headers">
+        <item>날짜</item>
+        <item>수입</item>
+        <item>비용</item>
+    </string-array>
+    <string name="sec">초</string>
+    <string name="payment_date">지불 날짜 :</string>
+    <string name="account_list"> 계정이 하나뿐입니다. 추가 하시겠습니까?</string>
+    <string name="payment_to">"지불 대상"</string>
+    <string name="credit_info">크레딧을 받음</string>
+    <string name="sender1">보낸 사람</string>
+    <string name="taken_debt">부채 획득</string>
+    <string name="debtor">채무자</string>
+    <string name="returned_debt">반환 된</string>
+    <string name="i_returned">반환 된</string>
+    <string name="no_sub_cat">하위 카테고리 없음</string>
+    <string name="voice_network_error">음성 인식을 위해 인터넷을 켜거나 패키지를 설치하십시오</string>
+    <string name="franclins_cytate">부유층이라면 저축뿐만 아니라 얻기도 생각해보십시오</string>
+    <string name="you_can_jump">이전 기간의 첫 번째 상환!</string>
+    <string name="credir_first_con">신용 기여도</string>
+    <string name="credit_payment">신용 지불</string>
+    <string name="delete_all_records">모든 레코드 삭제</string>
+    <string name="move_to">로 이동</string>
+    <string name="records_will_be_deleted">레코드가 삭제됩니다</string>
+    <string name="to_jump">이전 기간의 첫 번째 상환!</string>
+    <string name="first_con">최초 기고 :</string>
+    <string name="select_an_amount">금액 선택</string>
+    <string name="benjamin_franklin">- Benjamin Franklin</string>
+    <string name="purpose_term">목적 용어를 입력하십시오</string>
+
+</resources>

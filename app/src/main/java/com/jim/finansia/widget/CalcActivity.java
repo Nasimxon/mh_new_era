@@ -170,6 +170,7 @@ public class CalcActivity extends AppCompatActivity implements View.OnClickListe
     View mainView;
     private static final int MY_PERMISSIONS_REQUEST_CAMERA = 18;
     Database db;
+    LogicManager logicManager;
     public static String KEY_FOR_INSTALAZING = "key_for_init";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -178,6 +179,7 @@ public class CalcActivity extends AppCompatActivity implements View.OnClickListe
         String themeName = prefs.getString(PocketAccounterGeneral.CHOOSEN_THEME_NAME_KEY, PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.BLUE_THEME);
         int themeId = getResources().getIdentifier(themeName, "style", getPackageName());
         setTheme(themeId);
+        logicManager = new LogicManager(this);
         setContentView(R.layout.activity_calc);
         mainView = (LinearLayout) findViewById(R.id.llRoot);
         DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, PocketAccounterGeneral.CURRENT_DB_NAME);
@@ -222,7 +224,10 @@ public class CalcActivity extends AppCompatActivity implements View.OnClickListe
         tvAccountName = (TextView) mainView.findViewById(R.id.tvAccountName);
         rvAccountChoise = (RelativeLayout) mainView.findViewById(R.id.rvAccountChoise);
         final List<Account> accountList = daoSession.getAccountDao().loadAll();
-        account = accountList.get(0);
+        if(record==null)
+            account = accountList.get(0);
+        else
+            account = record.getAccount();
         int resId2 = getResources().getIdentifier(account.getIcon(), "drawable", getPackageName());
         ivAccountIcon.setImageResource(resId2);
         tvAccountName.setText(account.getName());
@@ -1442,17 +1447,36 @@ public class CalcActivity extends AppCompatActivity implements View.OnClickListe
         String value = tvRecordEditDisplay.getText().toString();
         if (value.length() > 14)
             value = value.substring(0, 14);
-        if (account.getIsLimited()) {
-            double limit = account.getLimite();
-            double accounted = isLimitAccess(daoSession, getApplicationContext(), account, Calendar.getInstance());
-            accounted = accounted - getCost(date, currency, daoSession.getCurrencyDao().load(account.getLimitCurId()), Double.parseDouble(tvRecordEditDisplay.getText().toString()));
-            if (-limit > accounted) {
-                Toast.makeText(getApplicationContext(), R.string.limit_exceed, Toast.LENGTH_SHORT).show();
-                return;
+        if(category!=null){
+            if(category.getType()==PocketAccounterGeneral.EXPENSE){
+                if(record==null){
+                    int state = logicManager.isItPosibleToAdd(account,Double.parseDouble(tvRecordEditDisplay.getText().toString().replace(',','.')),currency,date,0,null,null);
+                    if(state == LogicManager.CAN_NOT_NEGATIVE){
+
+                        Toast.makeText(this, R.string.none_minus_account_warning, Toast.LENGTH_SHORT).show();
+                        return;
+
+                    }
+                    else if(state == LogicManager.LIMIT){
+                        Toast.makeText(this, R.string.limit_exceed, Toast.LENGTH_SHORT).show();
+                        return;
+
+                    }
+                }
+                else {
+                    int state = logicManager.isItPosibleToAdd(account,Double.parseDouble(tvRecordEditDisplay.getText().toString().replace(',','.')),currency,date,record.getAmount(),record.getCurrency(),record.getAccount());
+                    if(state == LogicManager.CAN_NOT_NEGATIVE){
+                        Toast.makeText(this, R.string.none_minus_account_warning, Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    else if(state == LogicManager.LIMIT){
+                        Toast.makeText(this, R.string.limit_exceed, Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                }
             }
         }
-
-        if (Double.parseDouble(value) != 0) {
+        if (Double.parseDouble(value.replace(',','.')) != 0) {
 
             FinanceRecord newRecord = new FinanceRecord();
             newRecord.setCategory(category);
@@ -1460,7 +1484,7 @@ public class CalcActivity extends AppCompatActivity implements View.OnClickListe
             newRecord.setDate(date);
             newRecord.setAccount(account);
             newRecord.setCurrency(currency);
-            newRecord.setAmount(Math.abs(Double.parseDouble(tvRecordEditDisplay.getText().toString())));
+            newRecord.setAmount(Math.abs(Double.parseDouble(tvRecordEditDisplay.getText().toString().replace(',','.'))));
             newRecord.setRecordId(uid_code);
             newRecord.setAllTickets(myTickets);
             for (PhotoDetails photoDetails : myTickets) {
@@ -1949,7 +1973,6 @@ public class CalcActivity extends AppCompatActivity implements View.OnClickListe
 
     public double isLimitAccess(DaoSession daoSession, Context context, Account account, Calendar date) {
         FinanceRecordDao recordDao = daoSession.getFinanceRecordDao();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
         double accounted = getCost(date, account.getStartMoneyCurrency(), account.getCurrency(), account.getAmount());
         for (int i = 0; i < recordDao.queryBuilder().list().size(); i++) {
             FinanceRecord tempac = recordDao.queryBuilder().list().get(i);

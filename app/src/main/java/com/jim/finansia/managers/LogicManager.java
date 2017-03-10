@@ -689,226 +689,7 @@ public class LogicManager {
         return false;
     }
 
-    private void generateCostForTheDay(Calendar day, double amount, Currency adding, CurrencyCostState supply) { //generating costs using supplying data
-        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
-        String requiredDate = format.format(day.getTime());
-        List<CurrencyCostState> queryList = daoSession
-                .queryBuilder(CurrencyCostState.class)
-                .where(CurrencyCostStateDao.Properties.Day.eq(requiredDate))
-                .list();
-        Currency mainCurrency = commonOperations.getMainCurrency();
-        List<Currency> notMainCurrencies = daoSession
-                .queryBuilder(Currency.class)
-                .where(CurrencyDao.Properties.IsMain.eq(false))
-                .list();
-        if (queryList.isEmpty()) {
-            CurrencyCostState mainState = new CurrencyCostState();
-            mainState.setDay(day);
-            mainState.setMainCurrency(mainCurrency);
-            daoSession.insertOrReplace(mainState);
-            List<CurrencyWithAmount> supplyAmounts = supply.getCurrencyWithAmountList();
-            for (CurrencyWithAmount withAmount : supplyAmounts) {
-                CurrencyWithAmount currencyWithAmount = new CurrencyWithAmount();
-                currencyWithAmount.setParentId(mainState.getId());
-                if (withAmount.getCurrencyId().equals(adding.getId())) {
-                    currencyWithAmount.setCurrency(adding);
-                    currencyWithAmount.setAmount(amount);
-                } else {
-                    currencyWithAmount.setCurrency(withAmount.getCurrency());
-                    currencyWithAmount.setAmount(withAmount.getAmount());
-                }
-                daoSession.insertOrReplace(currencyWithAmount);
-            }
-            mainState.refresh();
-            for (Currency currency : notMainCurrencies) {
-                if (currency.getId().equals(adding.getId())) {
-                    CurrencyCostState state = new CurrencyCostState();
-                    state.setMainCurrency(adding);
-                    state.setDay(day);
-                    daoSession.insertOrReplace(state);
-                    CurrencyWithAmount mainWithAmount = new CurrencyWithAmount();
-                    mainWithAmount.setCurrency(mainCurrency);
-                    mainWithAmount.setAmount(1/amount);
-                    mainWithAmount.setParentId(state.getId());
-                    daoSession.insertOrReplace(mainWithAmount);
-                    for (CurrencyWithAmount withAmount : supply.getCurrencyWithAmountList()) {
-                        if (!withAmount.getCurrencyId().equals(adding.getId())) {
-                            CurrencyWithAmount currWithAmount = new CurrencyWithAmount();
-                            currWithAmount.setParentId(state.getId());
-                            currWithAmount.setCurrency(withAmount.getCurrency());
-                            currWithAmount.setAmount(withAmount.getAmount()/amount);
-                            daoSession.insertOrReplace(currWithAmount);
-                        }
-                    }
-                }
-                else {
-                    CurrencyCostState state = new CurrencyCostState();
-                    state.setMainCurrency(currency);
-                    state.setDay(day);
-                    daoSession.insertOrReplace(state);
-                    CurrencyWithAmount mainWithAmount = new CurrencyWithAmount();
-                    mainWithAmount.setCurrency(mainCurrency);
-                    double tempAmount = 1.0d;
-                    for (CurrencyWithAmount withAmount : supply.getCurrencyWithAmountList()) {
-                        if (withAmount.getCurrencyId().equals(currency.getId())) {
-                            tempAmount = withAmount.getAmount();
-                            break;
-                        }
-                    }
-                    mainWithAmount.setAmount(1/tempAmount);
-                    mainWithAmount.setParentId(state.getId());
-                    daoSession.insertOrReplace(mainWithAmount);
-                    for (CurrencyWithAmount withAmount : supply.getCurrencyWithAmountList()) {
-                        CurrencyWithAmount currWithAmount = new CurrencyWithAmount();
-                        currWithAmount.setParentId(state.getId());
-                        if (!withAmount.getCurrencyId().equals(adding.getId())) {
-                            currWithAmount.setCurrency(withAmount.getCurrency());
-                            currWithAmount.setAmount(withAmount.getAmount()/tempAmount);
-                        } else {
-                            currWithAmount.setCurrency(adding);
-                            currWithAmount.setAmount(amount/tempAmount);
-                        }
-                        daoSession.insertOrReplace(currWithAmount);
-                    }
-                    boolean found = false;
-                    for (CurrencyWithAmount withAmount : state.getCurrencyWithAmountList()) {
-                        if (withAmount.getCurrencyId().equals(adding.getId())) {
-                            found = true;
-                            break;
-                        }
-                    }
-                    if (!found) {
-                        CurrencyWithAmount withAmount = new CurrencyWithAmount();
-                        withAmount.setParentId(state.getId());
-                        withAmount.setCurrency(adding);
-                        withAmount.setAmount(amount/tempAmount);
-                        daoSession.insertOrReplace(withAmount);
-                    }
-                }
-            }
-        } else {
-            CurrencyCostState costState = queryList.get(0);
-            boolean isNew = !costState.getMainCurId().equals(adding.getId());
-            if (isNew) {
-                for (CurrencyWithAmount withAmount : costState.getCurrencyWithAmountList()) {
-                    if (withAmount.getCurrencyId().equals(adding.getId())) {
-                        isNew = false;
-                        break;
-                    }
-                }
-            }
 
-            CurrencyCostState mainCurrencyCostState = null;
-            for (CurrencyCostState temp : queryList) {
-                if (temp.getMainCurId().equals(mainCurrency.getId())) {
-                    mainCurrencyCostState = temp;
-                    break;
-                }
-            }
-            if (isNew) {
-                for (CurrencyCostState currencyCostState : queryList) {
-                    CurrencyWithAmount withAmount = new CurrencyWithAmount();
-                    withAmount.setParentId(currencyCostState.getId());
-                    if (currencyCostState.getMainCurId().equals(mainCurrency.getId())) {
-                        withAmount.setCurrency(adding);
-                        withAmount.setAmount(amount);
-                    } else {
-                        withAmount.setCurrency(adding);
-                        double tempAmount = 1.0d;
-                        if (mainCurrencyCostState != null) {
-                            for (CurrencyWithAmount temp : mainCurrencyCostState.getCurrencyWithAmountList()) {
-                                if (temp.getCurrencyId().equals(currencyCostState.getMainCurId())) {
-                                    tempAmount = temp.getAmount();
-                                    break;
-                                }
-                            }
-                        }
-                        withAmount.setAmount(amount/tempAmount);
-                    }
-                    withAmount.setParentId(currencyCostState.getId());
-                    daoSession.insertOrReplace(withAmount);
-                }
-                CurrencyCostState addingState = new CurrencyCostState();
-                addingState.setMainCurrency(adding);
-                addingState.setDay(day);
-                daoSession.insertOrReplace(addingState);
-                CurrencyWithAmount mainWithAmount = new CurrencyWithAmount();
-                mainWithAmount.setParentId(addingState.getId());
-                mainWithAmount.setCurrency(mainCurrency);
-                mainWithAmount.setAmount(1/amount);
-                daoSession.insertOrReplace(mainWithAmount);
-                for (Currency currency : notMainCurrencies) {
-                    CurrencyWithAmount withAmount = new CurrencyWithAmount();
-                    withAmount.setParentId(addingState.getId());
-                    withAmount.setCurrency(currency);
-                    double tempAmount = 1.0d;
-                    if (mainCurrencyCostState != null) {
-                        for(CurrencyWithAmount currencyWithAmount : mainCurrencyCostState.getCurrencyWithAmountList()) {
-                            if (currencyWithAmount.getCurrencyId().equals(currency.getId())) {
-                                tempAmount = currencyWithAmount.getAmount();
-                                break;
-                            }
-                        }
-                    }
-                    withAmount.setAmount(amount/tempAmount);
-                    daoSession.insertOrReplace(withAmount);
-                }
-            }
-            else {
-                for (CurrencyCostState currencyCostState : queryList) {
-                    if (currencyCostState.getMainCurId().equals(adding.getId())) {
-                        for (CurrencyWithAmount withAmount : currencyCostState.getCurrencyWithAmountList()) {
-                            if (withAmount.getCurrencyId().equals(mainCurrency.getId())) {
-                                withAmount.setAmount(1/amount);
-                                daoSession.insertOrReplace(withAmount);
-                                break;
-                            }
-                        }
-                    } else if (currencyCostState.getMainCurId().equals(mainCurrency.getId())) {
-                        for (CurrencyWithAmount withAmount : currencyCostState.getCurrencyWithAmountList()) {
-                            if (withAmount.getCurrencyId().equals(adding.getId())) {
-                                withAmount.setAmount(amount);
-                                daoSession.insertOrReplace(withAmount);
-                                break;
-                            }
-                        }
-                    }
-                    else {
-                        double tempAmount = 1.0d;
-                        for (CurrencyWithAmount withAmount : mainCurrencyCostState.getCurrencyWithAmountList()) {
-                            if (withAmount.getCurrencyId().equals(currencyCostState.getMainCurId())) {
-                                tempAmount = withAmount.getAmount();
-                                break;
-                            }
-                        }
-                        for (CurrencyWithAmount withAmount : currencyCostState.getCurrencyWithAmountList()) {
-                            if (withAmount.getCurrencyId().equals(adding.getId())) {
-                                withAmount.setAmount(amount/tempAmount);
-                                daoSession.insertOrReplace(withAmount);
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-            daoSession.getCurrencyCostStateDao().detachAll();
-            daoSession.getCurrencyDao().detachAll();
-        }
-    }
-
-    private void generateCostsForRestDays(Calendar day, double amount, Currency adding) {
-        day.set(Calendar.HOUR_OF_DAY, 23);
-        day.set(Calendar.MINUTE, 59);
-        day.set(Calendar.SECOND, 59);
-        day.set(Calendar.MILLISECOND, 59);
-        List<CurrencyCostState> allStates = daoSession.getCurrencyCostStateDao().loadAll();
-        for (int i = 0; i < allStates.size(); i++) {
-            if (allStates.get(i).getDay().compareTo(day) > 0) {
-                if (i != 0)
-                    generateCostForTheDay(day, amount, adding, allStates.get(i-1));
-            }
-        }
-    }
 
     public int insertUserEnteredCalendars(Currency currency, Calendar day) {
         SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
@@ -975,6 +756,8 @@ public class LogicManager {
         List<Currency> allCurrencies = daoSession.loadAll(Currency.class);
         for (Currency curr : allCurrencies)
             curr.refreshCosts();
+        commonOperations.refreshCurrency();
+        dataCache.updateAllPercents();
         commonOperations.refreshCurrency();
     }
 
@@ -1227,74 +1010,163 @@ public class LogicManager {
         smsParseSuccessDao.delete(smsParseSuccess);
         return LogicManagerConstants.DELETED_SUCCESSFUL;
     }
+    public static int CAN_NOT_NEGATIVE = 121;
+    public static int LIMIT = 101;
+    public static int YOU_CAN_ADD = 111;
 
+    public int isItPosibleToAdd(Account account,double amount, Currency amountCurrency, Calendar date, double oldEdit,Currency oldAmount,Account oldValueAccount){
+        if(account.getIsLimited()||account.getNoneMinusAccount()){
+            double limit = account.getLimite();
+            double state = isLimitAccess(account,date);
+            if(oldEdit!=0){
+                if(oldValueAccount.getId().equals(account.getId()))
+                state += commonOperations.getCost(date,oldAmount,account.getCurrency(),oldEdit);
+            }
+            if(account.getNoneMinusAccount()){
+                if(state-commonOperations.getCost(date,amountCurrency,account.getCurrency(),amount)<0){
+                    return CAN_NOT_NEGATIVE;
+                }
+            }
+            if((-1*limit)<=(state-commonOperations.getCost(date,amountCurrency,account.getCurrency(),amount))){
+                return YOU_CAN_ADD;
+            }
+            else return LIMIT;
+        }
+        else return YOU_CAN_ADD;
+    }
+    public int changeAccount(Account account, Calendar date, double newLimit,Currency newLimitCurrency,double startMoney , Currency startmoneyCurrency){
+            double state = isLimitSatet(account,date,newLimitCurrency,startMoney,startmoneyCurrency);
+            if(newLimit*(-1)<=state){
+                return YOU_CAN_ADD;
+            }
+            else return LIMIT;
+
+    }
     public double isLimitAccess(Account account, Calendar date) {
-        double accounted = commonOperations.getCost(date, account.getStartMoneyCurrency(), account.getAmount());
+        double accounted = commonOperations.getCost(date, account.getStartMoneyCurrency(),account.getCurrency(), account.getAmount());
         List<AccountOperation> operations = daoSession.getAccountOperationDao().loadAll();
         for (AccountOperation accountOperation : operations) {
             if (accountOperation.getSourceId().equals(account.getId())) {
-                accounted -= commonOperations.getCost(date, accountOperation.getCurrency(), accountOperation.getAmount());
+                accounted -= commonOperations.getCost(date, accountOperation.getCurrency(), account.getCurrency(), accountOperation.getAmount());
             }
             if (accountOperation.getTargetId().equals(account.getId())) {
-                accounted += commonOperations.getCost(date, accountOperation.getCurrency(), accountOperation.getAmount());
+                accounted += commonOperations.getCost(date, accountOperation.getCurrency(), account.getCurrency(), accountOperation.getAmount());
             }
         }
         for (int i = 0; i < recordDao.queryBuilder().list().size(); i++) {
             FinanceRecord tempac = recordDao.queryBuilder().list().get(i);
-            if (tempac.getAccount().getId().matches(account.getId())) {
+            if (tempac.getAccount().getId().equals(account.getId())) {
                 if (tempac.getCategory().getType() == PocketAccounterGeneral.INCOME)
-                    accounted = accounted + commonOperations.getCost(tempac.getDate(), tempac.getCurrency(), tempac.getAmount());
+                    accounted = accounted + commonOperations.getCost(tempac.getDate(), tempac.getCurrency(), account.getCurrency(), tempac.getAmount());
                 else
-                    accounted = accounted - commonOperations.getCost(tempac.getDate(), tempac.getCurrency(), tempac.getAmount());
+                    accounted = accounted - commonOperations.getCost(tempac.getDate(), tempac.getCurrency(), account.getCurrency(), tempac.getAmount());
             }
         }
         for (DebtBorrow debtBorrow : debtBorrowDao.queryBuilder().list()) {
             if (debtBorrow.getCalculate()) {
-                if (debtBorrow.getAccount().getId().matches(account.getId())) {
-                    if (debtBorrow.getType() == DebtBorrow.BORROW) {
-                        accounted = accounted - commonOperations.getCost(debtBorrow.getTakenDate(), debtBorrow.getCurrency(), debtBorrow.getAmount());
-                    } else {
-                        accounted = accounted + commonOperations.getCost(debtBorrow.getTakenDate(), debtBorrow.getCurrency(), debtBorrow.getAmount());
-                    }
-                    for (Recking recking : debtBorrow.getReckings()) {
-                        Calendar cal = recking.getPayDate();
-
-                        if (debtBorrow.getType() == DebtBorrow.DEBT) {
-                            accounted = accounted - commonOperations.getCost(cal, debtBorrow.getCurrency(), recking.getAmount());
-                        } else {
-                            accounted = accounted + commonOperations.getCost(cal, debtBorrow.getCurrency(), recking.getAmount());
-                        }
-                    }
+                if(debtBorrow.getAccount() == null) continue;
+                if (debtBorrow.getAccount().getId().equals(account.getId()))
+                if (debtBorrow.getType() == DebtBorrow.BORROW) {
+                    accounted = accounted - commonOperations.getCost(debtBorrow.getTakenDate(), debtBorrow.getCurrency(), account.getCurrency(), debtBorrow.getAmount());
                 } else {
-                    for (Recking recking : debtBorrow.getReckings()) {
-                        Calendar cal = recking.getPayDate();
-                        if (recking.getAccountId().matches(account.getId())) {
+                    accounted = accounted + commonOperations.getCost(debtBorrow.getTakenDate(), debtBorrow.getCurrency(), account.getCurrency(), debtBorrow.getAmount());
+                }
+            }
+             for (Recking recking : debtBorrow.getReckings()) {
+                 if(recking.getAccountId() == null) continue;
+                 if (recking.getAccountId().equals(account.getId())) {
+                     Calendar cal = recking.getPayDate();
+                     if (debtBorrow.getType() == DebtBorrow.DEBT) {
+                         accounted = accounted - commonOperations.getCost(cal, debtBorrow.getCurrency(), account.getCurrency(), recking.getAmount());
+                     } else {
+                         accounted = accounted + commonOperations.getCost(cal, debtBorrow.getCurrency(), account.getCurrency(), recking.getAmount());
+                     }
+                 }
+             }
+        }
 
-                            if (debtBorrow.getType() == DebtBorrow.BORROW) {
-                                accounted += commonOperations.getCost(cal, debtBorrow.getCurrency(), recking.getAmount());
-                            } else {
-                                accounted -= commonOperations.getCost(cal, debtBorrow.getCurrency(), recking.getAmount());
-                            }
-                        }
+        for (CreditDetials creditDetials : creditDetialsDao.queryBuilder().list()) {
+            if (creditDetials.getKey_for_include()) {
+                if(creditDetials.getAccountID().equals(account.getId()))
+                accounted = accounted + commonOperations.getCost(creditDetials.getTake_time(), creditDetials.getValyute_currency(), account.getCurrency(), creditDetials.getValue_of_credit());
+            }
+                for (ReckingCredit reckingCredit : creditDetials.getReckings()) {
+                    if (reckingCredit.getAccountId().equals(account.getId())) {
+                        accounted -= commonOperations.getCost(reckingCredit.getPayDate(), creditDetials.getValyute_currency(), account.getCurrency(), reckingCredit.getAmount());
+                    }
+                }
+            }
+        for (SmsParseSuccess success: smsParseSuccessDao.loadAll()) {
+            if(success.getAccountId().equals(account.getId()))
+            if (success.getType() == PocketAccounterGeneral.INCOME) {
+                accounted += commonOperations.getCost(success.getDate(), success.getCurrency(), account.getCurrency(), success.getAmount());
+            } else {
+                accounted -= commonOperations.getCost(success.getDate(), success.getCurrency(),account.getCurrency(),  success.getAmount());
+            }
+        }
+        return accounted;
+    }
+    public double isLimitSatet(Account account, Calendar date,Currency currency,double startMoney , Currency startmoneyCurrency){
+        double accounted = commonOperations.getCost(date, startmoneyCurrency,currency, startMoney);
+        List<AccountOperation> operations = daoSession.getAccountOperationDao().loadAll();
+        for (AccountOperation accountOperation : operations) {
+            if (accountOperation.getSourceId().equals(account.getId())) {
+                accounted -= commonOperations.getCost(date, accountOperation.getCurrency(), currency, accountOperation.getAmount());
+            }
+            if (accountOperation.getTargetId().equals(account.getId())) {
+                accounted += commonOperations.getCost(date, accountOperation.getCurrency(), currency, accountOperation.getAmount());
+            }
+        }
+        for (int i = 0; i < recordDao.queryBuilder().list().size(); i++) {
+            FinanceRecord tempac = recordDao.queryBuilder().list().get(i);
+            if (tempac.getAccount().getId().equals(account.getId())) {
+                if (tempac.getCategory().getType() == PocketAccounterGeneral.INCOME)
+                    accounted = accounted + commonOperations.getCost(tempac.getDate(), tempac.getCurrency(), currency, tempac.getAmount());
+                else
+                    accounted = accounted - commonOperations.getCost(tempac.getDate(), tempac.getCurrency(), currency, tempac.getAmount());
+            }
+        }
+        for (DebtBorrow debtBorrow : debtBorrowDao.queryBuilder().list()) {
+            if (debtBorrow.getCalculate()) {
+                if(debtBorrow.getAccount() == null) continue;
+                if (debtBorrow.getAccount().getId().equals(account.getId()))
+                    if (debtBorrow.getType() == DebtBorrow.BORROW) {
+                        accounted = accounted - commonOperations.getCost(debtBorrow.getTakenDate(), debtBorrow.getCurrency(), currency, debtBorrow.getAmount());
+                    } else {
+                        accounted = accounted + commonOperations.getCost(debtBorrow.getTakenDate(), debtBorrow.getCurrency(), currency, debtBorrow.getAmount());
+                    }
+            }
+            for (Recking recking : debtBorrow.getReckings()) {
+                if(recking.getAccountId() == null) continue;
+                if (recking.getAccountId().equals(account.getId())) {
+                    Calendar cal = recking.getPayDate();
+                    if (debtBorrow.getType() == DebtBorrow.DEBT) {
+                        accounted = accounted - commonOperations.getCost(cal, debtBorrow.getCurrency(), currency, recking.getAmount());
+                    } else {
+                        accounted = accounted + commonOperations.getCost(cal, debtBorrow.getCurrency(), currency, recking.getAmount());
                     }
                 }
             }
         }
+
         for (CreditDetials creditDetials : creditDetialsDao.queryBuilder().list()) {
             if (creditDetials.getKey_for_include()) {
-                for (ReckingCredit reckingCredit : creditDetials.getReckings()) {
-                    if (reckingCredit.getAccountId().matches(account.getId())) {
-                        accounted -= commonOperations.getCost(reckingCredit.getPayDate(), creditDetials.getValyute_currency(), reckingCredit.getAmount());
-                    }
+                if(creditDetials.getAccountID().equals(account.getId()))
+                    accounted = accounted + commonOperations.getCost(creditDetials.getTake_time(), creditDetials.getValyute_currency(), currency, creditDetials.getValue_of_credit());
+            }
+            for (ReckingCredit reckingCredit : creditDetials.getReckings()) {
+                if (reckingCredit.getAccountId().equals(account.getId())) {
+                    accounted -= commonOperations.getCost(reckingCredit.getPayDate(), creditDetials.getValyute_currency(), currency, reckingCredit.getAmount());
                 }
             }
         }
         for (SmsParseSuccess success: smsParseSuccessDao.loadAll()) {
-            if (success.getType() == PocketAccounterGeneral.INCOME) {
-                accounted += commonOperations.getCost(success.getDate(), success.getCurrency(), success.getAmount());
-            } else {
-                accounted -= commonOperations.getCost(success.getDate(), success.getCurrency(), success.getAmount());
-            }
+            if(success.getAccountId().equals(account.getId()))
+                if (success.getType() == PocketAccounterGeneral.INCOME) {
+                    accounted += commonOperations.getCost(success.getDate(), success.getCurrency(),currency, success.getAmount());
+                } else {
+                    accounted -= commonOperations.getCost(success.getDate(), success.getCurrency(),currency, success.getAmount());
+                }
         }
         return accounted;
     }

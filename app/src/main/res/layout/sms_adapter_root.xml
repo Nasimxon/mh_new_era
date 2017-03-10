@@ -30,45 +30,34 @@
                     android:layout_marginBottom="@dimen/ten_dp"
                     android:layout_marginTop="@dimen/ten_dp"
                     android:orientation="vertical">
-                    <RelativeLayout
+                    <LinearLayout
                         android:id="@+id/rlSmsSender"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:orientation="horizontal"
                         android:layout_marginTop="@dimen/five_dp">
                         <TextView
                             android:id="@+id/tvRecived"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentLeft="true"
-                            android:layout_alignParentStart="true"
-                            android:layout_alignParentTop="true"
-                            android:layout_toLeftOf="@+id/tvSmsSenderNumber"
-                            android:layout_toStartOf="@+id/tvSmsSenderNumber"
                             android:text="@string/sender"
                             android:textColor="@color/for_darker"
                             android:textSize="@dimen/twenty_dp" />
                         <ImageView
+                            android:visibility="invisible"
                             android:id="@+id/imageView7"
                             android:layout_width="@dimen/twenty_dp"
                             android:layout_height="@dimen/twenty_dp"
-                            android:layout_alignBottom="@+id/tvSmsSenderNumber"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentRight="true"
-                            android:layout_alignParentTop="true"
-                            android:layout_marginLeft="@dimen/five_dp"
                             android:src="@drawable/ic_mode_edit_black_24dp" />
                         <TextView
                             android:id="@+id/tvSmsSenderNumber"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentTop="true"
-                            android:layout_toLeftOf="@+id/imageView7"
-                            android:layout_toStartOf="@+id/imageView7"
-                            android:gravity="bottom"
                             android:text="8080"
                             android:textColor="@color/for_darker"
                             android:textSize="@dimen/twenty_dp" />
-                    </RelativeLayout>
+                    </LinearLayout>
                     <RelativeLayout
                         android:id="@+id/prosesedRl"
                         android:layout_width="wrap_content"

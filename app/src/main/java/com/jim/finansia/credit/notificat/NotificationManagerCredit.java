@@ -279,6 +279,7 @@ public class NotificationManagerCredit {
                 Calendar beg = Calendar.getInstance();
                 while (tokenizer.hasMoreTokens())
                     a.add(tokenizer.nextToken());
+                if(a.size()!=0)
                 if(a.get(0)!=null)
                 switch (a.get(0)) {
                     case PocketAccounterGeneral.EVERY_DAY:

@@ -47,6 +47,7 @@ import com.jim.finansia.database.DebtBorrowDao;
 import com.jim.finansia.database.FinanceRecordDao;
 import com.jim.finansia.database.ReckingCredit;
 import com.jim.finansia.database.ReckingCreditDao;
+import com.jim.finansia.finance.TransferAccountAdapter;
 import com.jim.finansia.managers.CommonOperations;
 import com.jim.finansia.managers.FinansiaFirebaseAnalytics;
 import com.jim.finansia.managers.LogicManager;
@@ -309,6 +310,7 @@ public class InfoCreditFragment extends Fragment {
                                         }
                                         else if (modeOfMain == PocketAccounterGeneral.DETAIL) {
                                             for (Fragment fragment : paFragmentManager.getFragmentManager().getFragments()) {
+                                                if(fragment != null)
                                                 if (fragment.getClass().getName().equals(RecordDetailFragment.class.getName())) {
                                                     ((RecordDetailFragment)fragment).updateFragments();
                                                     break;
@@ -728,9 +730,11 @@ public class InfoCreditFragment extends Fragment {
         for (int i = 0; i < accaounts.length; i++) {
             accaounts[i] = accaunt_AC.get(i).getName();
         }
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
-                context, R.layout.spiner_gravity_left, accaounts);
-        accountSp.setAdapter(arrayAdapter);
+        ArrayList accounts = new ArrayList();
+        for (int i = 0; i < accaunt_AC.size(); i++) {
+            accounts.add(accaunt_AC.get(i).getId());
+        }
+        accountSp.setAdapter(new TransferAccountAdapter(getContext(),accounts));
 
         keyForInclude.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -820,19 +824,23 @@ public class InfoCreditFragment extends Fragment {
 
                 if (!amount.matches("")) {
                     if(currentCredit.getKey_for_include()){
-                        Account account = accaunt_AC.get(accountSp.getSelectedItemPosition());
-                        if (account.getIsLimited()) {
-                            //TODO editda tekwir ozini hisoblamaslini
-                            double limit = account.getLimite();
-                            double accounted =  logicManager.isLimitAccess(account, date);
 
-                            accounted = accounted - commonOperations.getCost(date, currentCredit.getValyute_currency(), account.getCurrency(), Double.parseDouble(amount));
-                            if (-limit > accounted) {
-                                Toast.makeText(context, R.string.limit_exceed, Toast.LENGTH_SHORT).show();
-                                return;
-                            }
-                        }}
-                    if (Double.parseDouble(amount) > currentCredit.getValue_of_credit_with_procent() - total_paid+1) {
+                        Account account = accaunt_AC.get(accountSp.getSelectedItemPosition());
+
+                        int state = logicManager.isItPosibleToAdd(account,Double.parseDouble(amount.replace(',','.')),currentCredit.getValyute_currency(),date,0,null,null);
+                        if(state == LogicManager.CAN_NOT_NEGATIVE){
+
+                            Toast.makeText(getContext(), R.string.none_minus_account_warning, Toast.LENGTH_SHORT).show();
+                            return;
+
+                        }
+                        else if(state == LogicManager.LIMIT){
+                            Toast.makeText(getContext(), R.string.limit_exceed, Toast.LENGTH_SHORT).show();
+                            return;
+
+                        }
+                    }
+                    if (Double.parseDouble(amount.replace(',','.')) > currentCredit.getValue_of_credit_with_procent() - total_paid+1) {
                         warningDialog = new WarningDialog(context);
                         warningDialog.setOnYesButtonListener(new View.OnClickListener() {
                             @Override
@@ -840,9 +848,9 @@ public class InfoCreditFragment extends Fragment {
                                 String amount = enterPay.getText().toString();
                                 ReckingCredit rec = null;
                                 if (!amount.matches("") && keyForInclude.isChecked())
-                                    rec = new ReckingCredit(date, Double.parseDouble(amount), accaunt_AC.get(accountSp.getSelectedItemPosition()).getId(), currentCredit.getMyCredit_id(), comment.getText().toString());
+                                    rec = new ReckingCredit(date, Double.parseDouble(amount.replace(',','.')), accaunt_AC.get(accountSp.getSelectedItemPosition()).getId(), currentCredit.getMyCredit_id(), comment.getText().toString());
                                 else
-                                    rec = new ReckingCredit(date, Double.parseDouble(amount), "", currentCredit.getMyCredit_id(), comment.getText().toString());
+                                    rec = new ReckingCredit(date, Double.parseDouble(amount.replace(',','.')), "", currentCredit.getMyCredit_id(), comment.getText().toString());
                                 logicManager.insertReckingCredit(rec);
                                 currentCredit.resetReckings();
                                 rcList = currentCredit.getReckings();
@@ -869,15 +877,15 @@ public class InfoCreditFragment extends Fragment {
                         });
                         warningDialog.setText(context.getString(R.string.payment_balans) + formater.format(currentCredit.getValue_of_credit_with_procent() - total_paid) +
                                 currentCredit.getValyute_currency().getAbbr() + "." + context.getString(R.string.payment_balance2) +
-                                formater.format(Double.parseDouble(amount) - (currentCredit.getValue_of_credit_with_procent() - total_paid)) +
+                                formater.format(Double.parseDouble(amount.replace(',','.')) - (currentCredit.getValue_of_credit_with_procent() - total_paid)) +
                                 currentCredit.getValyute_currency().getAbbr());
                         warningDialog.show();
                     } else {
                         ReckingCredit rec = null;
                         if (!amount.matches("") && keyForInclude.isChecked())
-                            rec = new ReckingCredit(date, Double.parseDouble(amount), accaunt_AC.get(accountSp.getSelectedItemPosition()).getId(), currentCredit.getMyCredit_id(), comment.getText().toString());
+                            rec = new ReckingCredit(date, Double.parseDouble(amount.replace(',','.')), accaunt_AC.get(accountSp.getSelectedItemPosition()).getId(), currentCredit.getMyCredit_id(), comment.getText().toString());
                         else
-                            rec = new ReckingCredit(date, Double.parseDouble(amount), "", currentCredit.getMyCredit_id(), comment.getText().toString());
+                            rec = new ReckingCredit(date, Double.parseDouble(amount.replace(',','.')), "", currentCredit.getMyCredit_id(), comment.getText().toString());
                         logicManager.insertReckingCredit(rec);
                         currentCredit.resetReckings();
                         rcList = currentCredit.getReckings();
@@ -1080,6 +1088,15 @@ public class InfoCreditFragment extends Fragment {
                         isCheks[i] = false;
                     }
                     updateDate();
+                    double total_paid = 0;
+                    for (ReckingCredit item : rcList) {
+                        total_paid += item.getAmount();
+                    }
+
+                    if(total_paid<currentCredit.getValue_of_credit_with_procent()){
+                        myPay.setText(getResources().getString(R.string.pay));
+                        toArcive = false;
+                    }
                     dataCache.updateAllPercents();
                     paFragmentManager.updateAllFragmentsOnViewPager();
                     warningDialog.dismiss();

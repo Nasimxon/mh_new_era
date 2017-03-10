@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:installLocation="preferExternal"
     package="com.jim.finansia"
-    android:versionCode="5"
-    android:versionName="v1.00">
+    android:versionCode="8"
+    android:versionName="v1.04">
     <uses-sdk
         android:minSdkVersion="16"
         android:targetSdkVersion="23" />

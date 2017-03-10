@@ -286,27 +286,43 @@ public class TransferDialog extends Dialog implements View.OnClickListener {
                 List<Account> accounts = daoSession.getAccountDao().queryBuilder().where
                         (AccountDao.Properties.Id.eq(chooseAccountFirstId)).list();
                 if (!accounts.isEmpty()) {
-                    Account account = accounts.get(0);
-                    if (account.getIsLimited()) {
-                        Double limitAccess = logicManager.isLimitAccess(account, calendar);
-                        Double amount = Double.parseDouble(etAccountEditName.getText().toString());
-                        if (limitAccess - amount < -account.getLimite()) {
-                            Toast.makeText(getContext(), R.string.limit_exceed, Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                    }
-                    if (account.getNoneMinusAccount()) {
-                        Double limitAccess = logicManager.isLimitAccess(account, calendar);
-                        Double amount = Double.parseDouble(etAccountEditName.getText().toString());
-                        if (limitAccess - amount < 0) {
+
+                         Double amount = Double.parseDouble(etAccountEditName.getText().toString().replace(',','.'));
+                        int state = logicManager.isItPosibleToAdd(accounts.get(0),amount,currencies.get(spAccManDialog.getSelectedItemPosition()),calendar,0,null,null);
+                        if(state == LogicManager.CAN_NOT_NEGATIVE){
+
                             Toast.makeText(getContext(), R.string.none_minus_account_warning, Toast.LENGTH_SHORT).show();
                             return;
+
                         }
-                    }
+                        else if(state == LogicManager.LIMIT){
+                            Toast.makeText(getContext(), R.string.limit_exceed, Toast.LENGTH_SHORT).show();
+                            return;
+
+                        }
+
+
+//                    Account account = accounts.get(0);
+//                    if (account.getIsLimited()) {
+//                        Double limitAccess = logicManager.isLimitAccess(account, calendar);
+//                        Double amount = Double.parseDouble(etAccountEditName.getText().toString());
+//                        if (limitAccess - amount < -account.getLimite()) {
+//                            Toast.makeText(getContext(), R.string.limit_exceed, Toast.LENGTH_SHORT).show();
+//                            return;
+//                        }
+//                    }
+//                    if (account.getNoneMinusAccount()) {
+//                        Double limitAccess = logicManager.isLimitAccess(account, calendar);
+//                        Double amount = Double.parseDouble(etAccountEditName.getText().toString());
+//                        if (limitAccess - amount < 0) {
+//                            Toast.makeText(getContext(), R.string.none_minus_account_warning, Toast.LENGTH_SHORT).show();
+//                            return;
+//                        }
+//                    }
                 }
                 if (accountOperation == null)
                     accountOperation = new AccountOperation();
-                accountOperation.setAmount(Double.parseDouble(etAccountEditName.getText().toString()));
+                accountOperation.setAmount(Double.parseDouble(etAccountEditName.getText().toString().replace(',','.')));
                 accountOperation.setCurrency(currencies.get(spAccManDialog.getSelectedItemPosition()));
                 accountOperation.setDate(calendar);
                 accountOperation.setSourceId(chooseAccountFirstId);

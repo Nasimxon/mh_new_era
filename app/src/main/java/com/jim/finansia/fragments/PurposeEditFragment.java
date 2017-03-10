@@ -133,7 +133,7 @@ public class PurposeEditFragment extends Fragment implements OnClickListener, On
                     return;
                 }
                 try {
-                    Double.parseDouble(amountPurpose.getText().toString());
+                    Double.parseDouble(amountPurpose.getText().toString().replace(',','.'));
                 } catch (Exception e) {
                     amountPurpose.setError(getString(R.string.wrong_input_type));
                     return;
@@ -157,7 +157,7 @@ public class PurposeEditFragment extends Fragment implements OnClickListener, On
                     purpose.setDescription(purposeName.getText().toString());
                     purpose.setIcon(choosenIcon);
                     purpose.setPeriodPos(periodPurpose.getSelectedItemPosition());
-                    purpose.setPurpose(Double.parseDouble(amountPurpose.getText().toString()));
+                    purpose.setPurpose(Double.parseDouble(amountPurpose.getText().toString().replace(',','.')));
                     purpose.setBegin(begCalendar);
                     purpose.setEnd(endCalendar);
                     if (!etPeriodCount.getText().toString().equals(""))
