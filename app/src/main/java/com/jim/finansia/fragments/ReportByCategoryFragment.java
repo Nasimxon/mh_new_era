@@ -5,6 +5,8 @@ import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -22,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.utils.Utils;
 import com.jim.finansia.PocketAccounter;
 import com.jim.finansia.PocketAccounterApplication;
 import com.jim.finansia.R;
@@ -390,34 +393,64 @@ public class ReportByCategoryFragment extends Fragment {
                 double halfOfStep = lengthOfStep / 2;
                 colors.put(dataRows.get(i).getCategory().getId(), colorsCode[(int) Math.round(halfOfStep + (lengthOfStep * i))]);
         }
-        float percent;
+        ArrayList<Float> percent = new ArrayList<>();
+        ArrayList<Float> percentNew = new ArrayList<>();
+        ArrayList<CategoryDataRow> temp = new ArrayList<>();
+            for (CategoryDataRow dataRow : dataRows) {
+                if (dataRow.getCategory().getType() == mode) {
+                    temp.add(dataRow);
+                }
+            }
+        double difference = 0;
+        int min = 3;
+        int count = 0, step = 0;
+        for (int i =0; i < temp.size(); i++)
+        {
+                percent.add((100.0f * ((float) temp.get(i).getTotalAmount())) / total);
+                if (percent.get(step) < min)
+                {
+                    difference += min - percent.get(step);
+                } else count++;
+                step++;
+        }
 
-        for (int i = 0; i < dataRows.size(); i++) {
-                    if (dataRows.get(i).getCategory().getType() == mode) {
-                        percent = (100.0f * ((float) dataRows.get(i).getTotalAmount())) / total;
-                        SliceValue sliceValue = new SliceValue(percent, colors.get(dataRows.get(i).getCategory().getId()));
-                        sliceValue.setLabel(formatter.format(percent) + "%");
-                        values.add(sliceValue);
+        for (int i =0; i <  percent.size(); i++)
+        {
+                if(percent.get(i)<min+difference/count&&percent.get(i)>=min){
+                    count--;
+                }
+        }
+        if (!percent.isEmpty()) {
+            for (int i = 0; i < percent.size(); i++) {
+                if (percent.get(i) < min) {
+                    percentNew.add((float) min);
+                }
+                else if  (percent.get(i)<min+difference/count&&percent.get(i)>=min || difference == 0){
+                    percentNew.add(percent.get(i));
+                }
+                else {
+                    percentNew.add((float) (percent.get(i) - (difference/count)));
+                }
+            }
+            for (int i = 0; i < percent.size(); i++) {
+                SliceValue sliceValue = new SliceValue(percentNew.get(i), colors.get(temp.get(i).getCategory().getId()));
+                sliceValue.setLabel(formatter.format(percent.get(i)) + "%");
+                values.add(sliceValue);
             }
         }
         PieChartData chartData = new PieChartData(values);
         chartData.setHasLabels(true);
+        chartData.setHasLabelsOutside(true);
         chartData.setHasCenterCircle(true);
-        chartData.setSlicesSpacing(3);
-        chartData.setValueLabelBackgroundEnabled(false);
-        chartData.setValueLabelTextSize((int) getResources().getDimension(R.dimen.three_dp));
-        chartData.setCenterText1FontSize((int) getResources().getDimension(R.dimen.five_dp));
+        chartData.setSlicesSpacing(5);
+        chartData.setValueLabelTextSize((int) Utils.convertDpToPixel(getResources().getDimension(R.dimen.three_dp)));
+        chartData.setCenterText1FontSize((int) Utils.convertDpToPixel(getResources().getDimension(R.dimen.five_dp)));
         if (mode == EXPENSE)
         chartData.setCenterText1(getResources().getString(R.string.expanse));
         else chartData.setCenterText1(getResources().getString(R.string.income));
-        if (dataRows.size() == 0) chartData.setCenterText1(getResources().getString(R.string.not_data));
+        if (temp.isEmpty()) chartData.setCenterText1(getResources().getString(R.string.not_data));
         chartView.setPieChartData(chartData);
-        ArrayList<CategoryDataRow> temp = new ArrayList<>();
-        for (CategoryDataRow dataRow : dataRows) {
-                    if (dataRow.getCategory().getType() == mode) {
-                        temp.add(dataRow);
-            }
-        }
+        chartView.setCircleFillRatio(0.9f);
         categoryListAdapter = new CategoryListAdapter(temp, colors);
         rvReportCategory.setAdapter(categoryListAdapter);
     }
