@@ -40,6 +40,7 @@ public class TransferAddEditDialog extends Dialog {
     private ImageView ivClose;
     @Inject
     DaoSession daoSession;
+    private DecimalFormat format = new DecimalFormat("0.######");
 
     public TransferAddEditDialog(Context context) {
         super(context);
@@ -151,7 +152,7 @@ public class TransferAddEditDialog extends Dialog {
                 view.tvItemAccountToName.setText(toName);
             view.tvItemAccountAmount.setText(dateFormat.format(result.get(position).getAmount()) + result.get(position).getCurrency().getAbbr());
             view.tvSecondAccountAmount.setText(dateFormat.format(result.get(position).getTargetAmount()) + result.get(position).getTargetCurrency().getAbbr());
-            view.tvCurrencyRate.setText("1" + result.get(position).getCurrency().getAbbr() + " = " + result.get(position).getCost() + result.get(position).getTargetCurrency().getAbbr());
+            view.tvCurrencyRate.setText("1" + result.get(position).getCurrency().getAbbr() + " = " +  format.format(result.get(position).getCost()) + result.get(position).getTargetCurrency().getAbbr());
             view.tvItemAccountDate.setText(simpleDateFormat.format(result.get(position).getDate().getTime()));
             if (daoSession.getAccountDao().load(result.get(position).getSourceId()) != null) {
                 view.ivItemTransferAccountFrom.setImageResource(getContext().getResources().getIdentifier(
