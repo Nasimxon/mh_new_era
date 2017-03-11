@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:installLocation="preferExternal"
     package="com.jim.finansia"
-    android:versionCode="8"
-    android:versionName="v1.04">
+    android:versionCode="9"
+    android:versionName="v1.05">
     <uses-sdk
         android:minSdkVersion="16"
         android:targetSdkVersion="23" />

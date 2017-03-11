@@ -122,6 +122,8 @@ public class TextDrawingBoardView extends DecorationBoardView {
                 textPaint.setAlpha((int)(0x80*(execFrame-0.5f)/0.5f));
                 textPaint.setTextSize(getResources().getDimension(R.dimen.twelve_dp));
                 String name = element.getText();
+                if(name==null)
+                    name = "";
                 if (name.length() >= 9)
                     name = name.substring(0, 9) + "...";
                 Rect rect = new Rect();

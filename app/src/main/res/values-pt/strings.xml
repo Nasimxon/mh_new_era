@@ -1,0 +1,1737 @@
+<resources>
+    <string name="app_name">Finansia</string>
+    <string-array name="week_days">
+        <item>Segunda-feira</item>
+        <item>Terça-feira</item>
+        <item>Quarta-feira</item>
+        <item>Quinta-feira</item>
+        <item>Sexta-feira</item>
+        <item>Sábado</item>
+        <item>Domingo</item>
+    </string-array>
+    <string-array name="drawer_menu_icons">
+        <item>ic_home</item>
+        <item>ic_currency</item>
+        <item>ic_categories</item>
+        <item>ic_accounts</item>
+        <item>ic_purpose</item>
+        <item>ic_auto</item>
+        <item>ic_loans</item>
+        <item>ic_debt</item>
+        <item>ic_sms</item>
+        <item>ic_report</item>
+        <item>ic_themes</item>
+        <item>ic_settings</item>
+        <item>ic_rate</item>
+        <item>ic_share</item>
+        <item>ic_feedback</item>
+    </string-array>
+    <string-array name="drawer_menus">
+        <item>Casa</item>
+        <item>Moeda</item>
+        <item>Categorias</item>
+        <item>Contas</item>
+        <item>Propósito</item>
+        <item>Operações automáticas</item>
+        <item>Créditos</item>
+        <item>Dívidas</item>
+        <item>Análise de Sms</item>
+        <item>Relatórios</item>
+        <item>Fundo</item>
+        <item>Configurações</item>
+        <item>Avaliar aplicativo</item>
+        <item>Compartilhe o aplicativo</item>
+        <item>Comentários</item>
+    </string-array>
+    <string-array name="drawer_menus_icons">
+        <item>ic_home</item>
+        <item>ic_currency</item>
+        <item>ic_categories</item>
+        <item>ic_accounts</item>
+        <item>ic_purpose</item>
+        <item>ic_auto</item>
+        <item>ic_loans</item>
+        <item>ic_debt</item>
+        <item>ic_sms</item>
+        <item>ic_report</item>
+        <item>ic_themes</item>
+        <item>ic_settings</item>
+        <item>ic_rate</item>
+        <item>ic_share</item>
+        <item>ic_feedback</item>
+    </string-array>
+    <string-array name="base_currencies">
+        <item>Dollars</item>
+        <item>Rouble</item>
+        <item>Euro</item>
+        <item>Hryvnia</item>
+        <item> Sterling </item>
+        <item> Lira </item>
+        <item> Leo </item>
+        <item> Tenge </item>
+        <item> The Belarusian ruble </item>
+        <item> Malaysian Ringgit</item>
+        <item> Armenian Dram </item>
+        <item> Shekel </item>
+        <item> Yen </item>
+        <item> Vaughan </item>
+        <item> Moldavian lei </item>
+        <item> Lek </item>
+        <item> The Algerian Dinar </item>
+        <item> Kwanza </item>
+        <item> Manat </item>
+        <item> Bahraini Dinar </item>
+        <item> Taka </item>
+        <item> Mark </item>
+        <item> Real </item>
+        <item> Yuan </item>
+        <item> Czech Koruna </item>
+        <item> Danish Krone </item>
+        <item> Egyptian pound </item>
+        <item> Cedi </item>
+        <item> The Forint </item>
+        <item> Indian Rupee </item>
+        <item> Indonesian rupiah </item>
+        <item> The Iranian Rial </item>
+        <item> Iraqi Dinar </item>
+        <item> The Jordanian Dinar </item>
+        <item> The Kuwaiti Dinar </item>
+        <item> Philippine Peso </item>
+        <item> Zloty </item>
+        <item> The Qatari Riyal </item>
+        <item> Sum </item>
+        <item> The Saudi riyal </item>
+        <item> The Swiss franc </item>
+        <item> The Serbian Dinar </item>
+        <item> Bath </item>
+        <item> UAE Dirham</item>
+        <item> Argentine Peso</item>
+        <item> Bolivar</item>
+        <item> Lari</item>
+        <item> Som</item>
+    </string-array>
+    <string-array name="base_abbrs">
+        <item>$</item>
+        <item>₽</item>
+        <item>€</item>
+        <item>₴</item>
+        <item>£</item>
+        <item>₺</item>
+        <item>лв</item>
+        <item>₸</item>
+        <item>BYN</item>
+        <item>RM</item>
+        <item>РА</item>
+        <item>₪</item>
+        <item>¥</item>
+        <item>₩</item>
+        <item>lei</item>
+        <item>L</item>
+        <item>.د.ج </item>
+        <item>Kz</item>
+        <item>АР</item>
+        <item>.د.ب </item>
+        <item>৳</item>
+        <item>KM</item>
+        <item>R$</item>
+        <item>¥</item>
+        <item>Kč</item>
+        <item>kr</item>
+        <item>.ج.م</item>
+        <item>﷼₵</item>
+        <item>Ft</item>
+        <item>₹</item>
+        <item>Rp</item>
+        <item>﷼</item>
+        <item>.د.ع</item>
+        <item>.د.إ</item>
+        <item>.د.ك</item>
+        <item>₱</item>
+        <item>zł</item>
+        <item>﷼</item>
+        <item>uzs</item>
+        <item>﷼</item>
+        <item>₣</item>
+        <item>din</item>
+        <item>฿</item>
+        <item>.د.إ</item>
+        <item>$</item>
+        <item>Bs</item>
+        <item>₾</item>
+        <item>с</item>
+    </string-array>
+    <string-array name="currency_ids">
+        <item>currency_1</item>
+        <item>currency_2</item>
+        <item>currency_3</item>
+        <item>currency_4</item>
+        <item>currency_5</item>
+        <item>currency_6</item>
+        <item>currency_7</item>
+        <item>currency_8</item>
+        <item>currency_9</item>
+        <item>currency_10</item>
+        <item>currency_11</item>
+        <item>currency_12</item>
+        <item>currency_13</item>
+        <item>currency_14</item>
+        <item>currency_15</item>
+        <item>currency_16</item>
+        <item>currency_17</item>
+        <item>currency_18</item>
+        <item>currency_19</item>
+        <item>currency_20</item>
+        <item>currency_21</item>
+        <item>currency_22</item>
+        <item>currency_23</item>
+        <item>currency_24</item>
+        <item>currency_25</item>
+        <item>currency_26</item>
+        <item>currency_27</item>
+        <item>currency_28</item>
+        <item>currency_29</item>
+        <item>currency_30</item>
+        <item>currency_31</item>
+        <item>currency_32</item>
+        <item>currency_33</item>
+        <item>currency_34</item>
+        <item>currency_35</item>
+        <item>currency_36</item>
+        <item>currency_37</item>
+        <item>currency_38</item>
+        <item>currency_39</item>
+        <item>currency_40</item>
+        <item>currency_41</item>
+        <item>currency_42</item>
+        <item>currency_43</item>
+        <item>currency_44</item>
+        <item>currency_45</item>
+        <item>currency_46</item>
+        <item>currency_47</item>
+        <item>currency_48</item>
+    </string-array>
+    <string-array name="currency_costs">
+        <item>1.0</item>
+        <item>0.0154</item>
+        <item>0.9</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+        <item>1.0</item>
+    </string-array>
+    <string-array name="icons">
+        <item>icons_1</item>
+        <item>icons_2</item>
+        <item>icons_3</item>
+        <item>icons_4</item>
+        <item>icons_5</item>
+        <item>icons_6</item>
+        <item>icons_7</item>
+        <item>icons_8</item>
+        <item>icons_9</item>
+        <item>icons_10</item>
+        <item>icons_11</item>
+        <item>icons_12</item>
+        <item>icons_13</item>
+        <item>icons_14</item>
+        <item>icons_15</item>
+        <item>icons_16</item>
+        <item>icons_17</item>
+        <item>icons_18</item>
+        <item>icons_19</item>
+        <item>icons_20</item>
+        <item>icons_21</item>
+        <item>icons_22</item>
+        <item>icons_23</item>
+        <item>icons_24</item>
+        <item>icons_25</item>
+        <item>icons_26</item>
+        <item>icons_27</item>
+        <item>icons_28</item>
+        <item>icons_29</item>
+        <item>icons_30</item>
+        <item>icons_31</item>
+        <item>icons_32</item>
+        <item>icons_33</item>
+        <item>icons_34</item>
+        <item>icons_35</item>
+        <item>icons_36</item>
+        <item>icons_37</item>
+        <item>icons_38</item>
+        <item>icons_39</item>
+        <item>icons_40</item>
+        <item>icons_41</item>
+        <item>icons_42</item>
+        <item>icons_43</item>
+        <item>icons_44</item>
+        <item>icons_45</item>
+        <item>icons_46</item>
+        <item>icons_47</item>
+        <item>icons_48</item>
+        <item>icons_49</item>
+        <item>icons_50</item>
+        <item>icons_51</item>
+        <item>icons_52</item>
+        <item>icons_53</item>
+        <item>icons_54</item>
+        <item>icons_55</item>
+        <item>icons_56</item>
+        <item>icons_57</item>
+        <item>icons_58</item>
+        <item>icons_59</item>
+        <item>icons_60</item>
+        <item>icons_61</item>
+        <item>icons_62</item>
+        <item>icons_63</item>
+        <item>icons_64</item>
+        <item>icons_65</item>
+        <item>icons_66</item>
+        <item>icons_67</item>
+        <item>icons_68</item>
+        <item>icons_69</item>
+        <item>icons_70</item>
+        <item>icons_71</item>
+        <item>icons_72</item>
+        <item>icons_73</item>
+        <item>icons_74</item>
+        <item>icons_75</item>
+        <item>icons_76</item>
+        <item>icons_77</item>
+        <item>icons_78</item>
+        <item>icons_79</item>
+        <item>icons_80</item>
+        <item>icons_81</item>
+        <item>icons_82</item>
+        <item>icons_83</item>
+        <item>icons_84</item>
+        <item>icons_85</item>
+        <item>icons_86</item>
+        <item>icons_87</item>
+        <item>icons_88</item>
+        <item>icons_89</item>
+        <item>icons_90</item>
+        <item>icons_91</item>
+        <item>icons_92</item>
+        <item>icons_93</item>
+        <item>icons_94</item>
+        <item>icons_95</item>
+        <item>icons_96</item>
+        <item>icons_97</item>
+        <item>icons_98</item>
+        <item>icons_99</item>
+        <item>icons_100</item>
+        <item>icons_101</item>
+        <item>icons_102</item>
+        <item>icons_103</item>
+        <item>icons_104</item>
+        <item>icons_105</item>
+        <item>icons_106</item>
+        <item>icons_107</item>
+        <item>icons_108</item>
+        <item>icons_109</item>
+        <item>icons_110</item>
+        <item>icons_111</item>
+        <item>icons_112</item>
+        <item>icons_113</item>
+        <item>icons_114</item>
+        <item>icons_115</item>
+        <item>icons_116</item>
+        <item>icons_117</item>
+        <item>icons_118</item>
+        <item>icons_119</item>
+        <item>icons_120</item>
+        <item>icons_121</item>
+        <item>icons_122</item>
+        <item>icons_123</item>
+        <item>icons_124</item>
+        <item>icons_125</item>
+        <item>icons_126</item>
+        <item>icons_127</item>
+        <item>icons_128</item>
+        <item>icons_129</item>
+        <item>icons_130</item>
+        <item>icons_131</item>
+        <item>icons_132</item>
+        <item>icons_133</item>
+        <item>icons_134</item>
+        <item>icons_135</item>
+        <item>icons_136</item>
+        <item>icons_137</item>
+        <item>icons_138</item>
+        <item>icons_139</item>
+        <item>icons_140</item>
+        <item>icons_141</item>
+        <item>icons_142</item>
+        <item>icons_143</item>
+        <item>icons_144</item>
+        <item>icons_145</item>
+        <item>icons_146</item>
+        <item>icons_147</item>
+        <item>icons_148</item>
+        <item>icons_149</item>
+        <item>icons_150</item>
+        <item>icons_151</item>
+        <item>icons_152</item>
+        <item>icons_153</item>
+        <item>icons_154</item>
+        <item>icons_155</item>
+        <item>icons_156</item>
+        <item>icons_157</item>
+        <item>icons_158</item>
+        <item>icons_159</item>
+        <item>icons_160</item>
+        <item>icons_161</item>
+        <item>icons_162</item>
+        <item>icons_163</item>
+        <item>icons_164</item>
+        <item>icons_165</item>
+        <item>icons_166</item>
+        <item>icons_167</item>
+        <item>icons_168</item>
+        <item>icons_169</item>
+        <item>icons_170</item>
+        <item>icons_171</item>
+        <item>icons_172</item>
+        <item>icons_173</item>
+        <item>icons_174</item>
+        <item>icons_175</item>
+        <item>icons_176</item>
+        <item>icons_177</item>
+        <item>icons_178</item>
+        <item>icons_179</item>
+        <item>icons_180</item>
+        <item>icons_181</item>
+        <item>icons_182</item>
+        <item>icons_183</item>
+        <item>icons_184</item>
+        <item>icons_185</item>
+        <item>icons_186</item>
+        <item>icons_187</item>
+        <item>icons_188</item>
+        <item>icons_189</item>
+        <item>icons_190</item>
+        <item>icons_191</item>
+        <item>icons_192</item>
+        <item>icons_193</item>
+        <item>icons_194</item>
+        <item>icons_195</item>
+        <item>icons_196</item>
+        <item>icons_197</item>
+        <item>icons_198</item>
+        <item>icons_199</item>
+        <item>icons_200</item>
+        <item>icons_201</item>
+        <item>icons_202</item>
+        <item>icons_203</item>
+        <item>icons_204</item>
+        <item>icons_205</item>
+        <item>icons_206</item>
+        <item>icons_207</item>
+        <item>icons_208</item>
+        <item>icons_209</item>
+        <item>icons_210</item>
+        <item>icons_211</item>
+        <item>icons_212</item>
+        <item>icons_213</item>
+        <item>icons_214</item>
+        <item>icons_215</item>
+        <item>icons_216</item>
+        <item>icons_217</item>
+        <item>icons_218</item>
+        <item>icons_219</item>
+        <item>icons_220</item>
+        <item>icons_221</item>
+        <item>icons_222</item>
+        <item>icons_223</item>
+        <item>icons_224</item>
+        <item>icons_225</item>
+        <item>icons_226</item>
+        <item>icons_227</item>
+        <item>icons_228</item>
+        <item>icons_229</item>
+        <item>icons_230</item>
+        <item>icons_231</item>
+        <item>icons_232</item>
+        <item>icons_233</item>
+        <item>icons_234</item>
+        <item>icons_235</item>
+        <item>icons_236</item>
+        <item>icons_237</item>
+        <item>icons_238</item>
+        <item>icons_239</item>
+        <item>icons_240</item>
+        <item>icons_241</item>
+        <item>icons_242</item>
+        <item>icons_243</item>
+        <item>icons_244</item>
+        <item>icons_245</item>
+        <item>icons_246</item>
+        <item>icons_247</item>
+        <item>icons_248</item>
+        <item>icons_249</item>
+        <item>icons_250</item>
+        <item>icons_251</item>
+        <item>icons_252</item>
+        <item>icons_253</item>
+        <item>icons_254</item>
+        <item>icons_255</item>
+        <item>icons_256</item>
+        <item>icons_257</item>
+        <item>icons_258</item>
+        <item>icons_259</item>
+        <item>icons_260</item>
+        <item>icons_261</item>
+        <item>icons_262</item>
+        <item>icons_263</item>
+        <item>icons_264</item>
+        <item>icons_265</item>
+        <item>icons_266</item>
+        <item>icons_267</item>
+        <item>icons_268</item>
+        <item>icons_269</item>
+        <item>icons_270</item>
+        <item>icons_271</item>
+        <item>icons_272</item>
+        <item>icons_273</item>
+        <item>icons_274</item>
+        <item>icons_275</item>
+        <item>icons_276</item>
+        <item>icons_277</item>
+        <item>icons_278</item>
+        <item>icons_279</item>
+        <item>icons_280</item>
+        <item>icons_281</item>
+        <item>icons_282</item>
+        <item>icons_283</item>
+        <item>icons_284</item>
+        <item>icons_285</item>
+        <item>icons_286</item>
+        <item>icons_287</item>
+        <item>icons_288</item>
+        <item>icons_289</item>
+        <item>icons_290</item>
+        <item>icons_291</item>
+        <item>icons_292</item>
+        <item>icons_293</item>
+        <item>icons_294</item>
+        <item>icons_295</item>
+        <item>icons_296</item>
+        <item>icons_297</item>
+        <item>icons_298</item>
+        <item>icons_299</item>
+        <item>icons_301</item>
+        <item>icons_302</item>
+        <item>icons_303</item>
+        <item>icons_304</item>
+        <item>icons_305</item>
+        <item>icons_306</item>
+        <item>icons_307</item>
+        <item>icons_308</item>
+        <item>icons_309</item>
+        <item>icons_310</item>
+        <item>icons_311</item>
+        <item>icons_312</item>
+        <item>icons_313</item>
+        <item>icons_314</item>
+        <item>icons_315</item>
+    </string-array>
+    <string name="currencies">Moedas</string>
+    <string name="main_currency">Moeda principal: </string>
+    <string name="choose_currencies">Definir moeda</string>
+    <string name="curr_not_choosen">Selecione pelo menos uma moeda</string>
+    <string name="yes">Sim</string>
+    <string name="no">Não</string>
+    <string name="currency_exchange_warning">Os dados sobre as taxas de câmbio ea gravação serão perdidos porque você não selecionou a moeda selecionada anteriormente!</string>
+    <string name="currency_delete_warning">As Entradas para moedas selecionadas serão excluídas!</string>
+    <string name="currency_empty_warning">A lista de moedas não deve estar vazia!</string>
+    <string name="warning">Cuidado</string>
+    <string name="add">Adicionar</string>
+    <string name="expanse">Gasto</string>
+    <string name="income">Rendimento</string>
+    <string name="sub_cat">Subcategoria</string>
+    <string name="sub_cats">Subcategorias</string>
+    <string name="select_icon">Selecione o ícone</string>
+    <string name="cat_type_not_choosen">Selecione o tipo de categoria</string>
+    <string name="account">Conta</string>
+    <string name="choose_date">Selecionar data</string>
+    <string name="main_currency_edit">Moeda principal</string>
+    <string name="costs_selected_all_warning">Na lista deve permanecer um elemento</string>
+    <string name="category">Categorias</string>
+    <string name="credit_name">Nome do produto de crédito</string>
+    <string name="home">Casa</string>
+    <string name="network">Contato</string>
+    <string name="clothes">Roupa</string>
+    <string name="health">Saúde</string>
+    <string name="food">Alimento</string>
+    <string name="car">Auto</string>
+    <string name="transport">Transporte</string>
+    <string name="gaiety">Entretenimento</string>
+    <string name="buy">Compras</string>
+    <string name="sport">Esportes</string>
+    <string name="beauty">Beleza</string>
+    <string name="equipment">Escritório</string>
+    <string name="travel">Viagem</string>
+    <string name="present">Presentes</string>
+    <string name="celebration">Comemoração</string>
+    <string name="other">Outro</string>
+    <string name="salary">Salário</string>
+    <string name="bonus">Bônus</string>
+    <string name="percents">Percentagem</string>
+    <string name="other_income">Outro</string>
+    <string name="year">ano</string>
+    <string name="moth">mês</string>
+    <string name="day">dia</string>
+    <string name="moths">meses</string>
+    <string name="years">anos</string>
+    <string name="days">dias</string>
+    <string name="ends">Fim</string>
+    <string name="archive">Para \narchive</string>
+    <string name="flexiinfo">Relatório flexível e detalhado de suas despesas e receitas com possibilidade de exportação no arquivo EXCEL</string>
+    <string name="toritus">Este sistema de registro de crédito, muito flexível. Condições de crédito podem ser diferentes, neste sentido, você pode personalizar o aplicativo para atender às suas necessidades.</string>
+    <string-array name="cat_values">
+        <item>home</item>
+        <item>network</item>
+        <item>clothes</item>
+        <item>health</item>
+        <item>food</item>
+        <item>car</item>
+        <item>transport</item>
+        <item>gaiety</item>
+        <item>buy</item>
+        <item>sport</item>
+        <item>beauty</item>
+        <item>equipment</item>
+        <item>travel</item>
+        <item>present</item>
+        <item>celebration</item>
+        <item>other</item>
+        <item>salary</item>
+        <item>bonus</item>
+        <item>percents</item>
+        <item>other_income</item>
+    </string-array>
+    <string-array name="cat_types">
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+    </string-array>
+    <string-array name="cat_icons">
+        <item>icons_72</item>
+        <item>icons_90</item>
+        <item>icons_240</item>
+        <item>icons_278</item>
+        <item>icons_154</item>
+        <item>icons_266</item>
+        <item>icons_263</item>
+        <item>icons_60</item>
+        <item>icons_308</item>
+        <item>icons_174</item>
+        <item>icons_301</item>
+        <item>icons_77</item>
+        <item>icons_290</item>
+        <item>icons_63</item>
+        <item>icons_55</item>
+        <item>icons_315</item>
+        <item>icons_8</item>
+        <item>icons_19</item>
+        <item>icons_20</item>
+        <item>icons_314</item>
+    </string-array>
+    <string-array name="home">
+        <item>Reparar</item>
+        <item>Elétrico</item>
+        <item>Gás natural</item>
+        <item>Impostos</item>
+        <item>Água (fria)</item>
+        <item>Água (quente)</item>
+        <item>Aquecimento</item>
+        <item>TV a cabo</item>
+    </string-array>
+    <string-array name="home_icons">
+        <item>icons_310</item>
+        <item>icons_81</item>
+        <item>icons_67</item>
+        <item>icons_27</item>
+        <item>icons_122</item>
+        <item>icons_124</item>
+        <item>icons_131</item>
+        <item>icons_88</item>
+    </string-array>
+    <string-array name="travel">
+        <item>Férias</item>
+        <item>Tour</item>
+        <item>Torne</item>
+        <item>Vôo</item>
+        <item>Excursão</item>
+    </string-array>
+    <string-array name="period_purpose">
+        <item>Indefinidamente</item>
+        <item>Durante a semana</item>
+        <item>Durante o mês</item>
+        <item>Durante o ano</item>
+        <item>Intervalo</item>
+    </string-array>
+    <string-array name="week_day_auto">
+        <item>Seg</item>
+        <item>Ter</item>
+        <item>Qua</item>
+        <item>Qui</item>
+        <item>Sex</item>
+        <item>Sab</item>
+        <item>Dom</item>
+    </string-array>
+    <string-array name="date_picker_period_spinner">
+        <item>Este mês</item>
+        <item>Últimos 3 dias</item>
+        <item>Esta semana</item>
+        <item>Mês, Ano</item>
+        <item>Ano</item>
+        <item>Período</item>
+    </string-array>
+    <string-array name="travel_icons">
+        <item>icons_288</item>
+        <item>icons_291</item>
+        <item>icons_285</item>
+        <item>icons_275</item>
+        <item>icons_293</item>
+    </string-array>
+    <string-array name="network">
+        <item>Internet</item>
+        <item>Phone (casa)</item>
+        <item>Phone (mob.)</item>
+    </string-array>
+    <string-array name="network_icons">
+        <item>icons_139</item>
+        <item>icons_92</item>
+        <item>icons_93</item>
+    </string-array>
+    <string-array name="clothes">
+        <item>Camisa</item>
+        <item>Meias</item>
+        <item>Calças</item>
+        <item>Camiseta</item>
+        <item>Calção</item>
+        <item>Sapatos</item>
+    </string-array>
+    <string-array name="clothes_icons">
+        <item>icons_217</item>
+        <item>icons_199</item>
+        <item>icons_247</item>
+        <item>icons_205</item>
+        <item>icons_220</item>
+        <item>icons_201</item>
+    </string-array>
+    <string-array name="health">
+        <item>Medicina</item>
+        <item>Médico</item>
+        <item>Dentista</item>
+    </string-array>
+    <string-array name="health_icons">
+        <item>icons_282</item>
+        <item>icons_111</item>
+        <item>icons_281</item>
+    </string-array>
+    <string-array name="food">
+        <item>Pão</item>
+        <item>Leite</item>
+        <item>Carne</item>
+        <item>Cerveja</item>
+        <item>Kefir</item>
+        <item>Água</item>
+    </string-array>
+    <string-array name="food_icons">
+        <item>icons_156</item>
+        <item>icons_155</item>
+        <item>icons_158</item>
+        <item>icons_294</item>
+        <item>icons_165</item>
+        <item>icons_166</item>
+    </string-array>
+    <string-array name="car">
+        <item>Reparar</item>
+        <item>Combustível</item>
+        <item>Óleo de Motor</item>
+        <item>Curando</item>
+        <item>Filtros</item>
+        <item>Bateria</item>
+        <item>Pneus</item>
+    </string-array>
+    <string-array name="car_icons">
+        <item>icons_250</item>
+        <item>icons_252</item>
+        <item>icons_254</item>
+        <item>icons_269</item>
+        <item>icons_71</item>
+        <item>icons_249</item>
+        <item>icons_251</item>
+    </string-array>
+    <string-array name="transport">
+        <item>Táxi</item>
+        <item>Ônibus</item>
+        <item>Metro</item>
+        <item>Eléctrico</item>
+        <item>Carrinho</item>
+        <item>Avião</item>
+    </string-array>
+    <string-array name="transport_icons">
+        <item>icons_262</item>
+        <item>icons_263</item>
+        <item>icons_265</item>
+        <item>icons_265</item>
+        <item>icons_265</item>
+        <item>icons_275</item>
+    </string-array>
+    <string-array name="gaiety">
+        <item>Restaurante</item>
+        <item>Café</item>
+        <item>Discoteca</item>
+        <item>Boliche</item>
+        <item>Cinema</item>
+        <item>Teatro</item>
+        <item>Atração</item>
+    </string-array>
+    <string-array name="gaiety_icons">
+        <item>icons_292</item>
+        <item>icons_306</item>
+        <item>icons_136</item>
+        <item>icons_176</item>
+        <item>icons_298</item>
+        <item>icons_302</item>
+        <item>icons_61</item>
+    </string-array>
+    <string-array name="buy">
+        <item>Pasta de dentes</item>
+        <item>Xampu</item>
+        <item>Óleo</item>
+        <item>Cigarro</item>
+        <item>Bebidas</item>
+    </string-array>
+    <string-array name="buy_icons">
+        <item>icons_84</item>
+        <item>icons_166</item>
+        <item>icons_254</item>
+        <item>icons_296</item>
+        <item>icons_295</item>
+    </string-array>
+    <string-array name="sport">
+        <item>Academia</item>
+        <item>Ginástica</item>
+        <item>Futebol</item>
+        <item>Tênis</item>
+        <item>Natação</item>
+    </string-array>
+    <string-array name="sport_icons">
+        <item>icons_179</item>
+        <item>icons_178</item>
+        <item>icons_174</item>
+        <item>icons_181</item>
+        <item>icons_184</item>
+    </string-array>
+    <string-array name="beauty">
+        <item>Barbeiro</item>
+        <item>Massagem</item>
+        <item>Manicure</item>
+        <item>Pedicure</item>
+        <item>Maquiagem</item>
+    </string-array>
+    <string-array name="beauty_icons">
+        <item>icons_128</item>
+        <item>icons_289</item>
+        <item>icons_299</item>
+        <item>icons_299</item>
+        <item>icons_127</item>
+    </string-array>
+    <string-array name="equipment">
+        <item>Smartphone</item>
+        <item>Computador</item>
+        <item>Frigorífico</item>
+        <item>Ar</item>
+        <item>Impressora</item>
+    </string-array>
+    <string-array name="equipment_icons">
+        <item>icons_68</item>
+        <item>icons_143</item>
+        <item>icons_142</item>
+        <item>icons_130</item>
+        <item>icons_77</item>
+    </string-array>
+    <string name="no_category">no_category</string>
+    <string name="no_category_name">Nenhuma subcategoria</string>
+    <string name="records">Entradas</string>
+    <!-- for google signing -->
+    <string name="sign_out">Sair</string>
+    <string name="disconnect">Desconectar</string>
+    <string name="create">Criar</string>
+    <string name="change">Substituir</string>
+    <string name="clear">Remover</string>
+    <string name="share_app">Compartilhe o aplicativo</string>
+    <string name="from">De: </string>
+    <string name="to">Para: </string>
+    <string name="from_email">from_email</string>
+    <string name="to_email">basicstepsdevelopment@gmail.com</string>
+    <string name="rate_app_web">https://play.google.com/store/apps/details?id=com.jim.finansia</string>
+    <string name="share_app_text">Eu recomendo "Finansia"
+        https://play.google.com/store/apps/details?id=com.jim.finansia</string>
+    <string name="feedback_hint">Entre em contato</string>
+    <string name="feedback_subject">Assunto: </string>
+    <string name="feedback_content">Conteúdo: </string>
+    <string name="per_day">Diariamente</string>
+    <string name="per_week">Semanal</string>
+    <string name="per_month">Mensal</string>
+    <string name="per_year">Todos os anos</string>
+    <string name="mont">Mês</string>
+    <string name="yearr">Ano</string>
+    <string name="always_remember"> Não se esqueça de fazer seus pagamentos e teremos prazer em ajudá-lo a economizar seu orçamento!</string>
+    <string name="via">VIA</string>
+    <string name="comment">Nota</string>
+    <string name="diagram_no_data_text">Não há dados para exibir!</string>
+    <string name="credit">Crédito</string>
+    <string name="borrow_statistics">Dada a dívida</string>
+    <string name="borrow_recking_statistics">Retorno da dívida</string>
+    <string name="debt_statistics">Emprestado</string>
+    <string name="debt_recking_statistics">Retorno da dívida</string>
+    <string name="pay">Pagar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="repaid">Concluído</string>
+    <string name="active">Ativo</string>
+    <string-array name="months">
+        <item>Janeiro</item>
+        <item>Fevereiro</item>
+        <item>Março</item>
+        <item>Abril</item>
+        <item>Maio</item>
+        <item>Junho</item>
+        <item>Julho</item>
+        <item>Agosto</item>
+        <item>Setembro</item>
+        <item>Outubro</item>
+        <item>Novembro</item>
+        <item>Dezembro</item>
+    </string-array>
+    <string name="error">Expressão errada!</string>
+    <string-array name="account_names">
+        <item>Dinheiro</item>
+        <item>Cartão de plástico</item>
+        <item>Conta bancária</item>
+    </string-array>
+    <string-array name="account_ids">
+        <item>acc_cash</item>
+        <item>acc_card</item>
+        <item>acc_bank</item>
+    </string-array>
+    <string-array name="account_icons">
+        <item>icons_48</item>
+        <item>icons_6</item>
+        <item>icons_16</item>
+    </string-array>
+    <string-array name="report_by_account_titles">
+        <item>Operação</item>
+        <item>Data</item>
+        <item>Valor</item>
+        <item>Categoria</item>
+    </string-array>
+    <string name="profit">Lucro</string>
+    <string name="loading">Entrar</string>
+    <string name="please_wait">Aguarde!</string>
+    <string name="total">Valor total:</string>
+    <string name="average">Valor médio:</string>
+
+    <string name="language_default">default_lang</string>
+    <string name="language">Language</string>
+    <string-array name="language_titles">
+        <item>ENGLISH (EN)</item>
+        <item>РУССКИЙ (RU)</item>
+        <item>ESPAÑOL (ES)</item>
+		<item>PORTUGUÊS (PT)</item>
+        <item>한국어 (KO)</item>
+    </string-array>
+    <string-array name="language_values">
+        <item>en</item>
+        <item>ru</item>
+        <item>es</item>
+        <item>pt</item>
+        <item>ko</item>
+    </string-array>
+    <string name="choose_language">Selecionar idioma</string>
+    <string name="notifications">Notificações</string>
+    <bool name="notif_default">true</bool>
+    <bool name="secure_default">false</bool>
+    <string name="notifications_summary">Notificação diária ON/OFF</string>
+    <string name="planning_before_default">10</string>
+    <string name="general_notif">general_notif</string>
+    <string-array name="planning_before_entries">
+        <item>10 min.</item>
+        <item>20 min.</item>
+        <item>30 min.</item>
+        <item>40 min.</item>
+        <item>50 min.</item>
+        <item>1 horas</item>
+    </string-array>
+    <string-array name="planning_before_values">
+        <item>10</item>
+        <item>20</item>
+        <item>30</item>
+        <item>40</item>
+        <item>50</item>
+        <item>60</item>
+    </string-array>
+    <string name="planning_before_summary">Definir valor</string>
+    <string name="planning_before_title">Aviso de evento</string>
+    <string name="filters">Filtros</string>
+    <string name="finance_record_default">3</string>
+    <string name="record_filter_summary">Definir valor para registros de finanças</string>
+    <string name="finance">Finanças</string>
+    <string name="report_daily_default">2</string>
+    <string name="filter_title">Filtro</string>
+    <string name="filter_subtitle">Defina o filtro para o relatório</string>
+    <string-array name="filter_titles_dialog">
+        <item>Este mês</item>
+        <item>Últimos 3 dias</item>
+        <item>Últimos 7 dias</item>
+        <item>Mês, ano</item>
+        <item>Ano</item>
+        <item>Período</item>
+    </string-array>
+    <string-array name="filter_titles">
+        <item>Este mês</item>
+        <item>Últimos 3 dias</item>
+        <item>Últimos 7 dias</item>
+    </string-array>
+    <string-array name="filter_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+    <string name="sync">Sincronização</string>
+    <string name="setting_save">Salvar o banco de dados para a pasta raiz</string>
+    <string name="save">Salvar</string>
+    <string name="setting_repair">Restaurar o banco de dados da pasta raiz</string>
+    <string name="repair">Restaurar</string>
+    <string name="planning_notif_entry">hora</string>
+    <string name="planning_notif_summary">Definir tempo de aviso</string>
+    <string name="planning_notif_title">Tempo aviso</string>
+    <string-array name="report_by_income_expanse_table_titles">
+        <item>Data</item>
+        <item>Rendimento</item>
+        <item>Gasto</item>
+        <item>Lucro</item>
+    </string-array>
+    <string name="report_income_expanse_total_income">Rendimento total:</string>
+    <string name="report_income_expanse_total_expanse">Gasto total:</string>
+    <string name="report_income_expanse_total_profit">Lucro total:</string>
+    <string name="report_income_expanse_aver_income">Rendimento médio:</string>
+    <string name="report_income_expanse_aver_expanse">Gasto médio:</string>
+    <string name="report_income_expanse_aver_profit">Lucro médio:</string>
+    <string name="please_sign">Por favor, inscreva-se</string>
+    <string name="and_sync_your_data">para dados de sincronização</string>
+    <string name="introAppInfo">Aplicativo acessível para contabilidade financeira, dívidas, créditos, empréstimos</string>
+    <string name="quickInfo">A entrada de voz ajuda no caso necessário</string>
+    <string name="clear_desgn">Todas as suas ferramentas de finanças em sua mão</string>
+    <string name="appInfoTitel">FINANSIA</string>
+    <string name="quickInfp">ENTRADA DE VOZ</string>
+    <string name="designInfo">DÍVIDAS E CRÉDITOS</string>
+    <string name="secureInfo">O aplicativo irá ajudá-lo a controlar totalmente os gastos e rendimentos dos cartões bancários.</string>
+    <string name="safeInfo">ANÁLISE DE SMS</string>
+    <string name="flexInfo">RELATÓRIO FLEXÍVEL</string>
+    <string name="cancel1">Cancelar</string>
+    <string name="try_later">Tente mais tarde</string>
+    <string name="err_con">Erro de conexão</string>
+    <string name="first_sync_loging">Para sincronizar dados, tem de iniciar sessão com a sua Conta Google. Você pode fazer o download a partir de qualquer dispositivo, em qualquer lugar. Você pode restaurar todos os dados perdidos! Para restaurar os dados, vá para Configurações-> Sincronização do Google->Baixe o banco de dados.</string>
+    <string name="sync_message">Se você estiver sincronizado, seus dados serão sobrescritos.</string>
+    <string name="category_name_error">O nome da categoria não é digitado!</string>
+    <string name="save_to_excel">Salvar em EXCEL</string>
+    <string name="no_datas_for_show">Não há dados a serem exibidos!</string>
+    <string name="table">Tabela</string>
+    <string name="bars">Barras</string>
+    <string name="save_excel">Salvar no arquivo EXCEL?</string>
+    <string name="date">Data</string>
+    <string name="category_delete_warning">Os dados associados à categoria selecionada serão excluídos!</string>
+    <string name="account_delete_warning">Os dados associados à conta selecionada serão excluídos!</string>
+    <string name="subcat_delete_warning">Os dados associados às subcategorias seleccionadas serão eliminados!</string>
+    <string name="google_sync">Sincronização do Google</string>
+    <string name="backup">Baixe o banco de dados</string>
+    <string name="backup_summary">Carrega os dados mais recentes da sua Conta do Google</string>
+    <string name="google_logout">Sair</string>
+    <string name="incorrect_value">Valor incorreto de permissão!</string>
+    <string name="edit">Adicionar/Editar</string>
+    <string name="accounts">Contas</string>
+    <string name="report_by_categories">Relatório por categoria</string>
+    <string name="to_edit">Editar</string>
+    <string name="clear_records">Limpar</string>
+    <string name="credit_amount">Valor de crédito</string>
+    <string name="percent">Percentagem</string>
+    <string name="period_of_credit">Termo de credito</string>
+    <string name="interval">Período</string>
+    <string name="credit_begin_date">Começar</string>
+    <string name="credit_return_date">Fim</string>
+    <string name="include_credit_in_balance">Pagamento considerar no saldo</string>
+    <string name="enter_name_error">Enter o nome</string>
+    <string name="enter_amount_error">Enter o valor</string>
+    <string name="enter_takendate_error">Selecionar data de início</string>
+    <string name="ok">OK</string>
+    <string name="name">Nome</string>
+    <string name="from_contact">De contatos</string>
+    <string name="tel_number">Número de telefone</string>
+    <string name="enter_phone_number">Digite o número de telefone ou legenda de sms</string>
+    <string name="debt_amount">Valor</string>
+    <string name="enter_debt_amoount">Enter o montante da dívida</string>
+    <string name="enter_borrow_amoount">Enter o montante de empréstimo</string>
+    <string name="begin_date">Data de início</string>
+    <string name="end_time">Data final</string>
+    <string name="no_date_selected">Sem data de retorno</string>
+    <string name="incorrect_date">data incorreta</string>
+    <string name="incorrect_pay">Você paga mais do que é necessário.</string>
+    <string name="enter_pay_value">Enter o valor do pagamento</string>
+    <string name="left">Resíduo</string>
+    <string name="call">LIGAR</string>
+    <string name="payy">Pagar</string>
+    <string name="delete">Excluir</string>
+    <string name="no_calc_in_balance">Não considerar em saldo</string>
+    <string name="calc_in_balance">Considere em saldo</string>
+    <string name="by">Via:</string>
+    <string name="information">Info</string>
+    <string name="phone_number">Número de telefone</string>
+    <string name="total_sum">Valor total</string>
+    <string name="balance">saldo</string>
+    <string name="amount">Valor</string>
+    <string name="enter_amount">Enter o valor</string>
+    <string name="borrows">Dívida para mim</string>
+    <string name="debts">Minha dívida</string>
+    <string name="connection_faild">Verifique a sua ligação à Internet e tente novamente!</string>
+    <string name="download">Carregando</string>
+    <string name="cheking_user">Verificação do Usuário</string>
+    <string name="sync_last_data_sign_up">Deseja sincronizar dados da sua conta, baixados da última vez?</string>
+    <string name="toast_error_connection">Erro de conexão. Tente novamente mais tarde</string>
+    <string name="sync_short">Sincronização</string>
+    <string name="dou_you_want_quit">Você quer sair?</string>
+    <string name="are_you_sure_for_log_out">Você realmente quer sair de sua conta? Sem uma conta, você não pode sincronizar!</string>
+    <string name="sync_want_from_data">Sincronizar dados:</string>
+    <string name="notif_credit">Verifique seus créditos!</string>
+    <string name="notif_debt">Verifique seus débitos!</string>
+    <string name="payment_balans">Não pagas:</string>
+    <string name="payment_balance2">"\nVocê paga demais pela soma:</string>
+    <string name="total_credit_value">Valor do crédito</string>
+    <string name="should_not_empty">Enter o nome</string>
+    <string name="value_shoud_not_empty">Enter o valor</string>
+    <string name="procent_should_not_empty">Enter o percentual!</string>
+    <string name="period_should_not_empty">Enter o período</string>
+    <string name="after_per_choise">Enter a data</string>
+    <string name="first_enter_period">Introduza o termo de crédito!</string>
+    <string name="cred_managment">Créditos</string>
+    <string name="not_calc">Não está em saldo</string>
+    <string name="calculaed">Em saldo</string>
+    <string name="accept_delete_reck">Deseja excluir o registro?</string>
+    <string name="delete_credit">Deseja excluir o registro?</string>
+    <string name="procent_of_credit">Porcentagem de crédito</string>
+    <string name="left_date">Esquerda:</string>
+    <string name="period_of_credit2">Período de crédito</string>
+    <string name="in_the_balance">Na saldo</string>
+    <string name="amount_borrow">Valor do crédito</string>
+    <string name="between_dates">Selecione um período</string>
+    <string name="debts_title">Dívidas</string>
+    <string name="left_date_debts">Esquerda (ano, mês, dia)</string>
+    <string name="clear_warning">Os registros associados a esta categoria serão apagados</string>
+    <string name="from_transfer_id">from_transfer</string>
+    <string name="to_transfer_id">to_transfer</string>
+    <string name="only_income">Somente rendimentos</string>
+    <string name="only_expense">Somente gastos</string>
+    <string name="currency">Moeda</string>
+    <string name="sms_parse_income">Receita da mensagem</string>
+    <string name="sms_parse_income_id">sms_income</string>
+    <string name="sms_parse_expense">Gasto de mensagem</string>
+    <string name="sms_parse_expense_id">sms_expense</string>
+    <string name="ch_cat">Escolher categoria</string>
+    <string name="addedit">Adicionar/Editar</string>
+    <string name="sms_parse">Parsing de Mensagens</string>
+    <string name="widget_settings">Configurações de Widget</string>
+    <string name="word_do_sifri">Enter a palavra que precede o dígito</string>
+    <string name="word_for_decide_expence">Palavra-chave para definir \"gasto\" </string>
+    <string name="word_for_decide_income">Palavra-chave para definir \"rendimento\"</string>
+    <string name="notif_setting">Configurações de notificação*</string>
+    <string name="notif_everyday">Diariamente</string>
+    <string name="notif_monthly">Mensal</string>
+    <string name="notif_weekly">Semanal</string>
+    <string name="balance_title">Mostrar o saldo</string>
+    <string name="balance_summary">Selecione um método de cálculo de saldo</string>
+    <string-array name="balance_mode_titles">
+        <item>Geral</item>
+        <item>Para a data atual</item>
+    </string-array>
+    <string-array name="balance_mode_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+    <string name="sync_and_backup">SYNC E BACKUP</string>
+
+    <string name="default_settings">Todas as configurações e dados serão excluídos. Você concorda?</string>
+
+    <string name="sbrosit">Redefinir</string>
+    <string name="sbrosit_about">Todos os dados e configurações serão excluídos</string>
+    <string name="sbrosit_title">Redefinir</string>
+    <string name="start_amount">Soma inicial</string>
+    <string name="secure">Segurança</string>
+    <string name="secure_on">Ativar segurança</string>
+    <string name="enter_password">Enter a senha</string>
+    <string-array name="secure_times_titles">
+        <item>1 min.</item>
+        <item>5 min.</item>
+        <item>10 min.</item>
+        <item>15 min.</item>
+        <item>25 min.</item>
+        <item>30 min.</item>
+        <item>40 min.</item>
+        <item>50 min.</item>
+        <item>1 hora.</item>
+    </string-array>
+    <string-array name="secure_times_values">
+        <item>1</item>
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>25</item>
+        <item>30</item>
+        <item>40</item>
+        <item>50</item>
+        <item>60</item>
+    </string-array>
+    <string name="start_money">Soma inicial</string>
+    <string name="limit_exceed">O limite da conta atual excedido</string>
+    <string name="add_comment">Adicionar comentário +</string>
+    <string name="commenti">Escrever comentário</string>
+    <string name="current_password">Senha atual</string>
+    <string name="enter_your_password">Enter a senha</string>
+    <string name="izmenit_parol">Alterar senha</string>
+    <string name="limit_sum">Soma do limite</string>
+    <string name="new_password">Nova senha</string>
+    <string name="otklyuchit">Desativar a senha</string>
+    <string name="password_should_be_4_numbers">A senha deve ter 4 números</string>
+    <string name="please_repait_correct">Verifique sua senha</string>
+    <string name="please_write_your_current_password">Por favor, escreva sua senha atual</string>
+    <string name="really_dellete">Deseja excluir?</string>
+    <string name="repiat_yout_password">Repetir nova senha</string>
+    <string name="share_ticket">Compartilhamento</string>
+    <string name="try_one_more">A senha digitada está incorreta, tente novamente</string>
+    <string name="was_four_numbers">Sua senha deve consistir de 4 números</string>
+    <string name="securee">Segurança</string>
+    <string-array name="adding_ticket_type">
+        <item>Da galeria</item>
+        <item>Câmara</item>
+    </string-array>
+    <string-array name="more_option_for_credit_debt">
+        <item>Editar</item>
+        <item>Excluir</item>
+    </string-array>
+    <string-array name="more_option_for_credit_debt2">
+        <item>Excluir</item>
+    </string-array>
+    <string name="choesetypeing">Selecionar foto</string>
+    <string name="ok_b">OK</string>
+    <string name="must_be_one_currency">Deve ter pelo menos uma moeda</string>
+    <string name="replanish">Refill</string>
+    <string name="transfer">Transferir dinheiro</string>
+    <string name="such_account_name_exists_error">Conta com esse nome já existe!</string>
+    <string name="none_zero_account">Não é uma conta negativa</string>
+    <string name="operations">Operações</string>
+    <string name="add_subcategory">Adicionar subcategoria</string>
+    <string name="such_subcat_exist">A subcategoria com esse nome existe</string>
+    <string name="purposes">Propósitos</string>
+    <string name="period">Período</string>
+    <string name="none_minus_account_warning">A conta não pode ser negativa!</string>
+    <string name="debt_borrow_list_is_empty">Adicionar dívida</string>
+    <string name="credit_list_is_empty">Adicionar crédito</string>
+    <string name="account_deleting_error">Deve ser pelo menos uma conta !!!</string>
+    <string name="purpose_list_is_empty">A lista de finalidades está vazia! Deseja adicionar?</string>
+    <!--operations-->
+    <string-array name="operation_category">
+        <item>Escolha de existir</item>
+        <item>Criar novo</item>
+    </string-array>
+    <string-array name="board_operation_names_long_press">
+        <item>Categorias</item>
+        <item>Créditos</item>
+        <item>Dívidas</item>
+        <item>Funções</item>
+        <item>Seções</item>
+    </string-array>
+    <string-array name="operation_names">
+        <item>Sincronizar com o Google</item>
+        <item>Carregar dados</item>
+        <item>Transferir dinheiro</item>
+        <item>Limpar para o dia</item>
+        <item>Seguinte</item>
+        <item>Anterior</item>
+    </string-array>
+    <string-array name="operation_ids">
+        <item>sync</item>
+        <item>load_sync</item>
+        <item>transfer_money</item>
+        <item>clear_whole_day</item>
+        <item>next_button</item>
+        <item>back_button</item>
+    </string-array>
+    <string-array name="operation_icons">
+        <item>icons_318</item>
+        <item>icons_319</item>
+        <item>icons_400</item>
+        <item>icons_401</item>
+        <item>icons_316</item>
+        <item>icons_317</item>
+    </string-array>
+    <string-array name="page_names">
+        <item>Moedas</item>
+        <item>Categorias</item>
+        <item>Contas</item>
+        <item>Propósitos</item>
+        <item>Operações automáticas</item>
+        <item>Créditos</item>
+        <item>Dívidas</item>
+        <item>Relatório</item>
+        <item>Análise de Sms</item>
+        <item>Configurações</item>
+    </string-array>
+    <string-array name="page_ids">
+        <item>currency_page</item>
+        <item>category_page</item>
+        <item>account_page</item>
+        <item>purpose_page</item>
+        <item>auto_page</item>
+        <item>credit_page</item>
+        <item>debtborrow_page</item>
+        <item>report</item>
+        <item>sms_parsing_page</item>
+        <item>settings_page</item>
+    </string-array>
+    <string-array name="page_icons">
+        <item>ic_currency</item>
+        <item>ic_categories</item>
+        <item>ic_accounts</item>
+        <item>ic_purpose</item>
+        <item>ic_auto</item>
+        <item>ic_loans</item>
+        <item>ic_debt</item>
+        <item>ic_report</item>
+        <item>ic_sms</item>
+        <item>ic_settings</item>
+    </string-array>
+    <string name="balance_invis">Não mostrar saldo</string>
+    <string name="borrow_arch">EMPRESTAR em Arquivo</string>
+    <string name="borrow_com">Esta dívida está incluída no saldo, mas está em arquivo!</string>
+    <string name="borrow_coment_incl">Esta dívida não está incluída no saldo</string>
+    <string name="borrow_comment">Esta dívida está incluída no saldo</string>
+    <string name="borrow_comment_not_icl_arch">Esta dívida não está incluída no saldo, mas está em arquivo!</string>
+    <string name="borrow_reckings_var">Registro de dívida</string>
+    <string name="borrow_var">Emprestar</string>
+    <string name="count_pages">Contagem de páginas</string>
+    <string name="cred_arch">Arquivo</string>
+    <string name="cred_include_bal">Este crédito está incluído no saldo</string>
+    <string name="cred_not_include_bal">Este crédito não está incluído no saldo</string>
+    <string name="credit_reckings_var">Pagamento de crédito</string>
+    <string name="credit_var">Crédito</string>
+    <string name="debt_com">A dívida está incluída no saldo, mas está em arquivo </string>
+    <string name="debt_coment">A dívida está incluída no saldo</string>
+    <string name="debt_comment_not_icluded">A dívida não está incluída na saldo e está no arquivo</string>
+    <string name="debt_arch">Dívida está no Arquivo</string>
+    <string name="debt_comment_to">Essa dívida não está incluída no saldo</string>
+    <string name="debt_reckings_var">Registro de dívida</string>
+    <string name="debt_var">Dívida</string>
+    <string name="export_exel">Exportar Excel</string>
+    <string name="filter">Filtro</string>
+    <string name="how_much_pages_you_need">Quantas páginas você precisa?</string>
+    <string name="in_window_expense_top_window">Contagem de páginas (gastos)</string>
+    <string name="in_windows_incomes_bottom_window">Contagem de páginas (rendimentos)</string>
+    <string name="include_balance">O crédito está incluído no saldo, mas está no arquivo</string>
+    <string name="limit_page">A contagem de limites deve estar entre 1 e 10</string>
+    <string name="minusable_account">A conta pode ser negativa</string>
+    <string name="none_minusable_account">Não é uma conta negativa</string>
+    <string name="pages_about">Páginas de gastos e rendimentos</string>
+    <string name="simple_recking">Gastos, rendimentos</string>
+    <string name="some_credit">O crédito não está incluído no saldo e está no arquivo</string>
+    <string name="type">Tipo</string>
+    <string name="whole_day_datas_deleting">Os registros do dia atual serão apagados!</string>
+    <string name="search">Pesquisa</string>
+    <string name="account_for_parsing">Conta para analisar:</string>
+    <string name="all_expense">Todos os gastos:</string>
+    <string name="all_incomes">Todos os rendimentos:</string>
+    <string name="income_decide_with_static_word">Selecione a palavra-chave (rendimento)</string>
+    <string name="info_toliq">Informações</string>
+    <string name="it_is_expense">Gasto</string>
+    <string name="it_is_income">Rendimento</string>
+    <string name="obyasneniya_pro_parsing">Para verificar a precisão de análise de SMS, selecione uma palavra-chave para definir receita ou despesa e selecione soma</string>
+    <string name="processed">Processado:</string>
+    <string name="select_word_for_parsing">Selecionar palavra para análise</string>
+    <string name="which_type_is_it">Tipo de conjunto</string>
+    <string name="from_sms">Lista de SMS</string>
+    <string name="do_you_want_to_delete">Deseja realmente apagar?</string>
+    <string name="please_type">Procurar palavra</string>
+    <string name="cant_find">Não encontrado</string>
+    <string name="your_purpose">Seu propósito :</string>
+    <string name="accumulation">Acumulação</string>
+    <string name="enter_the_amount">Enter o valor</string>
+    <string name="term_of_purpose">Prazo de propósito</string>
+    <string name="duration">Duração</string>
+    <string name="left_datee">Fim:</string>
+    <string name="left_acomuleted">O valor restante:</string>
+    <string name="god_and_years">anos</string>
+    <string name="let_and_years">anos</string>
+    <string name="purpose_list_empty">Adicionar propósito</string>
+    <string name="purpose_ammount">Soma propósito:</string>
+    <string name="report_by_account_title">Relatórios</string>
+    <string name="saved_money">Soma cumulativa:</string>
+    <string name="auto_operations">Operações automáticas</string>
+    <string name="auto_op_is_empty">Adicionar operação</string>
+    <string name="enter_amount_operation">Enter o valor</string>
+    <string name="income_expance_title">Rendimentos and gastos</string>
+    <string name="key_for_type">Selecione a palavra-chave para definir o tipo(rendimento ou gasto):</string>
+    <string name="select_word">Selecione uma palavra</string>
+    <string name="sms_pars_list_empty">Adicionar modelo</string>
+    <string name="spend">Para gastar</string>
+    <string name="sync_failed">Falha na sincronização</string>
+    <string name="sync_suc">A sincronização é bem-sucedida</string>
+    <string name="transfer_isnt_done">Sem transferências</string>
+    <string name="credit_arcive_are_empty">O arquivo está vazio</string>
+    <string name="credit_are_empty">Adicionar crédito</string>
+    <string name="choose_different_accounts">Selecione diferentes contas</string>
+    <string name="amount_operation">Valor para operação :</string>
+    <string name="skip">PULAR</string>
+    <string name="sender">Remetente:</string>
+    <string name="repeat">Repetir</string>
+    <string name="please_confirm_contact_access">Confirme o acesso aos contactos</string>
+    <string name="number_or_name_of_sender">(número ou nome do remetente)</string>
+    <string name="not_processed_degree">Não processado:</string>
+    <string name="not_identefied_messages">Mensagens não identificadas</string>
+    <string name="no_message">nenhuma mensagem</string>
+    <string name="nachalo">Início</string>
+    <string name="month_days">Mês</string>
+    <string name="konets">Fim</string>
+    <string name="key_words">Palavras-chave</string>
+    <string name="income_degree">Rendimento:</string>
+    <string name="god">Ano</string>
+    <string name="for_income">Rendimento:</string>
+    <string name="for_expance">Gasto:</string>
+    <string name="for_amount">Valor:</string>
+    <string name="end_day">Data de términ</string>
+    <string name="contact_access_needed">Acesso aos contatos necessário</string>
+    <string name="choose_category">Selecionar categoria</string>
+    <string name="all_operations">Todas as operações</string>
+    <string name="add_keywords_in_sms_parsing">Adicionar palavras-chave na análise de sms</string>
+    <string name="account_of_operation">Conta para operação</string>
+    <string name="week_days">Dias da semana</string>
+    <string name="add_auto_operation">Adicionar uma operação</string>
+    <string name="dates_not_choosen_error">Selecionar data</string>
+    <string name="select_category_error">Selecionar categoria</string>
+    <string name="illegal_name_error"> Operação de repetição!</string>
+    <string name="amount_of_payment">Valor para operação</string>
+    <string name="debt_is_empty">Adicionar dívidas</string>
+    <string name="archive_is_empty">O arquivo está vazio</string>
+    <string name="borrow_is_empty">Adicionar dívidas</string>
+    <string name="start_day">Data de início</string>
+    <string name="such_name_exists">Tal nome já existe</string>
+    <string name="widget">Ferramenta</string>
+    <string name="sms_not_exist">As mensagens não existem</string>
+    <string name="main_window">Página principal</string>
+    <string name="cancelb">Cancelar</string>
+    <string name="there_is_no_operations_for_today">Não há operações para hoje</string>
+    <string name="choose_amount">O valor não é escolhido</string>
+    <string name="no_parsing">Não analisado</string>
+    <string name="no_success">Não processado</string>
+    <string name="period_of_save">Definir período</string>
+    <string name="expense_decide_with_static_word">Selecione a palavra-chave(gasto):</string>
+    <string name="enter_contact_error">Enter em contato</string>
+    <string name="income_keyword_error">Enter palavra-chave(rendimento)</string>
+    <string name="expense_keyword_error">Enter palavra-chave(gasto)</string>
+    <string name="amount_keyword_error">Enter palavra-chave para definir o valor</string>
+    <string name="incom_expense_list">Lista de rendimento e gasto</string>
+    <string name="all">Todos</string>
+    <string name="previous">Costas</string>
+    <string name="unlock">Desbloquear</string>
+    <string name="page">página</string>
+
+    <string-array name="speechAdjectives">
+        <item>rendimento</item>
+        <item>gasto</item>
+    </string-array>
+    <string name="account_from">Conta de</string>
+    <string name="add_plus">+ Adicionar</string>
+    <string name="choise_icon">Selecione o ícone</string>
+    <string name="main_curr">"Moeda principal"</string>
+    <string name="name_of_category">Nome da categoria</string>
+    <string name="name_of_subcategory">Nome da subcategoria</string>
+    <string name="next_page">Próxima</string>
+    <string name="scet_imeet_nacalniy_sum">Tem uma soma inicial</string>
+    <string name="select_icon_category">Selecione o ícone para a categoria</string>
+    <string name="select_icons_sb">Selecione o ícone da subcategoria</string>
+    <string name="subcategory_empty">O nome da subcategoria está vazio</string>
+    <string name="to_purpose">Transferir para caixa de dinheiro</string>
+    <string-array name="month_abbrs">
+        <item>Jan.</item>
+        <item>Fev.</item>
+        <item>Março.</item>
+        <item>Abr.</item>
+        <item>Maio.</item>
+        <item>Junho.</item>
+        <item>Julho.</item>
+        <item>Ago.</item>
+        <item>Set.</item>
+        <item>Out.</item>
+        <item>Nov.</item>
+        <item>Dez.</item>
+    </string-array>
+    <string name="history_transfers">Histórico de transferências</string>
+    <string name="january">JAN</string>
+    <string name="february">FEV</string>
+    <string name="march">MARÇO</string>
+    <string name="april">ABR</string>
+    <string name="may">MAIO</string>
+    <string name="june">JUNHO</string>
+    <string name="july">JULHO</string>
+    <string name="august">AGO</string>
+    <string name="september">SET</string>
+    <string name="october">OUT</string>
+    <string name="november">NOV</string>
+    <string name="december">DEZ</string>
+    <string name="max_income_in_the_month">"Rendimento máximo no mês: "</string>
+    <string name="average_income">Rendimento médio: </string>
+    <string name="min_income_in_the_month">"Rendimento mínimo no mês: "</string>
+    <string name="average_expense">Gasto média: </string>
+    <string name="max_expense_in_the_month">"Gasto máxima no mês: "</string>
+    <string name="min_expense_in_the_month">"Rendimento mínimo no mês: "</string>
+    <string name="must_restart">Reinicie o aplicativo para definir a cor</string>
+    <string name="processed_sms">Sms processados:</string>
+    <string name="daily_operations">Entrada de voz</string>
+    <string name="category_subcategory">Categoria Subcategoria</string>
+    <string name="theme">Fundos</string>
+    <string name="attention">Atenção!</string>
+    <string name="buy_voice_text">Você excedeu o número de tentativas. Deseja ativar o serviço?</string>
+    <string-array name="currency_1">
+        <item>dólar</item>
+        <item>dólares</item>
+        <item>usd</item>
+        <item>$</item>
+    </string-array>
+
+    <string-array name="currency_2">
+        <item>rubl</item>
+        <item>roubl</item>
+        <item>rublo</item>
+        <item>rublos</item>
+    </string-array>
+    <string-array name="currency_3">
+        <item>euro</item>
+        <item>evro</item>
+        <item>euros</item>
+    </string-array>
+    <string name="about_notifications">*Notificação irá lembrá-lo sobre o período de pagamento escolhido</string>
+    <string name="add_the_loan_in_the_balance">Inclua o montante do crédito no saldo</string>
+    <string name="all_periods">Todos os períodos</string>
+    <string name="ammount_of_debt_include_the_balance">Inclua o montante da dívida no saldo</string>
+    <string name="archiveee">ARQUIVO</string>
+    <string name="bank_fees">Taxas bancárias</string>
+    <string name="borrower_name">Nome do mutuário</string>
+    <string name="categories_report">Categorias</string>
+    <string name="change_rate">Taxa de mudança</string>
+    <string name="choise_account_f">Escolha a conta</string>
+    <string name="choise_category">Escolher categoria</string>
+    <string name="choise_photo">Escolher ícone para o seu propósito</string>
+    <string name="choise_subcategory">Escolha a subcategoria</string>
+    <string name="complete">CONCLUÍDO</string>
+    <string name="c_interval">De</string>
+    <string name="credit_end_date">Data de término do crédito</string>
+    <string name="credit_stat">Status do crédito:</string>
+    <string name="daily_operations_report">Operações diárias</string>
+    <string name="debtor_name">Devedor</string>
+    <string name="do_interval">Para</string>
+    <string name="financial_transactions_report">Transações financeiras</string>
+    <string name="for_this_period">Para este período:</string>
+    <string name="from_balance">Do saldo</string>
+    <string name="from_loan_amount">De montante de crédito</string>
+    <string name="have_first_contribution">Primeira contribuição</string>
+    <string name="info_categories_report">Detalhes da categoria e da subcategoria para o período personalizado com gráficos e percentagens</string>
+    <string name="info_daily_operations_report">Gráficos para declaração mensal e estado diário para rendimento, gasto e saldo</string>
+    <string name="info_financial_transactions_report">Tabela rendimento e gasto estado diário para intervalo personalizado com detalhes</string>
+    <string name="info_monthly_state_report">Demonstração gráfica mensal de rendimento ou gasto e informações gerais para cada mês</string>
+    <string name="invalide_format">Formato inválido</string>
+    <string name="loan_name">Nome do crédito</string>
+    <string name="mes">mensagens</string>
+    <string name="mes2">mensagem</string>
+    <string name="monthly_payment">Pagamento mensal</string>
+    <string name="monthly_state_report">Instrução mensal</string>
+    <string name="ne_uchitavaetsya">Não está na saldo</string>
+    <string name="not_completed">Não concluído</string>
+    <string name="not_data">Sem operações</string>
+    <string name="overpayment_interest">nteresse de pagamento excessivo</string>
+    <string name="payment">PAGAMENTO</string>
+    <string name="payment_period">Período de pagamento</string>
+    <string name="percent_fee">Taxa percentual</string>
+    <string name="period_ends">Período atual termina</string>
+    <string name="period_payments">Pagamentos de período</string>
+    <string name="period_payment">Pagamento do período</string>
+    <string name="rate">Taxa</string>
+    <string-array name="main_bg_colors">
+        <item>#DCDDDE</item>
+    </string-array>
+    <string name="took_from">Tomou de</string>
+    <string name="repeat_every">Repita cada</string>
+    <string name="schedule">HORÁRIO</string>
+    <string name="period_end_after">Período após:</string>
+    <string name="set_to_main">Definir como principal</string>
+    <string name="taked_date">Data de captura</string>
+    <string name="taked_value">Valor capturado</string>
+    <string name="to_archive">Para arquivar</string>
+    <string name="total_expense">Gasto total</string>
+    <string name="total_income">Rendimento total</string>
+    <string name="total_payed">Total pago: </string>
+    <string name="value_of_contribution">valor da contribuição</string>
+    <string name="value_percent">Valor percentual</string>
+    <string name="with_interest">Com interesse</string>
+    <string name="with_out_comment">Sem comentários</string>
+    <string name="wrong_input_type">Tipo de entrada incorreto</string>
+    <string name="you_have_debt">Dívida para período</string>
+    <string name="za_period">Neste período:</string>
+    <string name="transfer_to_another_acc">Transferir para outra conta</string>
+    <string name="acc_state">Estado da conta</string>
+    <string name="transfer_to">Transferência</string>
+    <string name="transaction">Transação</string>
+    <string name="seven">sete</string>
+    <string name="eight">oito</string>
+    <string name="nine">nove</string>
+    <string name="four">quatro</string>
+    <string name="five">cinco</string>
+    <string name="six">seis</string>
+    <string name="one">um</string>
+    <string name="two">dois</string>
+    <string name="three">três</string>
+    <string name="zero">zero</string>
+    <string name="equals">é igual a</string>
+    <string name="press_icon">Pressione o ícone</string>
+    <string name="and_choose_category">e escolha a categoria</string>
+    <string name="for_period">Para o período</string>
+    <string name="should_pay">Deve pagar</string>
+    <string name="payment_details">Detalhes do pagamento</string>
+    <string name="amount3">Montante</string>
+    <string name="some_comment">Alguns comentários</string>
+    <string name="paymet_p">Pagamento</string>
+    <string name="status">Status</string>
+    <string name="for_account">Para a conta</string>
+    <string name="operation_ndays">Operação \ndias</string>
+    <string name="select_days">Selecione dias</string>
+    <string name="next_operations">Próxima operação</string>
+    <string name="set_color">Definir a cor para o fundo</string>
+    <string name="buy_color">Compre a cor para o fundo</string>
+    <string name="total_with_interest">Total com juros</string>
+    <string name="current_rate">Taxa atual</string>
+    <string name="change_ch">Alterar</string>
+    <string name="change_exchange_rate">Alterar a taxa de câmbio</string>
+    <string name="credit_type">Tipo de crédito*</string>
+    <string name="preview_all_details">Visualizar todos os detalhes</string>
+    <string name="hide_details">Ocultar detalhes</string>
+    <string name="transitions_list">Lista de transições</string>
+    <string name="residue">"Resíduo: "</string>
+    <string name="waiting">Espera</string>
+    <string name="success">Sucesso</string>
+    <string name="residue1">Resíduo</string>
+    <string name="sms">Mensagem</string>
+    <string name="return_deadline">Prazo de devolução</string>
+    <string name="credit_details">Detalhes do crédito</string>
+    <string name="paid_amount">Valor pago:</string>
+    <string name="monthly_fee">Taxa mensal</string>
+    <string name="interest">Interesse</string>
+    <string name="principal">Diretor</string>
+    <string name="with_the_even_principal">* Com o mesmo cronograma de pagamento principal, o tamanho do pagamento principal é o mesmo para cada pagamento. É calculado dividindo o montante do empréstimo original pelo número de pagamentos</string>
+    <string name="even_total">Mesmo pagamentos totais</string>
+    <string name="even_princ">Mesmo pagamentos principais</string>
+    <string name="even_about_total">* O mesmo cronograma de pagamento total é composto por um pagamento de juros decrescente e um pagamento de capital crescente. A diminuição do tamanho do pagamento de juros é acompanhada por um aumento no tamanho do pagamento principal de modo que o tamanho do pagamento total do empréstimo permanece constante ao longo da vida do empréstimo.</string>
+    <string name="decimal">decimal</string>
+    <string name="date_of_transfer">Data da transferência</string>
+    <string name="press_button_nand_speak">Falar</string>
+    <string-array name="excel_headers">
+        <item>Data</item>
+        <item>Rendimento</item>
+        <item>Gasto</item>
+    </string-array>
+    <string name="sec">seg</string>
+    <string name="payment_date">Data de pagamento:</string>
+    <string name="account_list">Você tem apenas uma conta. Deseja adicionar?</string>
+    <string name="payment_to">"Pagamento para"</string>
+    <string name="credit_info">Crédito recebido</string>
+    <string name="sender1">Remetente</string>
+    <string name="taken_debt">Dívida tomada</string>
+    <string name="debtor">Devedor</string>
+    <string name="returned_debt">Devolvida</string>
+    <string name="i_returned">Devolvida</string>
+    <string name="no_sub_cat">Sem subcategoria</string>
+    <string name="voice_network_error">Ligue a Internet ou instale o pacote para reconhecimento de fala</string>
+    <string name="franclins_cytate"> Se você seria rico, pense em poupança, bem como obter.</string>
+    <string name="you_can_jump">Primeiro reembolso por período anterior!</string>
+    <string name="credir_first_con">Crédito primeira contribuição</string>
+    <string name="credit_payment">Pagamento de crédito</string>
+    <string name="delete_all_records">Excluir todos os registros</string>
+    <string name="move_to">Mover para</string>
+    <string name="records_will_be_deleted">Os registros serão excluídos</string>
+    <string name="to_jump">Primeiro reembolso para o período anterior!</string>
+    <string name="first_con">Contribuiu primeiro :</string>
+    <string name="select_an_amount">Selecione um valor</string>
+    <string name="benjamin_franklin">- Benjamin Franklin</string>
+    <string name="purpose_term">Enter do termo propósito</string>
+    <string name="transferred">Transferido</string>
+    <string name="received">Recibido</string>
+    <string name="exchange_rate">Taxa de câmbio</string>
+
+</resources>

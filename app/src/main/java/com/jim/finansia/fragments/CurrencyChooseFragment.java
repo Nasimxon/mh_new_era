@@ -130,75 +130,134 @@ public class CurrencyChooseFragment extends PABaseInfoFragment {
                 }
                 analytics.sendText(temp);
                 if (isCurrencyListChanged) { // if has not checked some of an old currencies
-                    String text = isFirst ? getResources().getString(R.string.ok) : getResources().getString(R.string.currency_exchange_warning);
-                    dialog.setText(text);
-                    dialog.setOnYesButtonListener(new OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            List<Currency> dbCurrs = daoSession.getCurrencyDao().loadAll();
-                            for (Currency currency : checkedCurrencies) {
-                                boolean found = false;
-                                for (Currency curr : dbCurrs) {
-                                    if (currency.getId().equals(curr.getId())) {
-                                        found = true;
-                                        break;
-                                    }
-                                }
-                                if (!found) {
-                                    int pos = 0;
-                                    for (int i=0; i<currencies.size(); i++) {
-                                        if (currency.getId().equals(currencies.get(i).getId())) {
-                                            pos = i;
+                    if(!isFirst){
+                        String text = isFirst ? getResources().getString(R.string.ok) : getResources().getString(R.string.currency_exchange_warning);
+                        dialog.setText(text);
+                        dialog.setOnYesButtonListener(new OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                List<Currency> dbCurrs = daoSession.getCurrencyDao().loadAll();
+                                for (Currency currency : checkedCurrencies) {
+                                    boolean found = false;
+                                    for (Currency curr : dbCurrs) {
+                                        if (currency.getId().equals(curr.getId())) {
+                                            found = true;
                                             break;
                                         }
                                     }
-                                    UserEnteredCalendars userEnteredCalendars = new UserEnteredCalendars();
-                                    userEnteredCalendars.setCurrencyId(currency.getId());
-                                    userEnteredCalendars.setCalendar(Calendar.getInstance());
-                                    daoSession.getUserEnteredCalendarsDao().insertOrReplace(userEnteredCalendars);
-                                    daoSession.getCurrencyDao().insertOrReplace(currency);
-                                    logicManager.generateCurrencyCosts(Calendar.getInstance(), Double.parseDouble(costs[pos].replace(',','.')), currency);
+                                    if (!found) {
+                                        int pos = 0;
+                                        for (int i=0; i<currencies.size(); i++) {
+                                            if (currency.getId().equals(currencies.get(i).getId())) {
+                                                pos = i;
+                                                break;
+                                            }
+                                        }
+                                        UserEnteredCalendars userEnteredCalendars = new UserEnteredCalendars();
+                                        userEnteredCalendars.setCurrencyId(currency.getId());
+                                        userEnteredCalendars.setCalendar(Calendar.getInstance());
+                                        daoSession.getUserEnteredCalendarsDao().insertOrReplace(userEnteredCalendars);
+                                        daoSession.getCurrencyDao().insertOrReplace(currency);
+                                        logicManager.generateCurrencyCosts(Calendar.getInstance(), Double.parseDouble(costs[pos].replace(',','.')), currency);
+                                    }
                                 }
-                            }
-                            daoSession.getCurrencyDao().detachAll();
-                            List<Currency> currencies = new ArrayList<>();
-                            for (Currency currency : dbCurrencies) {
-                                boolean found = false;
-                                for (Currency curr : checkedCurrencies) {
-                                    if (curr.getId().equals(currency.getId())) {
-                                        found = true;
+                                daoSession.getCurrencyDao().detachAll();
+                                List<Currency> currencies = new ArrayList<>();
+                                for (Currency currency : dbCurrencies) {
+                                    boolean found = false;
+                                    for (Currency curr : checkedCurrencies) {
+                                        if (curr.getId().equals(currency.getId())) {
+                                            found = true;
+                                            break;
+                                        }
+                                    }
+                                    if (!found)
+                                        currencies.add(currency);
+                                }
+                                logicManager.deleteCurrency(currencies);
+                                dialog.dismiss();
+                                for (Fragment frag : paFragmentManager.getFragmentManager().getFragments()) {
+                                    if (frag == null) continue;
+                                    if (frag.getClass().getName().equals(CurrencyFragment.class.getName())) {
+                                        CurrencyFragment currencyFragment = (CurrencyFragment) frag;
+                                        if (currencyFragment != null) {
+                                            currencyFragment.updateToolbar();
+                                            currencyFragment.refreshList();
+                                        }
                                         break;
                                     }
                                 }
-                                if (!found)
-                                    currencies.add(currency);
+                                if (!isFirst)
+                                    paFragmentManager.getFragmentManager().popBackStack();
+                                else
+                                    paFragmentManager.displayMainWindow();
                             }
-                            logicManager.deleteCurrency(currencies);
-                            dialog.dismiss();
-                            for (Fragment frag : paFragmentManager.getFragmentManager().getFragments()) {
-                                if (frag == null) continue;
-                                if (frag.getClass().getName().equals(CurrencyFragment.class.getName())) {
-                                    CurrencyFragment currencyFragment = (CurrencyFragment) frag;
-                                    if (currencyFragment != null) {
-                                        currencyFragment.updateToolbar();
-                                        currencyFragment.refreshList();
-                                    }
+                        });
+                        dialog.setOnNoButtonClickListener(new OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dialog.dismiss();
+                            }
+                        });
+                        dialog.show();
+                    }
+                    else {
+
+                        List<Currency> dbCurrs = daoSession.getCurrencyDao().loadAll();
+                        for (Currency currency : checkedCurrencies) {
+                            boolean found = false;
+                            for (Currency curr : dbCurrs) {
+                                if (currency.getId().equals(curr.getId())) {
+                                    found = true;
                                     break;
                                 }
                             }
-                            if (!isFirst)
-                                paFragmentManager.getFragmentManager().popBackStack();
-                            else
-                                paFragmentManager.displayMainWindow();
+                            if (!found) {
+                                int pos = 0;
+                                for (int i=0; i<currencies.size(); i++) {
+                                    if (currency.getId().equals(currencies.get(i).getId())) {
+                                        pos = i;
+                                        break;
+                                    }
+                                }
+                                UserEnteredCalendars userEnteredCalendars = new UserEnteredCalendars();
+                                userEnteredCalendars.setCurrencyId(currency.getId());
+                                userEnteredCalendars.setCalendar(Calendar.getInstance());
+                                daoSession.getUserEnteredCalendarsDao().insertOrReplace(userEnteredCalendars);
+                                daoSession.getCurrencyDao().insertOrReplace(currency);
+                                logicManager.generateCurrencyCosts(Calendar.getInstance(), Double.parseDouble(costs[pos].replace(',','.')), currency);
+                            }
                         }
-                    });
-                    dialog.setOnNoButtonClickListener(new OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            dialog.dismiss();
+                        daoSession.getCurrencyDao().detachAll();
+                        List<Currency> currencies = new ArrayList<>();
+                        for (Currency currency : dbCurrencies) {
+                            boolean found = false;
+                            for (Currency curr : checkedCurrencies) {
+                                if (curr.getId().equals(currency.getId())) {
+                                    found = true;
+                                    break;
+                                }
+                            }
+                            if (!found)
+                                currencies.add(currency);
                         }
-                    });
-                    dialog.show();
+                        logicManager.deleteCurrency(currencies);
+
+                        for (Fragment frag : paFragmentManager.getFragmentManager().getFragments()) {
+                            if (frag == null) continue;
+                            if (frag.getClass().getName().equals(CurrencyFragment.class.getName())) {
+                                CurrencyFragment currencyFragment = (CurrencyFragment) frag;
+                                if (currencyFragment != null) {
+                                    currencyFragment.updateToolbar();
+                                    currencyFragment.refreshList();
+                                }
+                                break;
+                            }
+                        }
+
+                            paFragmentManager.displayMainWindow();
+                    }
+
                 } else { // all old currencies are present
                     for (Currency currency : checkedCurrencies) {
                         boolean found = false;

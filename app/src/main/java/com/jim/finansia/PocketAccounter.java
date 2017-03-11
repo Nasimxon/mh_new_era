@@ -9,6 +9,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
@@ -22,6 +23,7 @@ import android.widget.DatePicker;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.jim.finansia.credit.notificat.NotificationManagerCredit;
+import com.jim.finansia.database.DaoMaster;
 import com.jim.finansia.database.DaoSession;
 import com.jim.finansia.debt.PocketClassess;
 import com.jim.finansia.fragments.CurrencyChooseFragment;
@@ -50,6 +52,8 @@ import com.jim.finansia.utils.password.OnPasswordRightEntered;
 import com.jim.finansia.utils.password.PasswordWindow;
 import com.jim.finansia.widget.WidgetKeys;
 import com.jim.finansia.widget.WidgetProvider;
+
+import org.greenrobot.greendao.database.Database;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -124,6 +128,7 @@ public class PocketAccounter extends AppCompatActivity {
             setLocale(Locale.getDefault().getLanguage());
         else
             setLocale(lang);
+
         //intropage settings
         if (getSharedPreferences("infoFirst", MODE_PRIVATE).getBoolean("FIRST_KEY", true)) {
             getSharedPreferences("infoFirst", MODE_PRIVATE).edit().putBoolean("FIRST_KEY", false).apply();

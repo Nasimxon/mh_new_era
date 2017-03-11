@@ -1002,13 +1002,16 @@
     <string-array name="language_titles">
         <item>ENGLISH (EN)</item>
         <item>РУССКИЙ (RU)</item>
-        <item>ESPAÑOL (ES)</item>
+        <item>Español (ES)</item>
+        <item>PORTUGUÊS (PT)</item>
         <item>한국어 (KO)</item>
     </string-array>
     <string-array name="language_values">
         <item>en</item>
         <item>ru</item>
         <item>es</item>
+        <item>pt</item>
+        <item>ko</item>
     </string-array>
     <string name="choose_language">Seleccione el idioma</string>
     <string name="notifications">Notificaciones</string>

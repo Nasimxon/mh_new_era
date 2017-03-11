@@ -180,6 +180,7 @@
                         android:background="#00ffffff"
                         android:layout_marginRight="@dimen/fifteen_dp"
                         android:text="1"
+                        android:paddingRight="@dimen/five_dp"
                         android:gravity="right"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"

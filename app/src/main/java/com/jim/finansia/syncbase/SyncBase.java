@@ -21,6 +21,7 @@ import com.jim.finansia.PocketAccounter;
 import com.jim.finansia.PocketAccounterApplication;
 import com.jim.finansia.R;
 import com.jim.finansia.SettingsActivity;
+import com.jim.finansia.database.AccountOperation;
 import com.jim.finansia.database.DaoMaster;
 import com.jim.finansia.managers.CommonOperations;
 import com.jim.finansia.managers.PAFragmentManager;
@@ -39,6 +40,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.channels.FileChannel;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -127,25 +129,43 @@ public class SyncBase {
        try {
            final File file = new File(PATH_FOR_INPUT);
            final File fileDirectory = new File(context.getFilesDir(),DB_NAME) ;
+           final SQLiteDatabase current = SQLiteDatabase.openDatabase(file.getAbsolutePath(), null, SQLiteDatabase.OPEN_READONLY);
 
            refStorage.child(auth_uid+"/"+DATABASE_FIREBASE).getFile(fileDirectory).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                @Override
                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                   SQLiteDatabase received = SQLiteDatabase.openDatabase(fileDirectory.getAbsolutePath(), null, SQLiteDatabase.OPEN_READWRITE);
+                   if (current.getVersion() > received.getVersion()&&received.getVersion()==1) {
+                       Log.d("databaseRecunstruct", "Scheme change from 1 to 2");
+                       received.execSQL("ALTER TABLE ACCOUNT_OPERATIONS ADD COLUMN 'TARGET_CURRENCY_ID' TEXT;");
+                       received.execSQL("ALTER TABLE ACCOUNT_OPERATIONS ADD COLUMN 'TARGET_AMOUNT' REAL;");
+                       received.execSQL("ALTER TABLE ACCOUNT_OPERATIONS ADD COLUMN 'COST' REAL;");
+                       received.setVersion(2);
+                       DaoSession daoSession2 = new DaoMaster(received).newSession();
+                         List<AccountOperation> accountOperations = daoSession2.loadAll(AccountOperation.class);
+                           for(AccountOperation accountOperation : accountOperations) {
+                               accountOperation.setTargetCurrency(accountOperation.getCurrency());
+                               accountOperation.setTargetAmount(accountOperation.getAmount());
+                               accountOperation.setCost(1.0d);
+                               daoSession2.insertOrReplace(accountOperation);
+                           }
 
 
+                       received.close();
+                   }
 
-                       File currentDB = new File(fileDirectory.getAbsolutePath());
-                       File backupDB = new File(file.getAbsolutePath());
-                       FileChannel src = null, dst = null;
-                       try {
-                           src = new FileInputStream(currentDB).getChannel();
-                           dst = new FileOutputStream(backupDB).getChannel();
-                           dst.transferFrom(src, 0, src.size());
-                           src.close();
-                           dst.close();
-                       } catch (IOException e) {
-                           e.printStackTrace();
-                       }
+                   File currentDB = new File(fileDirectory.getAbsolutePath());
+                   File backupDB = new File(file.getAbsolutePath());
+                   FileChannel src = null, dst = null;
+                   try {
+                       src = new FileInputStream(currentDB).getChannel();
+                       dst = new FileOutputStream(backupDB).getChannel();
+                       dst.transferFrom(src, 0, src.size());
+                       src.close();
+                       dst.close();
+                   } catch (IOException e) {
+                       e.printStackTrace();
+                   }
 
                    if (!context.getClass().getName().equals(SettingsActivity.class.getName())) {
                        even.onSuccses();
@@ -154,7 +174,10 @@ public class SyncBase {
                        ((SettingsActivity) context).setResult(RESULT_OK);
                        ((SettingsActivity) context).finish();
                    }
+
                    A1.dismiss();
+
+
                }
            }).addOnFailureListener(new OnFailureListener() {
                @Override
@@ -207,6 +230,10 @@ public class SyncBase {
                 = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    public void updateToSecondScheme(){
+
     }
 
 }

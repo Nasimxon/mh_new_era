@@ -153,8 +153,6 @@ public class TransferDialog extends Dialog implements View.OnClickListener {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (charSequence.toString().isEmpty() || charSequence.toString().equals("0"))
-                    etCost.setText("1");
                 try {
                     if (!spinnerChanged && !targetChanged && !sourceChanged) {
                         costChanged = true;
@@ -267,6 +265,10 @@ public class TransferDialog extends Dialog implements View.OnClickListener {
             public void onClick(View view) {
                 InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                if (etCost.getText().toString().isEmpty() || etCost.getText().toString().equals("0"))
+                {
+                    etCost.setText("1");
+                }
                 if (etAccountEditName.getText().toString().isEmpty() || etAccountEditName.getText().toString().equals("0")) {
                     etAccountEditName.setError(getContext().getResources().getString(R.string.enter_amount_error));
                     return;

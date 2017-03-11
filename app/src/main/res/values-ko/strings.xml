@@ -1000,12 +1000,14 @@
         <item>ENGLISH (EN)</item>
         <item>РУССКИЙ (RU)</item>
         <item>ESPAÑOL (ES)</item>
+        <item>PORTUGUÊS (PT)</item>
 		<item>한국어 (KO)</item>
     </string-array>
     <string-array name="language_values">
         <item>en</item>
         <item>ru</item>
         <item>es</item>
+        <item>pt</item>
 		<item>ko</item>
     </string-array>
     <string name="choose_language">언어 선택</string>
@@ -1728,5 +1730,8 @@
     <string name="select_an_amount">금액 선택</string>
     <string name="benjamin_franklin">- Benjamin Franklin</string>
     <string name="purpose_term">목적 용어를 입력하십시오</string>
+    <string name="transferred">양도 된</string>
+    <string name="received">받은</string>
+    <string name="exchange_rate">환율</string>
 
 </resources>
