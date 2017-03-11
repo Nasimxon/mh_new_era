@@ -389,9 +389,6 @@ public class ReportByCategoryFragment extends Fragment {
                     if (dataRows.get(i).getCategory().getType() == mode) {
                         total += (float) dataRows.get(i).getTotalAmount();
                     }
-                double lengthOfStep = 11 / dataRows.size();
-                double halfOfStep = lengthOfStep / 2;
-                colors.put(dataRows.get(i).getCategory().getId(), colorsCode[(int) Math.round(halfOfStep + (lengthOfStep * i))]);
         }
         ArrayList<Float> percent = new ArrayList<>();
         ArrayList<Float> percentNew = new ArrayList<>();
@@ -406,12 +403,15 @@ public class ReportByCategoryFragment extends Fragment {
         int count = 0, step = 0;
         for (int i =0; i < temp.size(); i++)
         {
-                percent.add((100.0f * ((float) temp.get(i).getTotalAmount())) / total);
-                if (percent.get(step) < min)
+            percent.add((100.0f * ((float) temp.get(i).getTotalAmount())) / total);
+            if (percent.get(step) < min)
                 {
                     difference += min - percent.get(step);
                 } else count++;
                 step++;
+            double lengthOfStep = 23 / temp.size();
+            double halfOfStep = lengthOfStep / 2;
+            colors.put(temp.get(i).getCategory().getId(), colorsCode[(int) Math.round(halfOfStep + (lengthOfStep * i))]);
         }
 
         for (int i =0; i <  percent.size(); i++)
@@ -450,6 +450,8 @@ public class ReportByCategoryFragment extends Fragment {
         else chartData.setCenterText1(getResources().getString(R.string.income));
         if (temp.isEmpty()) chartData.setCenterText1(getResources().getString(R.string.not_data));
         chartView.setPieChartData(chartData);
+        chartView.setValueSelectionEnabled(false);
+        chartView.setValueTouchEnabled(false);
         chartView.setCircleFillRatio(0.9f);
         categoryListAdapter = new CategoryListAdapter(temp, colors);
         rvReportCategory.setAdapter(categoryListAdapter);
@@ -589,16 +591,28 @@ public class ReportByCategoryFragment extends Fragment {
     }
      private int[] colorsCode = {
             Color.parseColor("#0d3c55"),
+            Color.parseColor("#04416f"),
             Color.parseColor("#0f5b78"),
+            Color.parseColor("#117a8d"),
             Color.parseColor("#117899"),
+            Color.parseColor("#407cbf"),
             Color.parseColor("#1395ba"),
+            Color.parseColor("#1da4a2"),
             Color.parseColor("#5ca793"),
+            Color.parseColor("#7cbe7e"),
             Color.parseColor("#a2b86c"),
-            Color.parseColor("#ebc844"),
-            Color.parseColor("#ecaa38"),
-            Color.parseColor("#ef8b2c"),
-            Color.parseColor("#f16c20"),
-            Color.parseColor("#d94e1f"),
-            Color.parseColor("#c02e1d")
+            Color.parseColor("#e3de60"),
+             Color.parseColor("#ebc844"),
+             Color.parseColor("#f8924e"),
+             Color.parseColor("#ecaa38"),
+             Color.parseColor("#eacc26"),
+             Color.parseColor("#ef8b2c"),
+             Color.parseColor("#f15620"),
+             Color.parseColor("#f16c20"),
+             Color.parseColor("#dc7a3e"),
+             Color.parseColor("#d94e1f"),
+             Color.parseColor("#b03a13"),
+             Color.parseColor("#c02e1d"),
+             Color.parseColor("#aa2414")
     };
 }
