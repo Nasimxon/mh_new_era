@@ -70,6 +70,7 @@ import com.jim.finansia.utils.billing.PurchaseImplementation;
 import com.jim.finansia.utils.record.BaseBoardView;
 import com.jim.finansia.utils.reportviews.CategorySliding;
 import com.jim.finansia.utils.reportviews.MonthPickSliderView;
+import com.jim.finansia.utils.reportviews.OneYearWithMonthsFragment;
 import com.jim.finansia.utils.reportviews.ReportSelectingYearWithMonthsView;
 
 import dagger.Component;
@@ -83,6 +84,7 @@ import dagger.Component;
 )
 public interface PocketAccounterActivityComponent {
     void inject(PocketAccounter pocketAccounter);
+    void inject(OneYearWithMonthsFragment oneYearWithMonthsFragment);
     void inject(SettingsManager settingsManager);
     void inject(CurrencyFragment currencyFragment);
     void inject(CurrencyAdapter currencyAdapter);

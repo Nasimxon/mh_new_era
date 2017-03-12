@@ -2,16 +2,20 @@ package com.jim.finansia.utils.reportviews;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.jim.finansia.PocketAccounter;
 import com.jim.finansia.PocketAccounterApplication;
 import com.jim.finansia.R;
 import com.jim.finansia.database.CreditDetials;
 import com.jim.finansia.database.DebtBorrow;
 import com.jim.finansia.database.FinanceRecord;
+import com.jim.finansia.fragments.ReportByIncomeExpenseMonthlyFragment;
+import com.jim.finansia.managers.PAFragmentManager;
 import com.jim.finansia.managers.ReportManager;
 import com.jim.finansia.report.ReportByIncomeExpenseMonthlyView;
 import com.jim.finansia.report.ReportObject;
@@ -33,23 +37,36 @@ public class OneYearWithMonthsFragment extends Fragment {
     private ReportSelectingYearWithMonthsView.SelectingYearWithMonthsListener listener;
     private boolean active = true;
     @Inject ReportManager reportManager;
-    public OneYearWithMonthsFragment(int year) {
-        this.year = year;
-        begin = Calendar.getInstance();
-        end = Calendar.getInstance();
-        month = year == begin.get(Calendar.YEAR) ? begin.get(Calendar.MONTH) : 0;
-    }
+    @Inject PAFragmentManager paFragmentManager;
+    public static String YEAR ="year";
+    public static String MODE ="mode";
+    public static String ACTIVE ="active";
+
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.one_year_with_months_fragment, container, false);
-        ((PocketAccounterApplication) getContext().getApplicationContext()).component().inject(this);
+        ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
+        if(getArguments()!=null){
+            this.year = getArguments().getInt(YEAR);
+            setActive(getArguments().getBoolean(ACTIVE));
+            setMode(getArguments().getInt(MODE));
+            begin = Calendar.getInstance();
+            end = Calendar.getInstance();
+            month = year == begin.get(Calendar.YEAR) ? begin.get(Calendar.MONTH) : 0;
+        }
         rbiemvMonhtly = (ReportByIncomeExpenseMonthlyView) rootView.findViewById(R.id.rbiemvMonthly);
         rbiemvMonhtly.active(active);
         rbiemvMonhtly.setListener(new ReportByIncomeExpenseMonthlyView.OnMonthlyItemSelectedListener() {
             @Override
             public void onMonthlyItemSelected(int position) {
                 month = position;
-                if (listener != null)
-                    listener.OnSelectingYearWithMonths(month, year);
+                for(Fragment fragment:paFragmentManager.getFragmentManager().getFragments()){
+                    if(fragment instanceof ReportByIncomeExpenseMonthlyFragment){
+                        ((ReportByIncomeExpenseMonthlyFragment) fragment).setYearMonth(month,year);
+                    }
+                }
+//                if (listener != null)
+//                    listener.OnSelectingYearWithMonths(month, year);
             }
         });
         initDatas();

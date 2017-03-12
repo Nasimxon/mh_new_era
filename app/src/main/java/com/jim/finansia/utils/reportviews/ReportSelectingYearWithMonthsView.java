@@ -2,6 +2,7 @@ package com.jim.finansia.utils.reportviews;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -131,16 +132,12 @@ public class ReportSelectingYearWithMonthsView extends LinearLayout {
         }
         fragments = new ArrayList<>();
         for (int i = minYear; i <= maxYear; i++) {
-            OneYearWithMonthsFragment fragment = new OneYearWithMonthsFragment(i);
-            fragment.setMode(mode);
-            fragment.setActive(false);
-            fragment.setListener(new SelectingYearWithMonthsListener() {
-                @Override
-                public void OnSelectingYearWithMonths(int month, int year) {
-                    if (listener != null)
-                        listener.OnSelectingYearWithMonths(month, year);
-                }
-            });
+            OneYearWithMonthsFragment fragment = new OneYearWithMonthsFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt(OneYearWithMonthsFragment.YEAR,i);
+            bundle.putInt(OneYearWithMonthsFragment.MODE,mode);
+            bundle.putBoolean(OneYearWithMonthsFragment.ACTIVE,false);
+            fragment.setArguments(bundle);
             fragments.add(fragment);
 
         }

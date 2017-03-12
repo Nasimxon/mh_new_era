@@ -64,6 +64,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import static com.jim.finansia.managers.DrawerInitializer.KEY_INIT_POS;
+import static com.jim.finansia.utils.billing.PurchaseImplementation.BILLING_RESPONSE_RESULT_ITEM_ALREADY_OWNED;
 import static com.jim.finansia.utils.billing.PurchaseImplementation.BILLING_RESPONSE_RESULT_OK;
 import static com.jim.finansia.utils.billing.PurchaseImplementation.REQUEST_CODE_BUY;
 
@@ -435,8 +436,9 @@ public class PocketAccounter extends AppCompatActivity {
         }
         if (requestCode == REQUEST_CODE_BUY) {
             int responseCode = data.getIntExtra("RESPONSE_CODE", -1);
-            if (responseCode == BILLING_RESPONSE_RESULT_OK) {
+            if (responseCode == BILLING_RESPONSE_RESULT_OK || responseCode == BILLING_RESPONSE_RESULT_ITEM_ALREADY_OWNED) {
                 String purchaseData = data.getStringExtra("INAPP_PURCHASE_DATA");
+                Log.d("sss", "onActivityResult: " + purchaseData);
                 String dataSignature = data.getStringExtra("INAPP_DATA_SIGNATURE");
                 // можете проверить цифровую подпись
                 purchaseImplementation.readPurchase(purchaseData);
@@ -460,6 +462,7 @@ public class PocketAccounter extends AppCompatActivity {
     }
     public void updatePage(){
         Log.d("testtt", "onSuccses: 12");
+        //TODO AFTER SYNC UPDATE MAINPAGE FRAGMENT ERRRROOORRR
         reportManager.clearCache();
         dataCache.clearAllCaches();
         paFragmentManager.updateTemplatesInVoiceRecognitionFragment();

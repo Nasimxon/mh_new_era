@@ -3,6 +3,7 @@ package com.jim.finansia.utils.billing;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -61,6 +62,7 @@ public class MainPageLockView extends RelativeLayout{
             @Override
             public void onClick(View view) {
                 analytics.sendText("User wants to buy page, number is " + MainPageLockView.this.page);
+                Log.d("sss", "onClick: "+MainPageLockView.this.page);
                 purchaseImplementation.buyPage(MainPageLockView.this.page);
             }
         });

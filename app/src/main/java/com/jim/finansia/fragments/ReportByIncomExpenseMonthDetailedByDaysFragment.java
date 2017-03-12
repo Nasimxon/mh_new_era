@@ -42,28 +42,30 @@ public class ReportByIncomExpenseMonthDetailedByDaysFragment extends Fragment {
     private static final int INCOME = 0, EXPENSE = 1, BALANCE = 2;
     private SimpleDateFormat format = new SimpleDateFormat("MMM, yyyy");
     private TextView tvReportByIncomeExpenseDate;
+    public static String MONTH = "moth",YEAR = "year";
+
     private int incomeColor,
                 expenseColor,
                 profitColor;
     @Inject ReportManager reportManager;
     @Inject FinansiaFirebaseAnalytics analytics;
-    public ReportByIncomExpenseMonthDetailedByDaysFragment(int month, int year) {
-        this.month = month;
-        this.year = year;
-        calendar = Calendar.getInstance();
-        calendar.set(Calendar.YEAR, year);
-        calendar.set(Calendar.MONTH, month);
-        calendar.set(Calendar.DAY_OF_MONTH, 1);
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
-    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ((PocketAccounterApplication) getContext().getApplicationContext()).component().inject(this);
+        if(getArguments()!=null){
+            this.month = getArguments().getInt(MONTH);
+            this.year = getArguments().getInt(YEAR);
+            calendar = Calendar.getInstance();
+            calendar.set(Calendar.YEAR, year);
+            calendar.set(Calendar.MONTH, month);
+            calendar.set(Calendar.DAY_OF_MONTH, 1);
+            calendar.set(Calendar.HOUR_OF_DAY, 0);
+            calendar.set(Calendar.MINUTE, 0);
+            calendar.set(Calendar.SECOND, 0);
+            calendar.set(Calendar.MILLISECOND, 0);
+        }
         analytics.sendText("User enters "+getClass().getName());
         View rootView = inflater.inflate(R.layout.report_by_income_expense_month_detail_by_days_fragment, container, false);
         incomeColor = ContextCompat.getColor(getContext(),R.color.diagram_green);

@@ -92,9 +92,162 @@ public class PurchaseImplementation {
                 3, context.getPackageName(),
                 sku, type, developerPayload);
         PendingIntent pendingIntent = buyIntentBundle.getParcelable("BUY_INTENT");
-        ((PocketAccounter)context).startIntentSenderForResult(pendingIntent.getIntentSender(),
-                REQUEST_CODE_BUY, new Intent(), Integer.valueOf(0), Integer.valueOf(0),
-                Integer.valueOf(0), null);
+        if (pendingIntent != null) {
+            ((PocketAccounter) context).startIntentSenderForResult(pendingIntent.getIntentSender(),
+                    REQUEST_CODE_BUY, new Intent(), Integer.valueOf(0), Integer.valueOf(0),
+                    Integer.valueOf(0), null);
+        } else {
+            switch (product.getSku()) {
+                case PocketAccounterGeneral.MoneyHolderSkus.FIRST_PAGE_SKU:
+                    preferences
+                            .edit()
+                            .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.FIRST_PAGE_COUNT_KEY, true)
+                            .apply();
+                    break;
+                case PocketAccounterGeneral.MoneyHolderSkus.SECOND_PAGE_SKU:
+                    preferences
+                            .edit()
+                            .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.SECOND_PAGE_COUNT_KEY, true)
+                            .apply();
+                    break;
+                case PocketAccounterGeneral.MoneyHolderSkus.THIRD_PAGE_SKU:
+                    preferences
+                            .edit()
+                            .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.THIRD_PAGE_COUNT_KEY, true)
+                            .apply();
+                    break;
+                case PocketAccounterGeneral.MoneyHolderSkus.FOURTH_PAGE_SKU:
+                    preferences
+                            .edit()
+                            .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.FOURTH_PAGE_COUNT_KEY, true)
+                            .apply();
+                    break;
+                case PocketAccounterGeneral.MoneyHolderSkus.FIFTH_PAGE_SKU:
+                    preferences
+                            .edit()
+                            .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.FIFTH_PAGE_COUNT_KEY, true)
+                            .apply();
+                    break;
+                case PocketAccounterGeneral.MoneyHolderSkus.SIXTH_PAGE_SKU:
+                    preferences
+                            .edit()
+                            .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.SIXTH_PAGE_COUNT_KEY, true)
+                            .apply();
+                    break;
+                case PocketAccounterGeneral.MoneyHolderSkus.SEVENTH_PAGE_SKU:
+                    preferences
+                            .edit()
+                            .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.SEVENTH_PAGE_COUNT_KEY, true)
+                            .apply();
+                    break;
+                case PocketAccounterGeneral.MoneyHolderSkus.EIGHTH_PAGE_SKU:
+                    preferences
+                            .edit()
+                            .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.EIGHTH_PAGE_COUNT_KEY, true)
+                            .apply();
+                    break;
+                case PocketAccounterGeneral.MoneyHolderSkus.NINTH_PAGE_SKU:
+                    preferences
+                            .edit()
+                            .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.NINTH_PAGE_COUNT_KEY, true)
+                            .apply();
+                    break;
+                case PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_CATEGORY_ON_MAIN_BOARD_SKU:
+                    preferences
+                            .edit()
+                            .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.IS_AVAILABLE_CHANGING_OF_CATEGORY_KEY, true)
+                            .apply();
+                    break;
+                case PocketAccounterGeneral.MoneyHolderSkus.VOICE_RECOGNITION_SKU:
+                    preferences
+                            .edit()
+                            .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.VOICE_RECOGNITION_KEY, true)
+                            .apply();
+                    break;
+                case PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_CREDIT_ON_MAIN_BOARD_SKU:
+                    preferences
+                            .edit()
+                            .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.IS_AVAILABLE_CHANGING_OF_CREDIT_KEY, true)
+                            .apply();
+                    break;
+                case PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_DEBT_BORROW_ON_MAIN_BOARD_SKU:
+                    preferences
+                            .edit()
+                            .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.IS_AVAILABLE_CHANGING_OF_DEBT_BORROW_KEY, true)
+                            .apply();
+                    break;
+                case PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_PAGE_ON_MAIN_BOARD_SKU:
+                    preferences
+                            .edit()
+                            .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.IS_AVAILABLE_CHANGING_OF_PAGE, true)
+                            .apply();
+                    break;
+                case PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_FUNCTION_ON_MAIN_BOARD_SKU:
+                    preferences
+                            .edit()
+                            .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.IS_AVAILABLE_CHANGING_OF_FUNCTION, true)
+                            .apply();
+                    break;
+
+                case PocketAccounterGeneral.MoneyHolderSkus.YELLOW_THEME_SKU:
+                    preferences
+                            .edit()
+                            .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.YELLOW_THEME, true)
+                            .commit();
+                    paFragmentManager.displayFragment(new ChangeColorOfStyleFragment());
+                    break;
+                case PocketAccounterGeneral.MoneyHolderSkus.FIOLA_THEME_SKU:
+                    preferences
+                            .edit()
+                            .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.FIOLA_THEME, true)
+                            .commit();
+                    paFragmentManager.displayFragment(new ChangeColorOfStyleFragment());
+                    break;
+                case PocketAccounterGeneral.MoneyHolderSkus.DARK_BLUE_SKU:
+                    preferences
+                            .edit()
+                            .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.DARK_BLUE, true)
+                            .commit();
+                    paFragmentManager.displayFragment(new ChangeColorOfStyleFragment());
+                    break;
+                case PocketAccounterGeneral.MoneyHolderSkus.LIGHT_BLUE_SKU:
+                    preferences
+                            .edit()
+                            .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.LIGHT_BLUE, true)
+                            .commit();
+                    paFragmentManager.displayFragment(new ChangeColorOfStyleFragment());
+                    break;
+                case PocketAccounterGeneral.MoneyHolderSkus.RED_LIPS_SKU:
+                    preferences
+                            .edit()
+                            .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.RED_LIPS, true)
+                            .commit();
+                    paFragmentManager.displayFragment(new ChangeColorOfStyleFragment());
+                    break;
+                case PocketAccounterGeneral.MoneyHolderSkus.GREEN_THEME_SKU:
+                    preferences
+                            .edit()
+                            .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.GREEN_THEME, true)
+                            .commit();
+                    paFragmentManager.displayFragment(new ChangeColorOfStyleFragment());
+                    break;
+                case PocketAccounterGeneral.MoneyHolderSkus.ORANGE_THEME_SKU:
+                    preferences
+                            .edit()
+                            .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.ORANGE_THEME, true)
+                            .commit();
+                    paFragmentManager.displayFragment(new ChangeColorOfStyleFragment());
+                    break;
+                case PocketAccounterGeneral.MoneyHolderSkus.LIGHT_YELLOW_SKU:
+                    preferences
+                            .edit()
+                            .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.LIGHT_YELLOW, true)
+                            .commit();
+                    paFragmentManager.displayFragment(new ChangeColorOfStyleFragment());
+                    break;
+            }
+            paFragmentManager.updateAllFragmentsPageChanges();
+        }
     }
 
     public List<InAppProduct> getInAppPurchases(String type, String... productIds) throws Exception {
@@ -156,99 +309,99 @@ public class PurchaseImplementation {
                     preferences
                             .edit()
                             .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.FIRST_PAGE_COUNT_KEY, true)
-                            .commit();
+                            .apply();
                     break;
                 case PocketAccounterGeneral.MoneyHolderSkus.SECOND_PAGE_SKU:
                     pageBought = true;
                     preferences
                             .edit()
                             .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.SECOND_PAGE_COUNT_KEY, true)
-                            .commit();
+                            .apply();
                     break;
                 case PocketAccounterGeneral.MoneyHolderSkus.THIRD_PAGE_SKU:
                     pageBought = true;
                     preferences
                             .edit()
                             .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.THIRD_PAGE_COUNT_KEY, true)
-                            .commit();
+                            .apply();
                     break;
                 case PocketAccounterGeneral.MoneyHolderSkus.FOURTH_PAGE_SKU:
                     pageBought = true;
                     preferences
                             .edit()
                             .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.FOURTH_PAGE_COUNT_KEY, true)
-                            .commit();
+                            .apply();
                     break;
                 case PocketAccounterGeneral.MoneyHolderSkus.FIFTH_PAGE_SKU:
                     pageBought = true;
                     preferences
                             .edit()
                             .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.FIFTH_PAGE_COUNT_KEY, true)
-                            .commit();
+                            .apply();
                     break;
                 case PocketAccounterGeneral.MoneyHolderSkus.SIXTH_PAGE_SKU:
                     pageBought = true;
                     preferences
                             .edit()
                             .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.SIXTH_PAGE_COUNT_KEY, true)
-                            .commit();
+                            .apply();
                     break;
                 case PocketAccounterGeneral.MoneyHolderSkus.SEVENTH_PAGE_SKU:
                     pageBought = true;
                     preferences
                             .edit()
                             .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.SEVENTH_PAGE_COUNT_KEY, true)
-                            .commit();
+                            .apply();
                     break;
                 case PocketAccounterGeneral.MoneyHolderSkus.EIGHTH_PAGE_SKU:
                     pageBought = true;
                     preferences
                             .edit()
                             .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.EIGHTH_PAGE_COUNT_KEY, true)
-                            .commit();
+                            .apply();
                     break;
                 case PocketAccounterGeneral.MoneyHolderSkus.NINTH_PAGE_SKU:
                     pageBought = true;
                     preferences
                             .edit()
                             .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.NINTH_PAGE_COUNT_KEY, true)
-                            .commit();
+                            .apply();
                     break;
                 case PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_CATEGORY_ON_MAIN_BOARD_SKU:
                     preferences
                             .edit()
                             .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.IS_AVAILABLE_CHANGING_OF_CATEGORY_KEY, true)
-                            .commit();
+                            .apply();
                     break;
                 case PocketAccounterGeneral.MoneyHolderSkus.VOICE_RECOGNITION_SKU:
                     preferences
                             .edit()
                             .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.VOICE_RECOGNITION_KEY, true)
-                            .commit();
+                            .apply();
                     break;
                 case PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_CREDIT_ON_MAIN_BOARD_SKU:
                     preferences
                             .edit()
                             .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.IS_AVAILABLE_CHANGING_OF_CREDIT_KEY, true)
-                            .commit();
+                            .apply();
                     break;
                 case PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_DEBT_BORROW_ON_MAIN_BOARD_SKU:
                     preferences
                             .edit()
                             .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.IS_AVAILABLE_CHANGING_OF_DEBT_BORROW_KEY, true)
-                            .commit();
+                            .apply();
                     break;
                 case PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_PAGE_ON_MAIN_BOARD_SKU:
                     preferences
                             .edit()
                             .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.IS_AVAILABLE_CHANGING_OF_PAGE, true)
-                            .commit();
+                            .apply();
                     break;
                 case PocketAccounterGeneral.MoneyHolderSkus.ADD_REPLACE_FUNCTION_ON_MAIN_BOARD_SKU:
                     preferences
                             .edit()
                             .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.IS_AVAILABLE_CHANGING_OF_FUNCTION, true)
-                            .commit();
+                            .apply();
                     break;
                 case PocketAccounterGeneral.MoneyHolderSkus.DEBT_BORROW_SKU:
                     try {
@@ -257,7 +410,7 @@ public class PurchaseImplementation {
                         preferences.
                                 edit()
                                 .putInt(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.DEBT_BORROW_COUNT_KEY, count)
-                                .commit();
+                                .apply();
                         consumePurchase(purchaseToken);
                     } catch (Exception e) {
                         return;
@@ -270,7 +423,7 @@ public class PurchaseImplementation {
                         preferences.
                                 edit()
                                 .putInt(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.CREDIT_COUNT_KEY, count)
-                                .commit();
+                                .apply();
                         consumePurchase(purchaseToken);
                     } catch (Exception e) {
                         return;
@@ -283,7 +436,7 @@ public class PurchaseImplementation {
                         preferences.
                                 edit()
                                 .putInt(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.SMS_PARSING_COUNT_KEY, count)
-                                .commit();
+                                .apply();
                         consumePurchase(purchaseToken);
                     } catch (Exception e) {
                         return;
@@ -293,56 +446,56 @@ public class PurchaseImplementation {
                     preferences
                             .edit()
                             .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.YELLOW_THEME, true)
-                            .commit();
+                            .apply();
                     paFragmentManager.displayFragment(new ChangeColorOfStyleFragment());
                     break;
                 case PocketAccounterGeneral.MoneyHolderSkus.FIOLA_THEME_SKU:
                     preferences
                             .edit()
                             .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.FIOLA_THEME, true)
-                            .commit();
+                            .apply();
                     paFragmentManager.displayFragment(new ChangeColorOfStyleFragment());
                     break;
                 case PocketAccounterGeneral.MoneyHolderSkus.DARK_BLUE_SKU:
                     preferences
                             .edit()
                             .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.DARK_BLUE, true)
-                            .commit();
+                            .apply();
                     paFragmentManager.displayFragment(new ChangeColorOfStyleFragment());
                     break;
                 case PocketAccounterGeneral.MoneyHolderSkus.LIGHT_BLUE_SKU:
                     preferences
                             .edit()
                             .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.LIGHT_BLUE, true)
-                            .commit();
+                            .apply();
                     paFragmentManager.displayFragment(new ChangeColorOfStyleFragment());
                     break;
                 case PocketAccounterGeneral.MoneyHolderSkus.RED_LIPS_SKU:
                     preferences
                             .edit()
                             .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.RED_LIPS, true)
-                            .commit();
+                            .apply();
                     paFragmentManager.displayFragment(new ChangeColorOfStyleFragment());
                     break;
                 case PocketAccounterGeneral.MoneyHolderSkus.GREEN_THEME_SKU:
                     preferences
                             .edit()
                             .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.GREEN_THEME, true)
-                            .commit();
+                            .apply();
                     paFragmentManager.displayFragment(new ChangeColorOfStyleFragment());
                     break;
                 case PocketAccounterGeneral.MoneyHolderSkus.ORANGE_THEME_SKU:
                     preferences
                             .edit()
                             .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.ORANGE_THEME, true)
-                            .commit();
+                            .apply();
                     paFragmentManager.displayFragment(new ChangeColorOfStyleFragment());
                     break;
                 case PocketAccounterGeneral.MoneyHolderSkus.LIGHT_YELLOW_SKU:
                     preferences
                             .edit()
                             .putBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.LIGHT_YELLOW, true)
-                            .commit();
+                            .apply();
                     paFragmentManager.displayFragment(new ChangeColorOfStyleFragment());
                     break;
             }
@@ -401,6 +554,7 @@ public class PurchaseImplementation {
                 break;
         }
         try {
+
             InAppProduct product = new InAppProduct();
             product.productId = sku;
             product.isSubscription = false;

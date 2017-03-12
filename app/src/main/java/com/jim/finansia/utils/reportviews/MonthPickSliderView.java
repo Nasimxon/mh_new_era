@@ -2,6 +2,7 @@ package com.jim.finansia.utils.reportviews;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -67,7 +68,11 @@ public class MonthPickSliderView extends RelativeLayout {
         List<DebtBorrow> debtBorrows  = daoSession.loadAll(DebtBorrow.class);
         Calendar calendar = Calendar.getInstance();
         if (records.isEmpty() && credits.isEmpty() && debtBorrows.isEmpty()) {
-            ReportByIncomExpenseMonthDetailedByDaysFragment fragment = new ReportByIncomExpenseMonthDetailedByDaysFragment(calendar.get(Calendar.MONTH), calendar.get(Calendar.YEAR));
+            ReportByIncomExpenseMonthDetailedByDaysFragment fragment = new ReportByIncomExpenseMonthDetailedByDaysFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt(ReportByIncomExpenseMonthDetailedByDaysFragment.MONTH,calendar.get(Calendar.MONTH));
+            bundle.putInt(ReportByIncomExpenseMonthDetailedByDaysFragment.YEAR,calendar.get(Calendar.YEAR));
+            fragment.setArguments(bundle);
             fragments.add(fragment);
         } else {
             for (FinanceRecord financeRecord : records) {
@@ -97,7 +102,11 @@ public class MonthPickSliderView extends RelativeLayout {
             calendar.set(Calendar.MILLISECOND, 0);
             Calendar now = Calendar.getInstance();
             while (calendar.compareTo(now) <= 0) {
-                ReportByIncomExpenseMonthDetailedByDaysFragment fragment = new ReportByIncomExpenseMonthDetailedByDaysFragment(calendar.get(Calendar.MONTH), calendar.get(Calendar.YEAR));
+                ReportByIncomExpenseMonthDetailedByDaysFragment fragment = new ReportByIncomExpenseMonthDetailedByDaysFragment();
+                Bundle bundle = new Bundle();
+                bundle.putInt(ReportByIncomExpenseMonthDetailedByDaysFragment.MONTH,calendar.get(Calendar.MONTH));
+                bundle.putInt(ReportByIncomExpenseMonthDetailedByDaysFragment.YEAR,calendar.get(Calendar.YEAR));
+                fragment.setArguments(bundle);
                 fragments.add(fragment);
                 calendar.add(Calendar.MONTH, 1);
             }

@@ -27,6 +27,7 @@ import com.jim.finansia.utils.reportviews.ReportPieView;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -44,15 +45,30 @@ public class ReportByCategoryRootCategoryFragment extends Fragment {
     @Inject CommonOperations commonOperations;
     @Inject DecimalFormat formatter;
     @Inject FinansiaFirebaseAnalytics analytics;
+    public static String ID = "stringid";
 
-    public ReportByCategoryRootCategoryFragment(String id, Map<String, Integer> colors) {
-        this.id = id;
-        this.colors = colors;
+    public ReportByCategoryRootCategoryFragment() {
+
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.report_by_category_rootcategory_fragment, container, false);
         ((PocketAccounter) getContext()).component((PocketAccounterApplication) getContext().getApplicationContext()).inject(this);
+        if(getArguments()!=null){
+            Bundle bundle = getArguments();
+            id= bundle.getString(ID);
+            String valueKey = "keyvalue";
+            String keys = "keys";
+            int count = 0;
+            colors = new HashMap<>();
+            while (true){
+                if(bundle.getString(keys+count)!=null){
+                    colors.put(bundle.getString(keys+count),bundle.getInt(valueKey+count));
+                    count++;
+                }
+                else break;
+            }
+        }
         analytics.sendText("User enters "+getClass().getName());
         rpvReport = (ReportPieView) rootView.findViewById(R.id.rpvReport);
         tvReportByCategoryRootCatName = (TextView) rootView.findViewById(R.id.tvReportByCategoryRootCatName);

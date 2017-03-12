@@ -83,6 +83,5 @@ public interface PocketAccounterApplicationComponent {
     void inject(CircleReportFilterView circleReportFilterView);
     void inject(ReportByIncomExpenseMonthDetailedByDaysFragment reportByIncomExpenseMonthDetailedByDaysFragment);
     void inject(CategoryAndSubcategoryChooserView categoryAndSubcategoryChooserView);
-    void inject(OneYearWithMonthsFragment oneYearWithMonthsFragment);
     void inject(SpaceTabLayout spaceTabLayout);
 }

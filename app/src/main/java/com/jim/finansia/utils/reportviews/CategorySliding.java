@@ -3,6 +3,7 @@ package com.jim.finansia.utils.reportviews;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -226,7 +227,18 @@ public class CategorySliding extends LinearLayout {
         @Override
         public Fragment getItem(int position) {
             String id = allCategories.get(position);
-            ReportByCategoryRootCategoryFragment fragment = new ReportByCategoryRootCategoryFragment(id, allColors.get(id));
+            String valueKey = "keyvalue";
+            String keys = "keys";
+            ReportByCategoryRootCategoryFragment fragment = new ReportByCategoryRootCategoryFragment();
+            Bundle bundle = new Bundle();
+            int count = 0;
+            for(String key:allColors.get(id).keySet()){
+                bundle.putString(keys+count,key);
+                bundle.putInt(valueKey+count,allColors.get(id).get(key));
+                count++;
+            }
+            bundle.putString(ReportByCategoryRootCategoryFragment.ID,id);
+            fragment.setArguments(bundle);
             fragment.setInterval(begin, end);
             return fragment;
         }

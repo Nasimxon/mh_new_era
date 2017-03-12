@@ -37,6 +37,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.jim.finansia.database.AccountOperation;
 import com.jim.finansia.database.DaoMaster;
 import com.jim.finansia.database.DaoSession;
 import com.jim.finansia.managers.CommonOperations;
@@ -61,6 +62,7 @@ import java.nio.channels.FileChannel;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -602,12 +604,38 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
 
 
 
-                    File currentDB1 = new File(backupDB.getAbsolutePath());
-                    File backupDB1 = new File(currentDB.getAbsolutePath());
-                    FileChannel src = null, dst = null;
+                    File  backupDB1= new File(backupDB.getAbsolutePath());
+                    File currentDB1 = new File(currentDB.getAbsolutePath());
+
+
+                SQLiteDatabase current = SQLiteDatabase.openDatabase(currentDB1.getAbsolutePath(), null, SQLiteDatabase.OPEN_READONLY);
+                SQLiteDatabase received = SQLiteDatabase.openDatabase(backupDB1.getAbsolutePath(), null, SQLiteDatabase.OPEN_READWRITE);
+
+                if (current.getVersion() > received.getVersion()&&received.getVersion()==1) {
+                    Log.d("databaseRecunstruct", "Scheme change from 1 to 2");
+                    received.execSQL("ALTER TABLE ACCOUNT_OPERATIONS ADD COLUMN 'TARGET_CURRENCY_ID' TEXT;");
+                    received.execSQL("ALTER TABLE ACCOUNT_OPERATIONS ADD COLUMN 'TARGET_AMOUNT' REAL;");
+                    received.execSQL("ALTER TABLE ACCOUNT_OPERATIONS ADD COLUMN 'COST' REAL;");
+                    received.setVersion(2);
+                    DaoSession daoSession2 = new DaoMaster(received).newSession();
+                    List<AccountOperation> accountOperations = daoSession2.loadAll(AccountOperation.class);
+                        for(AccountOperation accountOperation : accountOperations) {
+                            accountOperation.setTargetCurrency(accountOperation.getCurrency());
+                            accountOperation.setTargetAmount(accountOperation.getAmount());
+                            accountOperation.setCost(1.0d);
+                            daoSession2.insertOrReplace(accountOperation);
+                        }
+
+
+                    received.close();
+                    current.close();
+                }
+
+
+                FileChannel src = null, dst = null;
                     try {
-                        src = new FileInputStream(currentDB1).getChannel();
-                        dst = new FileOutputStream(backupDB1).getChannel();
+                        src = new FileInputStream(backupDB1).getChannel();
+                        dst = new FileOutputStream(currentDB1).getChannel();
                         dst.transferFrom(src, 0, src.size());
                         src.close();
                         dst.close();

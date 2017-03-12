@@ -113,59 +113,57 @@ public class ReportByIncomeExpenseMonthlyFragment extends Fragment {
         tvReportExpense = (TextView) rootView.findViewById(R.id.tvReportExpense);
         lchwavReportMonthly = (LinearChartWithAverageView) rootView.findViewById(R.id.lchwavReportMonthly);
         rsywmvReportByIncomeExpenseMonthly = (ReportSelectingYearWithMonthsView) rootView.findViewById(R.id.rsywmvReportByIncomeExpenseMonthly);
-        rsywmvReportByIncomeExpenseMonthly.setListener(new ReportSelectingYearWithMonthsView.SelectingYearWithMonthsListener() {
-            @Override
-            public void OnSelectingYearWithMonths(int month, int year) {
-                Log.d("sss", "month: " + month + " year: " + year);
-                calendar.set(Calendar.YEAR, year);
-                calendar.set(Calendar.MONTH, month);
-                tvReportMonthlyTop.setText(format.format(calendar.getTime()));
-                resetAll();
-                ReportByIncomeExpenseMonthlyFragment.this.year = year;
-                ReportByIncomeExpenseMonthlyFragment.this.month = month;
-                switch (month) {
-                    case Calendar.JANUARY:
-                        tvJanuary.setTextColor(activeColor);
-                        break;
-                    case Calendar.FEBRUARY:
-                        tvFebruary.setTextColor(activeColor);
-                        break;
-                    case Calendar.MARCH:
-                        tvMarch.setTextColor(activeColor);
-                        break;
-                    case Calendar.APRIL:
-                        tvApril.setTextColor(activeColor);
-                        break;
-                    case Calendar.MAY:
-                        tvMay.setTextColor(activeColor);
-                        break;
-                    case Calendar.JUNE:
-                        tvJune.setTextColor(activeColor);
-                        break;
-                    case Calendar.JULY:
-                        tvJuly.setTextColor(activeColor);
-                        break;
-                    case Calendar.AUGUST:
-                        tvAugust.setTextColor(activeColor);
-                        break;
-                    case Calendar.SEPTEMBER:
-                        tvSeptember.setTextColor(activeColor);
-                        break;
-                    case Calendar.OCTOBER:
-                        tvOctober.setTextColor(activeColor);
-                        break;
-                    case Calendar.NOVEMBER:
-                        tvNovember.setTextColor(activeColor);
-                        break;
-                    case Calendar.DECEMBER:
-                        tvDecember.setTextColor(activeColor);
-                        break;
-                }
-                updateDatas(mode);
-            }
-        });
         setMode(mode);
         return rootView;
+    }
+
+    public void setYearMonth(int month,int year){
+        Log.d("sss", "month: " + month + " year: " + year);
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, month);
+        tvReportMonthlyTop.setText(format.format(calendar.getTime()));
+        resetAll();
+        ReportByIncomeExpenseMonthlyFragment.this.year = year;
+        ReportByIncomeExpenseMonthlyFragment.this.month = month;
+        switch (month) {
+            case Calendar.JANUARY:
+                tvJanuary.setTextColor(activeColor);
+                break;
+            case Calendar.FEBRUARY:
+                tvFebruary.setTextColor(activeColor);
+                break;
+            case Calendar.MARCH:
+                tvMarch.setTextColor(activeColor);
+                break;
+            case Calendar.APRIL:
+                tvApril.setTextColor(activeColor);
+                break;
+            case Calendar.MAY:
+                tvMay.setTextColor(activeColor);
+                break;
+            case Calendar.JUNE:
+                tvJune.setTextColor(activeColor);
+                break;
+            case Calendar.JULY:
+                tvJuly.setTextColor(activeColor);
+                break;
+            case Calendar.AUGUST:
+                tvAugust.setTextColor(activeColor);
+                break;
+            case Calendar.SEPTEMBER:
+                tvSeptember.setTextColor(activeColor);
+                break;
+            case Calendar.OCTOBER:
+                tvOctober.setTextColor(activeColor);
+                break;
+            case Calendar.NOVEMBER:
+                tvNovember.setTextColor(activeColor);
+                break;
+            case Calendar.DECEMBER:
+                tvDecember.setTextColor(activeColor);
+                break;
+        }
+        updateDatas(mode);
     }
 
     public void onResume() {

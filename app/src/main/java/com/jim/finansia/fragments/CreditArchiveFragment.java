@@ -53,9 +53,6 @@ public class CreditArchiveFragment extends Fragment {
     private RecyclerView crRV;
     private TextView ifListEmpty;
 
-    public CreditArchiveFragment() {
-
-    }
 
 
     @Override

@@ -449,6 +449,7 @@ public class DecorationBoardView extends BaseBoardView {
                 if (dataCache.getBoardBitmapsCache().get(buttonId) == null) {
                     int resId = getResources().getIdentifier(iconPath, "drawable", getContext().getPackageName());
                     icon = BitmapFactory.decodeResource(getResources(), resId, options);
+
                     icon = Bitmap.createScaledBitmap(icon, (int) iconSize, (int) iconSize, false);
                     dataCache.getBoardBitmapsCache().put(buttonId, icon);
                 }
