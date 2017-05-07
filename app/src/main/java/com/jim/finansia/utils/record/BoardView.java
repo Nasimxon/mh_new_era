@@ -696,16 +696,16 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
                                         case 1:
                                             isAvailable = sharedPreferences.getBoolean(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.IS_AVAILABLE_CHANGING_OF_CREDIT_KEY, false);
                                             if (isAvailable) {
-                                                boolean isAccess = sharedPreferences.getBoolean(PocketAccounterGeneral.FIRST_CREDIT, true);
-                                                if (!isAccess) {
-                                                    List<CreditDetials> list = daoSession
-                                                            .queryBuilder(CreditDetials.class)
-                                                            .where(CreditDetialsDao.Properties.Key_for_archive.eq(false))
-                                                            .list();
-                                                    int count = sharedPreferences.getInt(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.CREDIT_COUNT_KEY, 0);
-                                                    isAccess = list.size() < count;
-                                                }
-                                                if (isAccess) {
+//                                                boolean isAccess = sharedPreferences.getBoolean(PocketAccounterGeneral.FIRST_CREDIT, true);
+//                                                if (!isAccess) {
+//                                                    List<CreditDetials> list = daoSession
+//                                                            .queryBuilder(CreditDetials.class)
+//                                                            .where(CreditDetialsDao.Properties.Key_for_archive.eq(false))
+//                                                            .list();
+//                                                    int count = sharedPreferences.getInt(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.CREDIT_COUNT_KEY, 0);
+//                                                    isAccess = list.size() < count;
+//                                                }
+//                                                if (isAccess) {
                                                     buttonsCount = table == PocketAccounterGeneral.INCOME ? INCOME_BUTTONS_COUNT_PER_PAGE : EXPENSE_BUTTONS_COUNT_PER_PAGE;
                                                     AddCreditFragment addCreditFragment = new AddCreditFragment();
                                                     Bundle bundle = new Bundle();
@@ -713,9 +713,8 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
                                                     bundle.putInt(CreditTabLay.POSITION,currentPage*buttonsCount+pos);
                                                     addCreditFragment.setArguments(bundle);
                                                     paFragmentManager.displayFragment(addCreditFragment);
-                                                }
-                                                else
-                                                    purchaseImplementation.buyAddingCredit();
+//
+
 
                                             } else {
                                                 analytics.sendText("User wants to buy service, which changes button to credit");
@@ -738,15 +737,15 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
                                                 lvDialog.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                                     @Override
                                                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                                        boolean isAccess = false;
-                                                        if (!isAccess) {
-                                                            int count = sharedPreferences.getInt(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.DEBT_BORROW_COUNT_KEY, 1);
-                                                            List<DebtBorrow> list = daoSession.queryBuilder(DebtBorrow.class)
-                                                                    .where(DebtBorrowDao.Properties.To_archive.eq(false))
-                                                                    .list();
-                                                            isAccess = list.size() < count;
-                                                        }
-                                                        if (isAccess) {
+//                                                        boolean isAccess = false;
+//                                                        if (!isAccess) {
+//                                                            int count = sharedPreferences.getInt(PocketAccounterGeneral.MoneyHolderSkus.SkuPreferenceKeys.DEBT_BORROW_COUNT_KEY, 1);
+//                                                            List<DebtBorrow> list = daoSession.queryBuilder(DebtBorrow.class)
+//                                                                    .where(DebtBorrowDao.Properties.To_archive.eq(false))
+//                                                                    .list();
+//                                                            isAccess = list.size() < count;
+//                                                        }
+//                                                        if (isAccess) {
                                                             int type = -1;
                                                             if (position == 0)
                                                                 type = DebtBorrow.DEBT;
@@ -761,8 +760,8 @@ public class BoardView extends TextDrawingBoardView implements GestureDetector.O
                                                             AddBorrowFragment fragment = new AddBorrowFragment();
                                                             fragment.setArguments(bundle);
                                                             paFragmentManager.displayFragment(fragment);
-                                                        } else
-                                                            purchaseImplementation.buyDebtBorrow();
+//                                                        } else
+//                                                            purchaseImplementation.buyDebtBorrow();
                                                         PocketAccounter.PRESSED = false;
                                                         dialog.dismiss();
                                                     }
